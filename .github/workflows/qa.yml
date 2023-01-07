@@ -58,6 +58,7 @@ jobs:
                   ls -ail
                   cd ${{ github.workspace }}/gally-repository
                   ls -ail
+                  cat composer.json                  
                   cd ${{ github.workspace }}/${{ env.package-name }}
                   ls -ail
                   
@@ -76,7 +77,8 @@ jobs:
               working-directory: ${{ env.gally-directory }}
               run: |
                   cd api
-                  composer require --dev "gally/${{ env.package-name }}:${GITHUB_BASE_REF:-${GITHUB_REF##*/}}-dev" --ignore-platform-reqs
+                  composer diagnose
+                  composer require --dev "gally/${{ env.package-name }}:${GITHUB_BASE_REF:-${GITHUB_REF##*/}}-dev" --ignore-platform-reqs -vvvv
 
             - uses: php-actions/composer@v6
               with:
