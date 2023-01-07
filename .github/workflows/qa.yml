@@ -24,8 +24,8 @@ jobs:
               uses: actions/checkout@v3
               with:
                   path: ${{ github.event.repository.name }}
-                  ref: ${{ github.event.pull_request.head.sha }}
-                  
+                  ref: ${{ github.event.pull_request.head.sha }}                  
+
             - name: Checkout full repository to be used as a composer repository
               uses: actions/checkout@v3
               with:
@@ -52,24 +52,8 @@ jobs:
                   ls -ail
                   mv gally-dev-${{ github.run_id }}-${{ github.run_number }} ${{ env.gally-directory }}
                   cd ${{ github.workspace }}
-                  ls -ail  
-                  
-            - name: Debug - Directory structure
-              shell: bash
-              continue-on-error: true
-              run: |
-                  cd ${{ github.workspace }}
-                  ls -ail
-                  cd ${{ github.workspace }}/gally-repository
-                  ls -ail
-                  cat composer.json      
-                  git show-ref --tags --dereference
-                  git branch --no-color --no-abbrev -v
-                  git branch --no-color
-                  git show '(HEAD':'composer.json'
-                  cd ${{ github.workspace }}/${{ env.package-name }}
-                  ls -ail
-                  
+                  ls -ail       
+
             - name: Cache Composer dependencies
               uses: actions/cache@v2
               with:
@@ -85,7 +69,7 @@ jobs:
               working-directory: ${{ env.gally-directory }}
               run: |
                   cd api
-                  composer require --dev "gally/${{ env.package-name }}:${GITHUB_BASE_REF:-${GITHUB_REF##*/}}-dev" --ignore-platform-reqs -vvvv
+                  composer require --dev "gally/${{ env.package-name }}:${GITHUB_BASE_REF:-${GITHUB_REF##*/}}-dev" --ignore-platform-reqs
 
             - uses: php-actions/composer@v6
               with:
@@ -101,7 +85,7 @@ jobs:
             
             - name: PHP-CS-Fixer
               working-directory: ${{ env.src-directory }}
-              run: ./vendor/bin/php-cs-fixer fix --path-mode=intersection --diff --dry-run .
+              run: ./vendor/bin/php-cs-fixer fix --path-mode=intersection --diff --dry-run src
 
             - name: PHPStan
               working-directory: ${{ env.gally-directory }}
