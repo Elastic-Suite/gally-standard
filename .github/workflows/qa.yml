@@ -4,9 +4,7 @@ on:
     push:
         branches:
             - master
-    pull_request_target:
-        branches:
-            - master
+    pull_request: ~
 
 jobs:
     qa:
@@ -23,14 +21,14 @@ jobs:
             - name: Checkout PHP package
               uses: actions/checkout@v3
               with:
-                  path: ${{ github.event.repository.name }}
-                  ref: ${{ github.event.pull_request.head.sha }}                  
+                  path: ${{ github.event.repository.name }}              
 
             - name: Checkout full repository to be used as a composer repository
               uses: actions/checkout@v3
               with:
                   fetch-depth: 0
                   path: gally-repository
+                  ref: ${{ github.event.pull_request.head.sha }}    
 
             - name: Checkout Gally template
               uses: actions/checkout@v3
