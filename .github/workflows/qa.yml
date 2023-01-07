@@ -58,7 +58,12 @@ jobs:
                   ls -ail
                   cd ${{ github.workspace }}/gally-repository
                   ls -ail
-                  cat composer.json                  
+                  cat composer.json      
+                  git status
+                  git show-ref --tags --dereference
+                  git branch --no-color --no-abbrev -v
+                  git branch --no-color
+                  git show '(HEAD':'composer.json'
                   cd ${{ github.workspace }}/${{ env.package-name }}
                   ls -ail
                   
