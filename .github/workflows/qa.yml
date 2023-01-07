@@ -49,8 +49,18 @@ jobs:
                   ls -ail
                   mv gally-dev-${{ github.run_id }}-${{ github.run_number }} ${{ env.gally-directory }}
                   cd ${{ github.workspace }}
-                  ls -ail       
-
+                  ls -ail  
+                  
+            - name: Debug - Directory structure
+              shell: bash
+              run: |
+                  cd ${{ github.workspace }}
+                  ls -ail
+                  cd ${{ github.workspace }}/gally-repository
+                  ls -ail
+                  cd ${{ github.workspace }}/${{ env.package-name }}
+                  ls -ail
+                  
             - name: Cache Composer dependencies
               uses: actions/cache@v2
               with:
