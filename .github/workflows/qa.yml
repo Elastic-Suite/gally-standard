@@ -77,7 +77,6 @@ jobs:
               working-directory: ${{ env.gally-directory }}
               run: |
                   cd api
-                  composer diagnose
                   composer require --dev "gally/${{ env.package-name }}:${GITHUB_BASE_REF:-${GITHUB_REF##*/}}-dev" --ignore-platform-reqs -vvvv
 
             - uses: php-actions/composer@v6
