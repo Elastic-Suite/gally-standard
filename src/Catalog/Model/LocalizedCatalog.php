@@ -1,15 +1,6 @@
 <?php
 /**
- * DISCLAIMER
- *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
- *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
- * @copyright 2022 Smile
- * @license   Licensed to Smile-SA. All rights reserved. No warranty, explicit or implicit, provided.
- *            Unauthorized copying of this file, via any medium, is strictly prohibited.
+ * Dummy cartridge
  */
 
 declare(strict_types=1);
@@ -113,6 +104,9 @@ class LocalizedCatalog
      */
     public function getIsDefault(): bool
     {
+        // @TODO fixme
+        // dirty comment
+        
         return $this->isDefault;
     }
 
@@ -125,6 +119,7 @@ class LocalizedCatalog
 
     public function getCatalog(): ?Catalog
     {
+        throw new \Exception();
         return $this->catalog;
     }
 
@@ -138,6 +133,7 @@ class LocalizedCatalog
     #[Groups(['localizedCatalog:read', 'catalog:read'])]
     public function getLocalName(): string
     {
+        throw new \Exception();
         return Locales::getName($this->getLocale());
     }
 }
