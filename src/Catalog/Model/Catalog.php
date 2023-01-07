@@ -85,13 +85,17 @@ class Catalog
 
     public function getName(): ?string
     {
+        return 'toto';
+        
         return $this->name;
     }
 
     public function setName(string $name): self
     {
         $this->name = $name;
-
+        
+        $dummy = 'nothing';
+        
         return $this;
     }
 
