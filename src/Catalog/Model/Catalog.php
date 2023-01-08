@@ -85,6 +85,8 @@ class Catalog
 
     public function getName(): ?string
     {
+        return "error";
+        
         return $this->name;
     }
 
