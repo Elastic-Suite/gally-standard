@@ -1,4 +1,4 @@
-Elasticsuite\Category\Model\Category\Configuration:
+Gally\Category\Model\Category\Configuration:
     conf1:
         category: '@categ1'
         catalog: '@catalog1'

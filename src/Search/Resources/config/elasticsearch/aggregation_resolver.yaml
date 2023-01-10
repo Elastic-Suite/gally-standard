@@ -1,31 +1,31 @@
 services:
 
-    Elasticsuite\Search\Elasticsearch\Request\Aggregation\ConfigResolver\NumericAggregationConfigResolver:
+    Gally\Search\Elasticsearch\Request\Aggregation\ConfigResolver\NumericAggregationConfigResolver:
         tags:
-            - { name: 'elasticsuite.search.aggregation.resolver' }
+            - { name: 'gally.search.aggregation.resolver' }
 
-    Elasticsuite\Search\Elasticsearch\Request\Aggregation\ConfigResolver\DateAggregationConfigResolver:
+    Gally\Search\Elasticsearch\Request\Aggregation\ConfigResolver\DateAggregationConfigResolver:
         tags:
-            - { name: 'elasticsuite.search.aggregation.resolver' }
+            - { name: 'gally.search.aggregation.resolver' }
 
-    Elasticsuite\Search\Elasticsearch\Request\Aggregation\ConfigResolver\SelectAggregationConfigResolver:
+    Gally\Search\Elasticsearch\Request\Aggregation\ConfigResolver\SelectAggregationConfigResolver:
         tags:
-            - { name: 'elasticsuite.search.aggregation.resolver' }
+            - { name: 'gally.search.aggregation.resolver' }
 
-    Elasticsuite\Search\Elasticsearch\Request\Aggregation\ConfigResolver\CategoryAggregationConfigResolver:
+    Gally\Search\Elasticsearch\Request\Aggregation\ConfigResolver\CategoryAggregationConfigResolver:
         arguments:
-            - '@Elasticsuite\Category\Service\CurrentCategoryProvider'
-            - '@Elasticsuite\Category\Repository\CategoryRepository'
-            - '@Elasticsuite\Search\Elasticsearch\Request\QueryFactory'
+            - '@Gally\Category\Service\CurrentCategoryProvider'
+            - '@Gally\Category\Repository\CategoryRepository'
+            - '@Gally\Search\Elasticsearch\Request\QueryFactory'
         tags:
-            - { name: 'elasticsuite.search.aggregation.resolver' }
+            - { name: 'gally.search.aggregation.resolver' }
 
-    Elasticsuite\Search\Elasticsearch\Request\Aggregation\ConfigResolver\PriceAggregationConfigResolver:
+    Gally\Search\Elasticsearch\Request\Aggregation\ConfigResolver\PriceAggregationConfigResolver:
         arguments:
-            - '@Elasticsuite\Entity\Service\PriceGroupProvider'
+            - '@Gally\Entity\Service\PriceGroupProvider'
         tags:
-            - { name: 'elasticsuite.search.aggregation.resolver' }
+            - { name: 'gally.search.aggregation.resolver' }
 
-    Elasticsuite\Search\Elasticsearch\Request\Aggregation\ConfigResolver\StockAggregationConfigResolver:
+    Gally\Search\Elasticsearch\Request\Aggregation\ConfigResolver\StockAggregationConfigResolver:
         tags:
-            - { name: 'elasticsuite.search.aggregation.resolver' }
+            - { name: 'gally.search.aggregation.resolver' }

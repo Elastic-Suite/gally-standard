@@ -2,22 +2,21 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\Index\DataPersister;
+namespace Gally\Index\DataPersister;
 
 use ApiPlatform\Core\DataPersister\DataPersisterInterface;
-use Elasticsuite\Index\Model\Index;
-use Elasticsuite\Index\Repository\Index\IndexRepositoryInterface;
+use Gally\Index\Model\Index;
+use Gally\Index\Repository\Index\IndexRepositoryInterface;
 
 class IndexDataPersister implements DataPersisterInterface
 {

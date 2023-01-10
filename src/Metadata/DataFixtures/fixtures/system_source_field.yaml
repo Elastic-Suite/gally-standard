@@ -1,7 +1,7 @@
 include:
     - metadata.yaml
 
-Elasticsuite\Metadata\Model\SourceField:
+Gally\Metadata\Model\SourceField:
     product_id:
         metadata: '@product'
         code: 'id'

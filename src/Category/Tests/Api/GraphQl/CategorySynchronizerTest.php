@@ -2,51 +2,50 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\Category\Tests\Api\GraphQl;
+namespace Gally\Category\Tests\Api\GraphQl;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Exception\ORMException;
-use Elasticsuite\Catalog\Model\Catalog;
-use Elasticsuite\Catalog\Repository\LocalizedCatalogRepository;
-use Elasticsuite\Category\Decoration\SyncCategoryDataAfterBulk;
-use Elasticsuite\Category\Decoration\SyncCategoryDataAfterBulkDelete;
-use Elasticsuite\Category\Decoration\SyncCategoryDataAfterInstall;
-use Elasticsuite\Category\Exception\SyncCategoryException;
-use Elasticsuite\Category\Model\Category;
-use Elasticsuite\Category\Model\Category\Configuration;
-use Elasticsuite\Category\Repository\CategoryConfigurationRepository;
-use Elasticsuite\Category\Repository\CategoryProductMerchandisingRepository;
-use Elasticsuite\Category\Repository\CategoryRepository;
-use Elasticsuite\Category\Service\CategoryProductPositionManager;
-use Elasticsuite\Category\Service\CategorySynchronizer;
-use Elasticsuite\Index\MutationResolver\BulkDeleteIndexMutation;
-use Elasticsuite\Index\MutationResolver\BulkIndexMutation;
-use Elasticsuite\Index\MutationResolver\InstallIndexMutation;
-use Elasticsuite\Index\Repository\Index\IndexRepository;
-use Elasticsuite\Index\Repository\Index\IndexRepositoryInterface;
-use Elasticsuite\Index\Service\IndexSettings;
-use Elasticsuite\Metadata\Repository\MetadataRepository;
-use Elasticsuite\Search\Elasticsearch\Adapter;
-use Elasticsuite\Search\Elasticsearch\Builder\Request\Query\QueryBuilder;
-use Elasticsuite\Search\Elasticsearch\Request\Container\Configuration\ContainerConfigurationProvider;
-use Elasticsuite\Search\Elasticsearch\RequestFactoryInterface;
-use Elasticsuite\Test\AbstractTest;
-use Elasticsuite\Test\ExpectedResponse;
-use Elasticsuite\Test\RequestGraphQlToTest;
-use Elasticsuite\User\Constant\Role;
+use Gally\Catalog\Model\Catalog;
+use Gally\Catalog\Repository\LocalizedCatalogRepository;
+use Gally\Category\Decoration\SyncCategoryDataAfterBulk;
+use Gally\Category\Decoration\SyncCategoryDataAfterBulkDelete;
+use Gally\Category\Decoration\SyncCategoryDataAfterInstall;
+use Gally\Category\Exception\SyncCategoryException;
+use Gally\Category\Model\Category;
+use Gally\Category\Model\Category\Configuration;
+use Gally\Category\Repository\CategoryConfigurationRepository;
+use Gally\Category\Repository\CategoryProductMerchandisingRepository;
+use Gally\Category\Repository\CategoryRepository;
+use Gally\Category\Service\CategoryProductPositionManager;
+use Gally\Category\Service\CategorySynchronizer;
+use Gally\Index\MutationResolver\BulkDeleteIndexMutation;
+use Gally\Index\MutationResolver\BulkIndexMutation;
+use Gally\Index\MutationResolver\InstallIndexMutation;
+use Gally\Index\Repository\Index\IndexRepository;
+use Gally\Index\Repository\Index\IndexRepositoryInterface;
+use Gally\Index\Service\IndexSettings;
+use Gally\Metadata\Repository\MetadataRepository;
+use Gally\Search\Elasticsearch\Adapter;
+use Gally\Search\Elasticsearch\Builder\Request\Query\QueryBuilder;
+use Gally\Search\Elasticsearch\Request\Container\Configuration\ContainerConfigurationProvider;
+use Gally\Search\Elasticsearch\RequestFactoryInterface;
+use Gally\Test\AbstractTest;
+use Gally\Test\ExpectedResponse;
+use Gally\Test\RequestGraphQlToTest;
+use Gally\User\Constant\Role;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
 class CategorySynchronizerTest extends AbstractTest
@@ -72,7 +71,7 @@ class CategorySynchronizerTest extends AbstractTest
     public static function tearDownAfterClass(): void
     {
         parent::tearDownAfterClass();
-        self::$indexRepository->delete('elasticsuite_test__elasticsuite_*');
+        self::$indexRepository->delete('gally_test__gally_*');
     }
 
     public function testSynchronize(): void

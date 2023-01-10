@@ -1,4 +1,4 @@
-Elasticsuite\Metadata\Model\SourceFieldLabel:
+Gally\Metadata\Model\SourceFieldLabel:
     product_name_fr:
         source_field: '@product_name'
         catalog: '@catalog1_fr'

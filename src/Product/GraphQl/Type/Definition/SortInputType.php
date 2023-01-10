@@ -2,29 +2,28 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\Product\GraphQl\Type\Definition;
+namespace Gally\Product\GraphQl\Type\Definition;
 
 use ApiPlatform\Core\GraphQl\Type\Definition\TypeInterface;
-use Elasticsuite\Category\Service\CurrentCategoryProvider;
-use Elasticsuite\Entity\Service\PriceGroupProvider;
-use Elasticsuite\Metadata\Model\Metadata;
-use Elasticsuite\Metadata\Repository\SourceFieldRepository;
-use Elasticsuite\Product\GraphQl\Type\Definition\SortOrder\SortOrderProviderInterface;
-use Elasticsuite\Search\Elasticsearch\Request\ContainerConfigurationInterface;
-use Elasticsuite\Search\Elasticsearch\Request\SortOrderInterface;
-use Elasticsuite\Search\GraphQl\Type\Definition\SortInputType as SearchSortInputType;
-use Elasticsuite\Search\Service\ReverseSourceFieldProvider;
+use Gally\Category\Service\CurrentCategoryProvider;
+use Gally\Entity\Service\PriceGroupProvider;
+use Gally\Metadata\Model\Metadata;
+use Gally\Metadata\Repository\SourceFieldRepository;
+use Gally\Product\GraphQl\Type\Definition\SortOrder\SortOrderProviderInterface;
+use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface;
+use Gally\Search\Elasticsearch\Request\SortOrderInterface;
+use Gally\Search\GraphQl\Type\Definition\SortInputType as SearchSortInputType;
+use Gally\Search\Service\ReverseSourceFieldProvider;
 
 class SortInputType extends SearchSortInputType
 {

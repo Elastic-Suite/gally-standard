@@ -1,6 +1,6 @@
 services:
-    Elasticsuite\Analysis\Service\Config:
+    Gally\Analysis\Service\Config:
         public: true
         arguments:
-            - '@Elasticsuite\Cache\Service\CacheManagerInterface'
-            - '%elasticsuite.analysis%'
+            - '@Gally\Cache\Service\CacheManagerInterface'
+            - '%gally.analysis%'

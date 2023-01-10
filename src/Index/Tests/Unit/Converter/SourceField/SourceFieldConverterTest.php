@@ -2,30 +2,29 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\Index\Tests\Unit\Converter\SourceField;
+namespace Gally\Index\Tests\Unit\Converter\SourceField;
 
-use Elasticsuite\Index\Converter\SourceField\BasicSourceFieldConverter;
-use Elasticsuite\Index\Converter\SourceField\ImageSourceFieldConverter;
-use Elasticsuite\Index\Converter\SourceField\PriceSourceFieldConverter;
-use Elasticsuite\Index\Converter\SourceField\ReferenceSourceFieldConverter;
-use Elasticsuite\Index\Converter\SourceField\SelectSourceFieldConverter;
-use Elasticsuite\Index\Converter\SourceField\SourceFieldConverterInterface;
-use Elasticsuite\Index\Converter\SourceField\StockSourceFieldConverter;
-use Elasticsuite\Index\Converter\SourceField\TextSourceFieldConverter;
-use Elasticsuite\Index\Model\Index\Mapping;
-use Elasticsuite\Metadata\Model\SourceField;
-use Elasticsuite\Test\AbstractTest;
+use Gally\Index\Converter\SourceField\BasicSourceFieldConverter;
+use Gally\Index\Converter\SourceField\ImageSourceFieldConverter;
+use Gally\Index\Converter\SourceField\PriceSourceFieldConverter;
+use Gally\Index\Converter\SourceField\ReferenceSourceFieldConverter;
+use Gally\Index\Converter\SourceField\SelectSourceFieldConverter;
+use Gally\Index\Converter\SourceField\SourceFieldConverterInterface;
+use Gally\Index\Converter\SourceField\StockSourceFieldConverter;
+use Gally\Index\Converter\SourceField\TextSourceFieldConverter;
+use Gally\Index\Model\Index\Mapping;
+use Gally\Metadata\Model\SourceField;
+use Gally\Test\AbstractTest;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class SourceFieldConverterTest extends AbstractTest

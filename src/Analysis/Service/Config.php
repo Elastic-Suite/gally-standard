@@ -2,24 +2,23 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\Analysis\Service;
+namespace Gally\Analysis\Service;
 
-use Elasticsuite\Cache\Service\CacheManagerInterface;
+use Gally\Cache\Service\CacheManagerInterface;
 
 class Config
 {
-    public const CACHE_KEY_PREFIX = 'elasticsuite_analysis_';
+    public const CACHE_KEY_PREFIX = 'gally_analysis_';
     public const LANGUAGE_DEFAULT = 'default';
 
     public function __construct(

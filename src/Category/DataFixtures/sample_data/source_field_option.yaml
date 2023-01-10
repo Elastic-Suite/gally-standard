@@ -1,4 +1,4 @@
-Elasticsuite\Metadata\Model\SourceFieldOption:
+Gally\Metadata\Model\SourceFieldOption:
     categories_custom_apply_to_products_option_1:
         source_field: '@categories_custom_apply_to_products'
         code: "1"

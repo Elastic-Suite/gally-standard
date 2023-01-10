@@ -2,24 +2,23 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\Index\Tests\Api\GraphQl;
+namespace Gally\Index\Tests\Api\GraphQl;
 
-use Elasticsuite\Index\Tests\Api\AbstractMenuTest;
-use Elasticsuite\Locale\EventSubscriber\LocaleSubscriber;
-use Elasticsuite\Test\ExpectedResponse;
-use Elasticsuite\Test\RequestGraphQlToTest;
-use Elasticsuite\User\Constant\Role;
+use Gally\Index\Tests\Api\AbstractMenuTest;
+use Gally\Locale\EventSubscriber\LocaleSubscriber;
+use Gally\Test\ExpectedResponse;
+use Gally\Test\RequestGraphQlToTest;
+use Gally\User\Constant\Role;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
 class GetMenuTest extends AbstractMenuTest
@@ -39,7 +38,7 @@ class GetMenuTest extends AbstractMenuTest
                     }
                 GQL,
                 $this->getUser(Role::ROLE_CONTRIBUTOR),
-                [LocaleSubscriber::ELASTICSUITE_LANGUAGE_HEADER => $local]
+                [LocaleSubscriber::GALLY_LANGUAGE_HEADER => $local]
             ),
             new ExpectedResponse(
                 200,

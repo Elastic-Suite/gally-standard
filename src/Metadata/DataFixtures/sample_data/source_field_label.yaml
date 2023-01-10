@@ -1,4 +1,4 @@
-Elasticsuite\Metadata\Model\SourceFieldLabel:
+Gally\Metadata\Model\SourceFieldLabel:
     product_accessory_announcement_date_com_en:
         source_field: '@product_accessory_announcement_date'
         catalog: '@com_en'

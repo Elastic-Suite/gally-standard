@@ -2,23 +2,22 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\Category\DataFixtures;
+namespace Gally\Category\DataFixtures;
 
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
-use Elasticsuite\Fixture\Service\ElasticsearchFixtures;
-use Elasticsuite\Fixture\Service\EntityIndicesFixturesInterface;
+use Gally\Fixture\Service\ElasticsearchFixtures;
+use Gally\Fixture\Service\EntityIndicesFixturesInterface;
 
 class ElasticsearchCategoryFixtures extends Fixture
 {

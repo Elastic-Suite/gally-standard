@@ -2,27 +2,26 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\RuleEngine\Service;
+namespace Gally\RuleEngine\Service;
 
-use Elasticsuite\Exception\LogicException;
-use Elasticsuite\RuleEngine\Model\RuleEngineGraphQlFilters;
-use Elasticsuite\RuleEngine\Model\RuleEngineOperators;
-use Elasticsuite\RuleEngine\Service\RuleType\AttributeRule;
-use Elasticsuite\RuleEngine\Service\RuleType\CombinationRule;
-use Elasticsuite\RuleEngine\Service\RuleType\RuleTypeInterface;
-use Elasticsuite\Search\Elasticsearch\Request\ContainerConfigurationInterface;
-use Elasticsuite\Search\Service\GraphQl\FilterManager;
+use Gally\Exception\LogicException;
+use Gally\RuleEngine\Model\RuleEngineGraphQlFilters;
+use Gally\RuleEngine\Model\RuleEngineOperators;
+use Gally\RuleEngine\Service\RuleType\AttributeRule;
+use Gally\RuleEngine\Service\RuleType\CombinationRule;
+use Gally\RuleEngine\Service\RuleType\RuleTypeInterface;
+use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface;
+use Gally\Search\Service\GraphQl\FilterManager;
 
 class RuleEngineManager
 {
@@ -105,9 +104,9 @@ class RuleEngineManager
         return $this->getRuleTypes()[$rule['type']]->transformRuleNodeToGraphQlFilter($rule);
     }
 
-    public function transformRuleToElasticsuiteFilters(array $rule, ContainerConfigurationInterface $containerConfig, array $filterContext = []): array
+    public function transformRuleToGallyFilters(array $rule, ContainerConfigurationInterface $containerConfig, array $filterContext = []): array
     {
-        return $this->filterManager->transformToElasticsuiteFilters(
+        return $this->filterManager->transformToGallyFilters(
             [$this->transformRuleToGraphQlFilters($rule)],
             $containerConfig,
             $filterContext

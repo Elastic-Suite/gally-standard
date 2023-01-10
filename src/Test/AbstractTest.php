@@ -2,23 +2,22 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\Test;
+namespace Gally\Test;
 
 use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\ApiTestCase;
-use Elasticsuite\Fixture\Service\ElasticsearchFixtures;
-use Elasticsuite\Fixture\Service\EntityIndicesFixturesInterface;
-use Elasticsuite\User\Tests\LoginTrait;
+use Gally\Fixture\Service\ElasticsearchFixtures;
+use Gally\Fixture\Service\EntityIndicesFixturesInterface;
+use Gally\User\Tests\LoginTrait;
 use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 

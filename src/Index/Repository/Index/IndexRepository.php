@@ -2,25 +2,24 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\Index\Repository\Index;
+namespace Gally\Index\Repository\Index;
 
 use Elasticsearch\Client;
-use Elasticsuite\Exception\LogicException;
-use Elasticsuite\Index\Api\IndexSettingsInterface;
-use Elasticsuite\Index\Dto\Bulk;
-use Elasticsuite\Index\Model\Index;
 use Exception;
+use Gally\Exception\LogicException;
+use Gally\Index\Api\IndexSettingsInterface;
+use Gally\Index\Dto\Bulk;
+use Gally\Index\Model\Index;
 
 class IndexRepository implements IndexRepositoryInterface
 {
@@ -44,7 +43,7 @@ class IndexRepository implements IndexRepositoryInterface
         }
 
         foreach ($indices as $indexData) {
-            // @Todo: keep this test to exclude .geoip index or find a way to get _only_ elasticsuite indices.
+            // @Todo: keep this test to exclude .geoip index or find a way to get _only_ gally indices.
             if (0 !== strpos($indexData['index'], '.')) {
                 $collection[] = $this->getIndex($indexData, $this->extractIndexAliases($aliases, $indexData['index']));
             }

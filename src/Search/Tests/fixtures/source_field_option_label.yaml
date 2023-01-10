@@ -1,4 +1,4 @@
-Elasticsuite\Metadata\Model\SourceFieldOptionLabel:
+Gally\Metadata\Model\SourceFieldOptionLabel:
     product_color_option_5_catalog1_en:
         source_field_option: '@product_color_option_red'
         catalog: '@catalog1_en'

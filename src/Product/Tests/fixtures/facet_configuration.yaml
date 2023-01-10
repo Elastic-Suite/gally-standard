@@ -1,4 +1,4 @@
-Elasticsuite\Search\Model\Facet\Configuration:
+Gally\Search\Model\Facet\Configuration:
     product_category_facet:
         __construct:
             sourceField: '@product_category'

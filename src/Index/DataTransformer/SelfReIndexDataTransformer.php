@@ -2,24 +2,23 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\Index\DataTransformer;
+namespace Gally\Index\DataTransformer;
 
 use ApiPlatform\Core\DataTransformer\DataTransformerInterface;
-use Elasticsuite\Index\Dto\SelfReindexInput;
-use Elasticsuite\Index\Model\Index;
-use Elasticsuite\Index\Model\Index\SelfReindex;
-use Elasticsuite\Index\Service\SelfReindexOperation;
+use Gally\Index\Dto\SelfReindexInput;
+use Gally\Index\Model\Index;
+use Gally\Index\Model\Index\SelfReindex;
+use Gally\Index\Service\SelfReindexOperation;
 
 class SelfReIndexDataTransformer implements DataTransformerInterface
 {

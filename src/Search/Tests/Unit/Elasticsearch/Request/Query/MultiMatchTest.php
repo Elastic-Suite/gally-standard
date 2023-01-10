@@ -2,24 +2,23 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\Search\Tests\Unit\Elasticsearch\Request\Query;
+namespace Gally\Search\Tests\Unit\Elasticsearch\Request\Query;
 
 use ArgumentCountError;
-use Elasticsuite\Search\Elasticsearch\Request\Container\RelevanceConfiguration\FuzzinessConfigurationInterface;
-use Elasticsuite\Search\Elasticsearch\Request\Query\MultiMatch;
-use Elasticsuite\Search\Elasticsearch\Request\QueryFactory;
-use Elasticsuite\Search\Elasticsearch\Request\QueryInterface;
+use Gally\Search\Elasticsearch\Request\Container\RelevanceConfiguration\FuzzinessConfigurationInterface;
+use Gally\Search\Elasticsearch\Request\Query\MultiMatch;
+use Gally\Search\Elasticsearch\Request\QueryFactory;
+use Gally\Search\Elasticsearch\Request\QueryInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class MultiMatchTest extends KernelTestCase

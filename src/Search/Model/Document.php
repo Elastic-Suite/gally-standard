@@ -2,26 +2,25 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\Search\Model;
+namespace Gally\Search\Model;
 
 use ApiPlatform\Core\Action\NotFoundAction;
 use ApiPlatform\Core\Annotation\ApiResource;
-use Elasticsuite\GraphQl\Decoration\Resolver\Stage\ReadStage;
-use Elasticsuite\Search\Elasticsearch\DocumentInterface;
-use Elasticsuite\Search\GraphQl\Type\Definition\FieldFilterInputType;
-use Elasticsuite\Search\GraphQl\Type\Definition\SortInputType;
-use Elasticsuite\Search\Resolver\DummyResolver;
+use Gally\GraphQl\Decoration\Resolver\Stage\ReadStage;
+use Gally\Search\Elasticsearch\DocumentInterface;
+use Gally\Search\GraphQl\Type\Definition\FieldFilterInputType;
+use Gally\Search\GraphQl\Type\Definition\SortInputType;
+use Gally\Search\Resolver\DummyResolver;
 
 #[
     ApiResource(
@@ -37,7 +36,7 @@ use Elasticsuite\Search\Resolver\DummyResolver;
                     'currentPage' => ['type' => 'Int'],
                     'pageSize' => ['type' => 'Int'],
                     'sort' => ['type' => SortInputType::NAME],
-                    'filter' => ['type' => '[' . FieldFilterInputType::NAME . ']', ReadStage::IS_GRAPHQL_ELASTICSUITE_ARG_KEY => true],
+                    'filter' => ['type' => '[' . FieldFilterInputType::NAME . ']', ReadStage::IS_GRAPHQL_GALLY_ARG_KEY => true],
                 ],
                 'read' => true, // Required so the dataprovider is called.
                 'deserialize' => true,

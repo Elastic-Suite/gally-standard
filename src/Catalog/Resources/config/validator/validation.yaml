@@ -1,9 +1,9 @@
-Elasticsuite\Catalog\Model\Catalog:
+Gally\Catalog\Model\Catalog:
     properties:
         code:
             - NotBlank: ~
 
-Elasticsuite\Catalog\Model\LocalizedCatalog:
+Gally\Catalog\Model\LocalizedCatalog:
     properties:
         code:
             - NotBlank: ~

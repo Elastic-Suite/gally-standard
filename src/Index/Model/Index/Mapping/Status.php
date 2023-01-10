@@ -2,23 +2,22 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\Index\Model\Index\Mapping;
+namespace Gally\Index\Model\Index\Mapping;
 
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
-use Elasticsuite\Index\DataProvider\MappingStatusDataProvider;
-use Elasticsuite\User\Constant\Role;
+use Gally\Index\DataProvider\MappingStatusDataProvider;
+use Gally\User\Constant\Role;
 
 #[
     ApiResource(

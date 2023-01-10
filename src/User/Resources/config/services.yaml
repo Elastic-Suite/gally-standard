@@ -1,44 +1,44 @@
 services:
-    Elasticsuite\User\Repository\UserRepository:
+    Gally\User\Repository\UserRepository:
         arguments:
             - '@Doctrine\Persistence\ManagerRegistry'
         tags:
             - { name: doctrine.repository_service }
 
-    Elasticsuite\User\DataFixtures\Providers\HashPasswordProvider:
+    Gally\User\DataFixtures\Providers\HashPasswordProvider:
         arguments:
             - '@Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface'
         tags: 
           - { name: nelmio_alice.faker.provider }
-    Elasticsuite\User\Service\UserManager:
+    Gally\User\Service\UserManager:
         arguments:
             - '@doctrine.orm.entity_manager'
-            - '@Elasticsuite\User\Repository\UserRepository'
+            - '@Gally\User\Repository\UserRepository'
             - '@Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface'
 
-    Elasticsuite\User\Service\Command\QuestionBuilder: ~
+    Gally\User\Service\Command\QuestionBuilder: ~
 
-    Elasticsuite\User\Service\Command\Validation: 
+    Gally\User\Service\Command\Validation: 
         arguments:
-            - '@Elasticsuite\User\Service\UserManager'
+            - '@Gally\User\Service\UserManager'
             - '@Symfony\Component\Validator\Validator\ValidatorInterface'
 
-    Elasticsuite\User\Service\Command\Validator:
+    Gally\User\Service\Command\Validator:
         arguments:
-            - '@Elasticsuite\User\Service\Command\Validation'
+            - '@Gally\User\Service\Command\Validation'
 
-    Elasticsuite\User\Command\CreateCommand:
+    Gally\User\Command\CreateCommand:
         arguments:
-            - '@Elasticsuite\User\Service\UserManager'
-            - '@Elasticsuite\User\Service\Command\Validator'
-            - '@Elasticsuite\User\Service\Command\QuestionBuilder'
+            - '@Gally\User\Service\UserManager'
+            - '@Gally\User\Service\Command\Validator'
+            - '@Gally\User\Service\Command\QuestionBuilder'
         tags:
             - { name: console.command }
             
-    Elasticsuite\User\Command\UpdateCommand:
+    Gally\User\Command\UpdateCommand:
         arguments:
-            - '@Elasticsuite\User\Service\UserManager'
-            - '@Elasticsuite\User\Service\Command\Validator'
-            - '@Elasticsuite\User\Service\Command\QuestionBuilder'
+            - '@Gally\User\Service\UserManager'
+            - '@Gally\User\Service\Command\Validator'
+            - '@Gally\User\Service\Command\QuestionBuilder'
         tags:
             - { name: console.command }

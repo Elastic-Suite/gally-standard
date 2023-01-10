@@ -2,24 +2,23 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\Index\Model\Index;
+namespace Gally\Index\Model\Index;
 
-use Elasticsuite\Index\Model\Index\Mapping\FieldFilterInterface;
-use Elasticsuite\Index\Model\Index\Mapping\FieldInterface;
+use Gally\Index\Model\Index\Mapping\FieldFilterInterface;
+use Gally\Index\Model\Index\Mapping\FieldInterface;
 
 /**
- * Default implementation for ES mappings (Smile\ElasticsuiteCore\Api\Index\MappingInterface).
+ * Default implementation for ES mappings (Smile\GallyCore\Api\Index\MappingInterface).
  */
 class Mapping implements MappingInterface
 {

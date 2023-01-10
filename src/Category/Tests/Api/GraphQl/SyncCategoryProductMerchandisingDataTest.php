@@ -2,29 +2,28 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\Category\Tests\Api\GraphQl;
+namespace Gally\Category\Tests\Api\GraphQl;
 
 use Elasticsearch\Client;
-use Elasticsuite\Catalog\Repository\LocalizedCatalogRepository;
-use Elasticsuite\Category\Repository\CategoryProductMerchandisingRepository;
-use Elasticsuite\Category\Tests\Api\CategoryTestTrait;
-use Elasticsuite\Fixture\Service\ElasticsearchFixturesInterface;
-use Elasticsuite\Index\Service\IndexSettings;
-use Elasticsuite\Test\AbstractTest;
-use Elasticsuite\Test\ExpectedResponse;
-use Elasticsuite\Test\RequestGraphQlToTest;
-use Elasticsuite\User\Constant\Role;
+use Gally\Catalog\Repository\LocalizedCatalogRepository;
+use Gally\Category\Repository\CategoryProductMerchandisingRepository;
+use Gally\Category\Tests\Api\CategoryTestTrait;
+use Gally\Fixture\Service\ElasticsearchFixturesInterface;
+use Gally\Index\Service\IndexSettings;
+use Gally\Test\AbstractTest;
+use Gally\Test\ExpectedResponse;
+use Gally\Test\RequestGraphQlToTest;
+use Gally\User\Constant\Role;
 
 class SyncCategoryProductMerchandisingDataTest extends AbstractTest
 {
@@ -81,7 +80,7 @@ class SyncCategoryProductMerchandisingDataTest extends AbstractTest
         $positions = $categoryProductMerchandisingRepository->findBy(['productId' => $productIds, 'localizedCatalog' => $localizedCatalogB2cFr]);
         $this->assertGreaterThan(0, \count($positions));
 
-        $indexNameTest = ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'elasticsuite_b2c_fr_product';
+        $indexNameTest = ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_b2c_fr_product';
         $this->bulkDeleteIndex($indexNameTest, $productIds);
         $positions = $categoryProductMerchandisingRepository->findBy(['productId' => $productIds, 'localizedCatalog' => $localizedCatalogB2cFr]);
         $this->assertCount(0, $positions);
@@ -143,7 +142,7 @@ class SyncCategoryProductMerchandisingDataTest extends AbstractTest
 
         return [
             [
-                'elasticsuite_b2c_fr_product',
+                'gally_b2c_fr_product',
                 [
                     $localizedCatalogIdB2cFr => [
                         $productId1 => [$categoryIdOne => ['position' => 1], $categoryIdTwo => ['position' => 2]],
@@ -154,7 +153,7 @@ class SyncCategoryProductMerchandisingDataTest extends AbstractTest
                 ],
             ],
             [
-                'elasticsuite_b2c_en_product',
+                'gally_b2c_en_product',
                 [
                     $localizedCatalogIdB2cEn => [
                         $productId1 => [$categoryIdOne => ['position' => 10], $categoryIdTwo => []],
@@ -165,7 +164,7 @@ class SyncCategoryProductMerchandisingDataTest extends AbstractTest
                 ],
             ],
             [
-                'elasticsuite_b2b_en_product',
+                'gally_b2b_en_product',
                 [
                     $localizedCatalogIdb2bEn => [
                         $productId1 => [$categoryIdOne => [], $categoryIdTwo => []],

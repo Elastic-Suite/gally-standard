@@ -2,11 +2,10 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
@@ -16,9 +15,9 @@ declare(strict_types=1);
  * Allows to define Bundle configuration structure, see https://symfony.com/doc/current/components/config/definition.html.
  */
 
-namespace Elasticsuite\DependencyInjection;
+namespace Gally\DependencyInjection;
 
-use Elasticsuite\Search\Elasticsearch\Request\Container\RelevanceConfiguration\FuzzinessConfig;
+use Gally\Search\Elasticsearch\Request\Container\RelevanceConfiguration\FuzzinessConfig;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -35,7 +34,7 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder(): TreeBuilder
     {
-        $treeBuilder = new TreeBuilder('elasticsuite');
+        $treeBuilder = new TreeBuilder('gally');
 
         $treeBuilder->getRootNode()
             ->children()

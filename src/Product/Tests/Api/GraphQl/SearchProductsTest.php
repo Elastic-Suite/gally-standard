@@ -2,26 +2,25 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\Product\Tests\Api\GraphQl;
+namespace Gally\Product\Tests\Api\GraphQl;
 
-use Elasticsuite\Entity\Service\PriceGroupProvider;
-use Elasticsuite\Fixture\Service\ElasticsearchFixturesInterface;
-use Elasticsuite\Search\Elasticsearch\Request\SortOrderInterface;
-use Elasticsuite\Test\AbstractTest;
-use Elasticsuite\Test\ExpectedResponse;
-use Elasticsuite\Test\RequestGraphQlToTest;
-use Elasticsuite\User\Constant\Role;
+use Gally\Entity\Service\PriceGroupProvider;
+use Gally\Fixture\Service\ElasticsearchFixturesInterface;
+use Gally\Search\Elasticsearch\Request\SortOrderInterface;
+use Gally\Test\AbstractTest;
+use Gally\Test\ExpectedResponse;
+use Gally\Test\RequestGraphQlToTest;
+use Gally\User\Constant\Role;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
 class SearchProductsTest extends AbstractTest
@@ -180,7 +179,7 @@ class SearchProductsTest extends AbstractTest
                 14,     // expected total count.
                 10,     // expected items per page.
                 2,      // expected last page.
-                ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'elasticsuite_b2c_en_product', // expected index alias.
+                ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_b2c_en_product', // expected index alias.
                 1.0,    // expected score.
             ],
             [
@@ -192,7 +191,7 @@ class SearchProductsTest extends AbstractTest
                 14,     // expected total count.
                 10,     // expected items per page.
                 2,      // expected last page.
-                ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'elasticsuite_b2c_en_product', // expected index alias.
+                ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_b2c_en_product', // expected index alias.
                 1.0,    // expected score.
             ],
             [
@@ -204,7 +203,7 @@ class SearchProductsTest extends AbstractTest
                 14,     // expected total count.
                 10,     // expected items per page.
                 2,      // expected last page.
-                ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'elasticsuite_b2c_en_product', // expected index alias.
+                ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_b2c_en_product', // expected index alias.
                 1.0,    // expected score.
             ],
             [
@@ -216,7 +215,7 @@ class SearchProductsTest extends AbstractTest
                 12,     // expected total count.
                 30,     // expected items per page.
                 1,      // expected last page.
-                ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'elasticsuite_b2c_fr_product', // expected index alias.
+                ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_b2c_fr_product', // expected index alias.
                 1.0,    // expected score.
             ],
             [
@@ -228,7 +227,7 @@ class SearchProductsTest extends AbstractTest
                 12,     // expected total count.
                 5,      // expected items per page.
                 3,      // expected last page.
-                ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'elasticsuite_b2c_fr_product', // expected index alias.
+                ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_b2c_fr_product', // expected index alias.
                 1.0,    // expected score.
             ],
             [
@@ -240,7 +239,7 @@ class SearchProductsTest extends AbstractTest
                 12,     // expected total count.
                 100,    // expected items per page.
                 1,      // expected last page.
-                ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'elasticsuite_b2c_fr_product', // expected indexalias.
+                ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_b2c_fr_product', // expected indexalias.
                 1.0,    // expected score.
             ],
         ];

@@ -2,20 +2,19 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\Entity\Constant;
+namespace Gally\Entity\Constant;
 
-use Elasticsuite\Metadata\Model\SourceField\Type as SourceFieldType;
+use Gally\Metadata\Model\SourceField\Type as SourceFieldType;
 
 class SourceFieldAttributeMapping
 {
@@ -23,18 +22,18 @@ class SourceFieldAttributeMapping
      * @Todo: Move TYPES to config.
      */
     public const TYPES = [
-        SourceFieldType::TYPE_TEXT => \Elasticsuite\Entity\Model\Attribute\Type\TextAttribute::class,
-        SourceFieldType::TYPE_KEYWORD => \Elasticsuite\Entity\Model\Attribute\Type\TextAttribute::class,
-        SourceFieldType::TYPE_SELECT => \Elasticsuite\Entity\Model\Attribute\Type\SelectAttribute::class,
-        SourceFieldType::TYPE_INT => \Elasticsuite\Entity\Model\Attribute\Type\IntAttribute::class,
-        SourceFieldType::TYPE_BOOLEAN => \Elasticsuite\Entity\Model\Attribute\Type\BooleanAttribute::class,
-        SourceFieldType::TYPE_FLOAT => \Elasticsuite\Entity\Model\Attribute\Type\FloatAttribute::class,
-        SourceFieldType::TYPE_PRICE => \Elasticsuite\Entity\Model\Attribute\Type\PriceAttribute::class,
-        SourceFieldType::TYPE_STOCK => \Elasticsuite\Entity\Model\Attribute\Type\StockAttribute::class,
-        SourceFieldType::TYPE_CATEGORY => \Elasticsuite\Entity\Model\Attribute\Type\CategoryAttribute::class,
-        SourceFieldType::TYPE_REFERENCE => \Elasticsuite\Entity\Model\Attribute\Type\TextAttribute::class,
-        SourceFieldType::TYPE_IMAGE => \Elasticsuite\Entity\Model\Attribute\Type\TextAttribute::class,
-        SourceFieldType::TYPE_OBJECT => \Elasticsuite\Entity\Model\Attribute\Type\TextAttribute::class,
-        SourceFieldType::TYPE_DATE => \Elasticsuite\Entity\Model\Attribute\Type\TextAttribute::class,
+        SourceFieldType::TYPE_TEXT => \Gally\Entity\Model\Attribute\Type\TextAttribute::class,
+        SourceFieldType::TYPE_KEYWORD => \Gally\Entity\Model\Attribute\Type\TextAttribute::class,
+        SourceFieldType::TYPE_SELECT => \Gally\Entity\Model\Attribute\Type\SelectAttribute::class,
+        SourceFieldType::TYPE_INT => \Gally\Entity\Model\Attribute\Type\IntAttribute::class,
+        SourceFieldType::TYPE_BOOLEAN => \Gally\Entity\Model\Attribute\Type\BooleanAttribute::class,
+        SourceFieldType::TYPE_FLOAT => \Gally\Entity\Model\Attribute\Type\FloatAttribute::class,
+        SourceFieldType::TYPE_PRICE => \Gally\Entity\Model\Attribute\Type\PriceAttribute::class,
+        SourceFieldType::TYPE_STOCK => \Gally\Entity\Model\Attribute\Type\StockAttribute::class,
+        SourceFieldType::TYPE_CATEGORY => \Gally\Entity\Model\Attribute\Type\CategoryAttribute::class,
+        SourceFieldType::TYPE_REFERENCE => \Gally\Entity\Model\Attribute\Type\TextAttribute::class,
+        SourceFieldType::TYPE_IMAGE => \Gally\Entity\Model\Attribute\Type\TextAttribute::class,
+        SourceFieldType::TYPE_OBJECT => \Gally\Entity\Model\Attribute\Type\TextAttribute::class,
+        SourceFieldType::TYPE_DATE => \Gally\Entity\Model\Attribute\Type\TextAttribute::class,
     ];
 }

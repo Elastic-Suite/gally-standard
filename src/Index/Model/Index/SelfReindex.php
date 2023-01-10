@@ -2,26 +2,25 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\Index\Model\Index;
+namespace Gally\Index\Model\Index;
 
 use ApiPlatform\Core\Action\NotFoundAction;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
-use Elasticsuite\Index\Dto\SelfReindexInput;
-use Elasticsuite\Index\Model\Index;
-use Elasticsuite\Index\MutationResolver\SelfReindexMutation;
-use Elasticsuite\User\Constant\Role;
+use Gally\Index\Dto\SelfReindexInput;
+use Gally\Index\Model\Index;
+use Gally\Index\MutationResolver\SelfReindexMutation;
+use Gally\User\Constant\Role;
 use Symfony\Component\Uid\Uuid;
 
 #[

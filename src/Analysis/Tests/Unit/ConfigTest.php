@@ -2,22 +2,21 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\Analysis\Tests\Unit;
+namespace Gally\Analysis\Tests\Unit;
 
-use Elasticsuite\Analysis\Service\Config;
-use Elasticsuite\DependencyInjection\Configuration;
-use Elasticsuite\Test\AbstractTest;
+use Gally\Analysis\Service\Config;
+use Gally\DependencyInjection\Configuration;
+use Gally\Test\AbstractTest;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\Yaml\Parser as YamlParser;
 
@@ -36,7 +35,7 @@ class ConfigTest extends AbstractTest
     public static function setUpBeforeClass(): void
     {
         $yamlParser = new YamlParser();
-        $configData = $yamlParser->parseFile(__DIR__ . '/../config/elasticsuite_analysis.yaml');
+        $configData = $yamlParser->parseFile(__DIR__ . '/../config/gally_analysis.yaml');
         $processor = new Processor();
         $configurationFormat = new Configuration();
         self::$config = new Config(

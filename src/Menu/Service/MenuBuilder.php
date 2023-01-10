@@ -2,22 +2,21 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\Menu\Service;
+namespace Gally\Menu\Service;
 
 use ApiPlatform\Core\Exception\InvalidArgumentException;
-use Elasticsuite\Menu\Model\Menu;
-use Elasticsuite\Menu\Model\MenuItem;
+use Gally\Menu\Model\Menu;
+use Gally\Menu\Model\MenuItem;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class MenuBuilder
@@ -36,7 +35,7 @@ class MenuBuilder
             $parentCode = $data['parent'] ?? 'root';
             $item = new MenuItem(
                 $entry,
-                $this->translator->trans("elasticsuite.menu.$entry.label", [], 'menu'),
+                $this->translator->trans("gally.menu.$entry.label", [], 'menu'),
                 $data['order'] ?? null,
                 $data['css_class'] ?? null,
             );

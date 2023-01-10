@@ -1,2 +1,2 @@
 services:
-    Elasticsuite\OpenApi\Helper\Documentation: ~
+    Gally\OpenApi\Helper\Documentation: ~

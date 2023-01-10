@@ -2,20 +2,19 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\Cache\Command;
+namespace Gally\Cache\Command;
 
-use Elasticsuite\Cache\Service\CacheManagerInterface;
+use Gally\Cache\Service\CacheManagerInterface;
 use Psr\Cache\InvalidArgumentException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -27,7 +26,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class ClearTagsCommand extends Command
 {
-    protected static $defaultName = 'elasticsuite:cache:clear-tags';
+    protected static $defaultName = 'gally:cache:clear-tags';
 
     public function __construct(private CacheManagerInterface $cache, string $name = null)
     {
@@ -39,13 +38,13 @@ class ClearTagsCommand extends Command
      */
     protected function configure(): void
     {
-        $this->setDescription('Clear tag(s) from elasticsuite specific cache pool.');
+        $this->setDescription('Clear tag(s) from gally specific cache pool.');
         $this
             ->setDefinition([
                 new InputArgument('tags', InputArgument::REQUIRED | InputArgument::IS_ARRAY, 'The cache tags to invalidate cache for'),
             ])
             ->setHelp(<<<'EOF'
-The <info>%command.name%</info> clears cache objects identified by their cache tag(s) in elasticsuite specific cache pool.
+The <info>%command.name%</info> clears cache objects identified by their cache tag(s) in gally specific cache pool.
 
     %command.full_name% <tags>...
 EOF

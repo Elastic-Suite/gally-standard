@@ -1,4 +1,4 @@
-Elasticsuite\Catalog\Model\Catalog:
+Gally\Catalog\Model\Catalog:
     com:
         code: com
         name: COM Catalog
@@ -9,7 +9,7 @@ Elasticsuite\Catalog\Model\Catalog:
         code: uk
         name: UK Catalog
 
-Elasticsuite\Catalog\Model\LocalizedCatalog:
+Gally\Catalog\Model\LocalizedCatalog:
     com_fr:
         catalog: '@com'
         code: com_fr

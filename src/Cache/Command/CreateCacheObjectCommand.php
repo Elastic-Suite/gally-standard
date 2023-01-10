@@ -2,20 +2,19 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\Cache\Command;
+namespace Gally\Cache\Command;
 
-use Elasticsuite\Cache\Service\CacheManagerInterface;
+use Gally\Cache\Service\CacheManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -27,7 +26,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class CreateCacheObjectCommand extends Command
 {
-    protected static $defaultName = 'elasticsuite:cache:create-cache-object';
+    protected static $defaultName = 'gally:cache:create-cache-object';
 
     public function __construct(private CacheManagerInterface $cache, string $name = null)
     {
@@ -39,7 +38,7 @@ class CreateCacheObjectCommand extends Command
      */
     protected function configure(): void
     {
-        $this->setDescription('Create a cache object with a given key, value, tag(s) and ttl in elasticsuite cache pool.');
+        $this->setDescription('Create a cache object with a given key, value, tag(s) and ttl in gally cache pool.');
         $this
             ->setDefinition([
                 new InputArgument('key', InputArgument::REQUIRED, 'The cache key of the object'),
@@ -48,7 +47,7 @@ class CreateCacheObjectCommand extends Command
                 new InputOption('ttl', null, InputOption::VALUE_REQUIRED, 'The TTL in seconds of the cache object'),
             ])
             ->setHelp(<<<'EOF'
-The <info>%command.name%</info> creates a cache object in the elasticsuite cache pool with the provided key, value and cache tag(s).
+The <info>%command.name%</info> creates a cache object in the gally cache pool with the provided key, value and cache tag(s).
 
     %command.full_name% [--ttl=TTL] <key> <value> <tags>...
 EOF

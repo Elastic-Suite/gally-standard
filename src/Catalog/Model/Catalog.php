@@ -2,25 +2,24 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\Catalog\Model;
+namespace Gally\Catalog\Model;
 
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Elasticsuite\User\Constant\Role;
+use Gally\User\Constant\Role;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ApiResource(
@@ -56,7 +55,7 @@ class Catalog
     #[Groups('catalog:read')]
     private string|null $name;
 
-    /** @var \Doctrine\Common\Collections\Collection&iterable<\Elasticsuite\Catalog\Model\LocalizedCatalog> */
+    /** @var \Doctrine\Common\Collections\Collection&iterable<\Gally\Catalog\Model\LocalizedCatalog> */
     #[Groups('catalog:read')]
     private Collection $localizedCatalogs;
 

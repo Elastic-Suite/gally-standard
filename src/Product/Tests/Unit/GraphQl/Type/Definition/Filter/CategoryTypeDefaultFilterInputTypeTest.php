@@ -2,24 +2,23 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\Product\Tests\Unit\GraphQl\Type\Definition\Filter;
+namespace Gally\Product\Tests\Unit\GraphQl\Type\Definition\Filter;
 
-use Elasticsuite\Entity\GraphQl\Type\Definition\Filter\CategoryTypeDefaultFilterInputType;
-use Elasticsuite\Search\Constant\FilterOperator;
-use Elasticsuite\Search\Elasticsearch\Builder\Request\Query\Filter\FilterQueryBuilder;
-use Elasticsuite\Search\Elasticsearch\Request\ContainerConfigurationInterface;
-use Elasticsuite\Search\Elasticsearch\Request\QueryFactory;
+use Gally\Entity\GraphQl\Type\Definition\Filter\CategoryTypeDefaultFilterInputType;
+use Gally\Search\Constant\FilterOperator;
+use Gally\Search\Elasticsearch\Builder\Request\Query\Filter\FilterQueryBuilder;
+use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface;
+use Gally\Search\Elasticsearch\Request\QueryFactory;
 use GraphQL\Type\Definition\Type;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 

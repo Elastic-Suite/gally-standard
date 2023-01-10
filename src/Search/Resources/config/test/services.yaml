@@ -1,5 +1,5 @@
 services:
-    Elasticsuite\Search\Service\SearchSettingsProvider:
-        class: Elasticsuite\Search\Tests\Service\SearchSettingsProvider
+    Gally\Search\Service\SearchSettingsProvider:
+        class: Gally\Search\Tests\Service\SearchSettingsProvider
         arguments:
-            - '%elasticsuite.search_settings%'
+            - '%gally.search_settings%'

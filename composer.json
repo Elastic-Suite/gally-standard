@@ -54,7 +54,7 @@
             "": "src/"
         },
         "psr-4": {
-            "Elasticsuite\\": "src/"
+            "Gally\\": "src/"
         }
     },
     "config": {

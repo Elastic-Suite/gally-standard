@@ -2,33 +2,21 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
-/**
- * DISCLAIMER.
- *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
- *
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
- * @copyright {2022} Smile
- * @license   Licensed to Smile-SA. All rights reserved. No warranty, explicit or implicit, provided.
- *            Unauthorized copying of this file, via any medium, is strictly prohibited.
- */
 
-namespace Elasticsuite\Index\Tests\Unit;
+namespace Gally\Index\Tests\Unit;
 
-use Elasticsuite\Catalog\Model\LocalizedCatalog;
-use Elasticsuite\Index\Service\IndexSettings;
-use Elasticsuite\Test\AbstractTest;
+use Gally\Catalog\Model\LocalizedCatalog;
+use Gally\Index\Service\IndexSettings;
+use Gally\Test\AbstractTest;
 
 class IndexResolverTest extends AbstractTest
 {
@@ -37,7 +25,7 @@ class IndexResolverTest extends AbstractTest
     protected function setUp(): void
     {
         parent::setUp();
-        $this->indexSettings = static::getContainer()->get('Elasticsuite\Index\Service\IndexSettingsTest'); // @phpstan-ignore-line
+        $this->indexSettings = static::getContainer()->get('Gally\Index\Service\IndexSettingsTest'); // @phpstan-ignore-line
         $this->loadFixture([
             __DIR__ . '/../fixtures/metadata.yaml',
             __DIR__ . '/../fixtures/catalogs.yaml',
@@ -83,12 +71,12 @@ class IndexResolverTest extends AbstractTest
     public function indexAliasDataProvider(): array
     {
         return [
-            ['product', 'b2c_fr', 'elasticsuite_test__elasticsuite_b2c_fr_product'],
-            ['product', 'b2c_en', 'elasticsuite_test__elasticsuite_b2c_en_product'],
-            ['product', 'b2b_en', 'elasticsuite_test__elasticsuite_b2b_en_product'],
-            ['category', 'b2c_fr', 'elasticsuite_test__elasticsuite_b2c_fr_category'],
-            ['category', 'b2c_en', 'elasticsuite_test__elasticsuite_b2c_en_category'],
-            ['category', 'b2b_en', 'elasticsuite_test__elasticsuite_b2b_en_category'],
+            ['product', 'b2c_fr', 'gally_test__gally_b2c_fr_product'],
+            ['product', 'b2c_en', 'gally_test__gally_b2c_en_product'],
+            ['product', 'b2b_en', 'gally_test__gally_b2b_en_product'],
+            ['category', 'b2c_fr', 'gally_test__gally_b2c_fr_category'],
+            ['category', 'b2c_en', 'gally_test__gally_b2c_en_category'],
+            ['category', 'b2b_en', 'gally_test__gally_b2b_en_category'],
         ];
     }
 }

@@ -1,11 +1,11 @@
-elasticsuite:
+gally:
     graphql_query_renaming:
-        Elasticsuite\Product\Model\Product:
+        Gally\Product\Model\Product:
             renamings:
                 searchProducts: products
 
     request_context:
         headers:
-            - !php/const Elasticsuite\Entity\Service\PriceGroupProvider::PRICE_GROUP_ID
+            - !php/const Gally\Entity\Service\PriceGroupProvider::PRICE_GROUP_ID
 
     default_price_group_id: 0

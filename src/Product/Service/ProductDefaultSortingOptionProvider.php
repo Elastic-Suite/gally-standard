@@ -2,25 +2,24 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\Product\Service;
+namespace Gally\Product\Service;
 
-use Elasticsuite\Category\Repository\CategoryConfigurationRepository;
-use Elasticsuite\Category\Service\CurrentCategoryProvider;
-use Elasticsuite\Search\Elasticsearch\Request\Container\DefaultSortingOptionProviderInterface;
-use Elasticsuite\Search\Elasticsearch\Request\ContainerConfigurationInterface;
-use Elasticsuite\Search\Elasticsearch\Request\SortOrderInterface;
-use Elasticsuite\Search\Service\SearchSettingsProvider;
+use Gally\Category\Repository\CategoryConfigurationRepository;
+use Gally\Category\Service\CurrentCategoryProvider;
+use Gally\Search\Elasticsearch\Request\Container\DefaultSortingOptionProviderInterface;
+use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface;
+use Gally\Search\Elasticsearch\Request\SortOrderInterface;
+use Gally\Search\Service\SearchSettingsProvider;
 
 class ProductDefaultSortingOptionProvider implements DefaultSortingOptionProviderInterface
 {

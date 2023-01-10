@@ -2,22 +2,21 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\Catalog\Tests\Api\Rest;
+namespace Gally\Catalog\Tests\Api\Rest;
 
-use Elasticsuite\Catalog\Model\LocalizedCatalog;
-use Elasticsuite\Test\AbstractEntityTest;
-use Elasticsuite\User\Constant\Role;
+use Gally\Catalog\Model\LocalizedCatalog;
+use Gally\Test\AbstractEntityTest;
+use Gally\User\Constant\Role;
 
 class LocalizedCatalogsTest extends AbstractEntityTest
 {

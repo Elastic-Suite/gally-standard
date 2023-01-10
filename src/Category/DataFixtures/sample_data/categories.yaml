@@ -1,4 +1,4 @@
-Elasticsuite\Category\Model\Category:
+Gally\Category\Model\Category:
     cat_2:
         id: cat_2
         level: 1
@@ -288,7 +288,7 @@ Elasticsuite\Category\Model\Category:
         level: 2
         path: cat_l_2/cat_l_41
 
-Elasticsuite\Category\Model\Category\Configuration:
+Gally\Category\Model\Category\Configuration:
     config_cat_2_com_en:
         category: '@cat_2'
         catalog: '@com'
@@ -870,7 +870,7 @@ Elasticsuite\Category\Model\Category\Configuration:
         localizedCatalog: '@fr_fr'
         name: 'Cartes cadeaux'
         
-Elasticsuite\Category\Model\Category\ProductMerchandising:
+Gally\Category\Model\Category\ProductMerchandising:
     position1:
         category: '@cat_3'
         productId: 1

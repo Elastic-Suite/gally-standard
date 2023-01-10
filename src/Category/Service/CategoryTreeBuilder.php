@@ -2,28 +2,27 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\Category\Service;
+namespace Gally\Category\Service;
 
-use Elasticsuite\Catalog\Model\Catalog;
-use Elasticsuite\Catalog\Model\LocalizedCatalog;
-use Elasticsuite\Catalog\Repository\CatalogRepository;
-use Elasticsuite\Catalog\Repository\LocalizedCatalogRepository;
-use Elasticsuite\Catalog\Service\DefaultCatalogProvider;
-use Elasticsuite\Category\Model\Category;
-use Elasticsuite\Category\Model\CategoryTree;
-use Elasticsuite\Category\Repository\CategoryConfigurationRepository;
-use Elasticsuite\Category\Repository\CategoryRepository;
+use Gally\Catalog\Model\Catalog;
+use Gally\Catalog\Model\LocalizedCatalog;
+use Gally\Catalog\Repository\CatalogRepository;
+use Gally\Catalog\Repository\LocalizedCatalogRepository;
+use Gally\Catalog\Service\DefaultCatalogProvider;
+use Gally\Category\Model\Category;
+use Gally\Category\Model\CategoryTree;
+use Gally\Category\Repository\CategoryConfigurationRepository;
+use Gally\Category\Repository\CategoryRepository;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class CategoryTreeBuilder

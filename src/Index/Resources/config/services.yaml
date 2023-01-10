@@ -2,166 +2,166 @@ imports:
     - { resource: conversion/sourcefield_to_mapping.yaml }
 
 services:
-    Elasticsuite\Index\Decoration\Metadata\Document\Factory\AttributeDocumentMetadataFactory:
+    Gally\Index\Decoration\Metadata\Document\Factory\AttributeDocumentMetadataFactory:
         decorates: api_platform.elasticsearch.metadata.document.metadata_factory
         arguments:
-            - '@Elasticsuite\Fixture\Service\ElasticsearchFixtures'
+            - '@Gally\Fixture\Service\ElasticsearchFixtures'
             - '@api_platform.metadata.resource.metadata_factory'
-            - '@Elasticsuite\ResourceMetadata\Service\ResourceMetadataManager'
+            - '@Gally\ResourceMetadata\Service\ResourceMetadataManager'
             - '@.inner'
         decoration_priority: 100
 
-    Elasticsuite\Index\Repository\Document\DocumentRepositoryInterface: '@Elasticsuite\Index\Repository\Document\DocumentRepository'
-    Elasticsuite\Index\Repository\Document\DocumentRepository:
+    Gally\Index\Repository\Document\DocumentRepositoryInterface: '@Gally\Index\Repository\Document\DocumentRepository'
+    Gally\Index\Repository\Document\DocumentRepository:
         arguments:
             - '@api_platform.elasticsearch.client'
 
-    Elasticsuite\Index\Repository\Index\IndexRepositoryInterface: '@Elasticsuite\Index\Repository\Index\IndexRepository'
-    Elasticsuite\Index\Repository\Index\IndexRepository:
+    Gally\Index\Repository\Index\IndexRepositoryInterface: '@Gally\Index\Repository\Index\IndexRepository'
+    Gally\Index\Repository\Index\IndexRepository:
         arguments:
             - '@api_platform.elasticsearch.client'
-            - '@Elasticsuite\Index\Api\IndexSettingsInterface'
+            - '@Gally\Index\Api\IndexSettingsInterface'
 
-    Elasticsuite\Index\DataPersister\DocumentDataPersister:
+    Gally\Index\DataPersister\DocumentDataPersister:
         arguments:
-            - '@Elasticsuite\Index\Repository\Document\DocumentRepositoryInterface'
+            - '@Gally\Index\Repository\Document\DocumentRepositoryInterface'
         tags:
             - { name: api_platform.data_persister }
 
-    Elasticsuite\Index\DataPersister\IndexDataPersister:
+    Gally\Index\DataPersister\IndexDataPersister:
         arguments:
-            - '@Elasticsuite\Index\Repository\Index\IndexRepositoryInterface'
+            - '@Gally\Index\Repository\Index\IndexRepositoryInterface'
         tags:
             - { name: api_platform.data_persister }
 
-    Elasticsuite\Index\DataProvider\IndexDataProvider:
+    Gally\Index\DataProvider\IndexDataProvider:
         arguments:
-            - '@Elasticsuite\Index\Repository\Index\IndexRepositoryInterface'
+            - '@Gally\Index\Repository\Index\IndexRepositoryInterface'
         tags:
             - { name: api_platform.item_data_provider }
             - { name: api_platform.collection_data_provider }
 
-    Elasticsuite\Index\Service\MetadataManager:
+    Gally\Index\Service\MetadataManager:
         arguments:
-            - !tagged_iterator { tag: 'elasticsuite.mapping.source_field_converter' }
+            - !tagged_iterator { tag: 'gally.mapping.source_field_converter' }
 
-    Elasticsuite\Index\Helper\IndexSettings:
+    Gally\Index\Helper\IndexSettings:
         arguments:
-            - '@Elasticsuite\Catalog\Repository\LocalizedCatalogRepository'
-            - '%elasticsuite.indices_settings%'
+            - '@Gally\Catalog\Repository\LocalizedCatalogRepository'
+            - '%gally.indices_settings%'
 
-    Elasticsuite\Index\Api\IndexSettingsInterface: '@Elasticsuite\Index\Service\IndexSettings'
-    Elasticsuite\Index\Service\IndexSettings:
+    Gally\Index\Api\IndexSettingsInterface: '@Gally\Index\Service\IndexSettings'
+    Gally\Index\Service\IndexSettings:
         arguments:
-            - '@Elasticsuite\Index\Helper\IndexSettings'
-            - '@Elasticsuite\Analysis\Service\Config'
+            - '@Gally\Index\Helper\IndexSettings'
+            - '@Gally\Analysis\Service\Config'
 
-    Elasticsuite\Index\Service\IndexOperation:
+    Gally\Index\Service\IndexOperation:
         arguments:
-            - '@Elasticsuite\Index\Repository\Index\IndexRepositoryInterface'
-            - '@Elasticsuite\Index\Api\IndexSettingsInterface'
-            - '@Elasticsuite\Index\Service\MetadataManager'
+            - '@Gally\Index\Repository\Index\IndexRepositoryInterface'
+            - '@Gally\Index\Api\IndexSettingsInterface'
+            - '@Gally\Index\Service\MetadataManager'
 
-    Elasticsuite\Index\Service\SelfReindexOperation:
+    Gally\Index\Service\SelfReindexOperation:
         arguments:
-            - '@Elasticsuite\Metadata\Repository\MetadataRepository'
-            - '@Elasticsuite\Catalog\Repository\LocalizedCatalogRepository'
-            - '@Elasticsuite\Index\Service\IndexOperation'
-            - '@Elasticsuite\Index\Repository\Index\IndexRepositoryInterface'
-            - '@Elasticsuite\Search\Elasticsearch\Request\Container\Configuration\ContainerConfigurationProvider'
+            - '@Gally\Metadata\Repository\MetadataRepository'
+            - '@Gally\Catalog\Repository\LocalizedCatalogRepository'
+            - '@Gally\Index\Service\IndexOperation'
+            - '@Gally\Index\Repository\Index\IndexRepositoryInterface'
+            - '@Gally\Search\Elasticsearch\Request\Container\Configuration\ContainerConfigurationProvider'
 
-    Elasticsuite\Index\MutationResolver\CreateIndexMutation:
+    Gally\Index\MutationResolver\CreateIndexMutation:
         arguments:
-            - '@Elasticsuite\Catalog\Repository\LocalizedCatalogRepository'
-            - '@Elasticsuite\Metadata\Repository\MetadataRepository'
-            - '@Elasticsuite\Index\Service\IndexOperation'
+            - '@Gally\Catalog\Repository\LocalizedCatalogRepository'
+            - '@Gally\Metadata\Repository\MetadataRepository'
+            - '@Gally\Index\Service\IndexOperation'
         tags:
             - { name: api_platform.graphql.mutation_resolver }
 
-    Elasticsuite\Index\MutationResolver\BulkIndexMutation:
+    Gally\Index\MutationResolver\BulkIndexMutation:
         arguments:
-            - '@Elasticsuite\Index\Repository\Index\IndexRepositoryInterface'
+            - '@Gally\Index\Repository\Index\IndexRepositoryInterface'
         tags:
             - { name: api_platform.graphql.mutation_resolver }
 
-    Elasticsuite\Index\MutationResolver\BulkDeleteIndexMutation:
+    Gally\Index\MutationResolver\BulkDeleteIndexMutation:
         arguments:
-            - '@Elasticsuite\Index\Repository\Index\IndexRepositoryInterface'
+            - '@Gally\Index\Repository\Index\IndexRepositoryInterface'
         tags:
             - { name: api_platform.graphql.mutation_resolver }
 
-    Elasticsuite\Index\MutationResolver\InstallIndexMutation:
+    Gally\Index\MutationResolver\InstallIndexMutation:
         arguments:
-            - '@Elasticsuite\Index\Service\IndexOperation'
-            - '@Elasticsuite\Index\Repository\Index\IndexRepositoryInterface'
+            - '@Gally\Index\Service\IndexOperation'
+            - '@Gally\Index\Repository\Index\IndexRepositoryInterface'
         tags:
             - { name: api_platform.graphql.mutation_resolver }
 
-    Elasticsuite\Index\MutationResolver\RefreshIndexMutation:
+    Gally\Index\MutationResolver\RefreshIndexMutation:
         arguments:
-            - '@Elasticsuite\Index\Repository\Index\IndexRepositoryInterface'
+            - '@Gally\Index\Repository\Index\IndexRepositoryInterface'
         tags:
             - { name: api_platform.graphql.mutation_resolver }
 
-    Elasticsuite\Index\MutationResolver\SelfReindexMutation:
+    Gally\Index\MutationResolver\SelfReindexMutation:
         arguments:
-            - '@Elasticsuite\Index\Service\SelfReindexOperation'
+            - '@Gally\Index\Service\SelfReindexOperation'
         tags:
             - { name: api_platform.graphql.mutation_resolver }
 
-    Elasticsuite\Index\DataTransformer\CreateIndexInputDataTransformer:
+    Gally\Index\DataTransformer\CreateIndexInputDataTransformer:
         arguments:
-            - '@Elasticsuite\Catalog\Repository\LocalizedCatalogRepository'
-            - '@Elasticsuite\Metadata\Repository\MetadataRepository'
-            - '@Elasticsuite\Index\Service\IndexOperation'
+            - '@Gally\Catalog\Repository\LocalizedCatalogRepository'
+            - '@Gally\Metadata\Repository\MetadataRepository'
+            - '@Gally\Index\Service\IndexOperation'
         tags:
             - { name: api_platform.data_transformer }
 
-    Elasticsuite\Index\DataTransformer\InstallIndexDataTransformer:
+    Gally\Index\DataTransformer\InstallIndexDataTransformer:
         arguments:
-            - '@Elasticsuite\Index\Service\IndexOperation'
+            - '@Gally\Index\Service\IndexOperation'
         tags:
             - { name: api_platform.data_transformer }
 
-    Elasticsuite\Index\DataTransformer\RefreshIndexDataTransformer:
+    Gally\Index\DataTransformer\RefreshIndexDataTransformer:
         arguments:
-            - '@Elasticsuite\Index\Repository\Index\IndexRepositoryInterface'
+            - '@Gally\Index\Repository\Index\IndexRepositoryInterface'
         tags:
             - { name: api_platform.data_transformer }
 
-    Elasticsuite\Index\DataTransformer\SelfReIndexDataTransformer:
+    Gally\Index\DataTransformer\SelfReIndexDataTransformer:
         arguments:
-            - '@Elasticsuite\Index\Service\SelfReindexOperation'
+            - '@Gally\Index\Service\SelfReindexOperation'
         tags:
             - { name: api_platform.data_transformer }
 
-    Elasticsuite\Index\Command\IndexClearCommand:
+    Gally\Index\Command\IndexClearCommand:
         arguments:
-            - '@Elasticsuite\Index\Repository\Index\IndexRepositoryInterface'
+            - '@Gally\Index\Repository\Index\IndexRepositoryInterface'
             - null
         tags:
             - { name: console.command }
 
-    Elasticsuite\Index\Command\MappingGenerateCommand:
+    Gally\Index\Command\MappingGenerateCommand:
         arguments:
-            - '@Elasticsuite\Metadata\Repository\MetadataRepository'
-            - '@Elasticsuite\Index\Service\MetadataManager'
-            - 'elasticsuite:mapping:get'
+            - '@Gally\Metadata\Repository\MetadataRepository'
+            - '@Gally\Index\Service\MetadataManager'
+            - 'gally:mapping:get'
         tags:
             - { name: console.command }
 
-    Elasticsuite\Index\Command\MappingStatusCommand:
+    Gally\Index\Command\MappingStatusCommand:
         arguments:
-            - '@Elasticsuite\Metadata\Repository\MetadataRepository'
-            - '@Elasticsuite\Index\Service\MetadataManager'
-            - 'elasticsuite:mapping:status'
+            - '@Gally\Metadata\Repository\MetadataRepository'
+            - '@Gally\Index\Service\MetadataManager'
+            - 'gally:mapping:status'
         tags:
             - { name: console.command }           
     
-    Elasticsuite\Index\DataProvider\MappingStatusDataProvider:
+    Gally\Index\DataProvider\MappingStatusDataProvider:
         arguments:
-            - '@Elasticsuite\Metadata\Repository\MetadataRepository'
-            - '@Elasticsuite\Index\Service\MetadataManager'
+            - '@Gally\Metadata\Repository\MetadataRepository'
+            - '@Gally\Index\Service\MetadataManager'
         tags:
             - { name: api_platform.item_data_provider }
             - { name: api_platform.graphql.query_resolver }

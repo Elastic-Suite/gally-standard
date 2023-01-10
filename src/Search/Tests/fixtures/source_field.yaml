@@ -1,4 +1,4 @@
-Elasticsuite\Metadata\Model\SourceField:
+Gally\Metadata\Model\SourceField:
     product_name:
         metadata: '@product'
         code: 'name'

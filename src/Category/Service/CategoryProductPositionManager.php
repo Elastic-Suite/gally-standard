@@ -2,35 +2,34 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\Category\Service;
+namespace Gally\Category\Service;
 
 use ApiPlatform\Core\Exception\InvalidArgumentException;
 use Doctrine\ORM\EntityManagerInterface;
-use Elasticsuite\Catalog\Model\Catalog;
-use Elasticsuite\Catalog\Model\LocalizedCatalog;
-use Elasticsuite\Category\Model\Category;
-use Elasticsuite\Category\Model\Category\ProductMerchandising;
-use Elasticsuite\Category\Repository\CategoryProductMerchandisingRepository;
-use Elasticsuite\Category\Repository\CategoryProductPositionIndexer\CategoryProductPositionIndexerRepositoryInterface;
-use Elasticsuite\Index\Model\Index;
-use Elasticsuite\Metadata\Repository\MetadataRepository;
-use Elasticsuite\Search\Elasticsearch\Adapter;
-use Elasticsuite\Search\Elasticsearch\Builder\Request\SimpleRequestBuilder as RequestBuilder;
-use Elasticsuite\Search\Elasticsearch\Request\Container\Configuration\ContainerConfigurationProvider;
-use Elasticsuite\Search\Elasticsearch\Request\QueryFactory;
-use Elasticsuite\Search\Elasticsearch\Request\QueryInterface;
-use Elasticsuite\Search\Model\Document;
+use Gally\Catalog\Model\Catalog;
+use Gally\Catalog\Model\LocalizedCatalog;
+use Gally\Category\Model\Category;
+use Gally\Category\Model\Category\ProductMerchandising;
+use Gally\Category\Repository\CategoryProductMerchandisingRepository;
+use Gally\Category\Repository\CategoryProductPositionIndexer\CategoryProductPositionIndexerRepositoryInterface;
+use Gally\Index\Model\Index;
+use Gally\Metadata\Repository\MetadataRepository;
+use Gally\Search\Elasticsearch\Adapter;
+use Gally\Search\Elasticsearch\Builder\Request\SimpleRequestBuilder as RequestBuilder;
+use Gally\Search\Elasticsearch\Request\Container\Configuration\ContainerConfigurationProvider;
+use Gally\Search\Elasticsearch\Request\QueryFactory;
+use Gally\Search\Elasticsearch\Request\QueryInterface;
+use Gally\Search\Model\Document;
 
 class CategoryProductPositionManager
 {

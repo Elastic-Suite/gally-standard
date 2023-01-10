@@ -2,24 +2,23 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\Search\Decoration\GraphQl;
+namespace Gally\Search\Decoration\GraphQl;
 
 use ApiPlatform\Core\GraphQl\Resolver\Stage\SerializeStageInterface;
-use Elasticsuite\Metadata\Repository\MetadataRepository;
-use Elasticsuite\Search\DataProvider\Paginator;
-use Elasticsuite\Search\Model\Document;
-use Elasticsuite\Search\Service\ReverseSourceFieldProvider;
+use Gally\Metadata\Repository\MetadataRepository;
+use Gally\Search\DataProvider\Paginator;
+use Gally\Search\Model\Document;
+use Gally\Search\Service\ReverseSourceFieldProvider;
 
 class AddSortInfoData implements SerializeStageInterface
 {
@@ -41,7 +40,7 @@ class AddSortInfoData implements SerializeStageInterface
             $sortOrders = $itemOrCollection->getCurrentSortOrders();
             if (!empty($sortOrders)) {
                 $data['sortInfo'] = ['current' => []];
-                // TODO handle correctly or filter out \Elasticsuite\Search\Elasticsearch\Builder\Request\SortOrder\Script.
+                // TODO handle correctly or filter out \Gally\Search\Elasticsearch\Builder\Request\SortOrder\Script.
                 foreach ($sortOrders as $sortOrder) {
                     $sourceField = $this->reverseSourceFieldProvider->getSourceFieldFromFieldName($sortOrder->getField(), $metadata);
                     if ($sourceField) {

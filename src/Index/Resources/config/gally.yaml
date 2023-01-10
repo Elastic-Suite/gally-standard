@@ -1,6 +1,6 @@
-elasticsuite:
+gally:
     indices_settings:
-        prefix: elasticsuite
+        prefix: gally
         timestamp_pattern: "{{Ymd}}_{{His}}"
         number_of_shards: 1
         number_of_replicas: 0

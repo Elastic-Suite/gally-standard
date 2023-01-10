@@ -2,27 +2,26 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\Metadata\EventSubscriber;
+namespace Gally\Metadata\EventSubscriber;
 
 use Doctrine\Bundle\DoctrineBundle\EventSubscriber\EventSubscriberInterface;
 use Doctrine\ORM\Event\OnFlushEventArgs;
 use Doctrine\ORM\Events;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
-use Elasticsuite\Catalog\Model\LocalizedCatalog;
-use Elasticsuite\Metadata\Model\SourceField;
-use Elasticsuite\Metadata\Model\SourceFieldLabel;
-use Elasticsuite\Metadata\Repository\SourceFieldRepository;
+use Gally\Catalog\Model\LocalizedCatalog;
+use Gally\Metadata\Model\SourceField;
+use Gally\Metadata\Model\SourceFieldLabel;
+use Gally\Metadata\Repository\SourceFieldRepository;
 
 class GenerateSourceFieldSearch implements EventSubscriberInterface
 {

@@ -2,28 +2,27 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\Metadata\EventSubscriber;
+namespace Gally\Metadata\EventSubscriber;
 
 use Doctrine\Bundle\DoctrineBundle\EventSubscriber\EventSubscriberInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Events;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
-use Elasticsuite\Catalog\Repository\LocalizedCatalogRepository;
-use Elasticsuite\Index\Service\IndexOperation;
-use Elasticsuite\Index\Service\MetadataManager;
-use Elasticsuite\Metadata\Model\Metadata;
-use Elasticsuite\Metadata\Model\SourceField;
+use Gally\Catalog\Repository\LocalizedCatalogRepository;
+use Gally\Index\Service\IndexOperation;
+use Gally\Index\Service\MetadataManager;
+use Gally\Metadata\Model\Metadata;
+use Gally\Metadata\Model\SourceField;
 use Psr\Log\LoggerInterface;
 
 class SpreadSourceFieldData implements EventSubscriberInterface

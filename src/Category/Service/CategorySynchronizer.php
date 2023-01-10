@@ -2,35 +2,34 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\Category\Service;
+namespace Gally\Category\Service;
 
 use Doctrine\DBAL\Exception;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\Persistence\Mapping\MappingException;
-use Elasticsuite\Category\Exception\SyncCategoryException;
-use Elasticsuite\Category\Model\Category;
-use Elasticsuite\Category\Repository\CategoryConfigurationRepository;
-use Elasticsuite\Category\Repository\CategoryRepository;
-use Elasticsuite\Index\Model\Index;
-use Elasticsuite\Metadata\Repository\MetadataRepository;
-use Elasticsuite\Search\Elasticsearch\Adapter;
-use Elasticsuite\Search\Elasticsearch\Builder\Request\Query\QueryBuilder;
-use Elasticsuite\Search\Elasticsearch\Request\Container\Configuration\ContainerConfigurationProvider;
-use Elasticsuite\Search\Elasticsearch\RequestFactoryInterface;
-use Elasticsuite\Search\Model\Document;
+use Gally\Category\Exception\SyncCategoryException;
+use Gally\Category\Model\Category;
+use Gally\Category\Repository\CategoryConfigurationRepository;
+use Gally\Category\Repository\CategoryRepository;
+use Gally\Index\Model\Index;
+use Gally\Metadata\Repository\MetadataRepository;
+use Gally\Search\Elasticsearch\Adapter;
+use Gally\Search\Elasticsearch\Builder\Request\Query\QueryBuilder;
+use Gally\Search\Elasticsearch\Request\Container\Configuration\ContainerConfigurationProvider;
+use Gally\Search\Elasticsearch\RequestFactoryInterface;
+use Gally\Search\Model\Document;
 
 class CategorySynchronizer
 {

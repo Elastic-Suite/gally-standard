@@ -2,24 +2,23 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\Category\Model;
+namespace Gally\Category\Model;
 
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
-use Elasticsuite\Category\Controller\GetCategoryTree;
-use Elasticsuite\Category\Resolver\CategoryTreeResolver;
-use Elasticsuite\User\Constant\Role;
+use Gally\Category\Controller\GetCategoryTree;
+use Gally\Category\Resolver\CategoryTreeResolver;
+use Gally\User\Constant\Role;
 
 #[ApiResource(
     collectionOperations: [],
@@ -56,7 +55,7 @@ use Elasticsuite\User\Constant\Role;
         ],
     ],
     attributes: [
-        'elasticsuite' => [
+        'gally' => [
             // Allows to add cache tags related to these resources in the HTTP response.
             'cache_tag' => ['resource_classes' => [Category::class, Category\Configuration::class]],
         ],

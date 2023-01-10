@@ -2,25 +2,24 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\Stitching\Serializer\GraphQl;
+namespace Gally\Stitching\Serializer\GraphQl;
 
 use ApiPlatform\Core\GraphQl\Serializer\ItemNormalizer;
 use ApiPlatform\Core\Metadata\Resource\Factory\ResourceMetadataFactoryInterface;
 use Doctrine\Common\Util\ClassUtils;
-use Elasticsuite\Metadata\Repository\MetadataRepository;
-use Elasticsuite\ResourceMetadata\Service\ResourceMetadataManager;
-use Elasticsuite\Stitching\Service\SerializerService;
+use Gally\Metadata\Repository\MetadataRepository;
+use Gally\ResourceMetadata\Service\ResourceMetadataManager;
+use Gally\Stitching\Service\SerializerService;
 use Symfony\Component\Serializer\Normalizer\ContextAwareNormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;

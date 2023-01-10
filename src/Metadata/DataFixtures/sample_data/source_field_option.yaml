@@ -1,4 +1,4 @@
-Elasticsuite\Metadata\Model\SourceFieldOption:
+Gally\Metadata\Model\SourceFieldOption:
     product_accessory_brand_option_13:
         code: '13'
         source_field: '@product_accessory_brand'

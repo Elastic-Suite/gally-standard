@@ -15,7 +15,7 @@
     }
   },
   {
-    "name": "elasticsuite_test_fr_category_20210429_173000",
+    "name": "gally_test_fr_category_20210429_173000",
     "settings": {
       "aliases": {
         ".catalog_4": { "is_hidden": true },
@@ -34,8 +34,8 @@
     }
   },
   {
-    "name": "elasticsuite_test_fr_category_20220429_173000",
-    "alias": "elasticsuite_b2b_fr_category",
+    "name": "gally_test_fr_category_20220429_173000",
+    "alias": "gally_b2b_fr_category",
     "settings": {
       "aliases": {
         ".catalog_4": { "is_hidden": true },
@@ -54,7 +54,7 @@
     }
   },
   {
-    "name": "elasticsuite_test_fr_category_20220429_000000",
+    "name": "gally_test_fr_category_20220429_000000",
     "settings": {
       "aliases": {
         ".catalog_666": { "is_hidden": true },
@@ -73,7 +73,7 @@
     }
   },
   {
-    "name": "elasticsuite_test_fr_product_20220429_153000",
+    "name": "gally_test_fr_product_20220429_153000",
     "settings": {
       "aliases": {
         ".catalog_4": { "is_hidden": true },

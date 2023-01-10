@@ -2,34 +2,33 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\Search\Tests\Unit\Elasticsearch\Adapter\Common\Request\SortOrder;
+namespace Gally\Search\Tests\Unit\Elasticsearch\Adapter\Common\Request\SortOrder;
 
-use Elasticsuite\Index\Model\Index\Mapping\FieldInterface;
-use Elasticsuite\Index\Model\Index\MappingInterface;
-use Elasticsuite\Index\Service\MetadataManager;
-use Elasticsuite\Metadata\Repository\MetadataRepository;
-use Elasticsuite\Search\Elasticsearch\Adapter\Common\Request\Query\Assembler as QueryAssembler;
-use Elasticsuite\Search\Elasticsearch\Adapter\Common\Request\SortOrder\Assembler as SortAssembler;
-use Elasticsuite\Search\Elasticsearch\Builder\Request\Query\Filter\FilterQueryBuilder;
-use Elasticsuite\Search\Elasticsearch\Builder\Request\SortOrder\Nested;
-use Elasticsuite\Search\Elasticsearch\Builder\Request\SortOrder\Script;
-use Elasticsuite\Search\Elasticsearch\Builder\Request\SortOrder\SortOrderBuilder;
-use Elasticsuite\Search\Elasticsearch\Request\ContainerConfigurationInterface;
-use Elasticsuite\Search\Elasticsearch\Request\QueryFactory;
-use Elasticsuite\Search\Elasticsearch\Request\QueryInterface;
-use Elasticsuite\Search\Elasticsearch\Request\SortOrderInterface;
-use Elasticsuite\Test\AbstractTest;
+use Gally\Index\Model\Index\Mapping\FieldInterface;
+use Gally\Index\Model\Index\MappingInterface;
+use Gally\Index\Service\MetadataManager;
+use Gally\Metadata\Repository\MetadataRepository;
+use Gally\Search\Elasticsearch\Adapter\Common\Request\Query\Assembler as QueryAssembler;
+use Gally\Search\Elasticsearch\Adapter\Common\Request\SortOrder\Assembler as SortAssembler;
+use Gally\Search\Elasticsearch\Builder\Request\Query\Filter\FilterQueryBuilder;
+use Gally\Search\Elasticsearch\Builder\Request\SortOrder\Nested;
+use Gally\Search\Elasticsearch\Builder\Request\SortOrder\Script;
+use Gally\Search\Elasticsearch\Builder\Request\SortOrder\SortOrderBuilder;
+use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface;
+use Gally\Search\Elasticsearch\Request\QueryFactory;
+use Gally\Search\Elasticsearch\Request\QueryInterface;
+use Gally\Search\Elasticsearch\Request\SortOrderInterface;
+use Gally\Test\AbstractTest;
 
 class AssemblerTest extends AbstractTest
 {

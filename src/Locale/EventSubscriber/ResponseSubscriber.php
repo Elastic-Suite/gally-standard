@@ -2,25 +2,24 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\Locale\EventSubscriber;
+namespace Gally\Locale\EventSubscriber;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
 /**
- * Add Elasticsuite-Language header in Vary header.
+ * Add Gally-Language header in Vary header.
  */
 class ResponseSubscriber implements EventSubscriberInterface
 {
@@ -31,8 +30,8 @@ class ResponseSubscriber implements EventSubscriberInterface
         }
 
         $response = $event->getResponse();
-        if ($event->getRequest()->attributes->get(LocaleSubscriber::ELASTICSUITE_LANGUAGE_VARY_KEY)) {
-            $response->setVary(LocaleSubscriber::ELASTICSUITE_LANGUAGE_HEADER, false);
+        if ($event->getRequest()->attributes->get(LocaleSubscriber::GALLY_LANGUAGE_VARY_KEY)) {
+            $response->setVary(LocaleSubscriber::GALLY_LANGUAGE_HEADER, false);
         }
     }
 

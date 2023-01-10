@@ -2,29 +2,28 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\Search\Model\Facet;
+namespace Gally\Search\Model\Facet;
 
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
-use Elasticsuite\Category\Model\Category;
-use Elasticsuite\Entity\Filter\RangeFilterWithDefault;
-use Elasticsuite\Entity\Filter\SearchFilterWithDefault;
-use Elasticsuite\Entity\Filter\VirtualSearchFilter;
-use Elasticsuite\Metadata\Model\SourceField;
-use Elasticsuite\Search\Elasticsearch\Request\BucketInterface;
-use Elasticsuite\User\Constant\Role;
+use Gally\Category\Model\Category;
+use Gally\Entity\Filter\RangeFilterWithDefault;
+use Gally\Entity\Filter\SearchFilterWithDefault;
+use Gally\Entity\Filter\VirtualSearchFilter;
+use Gally\Metadata\Model\SourceField;
+use Gally\Search\Elasticsearch\Request\BucketInterface;
+use Gally\User\Constant\Role;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ApiResource(
@@ -66,7 +65,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     normalizationContext: ['groups' => ['facet_configuration:read']],
     denormalizationContext: ['groups' => ['facet_configuration:read']],
     attributes: [
-        'elasticsuite' => [
+        'gally' => [
             // Allows to add cache tag "/source_fields" in the HTTP response to invalidate proxy cache when a source field is saved.
             'cache_tag' => ['resource_classes' => [SourceField::class]],
         ],
@@ -106,7 +105,7 @@ class Configuration
                 'hydra:property' => [
                     'rdfs:label' => 'Display',
                 ],
-                'elasticsuite' => [
+                'gally' => [
                     'visible' => true,
                     'editable' => true,
                     'position' => 20,
@@ -131,7 +130,7 @@ class Configuration
                 'hydra:property' => [
                     'rdfs:label' => 'Coverage',
                 ],
-                'elasticsuite' => [
+                'gally' => [
                     'visible' => true,
                     'editable' => true,
                     'position' => 30,
@@ -153,7 +152,7 @@ class Configuration
                 'hydra:property' => [
                     'rdfs:label' => 'Max size',
                 ],
-                'elasticsuite' => [
+                'gally' => [
                     'visible' => true,
                     'editable' => true,
                     'position' => 40,
@@ -173,7 +172,7 @@ class Configuration
                 'hydra:property' => [
                     'rdfs:label' => 'Sort order',
                 ],
-                'elasticsuite' => [
+                'gally' => [
                     'visible' => true,
                     'editable' => true,
                     'position' => 50,
@@ -199,7 +198,7 @@ class Configuration
                 'hydra:property' => [
                     'rdfs:label' => 'Facet recommenders',
                 ],
-                'elasticsuite' => [
+                'gally' => [
                     'visible' => false,
                     'editable' => true,
                     'position' => 60,
@@ -216,7 +215,7 @@ class Configuration
                 'hydra:property' => [
                     'rdfs:label' => 'Virtual attributes',
                 ],
-                'elasticsuite' => [
+                'gally' => [
                     'visible' => false,
                     'editable' => true,
                     'position' => 70,
@@ -233,7 +232,7 @@ class Configuration
                 'hydra:property' => [
                     'rdfs:label' => 'Position',
                 ],
-                'elasticsuite' => [
+                'gally' => [
                     'visible' => true,
                     'editable' => true,
                     'position' => 80,
@@ -413,7 +412,7 @@ class Configuration
                 'hydra:property' => [
                     'rdfs:label' => 'Attribute code',
                 ],
-                'elasticsuite' => [
+                'gally' => [
                     'visible' => true,
                     'editable' => false,
                     'position' => 10,

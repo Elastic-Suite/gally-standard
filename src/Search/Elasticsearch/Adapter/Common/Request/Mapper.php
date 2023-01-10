@@ -2,23 +2,22 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\Search\Elasticsearch\Adapter\Common\Request;
+namespace Gally\Search\Elasticsearch\Adapter\Common\Request;
 
-use Elasticsuite\Search\Elasticsearch\Adapter\Common\Request\Aggregation\Assembler as AggregationAssembler;
-use Elasticsuite\Search\Elasticsearch\Adapter\Common\Request\Query\Assembler as QueryAssembler;
-use Elasticsuite\Search\Elasticsearch\Adapter\Common\Request\SortOrder\Assembler as SortOrderAssembler;
-use Elasticsuite\Search\Elasticsearch\RequestInterface;
+use Gally\Search\Elasticsearch\Adapter\Common\Request\Aggregation\Assembler as AggregationAssembler;
+use Gally\Search\Elasticsearch\Adapter\Common\Request\Query\Assembler as QueryAssembler;
+use Gally\Search\Elasticsearch\Adapter\Common\Request\SortOrder\Assembler as SortOrderAssembler;
+use Gally\Search\Elasticsearch\RequestInterface;
 
 /**
  * Map a search request into an ES Search query.

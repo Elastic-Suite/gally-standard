@@ -2,27 +2,26 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\Search\Tests\Unit\Elasticsearch\Request\Builder\Query;
+namespace Gally\Search\Tests\Unit\Elasticsearch\Request\Builder\Query;
 
-use Elasticsuite\DependencyInjection\GenericFactory;
-use Elasticsuite\Index\Model\Index\Mapping;
-use Elasticsuite\Index\Model\Index\Mapping\Field;
-use Elasticsuite\Index\Model\Index\Mapping\FieldInterface;
-use Elasticsuite\Search\Elasticsearch\Builder\Request\Query\Filter\FilterQueryBuilder;
-use Elasticsuite\Search\Elasticsearch\Request\ContainerConfigurationInterface;
-use Elasticsuite\Search\Elasticsearch\Request\QueryFactory;
-use Elasticsuite\Search\Elasticsearch\Request\QueryInterface;
+use Gally\DependencyInjection\GenericFactory;
+use Gally\Index\Model\Index\Mapping;
+use Gally\Index\Model\Index\Mapping\Field;
+use Gally\Index\Model\Index\Mapping\FieldInterface;
+use Gally\Search\Elasticsearch\Builder\Request\Query\Filter\FilterQueryBuilder;
+use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface;
+use Gally\Search\Elasticsearch\Request\QueryFactory;
+use Gally\Search\Elasticsearch\Request\QueryInterface;
 use LogicException;
 use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;

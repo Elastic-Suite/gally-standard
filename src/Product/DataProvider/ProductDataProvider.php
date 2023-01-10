@@ -2,18 +2,17 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\Product\DataProvider;
+namespace Gally\Product\DataProvider;
 
 use ApiPlatform\Core\DataProvider\ContextAwareCollectionDataProviderInterface;
 use ApiPlatform\Core\DataProvider\Pagination;
@@ -21,16 +20,16 @@ use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
 use ApiPlatform\Core\Exception\InvalidArgumentException;
 use ApiPlatform\Core\Exception\ResourceClassNotFoundException;
 use ApiPlatform\Core\Metadata\Resource\Factory\ResourceMetadataFactoryInterface;
-use Elasticsuite\Catalog\Repository\LocalizedCatalogRepository;
-use Elasticsuite\Metadata\Repository\MetadataRepository;
-use Elasticsuite\Product\GraphQl\Type\Definition\SortInputType;
-use Elasticsuite\Product\Model\Product;
-use Elasticsuite\ResourceMetadata\Service\ResourceMetadataManager;
-use Elasticsuite\Search\DataProvider\Paginator;
-use Elasticsuite\Search\Elasticsearch\Adapter;
-use Elasticsuite\Search\Elasticsearch\Builder\Request\SimpleRequestBuilder as RequestBuilder;
-use Elasticsuite\Search\Elasticsearch\Request\Container\Configuration\ContainerConfigurationProvider;
-use Elasticsuite\Search\Service\GraphQl\FilterManager;
+use Gally\Catalog\Repository\LocalizedCatalogRepository;
+use Gally\Metadata\Repository\MetadataRepository;
+use Gally\Product\GraphQl\Type\Definition\SortInputType;
+use Gally\Product\Model\Product;
+use Gally\ResourceMetadata\Service\ResourceMetadataManager;
+use Gally\Search\DataProvider\Paginator;
+use Gally\Search\Elasticsearch\Adapter;
+use Gally\Search\Elasticsearch\Builder\Request\SimpleRequestBuilder as RequestBuilder;
+use Gally\Search\Elasticsearch\Request\Container\Configuration\ContainerConfigurationProvider;
+use Gally\Search\Service\GraphQl\FilterManager;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 
 class ProductDataProvider implements ContextAwareCollectionDataProviderInterface, RestrictedDataProviderInterface
@@ -97,7 +96,7 @@ class ProductDataProvider implements ContextAwareCollectionDataProviderInterface
         $offset = $this->pagination->getOffset($resourceClass, $operationName, $context);
 
         // Get query filter and set current category.
-        $queryFilter = $this->filterManager->transformToElasticsuiteFilters(
+        $queryFilter = $this->filterManager->transformToGallyFilters(
             $this->filterManager->getQueryFilterFromContext($context),
             $containerConfig
         );
@@ -108,7 +107,7 @@ class ProductDataProvider implements ContextAwareCollectionDataProviderInterface
             $limit,
             $searchQuery,
             $this->sortInputType->formatSort($containerConfig, $context, $metadata),
-            $this->filterManager->transformToElasticsuiteFilters(
+            $this->filterManager->transformToGallyFilters(
                 $this->filterManager->getFiltersFromContext($context),
                 $containerConfig
             ),

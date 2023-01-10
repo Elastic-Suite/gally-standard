@@ -2,27 +2,26 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\Index\Tests\Api\Rest;
+namespace Gally\Index\Tests\Api\Rest;
 
 use Elasticsearch\Client;
-use Elasticsuite\Fixture\Service\ElasticsearchFixturesInterface;
-use Elasticsuite\Index\Model\Index;
-use Elasticsuite\Index\Repository\Index\IndexRepositoryInterface;
-use Elasticsuite\Test\AbstractEntityTest;
-use Elasticsuite\Test\ExpectedResponse;
-use Elasticsuite\Test\RequestToTest;
-use Elasticsuite\User\Constant\Role;
+use Gally\Fixture\Service\ElasticsearchFixturesInterface;
+use Gally\Index\Model\Index;
+use Gally\Index\Repository\Index\IndexRepositoryInterface;
+use Gally\Test\AbstractEntityTest;
+use Gally\Test\ExpectedResponse;
+use Gally\Test\RequestToTest;
+use Gally\User\Constant\Role;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
 class IndexOperationsTest extends AbstractEntityTest
@@ -48,7 +47,7 @@ class IndexOperationsTest extends AbstractEntityTest
     public static function tearDownAfterClass(): void
     {
         parent::tearDownAfterClass();
-        self::$indexRepository->delete('elasticsuite_test__elasticsuite_*');
+        self::$indexRepository->delete('gally_test__gally_*');
         self::deleteElasticsearchFixtures();
     }
 
@@ -91,14 +90,14 @@ class IndexOperationsTest extends AbstractEntityTest
                 ['entityType' => 'product', 'localizedCatalog' => "$localizedCatalogId"],
                 201,
                 null,
-                "#^{$this->getApiPath()}/elasticsuite_test__elasticsuite_{$localizedCatalogCode}_product_[0-9]{8}_[0-9]{6}$#",
+                "#^{$this->getApiPath()}/gally_test__gally_{$localizedCatalogCode}_product_[0-9]{8}_[0-9]{6}$#",
             ];
             $data[] = [
                 $adminUser,
                 ['entityType' => 'category', 'localizedCatalog' => "$localizedCatalogId"],
                 201,
                 null,
-                "#^{$this->getApiPath()}/elasticsuite_test__elasticsuite_{$localizedCatalogCode}_category_[0-9]{8}_[0-9]{6}$#",
+                "#^{$this->getApiPath()}/gally_test__gally_{$localizedCatalogCode}_category_[0-9]{8}_[0-9]{6}$#",
             ];
         }
 
@@ -133,10 +132,10 @@ class IndexOperationsTest extends AbstractEntityTest
             [$user, 'wrong_id', [], 404],
             [
                 $user,
-                ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'elasticsuite_test_fr_product_20220429_153000',
+                ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_test_fr_product_20220429_153000',
                 [
-                    'id' => ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'elasticsuite_test_fr_product_20220429_153000',
-                    'name' => ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'elasticsuite_test_fr_product_20220429_153000',
+                    'id' => ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_test_fr_product_20220429_153000',
+                    'name' => ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_test_fr_product_20220429_153000',
                     'aliases' => [],
                     'docsCount' => 2,
                     'entityType' => 'product',
@@ -188,10 +187,10 @@ class IndexOperationsTest extends AbstractEntityTest
             ],
             [
                 $user,
-                ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'elasticsuite_test_fr_category_20220429_173000',
+                ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_test_fr_category_20220429_173000',
                 [
-                    'id' => ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'elasticsuite_test_fr_category_20220429_173000',
-                    'name' => ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'elasticsuite_test_fr_category_20220429_173000',
+                    'id' => ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_test_fr_category_20220429_173000',
+                    'name' => ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_test_fr_category_20220429_173000',
                     'aliases' => [],
                     'docsCount' => 0,
                     'entityType' => 'category',
@@ -225,10 +224,10 @@ class IndexOperationsTest extends AbstractEntityTest
             ],
             [
                 $user,
-                ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'elasticsuite_test_fr_category_20210429_173000',
+                ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_test_fr_category_20210429_173000',
                 [
-                    'id' => ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'elasticsuite_test_fr_category_20210429_173000',
-                    'name' => ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'elasticsuite_test_fr_category_20210429_173000',
+                    'id' => ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_test_fr_category_20210429_173000',
+                    'name' => ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_test_fr_category_20210429_173000',
                     'aliases' => [],
                     'docsCount' => 0,
                     'entityType' => 'category',
@@ -262,10 +261,10 @@ class IndexOperationsTest extends AbstractEntityTest
             ],
             [
                 $user,
-                ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'elasticsuite_test_fr_category_20220429_000000',
+                ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_test_fr_category_20220429_000000',
                 [
-                    'id' => ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'elasticsuite_test_fr_category_20220429_000000',
-                    'name' => ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'elasticsuite_test_fr_category_20220429_000000',
+                    'id' => ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_test_fr_category_20220429_000000',
+                    'name' => ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_test_fr_category_20220429_000000',
                     'aliases' => [],
                     'docsCount' => 0,
                     'entityType' => 'category',
@@ -349,8 +348,8 @@ class IndexOperationsTest extends AbstractEntityTest
         $adminUser = $this->getUser(Role::ROLE_ADMIN);
 
         return [
-            [$this->getUser(Role::ROLE_CONTRIBUTOR), ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'elasticsuite_test_fr_product_20220429_153000', 403],
-            [$adminUser, ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'elasticsuite_test_fr_product_20220429_153000', 204],
+            [$this->getUser(Role::ROLE_CONTRIBUTOR), ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_test_fr_product_20220429_153000', 403],
+            [$adminUser, ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_test_fr_product_20220429_153000', 204],
             [$adminUser, 'wrong_id', 404],
         ];
     }
@@ -446,8 +445,8 @@ class IndexOperationsTest extends AbstractEntityTest
         $catalogs = ['b2c_fr', 'b2c_en', 'b2b_en'];
 
         foreach ($catalogs as $catalogCode) {
-            $data[] = ["elasticsuite_test__elasticsuite_{$catalogCode}_product"];
-            $data[] = ["elasticsuite_test__elasticsuite_{$catalogCode}_category"];
+            $data[] = ["gally_test__gally_{$catalogCode}_product"];
+            $data[] = ["gally_test__gally_{$catalogCode}_category"];
         }
 
         return $data;

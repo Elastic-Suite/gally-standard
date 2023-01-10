@@ -2,22 +2,21 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\Product\Tests\Unit\Serializer;
+namespace Gally\Product\Tests\Unit\Serializer;
 
-use Elasticsuite\Product\Model\Product;
-use Elasticsuite\Product\Serializer\ProductDenormalizer;
-use Elasticsuite\Search\Model\Document;
+use Gally\Product\Model\Product;
+use Gally\Product\Serializer\ProductDenormalizer;
+use Gally\Search\Model\Document;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class ProductDenormalizerTest extends KernelTestCase
@@ -54,7 +53,7 @@ class ProductDenormalizerTest extends KernelTestCase
     public function denormalizeDataProvider(): array
     {
         $documentData = [
-            '_index' => 'elasticsuite_com_fr_product_20220603_095414',
+            '_index' => 'gally_com_fr_product_20220603_095414',
             '_type' => '_doc',
             '_id' => '1',
             '_score' => 1.0,
@@ -89,19 +88,19 @@ class ProductDenormalizerTest extends KernelTestCase
         return [
             [
                 $documentData,
-                'Elasticsuite\Product\Model\Product',
+                'Gally\Product\Model\Product',
                 'elasticsearch',
                 [],
             ],
             [
                 new Product($documentData),
-                'Elasticsuite\Product\Model\Product',
+                'Gally\Product\Model\Product',
                 'elasticsearch',
                 [],
             ],
             [
                 new Document($documentData),
-                'Elasticsuite\Product\Model\Product',
+                'Gally\Product\Model\Product',
                 'elasticsearch',
                 [],
             ],

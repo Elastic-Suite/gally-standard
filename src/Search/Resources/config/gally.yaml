@@ -1,6 +1,6 @@
-elasticsuite:
+gally:
     graphql_query_renaming:
-        Elasticsuite\Search\Model\Document:
+        Gally\Search\Model\Document:
             renamings:
                 searchDocuments: documents
     search_settings:

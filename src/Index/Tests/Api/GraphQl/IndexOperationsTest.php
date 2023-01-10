@@ -2,29 +2,28 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\Index\Tests\Api\GraphQl;
+namespace Gally\Index\Tests\Api\GraphQl;
 
 use Elasticsearch\Client;
-use Elasticsuite\Catalog\Repository\LocalizedCatalogRepository;
-use Elasticsuite\Index\Api\IndexSettingsInterface;
-use Elasticsuite\Index\Model\Index;
-use Elasticsuite\Index\Repository\Index\IndexRepositoryInterface;
-use Elasticsuite\Test\AbstractTest;
-use Elasticsuite\Test\ExpectedResponse;
-use Elasticsuite\Test\RequestGraphQlToTest;
-use Elasticsuite\User\Constant\Role;
-use Elasticsuite\User\Model\User;
+use Gally\Catalog\Repository\LocalizedCatalogRepository;
+use Gally\Index\Api\IndexSettingsInterface;
+use Gally\Index\Model\Index;
+use Gally\Index\Repository\Index\IndexRepositoryInterface;
+use Gally\Test\AbstractTest;
+use Gally\Test\ExpectedResponse;
+use Gally\Test\RequestGraphQlToTest;
+use Gally\User\Constant\Role;
+use Gally\User\Model\User;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
 class IndexOperationsTest extends AbstractTest
@@ -54,7 +53,7 @@ class IndexOperationsTest extends AbstractTest
     public static function tearDownAfterClass(): void
     {
         parent::tearDownAfterClass();
-        self::$indexRepository->delete('elasticsuite_test__elasticsuite_*');
+        self::$indexRepository->delete('gally_test__gally_*');
     }
 
     /**
@@ -120,7 +119,7 @@ class IndexOperationsTest extends AbstractTest
                 'product',
                 (int) $catalog->getId(),
                 [
-                    'name' => "elasticsuite_test__elasticsuite_{$catalog->getCode()}_product",
+                    'name' => "gally_test__gally_{$catalog->getCode()}_product",
                     'aliases' => ['.entity_product', ".catalog_{$catalog->getId()}"],
                 ],
             ];
@@ -129,7 +128,7 @@ class IndexOperationsTest extends AbstractTest
                 'category',
                 (int) $catalog->getId(),
                 [
-                    'name' => "elasticsuite_test__elasticsuite_{$catalog->getCode()}_category",
+                    'name' => "gally_test__gally_{$catalog->getCode()}_category",
                     'aliases' => ['.entity_category', ".catalog_{$catalog->getId()}"],
                 ],
             ];
@@ -194,20 +193,20 @@ class IndexOperationsTest extends AbstractTest
 
         yield [
             $this->getUser(Role::ROLE_CONTRIBUTOR),
-            'elasticsuite_test__elasticsuite_b2c_fr_product',
+            'gally_test__gally_b2c_fr_product',
             ['errors' => [['debugMessage' => 'Access Denied.']]],
         ];
 
         foreach ($this->catalogRepository->findAll() as $catalog) {
             yield [
                 $admin,
-                "elasticsuite_test__elasticsuite_{$catalog->getCode()}_product",
-                ['alias' => "elasticsuite_test__elasticsuite_{$catalog->getCode()}_product"],
+                "gally_test__gally_{$catalog->getCode()}_product",
+                ['alias' => "gally_test__gally_{$catalog->getCode()}_product"],
             ];
             yield [
                 $admin,
-                "elasticsuite_test__elasticsuite_{$catalog->getCode()}_category",
-                ['alias' => "elasticsuite_test__elasticsuite_{$catalog->getCode()}_category"],
+                "gally_test__gally_{$catalog->getCode()}_category",
+                ['alias' => "gally_test__gally_{$catalog->getCode()}_category"],
             ];
         }
     }

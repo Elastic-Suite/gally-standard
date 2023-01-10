@@ -2,24 +2,23 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\Search\Elasticsearch\Adapter\Common\Request\Aggregation\Assembler\Bucket;
+namespace Gally\Search\Elasticsearch\Adapter\Common\Request\Aggregation\Assembler\Bucket;
 
-use Elasticsuite\Search\Elasticsearch\Adapter\Common\Request\Aggregation\AssemblerInterface;
-use Elasticsuite\Search\Elasticsearch\Request\Aggregation\Bucket\MultiTerms as MultiTermBucket;
-use Elasticsuite\Search\Elasticsearch\Request\AggregationInterface;
-use Elasticsuite\Search\Elasticsearch\Request\BucketInterface;
-use Elasticsuite\Search\Elasticsearch\Request\SortOrderInterface;
+use Gally\Search\Elasticsearch\Adapter\Common\Request\Aggregation\AssemblerInterface;
+use Gally\Search\Elasticsearch\Request\Aggregation\Bucket\MultiTerms as MultiTermBucket;
+use Gally\Search\Elasticsearch\Request\AggregationInterface;
+use Gally\Search\Elasticsearch\Request\BucketInterface;
+use Gally\Search\Elasticsearch\Request\SortOrderInterface;
 
 /**
  * Assemble an ES MultiTerms aggregation.

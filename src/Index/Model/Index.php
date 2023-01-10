@@ -2,31 +2,30 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\Index\Model;
+namespace Gally\Index\Model;
 
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
-use Elasticsuite\Catalog\Model\LocalizedCatalog;
-use Elasticsuite\Index\Dto\CreateIndexInput;
-use Elasticsuite\Index\Dto\InstallIndexInput;
-use Elasticsuite\Index\Dto\RefreshIndexInput;
-use Elasticsuite\Index\MutationResolver\BulkDeleteIndexMutation;
-use Elasticsuite\Index\MutationResolver\BulkIndexMutation;
-use Elasticsuite\Index\MutationResolver\CreateIndexMutation;
-use Elasticsuite\Index\MutationResolver\InstallIndexMutation;
-use Elasticsuite\Index\MutationResolver\RefreshIndexMutation;
-use Elasticsuite\User\Constant\Role;
+use Gally\Catalog\Model\LocalizedCatalog;
+use Gally\Index\Dto\CreateIndexInput;
+use Gally\Index\Dto\InstallIndexInput;
+use Gally\Index\Dto\RefreshIndexInput;
+use Gally\Index\MutationResolver\BulkDeleteIndexMutation;
+use Gally\Index\MutationResolver\BulkIndexMutation;
+use Gally\Index\MutationResolver\CreateIndexMutation;
+use Gally\Index\MutationResolver\InstallIndexMutation;
+use Gally\Index\MutationResolver\RefreshIndexMutation;
+use Gally\User\Constant\Role;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[

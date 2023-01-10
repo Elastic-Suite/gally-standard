@@ -2,21 +2,20 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\Search\Elasticsearch\Adapter\Common\Request\Query\Assembler;
+namespace Gally\Search\Elasticsearch\Adapter\Common\Request\Query\Assembler;
 
-use Elasticsuite\Search\Elasticsearch\Adapter\Common\Request\Query\AssemblerInterface;
-use Elasticsuite\Search\Elasticsearch\Request\QueryInterface;
+use Gally\Search\Elasticsearch\Adapter\Common\Request\Query\AssemblerInterface;
+use Gally\Search\Elasticsearch\Request\QueryInterface;
 
 /**
  * Assemble an ES bool query.
@@ -42,7 +41,7 @@ class Boolean extends AbstractComplexAssembler implements AssemblerInterface
             throw new \InvalidArgumentException("Query assembler : invalid query type {$query->getType()}");
         }
 
-        /** @var \Elasticsuite\Search\Elasticsearch\Request\Query\Boolean $query */
+        /** @var \Gally\Search\Elasticsearch\Request\Query\Boolean $query */
         $searchQuery = [];
 
         foreach ($this->booleanClauses as $clause) {
@@ -80,7 +79,7 @@ class Boolean extends AbstractComplexAssembler implements AssemblerInterface
      */
     private function getQueryClause(QueryInterface $query, string $clause): array
     {
-        /** @var \Elasticsuite\Search\Elasticsearch\Request\Query\Boolean $query */
+        /** @var \Gally\Search\Elasticsearch\Request\Query\Boolean $query */
         $queries = $query->getMust();
 
         if (self::QUERY_CONDITION_NOT == $clause) {

@@ -1,12 +1,12 @@
 services:
-    Elasticsuite\Category\Service\CategorySynchronizer:
+    Gally\Category\Service\CategorySynchronizer:
         public: true
         arguments:
-            - '@Elasticsuite\Category\Repository\CategoryRepository'
-            - '@Elasticsuite\Category\Repository\CategoryConfigurationRepository'
-            - '@Elasticsuite\Search\Elasticsearch\RequestFactoryInterface'
-            - '@Elasticsuite\Search\Elasticsearch\Builder\Request\Query\QueryBuilder'
-            - '@Elasticsuite\Search\Elasticsearch\Adapter'
-            - '@Elasticsuite\Search\Elasticsearch\Request\Container\Configuration\ContainerConfigurationProvider'
-            - '@Elasticsuite\Metadata\Repository\MetadataRepository'
+            - '@Gally\Category\Repository\CategoryRepository'
+            - '@Gally\Category\Repository\CategoryConfigurationRepository'
+            - '@Gally\Search\Elasticsearch\RequestFactoryInterface'
+            - '@Gally\Search\Elasticsearch\Builder\Request\Query\QueryBuilder'
+            - '@Gally\Search\Elasticsearch\Adapter'
+            - '@Gally\Search\Elasticsearch\Request\Container\Configuration\ContainerConfigurationProvider'
+            - '@Gally\Metadata\Repository\MetadataRepository'
             - '@doctrine.orm.entity_manager'

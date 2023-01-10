@@ -2,26 +2,25 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\Search\GraphQl\Type\Definition\Filter;
+namespace Gally\Search\GraphQl\Type\Definition\Filter;
 
 use ApiPlatform\Core\GraphQl\Type\Definition\TypeInterface;
-use Elasticsuite\GraphQl\Type\Definition\FilterInterface;
-use Elasticsuite\Search\Constant\FilterOperator;
-use Elasticsuite\Search\Elasticsearch\Builder\Request\Query\Filter\FilterQueryBuilder;
-use Elasticsuite\Search\Elasticsearch\Request\ContainerConfigurationInterface;
-use Elasticsuite\Search\Elasticsearch\Request\QueryInterface;
-use Elasticsuite\Search\Service\ReverseSourceFieldProvider;
+use Gally\GraphQl\Type\Definition\FilterInterface;
+use Gally\Search\Constant\FilterOperator;
+use Gally\Search\Elasticsearch\Builder\Request\Query\Filter\FilterQueryBuilder;
+use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface;
+use Gally\Search\Elasticsearch\Request\QueryInterface;
+use Gally\Search\Service\ReverseSourceFieldProvider;
 use GraphQL\Type\Definition\InputObjectType;
 use GraphQL\Type\Definition\Type;
 
@@ -94,7 +93,7 @@ class RangeFilterInputType extends InputObjectType implements TypeInterface, Fil
         return $errors;
     }
 
-    public function transformToElasticsuiteFilter(array $inputFilter, ContainerConfigurationInterface $containerConfig, array $filterContext = []): QueryInterface
+    public function transformToGallyFilter(array $inputFilter, ContainerConfigurationInterface $containerConfig, array $filterContext = []): QueryInterface
     {
         $conditions = [];
         foreach ([FilterOperator::GT, FilterOperator::LT, FilterOperator::GTE, FilterOperator::LTE] as $condition) {

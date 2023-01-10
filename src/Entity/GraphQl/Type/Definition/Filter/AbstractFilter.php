@@ -2,28 +2,27 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\Entity\GraphQl\Type\Definition\Filter;
+namespace Gally\Entity\GraphQl\Type\Definition\Filter;
 
 use ApiPlatform\Core\GraphQl\Type\Definition\TypeInterface;
-use Elasticsuite\Exception\LogicException;
-use Elasticsuite\Metadata\Model\SourceField;
-use Elasticsuite\RuleEngine\GraphQl\Type\Definition\RuleFilterInterface;
-use Elasticsuite\Search\Constant\FilterOperator;
-use Elasticsuite\Search\Elasticsearch\Builder\Request\Query\Filter\FilterQueryBuilder;
-use Elasticsuite\Search\Elasticsearch\Request\ContainerConfigurationInterface;
-use Elasticsuite\Search\Elasticsearch\Request\QueryFactory;
-use Elasticsuite\Search\Elasticsearch\Request\QueryInterface;
+use Gally\Exception\LogicException;
+use Gally\Metadata\Model\SourceField;
+use Gally\RuleEngine\GraphQl\Type\Definition\RuleFilterInterface;
+use Gally\Search\Constant\FilterOperator;
+use Gally\Search\Elasticsearch\Builder\Request\Query\Filter\FilterQueryBuilder;
+use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface;
+use Gally\Search\Elasticsearch\Request\QueryFactory;
+use Gally\Search\Elasticsearch\Request\QueryInterface;
 use GraphQL\Type\Definition\InputObjectType;
 
 abstract class AbstractFilter extends InputObjectType implements TypeInterface, EntityFilterInterface, RuleFilterInterface
@@ -67,7 +66,7 @@ abstract class AbstractFilter extends InputObjectType implements TypeInterface, 
         return str_replace($this->nestingSeparator, '.', $graphqlFieldName);
     }
 
-    public function transformToElasticsuiteFilter(array $inputFilter, ContainerConfigurationInterface $containerConfig, array $filterContext = []): QueryInterface
+    public function transformToGallyFilter(array $inputFilter, ContainerConfigurationInterface $containerConfig, array $filterContext = []): QueryInterface
     {
         if (isset($inputFilter['exist'])) {
             $existQuery = $this->queryFactory->create(QueryInterface::TYPE_EXISTS, $inputFilter);

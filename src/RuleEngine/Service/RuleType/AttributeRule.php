@@ -2,30 +2,29 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\RuleEngine\Service\RuleType;
+namespace Gally\RuleEngine\Service\RuleType;
 
-use Elasticsuite\Entity\GraphQl\Type\Definition\Filter\AbstractFilter;
-use Elasticsuite\Entity\GraphQl\Type\Definition\Filter\BoolFilterInputType;
-use Elasticsuite\Entity\GraphQl\Type\Definition\Filter\EntityFilterInterface;
-use Elasticsuite\Exception\LogicException;
-use Elasticsuite\Metadata\Model\Metadata;
-use Elasticsuite\Metadata\Model\SourceField;
-use Elasticsuite\Metadata\Model\SourceField\Type;
-use Elasticsuite\Metadata\Repository\MetadataRepository;
-use Elasticsuite\Metadata\Repository\SourceFieldRepository;
-use Elasticsuite\RuleEngine\GraphQl\Type\Definition\RuleFilterInterface;
-use Elasticsuite\Search\Constant\FilterOperator;
+use Gally\Entity\GraphQl\Type\Definition\Filter\AbstractFilter;
+use Gally\Entity\GraphQl\Type\Definition\Filter\BoolFilterInputType;
+use Gally\Entity\GraphQl\Type\Definition\Filter\EntityFilterInterface;
+use Gally\Exception\LogicException;
+use Gally\Metadata\Model\Metadata;
+use Gally\Metadata\Model\SourceField;
+use Gally\Metadata\Model\SourceField\Type;
+use Gally\Metadata\Repository\MetadataRepository;
+use Gally\Metadata\Repository\SourceFieldRepository;
+use Gally\RuleEngine\GraphQl\Type\Definition\RuleFilterInterface;
+use Gally\Search\Constant\FilterOperator;
 
 class AttributeRule extends AbstractRuleType implements RuleTypeInterface
 {

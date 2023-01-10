@@ -1,4 +1,4 @@
-Elasticsuite\Metadata\Model\SourceFieldOptionLabel:
+Gally\Metadata\Model\SourceFieldOptionLabel:
     categories_custom_apply_to_products_option_1_com_fr:
         source_field_option: '@categories_custom_apply_to_products_option_1'
         catalog: '@com_fr'

@@ -1,12 +1,12 @@
 services:
-    Elasticsuite\Security\OpenApi\JwtDecorator:
+    Gally\Security\OpenApi\JwtDecorator:
         decorates: api_platform.openapi.factory
         arguments:
             - '@.inner'
                 
-    Elasticsuite\Security\Resolver\AuthenticationMutationResolver:
+    Gally\Security\Resolver\AuthenticationMutationResolver:
         arguments:
-            - '@Elasticsuite\User\Repository\UserRepository'
+            - '@Gally\User\Repository\UserRepository'
             - '@Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface'
             - '@Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface'
             - '@Symfony\Component\Validator\Validator\ValidatorInterface'

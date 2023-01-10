@@ -2,31 +2,30 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\Stitching\Decoration\GraphQl\Type;
+namespace Gally\Stitching\Decoration\GraphQl\Type;
 
 use ApiPlatform\Core\GraphQl\Type\FieldsBuilderInterface;
 use ApiPlatform\Core\GraphQl\Type\TypesContainerInterface;
 use ApiPlatform\Core\Metadata\Resource\Factory\ResourceMetadataFactoryInterface;
 use ApiPlatform\Core\Metadata\Resource\ResourceMetadata;
 use Doctrine\ORM\EntityNotFoundException;
-use Elasticsuite\Entity\Constant\SourceFieldAttributeMapping;
-use Elasticsuite\Entity\Model\Attribute\GraphQlAttributeInterface;
-use Elasticsuite\Entity\Model\Attribute\StructuredAttributeInterface;
-use Elasticsuite\Metadata\Model\Metadata;
-use Elasticsuite\Metadata\Model\SourceField;
-use Elasticsuite\Metadata\Repository\MetadataRepository;
-use Elasticsuite\ResourceMetadata\Service\ResourceMetadataManager;
+use Gally\Entity\Constant\SourceFieldAttributeMapping;
+use Gally\Entity\Model\Attribute\GraphQlAttributeInterface;
+use Gally\Entity\Model\Attribute\StructuredAttributeInterface;
+use Gally\Metadata\Model\Metadata;
+use Gally\Metadata\Model\SourceField;
+use Gally\Metadata\Repository\MetadataRepository;
+use Gally\ResourceMetadata\Service\ResourceMetadataManager;
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type as GraphQLType;
 

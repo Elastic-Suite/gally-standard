@@ -2,26 +2,25 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\RuleEngine\Tests\Api\GraphQl;
+namespace Gally\RuleEngine\Tests\Api\GraphQl;
 
-use Elasticsuite\Test\ExpectedResponse;
-use Elasticsuite\Test\RequestGraphQlToTest;
-use Elasticsuite\User\Constant\Role;
-use Elasticsuite\User\Model\User;
+use Gally\Test\ExpectedResponse;
+use Gally\Test\RequestGraphQlToTest;
+use Gally\User\Constant\Role;
+use Gally\User\Model\User;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
-class RuleEngineOperatorsTest extends \Elasticsuite\RuleEngine\Tests\Api\Rest\RuleEngineOperatorsTest
+class RuleEngineOperatorsTest extends \Gally\RuleEngine\Tests\Api\Rest\RuleEngineOperatorsTest
 {
     public function testSecurity(): void
     {

@@ -2,29 +2,28 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\Category\Model\Category;
+namespace Gally\Category\Model\Category;
 
 use ApiPlatform\Core\Action\NotFoundAction;
 use ApiPlatform\Core\Annotation\ApiResource;
-use Elasticsuite\Catalog\Model\Catalog;
-use Elasticsuite\Catalog\Model\LocalizedCatalog;
-use Elasticsuite\Category\Controller\CategoryProductPositionGet;
-use Elasticsuite\Category\Controller\CategoryProductPositionSave;
-use Elasticsuite\Category\Model\Category;
-use Elasticsuite\Category\Resolver\PositionGetResolver;
-use Elasticsuite\Category\Resolver\PositionSaveResolver;
-use Elasticsuite\User\Constant\Role;
+use Gally\Catalog\Model\Catalog;
+use Gally\Catalog\Model\LocalizedCatalog;
+use Gally\Category\Controller\CategoryProductPositionGet;
+use Gally\Category\Controller\CategoryProductPositionSave;
+use Gally\Category\Model\Category;
+use Gally\Category\Resolver\PositionGetResolver;
+use Gally\Category\Resolver\PositionSaveResolver;
+use Gally\User\Constant\Role;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\Annotation\Groups;
 

@@ -2,21 +2,20 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\Standard\src\User\Tests\Unit\Service\Command;
+namespace Gally\Standard\src\User\Tests\Unit\Service\Command;
 
-use Elasticsuite\Test\AbstractTest;
-use Elasticsuite\User\Service\Command\QuestionBuilder;
+use Gally\Test\AbstractTest;
+use Gally\User\Service\Command\QuestionBuilder;
 
 class QuestionTest extends AbstractTest
 {

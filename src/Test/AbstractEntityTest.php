@@ -2,24 +2,23 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\Test;
+namespace Gally\Test;
 
 use ApiPlatform\Core\Metadata\Resource\Factory\ResourceMetadataFactoryInterface;
 use ApiPlatform\Core\Metadata\Resource\ResourceMetadata;
 use ApiPlatform\Core\Operation\PathSegmentNameGeneratorInterface;
-use Elasticsuite\Locale\EventSubscriber\LocaleSubscriber;
-use Elasticsuite\User\Model\User;
+use Gally\Locale\EventSubscriber\LocaleSubscriber;
+use Gally\User\Model\User;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
 /**
@@ -100,7 +99,7 @@ abstract class AbstractEntityTest extends AbstractTest
      */
     public function testGet(User $user, int|string $id, array $expectedData, int $responseCode, ?string $locale = null): void
     {
-        $headers = null !== $locale ? [LocaleSubscriber::ELASTICSUITE_LANGUAGE_HEADER => $locale] : [];
+        $headers = null !== $locale ? [LocaleSubscriber::GALLY_LANGUAGE_HEADER => $locale] : [];
         $request = new RequestToTest('GET', "{$this->getApiPath()}/{$id}", $user, [], $headers);
         $expectedResponse = new ExpectedResponse(
             $responseCode,

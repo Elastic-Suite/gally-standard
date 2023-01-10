@@ -1,4 +1,4 @@
-Elasticsuite\Catalog\Model\Catalog:
+Gally\Catalog\Model\Catalog:
     catalog1_relevance:
         code: b2c_relevance
         name: B2C Catalog Relevance
@@ -6,7 +6,7 @@ Elasticsuite\Catalog\Model\Catalog:
         code: b2b_relevance
         name: B2B Catalog Relevance
 
-Elasticsuite\Catalog\Model\LocalizedCatalog:
+Gally\Catalog\Model\LocalizedCatalog:
     catalog1_fr_relevance:
         catalog: '@catalog1_relevance'
         code: b2c_fr_relevance

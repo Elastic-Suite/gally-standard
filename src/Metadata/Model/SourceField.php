@@ -2,18 +2,17 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\Metadata\Model;
+namespace Gally\Metadata\Model;
 
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiProperty;
@@ -21,11 +20,11 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Elasticsuite\Entity\Filter\BooleanFilter;
-use Elasticsuite\Entity\Filter\SearchColumnsFilter;
-use Elasticsuite\Metadata\Model\SourceField\Type;
-use Elasticsuite\Metadata\Model\SourceField\Weight;
-use Elasticsuite\User\Constant\Role;
+use Gally\Entity\Filter\BooleanFilter;
+use Gally\Entity\Filter\SearchColumnsFilter;
+use Gally\Metadata\Model\SourceField\Type;
+use Gally\Metadata\Model\SourceField\Weight;
+use Gally\User\Constant\Role;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ApiResource(
@@ -63,7 +62,7 @@ class SourceField
                 'hydra:property' => [
                     'rdfs:label' => 'Attribute code',
                 ],
-                'elasticsuite' => [
+                'gally' => [
                     'visible' => true,
                     'editable' => false,
                     'position' => 10,
@@ -79,7 +78,7 @@ class SourceField
                 'hydra:property' => [
                     'rdfs:label' => 'Attribute label',
                 ],
-                'elasticsuite' => [
+                'gally' => [
                     'visible' => true,
                     'editable' => false,
                     'position' => 20,
@@ -95,7 +94,7 @@ class SourceField
                 'hydra:property' => [
                     'rdfs:label' => 'Attribute type',
                 ],
-                'elasticsuite' => [
+                'gally' => [
                     'visible' => true,
                     'editable' => false,
                     'position' => 30,
@@ -120,7 +119,7 @@ class SourceField
                 'hydra:property' => [
                     'rdfs:label' => 'Filterable',
                 ],
-                'elasticsuite' => [
+                'gally' => [
                     'visible' => true,
                     'editable' => true,
                     'position' => 40,
@@ -141,7 +140,7 @@ class SourceField
                 'hydra:property' => [
                     'rdfs:label' => 'Searchable',
                 ],
-                'elasticsuite' => [
+                'gally' => [
                     'visible' => true,
                     'editable' => true,
                     'position' => 50,
@@ -162,7 +161,7 @@ class SourceField
                 'hydra:property' => [
                     'rdfs:label' => 'Sortable',
                 ],
-                'elasticsuite' => [
+                'gally' => [
                     'visible' => true,
                     'editable' => true,
                     'position' => 60,
@@ -183,7 +182,7 @@ class SourceField
                 'hydra:property' => [
                     'rdfs:label' => 'Use in rule engine',
                 ],
-                'elasticsuite' => [
+                'gally' => [
                     'visible' => true,
                     'editable' => true,
                     'position' => 70,
@@ -204,7 +203,7 @@ class SourceField
                 'hydra:property' => [
                     'rdfs:label' => 'Search weight',
                 ],
-                'elasticsuite' => [
+                'gally' => [
                     'visible' => false,
                     'editable' => true,
                     'position' => 80,
@@ -229,7 +228,7 @@ class SourceField
                 'hydra:property' => [
                     'rdfs:label' => 'Used in spellcheck',
                 ],
-                'elasticsuite' => [
+                'gally' => [
                     'visible' => false,
                     'editable' => true,
                     'position' => 90,

@@ -1,5 +1,5 @@
 services:
-    Elasticsuite\Hydra\Decoration\Serializer\DocumentationNormalizer:
+    Gally\Hydra\Decoration\Serializer\DocumentationNormalizer:
         decorates: api_platform.hydra.normalizer.documentation
         arguments:
             - '@api_platform.metadata.resource.metadata_factory'

@@ -1,4 +1,4 @@
-elasticsuite:
+gally:
     analysis:
         default:
             char_filters:

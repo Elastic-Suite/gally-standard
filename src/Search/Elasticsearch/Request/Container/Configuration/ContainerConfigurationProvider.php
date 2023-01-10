@@ -2,23 +2,22 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\Search\Elasticsearch\Request\Container\Configuration;
+namespace Gally\Search\Elasticsearch\Request\Container\Configuration;
 
-use Elasticsuite\Catalog\Model\LocalizedCatalog;
-use Elasticsuite\Metadata\Model\Metadata;
-use Elasticsuite\Search\Elasticsearch\Request\ContainerConfigurationFactoryInterface;
-use Elasticsuite\Search\Elasticsearch\Request\ContainerConfigurationInterface;
+use Gally\Catalog\Model\LocalizedCatalog;
+use Gally\Metadata\Model\Metadata;
+use Gally\Search\Elasticsearch\Request\ContainerConfigurationFactoryInterface;
+use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface;
 
 class ContainerConfigurationProvider
 {
@@ -28,7 +27,7 @@ class ContainerConfigurationProvider
     /**
      * Add factories via compiler pass.
      *
-     * @see \Elasticsuite\Search\Compiler\GetContainerConfigurationFactory
+     * @see \Gally\Search\Compiler\GetContainerConfigurationFactory
      */
     public function addContainerConfigFactory(
         string $requestType,

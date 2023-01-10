@@ -138,7 +138,7 @@ jobs:
             - name: Fixtures load
               working-directory: ${{ env.gally-directory }}
               run: |
-                  docker-compose -f docker-compose.yml -f docker-compose.ci.yml exec -e XDEBUG_MODE=off -T php bin/console elasticsuite:index:clear --no-interaction
+                  docker-compose -f docker-compose.yml -f docker-compose.ci.yml exec -e XDEBUG_MODE=off -T php bin/console gally:index:clear --no-interaction
                   docker-compose -f docker-compose.yml -f docker-compose.ci.yml exec -e XDEBUG_MODE=off -T php bin/console hautelook:fixtures:load --no-interaction -vv
                   docker-compose -f docker-compose.yml -f docker-compose.ci.yml exec -e XDEBUG_MODE=off -T php bin/console doctrine:fixtures:load --append --no-interaction
 

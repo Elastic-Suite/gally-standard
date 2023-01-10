@@ -4,13 +4,13 @@
                   xsi:schemaLocation="https://doctrine-project.org/schemas/orm/doctrine-mapping
                           https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
 
-    <entity name="Elasticsuite\Metadata\Model\Metadata" table="metadata" repository-class="Elasticsuite\Metadata\Repository\MetadataRepository">
+    <entity name="Gally\Metadata\Model\Metadata" table="metadata" repository-class="Gally\Metadata\Repository\MetadataRepository">
         <id name="id" type="integer">
             <generator strategy="AUTO"/>
         </id>
         <field name="entity" type="string" length="255" nullable="false" unique="true" />
 
-        <one-to-many field="sourceFields" target-entity="Elasticsuite\Metadata\Model\SourceField" mapped-by="metadata">
+        <one-to-many field="sourceFields" target-entity="Gally\Metadata\Model\SourceField" mapped-by="metadata">
             <cascade>
                 <cascade-persist/>
             </cascade>

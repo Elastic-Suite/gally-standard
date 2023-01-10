@@ -2,18 +2,17 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\Hydra\Tests\Api\Rest;
+namespace Gally\Hydra\Tests\Api\Rest;
 
 use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\ApiTestCase;
 
@@ -40,7 +39,7 @@ class DocumentationTest extends ApiTestCase
                     '@id' => '#SourceField/type',
                     'rdfs:label' => 'Attribute type',
                 ],
-                'elasticsuite' => [
+                'gally' => [
                     'visible' => true,
                     'editable' => false,
                     'position' => 30,

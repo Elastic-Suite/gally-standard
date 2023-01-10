@@ -1,4 +1,4 @@
-elasticsuite:
+gally:
     relevance:
         global:
             request_types:
@@ -13,7 +13,7 @@ elasticsuite:
                         value: 0.15
                     fuzziness:
                         enabled: true
-                        value: !php/const Elasticsuite\Search\Elasticsearch\Request\Container\RelevanceConfiguration\FuzzinessConfig::VALUE_AUTO
+                        value: !php/const Gally\Search\Elasticsearch\Request\Container\RelevanceConfiguration\FuzzinessConfig::VALUE_AUTO
                         prefixLength: 1
                         maxExpansions: 10
                     phonetic:  

@@ -2,24 +2,23 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\Index\Service;
+namespace Gally\Index\Service;
 
-use Elasticsuite\Index\Converter\SourceField\SourceFieldConverterInterface;
-use Elasticsuite\Index\Model\Index\Mapping;
-use Elasticsuite\Index\Model\Index\Mapping\FieldInterface;
-use Elasticsuite\Metadata\Model\Metadata;
-use Elasticsuite\Metadata\Model\SourceField;
+use Gally\Index\Converter\SourceField\SourceFieldConverterInterface;
+use Gally\Index\Model\Index\Mapping;
+use Gally\Index\Model\Index\Mapping\FieldInterface;
+use Gally\Metadata\Model\Metadata;
+use Gally\Metadata\Model\SourceField;
 
 class MetadataManager
 {

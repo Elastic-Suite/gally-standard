@@ -2,26 +2,25 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\Search\GraphQl\Type\Definition;
+namespace Gally\Search\GraphQl\Type\Definition;
 
 use ApiPlatform\Core\GraphQl\Type\Definition\TypeInterface;
-use Elasticsuite\Entity\Service\PriceGroupProvider;
-use Elasticsuite\Metadata\Model\Metadata;
-use Elasticsuite\Metadata\Model\SourceField\Type;
-use Elasticsuite\Search\Elasticsearch\Request\ContainerConfigurationInterface;
-use Elasticsuite\Search\Elasticsearch\Request\SortOrderInterface;
-use Elasticsuite\Search\Service\ReverseSourceFieldProvider;
+use Gally\Entity\Service\PriceGroupProvider;
+use Gally\Metadata\Model\Metadata;
+use Gally\Metadata\Model\SourceField\Type;
+use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface;
+use Gally\Search\Elasticsearch\Request\SortOrderInterface;
+use Gally\Search\Service\ReverseSourceFieldProvider;
 use GraphQL\Type\Definition\InputObjectType;
 use GraphQL\Type\Definition\Type as GraphQLType;
 

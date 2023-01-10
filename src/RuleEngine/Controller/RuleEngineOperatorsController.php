@@ -2,21 +2,20 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\RuleEngine\Controller;
+namespace Gally\RuleEngine\Controller;
 
-use Elasticsuite\RuleEngine\Model\RuleEngineOperators;
-use Elasticsuite\RuleEngine\Service\RuleEngineManager;
+use Gally\RuleEngine\Model\RuleEngineOperators;
+use Gally\RuleEngine\Service\RuleEngineManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class RuleEngineOperatorsController extends AbstractController

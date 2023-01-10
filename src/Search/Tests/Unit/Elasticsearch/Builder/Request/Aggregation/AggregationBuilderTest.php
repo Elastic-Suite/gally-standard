@@ -2,29 +2,28 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\Search\Tests\Unit\Elasticsearch\Builder\Request\Aggregation;
+namespace Gally\Search\Tests\Unit\Elasticsearch\Builder\Request\Aggregation;
 
-use Elasticsuite\Index\Model\Index\Mapping;
-use Elasticsuite\Index\Model\Index\MappingInterface;
-use Elasticsuite\Search\Elasticsearch\Builder\Request\Aggregation\AggregationBuilder;
-use Elasticsuite\Search\Elasticsearch\Builder\Request\Query\Filter\FilterQueryBuilder;
-use Elasticsuite\Search\Elasticsearch\Request\Aggregation\Bucket\Terms;
-use Elasticsuite\Search\Elasticsearch\Request\AggregationFactory;
-use Elasticsuite\Search\Elasticsearch\Request\BucketInterface;
-use Elasticsuite\Search\Elasticsearch\Request\ContainerConfigurationInterface;
-use Elasticsuite\Search\Elasticsearch\Request\QueryFactory;
-use Elasticsuite\Search\Elasticsearch\Request\QueryInterface;
+use Gally\Index\Model\Index\Mapping;
+use Gally\Index\Model\Index\MappingInterface;
+use Gally\Search\Elasticsearch\Builder\Request\Aggregation\AggregationBuilder;
+use Gally\Search\Elasticsearch\Builder\Request\Query\Filter\FilterQueryBuilder;
+use Gally\Search\Elasticsearch\Request\Aggregation\Bucket\Terms;
+use Gally\Search\Elasticsearch\Request\AggregationFactory;
+use Gally\Search\Elasticsearch\Request\BucketInterface;
+use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface;
+use Gally\Search\Elasticsearch\Request\QueryFactory;
+use Gally\Search\Elasticsearch\Request\QueryInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 

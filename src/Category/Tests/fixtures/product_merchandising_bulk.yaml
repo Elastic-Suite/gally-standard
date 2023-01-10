@@ -1,4 +1,4 @@
-Elasticsuite\Category\Model\Category\ProductMerchandising:
+Gally\Category\Model\Category\ProductMerchandising:
     position1:
         category: '@categ1'
         productId: 1

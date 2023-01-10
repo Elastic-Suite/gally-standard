@@ -2,18 +2,17 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\Example\Command\Cache;
+namespace Gally\Example\Command\Cache;
 
 use Psr\Cache\CacheItemPoolInterface;
 use Symfony\Component\Console\Command\Command;
@@ -27,7 +26,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class DeleteCommand extends Command
 {
     // the name of the command (the part after "bin/console")
-    protected static $defaultName = 'elasticsuite:example:cache-delete';
+    protected static $defaultName = 'gally:example:cache-delete';
 
     public function __construct(
         private CacheItemPoolInterface $cacheItemPool,

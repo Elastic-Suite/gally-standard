@@ -4,9 +4,9 @@
                   xsi:schemaLocation="https://doctrine-project.org/schemas/orm/doctrine-mapping
                           https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
 
-    <entity name="Elasticsuite\Metadata\Model\SourceField"
+    <entity name="Gally\Metadata\Model\SourceField"
             table="source_field"
-            repository-class="Elasticsuite\Metadata\Repository\SourceFieldRepository">
+            repository-class="Gally\Metadata\Repository\SourceFieldRepository">
         <id name="id" type="integer">
             <generator strategy="AUTO"/>
         </id>
@@ -33,17 +33,17 @@
         <!-- Field with value computed dynamically in oder to aggregate sourceField data and search on it. -->
         <field name="search" type="string" nullable="true" />
 
-        <many-to-one field="metadata" target-entity="Elasticsuite\Metadata\Model\Metadata" inversed-by="sourceFields">
+        <many-to-one field="metadata" target-entity="Gally\Metadata\Model\Metadata" inversed-by="sourceFields">
             <join-column name="metadata_id" referenced-column-name="id" nullable="false" on-delete="CASCADE" on-update="CASCADE"/>
         </many-to-one>
 
-        <one-to-many field="labels" target-entity="Elasticsuite\Metadata\Model\SourceFieldLabel" mapped-by="sourceField">
+        <one-to-many field="labels" target-entity="Gally\Metadata\Model\SourceFieldLabel" mapped-by="sourceField">
             <cascade>
                 <cascade-persist/>
             </cascade>
         </one-to-many>
 
-        <one-to-many field="options" target-entity="Elasticsuite\Metadata\Model\SourceFieldOption" mapped-by="sourceField">
+        <one-to-many field="options" target-entity="Gally\Metadata\Model\SourceFieldOption" mapped-by="sourceField">
             <cascade>
                 <cascade-persist/>
             </cascade>

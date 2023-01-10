@@ -2,22 +2,21 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\Stitching\Service;
+namespace Gally\Stitching\Service;
 
-use Elasticsuite\Entity\Constant\SourceFieldAttributeMapping;
-use Elasticsuite\Metadata\Repository\MetadataRepository;
-use Elasticsuite\Metadata\Repository\SourceFieldRepository;
+use Gally\Entity\Constant\SourceFieldAttributeMapping;
+use Gally\Metadata\Repository\MetadataRepository;
+use Gally\Metadata\Repository\SourceFieldRepository;
 
 class SerializerService
 {

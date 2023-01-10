@@ -2,23 +2,22 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\Search\Elasticsearch;
+namespace Gally\Search\Elasticsearch;
 
-use Elasticsuite\Index\Helper\IndexSettings;
-use Elasticsuite\Search\Elasticsearch\Request\AggregationInterface;
-use Elasticsuite\Search\Elasticsearch\Request\QueryInterface;
-use Elasticsuite\Search\Elasticsearch\Request\SortOrderInterface;
+use Gally\Index\Helper\IndexSettings;
+use Gally\Search\Elasticsearch\Request\AggregationInterface;
+use Gally\Search\Elasticsearch\Request\QueryInterface;
+use Gally\Search\Elasticsearch\Request\SortOrderInterface;
 
 class Request implements RequestInterface
 {

@@ -2,27 +2,26 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\ResourceMetadata\Service;
+namespace Gally\ResourceMetadata\Service;
 
 use ApiPlatform\Core\Metadata\Resource\ResourceMetadata;
 
 /**
- *  Allows to manage elasticsuite attributes on ApiResources.
+ *  Allows to manage gally attributes on ApiResources.
  */
 class ResourceMetadataManager
 {
-    public const RESOURCE_METADATA_PATH_ROOT = 'elasticsuite';
+    public const RESOURCE_METADATA_PATH_ROOT = 'gally';
 
     public function getIndex(ResourceMetadata $resourceMetadata): ?string
     {
@@ -48,7 +47,7 @@ class ResourceMetadataManager
      * Get resource metadata value.
      *
      * @param ResourceMetadata $resourceMetadata resource metadata
-     * @param string           $path             path of the metadata value node to get from elasticsuite node, key levels separated by a '/'
+     * @param string           $path             path of the metadata value node to get from gally node, key levels separated by a '/'
      *                                           (example: stitching/property)
      */
     public function getResourceMetadataValue(ResourceMetadata $resourceMetadata, string $path): mixed

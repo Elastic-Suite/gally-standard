@@ -2,28 +2,27 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\Index\Decoration\Metadata\Document\Factory;
+namespace Gally\Index\Decoration\Metadata\Document\Factory;
 
 use ApiPlatform\Core\Bridge\Elasticsearch\Exception\IndexNotFoundException;
 use ApiPlatform\Core\Bridge\Elasticsearch\Metadata\Document\DocumentMetadata;
 use ApiPlatform\Core\Bridge\Elasticsearch\Metadata\Document\Factory\DocumentMetadataFactoryInterface;
 use ApiPlatform\Core\Metadata\Resource\Factory\ResourceMetadataFactoryInterface;
-use Elasticsuite\Fixture\Service\ElasticsearchFixtures;
-use Elasticsuite\ResourceMetadata\Service\ResourceMetadataManager;
+use Gally\Fixture\Service\ElasticsearchFixtures;
+use Gally\ResourceMetadata\Service\ResourceMetadataManager;
 
 /**
- * Creates document's metadata using the attribute configuration elasticsuite_index and elasticsuite_type.
+ * Creates document's metadata using the attribute configuration gally_index and gally_type.
  */
 class AttributeDocumentMetadataFactory implements DocumentMetadataFactoryInterface
 {
@@ -68,7 +67,7 @@ class AttributeDocumentMetadataFactory implements DocumentMetadataFactoryInterfa
         if (!$documentMetadata || DocumentMetadata::DEFAULT_TYPE === $documentMetadata->getType()) {
             $resourceMetadata = $resourceMetadata ?? $this->resourceMetadataFactory->create($resourceClass);
 
-            if (null !== $type = $resourceMetadata->getAttribute('elasticsuite_type')) {
+            if (null !== $type = $resourceMetadata->getAttribute('gally_type')) {
                 $documentMetadata = $documentMetadata ? $documentMetadata->withType($type) : new DocumentMetadata(null,
                     $type);
             }

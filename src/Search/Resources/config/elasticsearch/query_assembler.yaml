@@ -1,105 +1,105 @@
 services:
-    Elasticsuite\Search\Elasticsearch\Adapter\Common\Request\Query\Assembler\Boolean:
+    Gally\Search\Elasticsearch\Adapter\Common\Request\Query\Assembler\Boolean:
         abstract: false
         lazy: true
         arguments:
-            - '@Elasticsuite\Search\Elasticsearch\Adapter\Common\Request\Query\Assembler'
+            - '@Gally\Search\Elasticsearch\Adapter\Common\Request\Query\Assembler'
         tags:
-            - { name: 'elasticsuite.search.request.query.assembler', queryType: 'boolQuery' }
+            - { name: 'gally.search.request.query.assembler', queryType: 'boolQuery' }
 
-    Elasticsuite\Search\Elasticsearch\Adapter\Common\Request\Query\Assembler\Filtered:
+    Gally\Search\Elasticsearch\Adapter\Common\Request\Query\Assembler\Filtered:
         abstract: false
         lazy: true
         arguments:
-            - '@Elasticsuite\Search\Elasticsearch\Adapter\Common\Request\Query\Assembler'
+            - '@Gally\Search\Elasticsearch\Adapter\Common\Request\Query\Assembler'
         tags:
-            - { name: 'elasticsuite.search.request.query.assembler', queryType: 'filteredQuery' }
+            - { name: 'gally.search.request.query.assembler', queryType: 'filteredQuery' }
 
-    Elasticsuite\Search\Elasticsearch\Adapter\Common\Request\Query\Assembler\Nested:
+    Gally\Search\Elasticsearch\Adapter\Common\Request\Query\Assembler\Nested:
         abstract: false
         lazy: true
         arguments:
-            - '@Elasticsuite\Search\Elasticsearch\Adapter\Common\Request\Query\Assembler'
+            - '@Gally\Search\Elasticsearch\Adapter\Common\Request\Query\Assembler'
         tags:
-            - { name: 'elasticsuite.search.request.query.assembler', queryType: 'nestedQuery' }
+            - { name: 'gally.search.request.query.assembler', queryType: 'nestedQuery' }
 
-    Elasticsuite\Search\Elasticsearch\Adapter\Common\Request\Query\Assembler\Not:
+    Gally\Search\Elasticsearch\Adapter\Common\Request\Query\Assembler\Not:
         abstract: false
         lazy: true
         arguments:
-            - '@Elasticsuite\Search\Elasticsearch\Adapter\Common\Request\Query\Assembler'
+            - '@Gally\Search\Elasticsearch\Adapter\Common\Request\Query\Assembler'
         tags:
-            - { name: 'elasticsuite.search.request.query.assembler', queryType: 'notQuery' }
+            - { name: 'gally.search.request.query.assembler', queryType: 'notQuery' }
 
-    Elasticsuite\Search\Elasticsearch\Adapter\Common\Request\Query\Assembler\Missing:
+    Gally\Search\Elasticsearch\Adapter\Common\Request\Query\Assembler\Missing:
         abstract: false
         lazy: true
         tags:
-            - { name: 'elasticsuite.search.request.query.assembler', queryType: 'missingQuery' }
+            - { name: 'gally.search.request.query.assembler', queryType: 'missingQuery' }
 
-    Elasticsuite\Search\Elasticsearch\Adapter\Common\Request\Query\Assembler\Exists:
+    Gally\Search\Elasticsearch\Adapter\Common\Request\Query\Assembler\Exists:
         abstract: false
         lazy: true
         tags:
-            - { name: 'elasticsuite.search.request.query.assembler', queryType: 'existsQuery' }
+            - { name: 'gally.search.request.query.assembler', queryType: 'existsQuery' }
 
-    Elasticsuite\Search\Elasticsearch\Adapter\Common\Request\Query\Assembler\Term:
+    Gally\Search\Elasticsearch\Adapter\Common\Request\Query\Assembler\Term:
         abstract: false
         lazy: true
         tags:
-            - { name: 'elasticsuite.search.request.query.assembler', queryType: 'termQuery' }
+            - { name: 'gally.search.request.query.assembler', queryType: 'termQuery' }
 
-    Elasticsuite\Search\Elasticsearch\Adapter\Common\Request\Query\Assembler\Terms:
+    Gally\Search\Elasticsearch\Adapter\Common\Request\Query\Assembler\Terms:
         abstract: false
         lazy: true
         tags:
-            - { name: 'elasticsuite.search.request.query.assembler', queryType: 'termsQuery' }
+            - { name: 'gally.search.request.query.assembler', queryType: 'termsQuery' }
 
-    Elasticsuite\Search\Elasticsearch\Adapter\Common\Request\Query\Assembler\Range:
+    Gally\Search\Elasticsearch\Adapter\Common\Request\Query\Assembler\Range:
         abstract: false
         lazy: true
         tags:
-            - { name: 'elasticsuite.search.request.query.assembler', queryType: 'rangeQuery' }
+            - { name: 'gally.search.request.query.assembler', queryType: 'rangeQuery' }
 
-    Elasticsuite\Search\Elasticsearch\Adapter\Common\Request\Query\Assembler\MatchQuery:
+    Gally\Search\Elasticsearch\Adapter\Common\Request\Query\Assembler\MatchQuery:
         abstract: false
         lazy: true
         tags:
-            - { name: 'elasticsuite.search.request.query.assembler', queryType: 'matchQuery' }
+            - { name: 'gally.search.request.query.assembler', queryType: 'matchQuery' }
 
-    Elasticsuite\Search\Elasticsearch\Adapter\Common\Request\Query\Assembler\Common:
+    Gally\Search\Elasticsearch\Adapter\Common\Request\Query\Assembler\Common:
         abstract: false
         lazy: true
         tags:
-            - { name: 'elasticsuite.search.request.query.assembler', queryType: 'commonQuery' }
+            - { name: 'gally.search.request.query.assembler', queryType: 'commonQuery' }
 
-    Elasticsuite\Search\Elasticsearch\Adapter\Common\Request\Query\Assembler\MultiMatch:
+    Gally\Search\Elasticsearch\Adapter\Common\Request\Query\Assembler\MultiMatch:
         abstract: false
         lazy: true
         tags:
-            - { name: 'elasticsuite.search.request.query.assembler', queryType: 'multiMatchQuery' }
+            - { name: 'gally.search.request.query.assembler', queryType: 'multiMatchQuery' }
 
-    Elasticsuite\Search\Elasticsearch\Adapter\Common\Request\Query\Assembler\FunctionScore:
+    Gally\Search\Elasticsearch\Adapter\Common\Request\Query\Assembler\FunctionScore:
         abstract: false
         lazy: true
         arguments:
-            - '@Elasticsuite\Search\Elasticsearch\Adapter\Common\Request\Query\Assembler'
+            - '@Gally\Search\Elasticsearch\Adapter\Common\Request\Query\Assembler'
         tags:
-            - { name: 'elasticsuite.search.request.query.assembler', queryType: 'functionScore' }
+            - { name: 'gally.search.request.query.assembler', queryType: 'functionScore' }
 
-    Elasticsuite\Search\Elasticsearch\Adapter\Common\Request\Query\Assembler\MoreLikeThis:
+    Gally\Search\Elasticsearch\Adapter\Common\Request\Query\Assembler\MoreLikeThis:
         abstract: false
         lazy: true
         tags:
-            - { name: 'elasticsuite.search.request.query.assembler', queryType: 'moreLikeThisQuery' }
+            - { name: 'gally.search.request.query.assembler', queryType: 'moreLikeThisQuery' }
 
-    Elasticsuite\Search\Elasticsearch\Adapter\Common\Request\Query\Assembler\MatchPhrasePrefix:
+    Gally\Search\Elasticsearch\Adapter\Common\Request\Query\Assembler\MatchPhrasePrefix:
         abstract: false
         lazy: true
         tags:
-            - { name: 'elasticsuite.search.request.query.assembler', queryType: 'matchPhrasePrefixQuery' }
+            - { name: 'gally.search.request.query.assembler', queryType: 'matchPhrasePrefixQuery' }
 
-    Elasticsuite\Search\Elasticsearch\Adapter\Common\Request\Query\Assembler:
+    Gally\Search\Elasticsearch\Adapter\Common\Request\Query\Assembler:
         public: true
         lazy: true
-        arguments: [!tagged_iterator { tag: 'elasticsuite.search.request.query.assembler', index_by: 'queryType' }]
+        arguments: [!tagged_iterator { tag: 'gally.search.request.query.assembler', index_by: 'queryType' }]

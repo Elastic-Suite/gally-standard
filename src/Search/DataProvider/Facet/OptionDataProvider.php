@@ -2,32 +2,31 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\Search\DataProvider\Facet;
+namespace Gally\Search\DataProvider\Facet;
 
 use ApiPlatform\Core\DataProvider\ContextAwareCollectionDataProviderInterface;
 use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
-use Elasticsuite\Catalog\Repository\LocalizedCatalogRepository;
-use Elasticsuite\Category\Repository\CategoryConfigurationRepository;
-use Elasticsuite\Metadata\Model\SourceField\Type;
-use Elasticsuite\Metadata\Repository\MetadataRepository;
-use Elasticsuite\Search\Elasticsearch\Adapter;
-use Elasticsuite\Search\Elasticsearch\Builder\Request\SimpleRequestBuilder;
-use Elasticsuite\Search\Elasticsearch\Request\Container\Configuration\ContainerConfigurationProvider;
-use Elasticsuite\Search\Model\Facet\Option;
-use Elasticsuite\Search\Service\GraphQl\FilterManager;
-use Elasticsuite\Search\Service\ReverseSourceFieldProvider;
-use Elasticsuite\Search\Service\ViewMoreContext;
+use Gally\Catalog\Repository\LocalizedCatalogRepository;
+use Gally\Category\Repository\CategoryConfigurationRepository;
+use Gally\Metadata\Model\SourceField\Type;
+use Gally\Metadata\Repository\MetadataRepository;
+use Gally\Search\Elasticsearch\Adapter;
+use Gally\Search\Elasticsearch\Builder\Request\SimpleRequestBuilder;
+use Gally\Search\Elasticsearch\Request\Container\Configuration\ContainerConfigurationProvider;
+use Gally\Search\Model\Facet\Option;
+use Gally\Search\Service\GraphQl\FilterManager;
+use Gally\Search\Service\ReverseSourceFieldProvider;
+use Gally\Search\Service\ViewMoreContext;
 
 class OptionDataProvider implements ContextAwareCollectionDataProviderInterface, RestrictedDataProviderInterface
 {
@@ -69,11 +68,11 @@ class OptionDataProvider implements ContextAwareCollectionDataProviderInterface,
             0,
             $searchQuery,
             [],
-            $this->filterManager->transformToElasticsuiteFilters(
+            $this->filterManager->transformToGallyFilters(
                 $this->filterManager->getFiltersFromContext($context),
                 $containerConfig
             ),
-            $this->filterManager->transformToElasticsuiteFilters(
+            $this->filterManager->transformToGallyFilters(
                 $this->filterManager->getQueryFilterFromContext($context),
                 $containerConfig
             ),

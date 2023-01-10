@@ -2,25 +2,24 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\Index\DataProvider;
+namespace Gally\Index\DataProvider;
 
 use ApiPlatform\Core\DataProvider\ItemDataProviderInterface;
 use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
 use ApiPlatform\Core\GraphQl\Resolver\QueryItemResolverInterface;
-use Elasticsuite\Index\Model\Index\Mapping\Status;
-use Elasticsuite\Index\Service\MetadataManager;
-use Elasticsuite\Metadata\Repository\MetadataRepository;
+use Gally\Index\Model\Index\Mapping\Status;
+use Gally\Index\Service\MetadataManager;
+use Gally\Metadata\Repository\MetadataRepository;
 
 class MappingStatusDataProvider implements RestrictedDataProviderInterface, ItemDataProviderInterface, QueryItemResolverInterface
 {

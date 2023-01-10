@@ -2,25 +2,24 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\Search\Tests\Unit\Elasticsearch;
+namespace Gally\Search\Tests\Unit\Elasticsearch;
 
 use Elasticsearch\Client;
-use Elasticsuite\Search\Elasticsearch\Adapter;
-use Elasticsuite\Search\Elasticsearch\Adapter\Common\Request;
-use Elasticsuite\Search\Elasticsearch\Adapter\Common\Response;
-use Elasticsuite\Search\Elasticsearch\Builder\Response\AggregationBuilder;
-use Elasticsuite\Search\Elasticsearch\RequestInterface;
+use Gally\Search\Elasticsearch\Adapter;
+use Gally\Search\Elasticsearch\Adapter\Common\Request;
+use Gally\Search\Elasticsearch\Adapter\Common\Response;
+use Gally\Search\Elasticsearch\Builder\Response\AggregationBuilder;
+use Gally\Search\Elasticsearch\RequestInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;

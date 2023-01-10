@@ -2,29 +2,28 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\Search\Tests\Unit\Elasticsearch\Request\Aggregation;
+namespace Gally\Search\Tests\Unit\Elasticsearch\Request\Aggregation;
 
-use Elasticsuite\Catalog\Repository\LocalizedCatalogRepository;
-use Elasticsuite\Category\Service\CurrentCategoryProvider;
-use Elasticsuite\Metadata\Repository\MetadataRepository;
-use Elasticsuite\Search\Elasticsearch\Request\Aggregation\Modifier\Coverage;
-use Elasticsuite\Search\Elasticsearch\Request\Container\Configuration\ContainerConfigurationProvider;
-use Elasticsuite\Search\Model\Facet\Configuration;
-use Elasticsuite\Search\Repository\Facet\ConfigurationRepository;
-use Elasticsuite\Search\Service\SearchSettingsProvider;
-use Elasticsuite\Search\Tests\Service\SearchSettingsProvider as TestSearchSettingsProvider;
-use Elasticsuite\Test\AbstractTest;
+use Gally\Catalog\Repository\LocalizedCatalogRepository;
+use Gally\Category\Service\CurrentCategoryProvider;
+use Gally\Metadata\Repository\MetadataRepository;
+use Gally\Search\Elasticsearch\Request\Aggregation\Modifier\Coverage;
+use Gally\Search\Elasticsearch\Request\Container\Configuration\ContainerConfigurationProvider;
+use Gally\Search\Model\Facet\Configuration;
+use Gally\Search\Repository\Facet\ConfigurationRepository;
+use Gally\Search\Service\SearchSettingsProvider;
+use Gally\Search\Tests\Service\SearchSettingsProvider as TestSearchSettingsProvider;
+use Gally\Test\AbstractTest;
 
 /**
  * Catalog Product Search Request coverage provider.

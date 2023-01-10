@@ -2,22 +2,21 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\Search\DataPersister\Facet;
+namespace Gally\Search\DataPersister\Facet;
 
 use ApiPlatform\Core\DataPersister\DataPersisterInterface;
 use Doctrine\ORM\EntityManagerInterface;
-use Elasticsuite\Search\Model\Facet;
+use Gally\Search\Model\Facet;
 
 final class ConfigurationDataPersister implements DataPersisterInterface
 {

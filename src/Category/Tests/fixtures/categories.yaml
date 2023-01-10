@@ -1,4 +1,4 @@
-Elasticsuite\Category\Model\Category:
+Gally\Category\Model\Category:
     categ1:
         id: one
         level: 1

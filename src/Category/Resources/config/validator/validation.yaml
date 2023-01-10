@@ -1,6 +1,6 @@
-Elasticsuite\Category\Model\Category\Configuration:
+Gally\Category\Model\Category\Configuration:
     properties:
         virtualRule:
             - Json: ~
         defaultSorting:
-            - Elasticsuite\Category\Validator\DefaultSortingFieldConstraint: ~
+            - Gally\Category\Validator\DefaultSortingFieldConstraint: ~

@@ -1,4 +1,4 @@
-Elasticsuite\Metadata\Model\SourceFieldLabel:
+Gally\Metadata\Model\SourceFieldLabel:
     product_color_b2c_en:
         source_field: '@product_color'
         catalog: '@catalog1_en'

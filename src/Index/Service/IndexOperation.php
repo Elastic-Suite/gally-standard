@@ -2,37 +2,25 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
-/**
- * DISCLAIMER.
- *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
- *
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
- * @copyright {2022} Smile
- * @license   Licensed to Smile-SA. All rights reserved. No warranty, explicit or implicit, provided.
- *            Unauthorized copying of this file, via any medium, is strictly prohibited.
- */
 
-namespace Elasticsuite\Index\Service;
+namespace Gally\Index\Service;
 
 use Elasticsearch\Common\Exceptions\Missing404Exception;
-use Elasticsuite\Catalog\Model\LocalizedCatalog;
-use Elasticsuite\Exception\LogicException;
-use Elasticsuite\Index\Api\IndexSettingsInterface;
-use Elasticsuite\Index\Model\Index;
-use Elasticsuite\Index\Repository\Index\IndexRepositoryInterface;
-use Elasticsuite\Metadata\Model\Metadata;
+use Gally\Catalog\Model\LocalizedCatalog;
+use Gally\Exception\LogicException;
+use Gally\Index\Api\IndexSettingsInterface;
+use Gally\Index\Model\Index;
+use Gally\Index\Repository\Index\IndexRepositoryInterface;
+use Gally\Metadata\Model\Metadata;
 
 class IndexOperation
 {

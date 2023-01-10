@@ -1,4 +1,4 @@
-Elasticsuite\User\Model\User:
+Gally\User\Model\User:
     admin:
         email: admin@example.com
         password: <hashPassword('apassword')>

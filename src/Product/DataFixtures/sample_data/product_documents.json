@@ -1,6 +1,6 @@
 [
   {
-    "index_name": "elasticsuite_com_en_product",
+    "index_name": "gally_com_en_product",
     "documents": [
       {
         "entity_id": "1",
@@ -17987,7 +17987,7 @@
     ]
   },
   {
-    "index_name": "elasticsuite_com_fr_product",
+    "index_name": "gally_com_fr_product",
     "documents": [
       {
         "entity_id": "1",
@@ -35973,7 +35973,7 @@
     ]
   },
   {
-    "index_name": "elasticsuite_fr_en_product",
+    "index_name": "gally_fr_en_product",
     "documents": [
       {
         "entity_id": "1",
@@ -91807,7 +91807,7 @@
     ]
   },
   {
-    "index_name": "elasticsuite_fr_fr_product",
+    "index_name": "gally_fr_fr_product",
     "documents": [
       {
         "entity_id": "1",

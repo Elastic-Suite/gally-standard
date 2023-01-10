@@ -2,26 +2,25 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\Category\Repository\CategoryProductPositionIndexer;
+namespace Gally\Category\Repository\CategoryProductPositionIndexer;
 
 use Elasticsearch\Client;
-use Elasticsuite\Catalog\Model\LocalizedCatalog;
-use Elasticsuite\Category\Model\Category\ProductMerchandising;
-use Elasticsuite\Index\Repository\Index\IndexRepositoryInterface;
-use Elasticsuite\Index\Service\IndexSettings;
-use Elasticsuite\Metadata\Repository\MetadataRepository;
-use Elasticsuite\Search\Model\Document;
+use Gally\Catalog\Model\LocalizedCatalog;
+use Gally\Category\Model\Category\ProductMerchandising;
+use Gally\Index\Repository\Index\IndexRepositoryInterface;
+use Gally\Index\Service\IndexSettings;
+use Gally\Metadata\Repository\MetadataRepository;
+use Gally\Search\Model\Document;
 use Psr\Log\LoggerInterface;
 
 class CategoryProductPositionIndexerRepository implements CategoryProductPositionIndexerRepositoryInterface

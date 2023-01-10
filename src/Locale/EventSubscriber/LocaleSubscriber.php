@@ -2,30 +2,29 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\Locale\EventSubscriber;
+namespace Gally\Locale\EventSubscriber;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
 /**
- * Set the app locale according to the value of the Elasticsuite-Language header.
+ * Set the app locale according to the value of the Gally-Language header.
  */
 class LocaleSubscriber implements EventSubscriberInterface
 {
-    public const ELASTICSUITE_LANGUAGE_HEADER = 'Elasticsuite-Language';
-    public const ELASTICSUITE_LANGUAGE_VARY_KEY = '_vary_by_elasticsuite_language';
+    public const GALLY_LANGUAGE_HEADER = 'Gally-Language';
+    public const GALLY_LANGUAGE_VARY_KEY = '_vary_by_gally_language';
 
     public function __construct(
         private array $enabledLocales,
@@ -35,10 +34,10 @@ class LocaleSubscriber implements EventSubscriberInterface
     public function onKernelRequest(RequestEvent $event): void
     {
         $request = $event->getRequest();
-        $languageHeader = $request->headers->get(self::ELASTICSUITE_LANGUAGE_HEADER);
+        $languageHeader = $request->headers->get(self::GALLY_LANGUAGE_HEADER);
         if ($languageHeader) {
             /**
-             * We replace the value of Accept-Language by the value of the elasticsuite language header
+             * We replace the value of Accept-Language by the value of the gally language header
              * because all the logic to extract languages from a "language header" is implemented in $request->getPreferredLanguage()
              * and this function is based on Accept-Language header.
              */
@@ -47,7 +46,7 @@ class LocaleSubscriber implements EventSubscriberInterface
             $locale = $request->getPreferredLanguage($this->enabledLocales);
             $request->headers->set('Accept-Language', $origAcceptLanguage);
             $request->setLocale($locale);
-            $request->attributes->set(self::ELASTICSUITE_LANGUAGE_VARY_KEY, true);
+            $request->attributes->set(self::GALLY_LANGUAGE_VARY_KEY, true);
         }
     }
 

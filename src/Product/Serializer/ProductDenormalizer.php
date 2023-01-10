@@ -2,27 +2,26 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\Product\Serializer;
+namespace Gally\Product\Serializer;
 
-use Elasticsuite\Entity\Model\Attribute\AttributeFactory;
-use Elasticsuite\Entity\Model\Attribute\StructuredAttributeInterface;
-use Elasticsuite\Entity\Model\Attribute\Type\NestedAttribute;
-use Elasticsuite\Entity\Model\Attribute\Type\PriceAttribute;
-use Elasticsuite\Entity\Service\PriceGroupProvider;
-use Elasticsuite\Product\Model\Product;
-use Elasticsuite\Search\Model\Document;
-use Elasticsuite\Stitching\Service\SerializerService;
+use Gally\Entity\Model\Attribute\AttributeFactory;
+use Gally\Entity\Model\Attribute\StructuredAttributeInterface;
+use Gally\Entity\Model\Attribute\Type\NestedAttribute;
+use Gally\Entity\Model\Attribute\Type\PriceAttribute;
+use Gally\Entity\Service\PriceGroupProvider;
+use Gally\Product\Model\Product;
+use Gally\Search\Model\Document;
+use Gally\Stitching\Service\SerializerService;
 use Symfony\Component\Serializer\Normalizer\ContextAwareDenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;

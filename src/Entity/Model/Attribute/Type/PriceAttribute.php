@@ -2,22 +2,21 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\Entity\Model\Attribute\Type;
+namespace Gally\Entity\Model\Attribute\Type;
 
-use Elasticsuite\Entity\Model\Attribute\AttributeInterface;
-use Elasticsuite\Entity\Model\Attribute\StructuredAttributeInterface;
-use Elasticsuite\Entity\Service\PriceGroupProvider;
+use Gally\Entity\Model\Attribute\AttributeInterface;
+use Gally\Entity\Model\Attribute\StructuredAttributeInterface;
+use Gally\Entity\Service\PriceGroupProvider;
 
 /**
  * Used for normalization/de-normalization and graphql schema stitching of price source fields.
@@ -68,7 +67,7 @@ class PriceAttribute extends AbstractStructuredAttribute implements AttributeInt
     public static function getFields(): array
     {
         // Will depend from global configuration in the future.
-        // (@see \Elasticsuite\Index\Converter\SourceField\PriceSourceFieldConverter)
+        // (@see \Gally\Index\Converter\SourceField\PriceSourceFieldConverter)
         return [
             'original_price' => ['class_type' => FloatAttribute::class],
             'price' => ['class_type' => FloatAttribute::class],

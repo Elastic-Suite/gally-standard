@@ -2,28 +2,27 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\GraphQl\Decoration\Serializer;
+namespace Gally\GraphQl\Decoration\Serializer;
 
 use ApiPlatform\Core\GraphQl\Serializer\SerializerContextBuilderInterface;
-use Elasticsuite\GraphQl\Decoration\Resolver\Stage\ReadStage;
+use Gally\GraphQl\Decoration\Resolver\Stage\ReadStage;
 
 /**
- * Add elasticsuite_filters info in serializer context.
+ * Add gally_filters info in serializer context.
  */
 class SerializerContextBuilder implements SerializerContextBuilderInterface
 {
-    public const GRAPHQL_ELASTICSUITE_FILTERS_KEY = 'elasticsuite_filters';
+    public const GRAPHQL_GALLY_FILTERS_KEY = 'gally_filters';
 
     public function __construct(
         private string $nestingSeparator,
@@ -35,8 +34,8 @@ class SerializerContextBuilder implements SerializerContextBuilderInterface
     {
         $context = $this->decorated->create($resourceClass, $operationName, $resolverContext, $normalization);
 
-        if (isset($resolverContext[ReadStage::GRAPHQL_ELASTICSUITE_ARGS_KEY])) {
-            $context[self::GRAPHQL_ELASTICSUITE_FILTERS_KEY] = $this->getNormalizedFilters($resolverContext[ReadStage::GRAPHQL_ELASTICSUITE_ARGS_KEY]);
+        if (isset($resolverContext[ReadStage::GRAPHQL_GALLY_ARGS_KEY])) {
+            $context[self::GRAPHQL_GALLY_FILTERS_KEY] = $this->getNormalizedFilters($resolverContext[ReadStage::GRAPHQL_GALLY_ARGS_KEY]);
         }
 
         return $context;
@@ -44,7 +43,7 @@ class SerializerContextBuilder implements SerializerContextBuilderInterface
 
     /**
      * Copy of @see ApiPlatform\Core\GraphQl\Resolver\Stage\ReadStage::getNormalizedFilters
-     * In this function  we removed useless code for GraphQl elasticsuite args.
+     * In this function  we removed useless code for GraphQl gally args.
      */
     private function getNormalizedFilters(array $args): array
     {

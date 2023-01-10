@@ -2,24 +2,23 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\Index\Service;
+namespace Gally\Index\Service;
 
-use Elasticsuite\Analysis\Service\Config;
-use Elasticsuite\Catalog\Model\LocalizedCatalog;
-use Elasticsuite\Index\Api\IndexSettingsInterface;
-use Elasticsuite\Index\Helper\IndexSettings as IndexSettingsHelper;
-use Elasticsuite\Index\Model\Index;
+use Gally\Analysis\Service\Config;
+use Gally\Catalog\Model\LocalizedCatalog;
+use Gally\Index\Api\IndexSettingsInterface;
+use Gally\Index\Helper\IndexSettings as IndexSettingsHelper;
+use Gally\Index\Model\Index;
 
 class IndexSettings implements IndexSettingsInterface
 {

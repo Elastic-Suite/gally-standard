@@ -2,11 +2,10 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
@@ -15,7 +14,7 @@ declare(strict_types=1);
 /**
  * DISCLAIMER.
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
+ * Do not edit or add to this file if you wish to upgrade Gally to newer
  * versions in the future.
  *
  * @category  Smile
@@ -25,7 +24,7 @@ declare(strict_types=1);
  * @license   Open Software License ("OSL") v. 3.0
  */
 
-namespace Elasticsuite\Search\Elasticsearch\Spellchecker;
+namespace Gally\Search\Elasticsearch\Spellchecker;
 
 /**
  * Spellchecker request implementation.

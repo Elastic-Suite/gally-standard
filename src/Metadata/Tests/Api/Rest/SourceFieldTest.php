@@ -2,24 +2,23 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\Metadata\Tests\Api\Rest;
+namespace Gally\Metadata\Tests\Api\Rest;
 
-use Elasticsuite\Metadata\Model\SourceField;
-use Elasticsuite\Test\AbstractEntityTestWithUpdate;
-use Elasticsuite\Test\ExpectedResponse;
-use Elasticsuite\Test\RequestToTest;
-use Elasticsuite\User\Constant\Role;
+use Gally\Metadata\Model\SourceField;
+use Gally\Test\AbstractEntityTestWithUpdate;
+use Gally\Test\ExpectedResponse;
+use Gally\Test\RequestToTest;
+use Gally\User\Constant\Role;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
 class SourceFieldTest extends AbstractEntityTestWithUpdate

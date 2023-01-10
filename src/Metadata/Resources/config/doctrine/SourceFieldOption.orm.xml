@@ -3,9 +3,9 @@
                   xmlns:xsi="https://www.w3.org/2001/XMLSchema-instance"
                   xsi:schemaLocation="https://doctrine-project.org/schemas/orm/doctrine-mapping
                           https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
-    <entity name="Elasticsuite\Metadata\Model\SourceFieldOption"
+    <entity name="Gally\Metadata\Model\SourceFieldOption"
             table="source_field_option"
-            repository-class="Elasticsuite\Metadata\Repository\SourceFieldOptionRepository">
+            repository-class="Gally\Metadata\Repository\SourceFieldOptionRepository">
         <id name="id" type="integer">
             <generator strategy="AUTO"/>
         </id>
@@ -14,12 +14,12 @@
         <field name="defaultLabel" type="string" nullable="false"/>
 
         <many-to-one field="sourceField"
-                     target-entity="Elasticsuite\Metadata\Model\SourceField"
+                     target-entity="Gally\Metadata\Model\SourceField"
                      inversed-by="options">
             <join-column name="source_field_id" referenced-column-name="id" nullable="false" on-delete="CASCADE" on-update="CASCADE"/>
         </many-to-one>
 
-        <one-to-many field="labels" target-entity="Elasticsuite\Metadata\Model\SourceFieldOptionLabel" mapped-by="sourceFieldOption">
+        <one-to-many field="labels" target-entity="Gally\Metadata\Model\SourceFieldOptionLabel" mapped-by="sourceFieldOption">
             <cascade>
                 <cascade-persist/>
             </cascade>

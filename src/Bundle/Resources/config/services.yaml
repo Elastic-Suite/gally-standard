@@ -1,5 +1,5 @@
 services:
-    Elasticsuite\Bundle\DataProvider\ExtraBundleDataProvider:
+    Gally\Bundle\DataProvider\ExtraBundleDataProvider:
         arguments:
             - '@Symfony\Component\HttpKernel\KernelInterface'
         tags:

@@ -2,22 +2,21 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\Search\Service\GraphQl;
+namespace Gally\Search\Service\GraphQl;
 
-use Elasticsuite\GraphQl\Decoration\Serializer\SerializerContextBuilder;
-use Elasticsuite\Search\Elasticsearch\Request\ContainerConfigurationInterface;
-use Elasticsuite\Search\GraphQl\Type\Definition\FieldFilterInputType;
+use Gally\GraphQl\Decoration\Serializer\SerializerContextBuilder;
+use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface;
+use Gally\Search\GraphQl\Type\Definition\FieldFilterInputType;
 
 class FilterManager
 {
@@ -30,11 +29,11 @@ class FilterManager
     public function validateFilters(array $context, ContainerConfigurationInterface $containerConfiguration): void
     {
         $errors = [];
-        if (!isset($context[SerializerContextBuilder::GRAPHQL_ELASTICSUITE_FILTERS_KEY]['filter'])) {
+        if (!isset($context[SerializerContextBuilder::GRAPHQL_GALLY_FILTERS_KEY]['filter'])) {
             return;
         }
 
-        foreach ($context[SerializerContextBuilder::GRAPHQL_ELASTICSUITE_FILTERS_KEY]['filter'] as $argName => $filter) {
+        foreach ($context[SerializerContextBuilder::GRAPHQL_GALLY_FILTERS_KEY]['filter'] as $argName => $filter) {
             $errors = array_merge($errors, $this->fieldFilterInputType->validate('filter', [$argName => $filter], $containerConfiguration));
         }
 
@@ -43,7 +42,7 @@ class FilterManager
 
     public function getFiltersFromContext(array $context): array
     {
-        return $context[SerializerContextBuilder::GRAPHQL_ELASTICSUITE_FILTERS_KEY]['filter'] ?? [];
+        return $context[SerializerContextBuilder::GRAPHQL_GALLY_FILTERS_KEY]['filter'] ?? [];
     }
 
     public function getQueryFilterFromContext(array $context): array
@@ -52,11 +51,11 @@ class FilterManager
     }
 
     /**
-     * Transform GraphQL filters in understandable Elasticsuite filters.
+     * Transform GraphQL filters in understandable Gally filters.
      *
      * @param array $graphQlFilters context
      */
-    public function transformToElasticsuiteFilters(array $graphQlFilters, ContainerConfigurationInterface $containerConfig, array $filterContext = []): array
+    public function transformToGallyFilters(array $graphQlFilters, ContainerConfigurationInterface $containerConfig, array $filterContext = []): array
     {
         $esFilters = [];
         foreach ($graphQlFilters as $filters) {
@@ -67,7 +66,7 @@ class FilterManager
                     // the filter twice, we have to skip the one with the '.'.
                     continue;
                 }
-                $esFilterData = $this->fieldFilterInputType->transformToElasticsuiteFilter(
+                $esFilterData = $this->fieldFilterInputType->transformToGallyFilter(
                     [$sourceFieldName => $condition],
                     $containerConfig,
                     $filterContext

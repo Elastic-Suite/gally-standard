@@ -2,27 +2,26 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\Category\Repository;
+namespace Gally\Category\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
-use Elasticsuite\Catalog\Model\Catalog;
-use Elasticsuite\Catalog\Model\LocalizedCatalog;
-use Elasticsuite\Category\Model\Category;
+use Gally\Catalog\Model\Catalog;
+use Gally\Catalog\Model\LocalizedCatalog;
+use Gally\Category\Model\Category;
 
 /**
  * @method Category\ProductMerchandising|null find($id, $lockMode = null, $lockVersion = null)

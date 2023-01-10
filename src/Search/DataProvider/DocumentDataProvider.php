@@ -2,30 +2,29 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\Search\DataProvider;
+namespace Gally\Search\DataProvider;
 
 use ApiPlatform\Core\DataProvider\ContextAwareCollectionDataProviderInterface;
 use ApiPlatform\Core\DataProvider\Pagination;
 use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
-use Elasticsuite\Catalog\Repository\LocalizedCatalogRepository;
-use Elasticsuite\Metadata\Repository\MetadataRepository;
-use Elasticsuite\Search\Elasticsearch\Adapter;
-use Elasticsuite\Search\Elasticsearch\Builder\Request\SimpleRequestBuilder as RequestBuilder;
-use Elasticsuite\Search\Elasticsearch\Request\Container\Configuration\ContainerConfigurationProvider;
-use Elasticsuite\Search\GraphQl\Type\Definition\SortInputType;
-use Elasticsuite\Search\Model\Document;
-use Elasticsuite\Search\Service\GraphQl\FilterManager;
+use Gally\Catalog\Repository\LocalizedCatalogRepository;
+use Gally\Metadata\Repository\MetadataRepository;
+use Gally\Search\Elasticsearch\Adapter;
+use Gally\Search\Elasticsearch\Builder\Request\SimpleRequestBuilder as RequestBuilder;
+use Gally\Search\Elasticsearch\Request\Container\Configuration\ContainerConfigurationProvider;
+use Gally\Search\GraphQl\Type\Definition\SortInputType;
+use Gally\Search\Model\Document;
+use Gally\Search\Service\GraphQl\FilterManager;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 
 class DocumentDataProvider implements ContextAwareCollectionDataProviderInterface, RestrictedDataProviderInterface
@@ -73,7 +72,7 @@ class DocumentDataProvider implements ContextAwareCollectionDataProviderInterfac
             $limit,
             $searchQuery,
             $this->sortInputType->formatSort($containerConfig, $context, $metadata),
-            $this->filterManager->transformToElasticsuiteFilters(
+            $this->filterManager->transformToGallyFilters(
                 $this->filterManager->getFiltersFromContext($context),
                 $containerConfig
             ),

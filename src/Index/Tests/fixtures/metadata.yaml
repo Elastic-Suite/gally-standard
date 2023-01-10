@@ -1,4 +1,4 @@
-Elasticsuite\Metadata\Model\Metadata:
+Gally\Metadata\Model\Metadata:
     product:
         entity: product
     category:

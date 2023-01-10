@@ -1,5 +1,5 @@
 
-Elasticsuite\Catalog\Model\LocalizedCatalog:
+Gally\Catalog\Model\LocalizedCatalog:
     localized_catalog1:
         catalog: '@catalog1'
         code: b2c_fr

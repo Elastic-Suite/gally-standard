@@ -2,20 +2,19 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\Search\Compiler;
+namespace Gally\Search\Compiler;
 
-use Elasticsuite\Search\Elasticsearch\Request\Container\Configuration\ContainerConfigurationProvider;
+use Gally\Search\Elasticsearch\Request\Container\Configuration\ContainerConfigurationProvider;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
@@ -30,7 +29,7 @@ class GetContainerConfigurationFactory implements CompilerPassInterface
 
         $containerConfigProviderDef = $container->findDefinition(ContainerConfigurationProvider::class); //@phpstan-ignore-line
 
-        $taggedServices = $container->findTaggedServiceIds('elasticsuite.container_configuration.factory');
+        $taggedServices = $container->findTaggedServiceIds('gally.container_configuration.factory');
 
         foreach ($taggedServices as $id => $tags) {
             foreach ($tags as $attributes) {

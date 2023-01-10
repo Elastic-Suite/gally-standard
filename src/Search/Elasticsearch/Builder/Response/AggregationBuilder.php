@@ -2,22 +2,21 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\Search\Elasticsearch\Builder\Response;
+namespace Gally\Search\Elasticsearch\Builder\Response;
 
-use Elasticsuite\Search\Elasticsearch\Adapter\Common\Response\Aggregation;
-use Elasticsuite\Search\Elasticsearch\Adapter\Common\Response\AggregationInterface;
-use Elasticsuite\Search\Elasticsearch\Adapter\Common\Response\BucketValue;
+use Gally\Search\Elasticsearch\Adapter\Common\Response\Aggregation;
+use Gally\Search\Elasticsearch\Adapter\Common\Response\AggregationInterface;
+use Gally\Search\Elasticsearch\Adapter\Common\Response\BucketValue;
 
 /**
  * Builder for aggregation part of the search response.

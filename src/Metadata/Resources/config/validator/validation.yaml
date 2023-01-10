@@ -1,26 +1,26 @@
-Elasticsuite\Metadata\Model\Metadata:
+Gally\Metadata\Model\Metadata:
     properties:
         entity:
             - NotBlank: ~
     constraints:
         - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: entity
             
-Elasticsuite\Metadata\Model\SourceField:
+Gally\Metadata\Model\SourceField:
     properties:
         code:
             - NotBlank: ~
         metadata:
             - NotBlank: ~
         type:
-            - Choice: { callback: [Elasticsuite\Metadata\Model\SourceField\Type, getAvailableTypes] }
+            - Choice: { callback: [Gally\Metadata\Model\SourceField\Type, getAvailableTypes] }
         weight:
-            - Choice: { callback: [Elasticsuite\Metadata\Model\SourceField\Weight, getValidWeight] }
+            - Choice: { callback: [Gally\Metadata\Model\SourceField\Weight, getValidWeight] }
     constraints:
         - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
               fields: [ code, metadata ]
               message: 'An field with this code already exist for this entity.'
             
-Elasticsuite\Metadata\Model\SourceFieldLabel:
+Gally\Metadata\Model\SourceFieldLabel:
     properties:
         label:
             - NotBlank: ~
@@ -33,7 +33,7 @@ Elasticsuite\Metadata\Model\SourceFieldLabel:
               fields: [ sourceField, catalog ]
               message: 'A label is already defined for this field and this catalog.'
             
-Elasticsuite\Metadata\Model\SourceFieldOption:
+Gally\Metadata\Model\SourceFieldOption:
     properties:
         sourceField:
             - NotBlank: ~
@@ -46,7 +46,7 @@ Elasticsuite\Metadata\Model\SourceFieldOption:
               fields: [ sourceField, code ]
               message: 'An option with this code is already defined for this sourceField.'
 
-Elasticsuite\Metadata\Model\SourceFieldOptionLabel:
+Gally\Metadata\Model\SourceFieldOptionLabel:
     properties:
         label:
             - NotBlank: ~

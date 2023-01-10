@@ -2,29 +2,28 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\Index\Tests\Api\GraphQl;
+namespace Gally\Index\Tests\Api\GraphQl;
 
-use Elasticsuite\Catalog\Repository\LocalizedCatalogRepository;
-use Elasticsuite\Index\Api\IndexSettingsInterface;
-use Elasticsuite\Index\Model\Index;
-use Elasticsuite\Index\Model\Index\SelfReindex;
-use Elasticsuite\Index\Repository\Index\IndexRepositoryInterface;
-use Elasticsuite\Test\AbstractTest;
-use Elasticsuite\Test\ExpectedResponse;
-use Elasticsuite\Test\RequestGraphQlToTest;
-use Elasticsuite\User\Constant\Role;
-use Elasticsuite\User\Model\User;
+use Gally\Catalog\Repository\LocalizedCatalogRepository;
+use Gally\Index\Api\IndexSettingsInterface;
+use Gally\Index\Model\Index;
+use Gally\Index\Model\Index\SelfReindex;
+use Gally\Index\Repository\Index\IndexRepositoryInterface;
+use Gally\Test\AbstractTest;
+use Gally\Test\ExpectedResponse;
+use Gally\Test\RequestGraphQlToTest;
+use Gally\User\Constant\Role;
+use Gally\User\Model\User;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
 class SelfReindexOperationTest extends AbstractTest
@@ -38,7 +37,7 @@ class SelfReindexOperationTest extends AbstractTest
         parent::setUpBeforeClass();
         \assert(static::getContainer()->get(IndexRepositoryInterface::class) instanceof IndexRepositoryInterface);
         self::$indexRepository = static::getContainer()->get(IndexRepositoryInterface::class);
-        self::$indexSettings = static::getContainer()->get('Elasticsuite\Index\Service\IndexSettingsTest'); // @phpstan-ignore-line
+        self::$indexSettings = static::getContainer()->get('Gally\Index\Service\IndexSettingsTest'); // @phpstan-ignore-line
         self::loadFixture([
             __DIR__ . '/../../fixtures/catalogs.yaml',
             __DIR__ . '/../../fixtures/source_field.yaml',
@@ -49,7 +48,7 @@ class SelfReindexOperationTest extends AbstractTest
     public static function tearDownAfterClass(): void
     {
         parent::tearDownAfterClass();
-        self::$indexRepository->delete('elasticsuite_test__elasticsuite_*');
+        self::$indexRepository->delete('gally_test__gally_*');
     }
 
     /**

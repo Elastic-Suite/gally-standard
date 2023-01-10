@@ -2,29 +2,28 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\Category\Model\Category;
+namespace Gally\Category\Model\Category;
 
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
-use Elasticsuite\Catalog\Model\Catalog;
-use Elasticsuite\Catalog\Model\LocalizedCatalog;
-use Elasticsuite\Category\Controller\CategoryConfigurationGet;
-use Elasticsuite\Category\Model\Category;
-use Elasticsuite\Category\Resolver\ConfigurationResolver;
-use Elasticsuite\User\Constant\Role;
+use Gally\Catalog\Model\Catalog;
+use Gally\Catalog\Model\LocalizedCatalog;
+use Gally\Category\Controller\CategoryConfigurationGet;
+use Gally\Category\Model\Category;
+use Gally\Category\Resolver\ConfigurationResolver;
+use Gally\User\Constant\Role;
 
 #[ApiResource(
     collectionOperations: [
@@ -103,7 +102,7 @@ class Configuration
     #[ApiProperty(
         attributes: [
             'hydra:supportedProperty' => [
-                'elasticsuite' => [
+                'gally' => [
                     'depends' => [
                         'conditions' => [
                             'isVirtual' => true,
@@ -119,7 +118,7 @@ class Configuration
     #[ApiProperty(
         attributes: [
             'hydra:supportedProperty' => [
-                'elasticsuite' => [
+                'gally' => [
                     'input' => 'select',
                     'options' => [
                         'api_rest' => '/category_sorting_options',

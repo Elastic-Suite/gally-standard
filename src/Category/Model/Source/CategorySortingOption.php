@@ -2,22 +2,21 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\Category\Model\Source;
+namespace Gally\Category\Model\Source;
 
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
-use Elasticsuite\Metadata\Model\SourceField;
+use Gally\Metadata\Model\SourceField;
 
 #[ApiResource(
     itemOperations: [],
@@ -28,7 +27,7 @@ use Elasticsuite\Metadata\Model\SourceField;
         'collection_query' => ['pagination_enabled' => false],
     ],
     attributes: [
-        'elasticsuite' => [
+        'gally' => [
             // Allows to add cache tag "/source_fields" in the HTTP response to invalidate proxy cache when a source field is saved.
             'cache_tag' => ['resource_classes' => [SourceField::class]],
         ],

@@ -1,7 +1,7 @@
 include:
     - ../fixtures/metadata.yaml
 
-Elasticsuite\Metadata\Model\SourceField:
+Gally\Metadata\Model\SourceField:
     categories_all_children:
         metadata: '@category'
         code: all_children

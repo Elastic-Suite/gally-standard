@@ -2,31 +2,30 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\Search\Elasticsearch\Builder\Request;
+namespace Gally\Search\Elasticsearch\Builder\Request;
 
-use Elasticsuite\Search\Elasticsearch\Builder\Request\Aggregation\AggregationBuilder;
-use Elasticsuite\Search\Elasticsearch\Builder\Request\Query\QueryBuilder;
-use Elasticsuite\Search\Elasticsearch\Builder\Request\SortOrder\SortOrderBuilder;
-use Elasticsuite\Search\Elasticsearch\Request\ContainerConfigurationInterface;
-use Elasticsuite\Search\Elasticsearch\Request\QueryInterface;
-use Elasticsuite\Search\Elasticsearch\RequestFactoryInterface;
-use Elasticsuite\Search\Elasticsearch\RequestInterface;
-use Elasticsuite\Search\Elasticsearch\Spellchecker;
-use Elasticsuite\Search\Elasticsearch\SpellcheckerInterface;
+use Gally\Search\Elasticsearch\Builder\Request\Aggregation\AggregationBuilder;
+use Gally\Search\Elasticsearch\Builder\Request\Query\QueryBuilder;
+use Gally\Search\Elasticsearch\Builder\Request\SortOrder\SortOrderBuilder;
+use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface;
+use Gally\Search\Elasticsearch\Request\QueryInterface;
+use Gally\Search\Elasticsearch\RequestFactoryInterface;
+use Gally\Search\Elasticsearch\RequestInterface;
+use Gally\Search\Elasticsearch\Spellchecker;
+use Gally\Search\Elasticsearch\SpellcheckerInterface;
 
 /**
- * ElasticSuite search requests builder.
+ * Gally search requests builder.
  */
 class RequestBuilder
 {
@@ -113,7 +112,7 @@ class RequestBuilder
      *
      * @param ContainerConfigurationInterface $containerConfig Search request configuration
      *
-     * @return \Smile\ElasticsuiteCore\Search\Request\QueryInterface[]
+     * @return \Smile\GallyCore\Search\Request\QueryInterface[]
      */
     /*
     private function getContainerFilters(ContainerConfigurationInterface $containerConfig)

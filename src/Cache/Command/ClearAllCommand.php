@@ -2,20 +2,19 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\Cache\Command;
+namespace Gally\Cache\Command;
 
-use Elasticsuite\Cache\Service\CacheManagerInterface;
+use Gally\Cache\Service\CacheManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -25,7 +24,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class ClearAllCommand extends Command
 {
-    protected static $defaultName = 'elasticsuite:cache:clear-all';
+    protected static $defaultName = 'gally:cache:clear-all';
 
     public function __construct(private CacheManagerInterface $cache, string $name = null)
     {
@@ -37,9 +36,9 @@ class ClearAllCommand extends Command
      */
     protected function configure(): void
     {
-        $this->setDescription('Clear everything in the elasticsuite specific cache pool.');
+        $this->setDescription('Clear everything in the gally specific cache pool.');
         $this->setHelp(<<<'EOF'
-The <info>%command.name%</info> clears the elasticsuite cache pool, removing all cache objects and tags.
+The <info>%command.name%</info> clears the gally cache pool, removing all cache objects and tags.
 
     %command.full_name%
 EOF
@@ -52,12 +51,12 @@ EOF
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         if (!$this->cache->clearAll()) {
-            $output->writeln('The elasticsuite cache pool could not be cleared.');
+            $output->writeln('The gally cache pool could not be cleared.');
 
             return Command::INVALID;
         }
 
-        $output->writeln('The elasticsuite cache pool was cleared.');
+        $output->writeln('The gally cache pool was cleared.');
 
         return Command::SUCCESS;
     }

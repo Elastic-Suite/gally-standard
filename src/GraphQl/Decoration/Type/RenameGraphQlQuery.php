@@ -2,18 +2,17 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\GraphQl\Decoration\Type;
+namespace Gally\GraphQl\Decoration\Type;
 
 use ApiPlatform\Core\GraphQl\Type\FieldsBuilderInterface;
 use ApiPlatform\Core\Metadata\Resource\ResourceMetadata;

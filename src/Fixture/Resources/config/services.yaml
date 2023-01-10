@@ -1,20 +1,20 @@
 services:
-    Elasticsuite\Fixture\Service\ElasticsearchFixturesInterface: '@Elasticsuite\Fixture\Service\ElasticsearchFixtures'
-    Elasticsuite\Fixture\Service\ElasticsearchFixtures:
+    Gally\Fixture\Service\ElasticsearchFixturesInterface: '@Gally\Fixture\Service\ElasticsearchFixtures'
+    Gally\Fixture\Service\ElasticsearchFixtures:
         arguments:
             - '@Symfony\Component\Validator\Validator\ValidatorInterface'
-            - '@Elasticsuite\Index\Repository\Index\IndexRepositoryInterface'
-            - '@Elasticsuite\Index\Repository\Document\DocumentRepositoryInterface'
+            - '@Gally\Index\Repository\Index\IndexRepositoryInterface'
+            - '@Gally\Index\Repository\Document\DocumentRepositoryInterface'
             - '%kernel.environment%'
             - false
         public: true
 
-    Elasticsuite\Fixture\Service\EntityIndicesFixturesInterface: '@Elasticsuite\Fixture\Service\EntityIndicesFixtures'
-    Elasticsuite\Fixture\Service\EntityIndicesFixtures:
+    Gally\Fixture\Service\EntityIndicesFixturesInterface: '@Gally\Fixture\Service\EntityIndicesFixtures'
+    Gally\Fixture\Service\EntityIndicesFixtures:
         arguments:
-            - '@Elasticsuite\Metadata\Repository\MetadataRepository'
-            - '@Elasticsuite\Catalog\Repository\LocalizedCatalogRepository'
-            - '@Elasticsuite\Index\Service\IndexOperation'
-            - '@Elasticsuite\Index\Repository\Index\IndexRepositoryInterface'
-            - '@Elasticsuite\Index\Api\IndexSettingsInterface'
+            - '@Gally\Metadata\Repository\MetadataRepository'
+            - '@Gally\Catalog\Repository\LocalizedCatalogRepository'
+            - '@Gally\Index\Service\IndexOperation'
+            - '@Gally\Index\Repository\Index\IndexRepositoryInterface'
+            - '@Gally\Index\Api\IndexSettingsInterface'
         public: true

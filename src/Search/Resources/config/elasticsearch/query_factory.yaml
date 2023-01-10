@@ -1,109 +1,109 @@
 services:
-    elasticsuite.search.request.query.boolean.factory:
-        parent: Elasticsuite\DependencyInjection\GenericFactory
+    gally.search.request.query.boolean.factory:
+        parent: Gally\DependencyInjection\GenericFactory
         arguments:
-            - 'Elasticsuite\Search\Elasticsearch\Request\Query\Boolean'
+            - 'Gally\Search\Elasticsearch\Request\Query\Boolean'
         tags:
-            - { name: 'elasticsuite.search.request.query.factory', queryType: 'boolQuery' }
+            - { name: 'gally.search.request.query.factory', queryType: 'boolQuery' }
 
-    elasticsuite.search.request.query.common.factory:
-        parent: Elasticsuite\DependencyInjection\GenericFactory
+    gally.search.request.query.common.factory:
+        parent: Gally\DependencyInjection\GenericFactory
         arguments:
-            - 'Elasticsuite\Search\Elasticsearch\Request\Query\Common'
+            - 'Gally\Search\Elasticsearch\Request\Query\Common'
         tags:
-            - { name: 'elasticsuite.search.request.query.factory', queryType: 'commonQuery' }
+            - { name: 'gally.search.request.query.factory', queryType: 'commonQuery' }
 
-    elasticsuite.search.request.query.exists.factory:
-        parent: Elasticsuite\DependencyInjection\GenericFactory
+    gally.search.request.query.exists.factory:
+        parent: Gally\DependencyInjection\GenericFactory
         arguments:
-            - 'Elasticsuite\Search\Elasticsearch\Request\Query\Exists'
+            - 'Gally\Search\Elasticsearch\Request\Query\Exists'
         tags:
-            - { name: 'elasticsuite.search.request.query.factory', queryType: 'existsQuery' }
+            - { name: 'gally.search.request.query.factory', queryType: 'existsQuery' }
 
-    elasticsuite.search.request.query.filtered.factory:
-        parent: Elasticsuite\DependencyInjection\GenericFactory
+    gally.search.request.query.filtered.factory:
+        parent: Gally\DependencyInjection\GenericFactory
         arguments:
-            - 'Elasticsuite\Search\Elasticsearch\Request\Query\Filtered'
+            - 'Gally\Search\Elasticsearch\Request\Query\Filtered'
         tags:
-            - { name: 'elasticsuite.search.request.query.factory', queryType: 'filteredQuery' }
+            - { name: 'gally.search.request.query.factory', queryType: 'filteredQuery' }
 
-    elasticsuite.search.request.query.functionscore.factory:
-        parent: Elasticsuite\DependencyInjection\GenericFactory
+    gally.search.request.query.functionscore.factory:
+        parent: Gally\DependencyInjection\GenericFactory
         arguments:
-            - 'Elasticsuite\Search\Elasticsearch\Request\Query\FunctionScore'
+            - 'Gally\Search\Elasticsearch\Request\Query\FunctionScore'
         tags:
-            - { name: 'elasticsuite.search.request.query.factory', queryType: 'functionScore' }
+            - { name: 'gally.search.request.query.factory', queryType: 'functionScore' }
 
-    elasticsuite.search.request.query.matchphraseprefix.factory:
-        parent: Elasticsuite\DependencyInjection\GenericFactory
+    gally.search.request.query.matchphraseprefix.factory:
+        parent: Gally\DependencyInjection\GenericFactory
         arguments:
-            - 'Elasticsuite\Search\Elasticsearch\Request\Query\MatchPhrasePrefix'
+            - 'Gally\Search\Elasticsearch\Request\Query\MatchPhrasePrefix'
         tags:
-            - { name: 'elasticsuite.search.request.query.factory', queryType: 'matchPhrasePrefixQuery' }
+            - { name: 'gally.search.request.query.factory', queryType: 'matchPhrasePrefixQuery' }
 
-    elasticsuite.search.request.query.match.factory:
-        parent: Elasticsuite\DependencyInjection\GenericFactory
+    gally.search.request.query.match.factory:
+        parent: Gally\DependencyInjection\GenericFactory
         arguments:
-            - 'Elasticsuite\Search\Elasticsearch\Request\Query\MatchQuery'
+            - 'Gally\Search\Elasticsearch\Request\Query\MatchQuery'
         tags:
-            - { name: 'elasticsuite.search.request.query.factory', queryType: 'matchQuery' }
+            - { name: 'gally.search.request.query.factory', queryType: 'matchQuery' }
 
-    elasticsuite.search.request.query.missing.factory:
-        parent: Elasticsuite\DependencyInjection\GenericFactory
+    gally.search.request.query.missing.factory:
+        parent: Gally\DependencyInjection\GenericFactory
         arguments:
-            - 'Elasticsuite\Search\Elasticsearch\Request\Query\Missing'
+            - 'Gally\Search\Elasticsearch\Request\Query\Missing'
         tags:
-            - { name: 'elasticsuite.search.request.query.factory', queryType: 'missingQuery' }
+            - { name: 'gally.search.request.query.factory', queryType: 'missingQuery' }
 
-    elasticsuite.search.request.query.morelikethis.factory:
-        parent: Elasticsuite\DependencyInjection\GenericFactory
+    gally.search.request.query.morelikethis.factory:
+        parent: Gally\DependencyInjection\GenericFactory
         arguments:
-            - 'Elasticsuite\Search\Elasticsearch\Request\Query\MoreLikeThis'
+            - 'Gally\Search\Elasticsearch\Request\Query\MoreLikeThis'
         tags:
-            - { name: 'elasticsuite.search.request.query.factory', queryType: 'moreLikeThisQuery' }
+            - { name: 'gally.search.request.query.factory', queryType: 'moreLikeThisQuery' }
 
-    elasticsuite.search.request.query.multimatch.factory:
-        parent: Elasticsuite\DependencyInjection\GenericFactory
+    gally.search.request.query.multimatch.factory:
+        parent: Gally\DependencyInjection\GenericFactory
         arguments:
-            - 'Elasticsuite\Search\Elasticsearch\Request\Query\MultiMatch'
+            - 'Gally\Search\Elasticsearch\Request\Query\MultiMatch'
         tags:
-            - { name: 'elasticsuite.search.request.query.factory', queryType: 'multiMatchQuery' }
+            - { name: 'gally.search.request.query.factory', queryType: 'multiMatchQuery' }
 
-    elasticsuite.search.request.query.nested.factory:
-        parent: Elasticsuite\DependencyInjection\GenericFactory
+    gally.search.request.query.nested.factory:
+        parent: Gally\DependencyInjection\GenericFactory
         arguments:
-            - 'Elasticsuite\Search\Elasticsearch\Request\Query\Nested'
+            - 'Gally\Search\Elasticsearch\Request\Query\Nested'
         tags:
-            - { name: 'elasticsuite.search.request.query.factory', queryType: 'nestedQuery' }
+            - { name: 'gally.search.request.query.factory', queryType: 'nestedQuery' }
 
-    elasticsuite.search.request.query.not.factory:
-        parent: Elasticsuite\DependencyInjection\GenericFactory
+    gally.search.request.query.not.factory:
+        parent: Gally\DependencyInjection\GenericFactory
         arguments:
-            - 'Elasticsuite\Search\Elasticsearch\Request\Query\Not'
+            - 'Gally\Search\Elasticsearch\Request\Query\Not'
         tags:
-            - { name: 'elasticsuite.search.request.query.factory', queryType: 'notQuery' }
+            - { name: 'gally.search.request.query.factory', queryType: 'notQuery' }
 
-    elasticsuite.search.request.query.range.factory:
-        parent: Elasticsuite\DependencyInjection\GenericFactory
+    gally.search.request.query.range.factory:
+        parent: Gally\DependencyInjection\GenericFactory
         arguments:
-            - 'Elasticsuite\Search\Elasticsearch\Request\Query\Range'
+            - 'Gally\Search\Elasticsearch\Request\Query\Range'
         tags:
-            - { name: 'elasticsuite.search.request.query.factory', queryType: 'rangeQuery' }
+            - { name: 'gally.search.request.query.factory', queryType: 'rangeQuery' }
 
-    elasticsuite.search.request.query.term.factory:
-        parent: Elasticsuite\DependencyInjection\GenericFactory
+    gally.search.request.query.term.factory:
+        parent: Gally\DependencyInjection\GenericFactory
         arguments:
-            - 'Elasticsuite\Search\Elasticsearch\Request\Query\Term'
+            - 'Gally\Search\Elasticsearch\Request\Query\Term'
         tags:
-            - { name: 'elasticsuite.search.request.query.factory', queryType: 'termQuery' }
+            - { name: 'gally.search.request.query.factory', queryType: 'termQuery' }
 
-    elasticsuite.search.request.query.terms.factory:
-        parent: Elasticsuite\DependencyInjection\GenericFactory
+    gally.search.request.query.terms.factory:
+        parent: Gally\DependencyInjection\GenericFactory
         arguments:
-            - 'Elasticsuite\Search\Elasticsearch\Request\Query\Terms'
+            - 'Gally\Search\Elasticsearch\Request\Query\Terms'
         tags:
-            - { name: 'elasticsuite.search.request.query.factory', queryType: 'termsQuery' }
+            - { name: 'gally.search.request.query.factory', queryType: 'termsQuery' }
 
-    Elasticsuite\Search\Elasticsearch\Request\QueryFactory:
+    Gally\Search\Elasticsearch\Request\QueryFactory:
         public: true
-        arguments: [!tagged_iterator { tag: 'elasticsuite.search.request.query.factory', index_by: 'queryType' }]
+        arguments: [!tagged_iterator { tag: 'gally.search.request.query.factory', index_by: 'queryType' }]

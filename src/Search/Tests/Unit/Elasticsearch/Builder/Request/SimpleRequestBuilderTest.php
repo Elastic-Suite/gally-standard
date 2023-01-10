@@ -2,40 +2,39 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\Search\Tests\Unit\Elasticsearch\Builder\Request;
+namespace Gally\Search\Tests\Unit\Elasticsearch\Builder\Request;
 
-use Elasticsuite\Catalog\Repository\LocalizedCatalogRepository;
-use Elasticsuite\Index\Api\IndexSettingsInterface;
-use Elasticsuite\Metadata\Model\Metadata;
-use Elasticsuite\Metadata\Repository\MetadataRepository;
-use Elasticsuite\Search\Elasticsearch\Builder\Request\Aggregation\AggregationBuilder;
-use Elasticsuite\Search\Elasticsearch\Builder\Request\Query\Filter\FilterQueryBuilder;
-use Elasticsuite\Search\Elasticsearch\Builder\Request\Query\Fulltext\FulltextQueryBuilder;
-use Elasticsuite\Search\Elasticsearch\Builder\Request\Query\Fulltext\FuzzyFieldFilter;
-use Elasticsuite\Search\Elasticsearch\Builder\Request\Query\Fulltext\SearchableFieldFilter;
-use Elasticsuite\Search\Elasticsearch\Builder\Request\Query\QueryBuilder;
-use Elasticsuite\Search\Elasticsearch\Builder\Request\SimpleRequestBuilder;
-use Elasticsuite\Search\Elasticsearch\Builder\Request\SortOrder\SortOrderBuilder;
-use Elasticsuite\Search\Elasticsearch\Request\AggregationFactory;
-use Elasticsuite\Search\Elasticsearch\Request\Container\Configuration\ContainerConfigurationProvider;
-use Elasticsuite\Search\Elasticsearch\Request\Query\Exists;
-use Elasticsuite\Search\Elasticsearch\Request\Query\Filtered;
-use Elasticsuite\Search\Elasticsearch\Request\QueryFactory;
-use Elasticsuite\Search\Elasticsearch\Request\QueryInterface;
-use Elasticsuite\Search\Elasticsearch\RequestFactoryInterface;
-use Elasticsuite\Search\Elasticsearch\Spellchecker;
-use Elasticsuite\Test\AbstractTest;
+use Gally\Catalog\Repository\LocalizedCatalogRepository;
+use Gally\Index\Api\IndexSettingsInterface;
+use Gally\Metadata\Model\Metadata;
+use Gally\Metadata\Repository\MetadataRepository;
+use Gally\Search\Elasticsearch\Builder\Request\Aggregation\AggregationBuilder;
+use Gally\Search\Elasticsearch\Builder\Request\Query\Filter\FilterQueryBuilder;
+use Gally\Search\Elasticsearch\Builder\Request\Query\Fulltext\FulltextQueryBuilder;
+use Gally\Search\Elasticsearch\Builder\Request\Query\Fulltext\FuzzyFieldFilter;
+use Gally\Search\Elasticsearch\Builder\Request\Query\Fulltext\SearchableFieldFilter;
+use Gally\Search\Elasticsearch\Builder\Request\Query\QueryBuilder;
+use Gally\Search\Elasticsearch\Builder\Request\SimpleRequestBuilder;
+use Gally\Search\Elasticsearch\Builder\Request\SortOrder\SortOrderBuilder;
+use Gally\Search\Elasticsearch\Request\AggregationFactory;
+use Gally\Search\Elasticsearch\Request\Container\Configuration\ContainerConfigurationProvider;
+use Gally\Search\Elasticsearch\Request\Query\Exists;
+use Gally\Search\Elasticsearch\Request\Query\Filtered;
+use Gally\Search\Elasticsearch\Request\QueryFactory;
+use Gally\Search\Elasticsearch\Request\QueryInterface;
+use Gally\Search\Elasticsearch\RequestFactoryInterface;
+use Gally\Search\Elasticsearch\Spellchecker;
+use Gally\Test\AbstractTest;
 
 class SimpleRequestBuilderTest extends AbstractTest
 {
@@ -90,8 +89,8 @@ class SimpleRequestBuilderTest extends AbstractTest
         \assert(static::getContainer()->get(AggregationFactory::class) instanceof AggregationFactory);
         self::$aggregationFactory = static::getContainer()->get(AggregationFactory::class);
         self::$aggregationBuilder = new AggregationBuilder(self::$aggregationFactory, self::$filterQueryBuilder);
-        \assert(static::getContainer()->get('elasticsuite.search.spellchecker.request.factory') instanceof Spellchecker\RequestFactory);
-        self::$spellcheckRequestFactory = static::getContainer()->get('elasticsuite.search.spellchecker.request.factory');
+        \assert(static::getContainer()->get('gally.search.spellchecker.request.factory') instanceof Spellchecker\RequestFactory);
+        self::$spellcheckRequestFactory = static::getContainer()->get('gally.search.spellchecker.request.factory');
         \assert(static::getContainer()->get(Spellchecker::class) instanceof Spellchecker);
         self::$spellchecker = static::getContainer()->get(Spellchecker::class);
         \assert(static::getContainer()->get(IndexSettingsInterface::class) instanceof IndexSettingsInterface);
@@ -235,14 +234,14 @@ class SimpleRequestBuilderTest extends AbstractTest
     protected function createRequestDataProvider(): array
     {
         return [
-            ['product', 1, 'elasticsuite_test__elasticsuite_b2c_fr_product'],
-            ['product', 2, 'elasticsuite_test__elasticsuite_b2c_en_product'],
-            ['product', 3, 'elasticsuite_test__elasticsuite_b2b_en_product'],
-            ['product', 4, 'elasticsuite_test__elasticsuite_b2b_fr_product'],
-            ['category', 1, 'elasticsuite_test__elasticsuite_b2c_fr_category'],
-            ['category', 2, 'elasticsuite_test__elasticsuite_b2c_en_category'],
-            ['category', 3, 'elasticsuite_test__elasticsuite_b2b_en_category'],
-            ['category', 4, 'elasticsuite_test__elasticsuite_b2b_fr_category'],
+            ['product', 1, 'gally_test__gally_b2c_fr_product'],
+            ['product', 2, 'gally_test__gally_b2c_en_product'],
+            ['product', 3, 'gally_test__gally_b2b_en_product'],
+            ['product', 4, 'gally_test__gally_b2b_fr_product'],
+            ['category', 1, 'gally_test__gally_b2c_fr_category'],
+            ['category', 2, 'gally_test__gally_b2c_en_category'],
+            ['category', 3, 'gally_test__gally_b2b_en_category'],
+            ['category', 4, 'gally_test__gally_b2b_fr_category'],
         ];
     }
 }

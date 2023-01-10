@@ -2,24 +2,23 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\Search\Tests\Unit\Elasticsearch\Request\Aggregation\Bucket;
+namespace Gally\Search\Tests\Unit\Elasticsearch\Request\Aggregation\Bucket;
 
 use ArgumentCountError;
-use Elasticsuite\Search\Elasticsearch\Request\Aggregation\Bucket\DateHistogram;
-use Elasticsuite\Search\Elasticsearch\Request\BucketInterface;
-use Elasticsuite\Search\Elasticsearch\Request\QueryFactory;
-use Elasticsuite\Search\Elasticsearch\Request\QueryInterface;
+use Gally\Search\Elasticsearch\Request\Aggregation\Bucket\DateHistogram;
+use Gally\Search\Elasticsearch\Request\BucketInterface;
+use Gally\Search\Elasticsearch\Request\QueryFactory;
+use Gally\Search\Elasticsearch\Request\QueryInterface;
 use PHPUnit\Framework\Constraint\IsType;
 use PHPUnit\Framework\Constraint\LogicalOr;
 

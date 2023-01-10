@@ -2,36 +2,35 @@
 /**
  * DISCLAIMER
  *
- * Do not edit or add to this file if you wish to upgrade Smile ElasticSuite to newer
- * versions in the future.
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Elasticsuite
- * @author    ElasticSuite Team <elasticsuite@smile.fr>
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
-namespace Elasticsuite\Search\Decoration\GraphQl;
+namespace Gally\Search\Decoration\GraphQl;
 
 use ApiPlatform\Core\GraphQl\Resolver\Stage\SerializeStageInterface;
-use Elasticsuite\Catalog\Repository\LocalizedCatalogRepository;
-use Elasticsuite\Category\Repository\CategoryConfigurationRepository;
-use Elasticsuite\Category\Service\CurrentCategoryProvider;
-use Elasticsuite\Metadata\Model\SourceField;
-use Elasticsuite\Metadata\Model\SourceField\Type;
-use Elasticsuite\Metadata\Repository\MetadataRepository;
-use Elasticsuite\Search\DataProvider\Paginator;
-use Elasticsuite\Search\Elasticsearch\Adapter\Common\Response\AggregationInterface;
-use Elasticsuite\Search\Elasticsearch\Adapter\Common\Response\BucketValueInterface;
-use Elasticsuite\Search\Elasticsearch\Builder\Response\AggregationBuilder;
-use Elasticsuite\Search\Elasticsearch\Request\BucketInterface;
-use Elasticsuite\Search\Elasticsearch\Request\Container\Configuration\ContainerConfigurationProvider;
-use Elasticsuite\Search\Elasticsearch\Request\ContainerConfigurationInterface;
-use Elasticsuite\Search\Model\Document;
-use Elasticsuite\Search\Repository\Facet\ConfigurationRepository;
-use Elasticsuite\Search\Service\ReverseSourceFieldProvider;
+use Gally\Catalog\Repository\LocalizedCatalogRepository;
+use Gally\Category\Repository\CategoryConfigurationRepository;
+use Gally\Category\Service\CurrentCategoryProvider;
+use Gally\Metadata\Model\SourceField;
+use Gally\Metadata\Model\SourceField\Type;
+use Gally\Metadata\Repository\MetadataRepository;
+use Gally\Search\DataProvider\Paginator;
+use Gally\Search\Elasticsearch\Adapter\Common\Response\AggregationInterface;
+use Gally\Search\Elasticsearch\Adapter\Common\Response\BucketValueInterface;
+use Gally\Search\Elasticsearch\Builder\Response\AggregationBuilder;
+use Gally\Search\Elasticsearch\Request\BucketInterface;
+use Gally\Search\Elasticsearch\Request\Container\Configuration\ContainerConfigurationProvider;
+use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface;
+use Gally\Search\Model\Document;
+use Gally\Search\Repository\Facet\ConfigurationRepository;
+use Gally\Search\Service\ReverseSourceFieldProvider;
 
 /**
  * Add aggregations data in graphql search document response.
