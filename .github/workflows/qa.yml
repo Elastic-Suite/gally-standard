@@ -4,9 +4,11 @@ on:
     push:
         branches:
             - master
+            - ci
     pull_request_target:
         branches:
             - master
+            - ci
 
 jobs:
     qa:
@@ -14,19 +16,19 @@ jobs:
         if: (github.event_name != 'pull_request') || contains(github.event.pull_request.labels.*.name, 'safe to test')
         name: Code-Quality-Checks
         runs-on: ubuntu-latest
-        
+
         env:
             # PHP package name is equal to the repository name.
             package-name: ${{ github.event.repository.name }}
             gally-directory: ${{ github.workspace }}/gally
             src-directory: ${{ github.workspace }}/${{ github.event.repository.name }}
-        
+
         steps:
             - name: Checkout PHP package
               uses: actions/checkout@v3
               with:
                   path: ${{ github.event.repository.name }}
-                  ref: ${{ github.event.pull_request.head.sha }}                  
+                  ref: ${{ github.event.pull_request.head.sha }}
 
             - name: Checkout full repository to be used as a composer repository
               uses: actions/checkout@v3
@@ -44,7 +46,7 @@ jobs:
                   token: ${{ secrets.GH_TOKEN }} # needed only until the gally "template" becomes public.
                   path: gally-dev-${{ github.run_id }}-${{ github.run_number }}
 
-            # in $GITHUB_WORKSPACE we will have this after this step : 
+            # in $GITHUB_WORKSPACE we will have this after this step :
             # - gally-<package-name> : contains only the sources from current branch or PR.
             # - gally : a full development environment which is needed for PHPstan
             - name: Move Gally dev environment to a defined location
@@ -54,7 +56,7 @@ jobs:
                   ls -ail
                   mv gally-dev-${{ github.run_id }}-${{ github.run_number }} ${{ env.gally-directory }}
                   cd ${{ github.workspace }}
-                  ls -ail       
+                  ls -ail
 
             - name: Cache Composer dependencies
               uses: actions/cache@v2
@@ -84,7 +86,7 @@ jobs:
                   php_version: "8.1"
                   # working-dir is relative, it's always launched from $GITHUB_WORKSPACE, cannot use src-directory env var.
                   args: --working-dir ${{ env.package-name }}
-            
+
             - name: PHP-CS-Fixer
               working-directory: ${{ env.src-directory }}
               run: ./vendor/bin/php-cs-fixer fix --path-mode=intersection --diff --dry-run .
@@ -94,5 +96,5 @@ jobs:
               run: |
                   cd api
                   # do PHPstan with current phpstan.neon.dist file from current branch or PR
-                  cp -rf ${{ env.src-directory }}/phpstan.neon.dist phpstan.neon.dist                   
+                  cp -rf ${{ env.src-directory }}/phpstan.neon.dist phpstan.neon.dist
                   ./vendor/bin/phpstan analyse

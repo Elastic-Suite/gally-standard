@@ -4,9 +4,11 @@ on:
     push:
         branches:
             - master
+            - ci
     pull_request_target:
         branches:
             - master
+            - ci
         types: [review_requested, ready_for_review, synchronize]
     workflow_dispatch: ~
 
@@ -16,19 +18,19 @@ jobs:
         if: (github.event.pull_request.draft == false && (github.event_name != 'pull_request') || contains(github.event.pull_request.labels.*.name, 'safe to test'))
         name: Tests
         runs-on: ubuntu-latest
-        
+
         env:
             # PHP package name is equal to the repository name.
             package-name: ${{ github.event.repository.name }}
             gally-directory: ${{ github.workspace }}/gally
-        
+
         steps:
             - name: Checkout PHP package
               uses: actions/checkout@v3
               with:
                   path: ${{ env.package-name }}
                   ref: ${{ github.event.pull_request.head.sha }}
-            
+
             - name: Checkout full repository to be used as a composer repository
               uses: actions/checkout@v3
               with:
@@ -44,10 +46,10 @@ jobs:
                   ref: master
                   token: ${{ secrets.GH_TOKEN }} # needed only until the gally "template" becomes public.
                   path: gally-dev-${{ github.run_id }}-${{ github.run_number }}
-                
-                # in $GITHUB_WORKSPACE we will have this after this step : 
+
+                # in $GITHUB_WORKSPACE we will have this after this step :
                 # - gally-<package-name> : contains only the sources from current branch or PR.
-                # - gally : a full development environment which is needed for PHPstan            
+                # - gally : a full development environment which is needed for PHPstan
             - name: Move Gally dev environment to a defined location
               shell: bash
               run: |
@@ -62,12 +64,12 @@ jobs:
               run: |
                   composer config --global --no-interaction --ansi repositories.${{ env.package-name }} git "$GITHUB_WORKSPACE/gally-repository"
                   composer config --global repositories
-            
+
             - name: Make .env
               working-directory: ${{ env.gally-directory }}
               run: |
                   make .env
-                  cat .env   
+                  cat .env
 
             - name: Pull images
               working-directory: ${{ env.gally-directory }}
@@ -92,8 +94,8 @@ jobs:
                     esac
                   done
                   exit 1
-                
-            # Adding the current build of Gally inside php app.     
+
+            # Adding the current build of Gally inside php app.
             # $GITHUB_WORKSPACE/${{ env.package-name }} is where it has been checkouted at the beginning.
             - name: Add current build of Gally
               working-directory: ${{ env.gally-directory }}
