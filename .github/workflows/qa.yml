@@ -4,14 +4,12 @@ on:
     push:
         branches:
             - master
-    pull_request_target:
+    pull_request:
         branches:
             - master
 
 jobs:
     qa:
-        # Protect public workflows. To be removed when switching from pull_request_target to pull_request.
-        if: (github.event_name != 'pull_request') || contains(github.event.pull_request.labels.*.name, 'safe to test')
         name: Code-Quality-Checks
         runs-on: ubuntu-latest
         
@@ -22,12 +20,6 @@ jobs:
             src-directory: ${{ github.workspace }}/${{ github.event.repository.name }}
         
         steps:
-            - name: Checkout PHP package
-              uses: actions/checkout@v3
-              with:
-                  path: ${{ github.event.repository.name }}
-                  ref: ${{ github.event.pull_request.head.sha }}                  
-
             - name: Checkout full repository to be used as a composer repository
               uses: actions/checkout@v3
               with:
@@ -42,19 +34,11 @@ jobs:
                   #ref: ${{ github.base_ref }}
                   ref : master
                   token: ${{ secrets.GH_TOKEN }} # needed only until the gally "template" becomes public.
-                  path: gally-dev-${{ github.run_id }}-${{ github.run_number }}
+                  path: ${{ env.gally-directory }}
 
             # in $GITHUB_WORKSPACE we will have this after this step : 
-            # - gally-<package-name> : contains only the sources from current branch or PR.
-            # - gally : a full development environment which is needed for PHPstan
-            - name: Move Gally dev environment to a defined location
-              shell: bash
-              run: |
-                  pwd
-                  ls -ail
-                  mv gally-dev-${{ github.run_id }}-${{ github.run_number }} ${{ env.gally-directory }}
-                  cd ${{ github.workspace }}
-                  ls -ail       
+            # - gally-repository : gally-standard repository to be used as composer repository.
+            # - gally : a full development environment which is needed for PHPStan
 
             - name: Cache Composer dependencies
               uses: actions/cache@v2
@@ -63,36 +47,31 @@ jobs:
                   key: ${{ runner.os }}-${{ hashFiles('**/composer.lock') }}
 
             - name: Prepare local Repository
-              run: |
-                  composer config --global --no-interaction --ansi repositories.${{ env.package-name }} git "$GITHUB_WORKSPACE/gally-repository"
-                  composer config --global repositories
+              run: composer config --global --no-interaction --ansi repositories.${{ env.package-name }} git "$GITHUB_WORKSPACE/gally-repository"
 
             - name: Adding local package from current branch or PR
               working-directory: ${{ env.gally-directory }}
               run: |
+                  ls -l
                   cd api
-                  composer require --dev "gally/${{ env.package-name }}:${GITHUB_BASE_REF:-${GITHUB_REF##*/}}-dev" --ignore-platform-reqs
+                  ls -l
+                  cat $GITHUB_WORKSPACE/gally-repository/composer.json
+                  composer require "gally/${{ env.package-name }}:${GITHUB_BASE_REF:-${GITHUB_REF##*/}}-dev" --ignore-platform-reqs
 
             - uses: php-actions/composer@v6
               with:
                   php_version: "8.1"
                   # working-dir is relative, it's always launched from $GITHUB_WORKSPACE, cannot use gally-directory env var.
                   args: --working-dir gally/api
-
-            - uses: php-actions/composer@v6
-              with:
-                  php_version: "8.1"
-                  # working-dir is relative, it's always launched from $GITHUB_WORKSPACE, cannot use src-directory env var.
-                  args: --working-dir ${{ env.package-name }}
             
             - name: PHP-CS-Fixer
-              working-directory: ${{ env.src-directory }}
-              run: ./vendor/bin/php-cs-fixer fix --path-mode=intersection --diff --dry-run .
+              working-directory: ${{ env.gally-directory }}
+              run: ./vendor/bin/php-cs-fixer fix --path-mode=intersection --diff --dry-run vendor/gally/${{ env.package-name }}
 
             - name: PHPStan
               working-directory: ${{ env.gally-directory }}
               run: |
                   cd api
                   # do PHPstan with current phpstan.neon.dist file from current branch or PR
-                  cp -rf ${{ env.src-directory }}/phpstan.neon.dist phpstan.neon.dist                   
-                  ./vendor/bin/phpstan analyse
+                  cp -rf vendor/gally/${{ env.package-name }}/phpstan.neon.dist phpstan.neon.dist                   
+                  ./vendor/bin/phpstan analyse vendor/gally/${{ env.package-name }}
