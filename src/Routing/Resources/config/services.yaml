@@ -1,0 +1,4 @@
+services:           
+    Gally\Routing\Service\GallyLoader:
+        tags:
+            - { name: routing.loader }
