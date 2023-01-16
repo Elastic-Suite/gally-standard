@@ -1,42 +1,11 @@
-@Todo To adapt
-Installation
-============
+<h1 align="center"><a href="https://elasticsuite.io"><img src="static/logo-gally.png" alt="Gally, engineered by Elasticsuite"/></a></h1>
 
-Make sure Composer is installed globally, as explained in the
-[installation chapter](https://getcomposer.org/doc/00-intro.md)
-of the Composer documentation.
+Meet Gally, the newborn of the Elasticsuite family. If you've been an user of [elasticsuite for Magento](https://github.com/Smile-SA/elasticsuite/), you'll fall in love with Gally as well.
 
-Applications that use Symfony Flex
-----------------------------------
+# Gally Standard package
 
-Open a command console, enter your project directory and execute:
+This repository is the home of the "gally-standard" package which contains all the Open Source features of Gally.
 
-```console
-$ composer require <package-name>
-```
+This repository is meant to receive Pull Request on the PHP sources.
 
-Applications that don't use Symfony Flex
-----------------------------------------
-
-### Step 1: Download the Bundle
-
-Open a command console, enter your project directory and execute the
-following command to download the latest stable version of this bundle:
-
-```console
-$ composer require <package-name>
-```
-
-### Step 2: Enable the Bundle
-
-Then, enable the bundle by adding it to the list of registered bundles
-in the `config/bundles.php` file of your project:
-
-```php
-// config/bundles.php
-
-return [
-    // ...
-    <vendor>\<bundle-name>\<bundle-long-name>::class => ['all' => true],
-];
-```
+If you want to know more about Gally or install it to your project, you can go to our [template repository](https://github.com/Elastic-Suite/standalone)
