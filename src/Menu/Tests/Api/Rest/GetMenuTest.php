@@ -12,10 +12,10 @@
 
 declare(strict_types=1);
 
-namespace Gally\Index\Tests\Api\Rest;
+namespace Gally\Menu\Tests\Api\Rest;
 
-use Gally\Index\Tests\Api\AbstractMenuTest;
 use Gally\Locale\EventSubscriber\LocaleSubscriber;
+use Gally\Menu\Tests\Api\AbstractMenuTest;
 use Gally\Test\ExpectedResponse;
 use Gally\Test\RequestToTest;
 use Gally\User\Constant\Role;

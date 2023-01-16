@@ -12,10 +12,10 @@
 
 declare(strict_types=1);
 
-namespace Gally\Index\Tests\Api\GraphQl;
+namespace Gally\Menu\Tests\Api\GraphQl;
 
-use Gally\Index\Tests\Api\AbstractMenuTest;
 use Gally\Locale\EventSubscriber\LocaleSubscriber;
+use Gally\Menu\Tests\Api\AbstractMenuTest;
 use Gally\Test\ExpectedResponse;
 use Gally\Test\RequestGraphQlToTest;
 use Gally\User\Constant\Role;

@@ -12,7 +12,7 @@
 
 declare(strict_types=1);
 
-namespace Gally\Search\Tests\Unit\Elasticsearch\Request;
+namespace Gally\Search\Tests\Unit\Elasticsearch\Request\Aggregation;
 
 use Gally\Search\Elasticsearch\Request\AggregationFactory;
 use Gally\Search\Elasticsearch\Request\AggregationInterface;
