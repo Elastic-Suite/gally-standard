@@ -5,6 +5,10 @@ api_platform:
         json: ['application/merge-patch+json']
     swagger:
         versions: [3]
+        api_keys:
+            apiKey:
+                name: Authorization
+                type: header
     exception_to_status:
         # The 4 following handlers are registered by default, keep those lines to prevent unexpected side effects
         Symfony\Component\Serializer\Exception\ExceptionInterface: 400 # Use a raw status code (recommended)
@@ -31,3 +35,14 @@ api_platform:
             page_parameter_name: currentPage
             items_per_page_parameter_name: pageSize
             items_per_page: 20
+    elasticsearch:
+        hosts: ['%env(ELASTICSEARCH_HOST)%']
+    # Mercure integration, remove if unwanted
+    # mercure: ~
+    http_cache:
+        invalidation:
+            enabled: true
+            varnish_urls: ['%env(VARNISH_URL)%']
+        public: true
+    graphql:
+        nesting_separator: __

@@ -1,0 +1,5 @@
+nelmio_cors:
+    defaults:
+        allow_headers:
+            - !php/const Gally\Locale\EventSubscriber\LocaleSubscriber::GALLY_LANGUAGE_HEADER
+            - !php/const Gally\Entity\Service\PriceGroupProvider::PRICE_GROUP_ID

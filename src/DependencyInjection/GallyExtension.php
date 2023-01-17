@@ -37,13 +37,11 @@ class GallyExtension extends Extension implements PrependExtensionInterface
      */
     public function prepend(ContainerBuilder $container)
     {
-        $yamlParser ??= new YamlParser(); // @phpstan-ignore-line
+        $this->loadGallyConfigFile($container, 'doctrine_migrations.yaml', 'doctrine_migrations');
+        $this->loadGallyConfigFile($container, 'api_platform.yaml', 'api_platform');
+        $this->loadGallyConfigFile($container, 'translation.yaml', 'framework');
+        $this->loadGallyConfigFile($container, 'nelmio_cors.yaml', 'nelmio_cors');
 
-        $doctrineMigrationsConfig = $yamlParser->parseFile(__DIR__ . '/../Configuration/Resources/config/doctrine_migrations.yaml', Yaml::PARSE_CONSTANT);
-        $container->prependExtensionConfig('doctrine_migrations', $doctrineMigrationsConfig['doctrine_migrations']);
-
-        $apiPlatformConfig = $yamlParser->parseFile(__DIR__ . '/../Configuration/Resources/config/api_platform.yaml', Yaml::PARSE_CONSTANT);
-        $container->prependExtensionConfig('api_platform', $apiPlatformConfig['api_platform']);
         $container->prependExtensionConfig(
             'api_platform',
             [
@@ -159,6 +157,13 @@ class GallyExtension extends Extension implements PrependExtensionInterface
                 $yamlParser->parseFile($configFile, Yaml::PARSE_CONSTANT)['gally'] ?? []
             );
         }
+    }
+
+    protected function loadGallyConfigFile(ContainerBuilder $container, string $fileName, string $configNode): void
+    {
+        $yamlParser ??= new YamlParser(); // @phpstan-ignore-line
+        $config = $yamlParser->parseFile(__DIR__ . '/../Configuration/Resources/config/' . $fileName, Yaml::PARSE_CONSTANT);
+        $container->prependExtensionConfig($configNode, $config[$configNode]);
     }
 
     private function getPaths(string $pattern, ?string $relativeTo = null): array
