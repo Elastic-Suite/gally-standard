@@ -4,6 +4,7 @@ on:
     push:
         branches:
             - master
+            - feat-ESPP-422-RenameCatalog
     pull_request_target:
         branches:
             - master
@@ -149,7 +150,11 @@ jobs:
               working-directory: ${{ env.gally-directory }}
               run: |
                   docker-compose -f docker-compose.yml -f docker-compose.ci.yml exec -e XDEBUG_MODE=off -T php bin/console -e test doctrine:database:create
+                  docker-compose -f docker-compose.yml -f docker-compose.ci.yml exec -e XDEBUG_MODE=off -T php bin/console -e test doctrine:query:sql "SELECT * FROM pg_catalog.pg_tables WHERE schemaname != 'pg_catalog' AND      schemaname != 'information_schema';"
+                  docker-compose -f docker-compose.yml -f docker-compose.ci.yml exec -e XDEBUG_MODE=off -T php bin/console -e test doctrine:migrations:list
                   docker-compose -f docker-compose.yml -f docker-compose.ci.yml exec -e XDEBUG_MODE=off -T php bin/console -e test doctrine:migrations:migrate --no-interaction
+                  docker-compose -f docker-compose.yml -f docker-compose.ci.yml exec -e XDEBUG_MODE=off -T php bin/console -e test doctrine:query:sql "SELECT * FROM pg_catalog.pg_tables WHERE schemaname != 'pg_catalog' AND      schemaname != 'information_schema';"
+                  
 
             - name: Doctrine Schema Validator
               working-directory: ${{ env.gally-directory }}
@@ -158,6 +163,8 @@ jobs:
             - name: Fixtures load
               working-directory: ${{ env.gally-directory }}
               run: |
+                  docker-compose -f docker-compose.yml -f docker-compose.ci.yml exec -e XDEBUG_MODE=off -T php bin/console doctrine:query:sql "SELECT * FROM pg_catalog.pg_tables WHERE schemaname != 'pg_catalog' AND      schemaname != 'information_schema';"
+                  docker-compose -f docker-compose.yml -f docker-compose.ci.yml exec -e XDEBUG_MODE=off -T php bin/console -e test doctrine:migrations:list
                   docker-compose -f docker-compose.yml -f docker-compose.ci.yml exec -e XDEBUG_MODE=off -T php bin/console gally:index:clear --no-interaction
                   docker-compose -f docker-compose.yml -f docker-compose.ci.yml exec -e XDEBUG_MODE=off -T php bin/console hautelook:fixtures:load --no-interaction -vv
                   docker-compose -f docker-compose.yml -f docker-compose.ci.yml exec -e XDEBUG_MODE=off -T php bin/console doctrine:fixtures:load --append --no-interaction

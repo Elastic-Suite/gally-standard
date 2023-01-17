@@ -43,7 +43,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     normalizationContext: ['groups' => ['source_field_option_label:read']],
     denormalizationContext: ['groups' => ['source_field_option_label:write']],
 )]
-#[ApiFilter(SearchFilter::class, properties: ['catalog' => 'exact', 'sourceFieldOption.sourceField' => 'exact'])]
+#[ApiFilter(SearchFilter::class, properties: ['localizedCatalog' => 'exact', 'sourceFieldOption.sourceField' => 'exact'])]
 #[ApiFilter(OrderFilter::class, properties: ['sourceFieldOption.position'], arguments: ['orderParameterName' => 'order'])]
 class SourceFieldOptionLabel
 {
@@ -54,7 +54,7 @@ class SourceFieldOptionLabel
     private SourceFieldOption $sourceFieldOption;
 
     #[Groups(['source_field_option_label:read', 'source_field_option_label:write', 'source_field_option:read'])]
-    private LocalizedCatalog $catalog;
+    private LocalizedCatalog $localizedCatalog;
 
     #[Groups(['source_field_option_label:read', 'source_field_option_label:write', 'source_field_option:read'])]
     private string $label;
@@ -76,14 +76,14 @@ class SourceFieldOptionLabel
         return $this;
     }
 
-    public function getCatalog(): ?LocalizedCatalog
+    public function getLocalizedCatalog(): ?LocalizedCatalog
     {
-        return $this->catalog;
+        return $this->localizedCatalog;
     }
 
-    public function setCatalog(?LocalizedCatalog $catalog): self
+    public function setLocalizedCatalog(?LocalizedCatalog $localizedCatalog): self
     {
-        $this->catalog = $catalog;
+        $this->localizedCatalog = $localizedCatalog;
 
         return $this;
     }
