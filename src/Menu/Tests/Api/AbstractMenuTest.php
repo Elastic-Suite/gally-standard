@@ -12,7 +12,7 @@
 
 declare(strict_types=1);
 
-namespace Gally\Index\Tests\Api;
+namespace Gally\Menu\Tests\Api;
 
 use Gally\Test\AbstractTest;
 

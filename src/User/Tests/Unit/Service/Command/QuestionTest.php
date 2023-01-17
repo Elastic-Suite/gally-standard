@@ -12,7 +12,7 @@
 
 declare(strict_types=1);
 
-namespace Gally\Standard\src\User\Tests\Unit\Service\Command;
+namespace Gally\User\Tests\Unit\Service\Command;
 
 use Gally\Test\AbstractTest;
 use Gally\User\Service\Command\QuestionBuilder;

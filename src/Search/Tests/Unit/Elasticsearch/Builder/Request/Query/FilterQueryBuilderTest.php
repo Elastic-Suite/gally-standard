@@ -12,7 +12,7 @@
 
 declare(strict_types=1);
 
-namespace Gally\Search\Tests\Unit\Elasticsearch\Request\Builder\Query;
+namespace Gally\Search\Tests\Unit\Elasticsearch\Builder\Request\Query;
 
 use Gally\DependencyInjection\GenericFactory;
 use Gally\Index\Model\Index\Mapping;
