@@ -49,9 +49,9 @@ class DocumentRepository implements DocumentRepositoryInterface
 
     public function delete(string $indexName, array $documents): void
     {
-        dd($documents);
+        return;
         /**
-         * @Todo: Implement the right way to delete an Index
+         * @Todo: Implement the right way to delete a Document
          */
         foreach ($documents as $document) { // @phpstan-ignore-line
             $response = $this->client->delete([
