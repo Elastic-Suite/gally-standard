@@ -12,29 +12,26 @@
 
 declare(strict_types=1);
 
-namespace Gally\RuleEngine\OpenApi;
+namespace Gally\Index\OpenApi;
 
 use ApiPlatform\Core\OpenApi\Factory\OpenApiFactoryInterface;
 use ApiPlatform\Core\OpenApi\OpenApi;
 use Gally\OpenApi\Helper\Documentation as DocumentationHelper;
 
-final class RuleEngineDecorator implements OpenApiFactoryInterface
+final class IndexDecorator implements OpenApiFactoryInterface
 {
     public function __construct(
         private DocumentationHelper $documentationHelper,
-        private OpenApiFactoryInterface $decorated,
+        private OpenApiFactoryInterface $decorated
     ) {
     }
 
     public function __invoke(array $context = []): OpenApi
     {
         $openApi = ($this->decorated)($context);
-
-        // Remove id parameter added automatically by API Platform
-        $this->documentationHelper->removeFieldFromEndpoint($openApi, '/rule_engine_operators', 'id');
-
-        // Remove swagger documentation for the endpoint /rule_engine_graph_ql_filters/{id}.
-        $this->documentationHelper->removeEndpoint($openApi, '/rule_engine_graph_ql_filters/{id}');
+        $this->documentationHelper->removeEndpoint($openApi, '/index_documents');
+        $this->documentationHelper->removeEndpoint($openApi, '/index_documents/{indexName}');
+        $this->documentationHelper->removeEndpoint($openApi, '/index_documents/{indexName}', 'delete');
 
         return $openApi;
     }

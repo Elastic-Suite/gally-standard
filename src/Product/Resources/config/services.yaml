@@ -145,3 +145,9 @@ services:
             - '@Gally\Category\Repository\CategoryConfigurationRepository'
             - '@Gally\Search\Service\SearchSettingsProvider'
             - '%api_platform.graphql.nesting_separator%'
+
+    Gally\Product\OpenApi\ProductDecorator:
+        decorates: api_platform.openapi.factory
+        arguments:
+            - '@Gally\OpenApi\Helper\Documentation'
+            - '@.inner'

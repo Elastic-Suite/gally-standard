@@ -165,3 +165,9 @@ services:
         tags:
             - { name: api_platform.item_data_provider }
             - { name: api_platform.graphql.query_resolver }
+
+    Gally\Index\OpenApi\IndexDecorator:
+        decorates: api_platform.openapi.factory
+        arguments:
+            - '@Gally\OpenApi\Helper\Documentation'
+            - '@.inner'
