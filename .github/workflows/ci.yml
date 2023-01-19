@@ -4,9 +4,11 @@ on:
     push:
         branches:
             - master
+            - test_ci_lock
     pull_request_target:
         branches:
             - master
+            - test_ci_lock
         types: [review_requested, ready_for_review, synchronize]
     workflow_dispatch: ~
 
