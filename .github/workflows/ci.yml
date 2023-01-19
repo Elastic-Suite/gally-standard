@@ -4,9 +4,11 @@ on:
     push:
         branches:
             - master
+            - test_ci_lock
     pull_request_target:
         branches:
             - master
+            - test_ci_lock
         types: [review_requested, ready_for_review, synchronize]
     workflow_dispatch: ~
 
@@ -23,6 +25,9 @@ jobs:
             gally-directory: ${{ github.workspace }}/gally
 
         steps:
+            - name: Get event
+              run: echo "event name is:" ${{ github.event_name }}
+
             - name: Checkout PHP package
               uses: actions/checkout@v3
               with:
@@ -48,6 +53,7 @@ jobs:
                 # in $GITHUB_WORKSPACE we will have this after this step :
                 # - gally-<package-name> : contains only the sources from current branch or PR.
                 # - gally : a full development environment which is needed for PHPstan
+                # - gally-repository : a full Git repository needed to fetch revisions and install this locally with composer.
             - name: Move Gally dev environment to a defined location
               shell: bash
               run: |
@@ -68,6 +74,26 @@ jobs:
               run: |
                   make .env
                   cat .env
+
+            - name: Add package from current branch or PR (local contrib)
+              working-directory: ${{ env.gally-directory }}
+              # This cannot work for forks.
+              if: github.event.pull_request.head.repo.full_name == github.repository || github.event_name == 'push'
+              run: |
+                  LATEST_SHA=$(cd ${{ github.workspace }}/${{ env.package-name }} && git rev-parse HEAD)
+                  echo $LATEST_SHA
+                  sed -i -e "$(($(grep -n '"url": "https://github.com/Elastic-Suite/gally-standard.git"' api/composer.lock | cut -d: -f1) + 1))s/reference\": \"[^\"]\+\"/reference\": \"${LATEST_SHA}\"/;$(grep -n '"url": "https://api.github.com/repos/Elastic-Suite/gally-standard/zipball/' api/composer.lock | cut -d: -f1)s/zipball\/[^\"]\+\"/zipball\/${LATEST_SHA}\"/;$(($(grep -n '"url": "https://api.github.com/repos/Elastic-Suite/gally-standard/zipball/' api/composer.lock | cut -d: -f1) + 1))s/reference\": \"[^\"]\+\"/reference\": \"${LATEST_SHA}\"/" api/composer.lock
+                  git diff api/composer.lock
+
+            - name: Add package from current branch or PR (external contrib)
+              working-directory: ${{ env.gally-directory }}
+              # In case of a fork, use the most recent head of target branch
+              if: github.event.pull_request.head.repo.full_name != github.repository && github.event_name == 'pull_request_target'
+              run: |
+                  LATEST_SHA=$(cd ${{ github.workspace }}/gally-repository && git rev-parse origin/${GITHUB_BASE_REF:-${GITHUB_REF##*/}})
+                  echo $LATEST_SHA
+                  sed -i -e "$(($(grep -n '"url": "https://github.com/Elastic-Suite/gally-standard.git"' api/composer.lock | cut -d: -f1) + 1))s/reference\": \"[^\"]\+\"/reference\": \"${LATEST_SHA}\"/;$(grep -n '"url": "https://api.github.com/repos/Elastic-Suite/gally-standard/zipball/' api/composer.lock | cut -d: -f1)s/zipball\/[^\"]\+\"/zipball\/${LATEST_SHA}\"/;$(($(grep -n '"url": "https://api.github.com/repos/Elastic-Suite/gally-standard/zipball/' api/composer.lock | cut -d: -f1) + 1))s/reference\": \"[^\"]\+\"/reference\": \"${LATEST_SHA}\"/" api/composer.lock
+                  git diff api/composer.lock
 
             - name: Pull images
               working-directory: ${{ env.gally-directory }}
@@ -115,8 +141,10 @@ jobs:
 
             # Adding the current build of Gally inside php app.
             # $GITHUB_WORKSPACE/${{ env.package-name }} is where it has been checkouted at the beginning.
-            - name: Add current build of Gally
+            # Only used for pull_requests of forked repositories. For local contrib, HEAD of the PR is required previously.
+            - name: Add current build of Gally (external contrib)
               working-directory: ${{ env.gally-directory }}
+              if: github.event.pull_request.head.repo.full_name != github.repository && github.event_name == 'pull_request_target'
               run: |
                   make exec s=php c="pwd"
                   make exec s=php c="ls -ail"
