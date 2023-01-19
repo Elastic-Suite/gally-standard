@@ -99,6 +99,7 @@ final class Version_1_0_20230119101706_Initial_Schema extends AbstractMigration
 
     public function down(Schema $schema): void
     {
+        
         $this->addSql('CREATE SCHEMA public');
         $this->addSql('ALTER TABLE category_configuration DROP CONSTRAINT FK_BB39809CCC3C66FC');
         $this->addSql('ALTER TABLE category_product_merchandising DROP CONSTRAINT FK_CF6203D8CC3C66FC');
