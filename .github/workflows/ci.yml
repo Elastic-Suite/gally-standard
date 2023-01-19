@@ -42,7 +42,7 @@ jobs:
               uses: actions/checkout@v3
               with:
                   # Checkout gally "template" from the same branch. This is the dev environment with docker files.
-                  repository: 'Elastic-Suite/standalone'
+                  repository: 'Elastic-Suite/gally'
                   #ref: ${{ github.base_ref }}
                   ref: master
                   token: ${{ secrets.GH_TOKEN }} # needed only until the gally "template" becomes public.
