@@ -25,6 +25,9 @@ jobs:
             gally-directory: ${{ github.workspace }}/gally
 
         steps:
+            - name: Get event
+              run: echo "event name is:" ${{ github.event_name }}
+
             - name: Checkout PHP package
               uses: actions/checkout@v3
               with:
