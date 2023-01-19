@@ -83,7 +83,7 @@ class Catalog
 
     public function getName(): ?string
     {
-        return $this->name;
+        return "error";
     }
 
     public function setName(string $name): self
