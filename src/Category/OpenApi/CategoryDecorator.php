@@ -32,8 +32,7 @@ final class CategoryDecorator implements OpenApiFactoryInterface
         $openApi = ($this->decorated)($context);
 
         // Remove swagger documentation for the endpoint /category_product_merchandisings/{id}.
-        $path = $openApi->getPaths()->getPath('/category_product_merchandisings/{id}');
-        $openApi->getPaths()->addPath('/category_product_merchandisings/{id}', $path->withGet(null));
+        $this->documentationHelper->removeEndpoint($openApi, '/category_product_merchandisings/{id}');
 
         // Remove id parameter added automatically by API Platform
         $this->documentationHelper->removeFieldFromEndpoint(

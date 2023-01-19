@@ -352,3 +352,9 @@ services:
             $aggregationProvider: '@Gally\Search\Elasticsearch\Request\Aggregation\Provider\CoverageAggregationProvider'
         tags:
             - { name: gally.container_configuration.factory, requestType: coverage_rate }
+
+    Gally\Search\OpenApi\SearchDecorator:
+        decorates: api_platform.openapi.factory
+        arguments:
+            - '@Gally\OpenApi\Helper\Documentation'
+            - '@.inner'

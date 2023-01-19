@@ -40,4 +40,15 @@ class Documentation
             $path->withGet($path->getGet()->withParameters($parametersWithoutField))
         );
     }
+
+    /**
+     * Allows to remove an endpoint from swagger documentation.
+     */
+    public function removeEndpoint(DocumentationInterface $openApi, string $endpoint, string $httpVerb = 'get'): void
+    {
+        /** @var OpenApi $openApi */
+        $withFunction = 'with' . ucfirst($httpVerb);
+        $path = $openApi->getPaths()->getPath($endpoint);
+        $openApi->getPaths()->addPath($endpoint, $path->{$withFunction}(null));
+    }
 }

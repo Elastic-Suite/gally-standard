@@ -17,11 +17,13 @@ namespace Gally\Security\OpenApi;
 use ApiPlatform\Core\OpenApi\Factory\OpenApiFactoryInterface;
 use ApiPlatform\Core\OpenApi\Model;
 use ApiPlatform\Core\OpenApi\OpenApi;
+use Gally\OpenApi\Helper\Documentation as DocumentationHelper;
 
 final class JwtDecorator implements OpenApiFactoryInterface
 {
     public function __construct(
-        private OpenApiFactoryInterface $decorated
+        private DocumentationHelper $documentationHelper,
+        private OpenApiFactoryInterface $decorated,
     ) {
     }
 
@@ -88,8 +90,7 @@ final class JwtDecorator implements OpenApiFactoryInterface
 
         // Remove documentation on swagger for GraphQl authentication endpoint.
         unset($schemas['Authentication']);
-        $path = $openApi->getPaths()->getPath('/authentications/{id}');
-        $openApi->getPaths()->addPath('/authentications/{id}', $path->withGet(null));
+        $this->documentationHelper->removeEndpoint($openApi, '/authentications/{id}');
 
         return $openApi;
     }

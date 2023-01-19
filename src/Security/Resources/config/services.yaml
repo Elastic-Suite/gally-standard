@@ -2,8 +2,9 @@ services:
     Gally\Security\OpenApi\JwtDecorator:
         decorates: api_platform.openapi.factory
         arguments:
+            - '@Gally\OpenApi\Helper\Documentation'
             - '@.inner'
-                
+    
     Gally\Security\Resolver\AuthenticationMutationResolver:
         arguments:
             - '@Gally\User\Repository\UserRepository'
