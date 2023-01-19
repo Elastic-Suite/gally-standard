@@ -87,7 +87,7 @@ class Configuration
         'sortOrder' => BucketInterface::SORT_ORDER_COUNT,
         'isRecommendable' => false,
         'isVirtual' => false,
-        'position' => 0,
+        'position' => null,
     ];
 
     #[Groups(['facet_configuration:read'])]
