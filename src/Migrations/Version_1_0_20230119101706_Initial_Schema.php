@@ -17,7 +17,7 @@ namespace Gally\Migrations;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
-final class Version_1_0_20230111101721_Initial_Schema extends AbstractMigration
+final class Version_1_0_20230119101706_Initial_Schema extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -67,17 +67,17 @@ final class Version_1_0_20230111101721_Initial_Schema extends AbstractMigration
         $this->addSql('CREATE TABLE source_field (id INT NOT NULL, metadata_id INT NOT NULL, code VARCHAR(255) NOT NULL, default_label VARCHAR(255) DEFAULT NULL, type VARCHAR(255) DEFAULT NULL, weight INT DEFAULT 1 NOT NULL, is_searchable BOOLEAN DEFAULT NULL, is_filterable BOOLEAN DEFAULT NULL, is_sortable BOOLEAN DEFAULT NULL, is_spellchecked BOOLEAN DEFAULT NULL, is_used_for_rules BOOLEAN DEFAULT NULL, is_system BOOLEAN DEFAULT \'false\' NOT NULL, search VARCHAR(255) DEFAULT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_C2FD9E67DC9EE959 ON source_field (metadata_id)');
         $this->addSql('CREATE UNIQUE INDEX unique_metadata_code ON source_field (code, metadata_id)');
-        $this->addSql('CREATE TABLE source_field_label (id INT NOT NULL, catalog_id INT NOT NULL, source_field_id INT NOT NULL, label VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
-        $this->addSql('CREATE INDEX IDX_197F96B3CC3C66FC ON source_field_label (catalog_id)');
+        $this->addSql('CREATE TABLE source_field_label (id INT NOT NULL, localized_catalog_id INT NOT NULL, source_field_id INT NOT NULL, label VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE INDEX IDX_197F96B34CF5AFB9 ON source_field_label (localized_catalog_id)');
         $this->addSql('CREATE INDEX IDX_197F96B37173162 ON source_field_label (source_field_id)');
-        $this->addSql('CREATE UNIQUE INDEX unique_catalog_source_field ON source_field_label (catalog_id, source_field_id)');
+        $this->addSql('CREATE UNIQUE INDEX unique_localized_catalog_source_field ON source_field_label (localized_catalog_id, source_field_id)');
         $this->addSql('CREATE TABLE source_field_option (id INT NOT NULL, source_field_id INT NOT NULL, code VARCHAR(255) NOT NULL, position INT DEFAULT NULL, default_label VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_A628500A7173162 ON source_field_option (source_field_id)');
         $this->addSql('CREATE UNIQUE INDEX unique_code_source_field ON source_field_option (source_field_id, code)');
-        $this->addSql('CREATE TABLE source_field_option_label (id INT NOT NULL, catalog_id INT NOT NULL, source_field_option_id INT NOT NULL, label VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
-        $this->addSql('CREATE INDEX IDX_A564F6DACC3C66FC ON source_field_option_label (catalog_id)');
+        $this->addSql('CREATE TABLE source_field_option_label (id INT NOT NULL, localized_catalog_id INT NOT NULL, source_field_option_id INT NOT NULL, label VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE INDEX IDX_A564F6DA4CF5AFB9 ON source_field_option_label (localized_catalog_id)');
         $this->addSql('CREATE INDEX IDX_A564F6DAE4D8B5EE ON source_field_option_label (source_field_option_id)');
-        $this->addSql('CREATE UNIQUE INDEX unique_catalog_source_field_option ON source_field_option_label (catalog_id, source_field_option_id)');
+        $this->addSql('CREATE UNIQUE INDEX unique_localized_catalog_source_field_option ON source_field_option_label (localized_catalog_id, source_field_option_id)');
         $this->addSql('CREATE TABLE "user" (id INT NOT NULL, email VARCHAR(180) NOT NULL, roles JSON NOT NULL, password VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_8D93D649E7927C74 ON "user" (email)');
         $this->addSql('ALTER TABLE category_configuration ADD CONSTRAINT FK_BB39809C12469DE2 FOREIGN KEY (category_id) REFERENCES category (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
@@ -90,10 +90,10 @@ final class Version_1_0_20230111101721_Initial_Schema extends AbstractMigration
         $this->addSql('ALTER TABLE facet_configuration ADD CONSTRAINT FK_108F591B12469DE2 FOREIGN KEY (category_id) REFERENCES category (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE localized_catalog ADD CONSTRAINT FK_DB10491ECC3C66FC FOREIGN KEY (catalog_id) REFERENCES catalog (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE source_field ADD CONSTRAINT FK_C2FD9E67DC9EE959 FOREIGN KEY (metadata_id) REFERENCES metadata (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
-        $this->addSql('ALTER TABLE source_field_label ADD CONSTRAINT FK_197F96B3CC3C66FC FOREIGN KEY (catalog_id) REFERENCES localized_catalog (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE source_field_label ADD CONSTRAINT FK_197F96B34CF5AFB9 FOREIGN KEY (localized_catalog_id) REFERENCES localized_catalog (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE source_field_label ADD CONSTRAINT FK_197F96B37173162 FOREIGN KEY (source_field_id) REFERENCES source_field (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE source_field_option ADD CONSTRAINT FK_A628500A7173162 FOREIGN KEY (source_field_id) REFERENCES source_field (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
-        $this->addSql('ALTER TABLE source_field_option_label ADD CONSTRAINT FK_A564F6DACC3C66FC FOREIGN KEY (catalog_id) REFERENCES localized_catalog (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE source_field_option_label ADD CONSTRAINT FK_A564F6DA4CF5AFB9 FOREIGN KEY (localized_catalog_id) REFERENCES localized_catalog (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE source_field_option_label ADD CONSTRAINT FK_A564F6DAE4D8B5EE FOREIGN KEY (source_field_option_id) REFERENCES source_field_option (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
     }
 
@@ -108,8 +108,8 @@ final class Version_1_0_20230111101721_Initial_Schema extends AbstractMigration
         $this->addSql('ALTER TABLE facet_configuration DROP CONSTRAINT FK_108F591B12469DE2');
         $this->addSql('ALTER TABLE category_configuration DROP CONSTRAINT FK_BB39809C4CF5AFB9');
         $this->addSql('ALTER TABLE category_product_merchandising DROP CONSTRAINT FK_CF6203D84CF5AFB9');
-        $this->addSql('ALTER TABLE source_field_label DROP CONSTRAINT FK_197F96B3CC3C66FC');
-        $this->addSql('ALTER TABLE source_field_option_label DROP CONSTRAINT FK_A564F6DACC3C66FC');
+        $this->addSql('ALTER TABLE source_field_label DROP CONSTRAINT FK_197F96B34CF5AFB9');
+        $this->addSql('ALTER TABLE source_field_option_label DROP CONSTRAINT FK_A564F6DA4CF5AFB9');
         $this->addSql('ALTER TABLE source_field DROP CONSTRAINT FK_C2FD9E67DC9EE959');
         $this->addSql('ALTER TABLE facet_configuration DROP CONSTRAINT FK_108F591B7173162');
         $this->addSql('ALTER TABLE source_field_label DROP CONSTRAINT FK_197F96B37173162');
