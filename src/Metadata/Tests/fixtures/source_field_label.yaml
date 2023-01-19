@@ -1,9 +1,9 @@
 Gally\Metadata\Model\SourceFieldLabel:
     product_name_fr:
         source_field: '@product_name'
-        localized_catalog: '@catalog1_fr'
+        catalog: '@catalog1_fr'
         label: 'Nom'
     product_name_en:
         source_field: '@product_name'
-        localized_catalog: '@catalog1_en'
+        catalog: '@catalog1_en'
         label: 'Name'

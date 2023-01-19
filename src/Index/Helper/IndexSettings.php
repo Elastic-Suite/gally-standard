@@ -96,14 +96,14 @@ class IndexSettings
     /**
      * Create a new index name for a given entity/index identifier (eg. product) and catalog including current date.
      *
-     * @param string                      $indexIdentifier  Index identifier
-     * @param int|string|LocalizedCatalog $localizedCatalog The catalog
+     * @param string                      $indexIdentifier Index identifier
+     * @param int|string|LocalizedCatalog $catalog         The catalog
      */
-    public function createIndexNameFromIdentifier(string $indexIdentifier, LocalizedCatalog|int|string $localizedCatalog): string
+    public function createIndexNameFromIdentifier(string $indexIdentifier, LocalizedCatalog|int|string $catalog): string
     {
         $indexNameSuffix = $this->getIndexNameSuffix(new \DateTime());
 
-        return sprintf('%s_%s', $this->getIndexAliasFromIdentifier($indexIdentifier, $localizedCatalog), $indexNameSuffix);
+        return sprintf('%s_%s', $this->getIndexAliasFromIdentifier($indexIdentifier, $catalog), $indexNameSuffix);
     }
 
     /**

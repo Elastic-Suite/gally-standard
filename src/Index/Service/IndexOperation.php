@@ -34,27 +34,27 @@ class IndexOperation
     /**
      * Creates an index for a given entity metadata and catalog.
      *
-     * @param Metadata                    $metadata         Entity metadata
-     * @param int|string|LocalizedCatalog $localizedCatalog LocalizedCatalog
+     * @param Metadata                    $metadata Entity metadata
+     * @param int|string|LocalizedCatalog $catalog  Catalog
      */
-    public function createIndex(Metadata $metadata, LocalizedCatalog|int|string $localizedCatalog): Index
+    public function createIndex(Metadata $metadata, LocalizedCatalog|int|string $catalog): Index
     {
         if (null === $metadata->getEntity()) {
             throw new LogicException('Invalid metadata: no entity');
         }
 
         $indexSettings = [
-            'settings' => $this->indexSettings->getCreateIndexSettings() + $this->indexSettings->getDynamicIndexSettings($localizedCatalog),
+            'settings' => $this->indexSettings->getCreateIndexSettings() + $this->indexSettings->getDynamicIndexSettings($catalog),
         ];
-        $indexSettings['settings']['analysis'] = $this->indexSettings->getAnalysisSettings($localizedCatalog);
+        $indexSettings['settings']['analysis'] = $this->indexSettings->getAnalysisSettings($catalog);
         $indexSettings['mappings'] = $this->metadataManager->getMapping($metadata)->asArray();
-        $newIndexAliases = $this->indexSettings->getNewIndexMetadataAliases($metadata->getEntity(), $localizedCatalog);
+        $newIndexAliases = $this->indexSettings->getNewIndexMetadataAliases($metadata->getEntity(), $catalog);
         if (!empty($newIndexAliases)) {
             $indexSettings['aliases'] = array_fill_keys($newIndexAliases, ['is_hidden' => true]);
         }
 
         return $this->indexRepository->create(
-            $this->indexSettings->createIndexNameFromIdentifier($metadata->getEntity(), $localizedCatalog),
+            $this->indexSettings->createIndexNameFromIdentifier($metadata->getEntity(), $catalog),
             $indexSettings
         );
     }

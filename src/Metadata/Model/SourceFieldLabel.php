@@ -39,12 +39,12 @@ use Gally\User\Constant\Role;
         'delete' => ['security' => "is_granted('" . Role::ROLE_ADMIN . "')"],
     ],
 )]
-#[ApiFilter(SearchFilter::class, properties: ['localizedCatalog' => 'exact', 'sourceField' => 'exact'])]
+#[ApiFilter(SearchFilter::class, properties: ['catalog' => 'exact', 'sourceField' => 'exact'])]
 class SourceFieldLabel
 {
     private int $id;
     private SourceField $sourceField;
-    private LocalizedCatalog $localizedCatalog;
+    private LocalizedCatalog $catalog;
     private string $label;
 
     public function getId(): int
@@ -64,14 +64,14 @@ class SourceFieldLabel
         return $this;
     }
 
-    public function getLocalizedCatalog(): ?LocalizedCatalog
+    public function getCatalog(): ?LocalizedCatalog
     {
-        return $this->localizedCatalog;
+        return $this->catalog;
     }
 
-    public function setLocalizedCatalog(?LocalizedCatalog $localizedCatalog): self
+    public function setCatalog(?LocalizedCatalog $catalog): self
     {
-        $this->localizedCatalog = $localizedCatalog;
+        $this->catalog = $catalog;
 
         return $this;
     }

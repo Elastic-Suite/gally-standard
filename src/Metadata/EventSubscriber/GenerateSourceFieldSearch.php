@@ -50,7 +50,7 @@ class GenerateSourceFieldSearch implements EventSubscriberInterface
         $entity = $args->getObject();
         if ($entity instanceof SourceField) {
             $this->setSourceFieldSearch($entity);
-        } elseif ($entity instanceof SourceFieldLabel && $entity->getLocalizedCatalog()->getIsDefault()) {
+        } elseif ($entity instanceof SourceFieldLabel && $entity->getCatalog()->getIsDefault()) {
             $this->setSourceFieldSearch($entity->getSourceField(), $entity);
         }
     }
