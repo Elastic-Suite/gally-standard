@@ -26,12 +26,12 @@ Gally\Metadata\Model\SourceFieldLabel:
             - NotBlank: ~
         sourceField:
             - NotBlank: ~
-        catalog:
+        localizedCatalog:
             - NotBlank: ~
     constraints:
         - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
-              fields: [ sourceField, catalog ]
-              message: 'A label is already defined for this field and this catalog.'
+              fields: [ sourceField, localizedCatalog ]
+              message: 'A label is already defined for this field and this localized catalog.'
             
 Gally\Metadata\Model\SourceFieldOption:
     properties:
@@ -52,9 +52,9 @@ Gally\Metadata\Model\SourceFieldOptionLabel:
             - NotBlank: ~
         sourceFieldOption:
             - NotBlank: ~
-        catalog:
+        localizedCatalog:
             - NotBlank: ~
     constraints:
         - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
-              fields: [ sourceFieldOption, catalog ]
-              message: 'A label is already defined for this option and this catalog.'
+              fields: [ sourceFieldOption, localizedCatalog ]
+              message: 'A label is already defined for this option and this localized catalog.'
