@@ -88,7 +88,7 @@ jobs:
             - name: Add package from current branch or PR (external contrib)
               working-directory: ${{ env.gally-directory }}
               # In case of a fork, use the most recent head of target branch
-              if: github.event.pull_request.head.repo.full_name != github.repository && github.event_name == 'pull_request'
+              if: github.event.pull_request.head.repo.full_name != github.repository && github.event_name == 'pull_request_target'
               run: |
                   LATEST_SHA=$(cd ${{ github.workspace }}/gally-repository && git rev-parse origin/${GITHUB_BASE_REF:-${GITHUB_REF##*/}})
                   echo $LATEST_SHA
@@ -144,7 +144,7 @@ jobs:
             # Only used for pull_requests of forked repositories. For local contrib, HEAD of the PR is required previously.
             - name: Add current build of Gally (external contrib)
               working-directory: ${{ env.gally-directory }}
-              if: github.event.pull_request.head.repo.full_name != github.repository && github.event_name == 'pull_request'
+              if: github.event.pull_request.head.repo.full_name != github.repository && github.event_name == 'pull_request_target'
               run: |
                   make exec s=php c="pwd"
                   make exec s=php c="ls -ail"
