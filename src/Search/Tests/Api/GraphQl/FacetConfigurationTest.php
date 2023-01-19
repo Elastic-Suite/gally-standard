@@ -78,9 +78,11 @@ class FacetConfigurationTest extends RestFacetConfigurationTest
                             maxSize
                             isVirtual
                             sortOrder
+                            position
                             defaultCoverageRate
                             defaultMaxSize
                             defaultSortOrder
+                            defaultPosition
                             category { id }
                             sourceField { id }
                             sourceFieldCode
@@ -137,9 +139,11 @@ class FacetConfigurationTest extends RestFacetConfigurationTest
             'maxSize' => 10,
             'isVirtual' => false,
             'sortOrder' => BucketInterface::SORT_ORDER_COUNT,
+            'position' => null,
             'defaultCoverageRate' => 90,
             'defaultMaxSize' => 10,
             'defaultSortOrder' => BucketInterface::SORT_ORDER_COUNT,
+            'defaultPosition' => null,
         ];
 
         if ($categoryId) {
