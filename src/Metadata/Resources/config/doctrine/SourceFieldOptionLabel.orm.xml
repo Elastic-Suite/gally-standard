@@ -13,8 +13,8 @@
 
         <field name="label" type="string" nullable="false" />
 
-        <many-to-one field="localizedCatalog" target-entity="Gally\Catalog\Model\LocalizedCatalog">
-            <join-column name="localized_catalog_id" referenced-column-name="id" nullable="false" on-delete="CASCADE" on-update="CASCADE"/>
+        <many-to-one field="catalog" target-entity="Gally\Catalog\Model\LocalizedCatalog">
+            <join-column name="catalog_id" referenced-column-name="id" nullable="false" on-delete="CASCADE" on-update="CASCADE"/>
         </many-to-one>
 
         <many-to-one field="sourceFieldOption" target-entity="Gally\Metadata\Model\SourceFieldOption" inversed-by="labels">
@@ -22,7 +22,7 @@
         </many-to-one>
 
         <unique-constraints>
-            <unique-constraint columns="localized_catalog_id,source_field_option_id" name="unique_localized_catalog_source_field_option" />
+            <unique-constraint columns="catalog_id,source_field_option_id" name="unique_catalog_source_field_option" />
         </unique-constraints>
     </entity>
 

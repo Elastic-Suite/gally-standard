@@ -44,42 +44,42 @@ class SourceFieldOptionLabelTest extends AbstractEntityTest
         $adminUser = $this->getUser(Role::ROLE_ADMIN);
 
         return [
-            [$this->getUser(Role::ROLE_CONTRIBUTOR), ['localizedCatalog' => '/localized_catalogs/1', 'sourceFieldOption' => '/source_field_options/3', 'label' => 'Marque 3'], 403],
-            [$adminUser, ['localizedCatalog' => '/localized_catalogs/1', 'sourceFieldOption' => '/source_field_options/3', 'label' => 'Marque 3'], 201],
-            [$adminUser, ['localizedCatalog' => '/localized_catalogs/2', 'sourceFieldOption' => '/source_field_options/3', 'label' => 'Brand 3'], 201],
+            [$this->getUser(Role::ROLE_CONTRIBUTOR), ['catalog' => '/localized_catalogs/1', 'sourceFieldOption' => '/source_field_options/3', 'label' => 'Marque 3'], 403],
+            [$adminUser, ['catalog' => '/localized_catalogs/1', 'sourceFieldOption' => '/source_field_options/3', 'label' => 'Marque 3'], 201],
+            [$adminUser, ['catalog' => '/localized_catalogs/2', 'sourceFieldOption' => '/source_field_options/3', 'label' => 'Brand 3'], 201],
             [
                 $adminUser,
-                ['localizedCatalog' => '/localized_catalogs/1', 'sourceFieldOption' => '/source_field_options/4'],
+                ['catalog' => '/localized_catalogs/1', 'sourceFieldOption' => '/source_field_options/4'],
                 422,
                 'label: This value should not be blank.',
             ],
             [
                 $adminUser,
-                ['localizedCatalog' => '/localized_catalogs/1', 'sourceFieldOption' => '/source_field_options/1', 'label' => 'Marque 1 Update'],
+                ['catalog' => '/localized_catalogs/1', 'sourceFieldOption' => '/source_field_options/1', 'label' => 'Marque 1 Update'],
                 422,
-                'sourceFieldOption: A label is already defined for this option and this localized catalog.',
+                'sourceFieldOption: A label is already defined for this option and this catalog.',
             ],
             [
                 $adminUser,
                 ['sourceFieldOption' => '/source_field_options/4', 'label' => 'Marque'],
                 422,
-                'localizedCatalog: This value should not be blank.',
+                'catalog: This value should not be blank.',
             ],
             [
                 $adminUser,
-                ['localizedCatalog' => '/localized_catalogs/1', 'label' => 'Marque'],
+                ['catalog' => '/localized_catalogs/1', 'label' => 'Marque'],
                 422,
                 'sourceFieldOption: This value should not be blank.',
             ],
             [
                 $adminUser,
-                ['localizedCatalog' => '/localized_catalogs/NotExist', 'sourceFieldOption' => '/source_field_options/4', 'label' => 'Marque 3'],
+                ['catalog' => '/localized_catalogs/NotExist', 'sourceFieldOption' => '/source_field_options/4', 'label' => 'Marque 3'],
                 400,
                 'Item not found for "/localized_catalogs/NotExist".',
             ],
             [
                 $adminUser,
-                ['localizedCatalog' => '/localized_catalogs/1', 'sourceFieldOption' => '/source_field_options/NotExist', 'label' => 'Marque 3'],
+                ['catalog' => '/localized_catalogs/1', 'sourceFieldOption' => '/source_field_options/NotExist', 'label' => 'Marque 3'],
                 400,
                 'Item not found for "/source_field_options/NotExist".',
             ],
