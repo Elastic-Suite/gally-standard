@@ -291,7 +291,7 @@ class SourceField
     public function getDefaultLabel(): string
     {
         foreach ($this->getLabels() as $label) {
-            if ($label->getCatalog()->getIsDefault()) {
+            if ($label->getLocalizedCatalog()->getIsDefault()) {
                 return $label->getLabel();
             }
         }
@@ -488,7 +488,7 @@ class SourceField
     public function getLabel(int $catalogId): string
     {
         foreach ($this->getLabels() as $label) {
-            if ($catalogId === $label->getCatalog()->getId()) {
+            if ($catalogId === $label->getLocalizedCatalog()->getId()) {
                 return $label->getLabel();
             }
         }
