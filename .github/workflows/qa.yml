@@ -39,7 +39,7 @@ jobs:
               with:
                   # Checkout gally "template" from the same branch. This is the dev environment with docker files.
                   repository: 'Elastic-Suite/gally'
-                  ref: 1.0.x # ${{ github.base_ref }} cannot work on pushes.
+                  ref: master # ${{ github.base_ref }} cannot work on pushes.
                   path: gally-dev-${{ github.run_id }}-${{ github.run_number }}
 
             # in $GITHUB_WORKSPACE we will have this after this step :
