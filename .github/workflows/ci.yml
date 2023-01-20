@@ -46,9 +46,7 @@ jobs:
               with:
                   # Checkout gally "template" from the same branch. This is the dev environment with docker files.
                   repository: 'Elastic-Suite/gally'
-                  #ref: ${{ github.base_ref }}
-                  ref: master
-                  token: ${{ secrets.GH_TOKEN }} # needed only until the gally "template" becomes public.
+                  ref: ${{ github.base_ref }}
                   path: gally-dev-${{ github.run_id }}-${{ github.run_number }}
 
                 # in $GITHUB_WORKSPACE we will have this after this step :
