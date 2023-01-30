@@ -63,6 +63,12 @@ final class ConfigurationCollectionDataProvider implements ContextAwareCollectio
             unset($context['filters']['search']);
             $repository->setSearch($search);
         }
+        // Manually manage source field code  filter in order to manage sub entity link.
+        if (isset($context['filters']['sourceField.code'])) {
+            $sourceFieldCode = $context['filters']['sourceField.code'];
+            unset($context['filters']['sourceField.code']);
+            $repository->setSourceFieldCode($sourceFieldCode);
+        }
 
         $repository->setCategoryId($category);
 
