@@ -15,10 +15,10 @@ declare(strict_types=1);
 namespace Gally\Metadata\Tests\Api\Rest;
 
 use Gally\Metadata\Model\SourceFieldLabel;
-use Gally\Test\AbstractEntityTest;
+use Gally\Test\AbstractEntityTestWithUpdate;
 use Gally\User\Constant\Role;
 
-class SourceFieldLabelTest extends AbstractEntityTest
+class SourceFieldLabelTest extends AbstractEntityTestWithUpdate
 {
     protected static function getFixtureFiles(): array
     {
@@ -43,6 +43,7 @@ class SourceFieldLabelTest extends AbstractEntityTest
         $adminUser = $this->getUser(Role::ROLE_ADMIN);
 
         return [
+            [null, ['localizedCatalog' => '/localized_catalogs/1', 'sourceField' => '/source_fields/3', 'label' => 'Prix'], 401],
             [$this->getUser(Role::ROLE_CONTRIBUTOR), ['localizedCatalog' => '/localized_catalogs/1', 'sourceField' => '/source_fields/3', 'label' => 'Prix'], 403],
             [$adminUser, ['localizedCatalog' => '/localized_catalogs/1', 'sourceField' => '/source_fields/3', 'label' => 'Prix'], 201],
             [$adminUser, ['localizedCatalog' => '/localized_catalogs/2', 'sourceField' => '/source_fields/3', 'label' => 'Price'], 201],
@@ -95,7 +96,9 @@ class SourceFieldLabelTest extends AbstractEntityTest
         $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
 
         return [
+            [null, 1, ['id' => 1, 'label' => 'Nom'], 401],
             [$user, 1, ['id' => 1, 'label' => 'Nom'], 200],
+            [$this->getUser(Role::ROLE_ADMIN), 1, ['id' => 1, 'label' => 'Nom'], 200],
             [$user, 2, ['id' => 2, 'label' => 'Name'], 200],
             [$user, 10, [], 404],
         ];
@@ -109,6 +112,7 @@ class SourceFieldLabelTest extends AbstractEntityTest
         $adminUser = $this->getUser(Role::ROLE_ADMIN);
 
         return [
+            [null, 1, 401],
             [$this->getUser(Role::ROLE_CONTRIBUTOR), 1, 403],
             [$adminUser, 1, 204],
             [$adminUser, 2, 204],
@@ -122,7 +126,18 @@ class SourceFieldLabelTest extends AbstractEntityTest
     public function getCollectionDataProvider(): iterable
     {
         return [
+            [null, 4, 401],
             [$this->getUser(Role::ROLE_CONTRIBUTOR), 4, 200],
+            [$this->getUser(Role::ROLE_ADMIN), 4, 200],
+        ];
+    }
+
+    public function patchUpdateDataProvider(): iterable
+    {
+        return [
+            [null, 1, ['label' => 'Nom PATCH/PUT'], 401],
+            [$this->getUser(Role::ROLE_CONTRIBUTOR), 1,  ['label' => 'Nom PATCH/PUT'], 403],
+            [$this->getUser(Role::ROLE_ADMIN), 1, ['label' => 'Nom PATCH/PUT'], 200],
         ];
     }
 }

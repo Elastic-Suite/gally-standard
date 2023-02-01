@@ -48,7 +48,7 @@ class SelfReindexOperationTest extends AbstractTest
     public static function tearDownAfterClass(): void
     {
         parent::tearDownAfterClass();
-        self::$indexRepository->delete('gally_test__gally_*');
+        self::deleteElasticsearchFixtures();
     }
 
     /**

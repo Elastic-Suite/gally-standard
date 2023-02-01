@@ -19,7 +19,6 @@ use Gally\Catalog\Repository\LocalizedCatalogRepository;
 use Gally\Test\AbstractTest;
 use Gally\Test\ExpectedResponse;
 use Gally\Test\RequestGraphQlToTest;
-use Gally\User\Constant\Role;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
 class CategoryTreeTest extends AbstractTest
@@ -180,7 +179,7 @@ class CategoryTreeTest extends AbstractTest
                       }
                     }
                 GQL,
-                $this->getUser(Role::ROLE_ADMIN),
+                null,
             ),
             new ExpectedResponse(
                 200,

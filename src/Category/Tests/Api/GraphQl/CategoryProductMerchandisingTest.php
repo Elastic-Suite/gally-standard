@@ -60,9 +60,7 @@ class CategoryProductMerchandisingTest extends AbstractTest
     public function testSecurity(): void
     {
         $this->modifyPositions(null, 'one', 1, 1, '[]', [], 'Access Denied.', 200);
-        $this->modifyPositions($this->getUser(ROLE::ROLE_CONTRIBUTOR), 'one', 1, 1, '[]', [], 'Access Denied.', 200);
         $this->getPositions(null, 'one', 1, 1, '[]', [], 'Access Denied.', 200);
-        $this->getPositions($this->getUser(ROLE::ROLE_CONTRIBUTOR), 'one', 1, 1, '[]', [], 'Access Denied.', 200);
     }
 
     /**
@@ -243,7 +241,7 @@ class CategoryProductMerchandisingTest extends AbstractTest
 
         return [
             [ // Add global config.
-                $admin,
+                $this->getUser(Role::ROLE_CONTRIBUTOR),
                 $categoryIdOne,
                 null, // catalogId
                 null, // localizedCatalogId
@@ -928,7 +926,7 @@ class CategoryProductMerchandisingTest extends AbstractTest
 
         return [
             [
-                $admin,
+                $this->getUser(Role::ROLE_CONTRIBUTOR),
                 'fake_category_id',
                 $catalogIdB2c, // catalogId
                 $localizedCatalogIdB2cFr, // localizedCatalogId

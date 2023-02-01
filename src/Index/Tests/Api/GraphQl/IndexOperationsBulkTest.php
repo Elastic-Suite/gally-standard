@@ -40,7 +40,7 @@ class IndexOperationsBulkTest extends AbstractTest
     /**
      * @dataProvider bulkIndexDataProvider
      */
-    public function testBulkIndex(string $indexName, array $data, User $user, array $expectedData): void
+    public function testBulkIndex(string $indexName, array $data, ?User $user, array $expectedData): void
     {
         $data = addslashes(json_encode($data));
         $this->validateApiCall(
@@ -76,6 +76,7 @@ class IndexOperationsBulkTest extends AbstractTest
             'id3' => ['id' => 'id3', 'name' => 'Test doc 3', 'size' => 5],
         ];
 
+        yield [$indexName, $documents, null, ['errors' => [['debugMessage' => 'Access Denied.']]]];
         yield [$indexName, $documents, $this->getUser(Role::ROLE_CONTRIBUTOR), ['errors' => [['debugMessage' => 'Access Denied.']]]];
         yield [$indexName, $documents, $admin, ['data' => ['bulkIndex' => ['index' => ['name' => $indexName]]]]];
         yield ['wrongName', $documents, $admin, ['errors' => [['debugMessage' => 'Index with name [wrongName] does not exist']]]];
@@ -94,7 +95,7 @@ class IndexOperationsBulkTest extends AbstractTest
     /**
      * @dataProvider bulkDeleteDataProvider
      */
-    public function testBulkDeleteIndex(string $indexName, array $ids, User $user, array $expectedData): void
+    public function testBulkDeleteIndex(string $indexName, array $ids, ?User $user, array $expectedData): void
     {
         $ids = json_encode($ids);
         $this->validateApiCall(
@@ -126,6 +127,7 @@ class IndexOperationsBulkTest extends AbstractTest
         $indexName = ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'index_product';
         $ids = ['test_1', 'test_2', 'test_3'];
 
+        yield [$indexName, $ids, null, ['errors' => [['debugMessage' => 'Access Denied.']]]];
         yield [$indexName, $ids, $this->getUser(Role::ROLE_CONTRIBUTOR), ['errors' => [['debugMessage' => 'Access Denied.']]]];
         yield [$indexName, $ids, $admin, ['data' => ['bulkDeleteIndex' => ['index' => ['name' => $indexName]]]]];
         yield ['wrongName', $ids, $admin, ['errors' => [['debugMessage' => 'Index with name [wrongName] does not exist']]]];

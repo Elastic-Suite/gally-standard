@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace Gally\Menu\Tests\Api;
 
 use Gally\Test\AbstractTest;
+use Gally\User\Constant\Role;
 
 abstract class AbstractMenuTest extends AbstractTest
 {
@@ -86,11 +87,13 @@ abstract class AbstractMenuTest extends AbstractTest
             ],
         ];
 
+        $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
+
         return [
-            ['fr', $frMenu],
-            ['fr_FR', $frMenu],
-            ['en', $enMenu],
-            ['en_US', $enMenu],
+            ['fr', $frMenu, $this->getUser(Role::ROLE_ADMIN)],
+            ['fr_FR', $frMenu, $user],
+            ['en', $enMenu, $user],
+            ['en_US', $enMenu, $user],
         ];
     }
 }

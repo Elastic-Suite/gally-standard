@@ -28,7 +28,7 @@ class FacetConfigurationTest extends RestFacetConfigurationTest
      * @dataProvider updateDataProvider
      * @depends testGetCollectionBefore
      */
-    public function testUpdateValue(User $user, string $id, array $newData, int $expectedStatus, ?string $expectedMessage)
+    public function testUpdateValue(?User $user, string $id, array $newData, int $expectedStatus, ?string $expectedMessage)
     {
         $query = '';
         foreach ($newData as $key => $value) {
@@ -58,8 +58,37 @@ class FacetConfigurationTest extends RestFacetConfigurationTest
         );
     }
 
-    protected function testGetCollection(?string $entityType, ?string $categoryId, array $items): void
+    protected function testGetCollection(?User $user, ?string $entityType, ?string $categoryId, array $items, int $responseCode, ?string $expectedMessage = null): void
     {
+        $expectedResponse = 200 != $responseCode
+            ? new ExpectedResponse(200, function (ResponseInterface $response) use ($expectedMessage) {
+                $this->assertJsonContains(['errors' => [['debugMessage' => $expectedMessage]]]);
+            })
+            : new ExpectedResponse(
+                200,
+                function (ResponseInterface $response) use ($items) {
+                    $this->assertJsonContains(
+                        [
+                            'data' => [
+                                'facetConfigurations' => [
+                                    'paginationInfo' => ['totalCount' => \count($items)],
+                                ],
+                            ],
+                        ]
+                    );
+
+                    $responseData = $response->toArray();
+
+                    foreach ($items as $item) {
+                        $item = $this->completeContent($item);
+                        $this->assertEquals(
+                            $item,
+                            $this->getById($item['id'], $responseData['data']['facetConfigurations']['collection'])
+                        );
+                    }
+                }
+            );
+
         $query = $entityType ? ["sourceField__metadata__entity: \"$entityType\""] : [];
 
         if ($categoryId) {
@@ -91,32 +120,103 @@ class FacetConfigurationTest extends RestFacetConfigurationTest
                       }
                     }
                 GQL,
-                $this->getUser(Role::ROLE_CONTRIBUTOR)
+                $user
             ),
-            new ExpectedResponse(
+            $expectedResponse
+        );
+    }
+
+    /**
+     * @dataProvider getDataProvider
+     * @depends testGetCollectionAfter
+     */
+    public function testGet(?User $user, int|string $id, array $expectedData, int $responseCode, ?string $expectedMessage = null): void
+    {
+        $expectedResponse = 200 != $responseCode
+            ? new ExpectedResponse(200, function (ResponseInterface $response) use ($expectedMessage) {
+                $this->assertJsonContains(['errors' => [['debugMessage' => $expectedMessage]]]);
+            })
+            : new ExpectedResponse(
                 200,
-                function (ResponseInterface $response) use ($items) {
+                function (ResponseInterface $response) use ($expectedData) {
                     $this->assertJsonContains(
                         [
                             'data' => [
-                                'facetConfigurations' => [
-                                    'paginationInfo' => ['totalCount' => \count($items)],
+                                'facetConfiguration' => $expectedData,
+                            ],
+                        ]
+                    );
+                }
+            );
+
+        $this->validateApiCall(
+            new RequestGraphQlToTest(
+                <<<GQL
+                    {
+                      facetConfiguration (id: "/facet_configurations/{$id}") {
+                        id
+                      }
+                    }
+                GQL,
+                $user
+            ),
+            $expectedResponse,
+        );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getDataProvider(): iterable
+    {
+        $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
+
+        return [
+            [null, '3-0', ['id' => '/facet_configurations/3-0'], 401, 'Access Denied.'],
+            [$user, '3-0', ['id' => '/facet_configurations/3-0'], 200],
+            [$this->getUser(Role::ROLE_ADMIN), '3-0', ['id' => '/facet_configurations/3-0'], 200],
+        ];
+    }
+
+    /**
+     * @dataProvider deleteDataProvider
+     * @depends testGet
+     */
+    public function testDelete(?User $user, int|string $id, int $responseCode, ?string $expectedMessage = null): void
+    {
+        $expectedResponse = 204 != $responseCode
+            ? new ExpectedResponse(200, function (ResponseInterface $response) use ($expectedMessage) {
+                $this->assertJsonContains(['errors' => [['debugMessage' => $expectedMessage]]]);
+            })
+            : new ExpectedResponse(
+                200,
+                function (ResponseInterface $response) use ($id) {
+                    $this->assertJsonContains(
+                        [
+                            'data' => [
+                                'deleteFacetConfiguration' => [
+                                    'facetConfiguration' => ['id' => "/facet_configurations/{$id}"],
                                 ],
                             ],
                         ]
                     );
-
-                    $responseData = $response->toArray();
-
-                    foreach ($items as $item) {
-                        $item = $this->completeContent($item);
-                        $this->assertEquals(
-                            $item,
-                            $this->getById($item['id'], $responseData['data']['facetConfigurations']['collection'])
-                        );
-                    }
                 }
-            )
+            );
+
+        $this->validateApiCall(
+            new RequestGraphQlToTest(
+                <<<GQL
+                    mutation {
+                      deleteFacetConfiguration(input: {id: "/facet_configurations/{$id}"}) {
+                        facetConfiguration {
+                          id
+                        }
+                      }
+                    }
+                GQL,
+                $user
+            ),
+            $expectedResponse,
         );
     }
 

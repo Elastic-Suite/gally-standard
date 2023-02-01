@@ -26,7 +26,7 @@ class MappingStatusTest extends AbstractTest
     /**
      * @dataProvider mappingStatusDataProvider
      */
-    public function testGetMappingStatus(User $user, string $entity, array $expectedData)
+    public function testGetMappingStatus(?User $user, string $entity, array $expectedData)
     {
         $this->loadFixture([
             __DIR__ . '/../../fixtures/source_field.yaml',
@@ -53,8 +53,8 @@ class MappingStatusTest extends AbstractTest
         $admin = $this->getUser(Role::ROLE_ADMIN);
 
         return [
-            [$this->getUser(Role::ROLE_CONTRIBUTOR), 'product', ['errors' => [['debugMessage' => 'Access Denied.']]]],
-            [$admin, 'product', ['data' => ['getMappingStatus' => ['status' => 'green']]]],
+            [null, 'product', ['errors' => [['debugMessage' => 'Access Denied.']]]],
+            [$this->getUser(Role::ROLE_CONTRIBUTOR), 'product', ['data' => ['getMappingStatus' => ['status' => 'green']]]],
             [$admin, 'category', ['data' => ['getMappingStatus' => ['status' => 'red']]]],
             [$admin, 'cms', ['data' => ['getMappingStatus' => null]]],
         ];

@@ -65,13 +65,13 @@ class CategoryProductMerchandisingTest extends AbstractTest
     public function testSecurity(): void
     {
         $this->validateApiCall(
-            new RequestToTest('POST', "{$this->getApiPath()}/savePositions/one", $this->getUser(Role::ROLE_CONTRIBUTOR)),
-            new ExpectedResponse(403)
+            new RequestToTest('POST', "{$this->getApiPath()}/savePositions/one", null),
+            new ExpectedResponse(401)
         );
 
         $this->validateApiCall(
-            new RequestToTest('GET', "{$this->getApiPath()}/getPositions/one/1", $this->getUser(Role::ROLE_CONTRIBUTOR)),
-            new ExpectedResponse(403)
+            new RequestToTest('GET', "{$this->getApiPath()}/getPositions/one/1", null),
+            new ExpectedResponse(401)
         );
     }
 
@@ -223,7 +223,7 @@ class CategoryProductMerchandisingTest extends AbstractTest
 
         return [
             [ // Add global config.
-                $admin,
+                $this->getUser(Role::ROLE_CONTRIBUTOR),
                 $categoryIdOne,
                 null, // catalogId
                 null, // localizedCatalogId
@@ -870,7 +870,7 @@ class CategoryProductMerchandisingTest extends AbstractTest
 
         return [
             [
-                $admin,
+                $this->getUser(Role::ROLE_CONTRIBUTOR),
                 'fake_category_id',
                 $catalogIdB2c, // catalogId
                 $localizedCatalogIdB2cFr, // localizedCatalogId
