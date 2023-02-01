@@ -18,18 +18,26 @@ use Gally\Locale\EventSubscriber\LocaleSubscriber;
 use Gally\Menu\Tests\Api\AbstractMenuTest;
 use Gally\Test\ExpectedResponse;
 use Gally\Test\RequestToTest;
-use Gally\User\Constant\Role;
+use Gally\User\Model\User;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
 class GetMenuTest extends AbstractMenuTest
 {
+    public function testSecurity(): void
+    {
+        $this->validateApiCall(
+            new RequestToTest('GET', 'menu', null),
+            new ExpectedResponse(401)
+        );
+    }
+
     /**
      * @dataProvider menuDataProvider
      */
-    public function testGetMenu(string $local, array $expectedResponse): void
+    public function testGetMenu(string $local, array $expectedResponse, User $user): void
     {
         $this->validateApiCall(
-            new RequestToTest('GET', 'menu', $this->getUser(Role::ROLE_CONTRIBUTOR), [], [LocaleSubscriber::GALLY_LANGUAGE_HEADER => $local]),
+            new RequestToTest('GET', 'menu', $user, [], [LocaleSubscriber::GALLY_LANGUAGE_HEADER => $local]),
             new ExpectedResponse(
                 200,
                 function (ResponseInterface $response) use ($expectedResponse) {

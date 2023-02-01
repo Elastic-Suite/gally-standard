@@ -17,14 +17,14 @@ namespace Gally\Category\Tests\Api\Rest;
 use Gally\Catalog\Repository\CatalogRepository;
 use Gally\Catalog\Repository\LocalizedCatalogRepository;
 use Gally\Category\Model\Category;
-use Gally\Test\AbstractEntityTest;
+use Gally\Test\AbstractEntityTestWithUpdate;
 use Gally\Test\ExpectedResponse;
 use Gally\Test\RequestToTest;
 use Gally\User\Constant\Role;
 use Gally\User\Model\User;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
-class CategoryConfigurationTest extends AbstractEntityTest
+class CategoryConfigurationTest extends AbstractEntityTestWithUpdate
 {
     protected static function getFixtureFiles(): array
     {
@@ -45,7 +45,7 @@ class CategoryConfigurationTest extends AbstractEntityTest
      * @dataProvider createDataProvider
      */
     public function testCreate(
-        User $user,
+        ?User $user,
         array $data,
         int $responseCode = 201,
         ?string $message = null,
@@ -74,12 +74,12 @@ class CategoryConfigurationTest extends AbstractEntityTest
 
         return [
             [
-                $this->getUser(Role::ROLE_CONTRIBUTOR),
+                null,
                 ['category' => 'one', 'name' => 'One'],
-                403,
+                401,
             ],
             [
-                $adminUser,
+                $this->getUser(Role::ROLE_CONTRIBUTOR),
                 ['category' => 'one', 'name' => 'One'],
             ],
             [
@@ -111,8 +111,8 @@ class CategoryConfigurationTest extends AbstractEntityTest
         $user = $this->getUser(Role::ROLE_ADMIN);
 
         return [
-            [$this->getUser(Role::ROLE_CONTRIBUTOR), 1, ['id' => 'One', 'name' => 'One'], 403],
-            [$user, 1, ['id' => 1, 'name' => 'One'], 200],
+            [null, 1, ['id' => 'One', 'name' => 'One'], 401],
+            [$this->getUser(Role::ROLE_CONTRIBUTOR), 1, ['id' => 1, 'name' => 'One'], 200],
             [$user, 4, ['id' => 4, 'name' => 'Two'], 200],
             [$user, 10, [], 404],
         ];
@@ -126,9 +126,10 @@ class CategoryConfigurationTest extends AbstractEntityTest
         $adminUser = $this->getUser(Role::ROLE_ADMIN);
 
         return [
-            [$this->getUser(Role::ROLE_CONTRIBUTOR), 1, 403],
-            [$adminUser, 1, 204],
-            [$adminUser, 10, 404],
+            [null, 1, 405],
+            [$this->getUser(Role::ROLE_CONTRIBUTOR), 1, 405],
+            [$adminUser, 1, 405],
+            [$adminUser, 10, 405],
         ];
     }
 
@@ -138,29 +139,43 @@ class CategoryConfigurationTest extends AbstractEntityTest
     public function getCollectionDataProvider(): iterable
     {
         return [
-            [$this->getUser(Role::ROLE_CONTRIBUTOR), 3, 403],
-            [$this->getUser(Role::ROLE_ADMIN), 3, 200],
+            [null, 4, 401],
+            [$this->getUser(Role::ROLE_CONTRIBUTOR), 4, 200],
+            [$this->getUser(Role::ROLE_ADMIN), 4, 200],
         ];
     }
 
     public function testGetWithContext(): void
     {
         $this->validateApiCall(
-            new RequestToTest('GET', "{$this->getApiPath()}/category/one", $this->getUser(Role::ROLE_CONTRIBUTOR)),
-            new ExpectedResponse(403)
+            new RequestToTest('GET', "{$this->getApiPath()}/category/one", null),
+            new ExpectedResponse(401)
         );
-        $this->validateApiCall(
-            new RequestToTest('GET', "{$this->getApiPath()}/category/one", $this->getUser(Role::ROLE_ADMIN)),
-            new ExpectedResponse(
-                200,
-                function (ResponseInterface $response) {
-                    $this->assertJsonContains(['name' => 'One']);
-                }
-            )
-        );
+
+        foreach ([$this->getUser(Role::ROLE_CONTRIBUTOR), $this->getUser(Role::ROLE_ADMIN)] as $user) {
+            $this->validateApiCall(
+                new RequestToTest('GET', "{$this->getApiPath()}/category/one", $user),
+                new ExpectedResponse(
+                    200,
+                    function (ResponseInterface $response) {
+                        $this->assertJsonContains(['name' => 'One']);
+                    }
+                )
+            );
+        }
+
         $this->validateApiCall(
             new RequestToTest('GET', "{$this->getApiPath()}/category/ten", $this->getUser(Role::ROLE_ADMIN)),
             new ExpectedResponse(404)
         );
+    }
+
+    public function patchUpdateDataProvider(): iterable
+    {
+        return [
+            [null, 1, ['name' => 'One PATCH/PUT'], 401],
+            [$this->getUser(Role::ROLE_CONTRIBUTOR), 1, ['name' => 'One PATCH/PUT'], 200],
+            [$this->getUser(Role::ROLE_ADMIN), 1, ['name' => 'One PATCH/PUT Admin'], 200],
+        ];
     }
 }

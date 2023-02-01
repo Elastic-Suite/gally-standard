@@ -15,10 +15,10 @@ declare(strict_types=1);
 namespace Gally\Metadata\Tests\Api\Rest;
 
 use Gally\Metadata\Model\SourceFieldOptionLabel;
-use Gally\Test\AbstractEntityTest;
+use Gally\Test\AbstractEntityTestWithUpdate;
 use Gally\User\Constant\Role;
 
-class SourceFieldOptionLabelTest extends AbstractEntityTest
+class SourceFieldOptionLabelTest extends AbstractEntityTestWithUpdate
 {
     protected static function getFixtureFiles(): array
     {
@@ -44,6 +44,7 @@ class SourceFieldOptionLabelTest extends AbstractEntityTest
         $adminUser = $this->getUser(Role::ROLE_ADMIN);
 
         return [
+            [null, ['localizedCatalog' => '/localized_catalogs/1', 'sourceFieldOption' => '/source_field_options/3', 'label' => 'Marque 3'], 401],
             [$this->getUser(Role::ROLE_CONTRIBUTOR), ['localizedCatalog' => '/localized_catalogs/1', 'sourceFieldOption' => '/source_field_options/3', 'label' => 'Marque 3'], 403],
             [$adminUser, ['localizedCatalog' => '/localized_catalogs/1', 'sourceFieldOption' => '/source_field_options/3', 'label' => 'Marque 3'], 201],
             [$adminUser, ['localizedCatalog' => '/localized_catalogs/2', 'sourceFieldOption' => '/source_field_options/3', 'label' => 'Brand 3'], 201],
@@ -105,7 +106,9 @@ class SourceFieldOptionLabelTest extends AbstractEntityTest
         $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
 
         return [
+            [null, 1, ['id' => 1, 'label' => 'Marque 1'], 401],
             [$user, 1, ['id' => 1, 'label' => 'Marque 1'], 200],
+            [$this->getUser(Role::ROLE_ADMIN), 1, ['id' => 1, 'label' => 'Marque 1'], 200],
             [$user, 3, ['id' => 3, 'label' => 'Brand 1'], 200],
             [$user, 20, [], 404],
         ];
@@ -119,6 +122,7 @@ class SourceFieldOptionLabelTest extends AbstractEntityTest
         $adminUser = $this->getUser(Role::ROLE_ADMIN);
 
         return [
+            [null, 1, 401],
             [$this->getUser(Role::ROLE_CONTRIBUTOR), 1, 403],
             [$adminUser, 1, 204],
             [$adminUser, 3, 204],
@@ -132,7 +136,18 @@ class SourceFieldOptionLabelTest extends AbstractEntityTest
     public function getCollectionDataProvider(): iterable
     {
         return [
+            [null, 4, 401],
             [$this->getUser(Role::ROLE_CONTRIBUTOR), 4, 200],
+            [$this->getUser(Role::ROLE_ADMIN), 4, 200],
+        ];
+    }
+
+    public function patchUpdateDataProvider(): iterable
+    {
+        return [
+            [null, 1, ['label' => 'Brand 1 PATCH/PUT'], 401],
+            [$this->getUser(Role::ROLE_CONTRIBUTOR), 1,  ['label' => 'Brand 1 PATCH/PUT'], 403],
+            [$this->getUser(Role::ROLE_ADMIN), 1, ['label' => 'Brand 1 PATCH/PUT'], 200],
         ];
     }
 }

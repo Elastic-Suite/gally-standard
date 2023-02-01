@@ -53,13 +53,13 @@ class IndexOperationsTest extends AbstractTest
     public static function tearDownAfterClass(): void
     {
         parent::tearDownAfterClass();
-        self::$indexRepository->delete('gally_test__gally_*');
+        self::deleteElasticsearchFixtures();
     }
 
     /**
      * @dataProvider createIndexDataProvider
      */
-    public function testCreateIndex(User $user, string $entityType, int $catalogId, array $expectedData): void
+    public function testCreateIndex(?User $user, string $entityType, int $catalogId, array $expectedData): void
     {
         $this->validateApiCall(
             new RequestGraphQlToTest(
@@ -107,6 +107,13 @@ class IndexOperationsTest extends AbstractTest
         $admin = $this->getUser(Role::ROLE_ADMIN);
 
         yield [
+            null,
+            'product',
+            1,
+            ['errors' => [['debugMessage' => 'Access Denied.']]],
+        ];
+
+        yield [
             $this->getUser(Role::ROLE_CONTRIBUTOR),
             'product',
             1,
@@ -139,7 +146,7 @@ class IndexOperationsTest extends AbstractTest
      * @depends testCreateIndex
      * @dataProvider installIndexDataProvider
      */
-    public function testInstallIndex(User $user, string $indexNamePrefix, array $expectedData): void
+    public function testInstallIndex(?User $user, string $indexNamePrefix, array $expectedData): void
     {
         $installIndexSettings = self::$indexSettings->getInstallIndexSettings();
         $index = self::$indexRepository->findByName("{$indexNamePrefix}*");
@@ -192,6 +199,12 @@ class IndexOperationsTest extends AbstractTest
         $admin = $this->getUser(Role::ROLE_ADMIN);
 
         yield [
+            null,
+            'gally_test__gally_b2c_fr_product',
+            ['errors' => [['debugMessage' => 'Access Denied.']]],
+        ];
+
+        yield [
             $this->getUser(Role::ROLE_CONTRIBUTOR),
             'gally_test__gally_b2c_fr_product',
             ['errors' => [['debugMessage' => 'Access Denied.']]],
@@ -215,7 +228,7 @@ class IndexOperationsTest extends AbstractTest
      * @depends testInstallIndex
      * @dataProvider installIndexDataProvider
      */
-    public function testRefreshIndex(User $user, string $indexNamePrefix, array $expectedData): void
+    public function testRefreshIndex(?User $user, string $indexNamePrefix, array $expectedData): void
     {
         $index = self::$indexRepository->findByName("{$indexNamePrefix}*");
         $initialRefreshCount = $this->getRefreshCount($index->getName());

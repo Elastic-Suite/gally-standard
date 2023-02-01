@@ -19,21 +19,17 @@ use Gally\User\Constant\Role;
 
 #[ApiResource(
     collectionOperations: [
-        'get' => ['security' => "is_granted('" . Role::ROLE_ADMIN . "')"],
-        'post' => ['security' => "is_granted('" . Role::ROLE_ADMIN . "')"],
+        'get' => ['security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"],
     ],
     itemOperations: [
-        'get' => ['security' => "is_granted('" . Role::ROLE_ADMIN . "')"],
-        'put' => ['security' => "is_granted('" . Role::ROLE_ADMIN . "')"],
-        'patch' => ['security' => "is_granted('" . Role::ROLE_ADMIN . "')"],
-        'delete' => ['security' => "is_granted('" . Role::ROLE_ADMIN . "')"],
+        'get' => ['security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"],
+        'put' => ['security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"],
+        'patch' => ['security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"],
     ],
     graphql: [
-        'create' => ['security' => "is_granted('" . Role::ROLE_ADMIN . "')"],
-        'update' => ['security' => "is_granted('" . Role::ROLE_ADMIN . "')"],
-        'delete' => ['security' => "is_granted('" . Role::ROLE_ADMIN . "')"],
-        'item_query' => ['security' => "is_granted('" . Role::ROLE_ADMIN . "')"],
-        'collection_query' => ['security' => "is_granted('" . Role::ROLE_ADMIN . "')"],
+        'item_query' => ['security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"],
+        'collection_query' => ['security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"],
+        'update' => ['security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"],
     ],
 )]
 class Category

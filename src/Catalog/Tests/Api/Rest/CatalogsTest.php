@@ -15,10 +15,10 @@ declare(strict_types=1);
 namespace Gally\Catalog\Tests\Api\Rest;
 
 use Gally\Catalog\Model\Catalog;
-use Gally\Test\AbstractEntityTest;
+use Gally\Test\AbstractEntityTestWithUpdate;
 use Gally\User\Constant\Role;
 
-class CatalogsTest extends AbstractEntityTest
+class CatalogsTest extends AbstractEntityTestWithUpdate
 {
     protected static function getFixtureFiles(): array
     {
@@ -44,6 +44,7 @@ class CatalogsTest extends AbstractEntityTest
             [$adminUser, ['code' => 'valid_code', 'name' => 'B2C Catalog'], 201],
             [$adminUser, ['code' => 'empty_name', 'name' => ''], 201],
             [$adminUser, ['code' => 'missing_name'], 201],
+            [null, ['code' => 'valid_code', 'name' => 'JWT Token not found'], 401],
             [$this->getUser(Role::ROLE_CONTRIBUTOR), ['code' => 'valid_code', 'name' => 'Unauthorized user'], 403],
             [$adminUser, ['code' => '', 'name' => 'Empty Code'], 422, 'code: This value should not be blank.'],
             [$adminUser, ['code' => ''], 422, 'code: This value should not be blank.'],
@@ -110,7 +111,9 @@ class CatalogsTest extends AbstractEntityTest
                 200,
                 'fr_FR',
             ],
+            [null, 5, ['id' => 5, 'code' => 'missing_name'], 200],
             [$user, 5, ['id' => 5, 'code' => 'missing_name'], 200],
+            [$this->getUser(Role::ROLE_ADMIN), 5, ['id' => 5, 'code' => 'missing_name'], 200],
             [$user, 10, [], 404],
         ];
     }
@@ -123,6 +126,7 @@ class CatalogsTest extends AbstractEntityTest
         $adminUser = $this->getUser(Role::ROLE_ADMIN);
 
         return [
+            [null, 1, 401],
             [$this->getUser(Role::ROLE_CONTRIBUTOR), 1, 403],
             [$adminUser, 1, 204],
             [$adminUser, 5, 204],
@@ -136,7 +140,21 @@ class CatalogsTest extends AbstractEntityTest
     public function getCollectionDataProvider(): iterable
     {
         return [
+            [null, 3, 200],
             [$this->getUser(Role::ROLE_CONTRIBUTOR), 3, 200],
+            [$this->getUser(Role::ROLE_ADMIN), 3, 200],
+        ];
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function patchUpdateDataProvider(): iterable
+    {
+        return [
+            [null, 1, ['name' => 'B2C Test Catalog PATCH/PUT'], 401],
+            [$this->getUser(Role::ROLE_CONTRIBUTOR), 1, ['name' => 'B2C Test Catalog PATCH/PUT'], 403],
+            [$this->getUser(Role::ROLE_ADMIN), 1, ['name' => 'B2C Test Catalog PATCH/PUT'], 200],
         ];
     }
 }

@@ -29,38 +29,40 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ApiResource(
     shortName: 'FacetConfiguration',
     collectionOperations: [
-        'get',
+        'get' => ['security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"],
     ],
     itemOperations: [
-        'get',
+        'get' => ['security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"],
         'put' => [
-            'security' => "is_granted('" . Role::ROLE_ADMIN . "')",
+            'security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
             'normalization_context' => ['groups' => ['facet_configuration:read']],
             'denormalization_context' => ['groups' => ['facet_configuration:write']],
         ],
         'patch' => [
-            'security' => "is_granted('" . Role::ROLE_ADMIN . "')",
+            'security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
             'normalization_context' => ['groups' => ['facet_configuration:read']],
             'denormalization_context' => ['groups' => ['facet_configuration:write']],
         ],
-        'delete' => ['security' => "is_granted('" . Role::ROLE_ADMIN . "')"],
+        'delete' => ['security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"],
     ],
     graphql: [
         'item_query' => [
+            'security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
             'normalization_context' => ['groups' => ['facet_configuration:read', 'facet_configuration:graphql_read']],
             'denormalization_context' => ['groups' => ['facet_configuration:read', 'facet_configuration:graphql_read']],
         ],
         'collection_query' => [
+            'security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
             'normalization_context' => ['groups' => ['facet_configuration:read', 'facet_configuration:graphql_read']],
             'denormalization_context' => ['groups' => ['facet_configuration:read', 'facet_configuration:graphql_read']],
             'pagination_type' => 'page',
         ],
         'update' => [
-            'security' => "is_granted('" . Role::ROLE_ADMIN . "')",
+            'security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
             'normalization_context' => ['groups' => ['facet_configuration:read', 'facet_configuration:graphql_read']],
             'denormalization_context' => ['groups' => ['facet_configuration:write']],
         ],
-        'delete' => ['security' => "is_granted('" . Role::ROLE_ADMIN . "')"],
+        'delete' => ['security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"],
     ],
     normalizationContext: ['groups' => ['facet_configuration:read']],
     denormalizationContext: ['groups' => ['facet_configuration:read']],

@@ -28,11 +28,11 @@ use Gally\User\Constant\Role;
                 'args' => [
                     'entityType' => ['type' => 'String!'],
                 ],
-                'security' => "is_granted('" . Role::ROLE_ADMIN . "')",
+                'security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
             ],
         ],
         itemOperations: [
-            'get',
+            'get' => ['security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"],
         ],
         shortName: 'MappingStatus',
     )

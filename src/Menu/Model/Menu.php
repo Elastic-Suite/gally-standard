@@ -18,11 +18,13 @@ use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Gally\Menu\Controller\MenuController;
 use Gally\Menu\Resolver\MenuResolver;
+use Gally\User\Constant\Role;
 
 #[
     ApiResource(
         itemOperations: [
             'menu' => [
+                'security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
                 'method' => 'GET',
                 'path' => 'menu',
                 'read' => false,
@@ -34,6 +36,7 @@ use Gally\Menu\Resolver\MenuResolver;
         paginationEnabled: false,
         graphql: [
             'get' => [
+                'security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
                 'item_query' => MenuResolver::class,
                 'read' => false,
                 'deserialize' => false,

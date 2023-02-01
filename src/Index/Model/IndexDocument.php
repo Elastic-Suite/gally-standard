@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace Gally\Index\Model;
 
+use ApiPlatform\Core\Action\NotFoundAction;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Gally\User\Constant\Role;
@@ -21,18 +22,17 @@ use Gally\User\Constant\Role;
 #[
     ApiResource(
         collectionOperations: [
-            'get',
             'post' => ['security' => "is_granted('" . Role::ROLE_ADMIN . "')"],
         ],
         graphql: [
-            'item_query',
-            'collection_query',
             'create' => ['security' => "is_granted('" . Role::ROLE_ADMIN . "')"],
-            'delete' => ['security' => "is_granted('" . Role::ROLE_ADMIN . "')"],
         ],
         itemOperations: [
-            'get',
-            'delete' => ['security' => "is_granted('" . Role::ROLE_ADMIN . "')"],
+            'get' => [
+                'controller' => NotFoundAction::class,
+                'read' => false,
+                'output' => false,
+            ],
         ],
         paginationEnabled: false,
     ),

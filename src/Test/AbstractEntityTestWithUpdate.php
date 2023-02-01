@@ -23,17 +23,73 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
 abstract class AbstractEntityTestWithUpdate extends AbstractEntityTest
 {
     /**
-     * @dataProvider updateDataProvider
+     * @dataProvider patchUpdateDataProvider
+     * @depends testGet
      */
-    public function testUpdate(
-        User $user,
+    public function testPatchUpdate(
+        ?User $user,
         int|string $id,
         array $data,
-        int $responseCode = 200,
+        int $responseCode,
         ?string $message = null,
         string $validRegex = null
     ): void {
-        $request = new RequestToTest('PUT', "{$this->getApiPath()}/{$id}", $user, $data);
+        $this->update('PATCH', $user, $id, $data, $responseCode, ['Content-Type' => 'application/merge-patch+json'], $message, $validRegex);
+    }
+
+    /**
+     * @dataProvider putUpdateDataProvider
+     * @depends testPatchUpdate
+     */
+    public function testPutUpdate(
+        ?User $user,
+        int|string $id,
+        array $data,
+        int $responseCode,
+        ?string $message = null,
+        string $validRegex = null
+    ): void {
+        $this->update('PUT', $user, $id, $data, $responseCode, [], $message, $validRegex);
+    }
+
+    /**
+     * Data provider for entity update api call
+     * The data provider should return test case with :
+     * - User $user: user to use in the api call
+     * - int|string $id: id of the entity to update
+     * - array $data: post data
+     * - (optional) int $responseCode: expected response code
+     * - (optional) string $message: expected error message
+     * - (optional) string $validRegex: a regexp used to validate generated id.
+     */
+    abstract public function patchUpdateDataProvider(): iterable;
+
+    /**
+     * Data provider for entity update api call
+     * The data provider should return test case with :
+     * - User $user: user to use in the api call
+     * - int|string $id: id of the entity to update
+     * - array $data: post data
+     * - (optional) int $responseCode: expected response code
+     * - (optional) string $message: expected error message
+     * - (optional) string $validRegex: a regexp used to validate generated id.
+     */
+    public function putUpdateDataProvider(): iterable
+    {
+        return $this->patchUpdateDataProvider();
+    }
+
+    protected function update(
+        string $method,
+        ?User $user,
+        int|string $id,
+        array $data,
+        int $responseCode,
+        array $headers = [],
+        ?string $message = null,
+        string $validRegex = null
+    ): void {
+        $request = new RequestToTest($method, "{$this->getApiPath()}/{$id}", $user, $data, $headers);
         $expectedResponse = new ExpectedResponse(
             $responseCode,
             function (ResponseInterface $response) use ($data, $validRegex) {
@@ -53,20 +109,17 @@ abstract class AbstractEntityTestWithUpdate extends AbstractEntityTest
         $this->validateApiCall($request, $expectedResponse);
     }
 
-    /**
-     * Data provider for entity update api call
-     * The data provider should return test case with :
-     * - User $user: user to use in the api call
-     * - int|string $id: id of the entity to update
-     * - array $data: post data
-     * - (optional) int $responseCode: expected response code
-     * - (optional) string $message: expected error message
-     * - (optional) string $validRegex: a regexp used to validate generated id.
-     */
-    abstract public function updateDataProvider(): iterable;
-
     protected function getJsonUpdateValidation(array $expectedData): array
     {
         return $expectedData;
+    }
+
+    /**
+     * @dataProvider deleteDataProvider
+     * @depends testPutUpdate
+     */
+    public function testDelete(?User $user, int|string $id, int $responseCode): void
+    {
+        parent::testDelete($user, $id, $responseCode);
     }
 }

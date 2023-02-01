@@ -47,7 +47,6 @@ class IndexOperationsTest extends AbstractEntityTest
     public static function tearDownAfterClass(): void
     {
         parent::tearDownAfterClass();
-        self::$indexRepository->delete('gally_test__gally_*');
         self::deleteElasticsearchFixtures();
     }
 
@@ -80,6 +79,8 @@ class IndexOperationsTest extends AbstractEntityTest
             3 => 'b2b_en',
         ];
         $data = [
+            [null, ['entityType' => 'product', 'localizedCatalog' => '1'], 401],
+            [null, ['entityType' => 'category', 'localizedCatalog' => '1'], 401],
             [$this->getUser(Role::ROLE_CONTRIBUTOR), ['entityType' => 'product', 'localizedCatalog' => '1'], 403],
             [$this->getUser(Role::ROLE_CONTRIBUTOR), ['entityType' => 'category', 'localizedCatalog' => '1'], 403],
         ];
@@ -130,8 +131,9 @@ class IndexOperationsTest extends AbstractEntityTest
 
         return [
             [$user, 'wrong_id', [], 404],
+            [null, ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_test_fr_product_20220429_153000', [], 401],
             [
-                $user,
+                $this->getUser(Role::ROLE_ADMIN),
                 ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_test_fr_product_20220429_153000',
                 [
                     'id' => ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_test_fr_product_20220429_153000',
@@ -348,6 +350,7 @@ class IndexOperationsTest extends AbstractEntityTest
         $adminUser = $this->getUser(Role::ROLE_ADMIN);
 
         return [
+            [null, ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_test_fr_product_20220429_153000', 401],
             [$this->getUser(Role::ROLE_CONTRIBUTOR), ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_test_fr_product_20220429_153000', 403],
             [$adminUser, ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_test_fr_product_20220429_153000', 204],
             [$adminUser, 'wrong_id', 404],
@@ -360,7 +363,9 @@ class IndexOperationsTest extends AbstractEntityTest
     public function getCollectionDataProvider(): iterable
     {
         return [
+            [null, 11, 401],
             [$this->getUser(Role::ROLE_CONTRIBUTOR), 11, 200],
+            [$this->getUser(Role::ROLE_ADMIN), 11, 200],
         ];
     }
 
@@ -381,10 +386,13 @@ class IndexOperationsTest extends AbstractEntityTest
         $this->assertNotNull($index);
         $this->assertInstanceOf(Index::class, $index);
 
-        $this->validateApiCall(
-            new RequestToTest('PUT', "/indices/install/{$index->getName()}", $this->getUser(Role::ROLE_CONTRIBUTOR)),
-            new ExpectedResponse(403, null)
-        );
+        foreach ([401 => null, 403 => $this->getUser(Role::ROLE_CONTRIBUTOR)] as $responseCode => $user) {
+            $this->validateApiCall(
+                new RequestToTest('PUT', "/indices/install/{$index->getName()}", $user),
+                new ExpectedResponse($responseCode, null)
+            );
+        }
+
         $this->validateApiCall(
             new RequestToTest('PUT', "/indices/install/{$index->getName()}", $this->getUser(Role::ROLE_ADMIN)),
             new ExpectedResponse(
@@ -415,10 +423,13 @@ class IndexOperationsTest extends AbstractEntityTest
         $this->assertInstanceOf(Index::class, $index);
         $initialRefreshCount = $this->getRefreshCount($index->getName());
 
-        $this->validateApiCall(
-            new RequestToTest('PUT', "/indices/refresh/{$index->getName()}", $this->getUser(Role::ROLE_CONTRIBUTOR)),
-            new ExpectedResponse(403, null)
-        );
+        foreach ([401 => null, 403 => $this->getUser(Role::ROLE_CONTRIBUTOR)] as $responseCode => $user) {
+            $this->validateApiCall(
+                new RequestToTest('PUT', "/indices/refresh/{$index->getName()}", $user),
+                new ExpectedResponse($responseCode, null)
+            );
+        }
+
         $this->validateApiCall(
             new RequestToTest('PUT', "/indices/refresh/{$index->getName()}", $this->getUser(Role::ROLE_ADMIN)),
             new ExpectedResponse(

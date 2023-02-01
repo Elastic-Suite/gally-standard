@@ -20,7 +20,6 @@ use Gally\Search\Elasticsearch\Request\SortOrderInterface;
 use Gally\Test\AbstractTest;
 use Gally\Test\ExpectedResponse;
 use Gally\Test\RequestGraphQlToTest;
-use Gally\User\Constant\Role;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
 class SearchProductsTest extends AbstractTest
@@ -75,7 +74,7 @@ class SearchProductsTest extends AbstractTest
         ?string $expectedIndexAlias,
         ?float $expectedScore
     ): void {
-        $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
+        $user = null;
 
         $arguments = sprintf(
             'requestType: product_catalog, localizedCatalog: "%s"',
@@ -266,7 +265,7 @@ class SearchProductsTest extends AbstractTest
         string $priceGroupId = '0',
         ?string $currentCategoryId = null,
     ): void {
-        $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
+        $user = null;
 
         $arguments = sprintf(
             'requestType: product_catalog, localizedCatalog: "%s", pageSize: %d, currentPage: %d',
@@ -493,7 +492,7 @@ class SearchProductsTest extends AbstractTest
         string $expectedSortOrderField,
         string $expectedSortOrderDirection
     ): void {
-        $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
+        $user = null;
 
         $arguments = sprintf(
             'requestType: product_catalog, localizedCatalog: "%s", pageSize: %d, currentPage: %d',
@@ -652,7 +651,7 @@ class SearchProductsTest extends AbstractTest
                         }
                     }
                 GQL,
-                $this->getUser(Role::ROLE_CONTRIBUTOR)
+                null
             ),
             new ExpectedResponse(
                 200,
@@ -673,7 +672,7 @@ class SearchProductsTest extends AbstractTest
                         }
                     }
                 GQL,
-                $this->getUser(Role::ROLE_CONTRIBUTOR)
+                null
             ),
             new ExpectedResponse(
                 200,
@@ -694,7 +693,7 @@ class SearchProductsTest extends AbstractTest
                         }
                     }
                 GQL,
-                $this->getUser(Role::ROLE_CONTRIBUTOR)
+                null
             ),
             new ExpectedResponse(
                 200,
@@ -715,7 +714,7 @@ class SearchProductsTest extends AbstractTest
                         }
                     }
                 GQL,
-                $this->getUser(Role::ROLE_CONTRIBUTOR)
+                null
             ),
             new ExpectedResponse(
                 200,
@@ -736,7 +735,7 @@ class SearchProductsTest extends AbstractTest
                         }
                     }
                 GQL,
-                $this->getUser(Role::ROLE_CONTRIBUTOR)
+                null
             ),
             new ExpectedResponse(
                 200,
@@ -767,7 +766,7 @@ class SearchProductsTest extends AbstractTest
         string $documentIdentifier,
         array $expectedOrderedDocIds
     ): void {
-        $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
+        $user = null;
 
         $arguments = sprintf(
             'requestType: product_catalog, localizedCatalog: "%s", pageSize: %d, currentPage: %d, search: "%s"',
@@ -879,7 +878,7 @@ class SearchProductsTest extends AbstractTest
         string $filter,
         array $debugMessage
     ): void {
-        $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
+        $user = null;
         $arguments = sprintf('requestType: product_catalog, localizedCatalog: "%s", filter: {%s}', $catalogId, $filter);
         $this->validateApiCall(
             new RequestGraphQlToTest(
@@ -969,7 +968,7 @@ class SearchProductsTest extends AbstractTest
         array $expectedOrderedDocIds,
         string $priceGroupId = '0'
     ): void {
-        $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
+        $user = null;
         $arguments = sprintf(
             'requestType: product_catalog, localizedCatalog: "%s", pageSize: %d, currentPage: %d, filter: {%s}',
             $catalogId,
@@ -1232,7 +1231,7 @@ class SearchProductsTest extends AbstractTest
         string $documentIdentifier,
         array $expectedOrderedDocIds
     ): void {
-        $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
+        $user = null;
         $arguments = sprintf(
             'requestType: product_catalog, localizedCatalog: "%s", pageSize: %d, currentPage: %d, currentCategoryId: "%s"',
             $catalogId,
@@ -1303,7 +1302,7 @@ class SearchProductsTest extends AbstractTest
         ?array $expectedAggregations,
         string $priceGroupId = '0'
     ): void {
-        $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
+        $user = null;
 
         $arguments = sprintf(
             'requestType: %s, localizedCatalog: "%s", pageSize: %d, currentPage: %d',
@@ -1624,7 +1623,7 @@ class SearchProductsTest extends AbstractTest
         ?string $filter,
         array $expectedOptionsCount,
     ): void {
-        $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
+        $user = null;
 
         $arguments = sprintf(
             'requestType: product_catalog, localizedCatalog: "%s", pageSize: %d, currentPage: %d',

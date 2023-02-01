@@ -19,7 +19,6 @@ use Gally\Fixture\Service\ElasticsearchFixturesInterface;
 use Gally\Test\AbstractTest;
 use Gally\Test\ExpectedResponse;
 use Gally\Test\RequestGraphQlToTest;
-use Gally\User\Constant\Role;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
 class SearchProductsHydrationTest extends AbstractTest
@@ -72,7 +71,7 @@ class SearchProductsHydrationTest extends AbstractTest
         ?array $expectedAttributes,
         string $priceGroupId = '0',
     ): void {
-        $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
+        $user = null;
 
         $arguments = sprintf(
             'requestType: product_catalog, localizedCatalog: "%s"',

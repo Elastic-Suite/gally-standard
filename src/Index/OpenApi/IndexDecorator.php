@@ -29,9 +29,9 @@ final class IndexDecorator implements OpenApiFactoryInterface
     public function __invoke(array $context = []): OpenApi
     {
         $openApi = ($this->decorated)($context);
-        $this->documentationHelper->removeEndpoint($openApi, '/index_documents');
         $this->documentationHelper->removeEndpoint($openApi, '/index_documents/{indexName}');
-        $this->documentationHelper->removeEndpoint($openApi, '/index_documents/{indexName}', 'delete');
+
+        $this->documentationHelper->removeEndpoint($openApi, '/indices/self-reindex');
 
         return $openApi;
     }

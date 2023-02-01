@@ -20,6 +20,7 @@ use Gally\Test\AbstractTest;
 use Gally\Test\ExpectedResponse;
 use Gally\Test\RequestGraphQlToTest;
 use Gally\User\Constant\Role;
+use Gally\User\Model\User;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
 class CategoryConfigurationTest extends AbstractTest
@@ -39,7 +40,7 @@ class CategoryConfigurationTest extends AbstractTest
     /**
      * @dataProvider getWithContextDataProvider
      */
-    public function testGetWithContext(string $categoryId, ?string $catalogCode, ?string $localizedCatalogCode, array $expectedData): void
+    public function testGetWithContext(string $categoryId, ?string $catalogCode, ?string $localizedCatalogCode, array $expectedData, ?User $user): void
     {
         $catalogRepository = static::getContainer()->get(CatalogRepository::class);
         $localizedCatalogRepository = static::getContainer()->get(LocalizedCatalogRepository::class);
@@ -70,7 +71,7 @@ class CategoryConfigurationTest extends AbstractTest
                         }
                   }
                 GQL,
-                $this->getUser(Role::ROLE_ADMIN),
+                $user,
             ),
             new ExpectedResponse(
                 200,
@@ -83,23 +84,34 @@ class CategoryConfigurationTest extends AbstractTest
 
     protected function getWithContextDataProvider(): iterable
     {
+        $user = $this->getUser(Role::ROLE_ADMIN);
         yield [
             'fake_category',
             'fake_catalog',
             'fake_localized_catalog',
             ['errors' => [['debugMessage' => 'Category with id fake_category not found.']]],
+            $user,
         ];
         yield [
             'one',
             'fake_catalog',
             'fake_localized_catalog',
             ['errors' => [['debugMessage' => 'Catalog with id 123456 not found.']]],
+            $user,
         ];
         yield [
             'one',
             'b2c',
             'fake_localized_catalog',
             ['errors' => [['debugMessage' => 'Localized catalog with id 123456 not found.']]],
+            $user,
+        ];
+        yield [
+            'one',
+            'b2c',
+            'b2c_fr',
+            ['errors' => [['debugMessage' => 'Access Denied.']]],
+            null,
         ];
         yield [
             'one',
@@ -114,6 +126,7 @@ class CategoryConfigurationTest extends AbstractTest
                     ],
                 ],
             ],
+            $this->getUser(Role::ROLE_CONTRIBUTOR),
         ];
         yield [
             'one',
@@ -128,6 +141,7 @@ class CategoryConfigurationTest extends AbstractTest
                     ],
                 ],
             ],
+            $user,
         ];
         yield [
             'three',
@@ -142,6 +156,7 @@ class CategoryConfigurationTest extends AbstractTest
                     ],
                 ],
             ],
+            $user,
         ];
         yield [
             'one',
@@ -156,6 +171,7 @@ class CategoryConfigurationTest extends AbstractTest
                     ],
                 ],
             ],
+            $user,
         ];
         yield [
             'one',
@@ -170,6 +186,7 @@ class CategoryConfigurationTest extends AbstractTest
                     ],
                 ],
             ],
+            $user,
         ];
         yield [
             'one',
@@ -184,6 +201,7 @@ class CategoryConfigurationTest extends AbstractTest
                     ],
                 ],
             ],
+            $user,
         ];
         yield [
             'one',
@@ -198,6 +216,7 @@ class CategoryConfigurationTest extends AbstractTest
                     ],
                 ],
             ],
+            $user,
         ];
         yield [
             'five',
@@ -212,6 +231,7 @@ class CategoryConfigurationTest extends AbstractTest
                     ],
                 ],
             ],
+            $user,
         ];
     }
 }

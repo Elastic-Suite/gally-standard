@@ -29,18 +29,18 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ApiResource(
     collectionOperations: [
-        'get',
+        'get' => ['security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"],
         'post' => ['security' => "is_granted('" . Role::ROLE_ADMIN . "')"],
     ],
     itemOperations: [
-        'get',
+        'get' => ['security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"],
         'put' => ['security' => "is_granted('" . Role::ROLE_ADMIN . "')"],
         'patch' => ['security' => "is_granted('" . Role::ROLE_ADMIN . "')"],
         'delete' => ['security' => "is_granted('" . Role::ROLE_ADMIN . "')"],
     ],
     graphql: [
-        'item_query',
-        'collection_query',
+        'item_query' => ['security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"],
+        'collection_query' => ['security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"],
         'create' => ['security' => "is_granted('" . Role::ROLE_ADMIN . "')"],
         'update' => ['security' => "is_granted('" . Role::ROLE_ADMIN . "')"],
         'delete' => ['security' => "is_granted('" . Role::ROLE_ADMIN . "')"],
