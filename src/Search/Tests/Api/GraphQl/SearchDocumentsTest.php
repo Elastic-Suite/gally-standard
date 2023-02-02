@@ -1543,6 +1543,17 @@ class SearchDocumentsTest extends AbstractTest
                     'Crown Summit Backpack',
                 ],
             ],
+
+            // Search with sku
+            [
+                'product',          // entity type.
+                'b2c_en',           // catalog ID.
+                '24-MB04',          // query.
+                1,                  // expected result count.
+                [                   // expected result name.
+                    'Strive Shoulder Pack',
+                ],
+            ],
         ];
     }
 

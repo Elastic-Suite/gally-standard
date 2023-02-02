@@ -60,6 +60,8 @@ Gally\Metadata\Model\SourceField:
         type: 'reference'
         isUsedForRules: true
         isSystem: true
+        isSearchable: true
+        isSpellchecked: false
     product_price_group_id:
         metadata: '@product'
         code: 'price.group_id'

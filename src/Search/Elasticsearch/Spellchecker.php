@@ -25,6 +25,8 @@ use Gally\Index\Model\Index\MappingInterface;
  */
 class Spellchecker implements SpellcheckerInterface
 {
+    private array $indexStatsCache = [];
+
     /**
      * Constructor.
      *
@@ -100,7 +102,7 @@ class Spellchecker implements SpellcheckerInterface
      */
     private function getCutoffFrequencyLimit(Spellchecker\RequestInterface $request): float
     {
-        $indexStatsResponse = $this->client->indices()->stats(['index' => $request->getIndexName()]);
+        $indexStatsResponse = $this->getIndexStats($request->getIndexName());
         $indexStats = current($indexStatsResponse['indices']);
         $totalIndexedDocs = $indexStats['total']['docs']['count'];
 
@@ -114,20 +116,33 @@ class Spellchecker implements SpellcheckerInterface
      */
     private function getTermVectors(Spellchecker\RequestInterface $request): array|callable
     {
-        $mTermVectorsQuery['body'] = [
-            'docs' => [
-                [
-                    '_index' => $request->getIndexName(),
-                    '_type' => '_doc',
-                    'term_statistics' => true,
-                    'fields' => [
-                        MappingInterface::DEFAULT_SPELLING_FIELD,
-                        MappingInterface::DEFAULT_SPELLING_FIELD . '.' . FieldInterface::ANALYZER_WHITESPACE,
-                    ],
-                    'doc' => [MappingInterface::DEFAULT_SPELLING_FIELD => $request->getQueryText()],
-                ],
+        $stats = $this->getIndexStats($request->getIndexName());
+        $shards = (int) ($stats['_shards']['successful'] ?? 1); // Get number of shards.
+
+        $doc = [
+            '_index' => $request->getIndexName(),
+            '_type' => '_doc',
+            'term_statistics' => true,
+            'fields' => [
+                MappingInterface::DEFAULT_SPELLING_FIELD,
+                MappingInterface::DEFAULT_SPELLING_FIELD . '.' . FieldInterface::ANALYZER_WHITESPACE,
+                MappingInterface::DEFAULT_SEARCH_FIELD . '.' . FieldInterface::ANALYZER_WHITESPACE,
+            ],
+            'doc' => [
+                MappingInterface::DEFAULT_SEARCH_FIELD => $request->getQueryText(),
+                MappingInterface::DEFAULT_SPELLING_FIELD => $request->getQueryText(),
             ],
         ];
+
+        $docs = [];
+
+        // Compute the mTermVector query on all shards to ensure exhaustive results.
+        foreach (range(0, $shards - 1) as $shard) {
+            $doc['routing'] = sprintf('[%s][%s]', $request->getIndexName(), $shard);
+            $docs[] = $doc;
+        }
+
+        $mTermVectorsQuery['body'] = ['docs' => $docs];
 
         return $this->client->mtermvectors($mTermVectorsQuery);
     }
@@ -225,5 +240,17 @@ class Spellchecker implements SpellcheckerInterface
         }
 
         return $analyzer;
+    }
+
+    /**
+     * Get index stats.
+     */
+    private function getIndexStats(string $indexName): array
+    {
+        if (!isset($this->indexStatsCache[$indexName])) {
+            $this->indexStatsCache[$indexName] = $this->client->indices()->stats(['index' => $indexName]);
+        }
+
+        return $this->indexStatsCache[$indexName];
     }
 }
