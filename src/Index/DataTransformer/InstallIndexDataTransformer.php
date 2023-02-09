@@ -19,6 +19,7 @@ use ApiPlatform\Core\DataTransformer\DataTransformerInterface;
 use ApiPlatform\Core\Exception\InvalidArgumentException;
 use Gally\Index\Dto\InstallIndexInput;
 use Gally\Index\Model\Index;
+use Gally\Index\Repository\Index\IndexRepositoryInterface;
 use Gally\Index\Service\IndexOperation;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 
@@ -26,6 +27,7 @@ class InstallIndexDataTransformer implements DataTransformerInterface
 {
     public function __construct(
         private IndexOperation $indexOperation,
+        private IndexRepositoryInterface $indexRepository,
     ) {
     }
 
@@ -58,6 +60,7 @@ class InstallIndexDataTransformer implements DataTransformerInterface
 
         $this->indexOperation->installIndexByName($index->getName());
 
-        return $index;
+        // Reload the index to get updated aliases.
+        return $this->indexRepository->findByName($index->getName());
     }
 }

@@ -120,6 +120,7 @@ services:
     Gally\Index\DataTransformer\InstallIndexDataTransformer:
         arguments:
             - '@Gally\Index\Service\IndexOperation'
+            - '@Gally\Index\Repository\Index\IndexRepository'
         tags:
             - { name: api_platform.data_transformer }
 
