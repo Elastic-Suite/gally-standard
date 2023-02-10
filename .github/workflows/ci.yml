@@ -63,7 +63,7 @@ jobs:
                   ls -ail
 
             - name: Prepare local Repository
-              working-directory: ${{ env.magento-directory }}
+              working-directory: ${{ env.gally-directory }}
               run: |
                   composer config --global --no-interaction --ansi repositories.${{ env.package-name }} git "$GITHUB_WORKSPACE/gally-repository"
                   composer config --global repositories
