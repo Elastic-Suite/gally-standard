@@ -75,11 +75,11 @@ class SpreadSourceFieldDataTest extends AbstractTest
         $flagSourceField->setIsSortable(true);
         $entityManager->persist($flagSourceField);
 
-        $flagSourceField = $sourceFieldRepository->findOneBy(['code' => 'category']);
-        $flagSourceField->setIsFilterable(true);
-        $flagSourceField->setIsSortable(true);
-        $flagSourceField->setIsSearchable(true);
-        $entityManager->persist($flagSourceField);
+        $categorySourceField = $sourceFieldRepository->findOneBy(['code' => 'category']);
+        $categorySourceField->setIsFilterable(true);
+        $categorySourceField->setIsSortable(true);
+        $categorySourceField->setIsSearchable(true);
+        $entityManager->persist($categorySourceField);
         $entityManager->flush();
 
         // We check that 'standard', 'untouched' and 'sortable' fields have been added in the mapping for the source fields 'flag' and 'category'.

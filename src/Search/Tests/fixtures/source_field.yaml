@@ -24,11 +24,17 @@ Gally\Metadata\Model\SourceField:
         code: 'brand'
         type: 'select'
         isFilterable: true
+        isSearchable: true
+        isSpellchecked: true
+        weight: 5
     product_color:
         metadata: '@product'
         code: 'color'
         type: 'select'
         isFilterable: true
+        isSearchable: true
+        isSpellchecked: false
+        weight: 5
     product_category:
         metadata: '@product'
         code: 'category'

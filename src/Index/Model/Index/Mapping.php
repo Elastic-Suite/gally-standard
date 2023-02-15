@@ -201,8 +201,6 @@ class Mapping implements MappingInterface
     /**
      * Append a field to a mapping properties list.
      * The field is appended and the new properties list is returned.
-     *
-     * @TODO clean
      */
     private function addField(array $properties, FieldInterface $field): array
     {
@@ -220,10 +218,17 @@ class Mapping implements MappingInterface
             $currentPathArray[] = $fieldPathArray[$i];
             $currentPath = implode('.', $currentPathArray);
 
-            if ($field->isNested() && $field->getNestedPath() == $currentPath && !isset($fieldRoot[$fieldPathArray[$i]])) {
-                $fieldRoot[$fieldPathArray[$i]] = ['type' => FieldInterface::FIELD_TYPE_NESTED, 'properties' => []];
-            } elseif (!isset($fieldRoot[$fieldPathArray[$i]])) {
-                $fieldRoot[$fieldPathArray[$i]] = ['type' => FieldInterface::FIELD_TYPE_OBJECT, 'properties' => []];
+            if (!isset($fieldRoot[$fieldPathArray[$i]])) {
+                $fieldRoot[$fieldPathArray[$i]] = [
+                    'type' => $field->isNested() && $field->getNestedPath() == $currentPath
+                        ? FieldInterface::FIELD_TYPE_NESTED
+                        : FieldInterface::FIELD_TYPE_OBJECT,
+                    'properties' => [],
+                ];
+            }
+
+            if ($field->isNested() && $field->isSearchable()) {
+                $fieldRoot[$fieldPathArray[$i]]['include_in_root'] = true;
             }
 
             $fieldRoot = &$fieldRoot[$fieldPathArray[$i]]['properties'];
