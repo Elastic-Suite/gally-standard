@@ -26,6 +26,8 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
  */
 class Configuration implements ConfigurationInterface
 {
+    public const ROOT_NODE_CONFIG = 'gally';
+
     /**
      * Example get from https://symfony.com/doc/current/bundles/configuration.html#processing-the-configs-array
      * Concrete examples: vendor/api-platform/core/src/Bridge/Symfony/Bundle/DependencyInjection/Configuration.php.
@@ -34,7 +36,7 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder(): TreeBuilder
     {
-        $treeBuilder = new TreeBuilder('gally');
+        $treeBuilder = new TreeBuilder(self::ROOT_NODE_CONFIG);
 
         $treeBuilder->getRootNode()
             ->children()
