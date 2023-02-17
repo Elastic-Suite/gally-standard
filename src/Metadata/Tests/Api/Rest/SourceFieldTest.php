@@ -69,7 +69,7 @@ class SourceFieldTest extends AbstractEntityTestWithUpdate
                 $adminUser,
                 ['code' => 'name', 'metadata' => '/metadata/1'],
                 422,
-                'code: An field with this code already exist for this entity.',
+                'code: A field with this code already exist for this entity.',
             ],
             [
                 $adminUser,
