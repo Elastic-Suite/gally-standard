@@ -58,11 +58,13 @@
         },
         {
           "boolFilter": {
-            "_not": {
-              "name": {
-                "match": "bag"
+            "_not": [
+              {
+                "name": {
+                  "match": "bag"
+                }
               }
-            }
+            ]
           }
         },
         {
@@ -72,11 +74,13 @@
         },
         {
           "boolFilter": {
-            "_not": {
-              "name": {
-                "eq": "bag"
+            "_not": [
+              {
+                "name": {
+                  "eq": "bag"
+                }
               }
-            }
+            ]
           }
         },
         {
@@ -89,14 +93,16 @@
         },
         {
           "boolFilter": {
-            "_not": {
-              "name": {
-                "in": [
-                  "bag",
-                  "watch"
-                ]
+            "_not": [
+              {
+                "name": {
+                  "in": [
+                    "bag",
+                    "watch"
+                  ]
+                }
               }
-            }
+            ] 
           }
         }
       ]

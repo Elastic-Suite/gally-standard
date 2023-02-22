@@ -146,7 +146,7 @@ class AttributeRule extends AbstractRuleType implements RuleTypeInterface
         if (str_contains($operator, FilterOperator::NOT_PREFIX)) {
             $operator = str_replace(FilterOperator::NOT_PREFIX, '', $operator);
             $graphQlFilter = $this->boolFilterInputType->getGraphQlFilter([
-                '_not' => $this->getFilterType($sourceField)->getGraphQlFilterAsArray($sourceField, [$operator => $ruleNode['value']]),
+                '_not' => [$this->getFilterType($sourceField)->getGraphQlFilterAsArray($sourceField, [$operator => $ruleNode['value']])],
             ]);
         } else {
             $graphQlFilter = $this->getFilterType($sourceField)->getGraphQlFilterAsArray($sourceField, [$operator => $ruleNode['value']]);
