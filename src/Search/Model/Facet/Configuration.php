@@ -72,8 +72,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
     ],
 )]
 #[ApiFilter(VirtualSearchFilter::class, properties: ['search' => ['type' => 'string', 'strategy' => 'ipartial']])]
-#[ApiFilter(SearchFilterWithDefault::class, properties: ['sourceField.metadata.entity' => 'exact', 'category' => 'exact', 'displayMode' => 'exact', 'sortOrder' => 'exact'], arguments: ['defaultValues' => self::DEFAULT_VALUES])]
-#[ApiFilter(RangeFilterWithDefault::class, properties: ['coverageRate', 'maxSize'], arguments: ['defaultValues' => self::DEFAULT_VALUES])]
+#[ApiFilter(SearchFilterWithDefault::class, properties: ['sourceField.code' => 'ipartial', 'sourceField.metadata.entity' => 'exact', 'category' => 'exact', 'displayMode' => 'exact', 'sortOrder' => 'exact'], arguments: ['defaultValues' => self::DEFAULT_VALUES])]
+#[ApiFilter(RangeFilterWithDefault::class, properties: ['coverageRate', 'maxSize', 'position'], arguments: ['defaultValues' => self::DEFAULT_VALUES])]
 class Configuration
 {
     public const DISPLAY_MODE_AUTO = 'auto';
@@ -416,6 +416,7 @@ class Configuration
                     'visible' => true,
                     'editable' => false,
                     'position' => 10,
+                    'alias' => 'sourceField.code',
                 ],
             ],
         ],

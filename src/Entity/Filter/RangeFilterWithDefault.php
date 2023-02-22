@@ -48,8 +48,12 @@ class RangeFilterWithDefault extends BaseRangeFilter
 
         $defaultValue = $this->defaultValues[$field];
         $fieldWithDefault = "(CASE WHEN $alias.$field IS NULL THEN " .
-            "(CASE WHEN $this->defaultAlias.$field IS NOT NULL THEN $this->defaultAlias.$field ELSE '$defaultValue' END) " .
+            "(CASE WHEN $this->defaultAlias.$field IS NOT NULL THEN $this->defaultAlias.$field ELSE " . (null === $defaultValue ? ':null' : "'$defaultValue'") . ' END) ' .
             "ELSE $alias.$field END)";
+
+        if (null === $defaultValue) {
+            $queryBuilder->setParameter('null', null);
+        }
 
         switch ($operator) {
             case self::PARAMETER_BETWEEN:

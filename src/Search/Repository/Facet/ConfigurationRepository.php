@@ -35,6 +35,7 @@ class ConfigurationRepository extends ServiceEntityRepository
     private ?string $categoryId = null;
     private ?Metadata $metadata = null;
     private ?string $search = null;
+    private ?string $sourceFieldCode = null;
 
     public function __construct(
         ManagerRegistry $registry
@@ -70,6 +71,16 @@ class ConfigurationRepository extends ServiceEntityRepository
     public function setSearch(?string $search): void
     {
         $this->search = $search;
+    }
+
+    public function getSourceFieldCode(): ?string
+    {
+        return $this->sourceFieldCode;
+    }
+
+    public function setSourceFieldCode(?string $sourceFieldCode): void
+    {
+        $this->search = $sourceFieldCode;
     }
 
     /**
@@ -142,6 +153,11 @@ class ConfigurationRepository extends ServiceEntityRepository
         if ($this->getSearch()) {
             $queryBuilder->andWhere('LOWER(sf.search) LIKE LOWER(:search)')
                 ->setParameter('search', "%{$this->getSearch()}%");
+        }
+
+        if ($this->getSourceFieldCode()) {
+            $queryBuilder->andWhere('LOWER(sf.code) LIKE LOWER(:sourceFieldCode)')
+                ->setParameter('sourceFieldCode', "%{$this->getSourceFieldCode()}%");
         }
 
         $queryBuilder
