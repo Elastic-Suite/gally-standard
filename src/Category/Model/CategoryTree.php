@@ -18,13 +18,11 @@ use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Gally\Category\Controller\GetCategoryTree;
 use Gally\Category\Resolver\CategoryTreeResolver;
-use Gally\User\Constant\Role;
 
 #[ApiResource(
     collectionOperations: [],
     itemOperations: [
         'get_tree' => [
-            'security' => "is_granted('" . Role::ROLE_ADMIN . "')",
             'method' => 'GET',
             'path' => '/categoryTree',
             'controller' => GetCategoryTree::class,

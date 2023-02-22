@@ -46,6 +46,7 @@ class SourceFieldTest extends AbstractEntityTestWithUpdate
         $adminUser = $this->getUser(Role::ROLE_ADMIN);
 
         return [
+            [null, ['code' => 'description', 'metadata' => '/metadata/1'], 401],
             [$this->getUser(Role::ROLE_CONTRIBUTOR), ['code' => 'description', 'metadata' => '/metadata/1'], 403],
             [$adminUser, ['code' => 'description', 'metadata' => '/metadata/1'], 201],
             [$adminUser, ['code' => 'weight', 'metadata' => '/metadata/1'], 201],
@@ -69,7 +70,7 @@ class SourceFieldTest extends AbstractEntityTestWithUpdate
                 $adminUser,
                 ['code' => 'name', 'metadata' => '/metadata/1'],
                 422,
-                'code: An field with this code already exist for this entity.',
+                'code: A field with this code already exist for this entity.',
             ],
             [
                 $adminUser,
@@ -108,6 +109,9 @@ class SourceFieldTest extends AbstractEntityTestWithUpdate
         $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
 
         return [
+            [null, 1, ['id' => 1, 'code' => 'name', 'weight' => 10], 401],
+            [$user, 1, ['id' => 1, 'code' => 'name', 'weight' => 10], 200],
+            [$this->getUser(Role::ROLE_ADMIN), 1, ['id' => 1, 'code' => 'name', 'weight' => 10], 200],
             [$user, 1, ['id' => 1, 'code' => 'name', 'weight' => 10], 200],
             [$user, 12, ['id' => 12, 'code' => 'description', 'weight' => 1], 200],
             [$user, 15, ['id' => 15, 'code' => 'length', 'weight' => 2], 200],
@@ -123,6 +127,7 @@ class SourceFieldTest extends AbstractEntityTestWithUpdate
         $adminUser = $this->getUser(Role::ROLE_ADMIN);
 
         return [
+            [null, 1, 401],
             [$this->getUser(Role::ROLE_CONTRIBUTOR), 1, 403],
             [$adminUser, 1, 204],
             [$adminUser, 5, 400], // Can't remove system source field
@@ -137,17 +142,20 @@ class SourceFieldTest extends AbstractEntityTestWithUpdate
     public function getCollectionDataProvider(): iterable
     {
         return [
+            [null, 15, 401],
             [$this->getUser(Role::ROLE_CONTRIBUTOR), 15, 200],
+            [$this->getUser(Role::ROLE_ADMIN), 15, 200],
         ];
     }
 
-    public function updateDataProvider(): iterable
+    public function patchUpdateDataProvider(): iterable
     {
         $adminUser = $this->getUser(Role::ROLE_ADMIN);
 
         return [
+            [null, 5, ['weight' => 10, 'isSpellchecked' => true], 401],
             [$this->getUser(Role::ROLE_CONTRIBUTOR), 5, ['weight' => 10, 'isSpellchecked' => true], 403],
-            [$adminUser, 5, ['weight' => 10, 'isSpellchecked' => true]],
+            [$adminUser, 5, ['weight' => 10, 'isSpellchecked' => true], 200],
             [
                 $adminUser,
                 5,

@@ -17,7 +17,6 @@ namespace Gally\Category\Tests\Api\GraphQl;
 use Gally\Test\AbstractTest;
 use Gally\Test\ExpectedResponse;
 use Gally\Test\RequestGraphQlToTest;
-use Gally\User\Constant\Role;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
 class CategorySortingOptionTest extends AbstractTest
@@ -43,7 +42,7 @@ class CategorySortingOptionTest extends AbstractTest
                       }
                     }
                 GQL,
-                $this->getUser(Role::ROLE_CONTRIBUTOR),
+                null
             ),
             new ExpectedResponse(
                 200,

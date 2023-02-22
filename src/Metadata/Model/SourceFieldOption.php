@@ -24,18 +24,18 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ApiResource(
     collectionOperations: [
-        'get',
+        'get' => ['security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"],
         'post' => ['security' => "is_granted('" . Role::ROLE_ADMIN . "')"],
     ],
     itemOperations: [
-        'get',
+        'get' => ['security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"],
         'put' => ['security' => "is_granted('" . Role::ROLE_ADMIN . "')"],
         'patch' => ['security' => "is_granted('" . Role::ROLE_ADMIN . "')"],
         'delete' => ['security' => "is_granted('" . Role::ROLE_ADMIN . "')"],
     ],
     graphql: [
-        'item_query',
-        'collection_query',
+        'item_query' => ['security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"],
+        'collection_query' => ['security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"],
         'create' => ['security' => "is_granted('" . Role::ROLE_ADMIN . "')"],
         'update' => ['security' => "is_granted('" . Role::ROLE_ADMIN . "')"],
         'delete' => ['security' => "is_granted('" . Role::ROLE_ADMIN . "')"],
@@ -47,19 +47,19 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ApiFilter(OrderFilter::class, properties: ['position'], arguments: ['orderParameterName' => 'order'])]
 class SourceFieldOption
 {
-    #[Groups(['source_field_option:read', 'source_field_option:write'])]
+    #[Groups(['source_field_option:read', 'source_field_option:write', 'source_field_option_label:read'])]
     private int $id;
 
     #[Groups(['source_field_option:read', 'source_field_option:write', 'source_field_option_label:read'])]
     private string $code;
 
-    #[Groups(['source_field_option:read', 'source_field_option:write'])]
+    #[Groups(['source_field_option:read', 'source_field_option:write', 'source_field_option_label:read'])]
     private SourceField $sourceField;
 
-    #[Groups(['source_field_option:read', 'source_field_option:write'])]
+    #[Groups(['source_field_option:read', 'source_field_option:write', 'source_field_option_label:read'])]
     private ?int $position;
 
-    #[Groups(['source_field_option:read', 'source_field_option:write'])]
+    #[Groups(['source_field_option:read', 'source_field_option:write', 'source_field_option_label:read'])]
     private string $defaultLabel;
 
     /** @var Collection<SourceFieldOptionLabel> */

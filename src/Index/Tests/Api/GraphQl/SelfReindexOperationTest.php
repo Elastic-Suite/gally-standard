@@ -35,6 +35,7 @@ class SelfReindexOperationTest extends AbstractTest
     public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
+        self::deleteElasticsearchFixtures();
         \assert(static::getContainer()->get(IndexRepositoryInterface::class) instanceof IndexRepositoryInterface);
         self::$indexRepository = static::getContainer()->get(IndexRepositoryInterface::class);
         self::$indexSettings = static::getContainer()->get('Gally\Index\Service\IndexSettingsTest'); // @phpstan-ignore-line
@@ -48,7 +49,7 @@ class SelfReindexOperationTest extends AbstractTest
     public static function tearDownAfterClass(): void
     {
         parent::tearDownAfterClass();
-        self::$indexRepository->delete('gally_test__gally_*');
+        self::deleteElasticsearchFixtures();
     }
 
     /**

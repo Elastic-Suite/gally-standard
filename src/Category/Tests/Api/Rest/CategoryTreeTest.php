@@ -18,7 +18,6 @@ use Gally\Catalog\Repository\CatalogRepository;
 use Gally\Catalog\Repository\LocalizedCatalogRepository;
 use Gally\Test\ExpectedResponse;
 use Gally\Test\RequestToTest;
-use Gally\User\Constant\Role;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
 class CategoryTreeTest extends CategoryTest
@@ -50,7 +49,7 @@ class CategoryTreeTest extends CategoryTest
         $query = !empty($params) ? '?' . implode('&', $params) : '';
 
         $this->validateApiCall(
-            new RequestToTest('GET', "categoryTree$query", $this->getUser(Role::ROLE_ADMIN)),
+            new RequestToTest('GET', "categoryTree$query", null),
             new ExpectedResponse(
                 $expectedResponseCode,
                 function (ResponseInterface $response) use (&$responseData) {

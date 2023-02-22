@@ -29,38 +29,40 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ApiResource(
     shortName: 'FacetConfiguration',
     collectionOperations: [
-        'get',
+        'get' => ['security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"],
     ],
     itemOperations: [
-        'get',
+        'get' => ['security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"],
         'put' => [
-            'security' => "is_granted('" . Role::ROLE_ADMIN . "')",
+            'security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
             'normalization_context' => ['groups' => ['facet_configuration:read']],
             'denormalization_context' => ['groups' => ['facet_configuration:write']],
         ],
         'patch' => [
-            'security' => "is_granted('" . Role::ROLE_ADMIN . "')",
+            'security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
             'normalization_context' => ['groups' => ['facet_configuration:read']],
             'denormalization_context' => ['groups' => ['facet_configuration:write']],
         ],
-        'delete' => ['security' => "is_granted('" . Role::ROLE_ADMIN . "')"],
+        'delete' => ['security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"],
     ],
     graphql: [
         'item_query' => [
+            'security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
             'normalization_context' => ['groups' => ['facet_configuration:read', 'facet_configuration:graphql_read']],
             'denormalization_context' => ['groups' => ['facet_configuration:read', 'facet_configuration:graphql_read']],
         ],
         'collection_query' => [
+            'security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
             'normalization_context' => ['groups' => ['facet_configuration:read', 'facet_configuration:graphql_read']],
             'denormalization_context' => ['groups' => ['facet_configuration:read', 'facet_configuration:graphql_read']],
             'pagination_type' => 'page',
         ],
         'update' => [
-            'security' => "is_granted('" . Role::ROLE_ADMIN . "')",
+            'security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
             'normalization_context' => ['groups' => ['facet_configuration:read', 'facet_configuration:graphql_read']],
             'denormalization_context' => ['groups' => ['facet_configuration:write']],
         ],
-        'delete' => ['security' => "is_granted('" . Role::ROLE_ADMIN . "')"],
+        'delete' => ['security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"],
     ],
     normalizationContext: ['groups' => ['facet_configuration:read']],
     denormalizationContext: ['groups' => ['facet_configuration:read']],
@@ -72,8 +74,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
     ],
 )]
 #[ApiFilter(VirtualSearchFilter::class, properties: ['search' => ['type' => 'string', 'strategy' => 'ipartial']])]
-#[ApiFilter(SearchFilterWithDefault::class, properties: ['sourceField.metadata.entity' => 'exact', 'category' => 'exact', 'displayMode' => 'exact', 'sortOrder' => 'exact'], arguments: ['defaultValues' => self::DEFAULT_VALUES])]
-#[ApiFilter(RangeFilterWithDefault::class, properties: ['coverageRate', 'maxSize'], arguments: ['defaultValues' => self::DEFAULT_VALUES])]
+#[ApiFilter(SearchFilterWithDefault::class, properties: ['sourceField.code' => 'ipartial', 'sourceField.metadata.entity' => 'exact', 'category' => 'exact', 'displayMode' => 'exact', 'sortOrder' => 'exact'], arguments: ['defaultValues' => self::DEFAULT_VALUES])]
+#[ApiFilter(RangeFilterWithDefault::class, properties: ['coverageRate', 'maxSize', 'position'], arguments: ['defaultValues' => self::DEFAULT_VALUES])]
 class Configuration
 {
     public const DISPLAY_MODE_AUTO = 'auto';
@@ -416,6 +418,7 @@ class Configuration
                     'visible' => true,
                     'editable' => false,
                     'position' => 10,
+                    'alias' => 'sourceField.code',
                 ],
             ],
         ],

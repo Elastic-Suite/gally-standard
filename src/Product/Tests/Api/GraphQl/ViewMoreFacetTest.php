@@ -17,7 +17,6 @@ namespace Gally\Product\Tests\Api\GraphQl;
 use Gally\Test\AbstractTest;
 use Gally\Test\ExpectedResponse;
 use Gally\Test\RequestGraphQlToTest;
-use Gally\User\Constant\Role;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
 class ViewMoreFacetTest extends AbstractTest
@@ -64,7 +63,7 @@ class ViewMoreFacetTest extends AbstractTest
         ?int $expectedItemsCount,
         string $filter,
     ): void {
-        $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
+        $user = null;
 
         $arguments = sprintf(
             'localizedCatalog: "%s", aggregation: "%s", filter: {%s}',

@@ -27,13 +27,13 @@ use Gally\User\Constant\Role;
 
 #[ApiResource(
     collectionOperations: [
-        'get' => ['security' => "is_granted('" . Role::ROLE_ADMIN . "')"],
-        'post' => ['security' => "is_granted('" . Role::ROLE_ADMIN . "')"],
+        'get' => ['security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"],
+        'post' => ['security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"],
     ],
     itemOperations: [
-        'get' => ['security' => "is_granted('" . Role::ROLE_ADMIN . "')"],
+        'get' => ['security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"],
         'get_by_context' => [
-            'security' => "is_granted('" . Role::ROLE_ADMIN . "')",
+            'security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
             'method' => 'GET',
             'path' => '/category_configurations/category/{categoryId}',
             'controller' => CategoryConfigurationGet::class,
@@ -59,18 +59,16 @@ use Gally\User\Constant\Role;
                 ],
             ],
         ],
-        'put' => ['security' => "is_granted('" . Role::ROLE_ADMIN . "')"],
-        'patch' => ['security' => "is_granted('" . Role::ROLE_ADMIN . "')"],
-        'delete' => ['security' => "is_granted('" . Role::ROLE_ADMIN . "')"],
+        'put' => ['security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"],
+        'patch' => ['security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"],
     ],
     graphql: [
-        'update' => ['security' => "is_granted('" . Role::ROLE_ADMIN . "')"],
-        'delete' => ['security' => "is_granted('" . Role::ROLE_ADMIN . "')"],
-        'item_query' => ['security' => "is_granted('" . Role::ROLE_ADMIN . "')"],
-        'collection_query' => ['security' => "is_granted('" . Role::ROLE_ADMIN . "')"],
+        'update' => ['security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"],
+        'item_query' => ['security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"],
+        'collection_query' => ['security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"],
         'get' => [
             'item_query' => ConfigurationResolver::class,
-            'security' => "is_granted('" . Role::ROLE_ADMIN . "')",
+            'security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
             'args' => [
                 'categoryId' => ['type' => 'String!'],
                 'catalogId' => ['type' => 'Int'],

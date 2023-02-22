@@ -33,7 +33,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     denormalizationContext: ['groups' => ['category_product_merchandising:write']],
     collectionOperations: [
         'post_positions' => [
-            'security' => "is_granted('" . Role::ROLE_ADMIN . "')",
+            'security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
             'method' => 'POST',
             'path' => '/category_product_merchandisings/savePositions/{categoryId}',
             'controller' => CategoryProductPositionSave::class,
@@ -84,7 +84,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
             'output' => false,
         ],
         'get_positions' => [
-            'security' => "is_granted('" . Role::ROLE_ADMIN . "')",
+            'security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
             'method' => 'GET',
             'path' => '/category_product_merchandisings/getPositions/{categoryId}/{localizedCatalogId}',
             'controller' => CategoryProductPositionGet::class,
@@ -124,7 +124,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
                 'localizedCatalogId' => ['type' => 'Int'],
                 'positions' => ['type' => 'String!'],
             ],
-            'security' => "is_granted('" . Role::ROLE_ADMIN . "')",
+            'security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
             'read' => false,
             'deserialize' => false,
             'write' => false,
@@ -137,7 +137,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
                 'categoryId' => ['type' => 'String!'],
                 'localizedCatalogId' => ['type' => 'Int!'],
             ],
-            'security' => "is_granted('" . Role::ROLE_ADMIN . "')",
+            'security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
             'read' => false,
             'deserialize' => false,
             'write' => false,

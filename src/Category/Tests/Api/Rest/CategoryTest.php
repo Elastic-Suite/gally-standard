@@ -15,11 +15,11 @@ declare(strict_types=1);
 namespace Gally\Category\Tests\Api\Rest;
 
 use Gally\Category\Model\Category;
-use Gally\Test\AbstractEntityTest;
+use Gally\Test\AbstractEntityTestWithUpdate;
 use Gally\User\Constant\Role;
 use Gally\User\Model\User;
 
-class CategoryTest extends AbstractEntityTest
+class CategoryTest extends AbstractEntityTestWithUpdate
 {
     protected static function getFixtureFiles(): array
     {
@@ -40,7 +40,7 @@ class CategoryTest extends AbstractEntityTest
      * @dataProvider createDataProvider
      */
     public function testCreate(
-        User $user,
+        ?User $user,
         array $data,
         int $responseCode = 201,
         ?string $message = null,
@@ -53,11 +53,9 @@ class CategoryTest extends AbstractEntityTest
     public function createDataProvider(): iterable
     {
         return [
-            [
-                $this->getUser(Role::ROLE_CONTRIBUTOR),
-                ['id' => 'one', 'name' => 'One'],
-                403,
-            ],
+            [null, ['id' => 'one', 'name' => 'One'], 405],
+            [$this->getUser(Role::ROLE_CONTRIBUTOR), ['id' => 'one', 'name' => 'One'], 405],
+            [$this->getUser(Role::ROLE_ADMIN), ['id' => 'one', 'name' => 'One'], 405],
         ];
     }
 
@@ -69,7 +67,8 @@ class CategoryTest extends AbstractEntityTest
         $user = $this->getUser(Role::ROLE_ADMIN);
 
         return [
-            [$this->getUser(Role::ROLE_CONTRIBUTOR), 'one', ['id' => 'one'], 403],
+            [null, 'one', ['id' => 'one'], 401],
+            [$this->getUser(Role::ROLE_CONTRIBUTOR), 'one', ['id' => 'one'], 200],
             [$user, 'one', ['id' => 'one'], 200],
             [$user, 'two', ['id' => 'two'], 200],
             [$user, 'missing', [], 404],
@@ -84,9 +83,10 @@ class CategoryTest extends AbstractEntityTest
         $adminUser = $this->getUser(Role::ROLE_ADMIN);
 
         return [
-            [$this->getUser(Role::ROLE_CONTRIBUTOR), 'one', 403],
-            [$adminUser, 'one', 204],
-            [$adminUser, 'missing', 404],
+            [null, 'one', 405],
+            [$this->getUser(Role::ROLE_CONTRIBUTOR), 'one', 405],
+            [$adminUser, 'one', 405],
+            [$adminUser, 'missing', 405],
         ];
     }
 
@@ -96,8 +96,23 @@ class CategoryTest extends AbstractEntityTest
     public function getCollectionDataProvider(): iterable
     {
         return [
-            [$this->getUser(Role::ROLE_CONTRIBUTOR), 4, 403],
-            [$this->getUser(Role::ROLE_ADMIN), 4, 200],
+            [null, 4, 401],
+            [$this->getUser(Role::ROLE_CONTRIBUTOR), 5, 200],
+            [$this->getUser(Role::ROLE_ADMIN), 5, 200],
+        ];
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function patchUpdateDataProvider(): iterable
+    {
+        $validRegex = '~^' . $this->getApiPath() . '/\S+$~';
+
+        return [
+            [null, 'one', ['level' => 2], 401],
+            [$this->getUser(Role::ROLE_CONTRIBUTOR), 'one', ['level' => 1], 200, null, $validRegex],
+            [$this->getUser(Role::ROLE_ADMIN), 'one', ['level' => 1], 200, null, $validRegex],
         ];
     }
 }

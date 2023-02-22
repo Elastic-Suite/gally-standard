@@ -18,7 +18,7 @@ Gally\Metadata\Model\SourceField:
     constraints:
         - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
               fields: [ code, metadata ]
-              message: 'An field with this code already exist for this entity.'
+              message: 'A field with this code already exist for this entity.'
             
 Gally\Metadata\Model\SourceFieldLabel:
     properties:

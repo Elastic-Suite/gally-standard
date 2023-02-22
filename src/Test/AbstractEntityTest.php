@@ -51,7 +51,7 @@ abstract class AbstractEntityTest extends AbstractTest
      * @dataProvider createDataProvider
      */
     public function testCreate(
-        User $user,
+        ?User $user,
         array $data,
         int $responseCode = 201,
         ?string $message = null,
@@ -97,7 +97,7 @@ abstract class AbstractEntityTest extends AbstractTest
      * @dataProvider getDataProvider
      * @depends testCreate
      */
-    public function testGet(User $user, int|string $id, array $expectedData, int $responseCode, ?string $locale = null): void
+    public function testGet(?User $user, int|string $id, array $expectedData, int $responseCode, ?string $locale = null): void
     {
         $headers = null !== $locale ? [LocaleSubscriber::GALLY_LANGUAGE_HEADER => $locale] : [];
         $request = new RequestToTest('GET', "{$this->getApiPath()}/{$id}", $user, [], $headers);
@@ -144,7 +144,7 @@ abstract class AbstractEntityTest extends AbstractTest
      * @dataProvider deleteDataProvider
      * @depends testGet
      */
-    public function testDelete(User $user, int|string $id, int $responseCode): void
+    public function testDelete(?User $user, int|string $id, int $responseCode): void
     {
         $this->validateApiCall(
             new RequestToTest('DELETE', "{$this->getApiPath()}/{$id}", $user),
@@ -175,7 +175,7 @@ abstract class AbstractEntityTest extends AbstractTest
      * @dataProvider getCollectionDataProvider
      * @depends testDelete
      */
-    public function testGetCollection(User $user, int $expectedItemNumber, int $responseCode): void
+    public function testGetCollection(?User $user, int $expectedItemNumber, int $responseCode): void
     {
         $request = new RequestToTest('GET', $this->getApiPath(), $user);
         $expectedResponse = new ExpectedResponse(

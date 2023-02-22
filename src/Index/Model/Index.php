@@ -31,7 +31,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[
     ApiResource(
         collectionOperations: [
-            'get',
+            'get' => ['security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"],
             'post' => [
                 'method' => 'POST',
                 'input' => CreateIndexInput::class,
@@ -47,8 +47,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
             'item_query' => [
                 'normalization_context' => ['groups' => ['details']],
                 'denormalization_context' => ['groups' => ['details']],
+                'security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
             ],
-            'collection_query',
+            'collection_query' => ['security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"],
             'create' => [
                 'mutation' => CreateIndexMutation::class,
                 'args' => [
@@ -116,6 +117,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
             'get' => [
                 'normalization_context' => ['groups' => ['details']],
                 'denormalization_context' => ['groups' => ['details']],
+                'security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
             ],
             'delete' => ['security' => "is_granted('" . Role::ROLE_ADMIN . "')"],
             'install' => [

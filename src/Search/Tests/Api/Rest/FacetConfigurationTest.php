@@ -42,15 +42,18 @@ class FacetConfigurationTest extends AbstractTest
     /**
      * @dataProvider getCollectionBeforeDataProvider
      */
-    public function testGetCollectionBefore(?string $entityType, ?string $categoryId, array $elements): void
+    public function testGetCollectionBefore(?User $user, ?string $entityType, ?string $categoryId, array $elements, int $responseCode, ?string $expectedMessage = null): void
     {
-        $this->testGetCollection($entityType, $categoryId, $elements);
+        $this->testGetCollection($user, $entityType, $categoryId, $elements, $responseCode, $expectedMessage);
     }
 
     protected function getCollectionBeforeDataProvider(): array
     {
+        $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
+
         return [
             [
+                $this->getUser(Role::ROLE_ADMIN),
                 null,
                 null,
                 [
@@ -63,8 +66,10 @@ class FacetConfigurationTest extends AbstractTest
                     ['sourceField' => 8, 'sourceFieldCode' => 'weight'],
                     ['sourceField' => 15, 'sourceFieldCode' => 'is_eco_friendly'],
                 ],
+                200,
             ],
             [
+                $user,
                 null,
                 'cat_1',
                 [
@@ -77,8 +82,10 @@ class FacetConfigurationTest extends AbstractTest
                     ['sourceField' => 8, 'category' => 'cat_1', 'sourceFieldCode' => 'weight'],
                     ['sourceField' => 15, 'category' => 'cat_1', 'sourceFieldCode' => 'is_eco_friendly'],
                 ],
+                200,
             ],
             [
+                $user,
                 null,
                 'cat_2',
                 [
@@ -91,8 +98,10 @@ class FacetConfigurationTest extends AbstractTest
                     ['sourceField' => 8, 'category' => 'cat_2', 'sourceFieldCode' => 'weight'],
                     ['sourceField' => 15, 'category' => 'cat_2', 'sourceFieldCode' => 'is_eco_friendly'],
                 ],
+                200,
             ],
             [
+                $user,
                 'product',
                 null,
                 [
@@ -104,13 +113,16 @@ class FacetConfigurationTest extends AbstractTest
                     ['sourceField' => 8, 'sourceFieldCode' => 'weight'],
                     ['sourceField' => 15, 'sourceFieldCode' => 'is_eco_friendly'],
                 ],
+                200,
             ],
             [
+                $user,
                 'category',
                 null,
                 [
                     ['sourceField' => 2, 'sourceFieldCode' => 'name'],
                 ],
+                200,
             ],
         ];
     }
@@ -119,10 +131,15 @@ class FacetConfigurationTest extends AbstractTest
      * @dataProvider updateDataProvider
      * @depends testGetCollectionBefore
      */
-    public function testUpdateValue(User $user, string $id, array $newData, int $expectedStatus, ?string $expectedMessage)
+    public function testUpdateValue(?User $user, string $id, array $newData, int $expectedStatus, ?string $expectedMessage)
     {
         $this->validateApiCall(
             new RequestToTest('PUT', "{$this->getApiPath()}/$id", $user, $newData),
+            new ExpectedResponse($expectedStatus, null, $expectedMessage)
+        );
+
+        $this->validateApiCall(
+            new RequestToTest('PATCH', "{$this->getApiPath()}/$id", $user, $newData, ['Content-Type' => 'application/merge-patch+json']),
             new ExpectedResponse($expectedStatus, null, $expectedMessage)
         );
     }
@@ -132,9 +149,9 @@ class FacetConfigurationTest extends AbstractTest
         $admin = $this->getUser(Role::ROLE_ADMIN);
 
         return [
-            [$this->getUser(Role::ROLE_CONTRIBUTOR), '3-0', ['coverageRate' => 0], 403, 'Access Denied.'],
+            [null, '3-0', ['coverageRate' => 0], 401, 'Access Denied.'],
             [$admin, '3-0', ['coverageRate' => 0, 'sortOrder' => 'invalidSortOrder'], 422, 'sortOrder: The value you selected is not a valid choice.'],
-            [$admin, '3-0', ['coverageRate' => 0, 'sortOrder' => BucketInterface::SORT_ORDER_COUNT], 200],
+            [$this->getUser(Role::ROLE_CONTRIBUTOR), '3-0', ['coverageRate' => 0, 'sortOrder' => BucketInterface::SORT_ORDER_COUNT], 200],
             [$admin, '3-0', ['coverageRate' => 1, 'maxSize' => 100, 'sortOrder' => BucketInterface::SORT_ORDER_TERM, 'position' => 1], 200],
             [$admin, '3-cat_1', ['coverageRate' => 10, 'sortOrder' => BucketInterface::SORT_ORDER_RELEVANCE], 200],
             [$admin, '4-cat_1', ['coverageRate' => 10, 'sortOrder' => BucketInterface::SORT_ORDER_MANUAL, 'position' => 1], 200],
@@ -146,15 +163,18 @@ class FacetConfigurationTest extends AbstractTest
      * @dataProvider getCollectionAfterDataProvider
      * @depends testUpdateValue
      */
-    public function testGetCollectionAfter(?string $entityType, ?string $categoryId, array $items): void
+    public function testGetCollectionAfter(?User $user, ?string $entityType, ?string $categoryId, array $items, int $responseCode, ?string $expectedMessage = null): void
     {
-        $this->testGetCollection($entityType, $categoryId, $items);
+        $this->testGetCollection($user, $entityType, $categoryId, $items, $responseCode, $expectedMessage);
     }
 
     protected function getCollectionAfterDataProvider(): array
     {
+        $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
+
         return [
             [
+                $this->getUser(Role::ROLE_ADMIN),
                 null,
                 null,
                 [
@@ -167,8 +187,10 @@ class FacetConfigurationTest extends AbstractTest
                     ['sourceField' => 8, 'sourceFieldCode' => 'weight'], // weight.
                     ['sourceField' => 15, 'sourceFieldCode' => 'is_eco_friendly'],
                 ],
+                200,
             ],
             [
+                $user,
                 null,
                 'cat_1',
                 [
@@ -181,8 +203,10 @@ class FacetConfigurationTest extends AbstractTest
                     ['sourceField' => 8, 'category' => 'cat_1', 'coverageRate' => 90, 'sourceFieldCode' => 'weight'],
                     ['sourceField' => 15, 'category' => 'cat_1', 'coverageRate' => 90, 'sourceFieldCode' => 'is_eco_friendly'],
                 ],
+                200,
             ],
             [
+                $user,
                 null,
                 'cat_2',
                 [
@@ -195,8 +219,10 @@ class FacetConfigurationTest extends AbstractTest
                     ['sourceField' => 8, 'category' => 'cat_2', 'coverageRate' => 90, 'sourceFieldCode' => 'weight'],
                     ['sourceField' => 15, 'category' => 'cat_2', 'coverageRate' => 90, 'sourceFieldCode' => 'is_eco_friendly'],
                 ],
+                200,
             ],
             [
+                $user,
                 'product',
                 null,
                 [
@@ -208,18 +234,122 @@ class FacetConfigurationTest extends AbstractTest
                     ['sourceField' => 8, 'sourceFieldCode' => 'weight'], // weight.
                     ['sourceField' => 15, 'sourceFieldCode' => 'is_eco_friendly'],
                 ],
+                200,
             ],
             [
+                null,
                 'category',
                 null,
                 [
                     ['sourceField' => 2, 'sourceFieldCode' => 'name'],
                 ],
+                401,
+                'Access Denied.',
+            ],
+            [
+                $user,
+                'category',
+                null,
+                [
+                    ['sourceField' => 2, 'sourceFieldCode' => 'name'],
+                ],
+                200,
+            ],
+            [
+                $this->getUser(Role::ROLE_ADMIN),
+                'category',
+                null,
+                [
+                    ['sourceField' => 2, 'sourceFieldCode' => 'name'],
+                ],
+                200,
             ],
         ];
     }
 
-    protected function testGetCollection(?string $entityType, ?string $categoryId, array $items): void
+    /**
+     * @dataProvider getDataProvider
+     * @depends testGetCollectionAfter
+     */
+    public function testGet(?User $user, int|string $id, array $expectedData, int $responseCode, ?string $expectedMessage = null): void
+    {
+        $this->validateApiCall(
+            new RequestToTest('GET', "{$this->getApiPath()}/{$id}", $user),
+            new ExpectedResponse(
+                $responseCode,
+                function (ResponseInterface $response) use ($expectedData) {
+                    $shortName = 'FacetConfiguration';
+                    if ($response->getStatusCode() < 400) {
+                        $this->assertJsonContains(
+                            array_merge(
+                                [
+                                    '@context' => "/contexts/$shortName",
+                                    '@type' => $shortName,
+                                    '@id' => $this->getApiPath() . '/' . $expectedData['id'],
+                                ],
+                                $expectedData
+                            )
+                        );
+                    } else {
+                        $this->assertJsonContains(['@context' => "/contexts/$shortName", '@type' => $shortName]);
+                    }
+                }
+            )
+        );
+    }
+
+    /**
+     * Data provider for entity get api call
+     * The data provider should return test case with :
+     * - User $user: user to use in the api call
+     * - int|string $id: id of the entity to get
+     * - array $expectedData: expected data of the entity
+     * - int $responseCode: expected response code.
+     * - string $expectedMessage: expected message.
+     */
+    public function getDataProvider(): iterable
+    {
+        $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
+
+        return [
+            [null, '3-0', ['id' => '3-0'], 401],
+            [$user, '3-0', ['id' => '3-0'], 200],
+            [$this->getUser(Role::ROLE_ADMIN), '3-0', ['id' => '3-0'], 200],
+        ];
+    }
+
+    /**
+     * @dataProvider deleteDataProvider
+     * @depends testGet
+     */
+    public function testDelete(?User $user, int|string $id, int $responseCode, ?string $expectedMessage = null): void
+    {
+        $this->validateApiCall(
+            new RequestToTest('DELETE', "{$this->getApiPath()}/{$id}", $user),
+            new ExpectedResponse(
+                $responseCode,
+            )
+        );
+    }
+
+    /**
+     * Data provider for entity get api call
+     * The data provider should return test case with :
+     * - User $user: user to use in the api call
+     * - int|string $id: id of the entity to get
+     * - int $responseCode: expected response code.
+     * - string $expectedMessage: expected message.
+     */
+    public function deleteDataProvider(): iterable
+    {
+        return [
+            [null, '3-0', 401, 'Access Denied.'],
+            [$this->getUser(Role::ROLE_CONTRIBUTOR), '3-0', 204],
+            [$this->getUser(Role::ROLE_ADMIN), '3-cat_1', 204],
+        ];
+    }
+
+    protected function testGetCollection(?User $user, ?string $entityType, ?string $categoryId, array $items, int $responseCode, ?string $expectedMessage = null): void
     {
         $query = $entityType ? ["sourceField.metadata.entity=$entityType"] : [];
         if ($categoryId) {
@@ -228,25 +358,30 @@ class FacetConfigurationTest extends AbstractTest
         $query = empty($query) ? '' : implode('&', $query);
 
         $this->validateApiCall(
-            new RequestToTest('GET', $this->getApiPath() . '?' . $query . '&page=1', $this->getUser(Role::ROLE_CONTRIBUTOR)),
+            new RequestToTest('GET', $this->getApiPath() . '?' . $query . '&page=1', $user),
             new ExpectedResponse(
-                200,
+                $responseCode,
                 function (ResponseInterface $response) use ($items) {
-                    $this->assertJsonContains(
-                        [
-                            '@context' => '/contexts/FacetConfiguration',
-                            '@id' => '/facet_configurations',
-                            '@type' => 'hydra:Collection',
-                            'hydra:totalItems' => \count($items),
-                        ]
-                    );
+                    $shortName = 'FacetConfiguration';
+                    if ($response->getStatusCode() < 400) {
+                        $this->assertJsonContains(
+                            [
+                                '@context' => "/contexts/$shortName",
+                                '@id' => '/facet_configurations',
+                                '@type' => 'hydra:Collection',
+                                'hydra:totalItems' => \count($items),
+                            ]
+                        );
 
-                    $responseData = $response->toArray();
+                        $responseData = $response->toArray();
 
-                    foreach ($items as $item) {
-                        $expectedItem = $this->completeContent($item);
-                        $item = $this->getById($expectedItem['id'], $responseData['hydra:member']);
-                        $this->assertEquals($expectedItem, $item);
+                        foreach ($items as $item) {
+                            $expectedItem = $this->completeContent($item);
+                            $item = $this->getById($expectedItem['id'], $responseData['hydra:member']);
+                            $this->assertEquals($expectedItem, $item);
+                        }
+                    } else {
+                        $this->assertJsonContains(['@context' => "/contexts/$shortName", '@type' => $shortName]);
                     }
                 }
             )

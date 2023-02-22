@@ -15,10 +15,10 @@ declare(strict_types=1);
 namespace Gally\Catalog\Tests\Api\Rest;
 
 use Gally\Catalog\Model\LocalizedCatalog;
-use Gally\Test\AbstractEntityTest;
+use Gally\Test\AbstractEntityTestWithUpdate;
 use Gally\User\Constant\Role;
 
-class LocalizedCatalogsTest extends AbstractEntityTest
+class LocalizedCatalogsTest extends AbstractEntityTestWithUpdate
 {
     protected static function getFixtureFiles(): array
     {
@@ -44,6 +44,7 @@ class LocalizedCatalogsTest extends AbstractEntityTest
             [$adminUser, ['catalog' => '/catalogs/1', 'code' => 'valid_code', 'name' => 'B2C French catalog', 'locale' => 'fr_FR', 'currency' => 'EUR'], 201],
             [$adminUser, ['catalog' => '/catalogs/1', 'code' => 'empty_name', 'name' => '', 'locale' => 'en_US', 'currency' => 'USD'], 201],
             [$adminUser, ['catalog' => '/catalogs/1', 'code' => 'missing_name', 'locale' => 'fr_FR', 'currency' => 'EUR'], 201],
+            [null, ['catalog' => '/catalogs/1', 'code' => 'valid_code', 'name' => 'Unauthorized user', 'locale' => 'fr_FR', 'currency' => 'EUR'], 401],
             [$this->getUser(Role::ROLE_CONTRIBUTOR), ['catalog' => '/catalogs/1', 'code' => 'valid_code', 'name' => 'Unauthorized user', 'locale' => 'fr_FR', 'currency' => 'EUR'], 403],
             [$adminUser, ['code' => 'no_catalog', 'name' => 'B2C French catalog', 'locale' => 'fr_FR', 'currency' => 'EUR'], 422, 'catalog: This value should not be blank.'],
             [$adminUser, ['catalog' => '/catalogs/2', 'code' => 'valid_code', 'locale' => 'fr_FR', 'currency' => 'EUR', 'name' => 'Empty Code'], 422, 'locale: This code and locale couple already exists.'],
@@ -72,7 +73,9 @@ class LocalizedCatalogsTest extends AbstractEntityTest
             // The first created localized catalog should have been elected as the default one,
             // this is why we test that the parameter isDefault is set to true even if we haven't specified it.
             [$user, 1, ['id' => 1, 'code' => 'b2c_fr', 'locale' => 'fr_FR', 'currency' => 'EUR', 'name' => 'B2C French Store View', 'isDefault' => true, 'localName' => 'français (France)'], 200, 'fr_FR'],
+            [null, 5, ['id' => 5, 'code' => 'empty_name', 'locale' => 'en_US', 'currency' => 'USD', 'localName' => 'English (United States)', 'isDefault' => false], 200, 'en_US'],
             [$user, 5, ['id' => 5, 'code' => 'empty_name', 'locale' => 'en_US', 'currency' => 'USD', 'localName' => 'English (United States)', 'isDefault' => false], 200, 'en_US'],
+            [$this->getUser(Role::ROLE_ADMIN), 5, ['id' => 5, 'code' => 'empty_name', 'locale' => 'en_US', 'currency' => 'USD', 'localName' => 'English (United States)', 'isDefault' => false], 200, 'en_US'],
             [$user, 10, [], 404],
         ];
     }
@@ -85,6 +88,7 @@ class LocalizedCatalogsTest extends AbstractEntityTest
         $adminUser = $this->getUser(Role::ROLE_ADMIN);
 
         return [
+            [null, 1, 401],
             [$this->getUser(Role::ROLE_CONTRIBUTOR), 1, 403],
             [$adminUser, 1, 204],
             [$adminUser, 5, 204],
@@ -98,7 +102,18 @@ class LocalizedCatalogsTest extends AbstractEntityTest
     public function getCollectionDataProvider(): iterable
     {
         return [
+            [null, 4, 200],
             [$this->getUser(Role::ROLE_CONTRIBUTOR), 4, 200],
+            [$this->getUser(Role::ROLE_ADMIN), 4, 200],
+        ];
+    }
+
+    public function patchUpdateDataProvider(): iterable
+    {
+        return [
+            [null, 1, ['name' => 'B2C French Store View PATCH/PUT'], 401],
+            [$this->getUser(Role::ROLE_CONTRIBUTOR), 1, ['name' => 'B2C French Store View PATCH/PUT'], 403],
+            [$this->getUser(Role::ROLE_ADMIN), 1, ['name' => 'B2C French Store View PATCH/PUT'], 200],
         ];
     }
 }
