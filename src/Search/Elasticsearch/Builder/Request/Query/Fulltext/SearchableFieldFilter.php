@@ -27,8 +27,6 @@ class SearchableFieldFilter implements FieldFilterInterface
      */
     public function filterField(FieldInterface $field): bool
     {
-        return FieldInterface::FIELD_TYPE_TEXT == $field->getType()
-            && $field->isSearchable()
-            && false === $field->isNested();
+        return FieldInterface::FIELD_TYPE_TEXT == $field->getType() && $field->isSearchable();
     }
 }
