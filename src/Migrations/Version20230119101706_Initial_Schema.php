@@ -17,7 +17,7 @@ namespace Gally\Migrations;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
-final class Version_1_0_20230119101706_Initial_Schema extends AbstractMigration
+final class Version20230119101706_Initial_Schema extends AbstractMigration
 {
     public function getDescription(): string
     {
