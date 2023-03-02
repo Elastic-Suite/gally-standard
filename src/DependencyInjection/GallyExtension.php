@@ -19,16 +19,12 @@ namespace Gally\DependencyInjection;
 
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
-use Symfony\Component\HttpKernel\DependencyInjection\Extension;
-use Symfony\Component\Yaml\Parser as YamlParser;
-use Symfony\Component\Yaml\Yaml;
 
 /**
  * @codeCoverageIgnore
  */
-class GallyExtension extends Extension implements PrependExtensionInterface
+class GallyExtension extends Extension
 {
     /**
      * Allows to set config for others bundles.
@@ -37,10 +33,10 @@ class GallyExtension extends Extension implements PrependExtensionInterface
      */
     public function prepend(ContainerBuilder $container)
     {
-        $this->loadGallyConfigFile($container, 'doctrine_migrations.yaml', 'doctrine_migrations');
-        $this->loadGallyConfigFile($container, 'api_platform.yaml', 'api_platform');
-        $this->loadGallyConfigFile($container, 'translation.yaml', 'framework');
-        $this->loadGallyConfigFile($container, 'nelmio_cors.yaml', 'nelmio_cors');
+        $this->loadGallyStandardConfigFile($container, 'doctrine_migrations.yaml', 'doctrine_migrations');
+        $this->loadGallyStandardConfigFile($container, 'api_platform.yaml', 'api_platform');
+        $this->loadGallyStandardConfigFile($container, 'translation.yaml', 'framework');
+        $this->loadGallyStandardConfigFile($container, 'nelmio_cors.yaml', 'nelmio_cors');
 
         $container->prependExtensionConfig(
             'api_platform',
@@ -124,7 +120,6 @@ class GallyExtension extends Extension implements PrependExtensionInterface
 
     protected function loadGallyConfig(ContainerBuilder $container): void
     {
-        $yamlParser ??= new YamlParser(); // @phpstan-ignore-line
         $isTestMode = 'test' === $container->getParameter('kernel.environment');
 
         $configFiles = array_merge(
@@ -151,28 +146,6 @@ class GallyExtension extends Extension implements PrependExtensionInterface
             );
         }
 
-        foreach ($configFiles as $configFile) {
-            $container->prependExtensionConfig(
-                'gally',
-                $yamlParser->parseFile($configFile, Yaml::PARSE_CONSTANT)['gally'] ?? []
-            );
-        }
-    }
-
-    protected function loadGallyConfigFile(ContainerBuilder $container, string $fileName, string $configNode): void
-    {
-        $yamlParser ??= new YamlParser(); // @phpstan-ignore-line
-        $config = $yamlParser->parseFile(__DIR__ . '/../Configuration/Resources/config/' . $fileName, Yaml::PARSE_CONSTANT);
-        $container->prependExtensionConfig($configNode, $config[$configNode]);
-    }
-
-    private function getPaths(string $pattern, ?string $relativeTo = null): array
-    {
-        $relativeTo = $relativeTo ? realpath($relativeTo) . '/' : '';
-
-        return array_map(
-            fn ($path) => str_replace($relativeTo, '', realpath($path)),
-            glob($pattern)
-        );
+        $this->loadGallyConfigByFiles($container, $configFiles);
     }
 }

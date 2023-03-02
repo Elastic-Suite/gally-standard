@@ -1,0 +1,86 @@
+<?php
+/**
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
+ *
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
+ * @copyright 2022-present Smile
+ * @license   Open Software License v. 3.0 (OSL-3.0)
+ */
+
+declare(strict_types=1);
+
+namespace Gally\Catalog\Tests\Api\GraphQl;
+
+use Gally\Test\AbstractTest;
+use Gally\Test\ExpectedResponse;
+use Gally\Test\RequestGraphQlToTest;
+use Symfony\Contracts\HttpClient\ResponseInterface;
+
+class LocalizedCatalogGroupOptionTest extends AbstractTest
+{
+    public static function setUpBeforeClass(): void
+    {
+        parent::setUpBeforeClass();
+        self::loadFixture([
+            __DIR__ . '/../../fixtures/localized_catalogs.yaml',
+            __DIR__ . '/../../fixtures/catalogs.yaml',
+        ]);
+    }
+
+    /**
+     * @dataProvider getCollectionDataProvider
+     */
+    public function testGetCollection(array $expectedData): void
+    {
+        $this->validateApiCall(
+            new RequestGraphQlToTest(
+                <<<GQL
+                    {
+                      localizedCatalogGroupOptions {
+                        id
+                        value
+                        label
+                        options
+                      }
+                    }
+                GQL,
+                null,
+            ),
+            new ExpectedResponse(
+                200,
+                function (ResponseInterface $response) use ($expectedData) {
+                    $responseData = $response->toArray();
+                    $this->assertSame($expectedData, $responseData['data']['localizedCatalogGroupOptions']);
+                }
+            )
+        );
+    }
+
+    public function getCollectionDataProvider(): array
+    {
+        return [
+            [[
+                [
+                    'id' => 'b2c_test',
+                    'value' => 'b2c_test',
+                    'label' => 'B2C Test Catalog',
+                    'options' => [
+                        ['value' => 'localized_catalogs/1', 'label' => 'B2C French Store View'],
+                        ['value' => 'localized_catalogs/2', 'label' => 'B2C English Store View'],
+                    ],
+                ],
+                [
+                    'id' => 'b2b_test',
+                    'value' => 'b2b_test',
+                    'label' => 'B2B Test Catalog',
+                    'options' => [
+                        ['value' => 'localized_catalogs/3', 'label' => 'B2B English Store View'],
+                    ],
+                ],
+            ]],
+        ];
+    }
+}
