@@ -1543,6 +1543,39 @@ class SearchDocumentsTest extends AbstractTest
                     'Crown Summit Backpack',
                 ],
             ],
+
+            // Search with words from name and select attribute spellchecked
+            [
+                'product',          // entity type.
+                'b2c_en',           // catalog ID.
+                'Testtt Duffle',     // query.
+                1,                  // expected result count.
+                [                   // expected result name.
+                    'Joust Duffle Bag',
+                ],
+            ],
+
+            // Search with words from name and select attribute not spellchecked
+            [
+                'product',          // entity type.
+                'b2c_en',           // catalog ID.
+                'red backpack',     // query.
+                1,                  // expected result count.
+                [                   // expected result name.
+                    'Fusion Backpack',
+                ],
+            ],
+
+            // Search with sku
+            [
+                'product',          // entity type.
+                'b2c_en',           // catalog ID.
+                '24-MB04',          // query.
+                1,                  // expected result count.
+                [                   // expected result name.
+                    'Strive Shoulder Pack',
+                ],
+            ],
         ];
     }
 

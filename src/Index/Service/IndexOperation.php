@@ -19,6 +19,7 @@ use Gally\Catalog\Model\LocalizedCatalog;
 use Gally\Exception\LogicException;
 use Gally\Index\Api\IndexSettingsInterface;
 use Gally\Index\Model\Index;
+use Gally\Index\Model\Index\Mapping\FieldInterface;
 use Gally\Index\Repository\Index\IndexRepositoryInterface;
 use Gally\Metadata\Model\Metadata;
 
@@ -77,6 +78,8 @@ class IndexOperation
 
             $indexAlias = $this->indexSettings->getIndexAliasFromIdentifier($metadata->getEntity(), $localizedCatalog);
             $mapping = $this->metadataManager->getMapping($metadata)->asArray();
+            $installedMapping = $this->indexRepository->getMapping($indexAlias);
+            $installedMapping = reset($installedMapping)['mappings']['properties'];
             if (!empty($fields)) {
                 $properties = $mapping['properties'] ?? [];
                 if (!empty($properties) && \is_array($properties)) {
@@ -87,6 +90,14 @@ class IndexOperation
                         },
                         \ARRAY_FILTER_USE_KEY
                     );
+
+                    // The include_in_root parameter can't be updated on live index.
+                    // We need to be sure that the value we set in the same as the one in the current installed index.
+                    foreach ($properties as $code => $property) {
+                        if (FieldInterface::FIELD_TYPE_NESTED === $property['type']) {
+                            $properties[$code]['include_in_root'] = $installedMapping[$code]['include_in_root'] ?? false;
+                        }
+                    }
 
                     $mapping['properties'] = $properties;
                 }

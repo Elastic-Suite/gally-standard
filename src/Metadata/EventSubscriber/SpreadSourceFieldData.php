@@ -101,6 +101,7 @@ class SpreadSourceFieldData implements EventSubscriberInterface
                         if ((1 === $origValue) && ($value > $origValue)) {
                             // Search weight moved from 1 to more. Mapping will change, so data need to be reindexed.
                             $updateMapping = true;
+                            break 2;
                         }
                         continue;
                     }
@@ -109,6 +110,7 @@ class SpreadSourceFieldData implements EventSubscriberInterface
                     if (true === (bool) ($options[$field][$mappingField] ?? false)) {
                         // Configuration for is_searchable, is_filterable, etc... has been enabled. Mapping needs to be updated.
                         $updateMapping = true;
+                        break 2;
                     }
                 }
             }

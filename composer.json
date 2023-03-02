@@ -20,6 +20,7 @@
         "guzzlehttp/guzzle": "^7.0",
         "lexik/jwt-authentication-bundle": "^2.14",
         "nelmio/cors-bundle": "^2.1",
+        "stof/doctrine-extensions-bundle": "^1.7",
         "symfony/intl": "6.0.*",
         "symfony/proxy-manager-bridge": "6.0.*",
         "symfony/translation": "6.0.*",
