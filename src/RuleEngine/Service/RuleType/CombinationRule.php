@@ -44,28 +44,6 @@ class CombinationRule extends AbstractRuleType implements RuleTypeInterface
     ) {
     }
 
-    public function transformRuleNodeToGraphQlFilterWithExplicitNot(array $ruleNode): array
-    {
-        $this->validateRuleData($ruleNode);
-        $operator = $ruleNode['operator'];
-        $value = $ruleNode['value'];
-
-        $childrenGraphQlFilters = [];
-        foreach ($ruleNode['children'] as $childNode) {
-            $ruleNodeItem = $this->ruleEngineManager->transformRuleNodeToGraphQlFilter($childNode);
-            if (self::FALSE_VALUE == $value) {
-                $ruleNodeItem = $this->boolFilterInputType->getGraphQlFilter(
-                    ['_not' => $ruleNodeItem]
-                );
-            }
-            $childrenGraphQlFilters[] = $ruleNodeItem;
-        }
-
-        $boolOperator = self::ALL_OPERATOR === $operator ? '_must' : '_should';
-
-        return !empty($childrenGraphQlFilters) ? $this->boolFilterInputType->getGraphQlFilter([$boolOperator => $childrenGraphQlFilters]) : [];
-    }
-
     public function transformRuleNodeToGraphQlFilter(array $ruleNode): array
     {
         $fields = [];
@@ -77,9 +55,11 @@ class CombinationRule extends AbstractRuleType implements RuleTypeInterface
                 $fields['_must'] = $this->processChildrenNode($ruleNode['children']);
             } elseif (self::FALSE_VALUE == $ruleNode['value']) {
                 // !A && !B == !(A || B) (De Morgan's laws @see https://en.wikipedia.org/wiki/De_Morgan%27s_laws)
-                $fields['_not'] = $this->boolFilterInputType->getGraphQlFilter(
-                    ['_should' => $this->processChildrenNode($ruleNode['children'])]
-                );
+                $fields['_not'] = [
+                    $this->boolFilterInputType->getGraphQlFilter(
+                        ['_should' => $this->processChildrenNode($ruleNode['children'])]
+                    ),
+                ];
             }
         } elseif (self::ANY_OPERATOR === $ruleNode['operator']) {
             if (self::TRUE_VALUE == $ruleNode['value']) {
@@ -87,9 +67,11 @@ class CombinationRule extends AbstractRuleType implements RuleTypeInterface
                 $fields['_should'] = $this->processChildrenNode($ruleNode['children']);
             } elseif (self::FALSE_VALUE == $ruleNode['value']) {
                 // !A || !B == !(A && B) (De Morgan's laws @see https://en.wikipedia.org/wiki/De_Morgan%27s_laws)
-                $fields['_not'] = $this->boolFilterInputType->getGraphQlFilter(
-                    ['_must' => $this->processChildrenNode($ruleNode['children'])]
-                );
+                $fields['_not'] = [
+                    $this->boolFilterInputType->getGraphQlFilter(
+                        ['_must' => $this->processChildrenNode($ruleNode['children'])]
+                    ),
+                ];
             }
         }
 

@@ -72,11 +72,13 @@
         },
         {
           "boolFilter": {
-            "_not": {
-              "price__price": {
-                "eq": 1.5
+            "_not": [
+              {
+                "price__price": {
+                  "eq": 1.5
+                }
               }
-            }
+            ]
           }
         },
         {
@@ -89,14 +91,16 @@
         },
         {
           "boolFilter": {
-            "_not": {
-              "price__price": {
-                "in": [
-                  1.5,
-                  2.65
-                ]
+            "_not": [
+                {
+                "price__price": {
+                  "in": [
+                    1.5,
+                    2.65
+                  ]
+                }
               }
-            }
+            ]
           }
         },
         {

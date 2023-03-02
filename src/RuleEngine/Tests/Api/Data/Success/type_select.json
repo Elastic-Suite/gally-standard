@@ -44,11 +44,13 @@
         },
         {
           "boolFilter": {
-            "_not": {
-              "brand__value": {
-                "eq": "10"
+            "_not": [
+              {
+                "brand__value": {
+                  "eq": "10"
+                }
               }
-            }
+            ]
           }
         },
         {
@@ -61,14 +63,16 @@
         },
         {
           "boolFilter": {
-            "_not": {
-              "brand__value": {
-                "in": [
-                  "10",
-                  "25"
-                ]
+            "_not": [
+              {
+                "brand__value": {
+                  "in": [
+                    "10",
+                    "25"
+                  ]
+                }
               }
-            }
+            ]
           }
         }
       ]

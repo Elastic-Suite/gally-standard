@@ -70,22 +70,24 @@
             "_should": [
               {
                 "boolFilter": {
-                  "_not": {
-                    "boolFilter": {
-                      "_must": [
-                        {
-                          "weight": {
-                            "gt": 100.50
+                  "_not": [
+                    {
+                      "boolFilter": {
+                        "_must": [
+                          {
+                            "weight": {
+                              "gt": 100.50
+                            }
+                          },
+                          {
+                            "created_at": {
+                              "lte": "2020-10-14"
+                            }
                           }
-                        },
-                        {
-                          "created_at": {
-                            "lte": "2020-10-14"
-                          }
-                        }
-                      ]
+                        ]
+                      }
                     }
-                  }
+                  ]
                 }
               },
               {
@@ -104,22 +106,24 @@
         },
         {
           "boolFilter": {
-            "_not": {
-              "boolFilter": {
-                "_should": [
-                  {
-                    "sku": {
-                      "eq": "exclude_sku1"
+            "_not": [
+              {
+                "boolFilter": {
+                  "_should": [
+                    {
+                      "sku": {
+                        "eq": "exclude_sku1"
+                      }
+                    },
+                    {
+                      "sku": {
+                        "eq": "exclude_sku2"
+                      }
                     }
-                  },
-                  {
-                    "sku": {
-                      "eq": "exclude_sku2"
-                    }
-                  }
-                ]
+                  ]
+                }
               }
-            }
+            ]
           }
         }
       ]

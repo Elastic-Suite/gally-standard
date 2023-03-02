@@ -58,11 +58,13 @@
         },
         {
           "boolFilter": {
-            "_not": {
-              "uid": {
-                "match": "my_uid"
+            "_not": [
+                {
+                "uid": {
+                  "match": "my_uid"
+                }
               }
-            }
+            ]
           }
         },
         {
@@ -72,11 +74,13 @@
         },
         {
           "boolFilter": {
-            "_not": {
-              "uid": {
-                "eq": "my_uid"
+            "_not": [
+                {
+                "uid": {
+                  "eq": "my_uid"
+                }
               }
-            }
+            ]
           }
         },
         {
@@ -89,14 +93,16 @@
         },
         {
           "boolFilter": {
-            "_not": {
-              "uid": {
-                "in": [
-                  "uid1",
-                  "uid2"
-                ]
+            "_not": [
+                {
+                "uid": {
+                  "in": [
+                    "uid1",
+                    "uid2"
+                  ]
+                }
               }
-            }
+            ]
           }
         }
       ]
