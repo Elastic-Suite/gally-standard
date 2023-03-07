@@ -86,20 +86,24 @@
         },
         {
           "boolFilter": {
-            "_not": {
-              "weight": {
-                "eq": 1.5
+            "_not": [
+              {
+                "weight": {
+                  "eq": 1.5
+                }
               }
-            }
+            ]
           }
         },
         {
           "boolFilter": {
-            "_not": {
-              "weight": {
-                "eq": 1
+            "_not": [
+              {
+                "weight": {
+                  "eq": 1
+                }
               }
-            }
+            ]
           }
         },
         {
@@ -120,14 +124,16 @@
         },
         {
           "boolFilter": {
-            "_not": {
-              "weight": {
-                "in": [
-                  1.5,
-                  2.65
-                ]
+            "_not": [
+              {
+                "weight": {
+                  "in": [
+                    1.5,
+                    2.65
+                  ]
+                }
               }
-            }
+            ]
           }
         },
         {

@@ -49,7 +49,7 @@ abstract class AbstractEntityTestWithUpdate extends AbstractEntityTest
         ?string $message = null,
         string $validRegex = null
     ): void {
-        $this->update('PUT', $user, $id, $data, $responseCode, [], $message, $validRegex);
+        $this->update('PUT', $user, $id, $data, $responseCode, ['Content-Type' => 'application/ld+json'], $message, $validRegex);
     }
 
     /**

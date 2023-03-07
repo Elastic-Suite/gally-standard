@@ -30,11 +30,13 @@
         },
         {
           "boolFilter": {
-            "_not": {
-              "category__id": {
-                "eq": "10"
+            "_not": [
+              {
+                "category__id": {
+                  "eq": "10"
+                }
               }
-            }
+            ]
           }
         }
       ]
