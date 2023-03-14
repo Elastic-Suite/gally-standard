@@ -59,7 +59,7 @@ class BulkIndexMutation implements MutationResolverInterface
             throw new InvalidArgumentException('Can not execute empty bulk.');
         }
 
-        $response = $this->indexRepository->bulk($index, $request);
+        $response = $this->indexRepository->bulk($request);
         if ($response->hasErrors()) {
             $errorMessages = [];
             foreach ($response->aggregateErrorsByReason() as $error) {

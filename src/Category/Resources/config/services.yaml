@@ -58,6 +58,13 @@ services:
             - '@.inner'
             - '@Gally\Category\Service\CategorySynchronizer'
             - '@Gally\Category\Service\CategoryProductPositionManager'
+        decoration_priority: 100            
+    Gally\Category\Decoration\SyncCategoryDataAfterInstallRest:
+        decorates: Gally\Index\DataTransformer\InstallIndexDataTransformer
+        arguments:
+            - '@.inner'
+            - '@Gally\Category\Service\CategorySynchronizer'
+            - '@Gally\Category\Service\CategoryProductPositionManager'
         decoration_priority: 100
 
     Gally\Category\Service\CategoryProductsSortingOptionsProvider:

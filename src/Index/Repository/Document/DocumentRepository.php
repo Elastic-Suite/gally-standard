@@ -14,50 +14,40 @@ declare(strict_types=1);
 
 namespace Gally\Index\Repository\Document;
 
-use Elasticsearch\Client;
+use Gally\Index\Dto\Bulk;
+use Gally\Index\Repository\Index\IndexRepository;
 
 class DocumentRepository implements DocumentRepositoryInterface
 {
     public function __construct(
-        private Client $client
+        private IndexRepository $indexRepository,
     ) {
     }
 
     public function index(string $indexName, array $documents, bool $instantRefresh = false): void
     {
-        $params = [];
-        $responses = [];
+        $request = new Bulk\Request();
+        $index = $this->indexRepository->findByName($indexName);
         foreach ($documents as $document) {
-            $document = json_decode($document, true);
-            $params['body'][] = [
-                'index' => [
-                    '_index' => $indexName,
-                    '_id' => $document['entity_id'] ?? $document['id'] ?? null,
-                ],
-            ];
-
-            $params['body'][] = $document;
-            if ($instantRefresh) {
-                $params['refresh'] = 'wait_for';
-            }
+            $documentData = json_decode($document, true);
+            $request->addDocument($index, $documentData['id'] ?? $documentData['entity_id'], $documentData);
         }
 
-        if (\count($params) > 0) {
-            $responses = $this->client->bulk($params);
+        if (!$request->isEmpty()) {
+            $this->indexRepository->bulk($request, $instantRefresh);
         }
     }
 
     public function delete(string $indexName, array $documents): void
     {
-        return;
         /**
          * @Todo: Implement the right way to delete a Document
          */
-        foreach ($documents as $document) { // @phpstan-ignore-line
-            $response = $this->client->delete([
-                'index' => $indexName,
-                'id' => $document['entity_id'] ?? $document['id'],
-            ]);
-        }
+//        foreach ($documents as $document) { // @phpstan-ignore-line
+//            $response = $this->client->delete([
+//                'index' => $indexName,
+//                'id' => $document['entity_id'] ?? $document['id'],
+//            ]);
+//        }
     }
 }
