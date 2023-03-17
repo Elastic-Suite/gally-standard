@@ -20,7 +20,9 @@ use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
 use ApiPlatform\Core\Exception\InvalidArgumentException;
 use ApiPlatform\Core\Exception\ResourceClassNotFoundException;
 use ApiPlatform\Core\Metadata\Resource\Factory\ResourceMetadataFactoryInterface;
+use Gally\Catalog\Model\LocalizedCatalog;
 use Gally\Catalog\Repository\LocalizedCatalogRepository;
+use Gally\Category\Service\CurrentCategoryProvider;
 use Gally\Metadata\Repository\MetadataRepository;
 use Gally\Product\GraphQl\Type\Definition\SortInputType;
 use Gally\Product\Model\Product;
@@ -30,6 +32,7 @@ use Gally\Search\Elasticsearch\Adapter;
 use Gally\Search\Elasticsearch\Builder\Request\SimpleRequestBuilder as RequestBuilder;
 use Gally\Search\Elasticsearch\Request\Container\Configuration\ContainerConfigurationProvider;
 use Gally\Search\Service\GraphQl\FilterManager;
+use Gally\Search\Service\SearchContext;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 
 class ProductDataProvider implements ContextAwareCollectionDataProviderInterface, RestrictedDataProviderInterface
@@ -46,6 +49,8 @@ class ProductDataProvider implements ContextAwareCollectionDataProviderInterface
         private Adapter $adapter,
         private SortInputType $sortInputType,
         private FilterManager $filterManager,
+        private CurrentCategoryProvider $currentCategoryProvider,
+        private SearchContext $searchContext,
     ) {
     }
 
@@ -101,6 +106,8 @@ class ProductDataProvider implements ContextAwareCollectionDataProviderInterface
             $containerConfig
         );
 
+        $this->setSearchContext($searchQuery, $localizedCatalog);
+
         $request = $this->requestBuilder->create(
             $containerConfig,
             $offset,
@@ -125,5 +132,12 @@ class ProductDataProvider implements ContextAwareCollectionDataProviderInterface
             $offset,
             $context
         );
+    }
+
+    protected function setSearchContext(?string $searchQuery, LocalizedCatalog $localizedCatalog): void
+    {
+        $this->searchContext->setCategory($this->currentCategoryProvider->getCurrentCategory());
+        $this->searchContext->setSearchQueryText($searchQuery);
+        $this->searchContext->setLocalizedCatalog($localizedCatalog);
     }
 }

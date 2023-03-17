@@ -21,6 +21,8 @@ services:
             - '@Gally\Search\Elasticsearch\Adapter'
             - '@Gally\Product\GraphQl\Type\Definition\SortInputType'
             - '@Gally\Product\Service\GraphQl\FilterManager'
+            - '@Gally\Category\Service\CurrentCategoryProvider'
+            - '@Gally\Search\Service\SearchContext'
         tags:
             - { name: api_platform.collection_data_provider }
 
