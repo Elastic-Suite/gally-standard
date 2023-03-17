@@ -21,6 +21,7 @@ use Gally\RuleEngine\Service\RuleType\AttributeRule;
 use Gally\RuleEngine\Service\RuleType\CombinationRule;
 use Gally\RuleEngine\Service\RuleType\RuleTypeInterface;
 use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface;
+use Gally\Search\Elasticsearch\Request\QueryInterface;
 use Gally\Search\Service\GraphQl\FilterManager;
 
 class RuleEngineManager
@@ -104,12 +105,14 @@ class RuleEngineManager
         return $this->getRuleTypes()[$rule['type']]->transformRuleNodeToGraphQlFilter($rule);
     }
 
-    public function transformRuleToGallyFilters(array $rule, ContainerConfigurationInterface $containerConfig, array $filterContext = []): array
+    public function transformRuleToGallyFilters(array $rule, ContainerConfigurationInterface $containerConfig, array $filterContext = []): ?QueryInterface
     {
-        return $this->filterManager->transformToGallyFilters(
+        $gallyFilters = $this->filterManager->transformToGallyFilters(
             [$this->transformRuleToGraphQlFilters($rule)],
             $containerConfig,
             $filterContext
         );
+
+        return !empty($gallyFilters) ? current($gallyFilters) : null;
     }
 }
