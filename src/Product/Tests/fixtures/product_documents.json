@@ -494,8 +494,8 @@
         "created_at": "2022-09-01"
       },
       {
-        "id": "2",
-        "entity_id": "2",
+        "id": "p_02",
+        "entity_id": "p_02",
         "sku": "24-MB04",
         "name": "Sac à bandoulière Strive",
         "size" : 5,
@@ -546,8 +546,8 @@
         "created_at": "2022-09-05"
       },
       {
-        "id": "3",
-        "entity_id": "3",
+        "id": "p_03",
+        "entity_id": "p_03",
         "sku": "24-MB03",
         "name": "Sac à dos Crown Summit",
         "weight" : 0.750,
@@ -586,8 +586,8 @@
         "created_at": "2022-09-05"
       },
       {
-        "id": "4",
-        "entity_id": "4",
+        "id": "p_04",
+        "entity_id": "p_04",
         "sku": "24-MB05",
         "name": "Sac messager Wayfarer",
         "size" : 7,
@@ -609,8 +609,8 @@
         "created_at": "2022-09-05"
       },
       {
-        "id": "5",
-        "entity_id": "5",
+        "id": "p_05",
+        "entity_id": "p_05",
         "sku": "24-MB06",
         "name": "Messager de terrain rival",
         "size" : 2,
@@ -632,8 +632,8 @@
         "created_at": "2022-09-06"
       },
       {
-        "id": "6",
-        "entity_id": "6",
+        "id": "p_06",
+        "entity_id": "p_06",
         "sku": "24-MB02",
         "name": "Sac à dos Fusion",
         "size" : 9,
@@ -663,8 +663,8 @@
         "created_at": "2022-09-01"
       },
       {
-        "id": "7",
-        "entity_id": "7",
+        "id": "p_07",
+        "entity_id": "p_07",
         "sku": "24-UB02",
         "name": "Sac de sport Impulse",
         "size" : 11,
@@ -686,8 +686,8 @@
         "created_at": "2022-09-01"
       },
       {
-        "id": "8",
-        "entity_id": "8",
+        "id": "p_08",
+        "entity_id": "p_08",
         "sku": "24-WB01",
         "name": "Sac de voyage Yoga",
         "stock_as_nested": {
@@ -712,8 +712,8 @@
         "created_at": "2022-09-01"
       },
       {
-        "id": "9",
-        "entity_id": "9",
+        "id": "p_09",
+        "entity_id": "p_09",
         "sku": "24-WB02",
         "name": "Fourre-tout Compete Track",
         "size" : 11,
@@ -737,8 +737,8 @@
         ]
       },
       {
-        "id": "10",
-        "entity_id": "10",
+        "id": "p_10",
+        "entity_id": "p_10",
         "sku": "24-WB05",
         "name": "Fourre-tout à bandoulière avisé",
         "size" : 2,
@@ -759,8 +759,8 @@
         "is_eco_friendly": false
       },
       {
-        "id": "11",
-        "entity_id": "11",
+        "id": "p_11",
+        "entity_id": "p_11",
         "sku": "24-WB06",
         "name": "Sac à dos d'excursion d'une journée Endeavour",
         "size" : 5,
@@ -793,8 +793,8 @@
         "created_at": "2022-09-01"
       },
       {
-        "id": "12",
-        "entity_id": "12",
+        "id": "p_12",
+        "entity_id": "p_12",
         "sku": "24-WB03",
         "name": "Sac à dos piloté",
         "size" : 12,

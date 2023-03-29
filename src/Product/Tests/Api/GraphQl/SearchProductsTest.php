@@ -365,7 +365,7 @@ class SearchProductsTest extends AbstractTest
                 'id', // document data identifier.
                 // score DESC first, then id DESC which exists in 'b2c_fr'
                 // but id DESC w/missing _first, so doc w/entity_id="1" is first
-                [1, 12, 11, 10, 9, 8, 7, 6, 5, 4],    // expected ordered document IDs
+                ['1', 'p_12', 'p_11', 'p_10', 'p_09', 'p_08', 'p_07', 'p_06', 'p_05', 'p_04'], // expected ordered document IDs
             ],
             [
                 'b2c_fr',   // catalog ID.
@@ -374,7 +374,7 @@ class SearchProductsTest extends AbstractTest
                 ['id' => SortOrderInterface::SORT_ASC], // sort order specifications.
                 'id', // document data identifier.
                 // id ASC (missing _last), then score DESC (but not for first doc w/ entity_id="1")
-                [2, 3, 4, 5, 6, 7, 8, 9, 10, 11],    // expected ordered document IDs
+                ['p_02', 'p_03', 'p_04', 'p_05', 'p_06', 'p_07', 'p_08', 'p_09', 'p_10', 'p_11'], // expected ordered document IDs
             ],
             [
                 'b2c_fr',   // catalog ID.
@@ -383,7 +383,7 @@ class SearchProductsTest extends AbstractTest
                 ['size' => SortOrderInterface::SORT_ASC], // sort order specifications.
                 'id', // document data identifier.
                 // size ASC, then score DESC first, then id DESC (missing _first)
-                [10, 5, 11, 2, 4, 3, 6, 9, 7, 1],   // expected ordered document IDs
+                ['p_10', 'p_05', 'p_11', 'p_02', 'p_04', 'p_03', 'p_06', 'p_09', 'p_07', '1'], // expected ordered document IDs
             ],
             [
                 'b2c_fr',   // catalog ID.
@@ -392,7 +392,7 @@ class SearchProductsTest extends AbstractTest
                 ['size' => SortOrderInterface::SORT_DESC], // sort order specifications.
                 'id', // document data identifier.
                 // size DESC, then score ASC first, then id ASC (missing _last)
-                [8, 12, 1, 7, 9, 6, 3, 4, 2, 11],   // expected ordered document IDs
+                ['p_08', 'p_12', '1', 'p_07', 'p_09', 'p_06', 'p_03', 'p_04', 'p_02', 'p_11'], // expected ordered document IDs
             ],
             [
                 'b2c_fr',   // catalog ID.
@@ -401,7 +401,7 @@ class SearchProductsTest extends AbstractTest
                 ['created_at' => SortOrderInterface::SORT_ASC], // sort order specifications.
                 'id', // document data identifier.
                 // size DESC, then score ASC first, then id ASC (missing _last)
-                [1, 12, 11, 8, 7, 6, 4, 3, 2, 5],   // expected ordered document IDs
+                ['1', 'p_12', 'p_11', 'p_08', 'p_07', 'p_06', 'p_04', 'p_03', 'p_02', 'p_05'], // expected ordered document IDs
             ],
             [
                 'b2c_fr',   // catalog ID.
@@ -410,7 +410,7 @@ class SearchProductsTest extends AbstractTest
                 ['price_as_nested__price' => SortOrderInterface::SORT_ASC], // sort order specifications.
                 'id', // document data identifier.
                 // price_as_nested.price ASC, then score DESC first, then id DESC (missing _first)
-                [2, 1, 3, 12, 11],   // expected ordered document IDs
+                ['p_02', '1', 'p_03', 'p_12', 'p_11'],   // expected ordered document IDs
             ],
             [
                 'b2c_fr',   // catalog ID.
@@ -419,7 +419,7 @@ class SearchProductsTest extends AbstractTest
                 ['name' => SortOrderInterface::SORT_ASC], // sort order specifications.
                 'id', // document data identifier.
                 // price_as_nested.price ASC, then score DESC first, then id DESC (missing _first)
-                [10, 9, 5, 2, 3],   // expected ordered document IDs
+                ['p_10', 'p_09', 'p_05', 'p_02', 'p_03'],   // expected ordered document IDs
             ],
             [
                 'b2c_fr',   // catalog ID.
@@ -428,7 +428,7 @@ class SearchProductsTest extends AbstractTest
                 ['brand__label' => SortOrderInterface::SORT_ASC], // sort order specifications.
                 'id', // document data identifier.
                 // price_as_nested.price ASC, then score DESC first, then id DESC (missing _first)
-                [1, 12, 11, 10, 9],   // expected ordered document IDs
+                ['1', 'p_12', 'p_11', 'p_10', 'p_09'],   // expected ordered document IDs
             ],
             [
                 'b2c_fr',   // catalog ID.
@@ -437,7 +437,7 @@ class SearchProductsTest extends AbstractTest
                 ['my_price__price' => SortOrderInterface::SORT_ASC], // sort order specifications.
                 'id', // document data identifier.
                 // price_as_nested.price ASC, then score DESC first, then id DESC (missing _first)
-                [2, 1, 3, 12, 11],   // expected ordered document IDs
+                ['p_02', '1', 'p_03', 'p_12', 'p_11'],   // expected ordered document IDs
                 '0', // Price group id
             ],
             [
@@ -447,7 +447,7 @@ class SearchProductsTest extends AbstractTest
                 ['my_price__price' => SortOrderInterface::SORT_ASC], // sort order specifications.
                 'id', // document data identifier.
                 // price_as_nested.price ASC, then score DESC first, then id DESC (missing _first)
-                [1, 2, 3, 12, 11],   // expected ordered document IDs
+                ['1', 'p_02', 'p_03', 'p_12', 'p_11'],   // expected ordered document IDs
                 '1', // Price group id
             ],
             [
@@ -457,7 +457,7 @@ class SearchProductsTest extends AbstractTest
                 ['my_price__price' => SortOrderInterface::SORT_ASC], // sort order specifications.
                 'id', // document data identifier.
                 // price_as_nested.price ASC, then score DESC first, then id DESC (missing _first)
-                [1, 12, 11, 10, 9],   // expected ordered document IDs
+                ['1', 'p_12', 'p_11', 'p_10', 'p_09'],   // expected ordered document IDs
                 'fake_price_group_id', // Price group id
             ],
             [
@@ -467,7 +467,7 @@ class SearchProductsTest extends AbstractTest
                 [],     // sort order specifications.
                 'entity_id', // document data identifier.
                 // test product are sorted by price because category "cat_1" has price as default sorting option.
-                [2, 1],    // expected ordered document IDs
+                ['p_02', '1'],    // expected ordered document IDs
                 '0',
                 'cat_1',
             ],
@@ -1008,77 +1008,77 @@ class SearchProductsTest extends AbstractTest
                 [], // sort order specifications.
                 'sku: { eq: "24-MB03" }',
                 'entity_id', // document data identifier.
-                [3], // expected ordered document IDs
+                ['p_03'], // expected ordered document IDs
             ],
             [
                 'b2c_fr', // catalog ID.
                 [], // sort order specifications.
                 'category_as_nested__id: { eq: "cat_1" }',
                 'entity_id', // document data identifier.
-                [1, 2], // expected ordered document IDs
+                ['1', 'p_02'], // expected ordered document IDs
             ],
             [
                 'b2c_fr', // catalog ID.
                 [], // sort order specifications.
                 'created_at: { gte: "2022-09-01", lte: "2022-09-05" }',
                 'entity_id', // document data identifier.
-                [1, 12, 11, 8, 7, 6, 4, 3, 2], // expected ordered document IDs
+                ['1', 'p_12', 'p_11', 'p_08', 'p_07', 'p_06', 'p_04', 'p_03', 'p_02'], // expected ordered document IDs
             ],
             [
                 'b2c_fr', // catalog ID.
                 ['id' => SortOrderInterface::SORT_ASC], // sort order specifications.
                 'sku: { in: ["24-MB02", "24-WB01"] }', // filter.
                 'entity_id', // document data identifier.
-                [6, 8], // expected ordered document IDs
+                ['p_06', 'p_08'], // expected ordered document IDs
             ],
             [
                 'b2c_fr', // catalog ID.
                 ['id' => SortOrderInterface::SORT_ASC], // sort order specifications.
-                'id: { gte: 10, lte: 12 }', // filter.
+                'size: { gte: 10, lte: 12 }', // filter.
                 'entity_id', // document data identifier.
-                [10, 11, 12], // expected ordered document IDs
+                ['p_07', 'p_09', 'p_12', '1'], // expected ordered document IDs
             ],
             [
                 'b2c_fr', // catalog ID.
                 ['id' => SortOrderInterface::SORT_ASC], // sort order specifications.
-                'id: { gt: 10, lt: 12 }', // filter.
+                'size: { gt: 10, lt: 12 }', // filter.
                 'entity_id', // document data identifier.
-                [11], // expected ordered document IDs
+                ['p_07', 'p_09'], // expected ordered document IDs
             ],
             [
                 'b2c_fr', // catalog ID.
                 ['id' => SortOrderInterface::SORT_ASC], // sort order specifications.
                 'name: { match: "Compete Track" }', // filter.
                 'entity_id', // document data identifier.
-                [9], // expected ordered document IDs
+                ['p_09'], // expected ordered document IDs
             ],
             [
                 'b2c_fr', // catalog ID.
                 ['id' => SortOrderInterface::SORT_ASC], // sort order specifications.
                 'size: { exist: true }', // filter.
                 'entity_id', // document data identifier.
-                [2, 3, 4, 5, 6, 7, 9, 10, 11, 12], // expected ordered document IDs
+                ['p_02', 'p_03', 'p_04', 'p_05', 'p_06', 'p_07', 'p_09', 'p_10', 'p_11', 'p_12'], // expected ordered document IDs
             ],
             [
                 'b2c_fr', // catalog ID.
                 ['id' => SortOrderInterface::SORT_ASC], // sort order specifications.
                 'size: { exist: false }', // filter.
                 'entity_id', // document data identifier.
-                [8], // expected ordered document IDs
+                ['p_08'], // expected ordered document IDs
             ],
             [
                 'b2c_fr', // catalog ID.
                 ['id' => SortOrderInterface::SORT_ASC], // sort order specifications.
                 'is_eco_friendly: { eq: true }', // filter.
                 'entity_id', // document data identifier.
-                [3, 4, 5, 6], // expected ordered document IDs
+                ['p_03', 'p_04', 'p_05', 'p_06'], // expected ordered document IDs
             ],
             [
                 'b2c_fr', // catalog ID.
                 ['id' => SortOrderInterface::SORT_ASC], // sort order specifications.
                 'is_eco_friendly: { eq: false }', // filter.
                 'entity_id', // document data identifier.
-                [2, 7, 8, 10], // expected ordered document IDs
+                ['p_02', 'p_07', 'p_08', 'p_10'], // expected ordered document IDs
             ],
             [
                 'b2c_fr', // catalog ID.
@@ -1088,7 +1088,7 @@ class SearchProductsTest extends AbstractTest
                   sku: { in: ["24-WB06", "24-WB03"] }
                 GQL, // filter.
                 'entity_id', // document data identifier.
-                [11, 12], // expected ordered document IDs
+                ['p_11', 'p_12'], // expected ordered document IDs
             ],
             [
                 'b2c_fr', // catalog ID.
@@ -1102,7 +1102,7 @@ class SearchProductsTest extends AbstractTest
                    }
                 GQL, // filter.
                 'entity_id', // document data identifier.
-                [11, 12], // expected ordered document IDs
+                ['p_11', 'p_12'], // expected ordered document IDs
             ],
             [
                 'b2c_fr', // catalog ID.
@@ -1116,7 +1116,7 @@ class SearchProductsTest extends AbstractTest
                    }
                 GQL, // filter.
                 'entity_id', // document data identifier.
-                [4, 7], // expected ordered document IDs
+                ['p_04', 'p_07'], // expected ordered document IDs
             ],
             [
                 'b2c_fr', // catalog ID.
@@ -1129,7 +1129,7 @@ class SearchProductsTest extends AbstractTest
                   }
                 GQL, // filter.
                 'entity_id', // document data identifier.
-                [5, 9, 10], // expected ordered document IDs
+                ['p_05', 'p_09', 'p_10'], // expected ordered document IDs
             ],
             [
                 'b2c_fr', // catalog ID.
@@ -1146,7 +1146,7 @@ class SearchProductsTest extends AbstractTest
                   }
                 GQL, // filter.
                 'entity_id', // document data identifier.
-                [11, 12], // expected ordered document IDs
+                ['p_11', 'p_12'], // expected ordered document IDs
             ],
             [
                 'b2c_fr', // catalog ID.
@@ -1162,12 +1162,12 @@ class SearchProductsTest extends AbstractTest
                       {sku: {eq: "24-WB03"}}
                     ]
                     _not: [
-                      {id: {eq: 11}}
+                      {id: {eq: "p_11"}}
                     ]
                   }
                 GQL, // filter.
                 'entity_id', // document data identifier.
-                [8, 12], // expected ordered document IDs
+                ['p_08', 'p_12'], // expected ordered document IDs
             ],
             [
                 'b2c_fr', // catalog ID.
@@ -1186,14 +1186,14 @@ class SearchProductsTest extends AbstractTest
                   }
                 GQL, // filter.
                 'entity_id', // document data identifier.
-                [11, 12], // expected ordered document IDs
+                ['p_11', 'p_12'], // expected ordered document IDs
             ],
             [
                 'b2c_fr', // catalog ID.
                 ['id' => SortOrderInterface::SORT_ASC], // sort order specifications.
                 'my_price__price: {gt: 10}', // filter.
                 'entity_id', // document data identifier.
-                [3, 1], // expected ordered document IDs
+                ['p_03', '1'], // expected ordered document IDs
                 '0',
             ],
             [
@@ -1201,7 +1201,7 @@ class SearchProductsTest extends AbstractTest
                 ['id' => SortOrderInterface::SORT_ASC], // sort order specifications.
                 'my_price__price: {gt: 10}', // filter.
                 'entity_id', // document data identifier.
-                [2, 3, 1], // expected ordered document IDs
+                ['p_02', 'p_03', '1'], // expected ordered document IDs
                 '1',
             ],
             [
@@ -1270,14 +1270,14 @@ class SearchProductsTest extends AbstractTest
                 [], // sort order specifications.
                 'cat_1', // current category id.
                 'entity_id', // document data identifier.
-                [2, 1], // expected ordered document IDs
+                ['p_02', '1'], // expected ordered document IDs
             ],
             [
                 'b2c_fr', // catalog ID.
                 [], // sort order specifications.
                 'cat_2', // current category id.
                 'entity_id', // document data identifier.
-                [1], // expected ordered document IDs
+                ['1'], // expected ordered document IDs
             ],
         ];
     }

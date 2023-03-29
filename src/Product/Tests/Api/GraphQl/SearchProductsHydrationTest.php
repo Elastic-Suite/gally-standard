@@ -621,8 +621,8 @@ class SearchProductsHydrationTest extends AbstractTest
                     ],
                     // 'created_at' => '2022-09-01',
                 ],
-                '2' => [
-                    '_id' => '2',
+                'p_02' => [
+                    '_id' => 'p_02',
                     'sku' => '24-MB04',
                     'name' => 'Sac à bandoulière Strive',
                     'description' => null,
@@ -694,8 +694,8 @@ class SearchProductsHydrationTest extends AbstractTest
                     ],
                     // 'created_at' => '2022-09-05',
                 ],
-                '3' => [
-                    '_id' => '3',
+                'p_03' => [
+                    '_id' => 'p_03',
                     'sku' => '24-MB03',
                     'name' => 'Sac à dos Crown Summit',
                     'description' => null,
@@ -752,8 +752,8 @@ class SearchProductsHydrationTest extends AbstractTest
                     ],
                     // 'created_at' => '2022-09-05',
                 ],
-                '4' => [
-                    '_id' => '4',
+                'p_04' => [
+                    '_id' => 'p_04',
                     'sku' => '24-MB05',
                     'name' => 'Sac messager Wayfarer',
                     'description' => null,
@@ -780,8 +780,8 @@ class SearchProductsHydrationTest extends AbstractTest
                     'price' => null,
                     // 'created_at' => '2022-09-05',
                 ],
-                '5' => [
-                    '_id' => '5',
+                'p_05' => [
+                    '_id' => 'p_05',
                     'sku' => '24-MB06',
                     'name' => 'Messager de terrain rival',
                     'description' => null,
@@ -808,8 +808,8 @@ class SearchProductsHydrationTest extends AbstractTest
                     'price' => null,
                     // 'created_at' => '2022-09-06',
                 ],
-                '6' => [
-                    '_id' => '6',
+                'p_06' => [
+                    '_id' => 'p_06',
                     'sku' => '24-MB02',
                     'name' => 'Sac à dos Fusion',
                     'description' => null,
@@ -844,8 +844,8 @@ class SearchProductsHydrationTest extends AbstractTest
                     'price' => null,
                     // 'created_at' => '2022-09-01',
                 ],
-                '7' => [
-                    '_id' => '7',
+                'p_07' => [
+                    '_id' => 'p_07',
                     'sku' => '24-UB02',
                     'name' => 'Sac de sport Impulse',
                     'description' => null,
@@ -872,8 +872,8 @@ class SearchProductsHydrationTest extends AbstractTest
                     'price' => null,
                     // 'created_at' => '2022-09-01',
                 ],
-                '8' => [
-                    '_id' => '8',
+                'p_08' => [
+                    '_id' => 'p_08',
                     'sku' => '24-WB01',
                     'name' => 'Sac de voyage Yoga',
                     'description' => null,
@@ -904,8 +904,8 @@ class SearchProductsHydrationTest extends AbstractTest
                     'price' => null,
                     // 'created_at' => '2022-09-01',
                 ],
-                '9' => [
-                    '_id' => '9',
+                'p_09' => [
+                    '_id' => 'p_09',
                     'sku' => '24-WB02',
                     'name' => 'Fourre-tout Compete Track',
                     'description' => null,
@@ -935,8 +935,8 @@ class SearchProductsHydrationTest extends AbstractTest
                     'price_as_nested' => null,
                     'price' => null,
                 ],
-                '10' => [
-                    '_id' => '10',
+                'p_10' => [
+                    '_id' => 'p_10',
                     'sku' => '24-WB05',
                     'name' => 'Fourre-tout à bandoulière avisé',
                     'description' => null,
@@ -962,8 +962,8 @@ class SearchProductsHydrationTest extends AbstractTest
                     'price_as_nested' => null,
                     'price' => null,
                 ],
-                '11' => [
-                    '_id' => '11',
+                'p_11' => [
+                    '_id' => 'p_11',
                     'sku' => '24-WB06',
                     'name' => "Sac à dos d'excursion d'une journée Endeavour",
                     'description' => null,
@@ -1002,8 +1002,8 @@ class SearchProductsHydrationTest extends AbstractTest
                     'price' => null,
                     // 'created_at' => '2022-09-01',
                 ],
-                '12' => [
-                    '_id' => '12',
+                'p_12' => [
+                    '_id' => 'p_12',
                     'sku' => '24-WB03',
                     'name' => 'Sac à dos piloté',
                     'description' => null,
@@ -1117,8 +1117,8 @@ class SearchProductsHydrationTest extends AbstractTest
                     ],
                     // 'created_at' => '2022-09-01',
                 ],
-                '2' => [
-                    '_id' => '2',
+                'p_02' => [
+                    '_id' => 'p_02',
                     'sku' => '24-MB04',
                     'name' => 'Sac à bandoulière Strive',
                     'description' => null,
@@ -1190,8 +1190,8 @@ class SearchProductsHydrationTest extends AbstractTest
                     ],
                     // 'created_at' => '2022-09-05',
                 ],
-                '3' => [
-                    '_id' => '3',
+                'p_03' => [
+                    '_id' => 'p_03',
                     'sku' => '24-MB03',
                     'name' => 'Sac à dos Crown Summit',
                     'description' => null,
@@ -1248,8 +1248,8 @@ class SearchProductsHydrationTest extends AbstractTest
                     ],
                     // 'created_at' => '2022-09-05',
                 ],
-                '4' => [
-                    '_id' => '4',
+                'p_04' => [
+                    '_id' => 'p_04',
                     'sku' => '24-MB05',
                     'name' => 'Sac messager Wayfarer',
                     'description' => null,
@@ -1276,8 +1276,8 @@ class SearchProductsHydrationTest extends AbstractTest
                     'price' => null,
                     // 'created_at' => '2022-09-05',
                 ],
-                '5' => [
-                    '_id' => '5',
+                'p_05' => [
+                    '_id' => 'p_05',
                     'sku' => '24-MB06',
                     'name' => 'Messager de terrain rival',
                     'description' => null,
@@ -1304,8 +1304,8 @@ class SearchProductsHydrationTest extends AbstractTest
                     'price' => null,
                     // 'created_at' => '2022-09-06',
                 ],
-                '6' => [
-                    '_id' => '6',
+                'p_06' => [
+                    '_id' => 'p_06',
                     'sku' => '24-MB02',
                     'name' => 'Sac à dos Fusion',
                     'description' => null,
@@ -1340,8 +1340,8 @@ class SearchProductsHydrationTest extends AbstractTest
                     'price' => null,
                     // 'created_at' => '2022-09-01',
                 ],
-                '7' => [
-                    '_id' => '7',
+                'p_07' => [
+                    '_id' => 'p_07',
                     'sku' => '24-UB02',
                     'name' => 'Sac de sport Impulse',
                     'description' => null,
@@ -1368,8 +1368,8 @@ class SearchProductsHydrationTest extends AbstractTest
                     'price' => null,
                     // 'created_at' => '2022-09-01',
                 ],
-                '8' => [
-                    '_id' => '8',
+                'p_08' => [
+                    '_id' => 'p_08',
                     'sku' => '24-WB01',
                     'name' => 'Sac de voyage Yoga',
                     'description' => null,
@@ -1400,8 +1400,8 @@ class SearchProductsHydrationTest extends AbstractTest
                     'price' => null,
                     // 'created_at' => '2022-09-01',
                 ],
-                '9' => [
-                    '_id' => '9',
+                'p_09' => [
+                    '_id' => 'p_09',
                     'sku' => '24-WB02',
                     'name' => 'Fourre-tout Compete Track',
                     'description' => null,
@@ -1431,8 +1431,8 @@ class SearchProductsHydrationTest extends AbstractTest
                     'price_as_nested' => null,
                     'price' => null,
                 ],
-                '10' => [
-                    '_id' => '10',
+                'p_10' => [
+                    '_id' => 'p_10',
                     'sku' => '24-WB05',
                     'name' => 'Fourre-tout à bandoulière avisé',
                     'description' => null,
@@ -1458,8 +1458,8 @@ class SearchProductsHydrationTest extends AbstractTest
                     'price_as_nested' => null,
                     'price' => null,
                 ],
-                '11' => [
-                    '_id' => '11',
+                'p_11' => [
+                    '_id' => 'p_11',
                     'sku' => '24-WB06',
                     'name' => "Sac à dos d'excursion d'une journée Endeavour",
                     'description' => null,
@@ -1498,8 +1498,8 @@ class SearchProductsHydrationTest extends AbstractTest
                     'price' => null,
                     // 'created_at' => '2022-09-01',
                 ],
-                '12' => [
-                    '_id' => '12',
+                'p_12' => [
+                    '_id' => 'p_12',
                     'sku' => '24-WB03',
                     'name' => 'Sac à dos piloté',
                     'description' => null,
@@ -1605,8 +1605,8 @@ class SearchProductsHydrationTest extends AbstractTest
                     ],
                     // 'created_at' => '2022-09-01',
                 ],
-                '2' => [
-                    '_id' => '2',
+                'p_02' => [
+                    '_id' => 'p_02',
                     'sku' => '24-MB04',
                     'name' => 'Sac à bandoulière Strive',
                     'description' => null,
@@ -1670,8 +1670,8 @@ class SearchProductsHydrationTest extends AbstractTest
                     ],
                     // 'created_at' => '2022-09-05',
                 ],
-                '3' => [
-                    '_id' => '3',
+                'p_03' => [
+                    '_id' => 'p_03',
                     'sku' => '24-MB03',
                     'name' => 'Sac à dos Crown Summit',
                     'description' => null,
@@ -1720,8 +1720,8 @@ class SearchProductsHydrationTest extends AbstractTest
                     ],
                     // 'created_at' => '2022-09-05',
                 ],
-                '4' => [
-                    '_id' => '4',
+                'p_04' => [
+                    '_id' => 'p_04',
                     'sku' => '24-MB05',
                     'name' => 'Sac messager Wayfarer',
                     'description' => null,
@@ -1748,8 +1748,8 @@ class SearchProductsHydrationTest extends AbstractTest
                     'price' => null,
                     // 'created_at' => '2022-09-05',
                 ],
-                '5' => [
-                    '_id' => '5',
+                'p_05' => [
+                    '_id' => 'p_05',
                     'sku' => '24-MB06',
                     'name' => 'Messager de terrain rival',
                     'description' => null,
@@ -1776,8 +1776,8 @@ class SearchProductsHydrationTest extends AbstractTest
                     'price' => null,
                     // 'created_at' => '2022-09-06',
                 ],
-                '6' => [
-                    '_id' => '6',
+                'p_06' => [
+                    '_id' => 'p_06',
                     'sku' => '24-MB02',
                     'name' => 'Sac à dos Fusion',
                     'description' => null,
@@ -1812,8 +1812,8 @@ class SearchProductsHydrationTest extends AbstractTest
                     'price' => null,
                     // 'created_at' => '2022-09-01',
                 ],
-                '7' => [
-                    '_id' => '7',
+                'p_07' => [
+                    '_id' => 'p_07',
                     'sku' => '24-UB02',
                     'name' => 'Sac de sport Impulse',
                     'description' => null,
@@ -1840,8 +1840,8 @@ class SearchProductsHydrationTest extends AbstractTest
                     'price' => null,
                     // 'created_at' => '2022-09-01',
                 ],
-                '8' => [
-                    '_id' => '8',
+                'p_08' => [
+                    '_id' => 'p_08',
                     'sku' => '24-WB01',
                     'name' => 'Sac de voyage Yoga',
                     'description' => null,
@@ -1872,8 +1872,8 @@ class SearchProductsHydrationTest extends AbstractTest
                     'price' => null,
                     // 'created_at' => '2022-09-01',
                 ],
-                '9' => [
-                    '_id' => '9',
+                'p_09' => [
+                    '_id' => 'p_09',
                     'sku' => '24-WB02',
                     'name' => 'Fourre-tout Compete Track',
                     'description' => null,
@@ -1903,8 +1903,8 @@ class SearchProductsHydrationTest extends AbstractTest
                     'price_as_nested' => null,
                     'price' => null,
                 ],
-                '10' => [
-                    '_id' => '10',
+                'p_10' => [
+                    '_id' => 'p_10',
                     'sku' => '24-WB05',
                     'name' => 'Fourre-tout à bandoulière avisé',
                     'description' => null,
@@ -1930,8 +1930,8 @@ class SearchProductsHydrationTest extends AbstractTest
                     'price_as_nested' => null,
                     'price' => null,
                 ],
-                '11' => [
-                    '_id' => '11',
+                'p_11' => [
+                    '_id' => 'p_11',
                     'sku' => '24-WB06',
                     'name' => "Sac à dos d'excursion d'une journée Endeavour",
                     'description' => null,
@@ -1970,8 +1970,8 @@ class SearchProductsHydrationTest extends AbstractTest
                     'price' => null,
                     // 'created_at' => '2022-09-01',
                 ],
-                '12' => [
-                    '_id' => '12',
+                'p_12' => [
+                    '_id' => 'p_12',
                     'sku' => '24-WB03',
                     'name' => 'Sac à dos piloté',
                     'description' => null,
