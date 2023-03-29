@@ -37,7 +37,9 @@ class CategoryProductsSortingOptionsProvider
         if (null === $this->sortingOptions) {
             $sortOptions = [];
 
-            $sortableFields = $this->sourceFieldRepository->getSortableFields('product');
+            // Id source field need to be sortable to be used as default sort option,
+            // but we don't want to have it in the list
+            $sortableFields = $this->sourceFieldRepository->getSortableFields('product', ['id']);
             foreach ($sortableFields as $sourceField) {
                 /** @var ProductSortOrderProviderInterface $sortOrderProvider */
                 foreach ($this->sortOrderProviders as $sortOrderProvider) {

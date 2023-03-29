@@ -412,7 +412,8 @@ class SearchDocumentsTest extends AbstractTest
                 'id', // document data identifier.
                 // score DESC first, then id DESC which exists in 'b2b_fr'
                 // but id DESC w/missing _first, so doc w/entity_id="1" is first
-                [1, 12, 11, 10, 9, 8, 7, 6, 5, 4],    // expected ordered document IDs
+                // as id are string, "2" is considered greater than "12"
+                [1, 9, 8, 7, 6, 5, 4, 3, 2, 12],    // expected ordered document IDs
             ],
             [
                 'product',  // entity type.
@@ -423,7 +424,8 @@ class SearchDocumentsTest extends AbstractTest
                 'id', // document data identifier.
                 // score DESC first, then id DESC which exists in 'b2b_fr'
                 // but id DESC w/missing _first, so doc w/entity_id="1" is first
-                [1, 12, 11, 10, 9, 8, 7, 6, 5, 4],    // expected ordered document IDs
+                // as id are string, "2" is considered greater than "12"
+                [1, 9, 8, 7, 6, 5, 4, 3, 2, 12],    // expected ordered document IDs
             ],
             [
                 'product',  // entity type.
@@ -433,7 +435,7 @@ class SearchDocumentsTest extends AbstractTest
                 ['id' => SortOrderInterface::SORT_ASC], // sort order specifications.
                 'id', // document data identifier.
                 // id ASC (missing _last), then score DESC (but not for first doc w/ entity_id="1")
-                [2, 3, 4, 5, 6, 7, 8, 9, 10, 11],    // expected ordered document IDs
+                [10, 11, 12, 2, 3, 4, 5, 6, 7, 8],    // expected ordered document IDs
             ],
             [
                 'product',  // entity type.
@@ -443,7 +445,7 @@ class SearchDocumentsTest extends AbstractTest
                 ['size' => SortOrderInterface::SORT_ASC], // sort order specifications.
                 'id', // document data identifier.
                 // size ASC, then score DESC first, then id DESC (missing _first)
-                [5, 8, 11, 2, 4, 3, 6, 9, 7, 1],   // expected ordered document IDs
+                [5, 8, 2, 11, 4, 3, 6, 9, 7, 1],   // expected ordered document IDs
             ],
             [
                 'product',  // entity type.
@@ -453,7 +455,7 @@ class SearchDocumentsTest extends AbstractTest
                 ['size' => SortOrderInterface::SORT_DESC], // sort order specifications.
                 'id', // document data identifier.
                 // size DESC, then score ASC first, then id ASC (missing _last)
-                [10, 12, 1, 7, 9, 6, 3, 4, 2, 11],   // expected ordered document IDs
+                [10, 12, 1, 7, 9, 6, 3, 4, 11, 2],   // expected ordered document IDs
             ],
             [
                 'product',  // entity type.
@@ -463,7 +465,7 @@ class SearchDocumentsTest extends AbstractTest
                 ['price.price' => SortOrderInterface::SORT_ASC], // sort order specifications.
                 'id', // document data identifier.
                 // price.price ASC, then score DESC first, then id DESC (missing _first)
-                [2, 1, 3, 12, 11],   // expected ordered document IDs
+                [2, 1, 3, 9, 8],   // expected ordered document IDs
             ],
             [
                 'product',  // entity type.
@@ -473,7 +475,7 @@ class SearchDocumentsTest extends AbstractTest
                 ['my_price.price' => SortOrderInterface::SORT_ASC], // sort order specifications.
                 'id', // document data identifier.
                 // price.price ASC, then score DESC first, then id DESC (missing _first)
-                [2, 1, 3, 12, 11],   // expected ordered document IDs
+                [2, 1, 3, 9, 8],   // expected ordered document IDs
                 '0',
             ],
             [
@@ -484,7 +486,7 @@ class SearchDocumentsTest extends AbstractTest
                 ['my_price.price' => SortOrderInterface::SORT_ASC], // sort order specifications.
                 'id', // document data identifier.
                 // price.price ASC, then score DESC first, then id DESC (missing _first)
-                [1, 2, 3, 12, 11],   // expected ordered document IDs
+                [1, 2, 3, 9, 8],   // expected ordered document IDs
                 '1',
             ],
             [
@@ -495,7 +497,7 @@ class SearchDocumentsTest extends AbstractTest
                 ['my_price.price' => SortOrderInterface::SORT_DESC], // sort order specifications.
                 'id', // document data identifier.
                 // price.price ASC, then score DESC first, then id DESC (missing _first)
-                [2, 3, 4, 5, 6],   // expected ordered document IDs
+                [10, 11, 12, 2, 3],   // expected ordered document IDs
                 'fake_price_group_id',
             ],
         ];
@@ -1231,7 +1233,7 @@ class SearchDocumentsTest extends AbstractTest
                 ['id' => SortOrderInterface::SORT_ASC], // sort order specifications.
                 '{existFilter: {field: "size"}}', // filter.
                 'entity_id', // document data identifier.
-                [2, 3, 4, 5, 6, 7, 8, 9, 11, 12], // expected ordered document IDs
+                [11, 12, 2, 3, 4, 5, 6, 7, 8, 9], // expected ordered document IDs
             ],
             [
                 'product', // entity type.
@@ -1310,7 +1312,7 @@ class SearchDocumentsTest extends AbstractTest
                   }
                 GQL, // filter.
                 'entity_id', // document data identifier.
-                [5, 9, 10], // expected ordered document IDs
+                [10, 5, 9], // expected ordered document IDs
             ],
             [
                 'product', // entity type.
@@ -1354,7 +1356,7 @@ class SearchDocumentsTest extends AbstractTest
                   }
                 GQL, // filter.
                 'entity_id', // document data identifier.
-                [8, 12], // expected ordered document IDs
+                [12, 8], // expected ordered document IDs
             ],
             [
                 'product', // entity type.

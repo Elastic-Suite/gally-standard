@@ -8,8 +8,8 @@
         "type": "attribute",
         "field": "id",
         "operator": "in",
-        "attribute_type": "int",
-        "value": 25
+        "attribute_type": "reference",
+        "value": "25"
       }
     ]
   },

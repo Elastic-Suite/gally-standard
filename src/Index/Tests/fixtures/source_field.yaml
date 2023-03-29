@@ -39,8 +39,9 @@ Gally\Metadata\Model\SourceField:
     product_id:
         metadata: '@product'
         code: 'id'
-        type: 'int'
+        type: 'reference'
         isSystem: true
+        isSortable: true
     product_sku:
         metadata: '@product'
         code: 'sku'

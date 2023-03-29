@@ -6,56 +6,56 @@
     "children": [
       {
         "type": "attribute",
-        "field": "id",
+        "field": "size",
         "operator": "eq",
         "attribute_type": "int",
         "value": 1
       },
       {
         "type": "attribute",
-        "field": "id",
+        "field": "size",
         "operator": "!eq",
         "attribute_type": "int",
         "value": 1
       },
       {
         "type": "attribute",
-        "field": "id",
+        "field": "size",
         "operator": "in",
         "attribute_type": "int",
         "value": [1, 2]
       },
       {
         "type": "attribute",
-        "field": "id",
+        "field": "size",
         "operator": "!in",
         "attribute_type": "int",
         "value": [1, 2]
       },
       {
         "type": "attribute",
-        "field": "id",
+        "field": "size",
         "operator": "gte",
         "attribute_type": "int",
         "value": 1
       },
       {
         "type": "attribute",
-        "field": "id",
+        "field": "size",
         "operator": "gt",
         "attribute_type": "int",
         "value": 1
       },
       {
         "type": "attribute",
-        "field": "id",
+        "field": "size",
         "operator": "lte",
         "attribute_type": "int",
         "value": 2
       },
       {
         "type": "attribute",
-        "field": "id",
+        "field": "size",
         "operator": "lt",
         "attribute_type": "int",
         "value": 2
@@ -66,7 +66,7 @@
     "boolFilter": {
       "_must": [
         {
-          "id": {
+          "size": {
             "eq": 1
           }
         },
@@ -74,7 +74,7 @@
           "boolFilter": {
             "_not": [
               {
-                "id": {
+                "size": {
                   "eq": 1
                 }
               }
@@ -82,7 +82,7 @@
           }
         },
         {
-          "id": {
+          "size": {
             "in": [
               1,
               2
@@ -93,7 +93,7 @@
           "boolFilter": {
             "_not": [
               {
-                "id": {
+                "size": {
                   "in": [
                     1,
                     2
@@ -104,22 +104,22 @@
           }
         },
         {
-          "id": {
+          "size": {
             "gte": 1
           }
         },
         {
-          "id": {
+          "size": {
             "gt": 1
           }
         },
         {
-          "id": {
+          "size": {
             "lte": 2
           }
         },
         {
-          "id": {
+          "size": {
             "lt": 2
           }
         }
