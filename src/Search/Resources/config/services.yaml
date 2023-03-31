@@ -330,7 +330,9 @@ services:
     Gally\Search\Elasticsearch\Request\Aggregation\Modifier\ViewMore:
         arguments:
             - '@Gally\Search\Service\ViewMoreContext'
-                
+
+    Gally\Search\Service\SearchContext: ~
+
     Gally\Search\DataProvider\Facet\OptionDataProvider:
         arguments:
             - '@Gally\Metadata\Repository\MetadataRepository'
