@@ -18,5 +18,5 @@ interface DocumentRepositoryInterface
 {
     public function index(string $indexName, array $documents, bool $instantRefresh = false): void;
 
-    public function delete(string $indexName, array $documents): void;
+    public function delete(string $indexName, array $documentIds): void;
 }

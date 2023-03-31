@@ -172,3 +172,11 @@ services:
         arguments:
             - '@Gally\OpenApi\Helper\Documentation'
             - '@.inner'
+                
+    Gally\Index\Controller\RemoveIndexDocument:
+        arguments:
+            - '@Gally\Index\Repository\Document\DocumentRepositoryInterface'
+        calls:
+            - [ setContainer, [ '@service_container' ] ]
+        tags:
+            - { name: controller.service_arguments }

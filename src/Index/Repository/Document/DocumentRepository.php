@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace Gally\Index\Repository\Document;
 
+use ApiPlatform\Core\Exception\InvalidArgumentException;
 use Gally\Index\Dto\Bulk;
 use Gally\Index\Repository\Index\IndexRepository;
 
@@ -30,24 +31,52 @@ class DocumentRepository implements DocumentRepositoryInterface
         $index = $this->indexRepository->findByName($indexName);
         foreach ($documents as $document) {
             $documentData = json_decode($document, true);
-            $request->addDocument($index, $documentData['id'] ?? $documentData['entity_id'], $documentData);
+            $identifier = $documentData['entity_id'] ?? $documentData['id'] ?? null;
+            $request->addDocument($index, $identifier, $documentData);
         }
 
-        if (!$request->isEmpty()) {
-            $this->indexRepository->bulk($request, $instantRefresh);
-        }
+        $this->runBulk($request);
     }
 
-    public function delete(string $indexName, array $documents): void
+    public function delete(string $indexName, array $documentIds): void
     {
-        /**
-         * @Todo: Implement the right way to delete a Document
-         */
-//        foreach ($documents as $document) { // @phpstan-ignore-line
-//            $response = $this->client->delete([
-//                'index' => $indexName,
-//                'id' => $document['entity_id'] ?? $document['id'],
-//            ]);
-//        }
+        $request = new Bulk\Request();
+        $index = $this->indexRepository->findByName($indexName);
+
+        if (!$index) {
+            throw new InvalidArgumentException(sprintf('The index %s does not exist.', $indexName));
+        }
+
+        $request->deleteDocuments($index, $documentIds);
+
+        $this->runBulk($request);
+    }
+
+    private function runBulk(Bulk\Request $request): Bulk\Response
+    {
+        if ($request->isEmpty()) {
+            throw new InvalidArgumentException('Can not execute empty bulk.');
+        }
+
+        $response = $this->indexRepository->bulk($request);
+        if ($response->hasErrors()) {
+            $errorMessages = [];
+            foreach ($response->aggregateErrorsByReason() as $error) {
+                $sampleDocumentIds = implode(', ', \array_slice($error['document_ids'], 0, 10));
+                $errorMessages[] = sprintf(
+                    'Bulk %s operation failed %d times in index %s.',
+                    $error['operation'],
+                    $error['count'],
+                    $error['index']
+                );
+                $errorMessages[] = sprintf('Error (%s) : %s.', $error['error']['type'], $error['error']['reason']);
+                $errorMessages[] = sprintf('Failed doc ids sample : %s.', $sampleDocumentIds);
+            }
+            if (!empty($errorMessages)) {
+                throw new InvalidArgumentException(implode(' ', $errorMessages));
+            }
+        }
+
+        return $response;
     }
 }

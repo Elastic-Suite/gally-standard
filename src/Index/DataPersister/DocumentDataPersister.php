@@ -35,8 +35,6 @@ class DocumentDataPersister implements DataPersisterInterface
 
     /**
      * {@inheritdoc}
-     *
-     * @return object|void
      */
     public function persist($data)
     {
@@ -49,8 +47,7 @@ class DocumentDataPersister implements DataPersisterInterface
      */
     public function remove($data)
     {
-        /** @var IndexDocument $data */
-        // Todo: not working, documents parameter should be added.
-        $this->documentRepository->delete($data->getIndexName(), $data->getDocuments());
+        // Not manage here
+        // @see \Gally\Index\Controller\RemoveIndexDocument::__invoke
     }
 }
