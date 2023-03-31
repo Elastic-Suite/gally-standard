@@ -35,7 +35,7 @@ class DocumentRepository implements DocumentRepositoryInterface
             $request->addDocument($index, $identifier, $documentData);
         }
 
-        $this->runBulk($request);
+        $this->runBulk($request, $instantRefresh);
     }
 
     public function delete(string $indexName, array $documentIds): void
@@ -49,16 +49,16 @@ class DocumentRepository implements DocumentRepositoryInterface
 
         $request->deleteDocuments($index, $documentIds);
 
-        $this->runBulk($request);
+        $this->runBulk($request, true);
     }
 
-    private function runBulk(Bulk\Request $request): Bulk\Response
+    private function runBulk(Bulk\Request $request, bool $instantRefresh): Bulk\Response
     {
         if ($request->isEmpty()) {
             throw new InvalidArgumentException('Can not execute empty bulk.');
         }
 
-        $response = $this->indexRepository->bulk($request);
+        $response = $this->indexRepository->bulk($request, $instantRefresh);
         if ($response->hasErrors()) {
             $errorMessages = [];
             foreach ($response->aggregateErrorsByReason() as $error) {
