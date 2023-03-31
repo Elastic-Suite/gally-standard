@@ -300,7 +300,7 @@ class SourceField
     }
 
     #[Groups(['source_field:api'])]
-    public function setDefaultLabel(string $defaultLabel): self
+    public function setDefaultLabel(?string $defaultLabel): self
     {
         $this->defaultLabel = $defaultLabel;
 

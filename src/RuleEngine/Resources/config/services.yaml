@@ -19,6 +19,7 @@ services:
         lazy: true
         arguments:
             - '@Gally\Product\Service\GraphQl\FilterManager'
+            - '@Gally\Cache\Service\CacheManager'
             - !tagged_iterator { tag: 'gally.rule_engine.rule_type' }
 
     Gally\RuleEngine\Resolver\RuleEngineOperatorsResolver:
@@ -54,3 +55,10 @@ services:
         arguments:
             - '@Gally\OpenApi\Helper\Documentation'
             - '@.inner'
+
+    Gally\RuleEngine\EventSubscriber\ClearRuleCache:
+        arguments:
+            - '@Gally\RuleEngine\Service\RuleEngineManager'
+            - '@Gally\Cache\Service\CacheManager'
+        tags:
+            - { name: doctrine.event_subscriber }
