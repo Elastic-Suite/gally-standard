@@ -47,7 +47,7 @@ class DocumentDataPersister implements DataPersisterInterface
      */
     public function remove($data)
     {
-        // Not manage here
+        // Not managed here
         // @see \Gally\Index\Controller\RemoveIndexDocument::__invoke
     }
 }

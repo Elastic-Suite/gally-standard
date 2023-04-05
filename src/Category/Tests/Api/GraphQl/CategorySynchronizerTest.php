@@ -57,7 +57,6 @@ class CategorySynchronizerTest extends AbstractTest
         // Use setUp instead of setupBeforeClass in order to
         // reset test data between testSynchronizeRetry and testSynchronize
         parent::setUp();
-        parent::setUpBeforeClass();
         \assert(static::getContainer()->get(IndexRepositoryInterface::class) instanceof IndexRepositoryInterface);
         self::$indexRepository = static::getContainer()->get(IndexRepositoryInterface::class);
         self::$categoryRepository = static::getContainer()->get(CategoryRepository::class);
@@ -72,7 +71,6 @@ class CategorySynchronizerTest extends AbstractTest
     protected function tearDown(): void
     {
         parent::tearDown();
-        parent::tearDownAfterClass();
         self::deleteElasticsearchFixtures();
     }
 

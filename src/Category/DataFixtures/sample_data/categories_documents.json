@@ -454,12 +454,7 @@
       "position": "4",
       "level": "2",
       "children_count": "3",
-      "is_active": [
-        {
-          "id": true,
-          "label": "Oui"
-        }
-      ],
+      "is_active": true,
       "is_displayed_in_autocomplete": true,
       "name": [
         "Accessoires"
@@ -482,12 +477,7 @@
       "position": "1",
       "level": "3",
       "children_count": "0",
-      "is_active": [
-        {
-          "id": true,
-          "label": "Oui"
-        }
-      ],
+      "is_active": true,
       "is_displayed_in_autocomplete": true,
       "name": [
         "Ceintures"
@@ -510,12 +500,7 @@
       "position": "2",
       "level": "3",
       "children_count": "0",
-      "is_active": [
-        {
-          "id": true,
-          "label": "Oui"
-        }
-      ],
+      "is_active": true,
       "is_displayed_in_autocomplete": true,
       "name": [
         "Bijoux"
@@ -538,12 +523,7 @@
       "position": "3",
       "level": "3",
       "children_count": "0",
-      "is_active": [
-        {
-          "id": true,
-          "label": "Oui"
-        }
-      ],
+      "is_active": true,
       "is_displayed_in_autocomplete": true,
       "name": [
         "\u00c9charpes"
@@ -566,12 +546,7 @@
       "position": "6",
       "level": "2",
       "children_count": "0",
-      "is_active": [
-        {
-          "id": true,
-          "label": "Oui"
-        }
-      ],
+      "is_active": true,
       "is_displayed_in_autocomplete": true,
       "name": [
         "New Products"
@@ -594,12 +569,7 @@
       "position": "1",
       "level": "2",
       "children_count": "2",
-      "is_active": [
-        {
-          "id": true,
-          "label": "Oui"
-        }
-      ],
+      "is_active": true,
       "is_displayed_in_autocomplete": true,
       "name": [
         "Hauts"
@@ -622,12 +592,7 @@
       "position": "1",
       "level": "3",
       "children_count": "0",
-      "is_active": [
-        {
-          "id": true,
-          "label": "Oui"
-        }
-      ],
+      "is_active": true,
       "is_displayed_in_autocomplete": true,
       "name": [
         "Chemisiers et T-shirts"
@@ -650,12 +615,7 @@
       "position": "2",
       "level": "3",
       "children_count": "0",
-      "is_active": [
-        {
-          "id": true,
-          "label": "Oui"
-        }
-      ],
+      "is_active": true,
       "is_displayed_in_autocomplete": true,
       "name": [
         "Sweats"
@@ -678,12 +638,7 @@
       "position": "2",
       "level": "2",
       "children_count": "2",
-      "is_active": [
-        {
-          "id": true,
-          "label": "Oui"
-        }
-      ],
+      "is_active": true,
       "is_displayed_in_autocomplete": true,
       "name": [
         "Bas"
@@ -706,12 +661,7 @@
       "position": "1",
       "level": "3",
       "children_count": "0",
-      "is_active": [
-        {
-          "id": true,
-          "label": "Oui"
-        }
-      ],
+      "is_active": true,
       "is_displayed_in_autocomplete": true,
       "name": [
         "Pantalons & Shorts"
@@ -734,12 +684,7 @@
       "position": "2",
       "level": "3",
       "children_count": "0",
-      "is_active": [
-        {
-          "id": true,
-          "label": "Oui"
-        }
-      ],
+      "is_active": true,
       "is_displayed_in_autocomplete": true,
       "name": [
         "Jupes"
@@ -762,12 +707,7 @@
       "position": "3",
       "level": "2",
       "children_count": "0",
-      "is_active": [
-        {
-          "id": true,
-          "label": "Oui"
-        }
-      ],
+      "is_active": true,
       "is_displayed_in_autocomplete": true,
       "name": [
         "Robes"
@@ -790,12 +730,7 @@
       "position": "5",
       "level": "2",
       "children_count": "6",
-      "is_active": [
-        {
-          "id": true,
-          "label": "Oui"
-        }
-      ],
+      "is_active": true,
       "is_displayed_in_autocomplete": true,
       "name": [
         "Shop The Look"
@@ -818,12 +753,7 @@
       "position": "1",
       "level": "3",
       "children_count": "0",
-      "is_active": [
-        {
-          "id": true,
-          "label": "Oui"
-        }
-      ],
+      "is_active": true,
       "is_displayed_in_autocomplete": true,
       "name": [
         "Minimalist Sensibility"
@@ -846,12 +776,7 @@
       "position": "2",
       "level": "3",
       "children_count": "0",
-      "is_active": [
-        {
-          "id": true,
-          "label": "Oui"
-        }
-      ],
+      "is_active": true,
       "is_displayed_in_autocomplete": true,
       "name": [
         "Outside the Lines"
@@ -874,12 +799,7 @@
       "position": "3",
       "level": "3",
       "children_count": "0",
-      "is_active": [
-        {
-          "id": true,
-          "label": "Oui"
-        }
-      ],
+      "is_active": true,
       "is_displayed_in_autocomplete": true,
       "name": [
         "Carefree Days"
@@ -902,12 +822,7 @@
       "position": "4",
       "level": "3",
       "children_count": "0",
-      "is_active": [
-        {
-          "id": true,
-          "label": "Oui"
-        }
-      ],
+      "is_active": true,
       "is_displayed_in_autocomplete": true,
       "name": [
         "Perfectly Beachy"
@@ -930,12 +845,7 @@
       "position": "5",
       "level": "3",
       "children_count": "0",
-      "is_active": [
-        {
-          "id": true,
-          "label": "Oui"
-        }
-      ],
+      "is_active": true,
       "is_displayed_in_autocomplete": true,
       "name": [
         "Retire your LBD"
@@ -958,12 +868,7 @@
       "position": "6",
       "level": "3",
       "children_count": "0",
-      "is_active": [
-        {
-          "id": true,
-          "label": "Oui"
-        }
-      ],
+      "is_active": true,
       "is_displayed_in_autocomplete": true,
       "name": [
         "Timeless Sophistication"

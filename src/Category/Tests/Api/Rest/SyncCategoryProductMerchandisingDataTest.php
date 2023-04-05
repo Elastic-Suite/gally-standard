@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace Gally\Category\Tests\Api\Rest;
 
-use Gally\VirtualCategory\Tests\Api\GraphQl\SyncCategoryProductMerchandisingDataTest as GraphQlVersion;
+use Gally\Category\Tests\Api\GraphQl\SyncCategoryProductMerchandisingDataTest as GraphQlVersion;
 
 class SyncCategoryProductMerchandisingDataTest extends GraphQlVersion
 {

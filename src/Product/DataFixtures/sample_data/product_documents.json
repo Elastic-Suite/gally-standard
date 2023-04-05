@@ -36327,18 +36327,8 @@
         ],
         "es_is_in_stock": [],
         "es_is_discounted": [],
-        "erin_recommends": [
-          {
-            "value": true,
-            "label": "Erin Recommends"
-          }
-        ],
-        "sale": [
-          {
-            "value": true,
-            "label": "Sale"
-          }
-        ],
+        "erin_recommends": true,
+        "sale": true,
         "id": 2,
         "stock": {
           "qty": 100,
@@ -36800,12 +36790,7 @@
         ],
         "es_is_in_stock": [],
         "es_is_discounted": [],
-        "new": [
-          {
-            "value": true,
-            "label": "New"
-          }
-        ],
+        "new": true,
         "id": 4,
         "stock": {
           "qty": 100,
@@ -37041,12 +37026,7 @@
         ],
         "es_is_in_stock": [],
         "es_is_discounted": [],
-        "new": [
-          {
-            "value": true,
-            "label": "New"
-          }
-        ],
+        "new": true,
         "id": 5,
         "stock": {
           "qty": 100,
@@ -38042,18 +38022,8 @@
         ],
         "es_is_in_stock": [],
         "es_is_discounted": [],
-        "erin_recommends": [
-          {
-            "value": true,
-            "label": "Erin Recommends"
-          }
-        ],
-        "sale": [
-          {
-            "value": true,
-            "label": "Sale"
-          }
-        ],
+        "erin_recommends": true,
+        "sale": true,
         "id": 10,
         "stock": {
           "qty": 100,
@@ -38284,18 +38254,8 @@
         ],
         "es_is_in_stock": [],
         "es_is_discounted": [],
-        "erin_recommends": [
-          {
-            "value": true,
-            "label": "Erin Recommends"
-          }
-        ],
-        "sale": [
-          {
-            "value": true,
-            "label": "Sale"
-          }
-        ],
+        "erin_recommends": true,
+        "sale": true,
         "id": 11,
         "stock": {
           "qty": 100,
@@ -38717,12 +38677,7 @@
         ],
         "es_is_in_stock": [],
         "es_is_discounted": [],
-        "new": [
-          {
-            "value": true,
-            "label": "New"
-          }
-        ],
+        "new": true,
         "id": 13,
         "stock": {
           "qty": 100,
@@ -38952,12 +38907,7 @@
         ],
         "es_is_in_stock": [],
         "es_is_discounted": [],
-        "performance_fabric": [
-          {
-            "value": true,
-            "label": "Performance Fabric"
-          }
-        ],
+        "performance_fabric": true,
         "id": 14,
         "stock": {
           "qty": 100,
@@ -39310,18 +39260,8 @@
         ],
         "es_is_in_stock": [],
         "es_is_discounted": [],
-        "erin_recommends": [
-          {
-            "value": true,
-            "label": "Erin Recommends"
-          }
-        ],
-        "sale": [
-          {
-            "value": true,
-            "label": "Sale"
-          }
-        ],
+        "erin_recommends": true,
+        "sale": true,
         "id": 16,
         "stock": {
           "qty": 100,
@@ -39877,18 +39817,8 @@
         ],
         "es_is_in_stock": [],
         "es_is_discounted": [],
-        "erin_recommends": [
-          {
-            "value": true,
-            "label": "Erin Recommends"
-          }
-        ],
-        "new": [
-          {
-            "value": true,
-            "label": "New"
-          }
-        ],
+        "erin_recommends": true,
+        "new": true,
         "id": 19,
         "stock": {
           "qty": 100,
@@ -41183,12 +41113,7 @@
         ],
         "es_is_in_stock": [],
         "es_is_discounted": [],
-        "new": [
-          {
-            "value": true,
-            "label": "New"
-          }
-        ],
+        "new": true,
         "id": 38,
         "stock": {
           "qty": 100,
@@ -41389,12 +41314,7 @@
         ],
         "es_is_in_stock": [],
         "es_is_discounted": [],
-        "new": [
-          {
-            "value": true,
-            "label": "New"
-          }
-        ],
+        "new": true,
         "id": 39,
         "stock": {
           "qty": 100,
@@ -41603,12 +41523,7 @@
         ],
         "es_is_in_stock": [],
         "es_is_discounted": [],
-        "new": [
-          {
-            "value": true,
-            "label": "New"
-          }
-        ],
+        "new": true,
         "id": 40,
         "stock": {
           "qty": 100,
@@ -41777,12 +41692,7 @@
         ],
         "es_is_in_stock": [],
         "es_is_discounted": [],
-        "sale": [
-          {
-            "value": true,
-            "label": "Sale"
-          }
-        ],
+        "sale": true,
         "id": 41,
         "stock": {
           "qty": 100,
@@ -41955,12 +41865,7 @@
         ],
         "es_is_in_stock": [],
         "es_is_discounted": [],
-        "sale": [
-          {
-            "value": true,
-            "label": "Sale"
-          }
-        ],
+        "sale": true,
         "id": 42,
         "stock": {
           "qty": 100,
@@ -42356,12 +42261,7 @@
         ],
         "es_is_in_stock": [],
         "es_is_discounted": [],
-        "new": [
-          {
-            "value": true,
-            "label": "New"
-          }
-        ],
+        "new": true,
         "id": 44,
         "stock": {
           "qty": 100,
@@ -43098,21 +42998,11 @@
             "label": "Taxable Goods"
           }
         ],
-        "eco_collection": [
-          {
-            "value": true,
-            "label": "Eco Collection"
-          }
-        ],
+        "eco_collection": true,
         "performance_fabric": [],
         "erin_recommends": [],
         "new": [],
-        "sale": [
-          {
-            "value": true,
-            "label": "Sale"
-          }
-        ],
+            "sale": true,
         "children_ids": [
           47,
           48,
@@ -43420,12 +43310,7 @@
         "eco_collection": [],
         "performance_fabric": [],
         "erin_recommends": [],
-        "new": [
-          {
-            "value": true,
-            "label": "New"
-          }
-        ],
+        "new": true,
         "sale": [],
         "children_ids": [
           63,
@@ -43749,25 +43634,10 @@
             "label": "Taxable Goods"
           }
         ],
-        "eco_collection": [
-          {
-            "value": true,
-            "label": "Eco Collection"
-          }
-        ],
+        "eco_collection": true,
         "performance_fabric": [],
-        "erin_recommends": [
-          {
-            "value": true,
-            "label": "Erin Recommends"
-          }
-        ],
-        "new": [
-          {
-            "value": true,
-            "label": "New"
-          }
-        ],
+        "erin_recommends": true,
+        "new": true,
         "sale": [],
         "children_ids": [
           79,
@@ -44091,26 +43961,11 @@
             "label": "Taxable Goods"
           }
         ],
-        "eco_collection": [
-          {
-            "value": true,
-            "label": "Eco Collection"
-          }
-        ],
-        "performance_fabric": [
-          {
-            "value": true,
-            "label": "Performance Fabric"
-          }
-        ],
+        "eco_collection": true,
+        "performance_fabric": true,
         "erin_recommends": [],
         "new": [],
-        "sale": [
-          {
-            "value": true,
-            "label": "Sale"
-          }
-        ],
+        "sale": true,
         "children_ids": [
           95,
           96,
@@ -45000,12 +44855,7 @@
         "eco_collection": [],
         "performance_fabric": [],
         "erin_recommends": [],
-        "new": [
-          {
-            "value": true,
-            "label": "New"
-          }
-        ],
+        "new": true,
         "sale": [],
         "children_ids": [
           143,
@@ -45601,12 +45451,7 @@
         ],
         "eco_collection": [],
         "performance_fabric": [],
-        "erin_recommends": [
-          {
-            "value": true,
-            "label": "Erin Recommends"
-          }
-        ],
+        "erin_recommends": true,
         "new": [],
         "sale": [],
         "children_ids": [
@@ -45906,20 +45751,10 @@
           }
         ],
         "eco_collection": [],
-        "performance_fabric": [
-          {
-            "value": true,
-            "label": "Performance Fabric"
-          }
-        ],
+        "performance_fabric": true,
         "erin_recommends": [],
         "new": [],
-        "sale": [
-          {
-            "value": true,
-            "label": "Sale"
-          }
-        ],
+        "sale": true,
         "children_ids": [
           191,
           192,
@@ -46831,18 +46666,8 @@
           }
         ],
         "eco_collection": [],
-        "performance_fabric": [
-          {
-            "value": true,
-            "label": "Performance Fabric"
-          }
-        ],
-        "erin_recommends": [
-          {
-            "value": true,
-            "label": "Erin Recommends"
-          }
-        ],
+        "performance_fabric": true,
+        "erin_recommends": true,
         "new": [],
         "sale": [],
         "children_ids": [
@@ -47180,20 +47005,10 @@
           }
         ],
         "eco_collection": [],
-        "performance_fabric": [
-          {
-            "value": true,
-            "label": "Performance Fabric"
-          }
-        ],
+        "performance_fabric": true,
         "erin_recommends": [],
         "new": [],
-        "sale": [
-          {
-            "value": true,
-            "label": "Sale"
-          }
-        ],
+        "sale": true,
         "children_ids": [
           255,
           256,
@@ -47518,19 +47333,9 @@
           }
         ],
         "eco_collection": [],
-        "performance_fabric": [
-          {
-            "value": true,
-            "label": "Performance Fabric"
-          }
-        ],
+        "performance_fabric": true,
         "erin_recommends": [],
-        "new": [
-          {
-            "value": true,
-            "label": "New"
-          }
-        ],
+        "new": true,
         "sale": [],
         "children_ids": [
           271,
@@ -47877,12 +47682,7 @@
             "label": "Taxable Goods"
           }
         ],
-        "eco_collection": [
-          {
-            "value": true,
-            "label": "Eco Collection"
-          }
-        ],
+        "eco_collection": true,
         "performance_fabric": [],
         "erin_recommends": [],
         "new": [],
@@ -48524,12 +48324,7 @@
         ],
         "eco_collection": [],
         "performance_fabric": [],
-        "erin_recommends": [
-          {
-            "value": true,
-            "label": "Erin Recommends"
-          }
-        ],
+        "erin_recommends": true,
         "new": [],
         "sale": [],
         "children_ids": [
@@ -49523,20 +49318,10 @@
           }
         ],
         "eco_collection": [],
-        "performance_fabric": [
-          {
-            "value": true,
-            "label": "Performance Fabric"
-          }
-        ],
+        "performance_fabric": true,
         "erin_recommends": [],
         "new": [],
-        "sale": [
-          {
-            "value": true,
-            "label": "Sale"
-          }
-        ],
+        "sale": true,
         "children_ids": [
           367,
           368,
@@ -49886,19 +49671,9 @@
             "label": "Taxable Goods"
           }
         ],
-        "eco_collection": [
-          {
-            "value": true,
-            "label": "Eco Collection"
-          }
-        ],
+        "eco_collection": true,
         "performance_fabric": [],
-        "erin_recommends": [
-          {
-            "value": true,
-            "label": "Erin Recommends"
-          }
-        ],
+        "erin_recommends": true,
         "new": [],
         "sale": [],
         "children_ids": [
@@ -50223,12 +49998,7 @@
         "eco_collection": [],
         "performance_fabric": [],
         "erin_recommends": [],
-        "new": [
-          {
-            "value": true,
-            "label": "New"
-          }
-        ],
+        "new": true,
         "sale": [],
         "children_ids": [
           399,
@@ -50858,19 +50628,9 @@
           }
         ],
         "eco_collection": [],
-        "performance_fabric": [
-          {
-            "value": true,
-            "label": "Performance Fabric"
-          }
-        ],
+        "performance_fabric": true,
         "erin_recommends": [],
-        "new": [
-          {
-            "value": true,
-            "label": "New"
-          }
-        ],
+        "new": true,
         "sale": [],
         "children_ids": [
           431,
@@ -51201,18 +50961,8 @@
             "label": "Taxable Goods"
           }
         ],
-        "eco_collection": [
-          {
-            "value": true,
-            "label": "Eco Collection"
-          }
-        ],
-        "performance_fabric": [
-          {
-            "value": true,
-            "label": "Performance Fabric"
-          }
-        ],
+        "eco_collection": true,
+        "performance_fabric": true,
         "erin_recommends": [],
         "new": [],
         "sale": [],
@@ -51517,12 +51267,7 @@
         ],
         "eco_collection": [],
         "performance_fabric": [],
-        "erin_recommends": [
-          {
-            "value": true,
-            "label": "Erin Recommends"
-          }
-        ],
+        "erin_recommends": true,
         "new": [],
         "sale": [],
         "children_ids": [
@@ -51829,20 +51574,10 @@
           }
         ],
         "eco_collection": [],
-        "performance_fabric": [
-          {
-            "value": true,
-            "label": "Performance Fabric"
-          }
-        ],
+        "performance_fabric": true,
         "erin_recommends": [],
         "new": [],
-        "sale": [
-          {
-            "value": true,
-            "label": "Sale"
-          }
-        ],
+        "sale": true,
         "children_ids": [
           479,
           480,
@@ -52149,12 +51884,7 @@
         "eco_collection": [],
         "performance_fabric": [],
         "erin_recommends": [],
-        "new": [
-          {
-            "value": true,
-            "label": "New"
-          }
-        ],
+        "new": true,
         "sale": [],
         "children_ids": [
           495,
@@ -52456,18 +52186,8 @@
           }
         ],
         "eco_collection": [],
-        "performance_fabric": [
-          {
-            "value": true,
-            "label": "Performance Fabric"
-          }
-        ],
-        "erin_recommends": [
-          {
-            "value": true,
-            "label": "Erin Recommends"
-          }
-        ],
+        "performance_fabric": true,
+        "erin_recommends": true,
         "new": [],
         "sale": [],
         "children_ids": [
@@ -52772,12 +52492,7 @@
         "eco_collection": [],
         "performance_fabric": [],
         "erin_recommends": [],
-        "new": [
-          {
-            "value": true,
-            "label": "New"
-          }
-        ],
+        "new": true,
         "sale": [],
         "children_ids": [
           527,
@@ -53389,12 +53104,7 @@
         "performance_fabric": [],
         "erin_recommends": [],
         "new": [],
-        "sale": [
-          {
-            "value": true,
-            "label": "Sale"
-          }
-        ],
+        "sale": true,
         "children_ids": [
           559,
           560,
@@ -54316,18 +54026,8 @@
         ],
         "eco_collection": [],
         "performance_fabric": [],
-        "erin_recommends": [
-          {
-            "value": true,
-            "label": "Erin Recommends"
-          }
-        ],
-        "new": [
-          {
-            "value": true,
-            "label": "New"
-          }
-        ],
+        "erin_recommends": true,
+        "new": true,
         "sale": [],
         "children_ids": [
           607,
@@ -55556,24 +55256,9 @@
           }
         ],
         "eco_collection": [],
-        "performance_fabric": [
-          {
-            "value": true,
-            "label": "Performance Fabric"
-          }
-        ],
-        "erin_recommends": [
-          {
-            "value": true,
-            "label": "Erin Recommends"
-          }
-        ],
-        "new": [
-          {
-            "value": true,
-            "label": "New"
-          }
-        ],
+        "performance_fabric": true,
+        "erin_recommends": true,
+        "new": true,
         "sale": [],
         "children_ids": [
           671,
@@ -55839,12 +55524,7 @@
           }
         ],
         "eco_collection": [],
-        "performance_fabric": [
-          {
-            "value": true,
-            "label": "Performance Fabric"
-          }
-        ],
+        "performance_fabric": true,
         "erin_recommends": [],
         "new": [],
         "sale": [],
@@ -56108,12 +55788,7 @@
           }
         ],
         "eco_collection": [],
-        "performance_fabric": [
-          {
-            "value": true,
-            "label": "Performance Fabric"
-          }
-        ],
+        "performance_fabric": true,
         "erin_recommends": [],
         "new": [],
         "sale": [],
@@ -56402,12 +56077,7 @@
             "label": "Taxable Goods"
           }
         ],
-        "eco_collection": [
-          {
-            "value": true,
-            "label": "Eco Collection"
-          }
-        ],
+        "eco_collection": true,
         "performance_fabric": [],
         "erin_recommends": [],
         "new": [],
@@ -56669,18 +56339,8 @@
         ],
         "eco_collection": [],
         "performance_fabric": [],
-        "erin_recommends": [
-          {
-            "value": true,
-            "label": "Erin Recommends"
-          }
-        ],
-        "new": [
-          {
-            "value": true,
-            "label": "New"
-          }
-        ],
+        "erin_recommends": true,
+        "new": true,
         "sale": [],
         "children_ids": [
           695,
@@ -56940,12 +56600,7 @@
         "eco_collection": [],
         "performance_fabric": [],
         "erin_recommends": [],
-        "new": [
-          {
-            "value": true,
-            "label": "New"
-          }
-        ],
+        "new": true,
         "sale": [],
         "children_ids": [
           701,
@@ -57214,12 +56869,7 @@
         "performance_fabric": [],
         "erin_recommends": [],
         "new": [],
-        "sale": [
-          {
-            "value": true,
-            "label": "Sale"
-          }
-        ],
+        "sale": true,
         "children_ids": [
           707,
           708,
@@ -57505,21 +57155,11 @@
             "label": "Taxable Goods"
           }
         ],
-        "eco_collection": [
-          {
-            "value": true,
-            "label": "Eco Collection"
-          }
-        ],
+        "eco_collection": true,
         "performance_fabric": [],
         "erin_recommends": [],
         "new": [],
-        "sale": [
-          {
-            "value": true,
-            "label": "Sale"
-          }
-        ],
+        "sale": true,
         "children_ids": [
           713,
           714,
@@ -57783,12 +57423,7 @@
         "performance_fabric": [],
         "erin_recommends": [],
         "new": [],
-        "sale": [
-          {
-            "value": true,
-            "label": "Sale"
-          }
-        ],
+        "sale": true,
         "children_ids": [
           719,
           720,
@@ -58438,12 +58073,7 @@
           }
         ],
         "eco_collection": [],
-        "performance_fabric": [
-          {
-            "value": true,
-            "label": "Performance Fabric"
-          }
-        ],
+        "performance_fabric": true,
         "erin_recommends": [],
         "new": [],
         "sale": [],
@@ -58819,12 +58449,7 @@
         "eco_collection": [],
         "performance_fabric": [],
         "erin_recommends": [],
-        "new": [
-          {
-            "value": true,
-            "label": "New"
-          }
-        ],
+        "new": true,
         "sale": [],
         "children_ids": [
           751,
@@ -59516,12 +59141,7 @@
         "eco_collection": [],
         "performance_fabric": [],
         "erin_recommends": [],
-        "new": [
-          {
-            "value": true,
-            "label": "New"
-          }
-        ],
+        "new": true,
         "sale": [],
         "children_ids": [
           777,
@@ -59889,12 +59509,7 @@
             "label": "Taxable Goods"
           }
         ],
-        "eco_collection": [
-          {
-            "value": true,
-            "label": "Eco Collection"
-          }
-        ],
+        "eco_collection": true,
         "performance_fabric": [],
         "erin_recommends": [],
         "new": [],
@@ -60264,12 +59879,7 @@
         "eco_collection": [],
         "performance_fabric": [],
         "erin_recommends": [],
-        "new": [
-          {
-            "value": true,
-            "label": "New"
-          }
-        ],
+        "new": true,
         "sale": [],
         "children_ids": [
           803,
@@ -60644,12 +60254,7 @@
         "eco_collection": [],
         "performance_fabric": [],
         "erin_recommends": [],
-        "new": [
-          {
-            "value": true,
-            "label": "New"
-          }
-        ],
+        "new": true,
         "sale": [],
         "children_ids": [
           816,
@@ -61036,24 +60641,9 @@
           }
         ],
         "eco_collection": [],
-        "performance_fabric": [
-          {
-            "value": true,
-            "label": "Performance Fabric"
-          }
-        ],
-        "erin_recommends": [
-          {
-            "value": true,
-            "label": "Erin Recommends"
-          }
-        ],
-        "new": [
-          {
-            "value": true,
-            "label": "New"
-          }
-        ],
+        "performance_fabric": true,
+        "erin_recommends": true,
+        "new": true,
         "sale": [],
         "children_ids": [
           829,
@@ -61415,12 +61005,7 @@
         ],
         "eco_collection": [],
         "performance_fabric": [],
-        "erin_recommends": [
-          {
-            "value": true,
-            "label": "Erin Recommends"
-          }
-        ],
+        "erin_recommends": true,
         "new": [],
         "sale": [],
         "children_ids": [
@@ -61797,18 +61382,8 @@
           }
         ],
         "eco_collection": [],
-        "performance_fabric": [
-          {
-            "value": true,
-            "label": "Performance Fabric"
-          }
-        ],
-        "erin_recommends": [
-          {
-            "value": true,
-            "label": "Erin Recommends"
-          }
-        ],
+        "performance_fabric": true,
+        "erin_recommends": true,
         "new": [],
         "sale": [],
         "children_ids": [
@@ -62478,12 +62053,7 @@
         ],
         "eco_collection": [],
         "performance_fabric": [],
-        "erin_recommends": [
-          {
-            "value": true,
-            "label": "Erin Recommends"
-          }
-        ],
+        "erin_recommends": true,
         "new": [],
         "sale": [],
         "children_ids": [
@@ -63064,12 +62634,7 @@
           }
         ],
         "eco_collection": [],
-        "performance_fabric": [
-          {
-            "value": true,
-            "label": "Performance Fabric"
-          }
-        ],
+        "performance_fabric": true,
         "erin_recommends": [],
         "new": [],
         "sale": [],
@@ -63713,12 +63278,7 @@
           }
         ],
         "eco_collection": [],
-        "performance_fabric": [
-          {
-            "value": true,
-            "label": "Performance Fabric"
-          }
-        ],
+        "performance_fabric": true,
         "erin_recommends": [],
         "new": [],
         "sale": [],
@@ -64053,12 +63613,7 @@
         "eco_collection": [],
         "performance_fabric": [],
         "erin_recommends": [],
-        "new": [
-          {
-            "value": true,
-            "label": "New"
-          }
-        ],
+        "new": true,
         "sale": [],
         "children_ids": [
           938,
@@ -64422,25 +63977,10 @@
           }
         ],
         "eco_collection": [],
-        "performance_fabric": [
-          {
-            "value": true,
-            "label": "Performance Fabric"
-          }
-        ],
-        "erin_recommends": [
-          {
-            "value": true,
-            "label": "Erin Recommends"
-          }
-        ],
+        "performance_fabric": true,
+        "erin_recommends": true,
         "new": [],
-        "sale": [
-          {
-            "value": true,
-            "label": "Sale"
-          }
-        ],
+        "sale": true,
         "children_ids": [
           951,
           952,
@@ -64761,12 +64301,7 @@
         "performance_fabric": [],
         "erin_recommends": [],
         "new": [],
-        "sale": [
-          {
-            "value": true,
-            "label": "Sale"
-          }
-        ],
+        "sale": true,
         "children_ids": [
           964,
           965,
@@ -65092,12 +64627,7 @@
           }
         ],
         "eco_collection": [],
-        "performance_fabric": [
-          {
-            "value": true,
-            "label": "Performance Fabric"
-          }
-        ],
+        "performance_fabric": true,
         "erin_recommends": [],
         "new": [],
         "sale": [],
@@ -65420,12 +64950,7 @@
         "eco_collection": [],
         "performance_fabric": [],
         "erin_recommends": [],
-        "new": [
-          {
-            "value": true,
-            "label": "New"
-          }
-        ],
+        "new": true,
         "sale": [],
         "children_ids": [
           990,
@@ -66066,12 +65591,7 @@
         "performance_fabric": [],
         "erin_recommends": [],
         "new": [],
-        "sale": [
-          {
-            "value": true,
-            "label": "Sale"
-          }
-        ],
+        "sale": true,
         "children_ids": [
           1016,
           1017,
@@ -66408,18 +65928,8 @@
         ],
         "eco_collection": [],
         "performance_fabric": [],
-        "erin_recommends": [
-          {
-            "value": true,
-            "label": "Erin Recommends"
-          }
-        ],
-        "new": [
-          {
-            "value": true,
-            "label": "New"
-          }
-        ],
+        "erin_recommends": true,
+        "new": true,
         "sale": [],
         "children_ids": [
           1029,
@@ -66758,12 +66268,7 @@
         "performance_fabric": [],
         "erin_recommends": [],
         "new": [],
-        "sale": [
-          {
-            "value": true,
-            "label": "Sale"
-          }
-        ],
+        "sale": true,
         "children_ids": [
           1045,
           1046,
@@ -68323,18 +67828,8 @@
         ],
         "eco_collection": [],
         "performance_fabric": [],
-        "erin_recommends": [
-          {
-            "value": true,
-            "label": "Erin Recommends"
-          }
-        ],
-        "new": [
-          {
-            "value": true,
-            "label": "New"
-          }
-        ],
+        "erin_recommends": true,
+        "new": true,
         "sale": [],
         "children_ids": [
           1115,
@@ -68704,20 +68199,10 @@
           }
         ],
         "eco_collection": [],
-        "performance_fabric": [
-          {
-            "value": true,
-            "label": "Performance Fabric"
-          }
-        ],
+        "performance_fabric": true,
         "erin_recommends": [],
         "new": [],
-        "sale": [
-          {
-            "value": true,
-            "label": "Sale"
-          }
-        ],
+        "sale": true,
         "children_ids": [
           1131,
           1132,
@@ -69047,12 +68532,7 @@
             "label": "Taxable Goods"
           }
         ],
-        "eco_collection": [
-          {
-            "value": true,
-            "label": "Eco Collection"
-          }
-        ],
+        "eco_collection": true,
         "performance_fabric": [],
         "erin_recommends": [],
         "new": [],
@@ -69389,12 +68869,7 @@
         "eco_collection": [],
         "performance_fabric": [],
         "erin_recommends": [],
-        "new": [
-          {
-            "value": true,
-            "label": "New"
-          }
-        ],
+        "new": true,
         "sale": [],
         "children_ids": [
           1163,
@@ -69731,12 +69206,7 @@
         ],
         "eco_collection": [],
         "performance_fabric": [],
-        "erin_recommends": [
-          {
-            "value": true,
-            "label": "Erin Recommends"
-          }
-        ],
+        "erin_recommends": true,
         "new": [],
         "sale": [],
         "children_ids": [
@@ -70072,18 +69542,8 @@
             "label": "Taxable Goods"
           }
         ],
-        "eco_collection": [
-          {
-            "value": true,
-            "label": "Eco Collection"
-          }
-        ],
-        "performance_fabric": [
-          {
-            "value": true,
-            "label": "Performance Fabric"
-          }
-        ],
+        "eco_collection": true,
+        "performance_fabric": true,
         "erin_recommends": [],
         "new": [],
         "sale": [],
@@ -70450,25 +69910,10 @@
         ],
         "es_is_in_stock": [],
         "es_is_discounted": [],
-        "eco_collection": [
-          {
-            "value": true,
-            "label": "Eco Collection"
-          }
-        ],
+        "eco_collection": true,
         "performance_fabric": [],
-        "erin_recommends": [
-          {
-            "value": true,
-            "label": "Erin Recommends"
-          }
-        ],
-        "new": [
-          {
-            "value": true,
-            "label": "New"
-          }
-        ],
+        "erin_recommends": true,
+        "new": true,
         "sale": [],
         "children_ids": [
           1211,
@@ -70793,12 +70238,7 @@
         "performance_fabric": [],
         "erin_recommends": [],
         "new": [],
-        "sale": [
-          {
-            "value": true,
-            "label": "Sale"
-          }
-        ],
+        "sale": true,
         "children_ids": [
           1221,
           1222,
@@ -71494,19 +70934,9 @@
         "es_is_in_stock": [],
         "es_is_discounted": [],
         "eco_collection": [],
-        "performance_fabric": [
-          {
-            "value": true,
-            "label": "Performance Fabric"
-          }
-        ],
+        "performance_fabric": true,
         "erin_recommends": [],
-        "new": [
-          {
-            "value": true,
-            "label": "New"
-          }
-        ],
+        "new": true,
         "sale": [],
         "children_ids": [
           1253,
@@ -72567,26 +71997,11 @@
         ],
         "es_is_in_stock": [],
         "es_is_discounted": [],
-        "eco_collection": [
-          {
-            "value": true,
-            "label": "Eco Collection"
-          }
-        ],
+        "eco_collection": true,
         "performance_fabric": [],
-        "erin_recommends": [
-          {
-            "value": true,
-            "label": "Erin Recommends"
-          }
-        ],
+        "erin_recommends": true,
         "new": [],
-        "sale": [
-          {
-            "value": true,
-            "label": "Sale"
-          }
-        ],
+        "sale": true,
         "children_ids": [
           1301,
           1302,
@@ -72932,19 +72347,9 @@
         ],
         "es_is_in_stock": [],
         "es_is_discounted": [],
-        "eco_collection": [
-          {
-            "value": true,
-            "label": "Eco Collection"
-          }
-        ],
+        "eco_collection": true,
         "performance_fabric": [],
-        "erin_recommends": [
-          {
-            "value": true,
-            "label": "Erin Recommends"
-          }
-        ],
+        "erin_recommends": true,
         "new": [],
         "sale": [],
         "children_ids": [
@@ -73323,19 +72728,9 @@
         "es_is_in_stock": [],
         "es_is_discounted": [],
         "eco_collection": [],
-        "performance_fabric": [
-          {
-            "value": true,
-            "label": "Performance Fabric"
-          }
-        ],
+        "performance_fabric": true,
         "erin_recommends": [],
-        "new": [
-          {
-            "value": true,
-            "label": "New"
-          }
-        ],
+        "new": true,
         "sale": [],
         "children_ids": [
           1333,
@@ -73702,12 +73097,7 @@
         "eco_collection": [],
         "performance_fabric": [],
         "erin_recommends": [],
-        "new": [
-          {
-            "value": true,
-            "label": "New"
-          }
-        ],
+        "new": true,
         "sale": [],
         "children_ids": [
           1349,
@@ -74093,20 +73483,10 @@
         "es_is_in_stock": [],
         "es_is_discounted": [],
         "eco_collection": [],
-        "performance_fabric": [
-          {
-            "value": true,
-            "label": "Performance Fabric"
-          }
-        ],
+        "performance_fabric": true,
         "erin_recommends": [],
         "new": [],
-        "sale": [
-          {
-            "value": true,
-            "label": "Sale"
-          }
-        ],
+        "sale": true,
         "children_ids": [
           1365,
           1366,
@@ -74483,20 +73863,10 @@
         "es_is_in_stock": [],
         "es_is_discounted": [],
         "eco_collection": [],
-        "performance_fabric": [
-          {
-            "value": true,
-            "label": "Performance Fabric"
-          }
-        ],
+        "performance_fabric": true,
         "erin_recommends": [],
         "new": [],
-        "sale": [
-          {
-            "value": true,
-            "label": "Sale"
-          }
-        ],
+        "sale": true,
         "children_ids": [
           1381,
           1382,
@@ -74847,12 +74217,7 @@
         "eco_collection": [],
         "performance_fabric": [],
         "erin_recommends": [],
-        "new": [
-          {
-            "value": true,
-            "label": "New"
-          }
-        ],
+        "new": true,
         "sale": [],
         "children_ids": [
           1397,
@@ -75210,12 +74575,7 @@
           }
         ],
         "eco_collection": [],
-        "performance_fabric": [
-          {
-            "value": true,
-            "label": "Performance Fabric"
-          }
-        ],
+        "performance_fabric": true,
         "erin_recommends": [],
         "new": [],
         "sale": [],
@@ -75576,20 +74936,10 @@
             "label": "Taxable Goods"
           }
         ],
-        "eco_collection": [
-          {
-            "value": true,
-            "label": "Eco Collection"
-          }
-        ],
+        "eco_collection": true,
         "performance_fabric": [],
         "erin_recommends": [],
-        "new": [
-          {
-            "value": true,
-            "label": "New"
-          }
-        ],
+        "new": true,
         "sale": [],
         "children_ids": [
           1429,
@@ -75952,20 +75302,10 @@
             "label": "Taxable Goods"
           }
         ],
-        "eco_collection": [
-          {
-            "value": true,
-            "label": "Eco Collection"
-          }
-        ],
+        "eco_collection": true,
         "performance_fabric": [],
         "erin_recommends": [],
-        "new": [
-          {
-            "value": true,
-            "label": "New"
-          }
-        ],
+        "new": true,
         "sale": [],
         "children_ids": [
           1445,
@@ -76331,24 +75671,9 @@
           }
         ],
         "eco_collection": [],
-        "performance_fabric": [
-          {
-            "value": true,
-            "label": "Performance Fabric"
-          }
-        ],
-        "erin_recommends": [
-          {
-            "value": true,
-            "label": "Erin Recommends"
-          }
-        ],
-        "new": [
-          {
-            "value": true,
-            "label": "New"
-          }
-        ],
+        "performance_fabric": true,
+        "erin_recommends": true,
+        "new": true,
         "sale": [],
         "children_ids": [
           1461,
@@ -76689,12 +76014,7 @@
         "performance_fabric": [],
         "erin_recommends": [],
         "new": [],
-        "sale": [
-          {
-            "value": true,
-            "label": "Sale"
-          }
-        ],
+        "sale": true,
         "children_ids": [
           1477,
           1478,
@@ -77052,21 +76372,11 @@
             "label": "Taxable Goods"
           }
         ],
-        "eco_collection": [
-          {
-            "value": true,
-            "label": "Eco Collection"
-          }
-        ],
+        "eco_collection": true,
         "performance_fabric": [],
         "erin_recommends": [],
         "new": [],
-        "sale": [
-          {
-            "value": true,
-            "label": "Sale"
-          }
-        ],
+        "sale": true,
         "children_ids": [
           1493,
           1494,
@@ -77415,12 +76725,7 @@
           }
         ],
         "eco_collection": [],
-        "performance_fabric": [
-          {
-            "value": true,
-            "label": "Performance Fabric"
-          }
-        ],
+        "performance_fabric": true,
         "erin_recommends": [],
         "new": [],
         "sale": [],
@@ -77787,19 +77092,9 @@
         ],
         "eco_collection": [],
         "performance_fabric": [],
-        "erin_recommends": [
-          {
-            "value": true,
-            "label": "Erin Recommends"
-          }
-        ],
+        "erin_recommends": true,
         "new": [],
-        "sale": [
-          {
-            "value": true,
-            "label": "Sale"
-          }
-        ],
+        "sale": true,
         "children_ids": [
           1525,
           1526,
@@ -78151,18 +77446,8 @@
             "label": "Taxable Goods"
           }
         ],
-        "eco_collection": [
-          {
-            "value": true,
-            "label": "Eco Collection"
-          }
-        ],
-        "performance_fabric": [
-          {
-            "value": true,
-            "label": "Performance Fabric"
-          }
-        ],
+        "eco_collection": true,
+        "performance_fabric": true,
         "erin_recommends": [],
         "new": [],
         "sale": [],
@@ -79172,21 +78457,11 @@
             "label": "Taxable Goods"
           }
         ],
-        "eco_collection": [
-          {
-            "value": true,
-            "label": "Eco Collection"
-          }
-        ],
+        "eco_collection": true,
         "performance_fabric": [],
         "erin_recommends": [],
         "new": [],
-        "sale": [
-          {
-            "value": true,
-            "label": "Sale"
-          }
-        ],
+        "sale": true,
         "children_ids": [
           1589,
           1590,
@@ -79823,19 +79098,9 @@
           }
         ],
         "eco_collection": [],
-        "performance_fabric": [
-          {
-            "value": true,
-            "label": "Performance Fabric"
-          }
-        ],
+        "performance_fabric": true,
         "erin_recommends": [],
-        "new": [
-          {
-            "value": true,
-            "label": "New"
-          }
-        ],
+        "new": true,
         "sale": [],
         "children_ids": [
           1621,
@@ -80765,12 +80030,7 @@
             "label": "Taxable Goods"
           }
         ],
-        "eco_collection": [
-          {
-            "value": true,
-            "label": "Eco Collection"
-          }
-        ],
+        "eco_collection": true,
         "performance_fabric": [],
         "erin_recommends": [],
         "new": [],
@@ -81412,18 +80672,8 @@
         ],
         "eco_collection": [],
         "performance_fabric": [],
-        "erin_recommends": [
-          {
-            "value": true,
-            "label": "Erin Recommends"
-          }
-        ],
-        "new": [
-          {
-            "value": true,
-            "label": "New"
-          }
-        ],
+        "erin_recommends": true,
+        "new": true,
         "sale": [],
         "children_ids": [
           1701,
@@ -81746,18 +80996,8 @@
             "label": "Taxable Goods"
           }
         ],
-        "eco_collection": [
-          {
-            "value": true,
-            "label": "Eco Collection"
-          }
-        ],
-        "performance_fabric": [
-          {
-            "value": true,
-            "label": "Performance Fabric"
-          }
-        ],
+        "eco_collection": true,
+        "performance_fabric": true,
         "erin_recommends": [],
         "new": [],
         "sale": [],
@@ -82088,12 +81328,7 @@
         ],
         "eco_collection": [],
         "performance_fabric": [],
-        "erin_recommends": [
-          {
-            "value": true,
-            "label": "Erin Recommends"
-          }
-        ],
+        "erin_recommends": true,
         "new": [],
         "sale": [],
         "children_ids": [
@@ -82723,12 +81958,7 @@
           }
         ],
         "eco_collection": [],
-        "performance_fabric": [
-          {
-            "value": true,
-            "label": "Performance Fabric"
-          }
-        ],
+        "performance_fabric": true,
         "erin_recommends": [],
         "new": [],
         "sale": [],
@@ -83084,20 +82314,10 @@
           }
         ],
         "eco_collection": [],
-        "performance_fabric": [
-          {
-            "value": true,
-            "label": "Performance Fabric"
-          }
-        ],
+        "performance_fabric": true,
         "erin_recommends": [],
         "new": [],
-        "sale": [
-          {
-            "value": true,
-            "label": "Sale"
-          }
-        ],
+        "sale": true,
         "children_ids": [
           1781,
           1782,
@@ -83446,25 +82666,10 @@
           }
         ],
         "eco_collection": [],
-        "performance_fabric": [
-          {
-            "value": true,
-            "label": "Performance Fabric"
-          }
-        ],
-        "erin_recommends": [
-          {
-            "value": true,
-            "label": "Erin Recommends"
-          }
-        ],
+        "performance_fabric": true,
+        "erin_recommends": true,
         "new": [],
-        "sale": [
-          {
-            "value": true,
-            "label": "Sale"
-          }
-        ],
+        "sale": true,
         "children_ids": [
           1797,
           1798,
@@ -83812,18 +83017,8 @@
             "label": "Taxable Goods"
           }
         ],
-        "eco_collection": [
-          {
-            "value": true,
-            "label": "Eco Collection"
-          }
-        ],
-        "performance_fabric": [
-          {
-            "value": true,
-            "label": "Performance Fabric"
-          }
-        ],
+        "eco_collection": true,
+        "performance_fabric": true,
         "erin_recommends": [],
         "new": [],
         "sale": [],
@@ -84144,12 +83339,7 @@
           }
         ],
         "eco_collection": [],
-        "performance_fabric": [
-          {
-            "value": true,
-            "label": "Performance Fabric"
-          }
-        ],
+        "performance_fabric": true,
         "erin_recommends": [],
         "new": [],
         "sale": [],
@@ -84484,12 +83674,7 @@
         "eco_collection": [],
         "performance_fabric": [],
         "erin_recommends": [],
-        "new": [
-          {
-            "value": true,
-            "label": "New"
-          }
-        ],
+        "new": true,
         "sale": [],
         "children_ids": [
           1827,
@@ -85120,12 +84305,7 @@
         ],
         "eco_collection": [],
         "performance_fabric": [],
-        "erin_recommends": [
-          {
-            "value": true,
-            "label": "Erin Recommends"
-          }
-        ],
+        "erin_recommends": true,
         "new": [],
         "sale": [],
         "children_ids": [
@@ -85462,12 +84642,7 @@
         ],
         "eco_collection": [],
         "performance_fabric": [],
-        "erin_recommends": [
-          {
-            "value": true,
-            "label": "Erin Recommends"
-          }
-        ],
+        "erin_recommends": true,
         "new": [],
         "sale": [],
         "children_ids": [
@@ -85787,12 +84962,7 @@
           }
         ],
         "eco_collection": [],
-        "performance_fabric": [
-          {
-            "value": true,
-            "label": "Performance Fabric"
-          }
-        ],
+        "performance_fabric": true,
         "erin_recommends": [],
         "new": [],
         "sale": [],
@@ -86726,12 +85896,7 @@
             "label": "Taxable Goods"
           }
         ],
-        "eco_collection": [
-          {
-            "value": true,
-            "label": "Eco Collection"
-          }
-        ],
+        "eco_collection": true,
         "performance_fabric": [],
         "erin_recommends": [],
         "new": [],
@@ -87339,18 +86504,8 @@
             "label": "Taxable Goods"
           }
         ],
-        "eco_collection": [
-          {
-            "value": true,
-            "label": "Eco Collection"
-          }
-        ],
-        "performance_fabric": [
-          {
-            "value": true,
-            "label": "Performance Fabric"
-          }
-        ],
+        "eco_collection": true,
+        "performance_fabric": true,
         "erin_recommends": [],
         "new": [],
         "sale": [],
@@ -87662,19 +86817,9 @@
             "label": "Taxable Goods"
           }
         ],
-        "eco_collection": [
-          {
-            "value": true,
-            "label": "Eco Collection"
-          }
-        ],
+        "eco_collection": true,
         "performance_fabric": [],
-        "erin_recommends": [
-          {
-            "value": true,
-            "label": "Erin Recommends"
-          }
-        ],
+        "erin_recommends": true,
         "new": [],
         "sale": [],
         "children_ids": [
@@ -87985,20 +87130,10 @@
             "label": "Taxable Goods"
           }
         ],
-        "eco_collection": [
-          {
-            "value": true,
-            "label": "Eco Collection"
-          }
-        ],
+        "eco_collection": true,
         "performance_fabric": [],
         "erin_recommends": [],
-        "new": [
-          {
-            "value": true,
-            "label": "New"
-          }
-        ],
+        "new": true,
         "sale": [],
         "children_ids": [
           1904,
@@ -88333,12 +87468,7 @@
         "performance_fabric": [],
         "erin_recommends": [],
         "new": [],
-        "sale": [
-          {
-            "value": true,
-            "label": "Sale"
-          }
-        ],
+        "sale": true,
         "children_ids": [
           1920,
           1921,
@@ -88686,25 +87816,10 @@
             "label": "Taxable Goods"
           }
         ],
-        "eco_collection": [
-          {
-            "value": true,
-            "label": "Eco Collection"
-          }
-        ],
-        "performance_fabric": [
-          {
-            "value": true,
-            "label": "Performance Fabric"
-          }
-        ],
+        "eco_collection": true,
+        "performance_fabric": true,
         "erin_recommends": [],
-        "new": [
-          {
-            "value": true,
-            "label": "New"
-          }
-        ],
+        "new": true,
         "sale": [],
         "children_ids": [
           1936,
@@ -89354,12 +88469,7 @@
         "performance_fabric": [],
         "erin_recommends": [],
         "new": [],
-        "sale": [
-          {
-            "value": true,
-            "label": "Sale"
-          }
-        ],
+        "sale": true,
         "children_ids": [
           1968,
           1969,
@@ -89981,12 +89091,7 @@
         "eco_collection": [],
         "performance_fabric": [],
         "erin_recommends": [],
-        "new": [
-          {
-            "value": true,
-            "label": "New"
-          }
-        ],
+        "new": true,
         "sale": [],
         "children_ids": [
           1991,
@@ -90275,12 +89380,7 @@
           }
         ],
         "eco_collection": [],
-        "performance_fabric": [
-          {
-            "value": true,
-            "label": "Performance Fabric"
-          }
-        ],
+        "performance_fabric": true,
         "erin_recommends": [],
         "new": [],
         "sale": [],
@@ -90834,12 +89934,7 @@
             "label": "Taxable Goods"
           }
         ],
-        "eco_collection": [
-          {
-            "value": true,
-            "label": "Eco Collection"
-          }
-        ],
+        "eco_collection": true,
         "performance_fabric": [],
         "erin_recommends": [],
         "new": [],
@@ -91139,18 +90234,8 @@
           }
         ],
         "eco_collection": [],
-        "performance_fabric": [
-          {
-            "value": true,
-            "label": "Performance Fabric"
-          }
-        ],
-        "erin_recommends": [
-          {
-            "value": true,
-            "label": "Erin Recommends"
-          }
-        ],
+        "performance_fabric": true,
+        "erin_recommends": true,
         "new": [],
         "sale": [],
         "children_ids": [
@@ -91449,12 +90534,7 @@
         ],
         "eco_collection": [],
         "performance_fabric": [],
-        "erin_recommends": [
-          {
-            "value": true,
-            "label": "Erin Recommends"
-          }
-        ],
+        "erin_recommends": true,
         "new": [],
         "sale": [],
         "children_ids": [
@@ -92161,18 +91241,8 @@
         ],
         "es_is_in_stock": [],
         "es_is_discounted": [],
-        "erin_recommends": [
-          {
-            "value": true,
-            "label": "Erin Recommends"
-          }
-        ],
-        "sale": [
-          {
-            "value": true,
-            "label": "Sale"
-          }
-        ],
+        "erin_recommends": true,
+        "sale": true,
         "id": 2,
         "stock": {
           "qty": 100,
@@ -92634,12 +91704,7 @@
         ],
         "es_is_in_stock": [],
         "es_is_discounted": [],
-        "new": [
-          {
-            "value": true,
-            "label": "New"
-          }
-        ],
+        "new": true,
         "id": 4,
         "stock": {
           "qty": 100,
@@ -92875,12 +91940,7 @@
         ],
         "es_is_in_stock": [],
         "es_is_discounted": [],
-        "new": [
-          {
-            "value": true,
-            "label": "New"
-          }
-        ],
+        "new": true,
         "id": 5,
         "stock": {
           "qty": 100,
@@ -93876,18 +92936,8 @@
         ],
         "es_is_in_stock": [],
         "es_is_discounted": [],
-        "erin_recommends": [
-          {
-            "value": true,
-            "label": "Erin Recommends"
-          }
-        ],
-        "sale": [
-          {
-            "value": true,
-            "label": "Sale"
-          }
-        ],
+        "erin_recommends": true,
+        "sale": true,
         "id": 10,
         "stock": {
           "qty": 100,
@@ -94118,18 +93168,8 @@
         ],
         "es_is_in_stock": [],
         "es_is_discounted": [],
-        "erin_recommends": [
-          {
-            "value": true,
-            "label": "Erin Recommends"
-          }
-        ],
-        "sale": [
-          {
-            "value": true,
-            "label": "Sale"
-          }
-        ],
+        "erin_recommends": true,
+        "sale": true,
         "id": 11,
         "stock": {
           "qty": 100,
@@ -94551,12 +93591,7 @@
         ],
         "es_is_in_stock": [],
         "es_is_discounted": [],
-        "new": [
-          {
-            "value": true,
-            "label": "New"
-          }
-        ],
+        "new": true,
         "id": 13,
         "stock": {
           "qty": 100,
@@ -94786,12 +93821,7 @@
         ],
         "es_is_in_stock": [],
         "es_is_discounted": [],
-        "performance_fabric": [
-          {
-            "value": true,
-            "label": "Performance Fabric"
-          }
-        ],
+        "performance_fabric": true,
         "id": 14,
         "stock": {
           "qty": 100,
@@ -95144,18 +94174,8 @@
         ],
         "es_is_in_stock": [],
         "es_is_discounted": [],
-        "erin_recommends": [
-          {
-            "value": true,
-            "label": "Erin Recommends"
-          }
-        ],
-        "sale": [
-          {
-            "value": true,
-            "label": "Sale"
-          }
-        ],
+        "erin_recommends": true,
+        "sale": true,
         "id": 16,
         "stock": {
           "qty": 100,
@@ -95711,18 +94731,8 @@
         ],
         "es_is_in_stock": [],
         "es_is_discounted": [],
-        "erin_recommends": [
-          {
-            "value": true,
-            "label": "Erin Recommends"
-          }
-        ],
-        "new": [
-          {
-            "value": true,
-            "label": "New"
-          }
-        ],
+        "erin_recommends": true,
+        "new": true,
         "id": 19,
         "stock": {
           "qty": 100,
@@ -97017,12 +96027,7 @@
         ],
         "es_is_in_stock": [],
         "es_is_discounted": [],
-        "new": [
-          {
-            "value": true,
-            "label": "New"
-          }
-        ],
+        "new": true,
         "id": 38,
         "stock": {
           "qty": 100,
@@ -97223,12 +96228,7 @@
         ],
         "es_is_in_stock": [],
         "es_is_discounted": [],
-        "new": [
-          {
-            "value": true,
-            "label": "New"
-          }
-        ],
+        "new": true,
         "id": 39,
         "stock": {
           "qty": 100,
@@ -97437,12 +96437,7 @@
         ],
         "es_is_in_stock": [],
         "es_is_discounted": [],
-        "new": [
-          {
-            "value": true,
-            "label": "New"
-          }
-        ],
+        "new": true,
         "id": 40,
         "stock": {
           "qty": 100,
@@ -97611,12 +96606,7 @@
         ],
         "es_is_in_stock": [],
         "es_is_discounted": [],
-        "sale": [
-          {
-            "value": true,
-            "label": "Sale"
-          }
-        ],
+        "sale": true,
         "id": 41,
         "stock": {
           "qty": 100,
@@ -97789,12 +96779,7 @@
         ],
         "es_is_in_stock": [],
         "es_is_discounted": [],
-        "sale": [
-          {
-            "value": true,
-            "label": "Sale"
-          }
-        ],
+        "sale": true,
         "id": 42,
         "stock": {
           "qty": 100,
@@ -98190,12 +97175,7 @@
         ],
         "es_is_in_stock": [],
         "es_is_discounted": [],
-        "new": [
-          {
-            "value": true,
-            "label": "New"
-          }
-        ],
+        "new": true,
         "id": 44,
         "stock": {
           "qty": 100,
@@ -98932,21 +97912,11 @@
             "label": "Taxable Goods"
           }
         ],
-        "eco_collection": [
-          {
-            "value": true,
-            "label": "Eco Collection"
-          }
-        ],
+        "eco_collection": true,
         "performance_fabric": [],
         "erin_recommends": [],
         "new": [],
-        "sale": [
-          {
-            "value": true,
-            "label": "Sale"
-          }
-        ],
+        "sale": true,
         "children_ids": [
           47,
           48,
@@ -99254,12 +98224,7 @@
         "eco_collection": [],
         "performance_fabric": [],
         "erin_recommends": [],
-        "new": [
-          {
-            "value": true,
-            "label": "New"
-          }
-        ],
+        "new": true,
         "sale": [],
         "children_ids": [
           63,
@@ -99583,25 +98548,10 @@
             "label": "Taxable Goods"
           }
         ],
-        "eco_collection": [
-          {
-            "value": true,
-            "label": "Eco Collection"
-          }
-        ],
+        "eco_collection": true,
         "performance_fabric": [],
-        "erin_recommends": [
-          {
-            "value": true,
-            "label": "Erin Recommends"
-          }
-        ],
-        "new": [
-          {
-            "value": true,
-            "label": "New"
-          }
-        ],
+        "erin_recommends": true,
+        "new": true,
         "sale": [],
         "children_ids": [
           79,
@@ -99925,26 +98875,11 @@
             "label": "Taxable Goods"
           }
         ],
-        "eco_collection": [
-          {
-            "value": true,
-            "label": "Eco Collection"
-          }
-        ],
-        "performance_fabric": [
-          {
-            "value": true,
-            "label": "Performance Fabric"
-          }
-        ],
+        "eco_collection": true,
+        "performance_fabric": true,
         "erin_recommends": [],
         "new": [],
-        "sale": [
-          {
-            "value": true,
-            "label": "Sale"
-          }
-        ],
+        "sale": true,
         "children_ids": [
           95,
           96,
@@ -100834,12 +99769,7 @@
         "eco_collection": [],
         "performance_fabric": [],
         "erin_recommends": [],
-        "new": [
-          {
-            "value": true,
-            "label": "New"
-          }
-        ],
+        "new": true,
         "sale": [],
         "children_ids": [
           143,
@@ -101435,12 +100365,7 @@
         ],
         "eco_collection": [],
         "performance_fabric": [],
-        "erin_recommends": [
-          {
-            "value": true,
-            "label": "Erin Recommends"
-          }
-        ],
+        "erin_recommends": true,
         "new": [],
         "sale": [],
         "children_ids": [
@@ -101740,20 +100665,10 @@
           }
         ],
         "eco_collection": [],
-        "performance_fabric": [
-          {
-            "value": true,
-            "label": "Performance Fabric"
-          }
-        ],
+        "performance_fabric": true,
         "erin_recommends": [],
         "new": [],
-        "sale": [
-          {
-            "value": true,
-            "label": "Sale"
-          }
-        ],
+        "sale": true,
         "children_ids": [
           191,
           192,
@@ -102665,18 +101580,8 @@
           }
         ],
         "eco_collection": [],
-        "performance_fabric": [
-          {
-            "value": true,
-            "label": "Performance Fabric"
-          }
-        ],
-        "erin_recommends": [
-          {
-            "value": true,
-            "label": "Erin Recommends"
-          }
-        ],
+        "performance_fabric": true,
+        "erin_recommends": true,
         "new": [],
         "sale": [],
         "children_ids": [
@@ -103014,20 +101919,10 @@
           }
         ],
         "eco_collection": [],
-        "performance_fabric": [
-          {
-            "value": true,
-            "label": "Performance Fabric"
-          }
-        ],
+        "performance_fabric": true,
         "erin_recommends": [],
         "new": [],
-        "sale": [
-          {
-            "value": true,
-            "label": "Sale"
-          }
-        ],
+        "sale": true,
         "children_ids": [
           255,
           256,
@@ -103352,19 +102247,9 @@
           }
         ],
         "eco_collection": [],
-        "performance_fabric": [
-          {
-            "value": true,
-            "label": "Performance Fabric"
-          }
-        ],
+        "performance_fabric": true,
         "erin_recommends": [],
-        "new": [
-          {
-            "value": true,
-            "label": "New"
-          }
-        ],
+        "new": true,
         "sale": [],
         "children_ids": [
           271,
@@ -103711,12 +102596,7 @@
             "label": "Taxable Goods"
           }
         ],
-        "eco_collection": [
-          {
-            "value": true,
-            "label": "Eco Collection"
-          }
-        ],
+        "eco_collection": true,
         "performance_fabric": [],
         "erin_recommends": [],
         "new": [],
@@ -104358,12 +103238,7 @@
         ],
         "eco_collection": [],
         "performance_fabric": [],
-        "erin_recommends": [
-          {
-            "value": true,
-            "label": "Erin Recommends"
-          }
-        ],
+        "erin_recommends": true,
         "new": [],
         "sale": [],
         "children_ids": [
@@ -105357,20 +104232,10 @@
           }
         ],
         "eco_collection": [],
-        "performance_fabric": [
-          {
-            "value": true,
-            "label": "Performance Fabric"
-          }
-        ],
+        "performance_fabric": true,
         "erin_recommends": [],
         "new": [],
-        "sale": [
-          {
-            "value": true,
-            "label": "Sale"
-          }
-        ],
+        "sale": true,
         "children_ids": [
           367,
           368,
@@ -105720,19 +104585,9 @@
             "label": "Taxable Goods"
           }
         ],
-        "eco_collection": [
-          {
-            "value": true,
-            "label": "Eco Collection"
-          }
-        ],
+        "eco_collection": true,
         "performance_fabric": [],
-        "erin_recommends": [
-          {
-            "value": true,
-            "label": "Erin Recommends"
-          }
-        ],
+        "erin_recommends": true,
         "new": [],
         "sale": [],
         "children_ids": [
@@ -106057,12 +104912,7 @@
         "eco_collection": [],
         "performance_fabric": [],
         "erin_recommends": [],
-        "new": [
-          {
-            "value": true,
-            "label": "New"
-          }
-        ],
+        "new": true,
         "sale": [],
         "children_ids": [
           399,
@@ -106692,19 +105542,9 @@
           }
         ],
         "eco_collection": [],
-        "performance_fabric": [
-          {
-            "value": true,
-            "label": "Performance Fabric"
-          }
-        ],
+        "performance_fabric": true,
         "erin_recommends": [],
-        "new": [
-          {
-            "value": true,
-            "label": "New"
-          }
-        ],
+        "new": true,
         "sale": [],
         "children_ids": [
           431,
@@ -107035,18 +105875,8 @@
             "label": "Taxable Goods"
           }
         ],
-        "eco_collection": [
-          {
-            "value": true,
-            "label": "Eco Collection"
-          }
-        ],
-        "performance_fabric": [
-          {
-            "value": true,
-            "label": "Performance Fabric"
-          }
-        ],
+        "eco_collection": true,
+        "performance_fabric": true,
         "erin_recommends": [],
         "new": [],
         "sale": [],
@@ -107351,12 +106181,7 @@
         ],
         "eco_collection": [],
         "performance_fabric": [],
-        "erin_recommends": [
-          {
-            "value": true,
-            "label": "Erin Recommends"
-          }
-        ],
+        "erin_recommends": true,
         "new": [],
         "sale": [],
         "children_ids": [
@@ -107663,20 +106488,10 @@
           }
         ],
         "eco_collection": [],
-        "performance_fabric": [
-          {
-            "value": true,
-            "label": "Performance Fabric"
-          }
-        ],
+        "performance_fabric": true,
         "erin_recommends": [],
         "new": [],
-        "sale": [
-          {
-            "value": true,
-            "label": "Sale"
-          }
-        ],
+        "sale": true,
         "children_ids": [
           479,
           480,
@@ -107983,12 +106798,7 @@
         "eco_collection": [],
         "performance_fabric": [],
         "erin_recommends": [],
-        "new": [
-          {
-            "value": true,
-            "label": "New"
-          }
-        ],
+        "new": true,
         "sale": [],
         "children_ids": [
           495,
@@ -108290,18 +107100,8 @@
           }
         ],
         "eco_collection": [],
-        "performance_fabric": [
-          {
-            "value": true,
-            "label": "Performance Fabric"
-          }
-        ],
-        "erin_recommends": [
-          {
-            "value": true,
-            "label": "Erin Recommends"
-          }
-        ],
+        "performance_fabric": true,
+        "erin_recommends": true,
         "new": [],
         "sale": [],
         "children_ids": [
@@ -108606,12 +107406,7 @@
         "eco_collection": [],
         "performance_fabric": [],
         "erin_recommends": [],
-        "new": [
-          {
-            "value": true,
-            "label": "New"
-          }
-        ],
+        "new": true,
         "sale": [],
         "children_ids": [
           527,
@@ -109223,12 +108018,7 @@
         "performance_fabric": [],
         "erin_recommends": [],
         "new": [],
-        "sale": [
-          {
-            "value": true,
-            "label": "Sale"
-          }
-        ],
+        "sale": true,
         "children_ids": [
           559,
           560,
@@ -110150,18 +108940,8 @@
         ],
         "eco_collection": [],
         "performance_fabric": [],
-        "erin_recommends": [
-          {
-            "value": true,
-            "label": "Erin Recommends"
-          }
-        ],
-        "new": [
-          {
-            "value": true,
-            "label": "New"
-          }
-        ],
+        "erin_recommends": true,
+        "new": true,
         "sale": [],
         "children_ids": [
           607,
@@ -111390,24 +110170,9 @@
           }
         ],
         "eco_collection": [],
-        "performance_fabric": [
-          {
-            "value": true,
-            "label": "Performance Fabric"
-          }
-        ],
-        "erin_recommends": [
-          {
-            "value": true,
-            "label": "Erin Recommends"
-          }
-        ],
-        "new": [
-          {
-            "value": true,
-            "label": "New"
-          }
-        ],
+        "performance_fabric": true,
+        "erin_recommends": true,
+        "new": true,
         "sale": [],
         "children_ids": [
           671,
@@ -111673,12 +110438,7 @@
           }
         ],
         "eco_collection": [],
-        "performance_fabric": [
-          {
-            "value": true,
-            "label": "Performance Fabric"
-          }
-        ],
+        "performance_fabric": true,
         "erin_recommends": [],
         "new": [],
         "sale": [],
@@ -111942,12 +110702,7 @@
           }
         ],
         "eco_collection": [],
-        "performance_fabric": [
-          {
-            "value": true,
-            "label": "Performance Fabric"
-          }
-        ],
+        "performance_fabric": true,
         "erin_recommends": [],
         "new": [],
         "sale": [],
@@ -112236,12 +110991,7 @@
             "label": "Taxable Goods"
           }
         ],
-        "eco_collection": [
-          {
-            "value": true,
-            "label": "Eco Collection"
-          }
-        ],
+        "eco_collection": true,
         "performance_fabric": [],
         "erin_recommends": [],
         "new": [],
@@ -112503,18 +111253,8 @@
         ],
         "eco_collection": [],
         "performance_fabric": [],
-        "erin_recommends": [
-          {
-            "value": true,
-            "label": "Erin Recommends"
-          }
-        ],
-        "new": [
-          {
-            "value": true,
-            "label": "New"
-          }
-        ],
+        "erin_recommends": true,
+        "new": true,
         "sale": [],
         "children_ids": [
           695,
@@ -112774,12 +111514,7 @@
         "eco_collection": [],
         "performance_fabric": [],
         "erin_recommends": [],
-        "new": [
-          {
-            "value": true,
-            "label": "New"
-          }
-        ],
+        "new": true,
         "sale": [],
         "children_ids": [
           701,
@@ -113048,12 +111783,7 @@
         "performance_fabric": [],
         "erin_recommends": [],
         "new": [],
-        "sale": [
-          {
-            "value": true,
-            "label": "Sale"
-          }
-        ],
+        "sale": true,
         "children_ids": [
           707,
           708,
@@ -113339,21 +112069,11 @@
             "label": "Taxable Goods"
           }
         ],
-        "eco_collection": [
-          {
-            "value": true,
-            "label": "Eco Collection"
-          }
-        ],
+        "eco_collection": true,
         "performance_fabric": [],
         "erin_recommends": [],
         "new": [],
-        "sale": [
-          {
-            "value": true,
-            "label": "Sale"
-          }
-        ],
+        "sale": true,
         "children_ids": [
           713,
           714,
@@ -113617,12 +112337,7 @@
         "performance_fabric": [],
         "erin_recommends": [],
         "new": [],
-        "sale": [
-          {
-            "value": true,
-            "label": "Sale"
-          }
-        ],
+        "sale": true,
         "children_ids": [
           719,
           720,
@@ -114272,12 +112987,7 @@
           }
         ],
         "eco_collection": [],
-        "performance_fabric": [
-          {
-            "value": true,
-            "label": "Performance Fabric"
-          }
-        ],
+        "performance_fabric": true,
         "erin_recommends": [],
         "new": [],
         "sale": [],
@@ -114653,12 +113363,7 @@
         "eco_collection": [],
         "performance_fabric": [],
         "erin_recommends": [],
-        "new": [
-          {
-            "value": true,
-            "label": "New"
-          }
-        ],
+        "new": true,
         "sale": [],
         "children_ids": [
           751,
@@ -115350,12 +114055,7 @@
         "eco_collection": [],
         "performance_fabric": [],
         "erin_recommends": [],
-        "new": [
-          {
-            "value": true,
-            "label": "New"
-          }
-        ],
+        "new": true,
         "sale": [],
         "children_ids": [
           777,
@@ -115723,12 +114423,7 @@
             "label": "Taxable Goods"
           }
         ],
-        "eco_collection": [
-          {
-            "value": true,
-            "label": "Eco Collection"
-          }
-        ],
+        "eco_collection": true,
         "performance_fabric": [],
         "erin_recommends": [],
         "new": [],
@@ -116098,12 +114793,7 @@
         "eco_collection": [],
         "performance_fabric": [],
         "erin_recommends": [],
-        "new": [
-          {
-            "value": true,
-            "label": "New"
-          }
-        ],
+        "new": true,
         "sale": [],
         "children_ids": [
           803,
@@ -116478,12 +115168,7 @@
         "eco_collection": [],
         "performance_fabric": [],
         "erin_recommends": [],
-        "new": [
-          {
-            "value": true,
-            "label": "New"
-          }
-        ],
+        "new": true,
         "sale": [],
         "children_ids": [
           816,
@@ -116870,24 +115555,9 @@
           }
         ],
         "eco_collection": [],
-        "performance_fabric": [
-          {
-            "value": true,
-            "label": "Performance Fabric"
-          }
-        ],
-        "erin_recommends": [
-          {
-            "value": true,
-            "label": "Erin Recommends"
-          }
-        ],
-        "new": [
-          {
-            "value": true,
-            "label": "New"
-          }
-        ],
+        "performance_fabric": true,
+        "erin_recommends": true,
+        "new": true,
         "sale": [],
         "children_ids": [
           829,
@@ -117249,12 +115919,7 @@
         ],
         "eco_collection": [],
         "performance_fabric": [],
-        "erin_recommends": [
-          {
-            "value": true,
-            "label": "Erin Recommends"
-          }
-        ],
+        "erin_recommends": true,
         "new": [],
         "sale": [],
         "children_ids": [
@@ -117631,18 +116296,8 @@
           }
         ],
         "eco_collection": [],
-        "performance_fabric": [
-          {
-            "value": true,
-            "label": "Performance Fabric"
-          }
-        ],
-        "erin_recommends": [
-          {
-            "value": true,
-            "label": "Erin Recommends"
-          }
-        ],
+        "performance_fabric": true,
+        "erin_recommends": true,
         "new": [],
         "sale": [],
         "children_ids": [
@@ -118312,12 +116967,7 @@
         ],
         "eco_collection": [],
         "performance_fabric": [],
-        "erin_recommends": [
-          {
-            "value": true,
-            "label": "Erin Recommends"
-          }
-        ],
+        "erin_recommends": true,
         "new": [],
         "sale": [],
         "children_ids": [
@@ -118898,12 +117548,7 @@
           }
         ],
         "eco_collection": [],
-        "performance_fabric": [
-          {
-            "value": true,
-            "label": "Performance Fabric"
-          }
-        ],
+        "performance_fabric": true,
         "erin_recommends": [],
         "new": [],
         "sale": [],
@@ -119547,12 +118192,7 @@
           }
         ],
         "eco_collection": [],
-        "performance_fabric": [
-          {
-            "value": true,
-            "label": "Performance Fabric"
-          }
-        ],
+        "performance_fabric": true,
         "erin_recommends": [],
         "new": [],
         "sale": [],
@@ -119887,12 +118527,7 @@
         "eco_collection": [],
         "performance_fabric": [],
         "erin_recommends": [],
-        "new": [
-          {
-            "value": true,
-            "label": "New"
-          }
-        ],
+        "new": true,
         "sale": [],
         "children_ids": [
           938,
@@ -120256,25 +118891,10 @@
           }
         ],
         "eco_collection": [],
-        "performance_fabric": [
-          {
-            "value": true,
-            "label": "Performance Fabric"
-          }
-        ],
-        "erin_recommends": [
-          {
-            "value": true,
-            "label": "Erin Recommends"
-          }
-        ],
+        "performance_fabric": true,
+        "erin_recommends": true,
         "new": [],
-        "sale": [
-          {
-            "value": true,
-            "label": "Sale"
-          }
-        ],
+        "sale": true,
         "children_ids": [
           951,
           952,
@@ -120595,12 +119215,7 @@
         "performance_fabric": [],
         "erin_recommends": [],
         "new": [],
-        "sale": [
-          {
-            "value": true,
-            "label": "Sale"
-          }
-        ],
+        "sale": true,
         "children_ids": [
           964,
           965,
@@ -120926,12 +119541,7 @@
           }
         ],
         "eco_collection": [],
-        "performance_fabric": [
-          {
-            "value": true,
-            "label": "Performance Fabric"
-          }
-        ],
+        "performance_fabric": true,
         "erin_recommends": [],
         "new": [],
         "sale": [],
@@ -121254,12 +119864,7 @@
         "eco_collection": [],
         "performance_fabric": [],
         "erin_recommends": [],
-        "new": [
-          {
-            "value": true,
-            "label": "New"
-          }
-        ],
+        "new": true,
         "sale": [],
         "children_ids": [
           990,
@@ -121900,12 +120505,7 @@
         "performance_fabric": [],
         "erin_recommends": [],
         "new": [],
-        "sale": [
-          {
-            "value": true,
-            "label": "Sale"
-          }
-        ],
+        "sale": true,
         "children_ids": [
           1016,
           1017,
@@ -122242,18 +120842,8 @@
         ],
         "eco_collection": [],
         "performance_fabric": [],
-        "erin_recommends": [
-          {
-            "value": true,
-            "label": "Erin Recommends"
-          }
-        ],
-        "new": [
-          {
-            "value": true,
-            "label": "New"
-          }
-        ],
+        "erin_recommends": true,
+        "new": true,
         "sale": [],
         "children_ids": [
           1029,
@@ -122592,12 +121182,7 @@
         "performance_fabric": [],
         "erin_recommends": [],
         "new": [],
-        "sale": [
-          {
-            "value": true,
-            "label": "Sale"
-          }
-        ],
+        "sale": true,
         "children_ids": [
           1045,
           1046,
@@ -124157,18 +122742,8 @@
         ],
         "eco_collection": [],
         "performance_fabric": [],
-        "erin_recommends": [
-          {
-            "value": true,
-            "label": "Erin Recommends"
-          }
-        ],
-        "new": [
-          {
-            "value": true,
-            "label": "New"
-          }
-        ],
+        "erin_recommends": true,
+        "new": true,
         "sale": [],
         "children_ids": [
           1115,
@@ -124538,20 +123113,10 @@
           }
         ],
         "eco_collection": [],
-        "performance_fabric": [
-          {
-            "value": true,
-            "label": "Performance Fabric"
-          }
-        ],
+        "performance_fabric": true,
         "erin_recommends": [],
         "new": [],
-        "sale": [
-          {
-            "value": true,
-            "label": "Sale"
-          }
-        ],
+        "sale": true,
         "children_ids": [
           1131,
           1132,
@@ -124881,12 +123446,7 @@
             "label": "Taxable Goods"
           }
         ],
-        "eco_collection": [
-          {
-            "value": true,
-            "label": "Eco Collection"
-          }
-        ],
+        "eco_collection": true,
         "performance_fabric": [],
         "erin_recommends": [],
         "new": [],
@@ -125223,12 +123783,7 @@
         "eco_collection": [],
         "performance_fabric": [],
         "erin_recommends": [],
-        "new": [
-          {
-            "value": true,
-            "label": "New"
-          }
-        ],
+        "new": true,
         "sale": [],
         "children_ids": [
           1163,
@@ -125565,12 +124120,7 @@
         ],
         "eco_collection": [],
         "performance_fabric": [],
-        "erin_recommends": [
-          {
-            "value": true,
-            "label": "Erin Recommends"
-          }
-        ],
+        "erin_recommends": true,
         "new": [],
         "sale": [],
         "children_ids": [
@@ -125906,18 +124456,8 @@
             "label": "Taxable Goods"
           }
         ],
-        "eco_collection": [
-          {
-            "value": true,
-            "label": "Eco Collection"
-          }
-        ],
-        "performance_fabric": [
-          {
-            "value": true,
-            "label": "Performance Fabric"
-          }
-        ],
+        "eco_collection": true,
+        "performance_fabric": true,
         "erin_recommends": [],
         "new": [],
         "sale": [],
@@ -126284,25 +124824,10 @@
         ],
         "es_is_in_stock": [],
         "es_is_discounted": [],
-        "eco_collection": [
-          {
-            "value": true,
-            "label": "Eco Collection"
-          }
-        ],
+        "eco_collection": true,
         "performance_fabric": [],
-        "erin_recommends": [
-          {
-            "value": true,
-            "label": "Erin Recommends"
-          }
-        ],
-        "new": [
-          {
-            "value": true,
-            "label": "New"
-          }
-        ],
+        "erin_recommends": true,
+        "new": true,
         "sale": [],
         "children_ids": [
           1211,
@@ -126627,12 +125152,7 @@
         "performance_fabric": [],
         "erin_recommends": [],
         "new": [],
-        "sale": [
-          {
-            "value": true,
-            "label": "Sale"
-          }
-        ],
+        "sale": true,
         "children_ids": [
           1221,
           1222,
@@ -127328,19 +125848,9 @@
         "es_is_in_stock": [],
         "es_is_discounted": [],
         "eco_collection": [],
-        "performance_fabric": [
-          {
-            "value": true,
-            "label": "Performance Fabric"
-          }
-        ],
+        "performance_fabric": true,
         "erin_recommends": [],
-        "new": [
-          {
-            "value": true,
-            "label": "New"
-          }
-        ],
+        "new": true,
         "sale": [],
         "children_ids": [
           1253,
@@ -128401,26 +126911,11 @@
         ],
         "es_is_in_stock": [],
         "es_is_discounted": [],
-        "eco_collection": [
-          {
-            "value": true,
-            "label": "Eco Collection"
-          }
-        ],
+        "eco_collection": true,
         "performance_fabric": [],
-        "erin_recommends": [
-          {
-            "value": true,
-            "label": "Erin Recommends"
-          }
-        ],
+        "erin_recommends": true,
         "new": [],
-        "sale": [
-          {
-            "value": true,
-            "label": "Sale"
-          }
-        ],
+        "sale": true,
         "children_ids": [
           1301,
           1302,
@@ -128766,19 +127261,9 @@
         ],
         "es_is_in_stock": [],
         "es_is_discounted": [],
-        "eco_collection": [
-          {
-            "value": true,
-            "label": "Eco Collection"
-          }
-        ],
+        "eco_collection": true,
         "performance_fabric": [],
-        "erin_recommends": [
-          {
-            "value": true,
-            "label": "Erin Recommends"
-          }
-        ],
+        "erin_recommends": true,
         "new": [],
         "sale": [],
         "children_ids": [
@@ -129157,19 +127642,9 @@
         "es_is_in_stock": [],
         "es_is_discounted": [],
         "eco_collection": [],
-        "performance_fabric": [
-          {
-            "value": true,
-            "label": "Performance Fabric"
-          }
-        ],
+        "performance_fabric": true,
         "erin_recommends": [],
-        "new": [
-          {
-            "value": true,
-            "label": "New"
-          }
-        ],
+        "new": true,
         "sale": [],
         "children_ids": [
           1333,
@@ -129536,12 +128011,7 @@
         "eco_collection": [],
         "performance_fabric": [],
         "erin_recommends": [],
-        "new": [
-          {
-            "value": true,
-            "label": "New"
-          }
-        ],
+        "new": true,
         "sale": [],
         "children_ids": [
           1349,
@@ -129927,20 +128397,10 @@
         "es_is_in_stock": [],
         "es_is_discounted": [],
         "eco_collection": [],
-        "performance_fabric": [
-          {
-            "value": true,
-            "label": "Performance Fabric"
-          }
-        ],
+        "performance_fabric": true,
         "erin_recommends": [],
         "new": [],
-        "sale": [
-          {
-            "value": true,
-            "label": "Sale"
-          }
-        ],
+        "sale": true,
         "children_ids": [
           1365,
           1366,
@@ -130317,20 +128777,10 @@
         "es_is_in_stock": [],
         "es_is_discounted": [],
         "eco_collection": [],
-        "performance_fabric": [
-          {
-            "value": true,
-            "label": "Performance Fabric"
-          }
-        ],
+        "performance_fabric": true,
         "erin_recommends": [],
         "new": [],
-        "sale": [
-          {
-            "value": true,
-            "label": "Sale"
-          }
-        ],
+        "sale": true,
         "children_ids": [
           1381,
           1382,
@@ -130681,12 +129131,7 @@
         "eco_collection": [],
         "performance_fabric": [],
         "erin_recommends": [],
-        "new": [
-          {
-            "value": true,
-            "label": "New"
-          }
-        ],
+        "new": true,
         "sale": [],
         "children_ids": [
           1397,
@@ -131044,12 +129489,7 @@
           }
         ],
         "eco_collection": [],
-        "performance_fabric": [
-          {
-            "value": true,
-            "label": "Performance Fabric"
-          }
-        ],
+        "performance_fabric": true,
         "erin_recommends": [],
         "new": [],
         "sale": [],
@@ -131410,20 +129850,10 @@
             "label": "Taxable Goods"
           }
         ],
-        "eco_collection": [
-          {
-            "value": true,
-            "label": "Eco Collection"
-          }
-        ],
+        "eco_collection": true,
         "performance_fabric": [],
         "erin_recommends": [],
-        "new": [
-          {
-            "value": true,
-            "label": "New"
-          }
-        ],
+        "new": true,
         "sale": [],
         "children_ids": [
           1429,
@@ -131786,20 +130216,10 @@
             "label": "Taxable Goods"
           }
         ],
-        "eco_collection": [
-          {
-            "value": true,
-            "label": "Eco Collection"
-          }
-        ],
+        "eco_collection": true,
         "performance_fabric": [],
         "erin_recommends": [],
-        "new": [
-          {
-            "value": true,
-            "label": "New"
-          }
-        ],
+        "new": true,
         "sale": [],
         "children_ids": [
           1445,
@@ -132165,24 +130585,9 @@
           }
         ],
         "eco_collection": [],
-        "performance_fabric": [
-          {
-            "value": true,
-            "label": "Performance Fabric"
-          }
-        ],
-        "erin_recommends": [
-          {
-            "value": true,
-            "label": "Erin Recommends"
-          }
-        ],
-        "new": [
-          {
-            "value": true,
-            "label": "New"
-          }
-        ],
+        "performance_fabric": true,
+        "erin_recommends": true,
+        "new": true,
         "sale": [],
         "children_ids": [
           1461,
@@ -132523,12 +130928,7 @@
         "performance_fabric": [],
         "erin_recommends": [],
         "new": [],
-        "sale": [
-          {
-            "value": true,
-            "label": "Sale"
-          }
-        ],
+        "sale": true,
         "children_ids": [
           1477,
           1478,
@@ -132886,21 +131286,11 @@
             "label": "Taxable Goods"
           }
         ],
-        "eco_collection": [
-          {
-            "value": true,
-            "label": "Eco Collection"
-          }
-        ],
+        "eco_collection": true,
         "performance_fabric": [],
         "erin_recommends": [],
         "new": [],
-        "sale": [
-          {
-            "value": true,
-            "label": "Sale"
-          }
-        ],
+        "sale": true,
         "children_ids": [
           1493,
           1494,
@@ -133249,12 +131639,7 @@
           }
         ],
         "eco_collection": [],
-        "performance_fabric": [
-          {
-            "value": true,
-            "label": "Performance Fabric"
-          }
-        ],
+        "performance_fabric": true,
         "erin_recommends": [],
         "new": [],
         "sale": [],
@@ -133621,19 +132006,9 @@
         ],
         "eco_collection": [],
         "performance_fabric": [],
-        "erin_recommends": [
-          {
-            "value": true,
-            "label": "Erin Recommends"
-          }
-        ],
+        "erin_recommends": true,
         "new": [],
-        "sale": [
-          {
-            "value": true,
-            "label": "Sale"
-          }
-        ],
+        "sale": true,
         "children_ids": [
           1525,
           1526,
@@ -133985,18 +132360,8 @@
             "label": "Taxable Goods"
           }
         ],
-        "eco_collection": [
-          {
-            "value": true,
-            "label": "Eco Collection"
-          }
-        ],
-        "performance_fabric": [
-          {
-            "value": true,
-            "label": "Performance Fabric"
-          }
-        ],
+        "eco_collection": true,
+        "performance_fabric": true,
         "erin_recommends": [],
         "new": [],
         "sale": [],
@@ -135006,21 +133371,11 @@
             "label": "Taxable Goods"
           }
         ],
-        "eco_collection": [
-          {
-            "value": true,
-            "label": "Eco Collection"
-          }
-        ],
+        "eco_collection": true,
         "performance_fabric": [],
         "erin_recommends": [],
         "new": [],
-        "sale": [
-          {
-            "value": true,
-            "label": "Sale"
-          }
-        ],
+        "sale": true,
         "children_ids": [
           1589,
           1590,
@@ -135657,19 +134012,9 @@
           }
         ],
         "eco_collection": [],
-        "performance_fabric": [
-          {
-            "value": true,
-            "label": "Performance Fabric"
-          }
-        ],
+        "performance_fabric": true,
         "erin_recommends": [],
-        "new": [
-          {
-            "value": true,
-            "label": "New"
-          }
-        ],
+        "new": true,
         "sale": [],
         "children_ids": [
           1621,
@@ -136599,12 +134944,7 @@
             "label": "Taxable Goods"
           }
         ],
-        "eco_collection": [
-          {
-            "value": true,
-            "label": "Eco Collection"
-          }
-        ],
+        "eco_collection": true,
         "performance_fabric": [],
         "erin_recommends": [],
         "new": [],
@@ -137246,18 +135586,8 @@
         ],
         "eco_collection": [],
         "performance_fabric": [],
-        "erin_recommends": [
-          {
-            "value": true,
-            "label": "Erin Recommends"
-          }
-        ],
-        "new": [
-          {
-            "value": true,
-            "label": "New"
-          }
-        ],
+        "erin_recommends": true,
+        "new": true,
         "sale": [],
         "children_ids": [
           1701,
@@ -137580,18 +135910,8 @@
             "label": "Taxable Goods"
           }
         ],
-        "eco_collection": [
-          {
-            "value": true,
-            "label": "Eco Collection"
-          }
-        ],
-        "performance_fabric": [
-          {
-            "value": true,
-            "label": "Performance Fabric"
-          }
-        ],
+        "eco_collection": true,
+        "performance_fabric": true,
         "erin_recommends": [],
         "new": [],
         "sale": [],
@@ -137922,12 +136242,7 @@
         ],
         "eco_collection": [],
         "performance_fabric": [],
-        "erin_recommends": [
-          {
-            "value": true,
-            "label": "Erin Recommends"
-          }
-        ],
+        "erin_recommends": true,
         "new": [],
         "sale": [],
         "children_ids": [
@@ -138557,12 +136872,7 @@
           }
         ],
         "eco_collection": [],
-        "performance_fabric": [
-          {
-            "value": true,
-            "label": "Performance Fabric"
-          }
-        ],
+        "performance_fabric": true,
         "erin_recommends": [],
         "new": [],
         "sale": [],
@@ -138918,20 +137228,10 @@
           }
         ],
         "eco_collection": [],
-        "performance_fabric": [
-          {
-            "value": true,
-            "label": "Performance Fabric"
-          }
-        ],
+        "performance_fabric": true,
         "erin_recommends": [],
         "new": [],
-        "sale": [
-          {
-            "value": true,
-            "label": "Sale"
-          }
-        ],
+        "sale": true,
         "children_ids": [
           1781,
           1782,
@@ -139280,25 +137580,10 @@
           }
         ],
         "eco_collection": [],
-        "performance_fabric": [
-          {
-            "value": true,
-            "label": "Performance Fabric"
-          }
-        ],
-        "erin_recommends": [
-          {
-            "value": true,
-            "label": "Erin Recommends"
-          }
-        ],
+        "performance_fabric": true,
+        "erin_recommends": true,
         "new": [],
-        "sale": [
-          {
-            "value": true,
-            "label": "Sale"
-          }
-        ],
+        "sale": true,
         "children_ids": [
           1797,
           1798,
@@ -139646,18 +137931,8 @@
             "label": "Taxable Goods"
           }
         ],
-        "eco_collection": [
-          {
-            "value": true,
-            "label": "Eco Collection"
-          }
-        ],
-        "performance_fabric": [
-          {
-            "value": true,
-            "label": "Performance Fabric"
-          }
-        ],
+        "eco_collection": true,
+        "performance_fabric": true,
         "erin_recommends": [],
         "new": [],
         "sale": [],
@@ -139978,12 +138253,7 @@
           }
         ],
         "eco_collection": [],
-        "performance_fabric": [
-          {
-            "value": true,
-            "label": "Performance Fabric"
-          }
-        ],
+        "performance_fabric": true,
         "erin_recommends": [],
         "new": [],
         "sale": [],
@@ -140318,12 +138588,7 @@
         "eco_collection": [],
         "performance_fabric": [],
         "erin_recommends": [],
-        "new": [
-          {
-            "value": true,
-            "label": "New"
-          }
-        ],
+        "new": true,
         "sale": [],
         "children_ids": [
           1827,
@@ -140954,12 +139219,7 @@
         ],
         "eco_collection": [],
         "performance_fabric": [],
-        "erin_recommends": [
-          {
-            "value": true,
-            "label": "Erin Recommends"
-          }
-        ],
+        "erin_recommends": true,
         "new": [],
         "sale": [],
         "children_ids": [
@@ -141296,12 +139556,7 @@
         ],
         "eco_collection": [],
         "performance_fabric": [],
-        "erin_recommends": [
-          {
-            "value": true,
-            "label": "Erin Recommends"
-          }
-        ],
+        "erin_recommends": true,
         "new": [],
         "sale": [],
         "children_ids": [
@@ -141621,12 +139876,7 @@
           }
         ],
         "eco_collection": [],
-        "performance_fabric": [
-          {
-            "value": true,
-            "label": "Performance Fabric"
-          }
-        ],
+        "performance_fabric": true,
         "erin_recommends": [],
         "new": [],
         "sale": [],
@@ -142560,12 +140810,7 @@
             "label": "Taxable Goods"
           }
         ],
-        "eco_collection": [
-          {
-            "value": true,
-            "label": "Eco Collection"
-          }
-        ],
+        "eco_collection": true,
         "performance_fabric": [],
         "erin_recommends": [],
         "new": [],
@@ -143173,18 +141418,8 @@
             "label": "Taxable Goods"
           }
         ],
-        "eco_collection": [
-          {
-            "value": true,
-            "label": "Eco Collection"
-          }
-        ],
-        "performance_fabric": [
-          {
-            "value": true,
-            "label": "Performance Fabric"
-          }
-        ],
+        "eco_collection": true,
+        "performance_fabric": true,
         "erin_recommends": [],
         "new": [],
         "sale": [],
@@ -143496,19 +141731,9 @@
             "label": "Taxable Goods"
           }
         ],
-        "eco_collection": [
-          {
-            "value": true,
-            "label": "Eco Collection"
-          }
-        ],
+        "eco_collection": true,
         "performance_fabric": [],
-        "erin_recommends": [
-          {
-            "value": true,
-            "label": "Erin Recommends"
-          }
-        ],
+        "erin_recommends": true,
         "new": [],
         "sale": [],
         "children_ids": [
@@ -143819,20 +142044,10 @@
             "label": "Taxable Goods"
           }
         ],
-        "eco_collection": [
-          {
-            "value": true,
-            "label": "Eco Collection"
-          }
-        ],
+        "eco_collection": true,
         "performance_fabric": [],
         "erin_recommends": [],
-        "new": [
-          {
-            "value": true,
-            "label": "New"
-          }
-        ],
+        "new": true,
         "sale": [],
         "children_ids": [
           1904,
@@ -144167,12 +142382,7 @@
         "performance_fabric": [],
         "erin_recommends": [],
         "new": [],
-        "sale": [
-          {
-            "value": true,
-            "label": "Sale"
-          }
-        ],
+        "sale": true,
         "children_ids": [
           1920,
           1921,
@@ -144520,25 +142730,10 @@
             "label": "Taxable Goods"
           }
         ],
-        "eco_collection": [
-          {
-            "value": true,
-            "label": "Eco Collection"
-          }
-        ],
-        "performance_fabric": [
-          {
-            "value": true,
-            "label": "Performance Fabric"
-          }
-        ],
+        "eco_collection": true,
+        "performance_fabric": true,
         "erin_recommends": [],
-        "new": [
-          {
-            "value": true,
-            "label": "New"
-          }
-        ],
+        "new": true,
         "sale": [],
         "children_ids": [
           1936,
@@ -145188,12 +143383,7 @@
         "performance_fabric": [],
         "erin_recommends": [],
         "new": [],
-        "sale": [
-          {
-            "value": true,
-            "label": "Sale"
-          }
-        ],
+        "sale": true,
         "children_ids": [
           1968,
           1969,
@@ -145815,12 +144005,7 @@
         "eco_collection": [],
         "performance_fabric": [],
         "erin_recommends": [],
-        "new": [
-          {
-            "value": true,
-            "label": "New"
-          }
-        ],
+        "new": true,
         "sale": [],
         "children_ids": [
           1991,
@@ -146109,12 +144294,7 @@
           }
         ],
         "eco_collection": [],
-        "performance_fabric": [
-          {
-            "value": true,
-            "label": "Performance Fabric"
-          }
-        ],
+        "performance_fabric": true,
         "erin_recommends": [],
         "new": [],
         "sale": [],
@@ -146668,12 +144848,7 @@
             "label": "Taxable Goods"
           }
         ],
-        "eco_collection": [
-          {
-            "value": true,
-            "label": "Eco Collection"
-          }
-        ],
+        "eco_collection": true,
         "performance_fabric": [],
         "erin_recommends": [],
         "new": [],
@@ -146973,18 +145148,8 @@
           }
         ],
         "eco_collection": [],
-        "performance_fabric": [
-          {
-            "value": true,
-            "label": "Performance Fabric"
-          }
-        ],
-        "erin_recommends": [
-          {
-            "value": true,
-            "label": "Erin Recommends"
-          }
-        ],
+        "performance_fabric": true,
+        "erin_recommends": true,
         "new": [],
         "sale": [],
         "children_ids": [
@@ -147283,12 +145448,7 @@
         ],
         "eco_collection": [],
         "performance_fabric": [],
-        "erin_recommends": [
-          {
-            "value": true,
-            "label": "Erin Recommends"
-          }
-        ],
+        "erin_recommends": true,
         "new": [],
         "sale": [],
         "children_ids": [
