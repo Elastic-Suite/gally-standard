@@ -1,0 +1,11 @@
+Gally\Metadata\Model\SourceField:
+    product_name:
+        metadata: '@product'
+        code: 'name'
+        type: 'text'
+        weight: 10
+        isSearchable: true
+        isFilterable: false
+        isSortable: false
+        isSpellchecked: false
+        isUsedForRules: false
