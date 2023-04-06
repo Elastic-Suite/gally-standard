@@ -45,16 +45,13 @@ services:
         arguments:
             - !tagged_iterator { tag: 'gally.mapping.source_field_converter' }
 
-    Gally\Index\Helper\IndexSettings:
-        arguments:
-            - '@Gally\Catalog\Repository\LocalizedCatalogRepository'
-            - '%gally.indices_settings%'
-
     Gally\Index\Api\IndexSettingsInterface: '@Gally\Index\Service\IndexSettings'
     Gally\Index\Service\IndexSettings:
         arguments:
-            - '@Gally\Index\Helper\IndexSettings'
+            - '@Gally\Catalog\Repository\LocalizedCatalogRepository'
+            - '%gally.indices_settings%'
             - '@Gally\Analysis\Service\Config'
+            - '@Gally\Metadata\Repository\SourceFieldRepository'
 
     Gally\Index\Service\IndexOperation:
         arguments:

@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace Gally\Search\Elasticsearch;
 
-use Gally\Index\Helper\IndexSettings;
+use Gally\Index\Service\IndexSettings;
 use Gally\Search\Elasticsearch\Request\AggregationInterface;
 use Gally\Search\Elasticsearch\Request\QueryInterface;
 use Gally\Search\Elasticsearch\Request\SortOrderInterface;

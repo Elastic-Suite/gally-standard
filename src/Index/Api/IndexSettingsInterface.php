@@ -16,6 +16,7 @@ namespace Gally\Index\Api;
 
 use Gally\Catalog\Model\LocalizedCatalog;
 use Gally\Index\Model\Index;
+use Gally\Metadata\Model\Metadata;
 
 interface IndexSettingsInterface
 {
@@ -92,11 +93,9 @@ interface IndexSettingsInterface
     /**
      * Get dynamic index settings per catalog (language).
      *
-     * @param int|string|LocalizedCatalog $localizedCatalog Localized catalog
-     *
      * @return array<mixed>
      */
-    public function getDynamicIndexSettings(LocalizedCatalog|int|string $localizedCatalog): array;
+    public function getDynamicIndexSettings(Metadata $metadata, LocalizedCatalog|int|string $localizedCatalog): array;
 
     /**
      * Extract original entity from index metadata aliases.
