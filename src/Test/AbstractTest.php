@@ -70,7 +70,10 @@ abstract class AbstractTest extends ApiTestCase
     {
         $client = static::createClient();
         $data = ['headers' => $request->getHeaders()];
-        if (\in_array($request->getMethod(), ['POST', 'PUT', 'PATCH'], true)) {
+        if (
+            \in_array($request->getMethod(), ['POST', 'PUT', 'PATCH'], true)
+            || ('DELETE' == $request->getMethod() && $request->getData())
+        ) {
             $data['json'] = $request->getData();
         }
 

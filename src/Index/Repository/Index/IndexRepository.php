@@ -1123,9 +1123,14 @@ class IndexRepository implements IndexRepositoryInterface
     /**
      * {@inheritDoc}
      */
-    public function bulk(Index $index, Bulk\Request $request): Bulk\Response
+    public function bulk(Bulk\Request $request, bool $instantRefresh = false): Bulk\Response
     {
-        return new Bulk\Response($this->client->bulk(['body' => $request->getOperations()]));
+        $data = ['body' => $request->getOperations()];
+        if ($instantRefresh) {
+            $data['refresh'] = 'wait_for';
+        }
+
+        return new Bulk\Response($this->client->bulk($data));
     }
 
     /**

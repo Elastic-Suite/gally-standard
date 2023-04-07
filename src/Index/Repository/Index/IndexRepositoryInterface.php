@@ -45,10 +45,9 @@ interface IndexRepositoryInterface
     /**
      * Send bulk to index.
      *
-     * @param Index        $index   indices name
      * @param Bulk\Request $request bulk request
      */
-    public function bulk(Index $index, Bulk\Request $request): Bulk\Response;
+    public function bulk(Bulk\Request $request, bool $instantRefresh = false): Bulk\Response;
 
     /**
      * Refresh an index or a list of indices.

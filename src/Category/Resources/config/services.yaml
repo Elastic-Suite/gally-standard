@@ -41,6 +41,15 @@ services:
             - '@Gally\Index\Repository\Index\IndexRepository'
             - '@Gally\Category\Service\CategoryProductPositionManager'
         decoration_priority: 100
+    Gally\Category\Decoration\SyncCategoryDataAfterBulkRest:
+        decorates: Gally\Index\DataPersister\DocumentDataPersister
+        arguments:
+            - '@.inner'
+            - '@Gally\Category\Service\CategorySynchronizer'
+            - '@Gally\Index\Service\IndexSettings'
+            - '@Gally\Index\Repository\Index\IndexRepository'
+            - '@Gally\Category\Service\CategoryProductPositionManager'
+        decoration_priority: 100
             
     Gally\Category\Decoration\SyncCategoryDataAfterBulkDelete:
         decorates: Gally\Index\MutationResolver\BulkDeleteIndexMutation
@@ -51,9 +60,27 @@ services:
             - '@Gally\Index\Repository\Index\IndexRepository'
             - '@Gally\Category\Repository\CategoryProductMerchandisingRepository'
         decoration_priority: 100
-            
+    Gally\Category\Decoration\SyncCategoryDataAfterBulkDeleteRest:
+        decorates: Gally\Index\Controller\RemoveIndexDocument
+        arguments:
+            - '@.inner'
+            - '@Gally\Category\Service\CategorySynchronizer'
+            - '@Gally\Index\Service\IndexSettings'
+            - '@Gally\Index\Repository\Index\IndexRepository'
+            - '@Gally\Category\Repository\CategoryProductMerchandisingRepository'    
+        calls:
+            - [ setContainer, [ '@service_container' ] ]
+        decoration_priority: 100
+        
     Gally\Category\Decoration\SyncCategoryDataAfterInstall:
         decorates: Gally\Index\MutationResolver\InstallIndexMutation
+        arguments:
+            - '@.inner'
+            - '@Gally\Category\Service\CategorySynchronizer'
+            - '@Gally\Category\Service\CategoryProductPositionManager'
+        decoration_priority: 100            
+    Gally\Category\Decoration\SyncCategoryDataAfterInstallRest:
+        decorates: Gally\Index\DataTransformer\InstallIndexDataTransformer
         arguments:
             - '@.inner'
             - '@Gally\Category\Service\CategorySynchronizer'

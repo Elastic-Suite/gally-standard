@@ -17,6 +17,7 @@ namespace Gally\Index\Model;
 use ApiPlatform\Core\Action\NotFoundAction;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
+use Gally\Index\Controller\RemoveIndexDocument;
 use Gally\User\Constant\Role;
 
 #[
@@ -32,6 +33,37 @@ use Gally\User\Constant\Role;
                 'controller' => NotFoundAction::class,
                 'read' => false,
                 'output' => false,
+            ],
+            'remove' => [
+                'security' => "is_granted('" . Role::ROLE_ADMIN . "')",
+                'method' => 'DELETE',
+                'controller' => RemoveIndexDocument::class,
+                'read' => false,
+                'openapi_context' => [
+                    'parameters' => [
+                        [
+                            'name' => 'indexName',
+                            'in' => 'path',
+                            'type' => 'string',
+                            'required' => true,
+                        ],
+                    ],
+                    'requestBody' => [
+                        'content' => [
+                            'application/json' => [
+                                'schema' => [
+                                    'type' => 'object',
+                                    'properties' => [
+                                        'document_ids' => ['type' => 'array'],
+                                    ],
+                                ],
+                                'example' => [
+                                    'document_ids' => ['1', '2', '3'],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
             ],
         ],
         paginationEnabled: false,

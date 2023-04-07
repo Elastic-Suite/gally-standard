@@ -14,50 +14,69 @@ declare(strict_types=1);
 
 namespace Gally\Index\Repository\Document;
 
-use Elasticsearch\Client;
+use ApiPlatform\Core\Exception\InvalidArgumentException;
+use Gally\Index\Dto\Bulk;
+use Gally\Index\Repository\Index\IndexRepository;
 
 class DocumentRepository implements DocumentRepositoryInterface
 {
     public function __construct(
-        private Client $client
+        private IndexRepository $indexRepository,
     ) {
     }
 
     public function index(string $indexName, array $documents, bool $instantRefresh = false): void
     {
-        $params = [];
-        $responses = [];
+        $request = new Bulk\Request();
+        $index = $this->indexRepository->findByName($indexName);
         foreach ($documents as $document) {
-            $document = json_decode($document, true);
-            $params['body'][] = [
-                'index' => [
-                    '_index' => $indexName,
-                    '_id' => $document['entity_id'] ?? $document['id'] ?? null,
-                ],
-            ];
+            $documentData = json_decode($document, true);
+            $identifier = $documentData['entity_id'] ?? $documentData['id'] ?? null;
+            $request->addDocument($index, $identifier, $documentData);
+        }
 
-            $params['body'][] = $document;
-            if ($instantRefresh) {
-                $params['refresh'] = 'wait_for';
+        $this->runBulk($request, $instantRefresh);
+    }
+
+    public function delete(string $indexName, array $documentIds): void
+    {
+        $request = new Bulk\Request();
+        $index = $this->indexRepository->findByName($indexName);
+
+        if (!$index) {
+            throw new InvalidArgumentException(sprintf('The index %s does not exist.', $indexName));
+        }
+
+        $request->deleteDocuments($index, $documentIds);
+
+        $this->runBulk($request, true);
+    }
+
+    private function runBulk(Bulk\Request $request, bool $instantRefresh): Bulk\Response
+    {
+        if ($request->isEmpty()) {
+            throw new InvalidArgumentException('Can not execute empty bulk.');
+        }
+
+        $response = $this->indexRepository->bulk($request, $instantRefresh);
+        if ($response->hasErrors()) {
+            $errorMessages = [];
+            foreach ($response->aggregateErrorsByReason() as $error) {
+                $sampleDocumentIds = implode(', ', \array_slice($error['document_ids'], 0, 10));
+                $errorMessages[] = sprintf(
+                    'Bulk %s operation failed %d times in index %s.',
+                    $error['operation'],
+                    $error['count'],
+                    $error['index']
+                );
+                $errorMessages[] = sprintf('Error (%s) : %s.', $error['error']['type'], $error['error']['reason']);
+                $errorMessages[] = sprintf('Failed doc ids sample : %s.', $sampleDocumentIds);
+            }
+            if (!empty($errorMessages)) {
+                throw new InvalidArgumentException(implode(' ', $errorMessages));
             }
         }
 
-        if (\count($params) > 0) {
-            $responses = $this->client->bulk($params);
-        }
-    }
-
-    public function delete(string $indexName, array $documents): void
-    {
-        return;
-        /**
-         * @Todo: Implement the right way to delete a Document
-         */
-        foreach ($documents as $document) { // @phpstan-ignore-line
-            $response = $this->client->delete([
-                'index' => $indexName,
-                'id' => $document['entity_id'] ?? $document['id'],
-            ]);
-        }
+        return $response;
     }
 }
