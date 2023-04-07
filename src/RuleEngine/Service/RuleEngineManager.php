@@ -14,6 +14,8 @@ declare(strict_types=1);
 
 namespace Gally\RuleEngine\Service;
 
+use Gally\Cache\Service\CacheManagerInterface;
+use Gally\Catalog\Model\LocalizedCatalog;
 use Gally\Exception\LogicException;
 use Gally\RuleEngine\Model\RuleEngineGraphQlFilters;
 use Gally\RuleEngine\Model\RuleEngineOperators;
@@ -26,6 +28,10 @@ use Gally\Search\Service\GraphQl\FilterManager;
 
 class RuleEngineManager
 {
+    public const CACHE_TAG_RULE = 'rule_engine_rule';
+    public const CACHE_KEY_PREFIX_RULE = 'rule_engine_rule';
+    public const CACHE_DEFAULT_TTL = 7200;
+
     /**
      * @var RuleTypeInterface[]
      */
@@ -33,7 +39,9 @@ class RuleEngineManager
 
     public function __construct(
         private FilterManager $filterManager,
+        private CacheManagerInterface $cache,
         private iterable $ruleTypeClasses,
+        private $cacheTtl = self::CACHE_DEFAULT_TTL,
     ) {
         $this->initRuleTypes();
     }
@@ -107,12 +115,52 @@ class RuleEngineManager
 
     public function transformRuleToGallyFilters(array $rule, ContainerConfigurationInterface $containerConfig, array $filterContext = []): ?QueryInterface
     {
-        $gallyFilters = $this->filterManager->transformToGallyFilters(
-            [$this->transformRuleToGraphQlFilters($rule)],
-            $containerConfig,
-            $filterContext
-        );
+        $cacheKey = $this->getRuleCacheKey($rule, $containerConfig->getLocalizedCatalog());
+        $cacheTags = $this->getRuleCacheTags($containerConfig->getLocalizedCatalog());
 
-        return !empty($gallyFilters) ? current($gallyFilters) : null;
+        return $this->cache->get(
+            $cacheKey,
+            function (&$tags, &$ttl) use ($rule, $containerConfig, $filterContext): ?QueryInterface {
+                $gallyFilters = $this->filterManager->transformToGallyFilters(
+                    [$this->transformRuleToGraphQlFilters($rule)],
+                    $containerConfig,
+                    $filterContext
+                );
+
+                return !empty($gallyFilters) ? current($gallyFilters) : null;
+            },
+            $cacheTags,
+            $this->cacheTtl
+        );
+    }
+
+    public function getRuleCacheKey(array $rule, LocalizedCatalog $localizedCatalog): string
+    {
+        return sprintf(
+            '%s_%s_%s',
+            self::CACHE_KEY_PREFIX_RULE,
+            $localizedCatalog->getCode(),
+            md5(json_encode($rule)),
+        );
+    }
+
+    public function getRuleCacheTags(?LocalizedCatalog $localizedCatalog = null): array
+    {
+        $cacheTags = [self::CACHE_TAG_RULE];
+
+        if ($localizedCatalog instanceof LocalizedCatalog) {
+            $cacheTags[] = $this->getRuleCacheTagByLocalizedCatalog($localizedCatalog);
+        }
+
+        return $cacheTags;
+    }
+
+    public function getRuleCacheTagByLocalizedCatalog(LocalizedCatalog $localizedCatalog): string
+    {
+        return sprintf(
+            '%s_%s',
+            self::CACHE_TAG_RULE,
+            $localizedCatalog->getCode(),
+        );
     }
 }
