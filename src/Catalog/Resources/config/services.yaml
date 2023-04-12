@@ -1,4 +1,8 @@
-services:    
+services:
+    Gally\Catalog\Filter\LocalizedCatalogLocaleFilter:
+        arguments: [ '@doctrine', ~, '@?logger' ]
+        tags: [ 'api_platform.filter' ]
+
     Gally\Catalog\Repository\CatalogRepository:
         arguments:
             - '@Doctrine\Persistence\ManagerRegistry'
@@ -22,7 +26,7 @@ services:
         arguments:
             - '@Gally\Catalog\Repository\LocalizedCatalogRepository'
 
-    Gally\Catalog\DataProvider\LocalizedCatalogGroupOptionDataProvider:
+    Gally\Catalog\DataProvider\Source\LocalizedCatalogGroupOptionDataProvider:
         arguments:
             - '@Gally\Catalog\Repository\CatalogRepository'
         tags:

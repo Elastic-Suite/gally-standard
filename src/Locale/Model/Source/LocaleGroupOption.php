@@ -12,29 +12,35 @@
 
 declare(strict_types=1);
 
-namespace Gally\Catalog\Model\Source;
+namespace Gally\Locale\Model\Source;
 
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
-use Gally\Catalog\Model\Catalog;
 use Gally\Catalog\Model\LocalizedCatalog;
+use Gally\User\Constant\Role;
 
 #[ApiResource(
     itemOperations: [],
     collectionOperations: [
-        'get' => ['pagination_enabled' => false],
+        'get' => [
+            'pagination_enabled' => false,
+            'security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
+        ],
     ],
     graphql: [
-        'collection_query' => ['pagination_enabled' => false],
+        'collection_query' => [
+            'pagination_enabled' => false,
+            'security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
+        ],
     ],
     attributes: [
         'gally' => [
-            // Allows to add cache tag "/catalogs" and "/localized_catalogs" in the HTTP response to invalidate proxy cache when a source field is saved.
-            'cache_tag' => ['resource_classes' => [Catalog::class, LocalizedCatalog::class]],
+            // Allows to add cache tag "/localized_catalogs" in the HTTP response to invalidate proxy cache when a source field is saved.
+            'cache_tag' => ['resource_classes' => [LocalizedCatalog::class]],
         ],
     ],
 )]
-class LocalizedCatalogGroupOption
+class LocaleGroupOption
 {
     #[ApiProperty(identifier: true)]
     public string $value;

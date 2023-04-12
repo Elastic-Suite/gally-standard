@@ -60,4 +60,13 @@ class LocalizedCatalogRepository extends ServiceEntityRepository
 
         return $this->cache[$identifier];
     }
+
+    public function findUsedLocales(): array
+    {
+        return $this->createQueryBuilder('lc')
+            ->select('lc.locale')
+            ->distinct()
+            ->getQuery()
+            ->getResult();
+    }
 }

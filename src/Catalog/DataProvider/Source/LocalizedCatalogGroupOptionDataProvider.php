@@ -12,7 +12,7 @@
 
 declare(strict_types=1);
 
-namespace Gally\Catalog\DataProvider;
+namespace Gally\Catalog\DataProvider\Source;
 
 use ApiPlatform\Core\DataProvider\ContextAwareCollectionDataProviderInterface;
 use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;

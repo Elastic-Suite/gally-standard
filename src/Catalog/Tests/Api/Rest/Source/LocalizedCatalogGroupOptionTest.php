@@ -12,9 +12,9 @@
 
 declare(strict_types=1);
 
-namespace Gally\Catalog\Tests\Api\Rest;
+namespace Gally\Catalog\Tests\Api\Rest\Source;
 
-use Gally\Catalog\Tests\Api\GraphQl\LocalizedCatalogGroupOptionTest as GraphQlLocalizedCatalogGroupOptionTest;
+use Gally\Catalog\Tests\Api\GraphQl\Source\LocalizedCatalogGroupOptionTest as GraphQlLocalizedCatalogGroupOptionTest;
 use Gally\Test\ExpectedResponse;
 use Gally\Test\RequestToTest;
 use Symfony\Contracts\HttpClient\ResponseInterface;
@@ -25,8 +25,8 @@ class LocalizedCatalogGroupOptionTest extends GraphQlLocalizedCatalogGroupOption
     {
         parent::setUpBeforeClass();
         self::loadFixture([
-            __DIR__ . '/../../fixtures/localized_catalogs.yaml',
-            __DIR__ . '/../../fixtures/catalogs.yaml',
+            __DIR__ . '/../../../fixtures/localized_catalogs.yaml',
+            __DIR__ . '/../../../fixtures/catalogs.yaml',
         ]);
     }
 
@@ -40,7 +40,6 @@ class LocalizedCatalogGroupOptionTest extends GraphQlLocalizedCatalogGroupOption
             new ExpectedResponse(
                 200,
                 function (ResponseInterface $response) use ($expectedData) {
-                    $responseData = $response->toArray();
                     $this->assertJsonContains(['hydra:member' => $expectedData]);
                 }
             )
