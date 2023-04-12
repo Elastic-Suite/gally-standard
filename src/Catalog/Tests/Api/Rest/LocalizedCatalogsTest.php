@@ -72,7 +72,7 @@ class LocalizedCatalogsTest extends AbstractEntityTestWithUpdate
         return [
             // The first created localized catalog should have been elected as the default one,
             // this is why we test that the parameter isDefault is set to true even if we haven't specified it.
-            [$user, 1, ['id' => 1, 'code' => 'b2c_fr', 'locale' => 'fr_FR', 'currency' => 'EUR', 'name' => 'B2C French Store View', 'isDefault' => true, 'localName' => 'français (France)'], 200, 'fr_FR'],
+            [$user, 1, ['id' => 1, 'code' => 'b2c_fr', 'locale' => 'fr_FR', 'currency' => 'EUR', 'name' => 'B2C French Store View', 'isDefault' => true, 'localName' => 'Français (France)'], 200, 'fr_FR'],
             [null, 5, ['id' => 5, 'code' => 'empty_name', 'locale' => 'en_US', 'currency' => 'USD', 'localName' => 'English (United States)', 'isDefault' => false], 200, 'en_US'],
             [$user, 5, ['id' => 5, 'code' => 'empty_name', 'locale' => 'en_US', 'currency' => 'USD', 'localName' => 'English (United States)', 'isDefault' => false], 200, 'en_US'],
             [$this->getUser(Role::ROLE_ADMIN), 5, ['id' => 5, 'code' => 'empty_name', 'locale' => 'en_US', 'currency' => 'USD', 'localName' => 'English (United States)', 'isDefault' => false], 200, 'en_US'],

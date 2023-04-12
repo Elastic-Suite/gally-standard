@@ -18,6 +18,7 @@ use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use Gally\User\Constant\Role;
+use Symfony\Component\Intl\Exception\MissingResourceException;
 use Symfony\Component\Intl\Locales;
 use Symfony\Component\Serializer\Annotation\Groups;
 
@@ -149,6 +150,12 @@ class LocalizedCatalog
     #[Groups(['localizedCatalog:read', 'catalog:read'])]
     public function getLocalName(): string
     {
-        return Locales::getName($this->getLocale());
+        try {
+            $localeName = ucfirst(Locales::getName($this->getLocale()));
+        } catch (MissingResourceException $e) {
+            $localeName = $this->getLocale();
+        }
+
+        return $localeName;
     }
 }

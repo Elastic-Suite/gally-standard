@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" version="2.0" srcLang="en-US" trgLang="fr-FR">
+    <file id="gally_locale.fr">
+        <unit id="gally_locale_used_label">
+            <segment>
+                <source>gally.locale.used.label</source>
+                <target>Locale(s) utilisée(s) par les catalgue(s)</target>
+            </segment>
+        </unit>
+        <unit id="gally_locale_unused_label">
+            <segment>
+                <source>gally.locale.unused.label</source>
+                <target>Locales non utilisées</target>
+            </segment>
+        </unit>
+    </file>
+</xliff>

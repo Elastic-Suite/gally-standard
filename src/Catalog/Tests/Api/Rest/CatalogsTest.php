@@ -101,10 +101,10 @@ class CatalogsTest extends AbstractEntityTestWithUpdate
                     'id' => 1,
                     'localizedCatalogs' => [
                         [
-                            'localName' => 'français (France)',
+                            'localName' => 'Français (France)',
                         ],
                         [
-                            'localName' => 'anglais (États-Unis)',
+                            'localName' => 'Anglais (États-Unis)',
                         ],
                     ],
                 ],
