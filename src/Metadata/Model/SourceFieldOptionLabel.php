@@ -43,7 +43,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     normalizationContext: ['groups' => ['source_field_option_label:read']],
     denormalizationContext: ['groups' => ['source_field_option_label:write']],
 )]
-#[ApiFilter(SearchFilter::class, properties: ['localizedCatalog' => 'exact', 'sourceFieldOption.sourceField' => 'exact'])]
+#[ApiFilter(SearchFilter::class, properties: ['localizedCatalog' => 'exact', 'sourceFieldOption' => 'exact', 'sourceFieldOption.sourceField' => 'exact'])]
 #[ApiFilter(OrderFilter::class, properties: ['sourceFieldOption.position'], arguments: ['orderParameterName' => 'order'])]
 class SourceFieldOptionLabel
 {
