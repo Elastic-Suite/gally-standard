@@ -111,7 +111,31 @@ abstract class AbstractEntityTestWithUpdate extends AbstractEntityTest
 
     protected function getJsonUpdateValidation(array $expectedData): array
     {
+        /*
+         * On PUT or PATCH requests, when we want to update a sub-resource we send its id via the key '@id'.
+         * In the response, If a "replace" was made on the sub-resource instead of an "update", we can have an id  different from the one sent in request.
+         * By default, the $expectedData are equal to the data sent from the request.
+         * Therefore, we need to remove ids from $expectedData,
+         * because we know that the ids in the request and in the response will be different if a "replace" is applied on the sub-resource.
+         */
+        $this->removeId($expectedData);
+
         return $expectedData;
+    }
+
+    /**
+     * Remove in $node array all the elements with the key '@id'.
+     */
+    protected function removeId(array &$node): void
+    {
+        foreach ($node as $key => &$item) {
+            if (\is_array($item)) {
+                $this->removeId($item);
+            }
+            if ('@id' === $key) {
+                unset($node['@id']);
+            }
+        }
     }
 
     /**
