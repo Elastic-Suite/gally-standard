@@ -21,13 +21,11 @@ use Gally\Category\Tests\Api\CategoryTestTrait;
 use Gally\Fixture\Service\ElasticsearchFixturesInterface;
 use Gally\Index\Service\IndexSettings;
 use Gally\Test\AbstractTest;
-use Gally\Test\ExpectedResponse;
-use Gally\Test\RequestGraphQlToTest;
-use Gally\User\Constant\Role;
 
 class SyncCategoryProductMerchandisingDataTest extends AbstractTest
 {
     use CategoryTestTrait;
+    use IndexActions;
 
     protected static Client $client;
     protected static IndexSettings $indexSettings;
@@ -175,70 +173,5 @@ class SyncCategoryProductMerchandisingDataTest extends AbstractTest
                 ],
             ],
         ];
-    }
-
-    protected function installIndex(string $indexName): void
-    {
-        $this->validateApiCall(
-            new RequestGraphQlToTest(
-                <<<GQL
-                    mutation {
-                      installIndex(input: {
-                        name: "$indexName"
-                      }) {
-                        index {
-                          id
-                          name
-                          aliases
-                        }
-                      }
-                    }
-                GQL,
-                $this->getUser(Role::ROLE_ADMIN),
-            ),
-            new ExpectedResponse(200)
-        );
-    }
-
-    protected function bulkIndex(string $indexName, array $data): void
-    {
-        $data = addslashes(json_encode($data));
-        $this->validateApiCall(
-            new RequestGraphQlToTest(
-                <<<GQL
-                    mutation {
-                      bulkIndex(input: {
-                        indexName: "{$indexName}",
-                        data: "{$data}"
-                      }) {
-                        index { name }
-                      }
-                    }
-                GQL,
-                $this->getUser(Role::ROLE_ADMIN),
-            ),
-            new ExpectedResponse(200)
-        );
-    }
-
-    protected function bulkDeleteIndex(string $indexName, array $ids): void
-    {
-        $ids = json_encode($ids);
-        $this->validateApiCall(
-            new RequestGraphQlToTest(
-                <<<GQL
-                    mutation {
-                      bulkDeleteIndex(input: {
-                        indexName: "{$indexName}",
-                        ids: $ids
-                      }) {
-                        index { name }
-                      }
-                    }
-                GQL,
-                $this->getUser(Role::ROLE_ADMIN),
-            ),
-            new ExpectedResponse(200)
-        );
     }
 }

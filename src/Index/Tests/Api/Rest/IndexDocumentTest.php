@@ -50,9 +50,7 @@ class IndexDocumentTest extends AbstractTest
         ?string $message = null,
     ): void {
         $request = new RequestToTest('POST', '/index_documents', $user, $data);
-        $expectedResponse = new ExpectedResponse(
-            $responseCode,
-        );
+        $expectedResponse = new ExpectedResponse($responseCode, null, $message);
 
         $this->validateApiCall($request, $expectedResponse);
     }
@@ -75,6 +73,40 @@ class IndexDocumentTest extends AbstractTest
             [null, $data, 401, 'Access Denied.'],
             [$this->getUser(Role::ROLE_CONTRIBUTOR), $data, 403, 'Access Denied.'],
             [$this->getUser(Role::ROLE_ADMIN), $data, 201],
+        ];
+    }
+
+    /**
+     * @dataProvider deleteDataProvider
+     */
+    public function testDelete(
+        ?User $user,
+        string $indexName,
+        array $ids,
+        int $responseCode = 204,
+        ?string $message = null,
+    ): void {
+        $this->validateApiCall(
+            new RequestToTest('DELETE', "/index_documents/$indexName", $user, ['document_ids' => $ids]),
+            new ExpectedResponse($responseCode, null, $message)
+        );
+    }
+
+    /**
+     * Data provider for entity creation api call
+     * The data provider should return test case with :
+     * - User $user: user to use in the api call
+     * - string $indexName : the name of the index to delete data from
+     * - array $documentsIds : Document ids to remove
+     * - (optional) int $responseCode: expected response code.
+     */
+    public function deleteDataProvider(): iterable
+    {
+        return [
+            [null, 'gally_test__gally_b2c_fr_product', [], 401, 'Access Denied.'],
+            [$this->getUser(Role::ROLE_CONTRIBUTOR), 'gally_test__gally_b2c_fr_product', [], 403, 'Access Denied.'],
+            [$this->getUser(Role::ROLE_ADMIN), 'wrong_index_name', ['1'], 400, 'The index wrong_index_name does not exist.'],
+            [$this->getUser(Role::ROLE_ADMIN), 'gally_test__gally_b2c_fr_product', ['1']],
         ];
     }
 }

@@ -26,9 +26,9 @@ use Gally\Metadata\Model\Metadata;
 class IndexOperation
 {
     public function __construct(
-        private IndexRepositoryInterface $indexRepository,
-        private IndexSettingsInterface $indexSettings,
-        private MetadataManager $metadataManager
+        protected IndexRepositoryInterface $indexRepository,
+        protected IndexSettingsInterface $indexSettings,
+        protected MetadataManager $metadataManager
     ) {
     }
 

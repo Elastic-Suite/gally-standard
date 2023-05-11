@@ -11,16 +11,16 @@ services:
             - '@.inner'
         decoration_priority: 100
 
-    Gally\Index\Repository\Document\DocumentRepositoryInterface: '@Gally\Index\Repository\Document\DocumentRepository'
-    Gally\Index\Repository\Document\DocumentRepository:
-        arguments:
-            - '@api_platform.elasticsearch.client'
-
     Gally\Index\Repository\Index\IndexRepositoryInterface: '@Gally\Index\Repository\Index\IndexRepository'
     Gally\Index\Repository\Index\IndexRepository:
         arguments:
             - '@api_platform.elasticsearch.client'
             - '@Gally\Index\Api\IndexSettingsInterface'
+
+    Gally\Index\Repository\Document\DocumentRepositoryInterface: '@Gally\Index\Repository\Document\DocumentRepository'
+    Gally\Index\Repository\Document\DocumentRepository:
+        arguments:
+            - '@Gally\Index\Repository\Index\IndexRepository'
 
     Gally\Index\DataPersister\DocumentDataPersister:
         arguments:
@@ -172,3 +172,11 @@ services:
         arguments:
             - '@Gally\OpenApi\Helper\Documentation'
             - '@.inner'
+                
+    Gally\Index\Controller\RemoveIndexDocument:
+        arguments:
+            - '@Gally\Index\Repository\Document\DocumentRepositoryInterface'
+        calls:
+            - [ setContainer, [ '@service_container' ] ]
+        tags:
+            - { name: controller.service_arguments }

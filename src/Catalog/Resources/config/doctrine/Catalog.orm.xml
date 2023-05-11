@@ -11,7 +11,7 @@
         <field name="code" type="string" length="255" nullable="false" unique="true" />
         <field name="name" type="string" length="255" nullable="true" unique="false" />
 
-        <one-to-many field="localizedCatalogs" target-entity="Gally\Catalog\Model\LocalizedCatalog" mapped-by="catalog">
+        <one-to-many field="localizedCatalogs" target-entity="Gally\Catalog\Model\LocalizedCatalog" mapped-by="catalog" fetch="EAGER">
             <cascade>
                 <cascade-persist/>
             </cascade>

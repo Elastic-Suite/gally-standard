@@ -43,20 +43,20 @@ use Gally\Search\Elasticsearch\Builder\Request\Query\QueryBuilder;
 use Gally\Search\Elasticsearch\Request\Container\Configuration\ContainerConfigurationProvider;
 use Gally\Search\Elasticsearch\RequestFactoryInterface;
 use Gally\Test\AbstractTest;
-use Gally\Test\ExpectedResponse;
-use Gally\Test\RequestGraphQlToTest;
-use Gally\User\Constant\Role;
-use Symfony\Contracts\HttpClient\ResponseInterface;
 
 class CategorySynchronizerTest extends AbstractTest
 {
-    private static IndexRepositoryInterface $indexRepository;
-    private static CategoryRepository $categoryRepository;
-    private static CategoryConfigurationRepository $categoryConfigurationRepository;
+    use IndexActions;
 
-    public static function setUpBeforeClass(): void
+    protected static IndexRepositoryInterface $indexRepository;
+    protected static CategoryRepository $categoryRepository;
+    protected static CategoryConfigurationRepository $categoryConfigurationRepository;
+
+    protected function setUp(): void
     {
-        parent::setUpBeforeClass();
+        // Use setUp instead of setupBeforeClass in order to
+        // reset test data between testSynchronizeRetry and testSynchronize
+        parent::setUp();
         \assert(static::getContainer()->get(IndexRepositoryInterface::class) instanceof IndexRepositoryInterface);
         self::$indexRepository = static::getContainer()->get(IndexRepositoryInterface::class);
         self::$categoryRepository = static::getContainer()->get(CategoryRepository::class);
@@ -68,9 +68,9 @@ class CategorySynchronizerTest extends AbstractTest
         ]);
     }
 
-    public static function tearDownAfterClass(): void
+    protected function tearDown(): void
     {
-        parent::tearDownAfterClass();
+        parent::tearDown();
         self::deleteElasticsearchFixtures();
     }
 
@@ -230,20 +230,20 @@ class CategorySynchronizerTest extends AbstractTest
         yield [BulkDeleteIndexMutation::class, SyncCategoryDataAfterBulkDelete::class, [$indexSettings, $indexRepository, $categoryProductMerchandisingRepository]];
     }
 
-    private function prepareIndex(int $catalogId, array $data): void
+    protected function prepareIndex(int $catalogId, array $data): void
     {
         $indexName = $this->createIndex('category', $catalogId);
         $this->bulkIndex($indexName, $data);
         $this->installIndex($indexName);
     }
 
-    private function validateCategoryCount(int $categoryCount, int $categoryConfigCount): void
+    protected function validateCategoryCount(int $categoryCount, int $categoryConfigCount): void
     {
         $this->assertCount($categoryCount, self::$categoryRepository->findAll());
         $this->assertCount($categoryConfigCount, self::$categoryConfigurationRepository->findAll());
     }
 
-    private function createConfiguration(Category $category, ?Catalog $catalog): Configuration
+    protected function createConfiguration(Category $category, ?Catalog $catalog): Configuration
     {
         $config = new Configuration();
         $config->setCategory($category);
@@ -253,7 +253,7 @@ class CategorySynchronizerTest extends AbstractTest
         return $config;
     }
 
-    private function clearRepositoryCache(): void
+    protected function clearRepositoryCache(): void
     {
         /** @var EntityManager */
         $entityManager = static::getContainer()->get('doctrine')->getManager();
@@ -264,105 +264,7 @@ class CategorySynchronizerTest extends AbstractTest
         self::$categoryConfigurationRepository = static::getContainer()->get(CategoryConfigurationRepository::class);
     }
 
-    private function createIndex(string $entityType, int $catalogId): string
-    {
-        $indexName = '';
-        $this->validateApiCall(
-            new RequestGraphQlToTest(
-                <<<GQL
-                    mutation {
-                      createIndex(input: {
-                        entityType: "{$entityType}",
-                        localizedCatalog: "{$catalogId}"
-                      }) {
-                        index {
-                          id
-                          name
-                          aliases
-                        }
-                      }
-                    }
-                GQL,
-                $this->getUser(Role::ROLE_ADMIN),
-            ),
-            new ExpectedResponse(
-                200,
-                function (ResponseInterface $response) use (&$indexName) {
-                    $responseData = $response->toArray();
-                    $indexName = $responseData['data']['createIndex']['index']['name'];
-                }
-            )
-        );
-
-        return $indexName;
-    }
-
-    private function installIndex(string $indexName): void
-    {
-        $this->validateApiCall(
-            new RequestGraphQlToTest(
-                <<<GQL
-                    mutation {
-                      installIndex(input: {
-                        name: "$indexName"
-                      }) {
-                        index {
-                          id
-                          name
-                          aliases
-                        }
-                      }
-                    }
-                GQL,
-                $this->getUser(Role::ROLE_ADMIN),
-            ),
-            new ExpectedResponse(200)
-        );
-    }
-
-    private function bulkIndex(string $indexName, array $data): void
-    {
-        $data = addslashes(json_encode($data));
-        $this->validateApiCall(
-            new RequestGraphQlToTest(
-                <<<GQL
-                    mutation {
-                      bulkIndex(input: {
-                        indexName: "{$indexName}",
-                        data: "{$data}"
-                      }) {
-                        index { name }
-                      }
-                    }
-                GQL,
-                $this->getUser(Role::ROLE_ADMIN),
-            ),
-            new ExpectedResponse(200)
-        );
-    }
-
-    private function bulkDeleteIndex(string $indexName, array $ids): void
-    {
-        $ids = json_encode($ids);
-        $this->validateApiCall(
-            new RequestGraphQlToTest(
-                <<<GQL
-                    mutation {
-                      bulkDeleteIndex(input: {
-                        indexName: "{$indexName}",
-                        ids: $ids
-                      }) {
-                        index { name }
-                      }
-                    }
-                GQL,
-                $this->getUser(Role::ROLE_ADMIN),
-            ),
-            new ExpectedResponse(200)
-        );
-    }
-
-    private function getMockerSynchronizer(bool $succeedOnRetry = false): CategorySynchronizer
+    protected function getMockerSynchronizer(bool $succeedOnRetry = false): CategorySynchronizer
     {
         $configurationMock = $this->getMockBuilder(\Doctrine\DBAL\Configuration::class)
             ->disableOriginalConstructor()

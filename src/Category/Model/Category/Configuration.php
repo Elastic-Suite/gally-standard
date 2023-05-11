@@ -87,9 +87,9 @@ class Configuration
 
     private Category $category;
 
-    private ?Catalog $catalog;
+    private ?Catalog $catalog = null;
 
-    private ?LocalizedCatalog $localizedCatalog;
+    private ?LocalizedCatalog $localizedCatalog = null;
 
     private ?string $name = null;
 
