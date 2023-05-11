@@ -131,13 +131,13 @@ class IndexOperationsTest extends AbstractEntityTest
 
         return [
             [$user, 'wrong_id', [], 404],
-            [null, ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_test_fr_product_20220429_153000', [], 401],
+            [null, ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_test_fr_product_20990429_153000', [], 401],
             [
                 $this->getUser(Role::ROLE_ADMIN),
-                ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_test_fr_product_20220429_153000',
+                ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_test_fr_product_20990429_153000',
                 [
-                    'id' => ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_test_fr_product_20220429_153000',
-                    'name' => ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_test_fr_product_20220429_153000',
+                    'id' => ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_test_fr_product_20990429_153000',
+                    'name' => ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_test_fr_product_20990429_153000',
                     'aliases' => [],
                     'docsCount' => 2,
                     'entityType' => 'product',
@@ -350,9 +350,9 @@ class IndexOperationsTest extends AbstractEntityTest
         $adminUser = $this->getUser(Role::ROLE_ADMIN);
 
         return [
-            [null, ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_test_fr_product_20220429_153000', 401],
-            [$this->getUser(Role::ROLE_CONTRIBUTOR), ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_test_fr_product_20220429_153000', 403],
-            [$adminUser, ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_test_fr_product_20220429_153000', 204],
+            [null, ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_test_fr_product_20990429_153000', 401],
+            [$this->getUser(Role::ROLE_CONTRIBUTOR), ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_test_fr_product_20990429_153000', 403],
+            [$adminUser, ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_test_fr_product_20990429_153000', 204],
             [$adminUser, 'wrong_id', 404],
         ];
     }
