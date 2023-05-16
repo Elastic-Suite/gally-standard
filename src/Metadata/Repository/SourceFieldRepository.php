@@ -36,14 +36,20 @@ class SourceFieldRepository extends ServiceEntityRepository
     /**
      * @return SourceField[]
      */
-    public function getSortableFields(string $entityCode): array
+    public function getSortableFields(string $entityCode, array $attributeToExclude = []): array
     {
-        return $this->findBy(
-            [
-                'metadata' => $this->metadataRepository->findBy(['entity' => $entityCode]),
-                'isSortable' => true,
-            ]
-        );
+        $queryBuilder = $this->createQueryBuilder('o')
+            ->where('o.metadata = :metadata')
+            ->andWhere('o.isSortable = true')
+            ->setParameter('metadata', $this->metadataRepository->findOneBy(['entity' => $entityCode]));
+
+        if (!empty($attributeToExclude)) {
+            $queryBuilder
+                ->andWhere('o.code not in (:excluded_attribute)')
+                ->setParameter('excluded_attribute', $attributeToExclude);
+        }
+
+        return $queryBuilder->getQuery()->getResult();
     }
 
     /**

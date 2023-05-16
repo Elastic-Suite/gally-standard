@@ -124,7 +124,7 @@ class SortOrderBuilderTest extends AbstractTest
                     ],
                     [
                         'type' => SortOrderInterface::TYPE_STANDARD,
-                        'field' => 'id',
+                        'field' => 'id.sortable',
                         'direction' => SortOrderInterface::SORT_DESC,
                     ],
                 ],
@@ -151,7 +151,7 @@ class SortOrderBuilderTest extends AbstractTest
                     ],
                     [
                         'type' => SortOrderInterface::TYPE_STANDARD,
-                        'field' => 'id',
+                        'field' => 'id.sortable',
                         'direction' => SortOrderInterface::SORT_DESC,
                     ],
                 ],
@@ -178,7 +178,7 @@ class SortOrderBuilderTest extends AbstractTest
                     ],
                     [
                         'type' => SortOrderInterface::TYPE_STANDARD,
-                        'field' => 'id',
+                        'field' => 'id.sortable',
                         'direction' => SortOrderInterface::SORT_ASC,
                     ],
                 ],
@@ -207,7 +207,7 @@ class SortOrderBuilderTest extends AbstractTest
                     ],
                     [
                         'type' => SortOrderInterface::TYPE_STANDARD,
-                        'field' => 'id',
+                        'field' => 'id.sortable',
                         'direction' => SortOrderInterface::SORT_ASC,
                     ],
                 ],
@@ -236,7 +236,7 @@ class SortOrderBuilderTest extends AbstractTest
                     ],
                     [
                         'type' => SortOrderInterface::TYPE_STANDARD,
-                        'field' => 'id',
+                        'field' => 'id.sortable',
                         'direction' => SortOrderInterface::SORT_DESC,
                     ],
                 ],
@@ -272,7 +272,7 @@ class SortOrderBuilderTest extends AbstractTest
                     ],
                     [
                         'type' => SortOrderInterface::TYPE_STANDARD,
-                        'field' => 'id',
+                        'field' => 'id.sortable',
                         'direction' => SortOrderInterface::SORT_ASC,
                     ],
                 ],
@@ -311,7 +311,7 @@ class SortOrderBuilderTest extends AbstractTest
                     ],
                     [
                         'type' => SortOrderInterface::TYPE_STANDARD,
-                        'field' => 'id',
+                        'field' => 'id.sortable',
                         'direction' => SortOrderInterface::SORT_DESC,
                     ],
                 ],
@@ -397,7 +397,7 @@ class SortOrderBuilderTest extends AbstractTest
                     ],
                     [
                         'type' => SortOrderInterface::TYPE_STANDARD,
-                        'field' => 'id',
+                        'field' => 'id.sortable',
                         'direction' => SortOrderInterface::SORT_DESC,
                     ],
                 ],
@@ -424,7 +424,7 @@ class SortOrderBuilderTest extends AbstractTest
                     ],
                     [
                         'type' => SortOrderInterface::TYPE_STANDARD,
-                        'field' => 'id',
+                        'field' => 'id.sortable',
                         'direction' => SortOrderInterface::SORT_ASC,
                     ],
                 ],
