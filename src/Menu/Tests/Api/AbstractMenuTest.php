@@ -45,11 +45,13 @@ abstract class AbstractMenuTest extends AbstractTest
                     'label' => 'Optimiseur',
                     'order' => 20,
                     'css_class' => 'boost',
+                    'path' => '/boost/grid',
                 ],
                 [
                     'code' => 'thesaurus',
                     'label' => 'Thésaurus',
                     'order' => 30,
+                    'path' => '/thesaurus/grid',
                 ],
             ],
         ];
@@ -78,11 +80,13 @@ abstract class AbstractMenuTest extends AbstractTest
                     'label' => 'Optimizer',
                     'order' => 20,
                     'css_class' => 'boost',
+                    'path' => '/boost/grid',
                 ],
                 [
                     'code' => 'thesaurus',
                     'label' => 'Thesaurus',
                     'order' => 30,
+                    'path' => '/thesaurus/grid',
                 ],
             ],
         ];

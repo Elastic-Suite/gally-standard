@@ -79,9 +79,9 @@
                 <target>Recommendations comportementales</target>
             </segment>
         </unit>
-        <unit id="gally.menu.merchandize_recommender_boosts.label">
+        <unit id="gally.menu.merchandize_boosts.label">
             <segment>
-                <source>gally.menu.merchandize_recommender_boosts.label</source>
+                <source>gally.menu.merchandize_boosts.label</source>
                 <target>Boosts</target>
             </segment>
         </unit>
@@ -121,9 +121,9 @@
                 <target>Facettes</target>
             </segment>
         </unit>
-        <unit id="gally.menu.search_thesasurus.label">
+        <unit id="gally.menu.search_thesaurus.label">
             <segment>
-                <source>gally.menu.search_thesasurus.label</source>
+                <source>gally.menu.search_thesaurus.label</source>
                 <target>Thésaurus</target>
             </segment>
         </unit>

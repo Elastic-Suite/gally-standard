@@ -38,6 +38,7 @@ class MenuBuilder
                 $this->translator->trans("gally.menu.$entry.label", [], 'menu'),
                 $data['order'] ?? null,
                 $data['css_class'] ?? null,
+                $data['path'] ?? null,
             );
             $parentItem = $menuItems[$parentCode] ?? null;
             if (!$parentItem) {
