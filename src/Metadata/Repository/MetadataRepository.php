@@ -34,9 +34,9 @@ class MetadataRepository extends ServiceEntityRepository
         parent::__construct($registry, Metadata::class);
     }
 
-    public function findByEntity(string $entityType): ?Metadata
+    public function findByEntity(string $entityType, $withCache = true): ?Metadata
     {
-        if (!isset($this->cache[$entityType])) {
+        if (!$withCache || !isset($this->cache[$entityType])) {
             $metadata = $this->findOneBy(['entity' => $entityType]);
             if (!$metadata) {
                 throw new InvalidArgumentException(sprintf('Entity type [%s] does not exist', $entityType));
