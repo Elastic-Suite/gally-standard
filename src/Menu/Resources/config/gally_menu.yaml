@@ -39,9 +39,10 @@ gally:
 #        merchandize_recommender_behavioral_recommenders:
 #            order: 30
 #            parent: merchandize_recommender
-#        merchandize_recommender_boosts:
+#        merchandize_boosts:
 #            order: 40
 #            parent: merchandize
+#            path: '/merchandize/boost/grid'
   
         search:
             order: 40
@@ -60,9 +61,10 @@ gally:
         search_facets:
             order: 20
             parent: search
-#        search_thesasurus:
+#        search_thesaurus:
 #            order: 30
 #            parent: search
+#            path: '/search/thesaurus/grid'
 
 #        monitoring:
 #            order: 50

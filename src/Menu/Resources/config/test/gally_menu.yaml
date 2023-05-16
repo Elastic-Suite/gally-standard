@@ -10,6 +10,8 @@ gally:
             order: 10
         thesaurus:
             order: 30
+            path: '/thesaurus/grid'
         optimizer:
             order: 20
-            css_class: "boost"
+            css_class: 'boost'
+            path: '/boost/grid'
