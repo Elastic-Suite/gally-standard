@@ -45,9 +45,8 @@ class IndexOperation
         }
 
         $indexSettings = [
-            'settings' => $this->indexSettings->getCreateIndexSettings() + $this->indexSettings->getDynamicIndexSettings($localizedCatalog),
+            'settings' => $this->indexSettings->getCreateIndexSettings() + $this->indexSettings->getDynamicIndexSettings($metadata, $localizedCatalog),
         ];
-        $indexSettings['settings']['analysis'] = $this->indexSettings->getAnalysisSettings($localizedCatalog);
         $indexSettings['mappings'] = $this->metadataManager->getMapping($metadata)->asArray();
         $newIndexAliases = $this->indexSettings->getNewIndexMetadataAliases($metadata->getEntity(), $localizedCatalog);
         if (!empty($newIndexAliases)) {

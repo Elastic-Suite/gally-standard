@@ -18,6 +18,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Gally\Metadata\Model\Metadata;
 use Gally\Metadata\Model\SourceField;
+use Gally\Metadata\Model\SourceField\Type;
 
 /**
  * @method SourceField|null find($id, $lockMode = null, $lockVersion = null)
@@ -35,14 +36,20 @@ class SourceFieldRepository extends ServiceEntityRepository
     /**
      * @return SourceField[]
      */
-    public function getSortableFields(string $entityCode): array
+    public function getSortableFields(string $entityCode, array $attributeToExclude = []): array
     {
-        return $this->findBy(
-            [
-                'metadata' => $this->metadataRepository->findBy(['entity' => $entityCode]),
-                'isSortable' => true,
-            ]
-        );
+        $queryBuilder = $this->createQueryBuilder('o')
+            ->where('o.metadata = :metadata')
+            ->andWhere('o.isSortable = true')
+            ->setParameter('metadata', $this->metadataRepository->findOneBy(['entity' => $entityCode]));
+
+        if (!empty($attributeToExclude)) {
+            $queryBuilder
+                ->andWhere('o.code not in (:excluded_attribute)')
+                ->setParameter('excluded_attribute', $attributeToExclude);
+        }
+
+        return $queryBuilder->getQuery()->getResult();
     }
 
     /**
@@ -92,5 +99,28 @@ class SourceFieldRepository extends ServiceEntityRepository
                 'isFilterable' => true,
             ]
         );
+    }
+
+    /**
+     * @return SourceField[]
+     */
+    public function getComplexeFields(Metadata $metadata): array
+    {
+        $exprBuilder = $this->getEntityManager()->getExpressionBuilder();
+        $query = $this->createQueryBuilder('s')
+            ->where('s.metadata = :metadata')
+            ->andWhere(
+                $exprBuilder->orX(
+                    $exprBuilder->like('s.code', "'%.%'"),
+                    $exprBuilder->in(
+                        's.type',
+                        [Type::TYPE_SELECT, Type::TYPE_PRICE, Type::TYPE_STOCK, Type::TYPE_CATEGORY]
+                    )
+                )
+            )
+            ->setParameter('metadata', $metadata)
+            ->getQuery();
+
+        return $query->getResult();
     }
 }

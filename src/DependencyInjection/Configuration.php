@@ -48,6 +48,7 @@ class Configuration implements ConfigurationInterface
                             ->scalarNode('order')->end()
                             ->scalarNode('css_class')->end()
                             ->scalarNode('parent')->end()
+                            ->scalarNode('path')->end()
                         ->end()
                     ->end()
                 ->end()

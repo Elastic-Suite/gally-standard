@@ -21,6 +21,7 @@ class MenuItem
         private ?string $label = null,
         private ?int $order = null,
         private ?string $cssClass = null,
+        private ?string $path = null,
         private array $children = []
     ) {
         ksort($this->children);
@@ -44,6 +45,11 @@ class MenuItem
     public function getCssClass(): ?string
     {
         return $this->cssClass;
+    }
+
+    public function getPath(): ?string
+    {
+        return $this->path;
     }
 
     /**
@@ -86,6 +92,9 @@ class MenuItem
         }
         if ($this->getCssClass()) {
             $data['css_class'] = $this->getCssClass();
+        }
+        if ($this->getPath()) {
+            $data['path'] = $this->getPath();
         }
         if (!empty($children)) {
             $data['children'] = $children;

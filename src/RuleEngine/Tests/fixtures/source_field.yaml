@@ -2,8 +2,9 @@ Gally\Metadata\Model\SourceField:
     product_id:
         metadata: '@product'
         code: 'id'
-        type: 'int'
+        type: 'reference'
         isSystem: true
+        isSortable: true
         isFilterable: true
     product_sku:
         metadata: '@product'
@@ -49,6 +50,12 @@ Gally\Metadata\Model\SourceField:
         metadata: '@product'
         code: 'price'
         type: 'price'
+        isUsedForRules: true
+        isSystem: true
+    product_size:
+        metadata: '@product'
+        code: 'size'
+        type: 'int'
         isUsedForRules: true
         isSystem: true
     product_stock:

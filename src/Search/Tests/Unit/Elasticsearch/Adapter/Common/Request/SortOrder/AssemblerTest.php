@@ -134,7 +134,7 @@ class AssemblerTest extends AbstractTest
                     ],
                     [
                         'type' => SortOrderInterface::TYPE_STANDARD,
-                        'field' => 'id',
+                        'field' => 'id.sortable',
                         'direction' => SortOrderInterface::SORT_DESC,
                     ],
                 ],
@@ -145,7 +145,7 @@ class AssemblerTest extends AbstractTest
                         ],
                     ],
                     [
-                        'id' => [
+                        'id.sortable' => [
                             'order' => SortOrderInterface::SORT_DESC,
                             'missing' => SortOrderInterface::MISSING_FIRST,
                             'unmapped_type' => FieldInterface::FIELD_TYPE_KEYWORD,
@@ -175,7 +175,7 @@ class AssemblerTest extends AbstractTest
                     ],
                     [
                         'type' => SortOrderInterface::TYPE_STANDARD,
-                        'field' => 'id',
+                        'field' => 'id.sortable',
                         'direction' => SortOrderInterface::SORT_DESC,
                     ],
                 ],
@@ -195,7 +195,7 @@ class AssemblerTest extends AbstractTest
                         ],
                     ],
                     [
-                        'id' => [
+                        'id.sortable' => [
                             'order' => SortOrderInterface::SORT_DESC,
                             'missing' => SortOrderInterface::MISSING_FIRST,
                             'unmapped_type' => FieldInterface::FIELD_TYPE_KEYWORD,
@@ -225,7 +225,7 @@ class AssemblerTest extends AbstractTest
                     ],
                     [
                         'type' => SortOrderInterface::TYPE_STANDARD,
-                        'field' => 'id',
+                        'field' => 'id.sortable',
                         'direction' => SortOrderInterface::SORT_ASC,
                     ],
                 ],
@@ -246,7 +246,7 @@ class AssemblerTest extends AbstractTest
                         ],
                     ],
                     [
-                        'id' => [
+                        'id.sortable' => [
                             'order' => SortOrderInterface::SORT_ASC,
                             'missing' => SortOrderInterface::MISSING_LAST,
                             'unmapped_type' => FieldInterface::FIELD_TYPE_KEYWORD,
@@ -278,7 +278,7 @@ class AssemblerTest extends AbstractTest
                     ],
                     [
                         'type' => SortOrderInterface::TYPE_STANDARD,
-                        'field' => 'id',
+                        'field' => 'id.sortable',
                         'direction' => SortOrderInterface::SORT_ASC,
                     ],
                 ],
@@ -306,7 +306,7 @@ class AssemblerTest extends AbstractTest
                         ],
                     ],
                     [
-                        'id' => [
+                        'id.sortable' => [
                             'order' => SortOrderInterface::SORT_ASC,
                             'missing' => SortOrderInterface::MISSING_LAST,
                             'unmapped_type' => FieldInterface::FIELD_TYPE_KEYWORD,
@@ -345,7 +345,7 @@ class AssemblerTest extends AbstractTest
                     ],
                     [
                         'type' => SortOrderInterface::TYPE_STANDARD,
-                        'field' => 'id',
+                        'field' => 'id.sortable',
                         'direction' => SortOrderInterface::SORT_ASC,
                     ],
                 ],
@@ -367,7 +367,7 @@ class AssemblerTest extends AbstractTest
                         ],
                     ],
                     [
-                        'id' => [
+                        'id.sortable' => [
                             'order' => SortOrderInterface::SORT_ASC,
                             'missing' => SortOrderInterface::MISSING_LAST,
                             'unmapped_type' => FieldInterface::FIELD_TYPE_KEYWORD,
@@ -408,7 +408,7 @@ class AssemblerTest extends AbstractTest
                         ],
                         [
                             'type' => SortOrderInterface::TYPE_STANDARD,
-                            'field' => 'id',
+                            'field' => 'id.sortable',
                             'direction' => SortOrderInterface::SORT_DESC,
                         ],
                     ],
@@ -430,7 +430,7 @@ class AssemblerTest extends AbstractTest
                             ],
                         ],
                         [
-                            'id' => [
+                            'id.sortable' => [
                                 'order' => SortOrderInterface::SORT_DESC,
                                 'missing' => SortOrderInterface::MISSING_FIRST,
                                 'unmapped_type' => 'keyword',

@@ -57,7 +57,22 @@ class IndexManagerTest extends AbstractTest
                 'product',
                 [
                     'properties' => [
-                        'id' => ['type' => 'integer'],
+                        'id' => [
+                            'type' => 'text',
+                            'analyzer' => 'keyword',
+                            'norms' => false,
+                            'fields' => [
+                                'reference' => [
+                                    'type' => 'text',
+                                    'analyzer' => 'reference',
+                                ],
+                                'sortable' => [
+                                    'type' => 'text',
+                                    'analyzer' => 'sortable',
+                                    'fielddata' => true,
+                                ],
+                            ],
+                        ],
                         'sku' => [
                             'type' => 'text',
                             'analyzer' => 'keyword',
@@ -171,6 +186,22 @@ class IndexManagerTest extends AbstractTest
                                     'analyzer' => 'keyword',
                                     'copy_to' => ['search'],
                                     'norms' => false,
+                                ],
+                                'id' => [
+                                    'type' => 'text',
+                                    'analyzer' => 'keyword',
+                                    'norms' => false,
+                                    'fields' => [
+                                        'reference' => [
+                                            'type' => 'text',
+                                            'analyzer' => 'reference',
+                                        ],
+                                        'sortable' => [
+                                            'type' => 'text',
+                                            'analyzer' => 'sortable',
+                                            'fielddata' => true,
+                                        ],
+                                    ],
                                 ],
                             ],
                         ],

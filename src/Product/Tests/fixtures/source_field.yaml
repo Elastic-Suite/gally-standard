@@ -2,7 +2,7 @@ Gally\Metadata\Model\SourceField:
     product_id:
         metadata: '@product'
         code: 'id'
-        type: 'int'
+        type: 'reference'
         isSystem: true
         isSortable: true
         isUsedForRules: true

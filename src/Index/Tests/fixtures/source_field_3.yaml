@@ -9,39 +9,11 @@ Gally\Metadata\Model\SourceField:
         isSortable: false
         isSpellchecked: false
         isUsedForRules: false
-    category_name:
-        metadata: '@category'
-        code: 'name'
-        type: 'text'
-        weight: 10
-        isSearchable: false
-        isFilterable: false
-        isSortable: false
-        isSpellchecked: false
-        isUsedForRules: false
-    category_description:
-        metadata: '@category'
-        code: 'description'
-        type: 'text'
-        isSearchable: true
-        isSpellchecked: true
-    category_short_description:
-        metadata: '@category'
-        code: 'short_description'
-        # missing type on purpose
-        isSearchable: true
-        isSpellchecked: true
-    category_id:
-        metadata: '@category'
-        code: 'id'
-        type: 'int'
-        isSystem: true
     product_id:
         metadata: '@product'
         code: 'id'
-        type: 'reference'
+        type: 'int'
         isSystem: true
-        isSortable: true
     product_sku:
         metadata: '@product'
         code: 'sku'

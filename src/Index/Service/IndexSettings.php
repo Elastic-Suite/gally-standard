@@ -14,47 +14,387 @@ declare(strict_types=1);
 
 namespace Gally\Index\Service;
 
+use Exception;
 use Gally\Analysis\Service\Config;
 use Gally\Catalog\Model\LocalizedCatalog;
+use Gally\Catalog\Repository\LocalizedCatalogRepository;
 use Gally\Index\Api\IndexSettingsInterface;
-use Gally\Index\Helper\IndexSettings as IndexSettingsHelper;
 use Gally\Index\Model\Index;
+use Gally\Metadata\Model\Metadata;
+use Gally\Metadata\Repository\SourceFieldRepository;
 
 class IndexSettings implements IndexSettingsInterface
 {
     /**
+     * @var string
+     */
+    public const FULL_REINDEX_REFRESH_INTERVAL = '30s';
+
+    /**
+     * @var string
+     */
+    public const DIFF_REINDEX_REFRESH_INTERVAL = '1s';
+
+    /**
+     * @var string
+     */
+    public const FULL_REINDEX_TRANSLOG_DURABILITY = 'async';
+
+    /**
+     * @var string
+     */
+    public const DIFF_REINDEX_TRANSLOG_DURABILITY = 'request';
+
+    /**
+     * @var int
+     */
+    public const MERGE_FACTOR = 20;
+
+    /**
+     * @var string
+     */
+    public const CODEC = 'best_compression';
+
+    /**
+     * @var int
+     */
+    public const TOTAL_FIELD_LIMIT = 20000;
+
+    /**
+     * @var int
+     */
+    public const PER_SHARD_MAX_RESULT_WINDOW = 100000;
+
+    /**
+     * @var int
+     */
+    public const MIN_SHINGLE_SIZE_DEFAULT = 2;
+
+    /**
+     * @var int
+     */
+    public const MAX_SHINGLE_SIZE_DEFAULT = 2;
+
+    /**
+     * @var int
+     */
+    public const MIN_NGRAM_SIZE_DEFAULT = 1;
+
+    /**
+     * @var int
+     */
+    public const MAX_NGRAM_SIZE_DEFAULT = 2;
+
+    /**
      * IndexSettings constructor.
      *
-     * @param IndexSettingsHelper $indexSettingsHelper Index settings helper
+     * @param LocalizedCatalogRepository $localizedCatalogRepository Catalog repository
+     * @param array<mixed>               $indicesConfiguration       Indices configuration
+     * @param Config                     $analysisConfig             Analysis configuration
+     * @param SourceFieldRepository      $sourceFieldRepository      Source field repository
      */
     public function __construct(
-        private IndexSettingsHelper $indexSettingsHelper,
+        private LocalizedCatalogRepository $localizedCatalogRepository,
+        private array $indicesConfiguration,
         private Config $analysisConfig,
+        private SourceFieldRepository $sourceFieldRepository,
     ) {
     }
 
     /**
-     * {@inheritDoc}
-     */
-    public function getIndexAliasFromIdentifier(string $indexIdentifier, LocalizedCatalog|int|string $localizedCatalog): string
-    {
-        return $this->indexSettingsHelper->getIndexAliasFromIdentifier($indexIdentifier, $localizedCatalog);
-    }
-
-    /**
-     * {@inheritDoc}
+     * Create a new index name for a given entity/index identifier (eg. product) and catalog including current date.
+     *
+     * @param string                      $indexIdentifier  Index identifier
+     * @param int|string|LocalizedCatalog $localizedCatalog The catalog
      */
     public function createIndexNameFromIdentifier(string $indexIdentifier, LocalizedCatalog|int|string $localizedCatalog): string
     {
-        return $this->indexSettingsHelper->createIndexNameFromIdentifier($indexIdentifier, $localizedCatalog);
+        $indexNameSuffix = $this->getIndexNameSuffix(new \DateTime());
+
+        return sprintf('%s_%s', $this->getIndexAliasFromIdentifier($indexIdentifier, $localizedCatalog), $indexNameSuffix);
     }
 
     /**
-     * {@inheritDoc}
+     * Returns the index alias for an identifier (eg. product) by catalog.
+     *
+     * @param string                      $indexIdentifier  An index identifier
+     * @param int|string|LocalizedCatalog $localizedCatalog The localized catalog
+     */
+    public function getIndexAliasFromIdentifier(string $indexIdentifier, int|string|LocalizedCatalog $localizedCatalog): string
+    {
+        $catalogCode = strtolower((string) $this->getCatalogCode($localizedCatalog));
+
+        return sprintf('%s_%s_%s', $this->getIndexNamePrefix(), $catalogCode, $indexIdentifier);
+    }
+
+    /**
+     * Return the index aliases to set to a newly created index for an identifier (eg. product) by catalog.
+     *
+     * @param string                      $indexIdentifier  An index identifier
+     * @param LocalizedCatalog|int|string $localizedCatalog Localized catalog
+     *
+     * @return string[]
      */
     public function getNewIndexMetadataAliases(string $indexIdentifier, LocalizedCatalog|int|string $localizedCatalog): array
     {
-        return $this->indexSettingsHelper->getNewIndexMetadataAliases($indexIdentifier, $localizedCatalog);
+        $catalog = $this->getLocalizedCatalog($localizedCatalog);
+
+        return [
+            sprintf('.entity_%s', $indexIdentifier),
+            sprintf('.catalog_%d', $catalog->getId()),
+        ];
+    }
+
+    /**
+     * Returns settings used during index creation.
+     *
+     * @return array<mixed>
+     */
+    public function getCreateIndexSettings(): array
+    {
+        return [
+            'requests.cache.enable' => true,
+            'number_of_replicas' => 0,
+            'number_of_shards' => $this->getNumberOfShards(),
+            'refresh_interval' => self::FULL_REINDEX_REFRESH_INTERVAL,
+            'merge.scheduler.max_thread_count' => 1,
+            'translog.durability' => self::FULL_REINDEX_TRANSLOG_DURABILITY,
+            'codec' => self::CODEC,
+            'max_result_window' => $this->getMaxResultWindow(),
+            'mapping.total_fields.limit' => self::TOTAL_FIELD_LIMIT,
+        ];
+    }
+
+    /**
+     * Returns settings used when installing an index.
+     *
+     * @return array<mixed>
+     */
+    public function getInstallIndexSettings(): array
+    {
+        return [
+            'number_of_replicas' => $this->getNumberOfReplicas(),
+            'refresh_interval' => self::DIFF_REINDEX_REFRESH_INTERVAL,
+            'translog' => ['durability' => self::DIFF_REINDEX_TRANSLOG_DURABILITY],
+        ];
+    }
+
+    /**
+     * Get number of shards from the configuration.
+     */
+    public function getNumberOfShards(): int
+    {
+        return (int) $this->getIndicesSettingsConfigParam('number_of_shards');
+    }
+
+    /**
+     * Get number of replicas from the configuration.
+     */
+    public function getNumberOfReplicas(): int
+    {
+        return (int) $this->getIndicesSettingsConfigParam('number_of_replicas');
+    }
+
+    /**
+     * Get number the batch indexing size from the configuration.
+     */
+    public function getBatchIndexingSize(): int
+    {
+        return (int) $this->getIndicesSettingsConfigParam('batch_indexing_size');
+    }
+
+    /**
+     * Max number of results per query.
+     */
+    public function getMaxResultWindow(): int
+    {
+        return (int) $this->getNumberOfShards() * self::PER_SHARD_MAX_RESULT_WINDOW;
+    }
+
+    /**
+     * Get maximum shingle diff for an index.
+     *
+     * @param array<mixed> $analysisSettings Index analysis settings
+     */
+    public function getMaxShingleDiff(array $analysisSettings): int|false
+    {
+        $maxShingleDiff = false;
+        foreach ($analysisSettings['filter'] ?? [] as $filter) {
+            if (($filter['type'] ?? null) === 'shingle') {
+                // @codingStandardsIgnoreStart
+                $filterDiff = (int) ($filter['max_shingle_size'] ?? self::MAX_SHINGLE_SIZE_DEFAULT)
+                    - (int) ($filter['min_shingle_size'] ?? self::MIN_SHINGLE_SIZE_DEFAULT);
+                // codingStandardsIgnoreEnd
+                $maxShingleDiff = max((int) $maxShingleDiff, $filterDiff) + 1;
+            }
+        }
+
+        return $maxShingleDiff;
+    }
+
+    /**
+     * Get maximum ngram diff for an index.
+     *
+     * @param array<mixed> $analysisSettings Index analysis Settings
+     */
+    public function getMaxNgramDiff(array $analysisSettings): int|false
+    {
+        $maxNgramDiff = false;
+        foreach ($analysisSettings['filter'] ?? [] as $filter) {
+            if (\in_array(($filter['type'] ?? null), ['ngram', 'edge_ngram'], true)) {
+                $filterDiff = (int) ($filter['max_gram'] ?? self::MAX_NGRAM_SIZE_DEFAULT)
+                    - (int) ($filter['min_gram'] ?? self::MIN_NGRAM_SIZE_DEFAULT);
+
+                $maxNgramDiff = max((int) $maxNgramDiff, $filterDiff) + 1;
+            }
+        }
+
+        return $maxNgramDiff;
+    }
+
+    /**
+     * Extract original entity from index metadata aliases.
+     */
+    public function extractEntityFromAliases(Index $index): string|null
+    {
+        $entityType = preg_filter('#^\.entity_(.+)$#', '$1', $index->getAliases(), 1);
+        if (!empty($entityType)) {
+            if (\is_array($entityType)) {
+                $entityType = current($entityType);
+            }
+        } else {
+            $entityType = null;
+        }
+
+        return $entityType;
+    }
+
+    /**
+     * Extract original catalog id from index metadata aliases.
+     *
+     * @throws Exception
+     */
+    public function extractCatalogFromAliases(Index $index): LocalizedCatalog|null
+    {
+        $localizedCatalogId = preg_filter('#^\.catalog_(.+)$#', '$1', $index->getAliases(), 1);
+        if (!empty($localizedCatalogId)) {
+            if (\is_array($localizedCatalogId)) {
+                $localizedCatalogId = current($localizedCatalogId);
+            }
+            $localizedCatalogId = (int) $localizedCatalogId;
+            $catalog = $this->getLocalizedCatalog($localizedCatalogId);
+        } else {
+            $catalog = null;
+        }
+
+        return $catalog;
+    }
+
+    /**
+     * Check if index name follow the naming convention.
+     */
+    public function isInternal(Index $index): bool
+    {
+        return 1 === preg_match("#^{$this->getIndexNamePrefix()}_.*_.*_[0-9]{8}_[0-9]{6}$#", $index->getName());
+    }
+
+    /**
+     * Check if index has been installed.
+     */
+    public function isInstalled(Index $index): bool
+    {
+        $installedAlias = $this->getIndexAliasFromIdentifier($index->getEntityType(), $index->getLocalizedCatalog());
+
+        return \in_array($installedAlias, $index->getAliases(), true);
+    }
+
+    /**
+     * Check if index is obsolete.
+     */
+    public function isObsolete(Index $index): bool
+    {
+        if (!$this->isInternal($index)) {
+            return false;
+        }
+
+        $timestampPattern = $this->getIndicesSettingsConfigParam('timestamp_pattern');
+        $timeBeforeGhost = $this->getIndicesSettingsConfigParam('time_before_ghost');
+        preg_match("#^{$this->getIndexNamePrefix()}_.*_.*_([0-9]{8}_[0-9]{6})$#", $index->getName(), $creationTime);
+        $creationTime = \DateTime::createFromFormat(str_replace(['{', '}'], '', $timestampPattern), $creationTime[1]);
+        $currentTime = new \DateTime();
+
+        return ($currentTime->getTimestamp() - $creationTime->getTimestamp()) > $timeBeforeGhost;
+    }
+
+    /**
+     * Get the index prefix from the configuration.
+     */
+    protected function getIndexNamePrefix(): string
+    {
+        return $this->getIndicesSettingsConfigParam('prefix');
+    }
+
+    /**
+     * Get index name suffix.
+     *
+     * @param \DateTime $date Date
+     */
+    private function getIndexNameSuffix(\DateTime $date): string
+    {
+        /*
+         * Generate the suffix of the index name from the current date.
+         * e.g : Default pattern "{{YYYYMMdd}}_{{HHmmss}}" is converted to "20160221_123421".
+         */
+        $indexNameSuffix = $this->indicesConfiguration['timestamp_pattern'];
+
+        // Parse pattern to extract datetime tokens.
+        $matches = [];
+        preg_match_all('/{{([\w]*)}}/', $indexNameSuffix, $matches);
+
+        foreach (array_combine($matches[0], $matches[1]) as $k => $v) {
+            // Replace tokens (UTC date used).
+            $indexNameSuffix = str_replace($k, $date->format($v), $indexNameSuffix);
+        }
+
+        return $indexNameSuffix;
+    }
+
+    /**
+     * Read config under the path gally.yaml/indices_settings.
+     *
+     * @param string $configField Configuration field name
+     */
+    private function getIndicesSettingsConfigParam(string $configField): mixed
+    {
+        return $this->indicesConfiguration[$configField] ?? null;
+    }
+
+    /**
+     * Retrieve the catalog code from object or catalog id.
+     *
+     * @param int|string|LocalizedCatalog $localizedCatalog The localized catalog or its id or its code
+     *
+     * @throws Exception
+     */
+    private function getCatalogCode(int|string|LocalizedCatalog $localizedCatalog): ?string
+    {
+        return $this->getLocalizedCatalog($localizedCatalog)->getCode();
+    }
+
+    /**
+     * Ensure catalog is an object or load it from its id / identifier.
+     *
+     * @param int|string|LocalizedCatalog $localizedCatalog The catalog or its id or its code
+     *
+     * @throws Exception
+     */
+    private function getLocalizedCatalog(LocalizedCatalog|int|string $localizedCatalog): LocalizedCatalog
+    {
+        if (!\is_object($localizedCatalog)) {
+            $localizedCatalog = $this->localizedCatalogRepository->findByCodeOrId($localizedCatalog);
+        }
+
+        return $localizedCatalog;
     }
 
     /**
@@ -65,22 +405,6 @@ class IndexSettings implements IndexSettingsInterface
         $language = explode('_', $localizedCatalog->getLocale())[0];
 
         return $this->analysisConfig->get($language);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getCreateIndexSettings(): array
-    {
-        return $this->indexSettingsHelper->getCreateIndexSettings();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getInstallIndexSettings(): array
-    {
-        return $this->indexSettingsHelper->getInstallIndexSettings();
     }
 
     /**
@@ -104,65 +428,22 @@ class IndexSettings implements IndexSettingsInterface
     /**
      * {@inheritDoc}
      */
-    public function getBatchIndexingSize(): int
-    {
-        return $this->indexSettingsHelper->getBatchIndexingSize();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getDynamicIndexSettings(LocalizedCatalog|int|string $localizedCatalog): array
+    public function getDynamicIndexSettings(Metadata $metadata, LocalizedCatalog|int|string $localizedCatalog): array
     {
         $settings = [];
         $analysisSettings = $this->getAnalysisSettings($localizedCatalog);
 
-        $shingleDiff = $this->indexSettingsHelper->getMaxShingleDiff($analysisSettings);
-        $ngramDiff = $this->indexSettingsHelper->getMaxNgramDiff($analysisSettings);
+        $shingleDiff = $this->getMaxShingleDiff($analysisSettings);
+        $ngramDiff = $this->getMaxNgramDiff($analysisSettings);
 
-        $settings += $shingleDiff ? ['max_shingle_diff' => (int) $shingleDiff] : [];
-        $settings += $ngramDiff ? ['max_ngram_diff' => (int) $ngramDiff] : [];
+        $settings += $shingleDiff ? ['max_shingle_diff' => $shingleDiff] : [];
+        $settings += $ngramDiff ? ['max_ngram_diff' => $ngramDiff] : [];
+
+        $settings += ['analysis' => $analysisSettings];
+
+        $complexeSourceField = $this->sourceFieldRepository->getComplexeFields($metadata);
+        $settings += ['mapping.nested_fields.limit' => \count($complexeSourceField)];
 
         return $settings;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function extractEntityFromAliases(Index $index): ?string
-    {
-        return $this->indexSettingsHelper->extractEntityFromAliases($index);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function extractCatalogFromAliases(Index $index): ?LocalizedCatalog
-    {
-        return $this->indexSettingsHelper->extractCatalogFromAliases($index);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function isInternal(Index $index): bool
-    {
-        return $this->indexSettingsHelper->isInternal($index);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function isInstalled(Index $index): bool
-    {
-        return $this->indexSettingsHelper->isInstalled($index);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function isObsolete(Index $index): bool
-    {
-        return $this->indexSettingsHelper->isObsolete($index);
     }
 }

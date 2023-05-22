@@ -37,7 +37,7 @@ class EntityIndicesFixtures implements EntityIndicesFixturesInterface
      */
     public function createEntityElasticsearchIndices(string $entityType, int|string|null $localizedCatalogIdentifier = null): void
     {
-        $metadata = $this->metadataRepository->findByEntity($entityType);
+        $metadata = $this->metadataRepository->findByEntity($entityType, false);
         $localizedCatalogs = $this->getLocalizedCatalogs($localizedCatalogIdentifier);
 
         foreach ($localizedCatalogs as $catalog) {
@@ -51,7 +51,7 @@ class EntityIndicesFixtures implements EntityIndicesFixturesInterface
      */
     public function deleteEntityElasticsearchIndices(string $entityType, int|string|null $localizedCatalogIdentifier = null): void
     {
-        $metadata = $this->metadataRepository->findByEntity($entityType);
+        $metadata = $this->metadataRepository->findByEntity($entityType, false);
         $localizedCatalogs = $this->getLocalizedCatalogs($localizedCatalogIdentifier);
 
         foreach ($localizedCatalogs as $catalog) {
