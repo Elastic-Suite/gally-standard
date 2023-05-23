@@ -34,6 +34,7 @@ class GallyExtension extends Extension
     public function prepend(ContainerBuilder $container)
     {
         $this->loadGallyStandardConfigFile($container, 'doctrine_migrations.yaml', 'doctrine_migrations');
+        $this->loadGallyStandardConfigFile($container, 'doctrine.yaml', 'doctrine');
         $this->loadGallyStandardConfigFile($container, 'api_platform.yaml', 'api_platform');
         $this->loadGallyStandardConfigFile($container, 'translation.yaml', 'framework');
         $this->loadGallyStandardConfigFile($container, 'nelmio_cors.yaml', 'nelmio_cors');
