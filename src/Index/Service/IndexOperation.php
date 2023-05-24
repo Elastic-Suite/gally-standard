@@ -35,10 +35,30 @@ class IndexOperation
     /**
      * Creates an index for a given entity metadata and catalog.
      *
+     * @param string                      $indexIdentifier  Index identifier
+     * @param int|string|LocalizedCatalog $localizedCatalog LocalizedCatalog
+     * @param array                       $indexSettings    Index settings
+     */
+    public function createIndex(string $indexIdentifier, LocalizedCatalog|int|string $localizedCatalog, array $indexSettings): Index
+    {
+        $newIndexAliases = $this->indexSettings->getNewIndexMetadataAliases($indexIdentifier, $localizedCatalog);
+        if (!empty($newIndexAliases)) {
+            $indexSettings['aliases'] = array_fill_keys($newIndexAliases, ['is_hidden' => true]);
+        }
+
+        return $this->indexRepository->create(
+            $this->indexSettings->createIndexNameFromIdentifier($indexIdentifier, $localizedCatalog),
+            $indexSettings
+        );
+    }
+
+    /**
+     * Creates an index for a given entity metadata and catalog.
+     *
      * @param Metadata                    $metadata         Entity metadata
      * @param int|string|LocalizedCatalog $localizedCatalog LocalizedCatalog
      */
-    public function createIndex(Metadata $metadata, LocalizedCatalog|int|string $localizedCatalog): Index
+    public function createEntityIndex(Metadata $metadata, LocalizedCatalog|int|string $localizedCatalog): Index
     {
         if (null === $metadata->getEntity()) {
             throw new LogicException('Invalid metadata: no entity');
@@ -48,15 +68,8 @@ class IndexOperation
             'settings' => $this->indexSettings->getCreateIndexSettings() + $this->indexSettings->getDynamicIndexSettings($metadata, $localizedCatalog),
         ];
         $indexSettings['mappings'] = $this->metadataManager->getMapping($metadata)->asArray();
-        $newIndexAliases = $this->indexSettings->getNewIndexMetadataAliases($metadata->getEntity(), $localizedCatalog);
-        if (!empty($newIndexAliases)) {
-            $indexSettings['aliases'] = array_fill_keys($newIndexAliases, ['is_hidden' => true]);
-        }
 
-        return $this->indexRepository->create(
-            $this->indexSettings->createIndexNameFromIdentifier($metadata->getEntity(), $localizedCatalog),
-            $indexSettings
-        );
+        return $this->createIndex($metadata->getEntity(), $localizedCatalog, $indexSettings);
     }
 
     /**
