@@ -75,7 +75,7 @@ class CreateIndexInputDataTransformer implements DataTransformerInterface
         }
 
         try {
-            $index = $this->indexOperation->createIndex($metadata, $catalog);
+            $index = $this->indexOperation->createEntityIndex($metadata, $catalog);
         } catch (\Exception $exception) {
             // TODO log error
             throw new \Exception('An error occurred when creating the index');

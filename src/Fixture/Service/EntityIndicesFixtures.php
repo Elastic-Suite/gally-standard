@@ -41,7 +41,7 @@ class EntityIndicesFixtures implements EntityIndicesFixturesInterface
         $localizedCatalogs = $this->getLocalizedCatalogs($localizedCatalogIdentifier);
 
         foreach ($localizedCatalogs as $catalog) {
-            $index = $this->indexOperation->createIndex($metadata, $catalog);
+            $index = $this->indexOperation->createEntityIndex($metadata, $catalog);
             $this->indexOperation->installIndexByName($index->getName());
         }
     }

@@ -92,7 +92,7 @@ class SelfReindexOperation
 
         foreach ($metadata as $metadatum) {
             foreach ($localizedCatalogs as $localizedCatalog) {
-                $newIndex = $this->indexOperation->createIndex($metadatum, $localizedCatalog);
+                $newIndex = $this->indexOperation->createEntityIndex($metadatum, $localizedCatalog);
 
                 $containerConfig = $this->containerConfigurationProvider->get($metadatum, $localizedCatalog);
                 $liveIndex = $this->indexRepository->findByName($containerConfig->getIndexName());
