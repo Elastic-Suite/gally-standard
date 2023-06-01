@@ -150,21 +150,26 @@ class IndexOperation
      */
     public function proceedInstallIndex(string $indexName, string $indexAlias): void
     {
-        $aliasActions = [];
-        $toDeleteIndices = [];
+        $this->indexRepository->updateAliases(['add' => ['index' => $indexName, 'alias' => $indexAlias]]);
 
-        $aliasActions[] = [
-            'add' => ['index' => $indexName, 'alias' => $indexAlias],
-        ];
+        $this->deleteIndicesByAlias($indexAlias, [$indexName]);
+    }
+
+    public function deleteIndicesByAlias(string $indexAlias, array $indicesToSkip = []): void
+    {
+        $aliasActions = [];
+        $indicesToDeleteClean = [];
+
         try {
-            $oldIndices = array_keys($this->indexRepository->getMapping($indexAlias));
+            $indicesToDelete = array_keys($this->indexRepository->getMapping($indexAlias));
         } catch (\Elasticsearch\Common\Exceptions\Missing404Exception $e) {
-            $oldIndices = [];
+            $indicesToDelete = [];
         }
-        foreach ($oldIndices as $oldIndexName) {
-            if ($oldIndexName != $indexName) {
-                $toDeleteIndices[] = $oldIndexName;
-                $aliasActions[] = ['remove' => ['index' => $oldIndexName, 'alias' => $indexAlias]];
+
+        foreach ($indicesToDelete as $indexToDeleteName) {
+            if (!\in_array($indexToDeleteName, $indicesToSkip, true)) {
+                $indicesToDeleteClean[] = $indexToDeleteName;
+                $aliasActions[] = ['remove' => ['index' => $indexToDeleteName, 'alias' => $indexAlias]];
             }
         }
 
@@ -172,7 +177,7 @@ class IndexOperation
             $this->indexRepository->updateAliases($aliasActions);
         }
 
-        foreach ($toDeleteIndices as $toDeleteIndex) {
+        foreach ($indicesToDeleteClean as $toDeleteIndex) {
             $this->indexRepository->delete($toDeleteIndex);
         }
     }
