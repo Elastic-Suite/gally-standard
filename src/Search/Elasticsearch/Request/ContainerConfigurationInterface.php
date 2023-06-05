@@ -17,7 +17,7 @@ namespace Gally\Search\Elasticsearch\Request;
 use Gally\Catalog\Model\LocalizedCatalog;
 use Gally\Index\Model\Index\MappingInterface;
 use Gally\Metadata\Model\Metadata;
-use Gally\Search\Elasticsearch\Request\Container\RelevanceConfigurationInterface;
+use Gally\Search\Elasticsearch\Request\Container\RelevanceConfiguration\RelevanceConfigurationInterface;
 
 /**
  * Search request container configuration interface.

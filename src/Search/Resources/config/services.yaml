@@ -265,7 +265,7 @@ services:
         arguments:
             - '@.inner'
     
-    Gally\Search\Elasticsearch\Request\Container\RelevanceConfiguration\GenericRelevanceConfiguration:
+    Gally\Search\Elasticsearch\Request\Container\RelevanceConfiguration\RelevanceConfigurationFactory:
         arguments:
             - '%gally.relevance%'
     

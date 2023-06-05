@@ -12,10 +12,7 @@
 
 declare(strict_types=1);
 
-namespace Gally\Search\Elasticsearch\Request\Container;
-
-use Gally\Catalog\Model\LocalizedCatalog;
-use Gally\Search\Elasticsearch\Request\Container\RelevanceConfiguration\FuzzinessConfigurationInterface;
+namespace Gally\Search\Elasticsearch\Request\Container\RelevanceConfiguration;
 
 /**
  * Search Relevance configuration interface.
@@ -23,11 +20,6 @@ use Gally\Search\Elasticsearch\Request\Container\RelevanceConfiguration\Fuzzines
  */
 interface RelevanceConfigurationInterface
 {
-    /**
-     * Init config data.
-     */
-    public function initConfigData(?LocalizedCatalog $localizedCatalog, ?string $requestType): void;
-
     /**
      * Retrieve minimum should match.
      */

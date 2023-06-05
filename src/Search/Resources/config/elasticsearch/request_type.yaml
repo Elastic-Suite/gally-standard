@@ -4,7 +4,7 @@ services:
         arguments:
             $indexSettings: '@Gally\Index\Service\IndexSettings'
             $metadataManager: '@Gally\Index\Service\MetadataManager'
-            $relevanceConfiguration: '@Gally\Search\Elasticsearch\Request\Container\RelevanceConfiguration\GenericRelevanceConfiguration'
+            $relevanceConfigurationFactory: '@Gally\Search\Elasticsearch\Request\Container\RelevanceConfiguration\RelevanceConfigurationFactory'
             $aggregationProvider: '@Gally\Search\Elasticsearch\Request\Aggregation\Provider\FilterableSourceFields'
             $defaultSortingOptionProvider: ~
         tags:
