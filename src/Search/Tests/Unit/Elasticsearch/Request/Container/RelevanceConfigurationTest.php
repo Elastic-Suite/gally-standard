@@ -18,7 +18,7 @@ use Gally\Catalog\Repository\LocalizedCatalogRepository;
 use Gally\Metadata\Repository\MetadataRepository;
 use Gally\Search\Elasticsearch\Request\Container\Configuration\GenericContainerConfigurationFactory;
 use Gally\Search\Elasticsearch\Request\Container\RelevanceConfiguration\FuzzinessConfig;
-use Gally\Search\Elasticsearch\Request\Container\RelevanceConfigurationInterface;
+use Gally\Search\Elasticsearch\Request\Container\RelevanceConfiguration\RelevanceConfigurationInterface;
 use Gally\Test\AbstractTest;
 
 class RelevanceConfigurationTest extends AbstractTest

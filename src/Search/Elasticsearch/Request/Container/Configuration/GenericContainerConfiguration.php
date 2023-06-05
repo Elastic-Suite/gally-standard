@@ -19,7 +19,7 @@ use Gally\Index\Model\Index\MappingInterface;
 use Gally\Metadata\Model\Metadata;
 use Gally\Search\Elasticsearch\Request\Aggregation\Provider\AggregationProviderInterface;
 use Gally\Search\Elasticsearch\Request\Container\DefaultSortingOptionProviderInterface;
-use Gally\Search\Elasticsearch\Request\Container\RelevanceConfigurationInterface;
+use Gally\Search\Elasticsearch\Request\Container\RelevanceConfiguration\RelevanceConfigurationInterface;
 use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface;
 use Gally\Search\Elasticsearch\Request\QueryInterface;
 
@@ -35,7 +35,6 @@ class GenericContainerConfiguration implements ContainerConfigurationInterface
         private AggregationProviderInterface $aggregationProvider,
         private ?DefaultSortingOptionProviderInterface $defaultSortingOptionProvider,
     ) {
-        $this->relevanceConfiguration->initConfigData($this->localizedCatalog, $this->requestType);
     }
 
     /**
