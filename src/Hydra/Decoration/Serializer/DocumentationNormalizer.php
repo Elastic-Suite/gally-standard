@@ -94,6 +94,13 @@ class DocumentationNormalizer implements NormalizerInterface
         /** @var string[] $classes */
         $classes = array_keys($classes);
         foreach ($classes as $class) {
+            // Add gally documentation at class level.
+            $classDoc = array_replace_recursive(
+                $documentation['hydra:supportedClass'][$classKey],
+                $resourceMetadata->getAttribute('hydra:supportedClass') ?? [],
+            );
+            $documentation['hydra:supportedClass'][$classKey] = $classDoc;
+
             foreach ($this->propertyNameCollectionFactory->create($class, $this->getPropertyNameCollectionFactoryContext($resourceMetadata)) as $propertyName) {
                 $propertyMetadata = $this->propertyMetadataFactory->create($class, $propertyName);
                 if (null === $propertyMetadata->getAttribute('hydra:supportedProperty')
@@ -115,6 +122,7 @@ class DocumentationNormalizer implements NormalizerInterface
                 // We get the key of the property "$propertyName" from documentation array.
                 $propertyKey = array_search($propertyName, array_column($documentation['hydra:supportedClass'][$classKey]['hydra:supportedProperty'] ?? [], 'hydra:title'), true);
                 if (false !== $propertyKey) {
+                    // Add gally documentation at property level.
                     // In $documentation, we add the documentation get from the metadata property on the ApiResource.
                     $propertyDoc = array_replace_recursive(
                         $documentation['hydra:supportedClass'][$classKey]['hydra:supportedProperty'][$propertyKey],
