@@ -45,7 +45,7 @@ class LocalizedCatalogGroupOptionDataProvider implements ContextAwareCollectionD
             $groupOption['label'] = $catalog->getName();
             $options = [];
             foreach ($catalog->getLocalizedCatalogs() as $localizedCatalog) {
-                $option['value'] = "localized_catalogs/{$localizedCatalog->getId()}";
+                $option['value'] = "/localized_catalogs/{$localizedCatalog->getId()}";
                 $option['label'] = $localizedCatalog->getName();
                 $options[] = $option;
             }
