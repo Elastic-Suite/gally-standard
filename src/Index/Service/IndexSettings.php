@@ -295,7 +295,7 @@ class IndexSettings implements IndexSettingsInterface
      */
     public function isInternal(Index $index): bool
     {
-        return 1 === preg_match("#^{$this->getIndexNamePrefix()}_.*_.*_[0-9]{8}_[0-9]{6}$#", $index->getName());
+        return 1 === preg_match("#^{$this->getIndexNamePrefix()}_.*_.*_.*$#", $index->getName());
     }
 
     /**
