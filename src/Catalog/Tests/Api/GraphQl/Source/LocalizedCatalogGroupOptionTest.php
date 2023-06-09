@@ -68,8 +68,8 @@ class LocalizedCatalogGroupOptionTest extends AbstractTest
                     'value' => 'b2c_test',
                     'label' => 'B2C Test Catalog',
                     'options' => [
-                        ['value' => 'localized_catalogs/1', 'label' => 'B2C French Store View'],
-                        ['value' => 'localized_catalogs/2', 'label' => 'B2C English Store View'],
+                        ['value' => '/localized_catalogs/1', 'label' => 'B2C French Store View'],
+                        ['value' => '/localized_catalogs/2', 'label' => 'B2C English Store View'],
                     ],
                 ],
                 [
@@ -77,7 +77,7 @@ class LocalizedCatalogGroupOptionTest extends AbstractTest
                     'value' => 'b2b_test',
                     'label' => 'B2B Test Catalog',
                     'options' => [
-                        ['value' => 'localized_catalogs/3', 'label' => 'B2B English Store View'],
+                        ['value' => '/localized_catalogs/3', 'label' => 'B2B English Store View'],
                     ],
                 ],
             ]],
