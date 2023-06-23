@@ -319,7 +319,7 @@ class IndexSettings implements IndexSettingsInterface
 
         $timestampPattern = $this->getIndicesSettingsConfigParam('timestamp_pattern');
         $timeBeforeGhost = $this->getIndicesSettingsConfigParam('time_before_ghost');
-        preg_match("#^{$this->getIndexNamePrefix()}_.*_.*_([0-9]{8}_[0-9]{6})$#", $index->getName(), $creationTime);
+        preg_match("#^{$this->getIndexNamePrefix()}_.*_.*_([0-9]{8}_[0-9]{6})#", $index->getName(), $creationTime);
         $creationTime = \DateTime::createFromFormat(str_replace(['{', '}'], '', $timestampPattern), $creationTime[1]);
         $currentTime = new \DateTime();
 
