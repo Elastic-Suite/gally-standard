@@ -48,11 +48,18 @@ services:
             - '@.inner'
             - '@Gally\Product\Service\CategoryNameUpdater'
         decoration_priority: 200
+    Gally\Product\Decoration\CategoryData\SyncCategoryNameAfterBulkRest:
+        decorates: Gally\Index\DataPersister\DocumentDataPersister
+        arguments:
+            - '@.inner'
+            - '@Gally\Index\Repository\Index\IndexRepository'
+            - '@Gally\Product\Service\CategoryNameUpdater'
+        decoration_priority: 200
 
     Gally\Product\Service\CategoryNameUpdater:
         arguments:
             - '@Gally\Category\Repository\CategoryConfigurationRepository'
-            - '@api_platform.elasticsearch.client'
+            - '@Gally\Index\Repository\Index\IndexRepositoryInterface'
             - '@logger'
 
     Gally\Product\GraphQl\Type\Definition\SortOrder\CategoryDefaultSortOrderProvider:

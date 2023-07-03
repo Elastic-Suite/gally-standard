@@ -70,6 +70,33 @@ class Request
     }
 
     /**
+     * Update a document in the index.
+     */
+    public function updateDocument(Index $index, string|int|null $docId, array $data): self
+    {
+        $this->bulkData[] = ['update' => ['_index' => $index->getName(), '_type' => '_doc', '_id' => $docId]];
+        $this->bulkData[] = ['doc' => $data];
+
+        return $this;
+    }
+
+    /**
+     * Update multiple documents in the index.
+     */
+    public function updateDocuments(Index $index, array $data): self
+    {
+        array_walk(
+            $data,
+            function ($documentData) use ($index) {
+                $identifier = $documentData['entity_id'] ?? $documentData['id'] ?? null;
+                $this->updateDocument($index, $identifier, $documentData);
+            }
+        );
+
+        return $this;
+    }
+
+    /**
      * Delete a document from the index.
      */
     public function deleteDocument(Index $index, string|int $docId): self
