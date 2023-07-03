@@ -14,11 +14,12 @@ declare(strict_types=1);
 
 namespace Gally\Product\Service;
 
-use Elasticsearch\Client;
 use Gally\Catalog\Model\LocalizedCatalog;
 use Gally\Category\Model\Category\Configuration as CategoryConfiguration;
 use Gally\Category\Repository\CategoryConfigurationRepository;
+use Gally\Index\Dto\Bulk;
 use Gally\Index\Model\Index;
+use Gally\Index\Repository\Index\IndexRepositoryInterface;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -30,7 +31,7 @@ class CategoryNameUpdater
 
     public function __construct(
         private CategoryConfigurationRepository $categoryConfigurationRepository,
-        private Client $client,
+        private IndexRepositoryInterface $indexRepository,
         private LoggerInterface $logger,
     ) {
     }
@@ -51,6 +52,7 @@ class CategoryNameUpdater
             foreach ($productBulkData as &$productData) {
                 $updatedData = $this->prepareProductData($productData, $localizedCatalogConfig);
                 if (!empty($updatedData)) {
+                    $updatedData['id'] = $productData['id'];
                     $productDataUpdates[$productData['id']] = $updatedData;
                 }
             }
@@ -127,30 +129,21 @@ class CategoryNameUpdater
      */
     private function applyUpdates(Index $index, array &$productDataUpdates): void
     {
-        foreach ($productDataUpdates as $productId => $dataUpdate) {
-            $params = [
-                'id' => $productId,
-                'index' => $index->getName(),
-                'body' => [
-                    'doc' => $dataUpdate,
-                ],
-                'refresh' => 'wait_for',
-                'timeout' => '500ms',
-            ];
-
-            $result = $this->client->update($params);
-            if (!isset($result['_shards']['failed']) || $result['_shards']['failed'] > 0) {
-                $this->logger->error(
-                    'Error during product update',
-                    [
-                        'params' => $params,
-                        'result' => $result,
-                    ]
-                );
+        $request = new Bulk\Request();
+        $request->updateDocuments($index, $productDataUpdates);
+        $response = $this->indexRepository->bulk($request);
+        if ($response->hasErrors()) {
+            foreach ($response->aggregateErrorsByReason() as $error) {
+                $sampleDocumentIds = implode(', ', \array_slice($error['document_ids'], 0, 10));
+                $this->logger->error(sprintf(
+                    'Bulk %s operation failed %d times in index %s.',
+                    $error['operation'],
+                    $error['count'],
+                    $error['index']
+                ));
+                $this->logger->error(sprintf('Error (%s) : %s.', $error['error']['type'], $error['error']['reason']));
+                $this->logger->error(sprintf('Failed doc ids sample : %s.', $sampleDocumentIds));
             }
-        }
-        if (!empty($productDataUpdates)) {
-            $this->client->indices()->refresh(['index' => $index->getName()]);
         }
     }
 }
