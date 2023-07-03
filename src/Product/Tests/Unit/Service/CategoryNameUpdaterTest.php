@@ -14,11 +14,12 @@ declare(strict_types=1);
 
 namespace Gally\Product\Tests\Unit\Service;
 
-use Elasticsearch\Client;
 use Gally\Catalog\Model\Catalog;
 use Gally\Catalog\Model\LocalizedCatalog;
 use Gally\Category\Repository\CategoryConfigurationRepository;
+use Gally\Index\Dto\Bulk;
 use Gally\Index\Model\Index;
+use Gally\Index\Repository\Index\IndexRepositoryInterface;
 use Gally\Product\Service\CategoryNameUpdater;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
@@ -45,7 +46,7 @@ class CategoryNameUpdaterTest extends KernelTestCase
                 ['id' => 2, 'category_id' => 'two', 'name' => 'Two (DB name)', 'useNameInProductSearch' => 1],
                 ['id' => 5, 'category_id' => 'three', 'name' => 'Three', 'useNameInProductSearch' => 1],
             ]);
-        $client = $this->getMockClient();
+        $indexRepository = $this->getMockIndexRepository();
         $logger = $this->getMockLogger();
 
         $productDataBulk = [
@@ -54,42 +55,30 @@ class CategoryNameUpdaterTest extends KernelTestCase
             ['id' => 2, 'name' => 'Product 2', 'category' => [['id' => 'two', 'name' => 'Two (Bulk name)'], ['id' => 'three']]],
         ];
 
-        $client->expects($this->exactly(2))->method('update')->withConsecutive(
+        $expectedUpdateBulkRequest = new Bulk\Request();
+        $expectedUpdateBulkRequest->updateDocuments(
+            $index,
             [
                 [
                     'id' => 121,
-                    'index' => 'my_product_index',
-                    'body' => [
-                        'doc' => [
-                            'category' => [
-                                ['id' => 'one'],
-                                ['id' => 'two', 'name' => 'Two (Bulk name)', '_name' => 'Two (Bulk name)'],
-                            ],
-                        ],
+                    'category' => [
+                        ['id' => 'one'],
+                        ['id' => 'two', 'name' => 'Two (Bulk name)', '_name' => 'Two (Bulk name)'],
                     ],
-                    'refresh' => 'wait_for',
-                    'timeout' => '500ms',
                 ],
-            ],
-            [
                 [
                     'id' => 2,
-                    'index' => 'my_product_index',
-                    'body' => [
-                        'doc' => [
-                            'category' => [
-                                ['id' => 'two', 'name' => 'Two (Bulk name)', '_name' => 'Two (Bulk name)'],
-                                ['id' => 'three', 'name' => 'Three', '_name' => 'Three'],
-                            ],
-                        ],
+                    'category' => [
+                        ['id' => 'two', 'name' => 'Two (Bulk name)', '_name' => 'Two (Bulk name)'],
+                        ['id' => 'three', 'name' => 'Three', '_name' => 'Three'],
                     ],
-                    'refresh' => 'wait_for',
-                    'timeout' => '500ms',
                 ],
             ]
         );
 
-        $categoryNameUpdater = new CategoryNameUpdater($categoryConfigRepository, $client, $logger);
+        $indexRepository->expects($this->once())->method('bulk')->with($expectedUpdateBulkRequest);
+
+        $categoryNameUpdater = new CategoryNameUpdater($categoryConfigRepository, $indexRepository, $logger);
         $categoryNameUpdater->updateCategoryNames($index, $productDataBulk);
     }
 
@@ -110,9 +99,28 @@ class CategoryNameUpdaterTest extends KernelTestCase
                 ['id' => 5, 'category_id' => 'three', 'name' => 'Three', 'useNameInProductSearch' => 1],
             ]);
 
-        $client = $this->getMockClient();
-        $client->method('update')
-            ->willReturn(['_shards' => ['failed' => 1]]);
+        $indexRepository = $this->getMockIndexRepository();
+        $indexRepository->method('bulk')
+            ->willReturn(new Bulk\Response([
+                'took' => 30,
+                'errors' => true,
+                'items' => [
+                    [
+                        'update' => [
+                            '_index' => $index->getName(),
+                            '_type' => '_doc',
+                            '_id' => '5',
+                            'status' => 404,
+                            'error' => [
+                                'type' => 'document_missing_exception',
+                                'reason' => '[5]: document missing',
+                                'index_uuid' => 'aAsFqTI0Tc2W0LCWgPNrOA',
+                                'shard' => '0',
+                            ],
+                        ],
+                    ],
+                ],
+            ]));
 
         $logger = $this->getMockLogger();
 
@@ -122,28 +130,13 @@ class CategoryNameUpdaterTest extends KernelTestCase
             ['id' => 2, 'name' => 'Product 2'], // No expected update.
         ];
 
-        $logger->expects($this->once())->method('error')->with(
-            'Error during product update',
-            [
-                'params' => [
-                    'id' => 121,
-                    'index' => 'my_product_index',
-                    'body' => [
-                        'doc' => [
-                            'category' => [
-                                ['id' => 'one'],
-                                ['id' => 'two', 'name' => 'Two (DB name)', '_name' => 'Two (DB name)'],
-                            ],
-                        ],
-                    ],
-                    'refresh' => 'wait_for',
-                    'timeout' => '500ms',
-                ],
-                'result' => ['_shards' => ['failed' => 1]],
-            ]
+        $logger->expects($this->exactly(3))->method('error')->withConsecutive(
+            ['Bulk update operation failed 1 times in index my_product_index.', []],
+            ['Error (document_missing_exception) : [5]: document missing.', []],
+            ['Failed doc ids sample : 5.', []],
         );
 
-        $categoryNameUpdater = new CategoryNameUpdater($categoryConfigRepository, $client, $logger);
+        $categoryNameUpdater = new CategoryNameUpdater($categoryConfigRepository, $indexRepository, $logger);
         $categoryNameUpdater->updateCategoryNames($index, $productDataBulk);
     }
 
@@ -159,9 +152,9 @@ class CategoryNameUpdaterTest extends KernelTestCase
             ->getMock();
     }
 
-    private function getMockClient(): Client|MockObject
+    private function getMockIndexRepository(): IndexRepositoryInterface|MockObject
     {
-        return $this->getMockBuilder(Client::class)
+        return $this->getMockBuilder(IndexRepositoryInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
     }
