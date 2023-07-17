@@ -285,8 +285,19 @@ services:
             - '@Gally\Metadata\Repository\MetadataRepository'
             - '@.inner'
 
+    Gally\Search\Decoration\GraphQl\AutocompleteUnionFieldsBuilder:
+        decorates: api_platform.graphql.fields_builder
+        arguments:
+            - '@.inner'
+
+    Gally\Search\Decoration\GraphQl\AutocompleteUnionTypeBuilder:
+        decorates: api_platform.graphql.type_builder
+        arguments:
+            - '@api_platform.metadata.resource.metadata_factory'
+            - '@api_platform.graphql.types_container'
+            - '@.inner'
+
     Gally\Search\Elasticsearch\Request\Container\Configuration\ContainerConfigurationProvider: ~
-    
     
     gally.search.spellchecker.request.factory:
         class: Gally\Search\Elasticsearch\Spellchecker\RequestFactory
