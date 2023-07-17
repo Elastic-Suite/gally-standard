@@ -73,6 +73,8 @@ class Mapping implements MappingInterface
             $properties[$fieldName] = $this->getProperty(FieldInterface::FIELD_TYPE_TEXT, $analyzers);
         }
 
+        $properties['suggest'] = ['type' => FieldInterface::FIELD_TYPE_COMPLETION];
+
         foreach ($this->getFields() as $currentField) {
             $properties = $this->addField($properties, $currentField);
         }
@@ -264,6 +266,9 @@ class Mapping implements MappingInterface
             if ($field->{$method}()) {
                 $copyTo[] = $targetField;
             }
+        }
+        if (in_array($field->getName(), ['name', 'accessory_brand.label'])) {
+            $copyTo[] = 'suggest';
         }
 
         return $copyTo;
