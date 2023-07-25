@@ -20,6 +20,8 @@ services:
         arguments:
             - '@Gally\Product\Service\GraphQl\FilterManager'
             - '@Gally\Cache\Service\CacheManager'
+            - '@logger'
+            - '@Gally\Search\Elasticsearch\Request\QueryFactory' 
             - !tagged_iterator { tag: 'gally.rule_engine.rule_type' }
 
     Gally\RuleEngine\Resolver\RuleEngineOperatorsResolver:
