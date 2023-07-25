@@ -23,8 +23,10 @@ use Gally\RuleEngine\Service\RuleType\AttributeRule;
 use Gally\RuleEngine\Service\RuleType\CombinationRule;
 use Gally\RuleEngine\Service\RuleType\RuleTypeInterface;
 use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface;
+use Gally\Search\Elasticsearch\Request\QueryFactory;
 use Gally\Search\Elasticsearch\Request\QueryInterface;
 use Gally\Search\Service\GraphQl\FilterManager;
+use Psr\Log\LoggerInterface;
 
 class RuleEngineManager
 {
@@ -40,6 +42,8 @@ class RuleEngineManager
     public function __construct(
         private FilterManager $filterManager,
         private CacheManagerInterface $cache,
+        private LoggerInterface $logger,
+        private QueryFactory $queryFactory,
         private iterable $ruleTypeClasses,
         private $cacheTtl = self::CACHE_DEFAULT_TTL,
     ) {
@@ -121,11 +125,24 @@ class RuleEngineManager
         return $this->cache->get(
             $cacheKey,
             function (&$tags, &$ttl) use ($rule, $containerConfig, $filterContext): ?QueryInterface {
-                $gallyFilters = $this->filterManager->transformToGallyFilters(
-                    [$this->transformRuleToGraphQlFilters($rule)],
-                    $containerConfig,
-                    $filterContext
-                );
+                try {
+                    $gallyFilters = $this->filterManager->transformToGallyFilters(
+                        [$this->transformRuleToGraphQlFilters($rule)],
+                        $containerConfig,
+                        $filterContext
+                    );
+                } catch (\Exception $e) {
+                    $this->logger->error(
+                        'Error during the transformation of the rule to gally filters.',
+                        ['exception' => $e]
+                    );
+
+                    // If an error occurs during the transformation of the rule, we return a 'QueryInterface' that returns all the products.
+                    return $this->queryFactory->create(
+                        QueryInterface::TYPE_BOOL,
+                        ['must' => []]
+                    );
+                }
 
                 return !empty($gallyFilters) ? current($gallyFilters) : null;
             },
