@@ -3,7 +3,7 @@
     "index_name": "gally_b2c_fr_product",
     "documents": [
       {
-        "id": "1",
+        "id": "p_1",
         "name": "Sac de sport Jout",
         "category": [
           {
@@ -15,7 +15,7 @@
         ]
       },
       {
-        "id": "2",
+        "id": "p_2",
         "name": "Sac à bandoulière Strive",
         "category": [
           {
@@ -27,7 +27,7 @@
         ]
       },
       {
-        "id": "3",
+        "id": "p_3",
         "name": "Sac à dos Crown Summit",
         "category": [
           {
@@ -36,7 +36,7 @@
         ]
       },
       {
-        "id": "4",
+        "id": "p_4",
         "name": "Sac messager Wayfarer"
       }
     ]
@@ -45,7 +45,7 @@
     "index_name": "gally_b2c_en_product",
     "documents": [
       {
-        "id": "1",
+        "id": "p_1",
         "name": "Joust Duffle Bag",
         "category": [
           {
@@ -57,7 +57,7 @@
         ]
       },
       {
-        "id": "2",
+        "id": "p_2",
         "name": "Strive Shoulder Pack",
         "category": [
           {
@@ -69,11 +69,11 @@
         ]
       },
       {
-        "id": "3",
+        "id": "p_3",
         "name": "Crown Summit Backpack"
       },
       {
-        "id": "4",
+        "id": "p_4",
         "name": "Wayfarer Messenger Bag"
       }
     ]
@@ -82,7 +82,7 @@
     "index_name": "gally_b2b_en_product",
     "documents": [
       {
-        "id": "1",
+        "id": "p_1",
         "name": "Joust Duffle Bag",
         "category": [
           {
@@ -94,7 +94,7 @@
         ]
       },
       {
-        "id": "2",
+        "id": "p_2",
         "name": "Strive Shoulder Pack",
         "category": [
           {
@@ -106,11 +106,11 @@
         ]
       },
       {
-        "id": "3",
+        "id": "p_3",
         "name": "Crown Summit Backpack"
       },
       {
-        "id": "4",
+        "id": "p_4",
         "name": "Wayfarer Messenger Bag"
       }
     ]
