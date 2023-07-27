@@ -43,7 +43,7 @@
             </unique-constraint>
         </unique-constraints>
 
-        <field name="productId" type="integer" nullable="false" />
+        <field name="productId" type="string" length="255" nullable="false" />
         <field name="position" type="integer" nullable="true" />
 
     </entity>

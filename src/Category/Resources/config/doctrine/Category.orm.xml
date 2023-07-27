@@ -8,7 +8,7 @@
             table="category"
             repository-class="Gally\Category\Repository\CategoryRepository">
 
-        <id name="id" ype="string" length="255" nullable="false" />
+        <id name="id" type="string" length="255" nullable="false" />
         <field name="parentId" type="string" length="255" nullable="true" />
         <field name="level" type="integer" nullable="false" />
         <field name="path" type="string" length="255" nullable="false" />
