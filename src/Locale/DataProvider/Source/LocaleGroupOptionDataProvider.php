@@ -67,7 +67,8 @@ class LocaleGroupOptionDataProvider implements ContextAwareCollectionDataProvide
 
         $options = [];
         foreach ($locales as $locale) {
-            if (\in_array($locale, $excludedLocales, true)) {
+            // The Regexp allows to verify if the locale has the format xx_XX, locale with the format xx are skipped.
+            if (\in_array($locale, $excludedLocales, true) || 1 !== preg_match('/[a-z]{2}_[A-Z]{2}$/', $locale)) {
                 continue;
             }
 
