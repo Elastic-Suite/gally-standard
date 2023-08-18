@@ -52,7 +52,7 @@ class OptionDataProvider implements ContextAwareCollectionDataProviderInterface,
     ) {
     }
 
-    public function getCollection(string $resourceClass, string $operationName = null, array $context = [])
+    public function getCollection(string $resourceClass, string $operationName = null, array $context = []): iterable
     {
         $searchQuery = $context['filters']['search'] ?? null;
         $this->initSearchContext($searchQuery);

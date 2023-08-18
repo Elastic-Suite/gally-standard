@@ -66,7 +66,7 @@ class StitchingNormalizer implements ContextAwareNormalizerInterface, Normalizer
     /**
      * {@inheritdoc}
      */
-    public function normalize(mixed $object, string $format = null, array $context = [])
+    public function normalize(mixed $object, string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
     {
         $context[self::ALREADY_CALLED_NORMALIZER] = true;
         $data = $this->normalizer->normalize($object, $format, $context);

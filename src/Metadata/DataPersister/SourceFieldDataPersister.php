@@ -56,10 +56,8 @@ class SourceFieldDataPersister implements DataPersisterInterface
      * @param SourceField $data
      *
      * @throws Exception
-     *
-     * @return SourceField
      */
-    public function persist($data)
+    public function persist($data): SourceField
     {
         $sourceField = $data;
 

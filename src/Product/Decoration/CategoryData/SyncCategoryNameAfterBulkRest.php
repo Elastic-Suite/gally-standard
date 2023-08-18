@@ -32,11 +32,10 @@ class SyncCategoryNameAfterBulkRest implements DataPersisterInterface
     /**
      * {@inheritdoc}
      *
-     * @return object|void
+     * @param IndexDocument $data
      */
-    public function persist($data)
+    public function persist($data): IndexDocument
     {
-        /** @var IndexDocument $data */
         $this->decorated->persist($data);
         $index = $this->indexRepository->findByName($data->getIndexName());
 
@@ -54,7 +53,7 @@ class SyncCategoryNameAfterBulkRest implements DataPersisterInterface
             }
         }
 
-        return $index;
+        return $data;
     }
 
     /**

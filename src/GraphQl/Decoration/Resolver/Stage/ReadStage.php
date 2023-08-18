@@ -52,7 +52,7 @@ class ReadStage implements ReadStageInterface
     /**
      * {@inheritdoc}
      */
-    public function __invoke(?string $resourceClass, ?string $rootClass, string $operationName, array $context)
+    public function __invoke(?string $resourceClass, ?string $rootClass, string $operationName, array $context): object|iterable|null
     {
         /**
          * Move elastisuite args in a dedicated array key.
