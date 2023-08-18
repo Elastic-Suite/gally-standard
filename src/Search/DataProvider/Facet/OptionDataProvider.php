@@ -44,7 +44,7 @@ class OptionDataProvider implements ContextAwareCollectionDataProviderInterface,
     ) {
     }
 
-    public function getCollection(string $resourceClass, string $operationName = null, array $context = [])
+    public function getCollection(string $resourceClass, string $operationName = null, array $context = []): iterable
     {
         $metadata = $this->metadataRepository->findByEntity($context['filters']['entityType']);
         $localizedCatalog = $this->catalogRepository->findByCodeOrId($context['filters']['localizedCatalog']);

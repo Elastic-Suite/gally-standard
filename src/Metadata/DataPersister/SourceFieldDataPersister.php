@@ -38,10 +38,8 @@ class SourceFieldDataPersister implements DataPersisterInterface
      * {@inheritdoc}
      *
      * @param SourceField $data
-     *
-     * @return SourceField
      */
-    public function persist($data)
+    public function persist($data): SourceField
     {
         $sourceField = $data;
 

@@ -53,13 +53,15 @@ class CategorySynchronizerTest extends GraphQlVersion
         $mutationMock = $this->getMockBuilder($decoratedClass)
             ->disableOriginalConstructor()
             ->getMock();
-        $mutationMock->method($decoratedMethod)->willReturn($index);
         if (DocumentDataPersister::class == $decoratedClass) {
             $decoratedMethodParams = [new IndexDocument($indexName, [])];
+            $mutationMock->method($decoratedMethod);
         } elseif (RemoveIndexDocument::class == $decoratedClass) {
             $decoratedMethodParams = [$indexName, new Request()];
+            $mutationMock->method($decoratedMethod)->willReturn($index);
         } else {
             $decoratedMethodParams = [null, '', []];
+            $mutationMock->method($decoratedMethod)->willReturn($index);
         }
 
         $synchronizer = $this->getMockerSynchronizer(true);

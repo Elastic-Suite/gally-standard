@@ -16,6 +16,7 @@ namespace Gally\Product\Decoration\CategoryData;
 
 use ApiPlatform\Core\DataPersister\DataPersisterInterface;
 use Gally\Index\DataPersister\DocumentDataPersister;
+use Gally\Index\Model\Index;
 use Gally\Index\Model\IndexDocument;
 use Gally\Index\Repository\Index\IndexRepositoryInterface;
 use Gally\Product\Service\CategoryNameUpdater;
@@ -32,11 +33,10 @@ class SyncCategoryNameAfterBulkRest implements DataPersisterInterface
     /**
      * {@inheritdoc}
      *
-     * @return object|void
+     * @param IndexDocument $data
      */
-    public function persist($data)
+    public function persist($data): IndexDocument
     {
-        /** @var IndexDocument $data */
         $this->decorated->persist($data);
         $index = $this->indexRepository->findByName($data->getIndexName());
 
@@ -54,7 +54,7 @@ class SyncCategoryNameAfterBulkRest implements DataPersisterInterface
             }
         }
 
-        return $index;
+        return $data;
     }
 
     /**

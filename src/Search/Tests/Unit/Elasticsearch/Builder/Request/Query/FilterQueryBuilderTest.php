@@ -40,20 +40,12 @@ class FilterQueryBuilderTest extends KernelTestCase
         QueryInterface::TYPE_NOT,
     ];
 
-    private array $fields;
+    private static array $fields;
 
-    /**
-     * Constructor.
-     *
-     * @param string $name     test case name
-     * @param array  $data     test case data
-     * @param string $dataName test case data name
-     */
-    public function __construct($name = null, array $data = [], string $dataName = '')
+    public static function setUpBeforeClass(): void
     {
-        parent::__construct($name, $data, $dataName);
-
-        $this->fields = [
+        parent::setUpBeforeClass();
+        self::$fields = [
             new Field('id', 'integer'),
             new Field('simpleTextField', FieldInterface::FIELD_TYPE_KEYWORD),
             new Field('analyzedField', FieldInterface::FIELD_TYPE_TEXT, null, ['is_searchable' => true, 'is_filterable' => false]),
@@ -181,7 +173,7 @@ class FilterQueryBuilderTest extends KernelTestCase
     private function buildQuery(array $conditions, ?string $currentPath = null): QueryInterface
     {
         $builder = new FilterQueryBuilder($this->getQueryFactory($this->mockedQueryTypes));
-        $config = $this->getContainerConfigMock($this->fields);
+        $config = $this->getContainerConfigMock(self::$fields);
 
         return $builder->create($config, $conditions, $currentPath);
     }

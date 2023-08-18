@@ -16,6 +16,7 @@ namespace Gally\Index\DataPersister;
 
 use ApiPlatform\Core\DataPersister\DataPersisterInterface;
 use Gally\Index\Model\Index;
+use Gally\Index\Model\IndexDocument;
 use Gally\Index\Repository\Index\IndexRepositoryInterface;
 
 class IndexDataPersister implements DataPersisterInterface
@@ -37,12 +38,12 @@ class IndexDataPersister implements DataPersisterInterface
      * {@inheritdoc}
      * TODO remove me or disable me ?
      *
-     * @return object|void
+     * @param Index $data
      */
-    public function persist($data)
+    public function persist($data): Index
     {
-        /** @var Index $data */
         $this->indexRepository->create($data->getName(), [], $data->getAliases());
+        return $data;
     }
 
     /**

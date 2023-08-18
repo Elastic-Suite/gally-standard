@@ -33,7 +33,7 @@ final class ConfigurationDataPersister implements DataPersisterInterface
     /**
      * @param Facet\Configuration $data
      */
-    public function persist($data)
+    public function persist($data): void
     {
         if ($data->getDisplayMode() == $data->getDefaultDisplayMode()) {
             $data->setDisplayMode(null);
@@ -56,8 +56,6 @@ final class ConfigurationDataPersister implements DataPersisterInterface
 
         $this->entityManager->persist($data);
         $this->entityManager->flush();
-
-        return $data;
     }
 
     public function remove($data)

@@ -29,13 +29,13 @@ api_platform:
             vary: ['Content-Type', 'Origin']
             max_age: 0
             shared_max_age: 3600
+        pagination_client_enabled: true # Enabled by default because this value cannot be specified by GraphQL endpoint 
+        pagination_client_items_per_page: true # Enabled by default because this value cannot be specified by GraphQL endpoint
+        pagination_items_per_page: 20
     collection:
         pagination:
-            client_enabled: true # Enabled by default because this value cannot be specified by GraphQL endpoint
-            client_items_per_page: true # Enabled by default because this value cannot be specified by GraphQL endpoint
             page_parameter_name: currentPage
             items_per_page_parameter_name: pageSize
-            items_per_page: 20
     elasticsearch:
         hosts: ['%env(ELASTICSEARCH_HOST)%']
     # Mercure integration, remove if unwanted

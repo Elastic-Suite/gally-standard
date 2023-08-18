@@ -18,7 +18,7 @@ use Gally\Product\Model\Facet\Option;
 
 class OptionDataProvider extends \Gally\Search\DataProvider\Facet\OptionDataProvider
 {
-    public function getCollection(string $resourceClass, string $operationName = null, array $context = [])
+    public function getCollection(string $resourceClass, string $operationName = null, array $context = []): iterable
     {
         $context['filters']['entityType'] = 'product';
 
