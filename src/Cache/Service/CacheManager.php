@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace Gally\Cache\Service;
 
-use ApiPlatform\Core\HttpCache\PurgerInterface as HttpPurgerInterface;
+use ApiPlatform\HttpCache\PurgerInterface as HttpPurgerInterface;
 use Psr\Cache\CacheItemPoolInterface;
 use Symfony\Component\Cache\PruneableInterface;
 use Symfony\Contracts\Cache\CacheInterface;

@@ -4,9 +4,7 @@ services:
     Gally\Cache\Service\CacheManager:
         arguments:
             - '@gally.cache'
-            - '@ApiPlatform\Core\HttpCache\PurgerInterface'
-
-    ApiPlatform\Core\HttpCache\PurgerInterface: '@api_platform.http_cache.purger.varnish'
+            - '@api_platform.http_cache.purger.varnish'
 
     # Declare gally.cache cache pool
     gally.cache:

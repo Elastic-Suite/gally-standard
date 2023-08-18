@@ -26,7 +26,7 @@ interface CacheManagerInterface
      * @param string[] $tags     Optional cache tags
      * @param int      $ttl      TTL in second, null if no expiry
      *
-     * @throws \Psr\Cache\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function get(string $cacheKey, callable $callback, array $tags, int $ttl = 0): mixed;
 
