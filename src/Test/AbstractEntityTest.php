@@ -14,9 +14,7 @@ declare(strict_types=1);
 
 namespace Gally\Test;
 
-use ApiPlatform\Core\Metadata\Resource\Factory\ResourceMetadataFactoryInterface;
 use ApiPlatform\Core\Metadata\Resource\ResourceMetadata;
-use ApiPlatform\Core\Operation\PathSegmentNameGeneratorInterface;
 use Gally\Locale\EventSubscriber\LocaleSubscriber;
 use Gally\User\Model\User;
 use Symfony\Contracts\HttpClient\ResponseInterface;
@@ -26,16 +24,7 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
  */
 abstract class AbstractEntityTest extends AbstractTest
 {
-    private PathSegmentNameGeneratorInterface $pathGenerator;
-    private ResourceMetadataFactoryInterface $metadataFactory;
     private ?ResourceMetadata $resource = null;
-
-    public function __construct(?string $name = null, array $data = [], $dataName = '')
-    {
-        parent::__construct($name, $data, $dataName);
-        $this->pathGenerator = static::getContainer()->get('api_platform.path_segment_name_generator');
-        $this->metadataFactory = static::getContainer()->get('api_platform.metadata.resource.metadata_factory');
-    }
 
     public static function setUpBeforeClass(): void
     {
@@ -221,7 +210,8 @@ abstract class AbstractEntityTest extends AbstractTest
     protected function getShortName(): string
     {
         if (!$this->resource) {
-            $this->resource = $this->metadataFactory->create($this->getEntityClass());
+            $metadataFactory = static::getContainer()->get('api_platform.metadata.resource.metadata_factory');
+            $this->resource = $metadataFactory->create($this->getEntityClass());
         }
 
         return $this->resource->getShortName();
@@ -229,6 +219,8 @@ abstract class AbstractEntityTest extends AbstractTest
 
     protected function getApiPath(): string
     {
-        return '/' . $this->pathGenerator->getSegmentName($this->getShortName());
+        $pathGenerator = static::getContainer()->get('api_platform.path_segment_name_generator');
+
+        return '/' . $pathGenerator->getSegmentName($this->getShortName());
     }
 }

@@ -39,10 +39,8 @@ class LocalizedCatalogDataPersister implements DataPersisterInterface
      * {@inheritdoc}
      *
      * @param LocalizedCatalog $data
-     *
-     * @return LocalizedCatalog
      */
-    public function persist($data)
+    public function persist($data): LocalizedCatalog
     {
         if ($data->getIsDefault()) {
             // Set it to false  because it will be set to false in the function unsetDefaultLocalizedCatalog

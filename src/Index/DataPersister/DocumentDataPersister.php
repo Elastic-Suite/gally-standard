@@ -35,11 +35,14 @@ class DocumentDataPersister implements DataPersisterInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @param IndexDocument $data
      */
-    public function persist($data)
+    public function persist($data): IndexDocument
     {
-        /** @var IndexDocument $data */
         $this->documentRepository->index($data->getIndexName(), $data->getDocuments());
+
+        return $data;
     }
 
     /**

@@ -44,7 +44,7 @@ class MappingStatusDataProvider implements RestrictedDataProviderInterface, Item
      *
      * @return ?Status
      */
-    public function getItem(string $resourceClass, $id, string $operationName = null, array $context = [])
+    public function getItem(string $resourceClass, $id, string $operationName = null, array $context = []): ?Status
     {
         $metadata = $this->metadataRepository->findOneBy(['entity' => $id]);
 

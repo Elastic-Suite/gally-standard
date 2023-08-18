@@ -29,7 +29,7 @@ final class FacetConfigurationHydrator extends ObjectHydrator
     /**
      * {@inheritdoc}
      */
-    protected function prepare()
+    protected function prepare(): void
     {
         parent::prepare();
         foreach ($this->resultSetMapping()->aliasMap as $dqlAlias => $className) {
@@ -47,40 +47,49 @@ final class FacetConfigurationHydrator extends ObjectHydrator
         ];
     }
 
-    protected function hydrateRowData(array $row, array &$result)
+    /**
+     * {@inheritdoc}
+     */
+    protected function hydrateAllData(): array
     {
-        $id = $this->idTemplate;
-        $nonemptyComponents = [];
-        $rowData = $this->gatherRowData($row, $id, $nonemptyComponents);
-        $configurationFields = array_keys($rowData['data']['o']);
+        $result = [];
 
-        if ($rowData['data']['default']['id'] == $rowData['data']['o']['id']) {
-            $rowData['data']['default'] = [];
+        while ($row = $this->statement()->fetchAssociative()) {
+            $id = $this->idTemplate;
+            $nonemptyComponents = [];
+            $rowData = $this->gatherRowData($row, $id, $nonemptyComponents);
+            $configurationFields = array_keys($rowData['data']['o']);
+
+            if ($rowData['data']['default']['id'] == $rowData['data']['o']['id']) {
+                $rowData['data']['default'] = [];
+            }
+
+            $defaultValues = array_merge(
+                array_fill_keys($configurationFields, null),
+                $this->filterData($rowData['data']['default'] ?? [])    // Source field default values
+            );
+
+            /** @var Configuration $default */
+            $default = $this->_uow->createEntity(Configuration::class, $defaultValues, $this->_hints);
+
+            // Remove default configuration id.
+            unset($defaultValues['id']);
+
+            $data = array_merge(
+                $defaultValues,                                     // Source field default values
+                $this->filterData($rowData['data']['o']),           // Current category value
+                $this->filterData($rowData['scalars'])              // Association ids
+            );
+
+            /** @var Configuration $obj */
+            $obj = $this->_uow->createEntity(Configuration::class, $data, $this->_hints);
+
+            $obj->initDefaultValue($default);
+
+            $result[$obj->getSourceField()->getId()] = $obj;
         }
 
-        $defaultValues = array_merge(
-            array_fill_keys($configurationFields, null),
-            $this->filterData($rowData['data']['default'] ?? [])    // Source field default values
-        );
-
-        /** @var Configuration $default */
-        $default = $this->_uow->createEntity(Configuration::class, $defaultValues, $this->_hints);
-
-        // Remove default configuration id.
-        unset($defaultValues['id']);
-
-        $data = array_merge(
-            $defaultValues,                                     // Source field default values
-            $this->filterData($rowData['data']['o']),           // Current category value
-            $this->filterData($rowData['scalars'])              // Association ids
-        );
-
-        /** @var Configuration $obj */
-        $obj = $this->_uow->createEntity(Configuration::class, $data, $this->_hints);
-
-        $obj->initDefaultValue($default);
-
-        $result[$obj->getSourceField()->getId()] = $obj;
+        return $result;
     }
 
     private function filterData(array $data): array
