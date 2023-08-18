@@ -110,39 +110,39 @@ class CategoryProductMerchandisingTest extends AbstractTest
                 'one',
                 1,
                 1,
-                json_encode([['productId' => null, 'position' => 1], ['productId' => 2, 'position' => 2]]),
-                "In positions array, position #0 is wrong: 'productId or position is missing, empty or not a numeric'",
+                json_encode([['productId' => null, 'position' => 1], ['productId' => 'p_2', 'position' => 2]]),
+                "In positions array, position #0 is wrong: 'productId or position is missing, empty, productId is not a string or position is not a numeric'",
                 400,
             ],
             [
                 'one',
                 1,
                 1,
-                json_encode([['productId' => 1, 'position' => null], ['productId' => 2, 'position' => 2]]),
-                "In positions array, position #0 is wrong: 'productId or position is missing, empty or not a numeric'",
+                json_encode([['productId' => 'p_1', 'position' => null], ['productId' => 'p_2', 'position' => 2]]),
+                "In positions array, position #0 is wrong: 'productId or position is missing, empty, productId is not a string or position is not a numeric'",
                 400,
             ],
             [
                 'one',
                 1,
                 1,
-                json_encode([['productId' => 'one', 'position' => 1], ['productId' => 2, 'position' => 2]]),
-                "In positions array, position #0 is wrong: 'productId or position is missing, empty or not a numeric'",
+                json_encode([['productId' => 1, 'position' => 1], ['productId' => 'p_2', 'position' => 2]]),
+                "In positions array, position #0 is wrong: 'productId or position is missing, empty, productId is not a string or position is not a numeric'",
                 400,
             ],
             [
                 'one',
                 1,
                 1,
-                json_encode([['productId' => 1, 'position' => 'one'], ['productId' => 2, 'position' => 2]]),
-                "In positions array, position #0 is wrong: 'productId or position is missing, empty or not a numeric'",
+                json_encode([['productId' => 'p_1', 'position' => 'one'], ['productId' => 'p_2', 'position' => 2]]),
+                "In positions array, position #0 is wrong: 'productId or position is missing, empty, productId is not a string or position is not a numeric'",
                 400,
             ],
             [
                 'one',
                 1,
                 1,
-                json_encode(array_fill(0, CategoryProductPositionManager::MAX_POSITION_COUNT + 1, ['productId' => 1, 'position' => 1])),
+                json_encode(array_fill(0, CategoryProductPositionManager::MAX_POSITION_COUNT + 1, ['productId' => 'p_1', 'position' => 1])),
                 sprintf('Position count exceeds maximum limit %d', CategoryProductPositionManager::MAX_POSITION_COUNT),
                 400,
             ],
@@ -150,8 +150,8 @@ class CategoryProductMerchandisingTest extends AbstractTest
                 'one',
                 1,
                 1,
-                json_encode([['productId' => 1, 'position' => 2], ['productId' => 1, 'position' => 1], ['productId' => 2, 'position' => 2]]),
-                "In positions array, the product id '1' appears twice.",
+                json_encode([['productId' => 'p_1', 'position' => 2], ['productId' => 'p_1', 'position' => 1], ['productId' => 'p_2', 'position' => 2]]),
+                "In positions array, the product id 'p_1' appears twice.",
                 400,
             ],
         ];
@@ -208,10 +208,10 @@ class CategoryProductMerchandisingTest extends AbstractTest
     public function modifyPositionsDataProvider(): array
     {
         $admin = $this->getUser(Role::ROLE_ADMIN);
-        $productId1 = 1;
-        $productId2 = 2;
-        $productId3 = 3;
-        $productId4 = 4;
+        $productId1 = 'p_1';
+        $productId2 = 'p_2';
+        $productId3 = 'p_3';
+        $productId4 = 'p_4';
         $categoryIdOne = 'one';
         $categoryIdTwo = 'two';
         $categoryIdThree = 'three';
@@ -227,7 +227,7 @@ class CategoryProductMerchandisingTest extends AbstractTest
                 $categoryIdOne,
                 null, // catalogId
                 null, // localizedCatalogId
-                json_encode([['productId' => 1, 'position' => 1], ['productId' => 2, 'position' => 2]]),
+                json_encode([['productId' => 'p_1', 'position' => 1], ['productId' => 'p_2', 'position' => 2]]),
                 [
                     $localizedCatalogIdB2cFr => [
                         $productId1 => [$categoryIdOne => ['position' => 1], $categoryIdTwo => []],
@@ -256,7 +256,7 @@ class CategoryProductMerchandisingTest extends AbstractTest
                 $categoryIdThree,
                 null, // catalogId
                 null, // localizedCatalogId
-                json_encode([['productId' => 1, 'position' => 1], ['productId' => 2, 'position' => 2]]),
+                json_encode([['productId' => 'p_1', 'position' => 1], ['productId' => 'p_2', 'position' => 2]]),
                 [
                     $localizedCatalogIdB2cFr => [
                         $productId1 => [$categoryIdOne => ['position' => 1], $categoryIdTwo => []],
@@ -285,7 +285,7 @@ class CategoryProductMerchandisingTest extends AbstractTest
                 $categoryIdOne,
                 $catalogIdB2b, // catalogId
                 null, // localizedCatalogId
-                json_encode([['productId' => 1, 'position' => 10], ['productId' => 2, 'position' => 20]]),
+                json_encode([['productId' => 'p_1', 'position' => 10], ['productId' => 'p_2', 'position' => 20]]),
                 [
                     $localizedCatalogIdB2cFr => [
                         $productId1 => [$categoryIdOne => ['position' => 1], $categoryIdTwo => []],
@@ -314,7 +314,7 @@ class CategoryProductMerchandisingTest extends AbstractTest
                 $categoryIdOne,
                 $catalogIdB2c, // catalogId
                 $localizedCatalogIdB2cEn, // localizedCatalogId
-                json_encode([['productId' => 1, 'position' => 100], ['productId' => 2, 'position' => 200]]),
+                json_encode([['productId' => 'p_1', 'position' => 100], ['productId' => 'p_2', 'position' => 200]]),
                 [
                     $localizedCatalogIdB2cFr => [
                         $productId1 => [$categoryIdOne => ['position' => 1], $categoryIdTwo => []],
@@ -343,7 +343,7 @@ class CategoryProductMerchandisingTest extends AbstractTest
                 $categoryIdOne,
                 null, // catalogId
                 null, // localizedCatalogId
-                json_encode([['productId' => 1, 'position' => 3], ['productId' => 2, 'position' => 4]]),
+                json_encode([['productId' => 'p_1', 'position' => 3], ['productId' => 'p_2', 'position' => 4]]),
                 [
                     $localizedCatalogIdB2cFr => [
                         $productId1 => [$categoryIdOne => ['position' => 3], $categoryIdTwo => []],
@@ -372,7 +372,7 @@ class CategoryProductMerchandisingTest extends AbstractTest
                 $categoryIdOne,
                 $catalogIdB2b, // catalogId
                 null, // localizedCatalogId
-                json_encode([['productId' => 1, 'position' => 11], ['productId' => 2, 'position' => 21]]),
+                json_encode([['productId' => 'p_1', 'position' => 11], ['productId' => 'p_2', 'position' => 21]]),
                 [
                     $localizedCatalogIdB2cFr => [
                         $productId1 => [$categoryIdOne => ['position' => 3], $categoryIdTwo => []],
@@ -401,7 +401,7 @@ class CategoryProductMerchandisingTest extends AbstractTest
                 $categoryIdOne,
                 $catalogIdB2c, // catalogId
                 $localizedCatalogIdB2cEn, // localizedCatalogId
-                json_encode([['productId' => 1, 'position' => 101], ['productId' => 2, 'position' => 201]]),
+                json_encode([['productId' => 'p_1', 'position' => 101], ['productId' => 'p_2', 'position' => 201]]),
                 [
                     $localizedCatalogIdB2cFr => [
                         $productId1 => [$categoryIdOne => ['position' => 3], $categoryIdTwo => []],
@@ -430,7 +430,7 @@ class CategoryProductMerchandisingTest extends AbstractTest
                 $categoryIdOne,
                 $catalogIdB2c, // catalogId
                 null, // localizedCatalogId
-                json_encode([['productId' => 1, 'position' => 50], ['productId' => 2, 'position' => 51]]),
+                json_encode([['productId' => 'p_1', 'position' => 50], ['productId' => 'p_2', 'position' => 51]]),
                 [
                     $localizedCatalogIdB2cFr => [
                         $productId1 => [$categoryIdOne => ['position' => 50], $categoryIdTwo => []],
@@ -575,7 +575,7 @@ class CategoryProductMerchandisingTest extends AbstractTest
                 $categoryIdOne,
                 null, // catalogId
                 null, // localizedCatalogId
-                json_encode([['productId' => 1, 'position' => 1], ['productId' => 2, 'position' => 2]]),
+                json_encode([['productId' => 'p_1', 'position' => 1], ['productId' => 'p_2', 'position' => 2]]),
                 [
                     $localizedCatalogIdB2cFr => [
                         $productId1 => [$categoryIdOne => ['position' => 1], $categoryIdTwo => []],
@@ -604,7 +604,7 @@ class CategoryProductMerchandisingTest extends AbstractTest
                 $categoryIdOne,
                 $catalogIdB2b, // catalogId
                 null, // localizedCatalogId
-                json_encode([['productId' => 1, 'position' => 10], ['productId' => 2, 'position' => 20]]),
+                json_encode([['productId' => 'p_1', 'position' => 10], ['productId' => 'p_2', 'position' => 20]]),
                 [
                     $localizedCatalogIdB2cFr => [
                         $productId1 => [$categoryIdOne => ['position' => 1], $categoryIdTwo => []],
@@ -633,7 +633,7 @@ class CategoryProductMerchandisingTest extends AbstractTest
                 $categoryIdOne,
                 $catalogIdB2c, // catalogId
                 $localizedCatalogIdB2cEn, // localizedCatalogId
-                json_encode([['productId' => 1, 'position' => 100], ['productId' => 2, 'position' => 200]]),
+                json_encode([['productId' => 'p_1', 'position' => 100], ['productId' => 'p_2', 'position' => 200]]),
                 [
                     $localizedCatalogIdB2cFr => [
                         $productId1 => [$categoryIdOne => ['position' => 1], $categoryIdTwo => []],
@@ -691,7 +691,7 @@ class CategoryProductMerchandisingTest extends AbstractTest
                 $categoryIdOne,
                 $catalogIdB2c, // catalogId
                 null, // localizedCatalogId
-                json_encode([['productId' => 1, 'position' => 1000], ['productId' => 2, 'position' => 2000]]),
+                json_encode([['productId' => 'p_1', 'position' => 1000], ['productId' => 'p_2', 'position' => 2000]]),
                 [
                     $localizedCatalogIdB2cFr => [
                         $productId1 => [$categoryIdOne => ['position' => 1000], $categoryIdTwo => []],
@@ -894,8 +894,8 @@ class CategoryProductMerchandisingTest extends AbstractTest
                 $categoryIdOne,
                 $catalogIdB2c, // catalogId
                 $localizedCatalogIdB2cFr, // localizedCatalogId
-                json_encode([['productId' => 1, 'position' => 1], ['productId' => 2, 'position' => 2]]),
-                [['productId' => 1, 'position' => 1], ['productId' => 2, 'position' => 2]],
+                json_encode([['productId' => 'p_1', 'position' => 1], ['productId' => 'p_2', 'position' => 2]]),
+                [['productId' => 'p_1', 'position' => 1], ['productId' => 'p_2', 'position' => 2]],
                 null,
                 200,
             ],
@@ -904,8 +904,8 @@ class CategoryProductMerchandisingTest extends AbstractTest
                 $categoryIdTwo,
                 $catalogIdB2c, // catalogId
                 $localizedCatalogIdB2cEn, // localizedCatalogId
-                json_encode([['productId' => 1, 'position' => 20], ['productId' => 2, 'position' => 10]]),
-                [['productId' => 2, 'position' => 10], ['productId' => 1, 'position' => 20]],
+                json_encode([['productId' => 'p_1', 'position' => 20], ['productId' => 'p_2', 'position' => 10]]),
+                [['productId' => 'p_2', 'position' => 10], ['productId' => 'p_1', 'position' => 20]],
                 null,
                 200,
             ],

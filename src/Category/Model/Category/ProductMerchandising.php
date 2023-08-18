@@ -156,7 +156,7 @@ class ProductMerchandising
     private Category $category;
 
     #[Groups(['category_product_merchandising:read', 'category_product_merchandising:write'])]
-    private int $productId;
+    private string $productId;
 
     #[Groups(['category_product_merchandising:read', 'category_product_merchandising:write'])]
     private ?Catalog $catalog = null;
@@ -193,12 +193,12 @@ class ProductMerchandising
         $this->category = $category;
     }
 
-    public function getProductId(): ?int
+    public function getProductId(): ?string
     {
         return $this->productId;
     }
 
-    public function setProductId(?int $productId): void
+    public function setProductId(?string $productId): void
     {
         $this->productId = $productId;
     }

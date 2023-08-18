@@ -159,8 +159,8 @@ class CategoryProductPositionManager
                 $newProductMerchandising->setCatalog($catalog);
                 $newProductMerchandising->setLocalizedCatalog($localizedCatalog);
                 $newProductMerchandising->setCategory($category);
-                $newProductMerchandising->setProductId((int) $positionData['productId']);
-                $newProductMerchandising->setPosition((int) $positionData['position']);
+                $newProductMerchandising->setProductId($positionData['productId']);
+                $newProductMerchandising->setPosition($positionData['position']);
                 $this->entityManager->persist($newProductMerchandising);
             }
             $this->entityManager->flush();
@@ -183,15 +183,17 @@ class CategoryProductPositionManager
 
         $productIds = [];
         foreach ($positions as $index => $position) {
-            if (!isset($position['productId']) || !isset($position['position'])
-                || !is_numeric($position['productId']) || !is_numeric($position['position'])
+            if (!isset($position['productId'])
+                || !isset($position['position'])
+                || !\is_string($position['productId'])
+                || !is_numeric($position['position'])
             ) {
-                throw new InvalidArgumentException(sprintf("In positions array, position #%d is wrong: 'productId or position is missing, empty or not a numeric'", $index));
+                throw new InvalidArgumentException(sprintf("In positions array, position #%d is wrong: 'productId or position is missing, empty, productId is not a string or position is not a numeric'", $index));
             }
             if (isset($productIds[$position['productId']])) {
-                throw new InvalidArgumentException(sprintf("In positions array, the product id '%d' appears twice.", $position['productId']));
+                throw new InvalidArgumentException(sprintf("In positions array, the product id '%s' appears twice.", $position['productId']));
             }
-            $productIds[(int) $position['productId']] = true;
+            $productIds[$position['productId']] = true;
         }
     }
 
@@ -240,7 +242,7 @@ class CategoryProductPositionManager
 
             foreach ($categories as $categoryItem) {
                 if (isset($categoryItem['position']) && isset($categoryItem['id']) && $categoryItem['id'] === $category->getId()) {
-                    $productPositions[] = ['productId' => (int) $document->getId(), 'position' => (int) $categoryItem['position']];
+                    $productPositions[] = ['productId' => $document->getId(), 'position' => (int) $categoryItem['position']];
                     break;
                 }
             }

@@ -72,7 +72,7 @@ class SyncCategoryProductMerchandisingDataTest extends AbstractTest
     public function testDeleteIndex()
     {
         $localizedCatalogB2cFr = static::getContainer()->get(LocalizedCatalogRepository::class)->find(1);
-        $productIds = [1, 2, 3, 4];
+        $productIds = ['p_1', 'p_2', 'p_3', 'p_4'];
         $categoryProductMerchandisingRepository = static::getContainer()->get(CategoryProductMerchandisingRepository::class);
 
         $positions = $categoryProductMerchandisingRepository->findBy(['productId' => $productIds, 'localizedCatalog' => $localizedCatalogB2cFr]);
@@ -126,10 +126,10 @@ class SyncCategoryProductMerchandisingDataTest extends AbstractTest
 
     public function indexDataProvider(): array
     {
-        $productId1 = 1;
-        $productId2 = 2;
-        $productId3 = 3;
-        $productId4 = 4;
+        $productId1 = 'p_1';
+        $productId2 = 'p_2';
+        $productId3 = 'p_3';
+        $productId4 = 'p_4';
         $categoryIdOne = 'one';
         $categoryIdTwo = 'two';
         $categoryIdThree = 'three';
