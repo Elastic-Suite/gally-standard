@@ -38,7 +38,7 @@ class SortInputType extends SearchSortInputType
         protected CurrentCategoryProvider $currentCategoryProvider,
         private string $nestingSeparator,
     ) {
-        parent::__construct($this->sortEnumType, $this->priceGroupProvider, $this->reverseSourceFieldProvider);
+        parent::__construct($this->sortEnumType, $this->priceGroupProvider, $this->currentCategoryProvider, $this->reverseSourceFieldProvider);
         $this->name = self::NAME;
     }
 
