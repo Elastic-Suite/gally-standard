@@ -152,6 +152,7 @@ services:
         arguments:
             - '@Gally\Search\GraphQl\Type\Definition\SortEnumType'
             - '@Gally\Entity\Service\PriceGroupProvider'
+            - '@Gally\Category\Service\CurrentCategoryProvider'
             - '@Gally\Search\Service\ReverseSourceFieldProvider'
         tags:
             - { name: api_platform.graphql.type }
