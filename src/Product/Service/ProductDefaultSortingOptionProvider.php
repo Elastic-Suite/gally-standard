@@ -15,16 +15,16 @@ declare(strict_types=1);
 namespace Gally\Product\Service;
 
 use Gally\Category\Repository\CategoryConfigurationRepository;
-use Gally\Category\Service\CurrentCategoryProvider;
 use Gally\Search\Elasticsearch\Request\Container\DefaultSortingOptionProviderInterface;
 use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface;
 use Gally\Search\Elasticsearch\Request\SortOrderInterface;
+use Gally\Search\Service\SearchContext;
 use Gally\Search\Service\SearchSettingsProvider;
 
 class ProductDefaultSortingOptionProvider implements DefaultSortingOptionProviderInterface
 {
     public function __construct(
-        private CurrentCategoryProvider $currentCategoryProvider,
+        private SearchContext $searchContext,
         private CategoryConfigurationRepository $configurationRepository,
         private SearchSettingsProvider $searchSettingsProvider,
         private string $nestingSeparator,
@@ -33,7 +33,7 @@ class ProductDefaultSortingOptionProvider implements DefaultSortingOptionProvide
 
     public function getSortingOption(ContainerConfigurationInterface $containerConfig): array
     {
-        $category = $this->currentCategoryProvider->getCurrentCategory();
+        $category = $this->searchContext->getCategory();
 
         if ($category) {
             $config = $this->configurationRepository->findOneMergedByContext(

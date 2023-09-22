@@ -17,7 +17,7 @@ namespace Gally\Entity\Tests\Unit\Attribute\Type;
 use ArgumentCountError;
 use Gally\Entity\Model\Attribute\AttributeFactory;
 use Gally\Entity\Model\Attribute\Type\PriceAttribute;
-use Gally\Entity\Service\PriceGroupProvider;
+use Gally\Search\Service\SearchContext;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class PriceAttributeTest extends KernelTestCase
@@ -38,8 +38,8 @@ class PriceAttributeTest extends KernelTestCase
      */
     public function testStructureCheck(string $attributeCode, mixed $value, mixed $expectedValue, string $priceGroupId = '0'): void
     {
-        $priceGroupProvider = $this->getMockBuilder(PriceGroupProvider::class)->disableOriginalConstructor()->getMock();
-        $priceGroupProvider->method('getCurrentPriceGroupId')->willReturn($priceGroupId);
+        $searchContext = $this->getMockBuilder(SearchContext::class)->disableOriginalConstructor()->getMock();
+        $searchContext->method('getPriceGroup')->willReturn($priceGroupId);
 
         $reflector = new \ReflectionClass(PriceAttribute::class);
         $attributeCodeProperty = $reflector->getProperty('attributeCode');
@@ -48,7 +48,7 @@ class PriceAttributeTest extends KernelTestCase
         $attributeFactory = static::getContainer()->get(AttributeFactory::class);
         $priceAttribute = $attributeFactory->create(
             PriceAttribute::ATTRIBUTE_TYPE,
-            ['attributeCode' => $attributeCode, 'value' => $value, 'priceGroupProvider' => $priceGroupProvider]
+            ['attributeCode' => $attributeCode, 'value' => $value, 'searchContext' => $searchContext]
         );
         $this->assertEquals($attributeCode, $attributeCodeProperty->getValue($priceAttribute));
         $this->assertEquals($expectedValue, $valueProperty->getValue($priceAttribute));

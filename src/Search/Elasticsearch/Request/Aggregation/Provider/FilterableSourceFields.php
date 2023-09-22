@@ -14,13 +14,13 @@ declare(strict_types=1);
 
 namespace Gally\Search\Elasticsearch\Request\Aggregation\Provider;
 
-use Gally\Category\Service\CurrentCategoryProvider;
 use Gally\Search\Elasticsearch\Request\Aggregation\ConfigResolver\FieldAggregationConfigResolverInterface;
 use Gally\Search\Elasticsearch\Request\Aggregation\Modifier\ModifierInterface;
 use Gally\Search\Elasticsearch\Request\BucketInterface;
 use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface;
 use Gally\Search\Model\Facet\Configuration;
 use Gally\Search\Repository\Facet\ConfigurationRepository;
+use Gally\Search\Service\SearchContext;
 
 /**
  * Aggregations Provider based on source fields.
@@ -28,14 +28,14 @@ use Gally\Search\Repository\Facet\ConfigurationRepository;
 class FilterableSourceFields implements AggregationProviderInterface
 {
     /**
-     * @param ConfigurationRepository                   $facetConfigRepository   facet configuration repository
-     * @param CurrentCategoryProvider                   $currentCategoryProvider current category provider
-     * @param FieldAggregationConfigResolverInterface[] $aggregationResolvers    attributes Aggregation Resolver Pool
-     * @param ModifierInterface[]                       $modifiersPool           product Attributes modifiers
+     * @param ConfigurationRepository                   $facetConfigRepository facet configuration repository
+     * @param SearchContext                             $searchContext         Search context
+     * @param FieldAggregationConfigResolverInterface[] $aggregationResolvers  attributes Aggregation Resolver Pool
+     * @param ModifierInterface[]                       $modifiersPool         product Attributes modifiers
      */
     public function __construct(
         private ConfigurationRepository $facetConfigRepository,
-        private CurrentCategoryProvider $currentCategoryProvider,
+        private SearchContext $searchContext,
         private iterable $aggregationResolvers,
         private iterable $modifiersPool = []
     ) {
@@ -50,7 +50,7 @@ class FilterableSourceFields implements AggregationProviderInterface
         $filters = [],
         $queryFilters = []
     ): array {
-        $currentCategory = $this->currentCategoryProvider->getCurrentCategory();
+        $currentCategory = $this->searchContext->getCategory();
         $this->facetConfigRepository->setCategoryId($currentCategory?->getId());
         $this->facetConfigRepository->setMetadata($containerConfig->getMetadata());
         $facetConfigs = $this->facetConfigRepository->findAll();

@@ -15,9 +15,12 @@ declare(strict_types=1);
 namespace Gally\Metadata\Repository;
 
 use ApiPlatform\Core\Exception\InvalidArgumentException;
+use ApiPlatform\Core\Exception\ResourceClassNotFoundException;
+use ApiPlatform\Core\Metadata\Resource\Factory\ResourceMetadataFactoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Gally\Metadata\Model\Metadata;
+use Gally\ResourceMetadata\Service\ResourceMetadataManager;
 
 /**
  * @method Metadata|null find($id, $lockMode = null, $lockVersion = null)
@@ -29,8 +32,11 @@ class MetadataRepository extends ServiceEntityRepository
 {
     private array $cache;
 
-    public function __construct(ManagerRegistry $registry)
-    {
+    public function __construct(
+        ManagerRegistry $registry,
+        private ResourceMetadataFactoryInterface $resourceMetadataFactory,
+        private ResourceMetadataManager $resourceMetadataManager,
+    ) {
         parent::__construct($registry, Metadata::class);
     }
 
@@ -48,5 +54,16 @@ class MetadataRepository extends ServiceEntityRepository
         }
 
         return $this->cache[$entityType];
+    }
+
+    public function findByRessourceClass(string $resourceClass): ?Metadata
+    {
+        $resourceMetadata = $this->resourceMetadataFactory->create($resourceClass);
+        $entityType = $this->resourceMetadataManager->getMetadataEntity($resourceMetadata);
+        if (null === $entityType) {
+            throw new ResourceClassNotFoundException(sprintf('Resource "%s" has no declared metadata entity.', $resourceClass));
+        }
+
+        return $this->findByEntity($entityType);
     }
 }

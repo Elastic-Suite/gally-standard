@@ -18,6 +18,8 @@ use ApiPlatform\Core\DataProvider\ContextAwareCollectionDataProviderInterface;
 use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
 use Gally\Catalog\Repository\LocalizedCatalogRepository;
 use Gally\Category\Repository\CategoryConfigurationRepository;
+use Gally\Category\Service\CurrentCategoryProvider;
+use Gally\Entity\Service\PriceGroupProvider;
 use Gally\Metadata\Model\SourceField\Type;
 use Gally\Metadata\Repository\MetadataRepository;
 use Gally\Search\Elasticsearch\Adapter;
@@ -26,6 +28,7 @@ use Gally\Search\Elasticsearch\Request\Container\Configuration\ContainerConfigur
 use Gally\Search\Model\Facet\Option;
 use Gally\Search\Service\GraphQl\FilterManager;
 use Gally\Search\Service\ReverseSourceFieldProvider;
+use Gally\Search\Service\SearchContext;
 use Gally\Search\Service\ViewMoreContext;
 
 class OptionDataProvider implements ContextAwareCollectionDataProviderInterface, RestrictedDataProviderInterface
@@ -40,6 +43,9 @@ class OptionDataProvider implements ContextAwareCollectionDataProviderInterface,
         private ViewMoreContext $viewMoreContext,
         private ReverseSourceFieldProvider $reverseSourceFieldProvider,
         private CategoryConfigurationRepository $categoryConfigurationRepository,
+        private CurrentCategoryProvider $currentCategoryProvider,
+        private PriceGroupProvider $priceGroupProvider,
+        private SearchContext $searchContext,
         private string $nestingSeparator,
     ) {
     }
@@ -62,6 +68,14 @@ class OptionDataProvider implements ContextAwareCollectionDataProviderInterface,
         $this->filterManager->validateFilters($context, $containerConfig);
         $searchQuery = $context['filters']['search'] ?? null;
 
+        // Get query filter and set current category.
+        $queryFilter = $this->filterManager->transformToGallyFilters(
+            $this->filterManager->getQueryFilterFromContext($context),
+            $containerConfig
+        );
+
+        $this->initSearchContext($searchQuery);
+
         $request = $this->requestBuilder->create(
             $containerConfig,
             0,
@@ -72,10 +86,7 @@ class OptionDataProvider implements ContextAwareCollectionDataProviderInterface,
                 $this->filterManager->getFiltersFromContext($context),
                 $containerConfig
             ),
-            $this->filterManager->transformToGallyFilters(
-                $this->filterManager->getQueryFilterFromContext($context),
-                $containerConfig
-            ),
+            $queryFilter,
             []
         );
         $response = $this->searchEngine->search($request);
@@ -120,5 +131,12 @@ class OptionDataProvider implements ContextAwareCollectionDataProviderInterface,
     public function supports(string $resourceClass, string $operationName = null, array $context = []): bool
     {
         return Option::class === $resourceClass;
+    }
+
+    protected function initSearchContext(?string $searchQuery): void
+    {
+        $this->searchContext->setCategory($this->currentCategoryProvider->getCurrentCategory());
+        $this->searchContext->setSearchQueryText($searchQuery);
+        $this->searchContext->setPriceGroup($this->priceGroupProvider->getCurrentPriceGroupId());
     }
 }

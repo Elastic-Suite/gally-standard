@@ -18,6 +18,8 @@ use ApiPlatform\Core\DataProvider\ContextAwareCollectionDataProviderInterface;
 use ApiPlatform\Core\DataProvider\Pagination;
 use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
 use Gally\Catalog\Repository\LocalizedCatalogRepository;
+use Gally\Category\Service\CurrentCategoryProvider;
+use Gally\Entity\Service\PriceGroupProvider;
 use Gally\Metadata\Repository\MetadataRepository;
 use Gally\Search\Elasticsearch\Adapter;
 use Gally\Search\Elasticsearch\Builder\Request\SimpleRequestBuilder as RequestBuilder;
@@ -25,6 +27,7 @@ use Gally\Search\Elasticsearch\Request\Container\Configuration\ContainerConfigur
 use Gally\Search\GraphQl\Type\Definition\SortInputType;
 use Gally\Search\Model\Document;
 use Gally\Search\Service\GraphQl\FilterManager;
+use Gally\Search\Service\SearchContext;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 
 class DocumentDataProvider implements ContextAwareCollectionDataProviderInterface, RestrictedDataProviderInterface
@@ -39,6 +42,9 @@ class DocumentDataProvider implements ContextAwareCollectionDataProviderInterfac
         private Adapter $adapter,
         private FilterManager $filterManager,
         private SortInputType $sortInputType,
+        private CurrentCategoryProvider $currentCategoryProvider,
+        private PriceGroupProvider $priceGroupProvider,
+        private SearchContext $searchContext,
     ) {
     }
 
@@ -66,6 +72,8 @@ class DocumentDataProvider implements ContextAwareCollectionDataProviderInterfac
         $limit = $this->pagination->getLimit($resourceClass, $operationName, $context);
         $offset = $this->pagination->getOffset($resourceClass, $operationName, $context);
 
+        $this->initSearchContext($searchQuery);
+
         $request = $this->requestBuilder->create(
             $containerConfig,
             $offset,
@@ -90,5 +98,12 @@ class DocumentDataProvider implements ContextAwareCollectionDataProviderInterfac
             $offset,
             $context
         );
+    }
+
+    protected function initSearchContext(?string $searchQuery): void
+    {
+        $this->searchContext->setCategory($this->currentCategoryProvider->getCurrentCategory());
+        $this->searchContext->setSearchQueryText($searchQuery);
+        $this->searchContext->setPriceGroup($this->priceGroupProvider->getCurrentPriceGroupId());
     }
 }

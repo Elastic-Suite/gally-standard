@@ -14,7 +14,6 @@ declare(strict_types=1);
 
 namespace Gally\Entity\GraphQl\Type\Definition\Filter;
 
-use Gally\Entity\Service\PriceGroupProvider;
 use Gally\Metadata\Model\SourceField;
 use Gally\Search\Constant\FilterOperator;
 use Gally\Search\Elasticsearch\Builder\Request\Query\Filter\FilterQueryBuilder;
@@ -22,6 +21,7 @@ use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface;
 use Gally\Search\Elasticsearch\Request\QueryFactory;
 use Gally\Search\Elasticsearch\Request\QueryInterface;
 use Gally\Search\Service\ReverseSourceFieldProvider;
+use Gally\Search\Service\SearchContext;
 use GraphQL\Type\Definition\Type;
 
 class PriceTypeDefaultFilterInputType extends FloatTypeFilterInputType
@@ -33,7 +33,7 @@ class PriceTypeDefaultFilterInputType extends FloatTypeFilterInputType
     public function __construct(
         FilterQueryBuilder $filterQueryBuilder,
         QueryFactory $queryFactory,
-        protected PriceGroupProvider $priceGroupProvider,
+        protected SearchContext $searchContext,
         protected ReverseSourceFieldProvider $reverseSourceFieldProvider,
         string $nestingSeparator
     ) {
@@ -88,7 +88,7 @@ class PriceTypeDefaultFilterInputType extends FloatTypeFilterInputType
                         'must' => [
                             $this->queryFactory->create(
                                 QueryInterface::TYPE_TERM,
-                                ['field' => $sourceField->getCode() . '.group_id', 'value' => $this->priceGroupProvider->getCurrentPriceGroupId()]
+                                ['field' => $sourceField->getCode() . '.group_id', 'value' => $this->searchContext->getPriceGroup()]
                             ),
                             $priceQuery,
                         ],

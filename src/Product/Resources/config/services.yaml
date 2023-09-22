@@ -12,8 +12,6 @@ services:
         arguments:
             - '@serializer'
             - '@api_platform.pagination'
-            - '@api_platform.metadata.resource.metadata_factory.cached'
-            - '@Gally\ResourceMetadata\Service\ResourceMetadataManager'
             - '@Gally\Metadata\Repository\MetadataRepository'
             - '@Gally\Catalog\Repository\LocalizedCatalogRepository'
             - '@Gally\Search\Elasticsearch\Builder\Request\SimpleRequestBuilder'
@@ -22,6 +20,7 @@ services:
             - '@Gally\Product\GraphQl\Type\Definition\SortInputType'
             - '@Gally\Product\Service\GraphQl\FilterManager'
             - '@Gally\Category\Service\CurrentCategoryProvider'
+            - '@Gally\Entity\Service\PriceGroupProvider'
             - '@Gally\Search\Service\SearchContext'
         tags:
             - { name: api_platform.collection_data_provider }
@@ -29,7 +28,7 @@ services:
     Gally\Product\Serializer\ProductDenormalizer:
         arguments:
             - '@Gally\Stitching\Service\SerializerService'
-            - '@Gally\Entity\Service\PriceGroupProvider'
+            - '@Gally\Search\Service\SearchContext'
             - '@Gally\Entity\Model\Attribute\AttributeFactory'
         tags:
             - { name: serializer.normalizer }
@@ -95,11 +94,10 @@ services:
     Gally\Product\GraphQl\Type\Definition\SortInputType:
         arguments:
             - '@Gally\Search\GraphQl\Type\Definition\SortEnumType'
+            - '@Gally\Search\Service\SearchContext'
             - '@Gally\Metadata\Repository\SourceFieldRepository'
             - !tagged_iterator { tag: 'gally.product_api.sort_order_provider', index_by: 'provider_name' }
-            - '@Gally\Entity\Service\PriceGroupProvider'
             - '@Gally\Search\Service\ReverseSourceFieldProvider'
-            - '@Gally\Category\Service\CurrentCategoryProvider'
             - '%api_platform.graphql.nesting_separator%'
         tags:
             - { name: api_platform.graphql.type }
@@ -150,7 +148,7 @@ services:
 
     Gally\Product\Service\ProductDefaultSortingOptionProvider:
         arguments:
-            - '@Gally\Category\Service\CurrentCategoryProvider'
+            - '@Gally\Search\Service\SearchContext'
             - '@Gally\Category\Repository\CategoryConfigurationRepository'
             - '@Gally\Search\Service\SearchSettingsProvider'
             - '%api_platform.graphql.nesting_separator%'

@@ -17,7 +17,6 @@ namespace Gally\Search\Decoration\GraphQl;
 use ApiPlatform\Core\GraphQl\Resolver\Stage\SerializeStageInterface;
 use Gally\Catalog\Repository\LocalizedCatalogRepository;
 use Gally\Category\Repository\CategoryConfigurationRepository;
-use Gally\Category\Service\CurrentCategoryProvider;
 use Gally\Metadata\Model\SourceField;
 use Gally\Metadata\Model\SourceField\Type;
 use Gally\Metadata\Repository\MetadataRepository;
@@ -31,6 +30,7 @@ use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface;
 use Gally\Search\Model\Document;
 use Gally\Search\Repository\Facet\ConfigurationRepository;
 use Gally\Search\Service\ReverseSourceFieldProvider;
+use Gally\Search\Service\SearchContext;
 
 /**
  * Add aggregations data in graphql search document response.
@@ -48,7 +48,7 @@ class AddAggregationsData implements SerializeStageInterface
         private ContainerConfigurationProvider $containerConfigurationProvider,
         private LocalizedCatalogRepository $localizedCatalogRepository,
         private ConfigurationRepository $facetConfigRepository,
-        private CurrentCategoryProvider $currentCategoryProvider,
+        private SearchContext $searchContext,
         private ReverseSourceFieldProvider $reverseSourceFieldProvider,
         private CategoryConfigurationRepository $categoryConfigurationRepository,
         private iterable $availableFilterTypes,
@@ -63,7 +63,7 @@ class AddAggregationsData implements SerializeStageInterface
             $metadata = $this->metadataRepository->findByEntity($context['args']['entityType']);
             $localizedCatalog = $this->localizedCatalogRepository->findByCodeOrId($context['args']['localizedCatalog']);
             $containerConfig = $this->containerConfigurationProvider->get($metadata, $localizedCatalog, $context['args']['requestType'] ?? null);
-            $currentCategory = $this->currentCategoryProvider->getCurrentCategory();
+            $currentCategory = $this->searchContext->getCategory();
             $this->facetConfigRepository->setCategoryId($currentCategory?->getId());
             $this->facetConfigRepository->setMetadata($containerConfig->getMetadata());
 

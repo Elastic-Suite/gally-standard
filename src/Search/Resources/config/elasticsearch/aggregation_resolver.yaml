@@ -14,7 +14,7 @@ services:
 
     Gally\Search\Elasticsearch\Request\Aggregation\ConfigResolver\CategoryAggregationConfigResolver:
         arguments:
-            - '@Gally\Category\Service\CurrentCategoryProvider'
+            - '@Gally\Search\Service\SearchContext'
             - '@Gally\Category\Repository\CategoryRepository'
             - '@Gally\Search\Elasticsearch\Request\QueryFactory'
         tags:
@@ -22,7 +22,7 @@ services:
 
     Gally\Search\Elasticsearch\Request\Aggregation\ConfigResolver\PriceAggregationConfigResolver:
         arguments:
-            - '@Gally\Entity\Service\PriceGroupProvider'
+            - '@Gally\Search\Service\SearchContext'
         tags:
             - { name: 'gally.search.aggregation.resolver' }
 

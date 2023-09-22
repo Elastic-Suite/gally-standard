@@ -15,8 +15,6 @@ declare(strict_types=1);
 namespace Gally\Product\GraphQl\Type\Definition;
 
 use ApiPlatform\Core\GraphQl\Type\Definition\TypeInterface;
-use Gally\Category\Service\CurrentCategoryProvider;
-use Gally\Entity\Service\PriceGroupProvider;
 use Gally\Metadata\Model\Metadata;
 use Gally\Metadata\Repository\SourceFieldRepository;
 use Gally\Product\GraphQl\Type\Definition\SortOrder\SortOrderProviderInterface;
@@ -24,6 +22,7 @@ use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface;
 use Gally\Search\Elasticsearch\Request\SortOrderInterface;
 use Gally\Search\GraphQl\Type\Definition\SortInputType as SearchSortInputType;
 use Gally\Search\Service\ReverseSourceFieldProvider;
+use Gally\Search\Service\SearchContext;
 
 class SortInputType extends SearchSortInputType
 {
@@ -31,14 +30,13 @@ class SortInputType extends SearchSortInputType
 
     public function __construct(
         private TypeInterface $sortEnumType,
+        protected SearchContext $searchContext,
         private SourceFieldRepository $sourceFieldRepository,
         private iterable $sortOrderProviders,
-        protected PriceGroupProvider $priceGroupProvider,
         protected ReverseSourceFieldProvider $reverseSourceFieldProvider,
-        protected CurrentCategoryProvider $currentCategoryProvider,
         private string $nestingSeparator,
     ) {
-        parent::__construct($this->sortEnumType, $this->priceGroupProvider, $this->currentCategoryProvider, $this->reverseSourceFieldProvider);
+        parent::__construct($this->sortEnumType, $this->searchContext, $this->reverseSourceFieldProvider);
         $this->name = self::NAME;
     }
 

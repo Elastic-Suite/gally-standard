@@ -15,18 +15,18 @@ declare(strict_types=1);
 namespace Gally\Search\Elasticsearch\Request\Aggregation\ConfigResolver;
 
 use Gally\Category\Repository\CategoryRepository;
-use Gally\Category\Service\CurrentCategoryProvider;
 use Gally\Metadata\Model\SourceField;
 use Gally\Search\Elasticsearch\Request\BucketInterface;
 use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface;
 use Gally\Search\Elasticsearch\Request\QueryFactory;
 use Gally\Search\Elasticsearch\Request\QueryInterface;
 use Gally\Search\Model\Facet\Configuration;
+use Gally\Search\Service\SearchContext;
 
 class CategoryAggregationConfigResolver implements FieldAggregationConfigResolverInterface
 {
     public function __construct(
-        private CurrentCategoryProvider $currentCategoryProvider,
+        private SearchContext $searchContext,
         private CategoryRepository $categoryRepository,
         private QueryFactory $queryFactory,
     ) {
@@ -45,7 +45,7 @@ class CategoryAggregationConfigResolver implements FieldAggregationConfigResolve
     {
         $config = [];
 
-        $currentCategory = $this->currentCategoryProvider->getCurrentCategory();
+        $currentCategory = $this->searchContext->getCategory();
         $children = $this->categoryRepository->findBy(['parentId' => $currentCategory]);
         $queries = [];
 

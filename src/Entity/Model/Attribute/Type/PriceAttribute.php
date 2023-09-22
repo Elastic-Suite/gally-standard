@@ -16,7 +16,7 @@ namespace Gally\Entity\Model\Attribute\Type;
 
 use Gally\Entity\Model\Attribute\AttributeInterface;
 use Gally\Entity\Model\Attribute\StructuredAttributeInterface;
-use Gally\Entity\Service\PriceGroupProvider;
+use Gally\Search\Service\SearchContext;
 
 /**
  * Used for normalization/de-normalization and graphql schema stitching of price source fields.
@@ -28,7 +28,7 @@ class PriceAttribute extends AbstractStructuredAttribute implements AttributeInt
     public function __construct(
         string $attributeCode,
         mixed $value,
-        protected PriceGroupProvider $priceGroupProvider
+        protected SearchContext $searchContext
     ) {
         parent::__construct($attributeCode, $value);
     }
@@ -43,7 +43,7 @@ class PriceAttribute extends AbstractStructuredAttribute implements AttributeInt
     protected function getPriceForCurrentGroup(mixed $value): mixed
     {
         $priceFound = false;
-        $priceGroupId = $this->priceGroupProvider->getCurrentPriceGroupId();
+        $priceGroupId = $this->searchContext->getPriceGroup();
         if (\is_array($value) && null !== $priceGroupId) {
             foreach ($value as $priceData) {
                 if (($priceData['group_id'] ?? null) == $priceGroupId) {

@@ -14,13 +14,13 @@ declare(strict_types=1);
 
 namespace Gally\Search\Elasticsearch\Request\Aggregation\Provider;
 
-use Gally\Entity\Service\PriceGroupProvider;
 use Gally\Metadata\Model\SourceField\Type;
 use Gally\Metadata\Repository\SourceFieldRepository;
 use Gally\Search\Elasticsearch\Request\BucketInterface;
 use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface;
 use Gally\Search\Elasticsearch\Request\QueryFactory;
 use Gally\Search\Elasticsearch\Request\QueryInterface;
+use Gally\Search\Service\SearchContext;
 use Gally\Search\Service\SearchSettingsProvider;
 
 /**
@@ -33,7 +33,7 @@ class CoverageAggregationProvider implements AggregationProviderInterface
         private SourceFieldRepository $sourceFieldRepository,
         private QueryFactory $queryFactory,
         private SearchSettingsProvider $searchSettings,
-        private PriceGroupProvider $priceGroupProvider,
+        private SearchContext $searchContext
     ) {
     }
 
@@ -59,7 +59,7 @@ class CoverageAggregationProvider implements AggregationProviderInterface
             if (Type::TYPE_PRICE === $sourceField->getType()) {
                 $query = $this->queryFactory->create(
                     QueryInterface::TYPE_TERM,
-                    ['field' => $sourceField->getCode() . '.group_id', 'value' => $this->priceGroupProvider->getCurrentPriceGroupId()]
+                    ['field' => $sourceField->getCode() . '.group_id', 'value' => $this->searchContext->getPriceGroup()]
                 );
             } else {
                 $query = $this->queryFactory->create(
