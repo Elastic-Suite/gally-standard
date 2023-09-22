@@ -14,7 +14,6 @@ declare(strict_types=1);
 
 namespace Gally\Search\Service;
 
-use Gally\Catalog\Model\LocalizedCatalog;
 use Gally\Category\Model\Category;
 
 /**
@@ -27,8 +26,6 @@ class SearchContext
     private ?string  $searchQueryText = null;
 
     private ?string $priceGroup = null;
-
-    private ?LocalizedCatalog $localizedCatalog;
 
     private array $contextData = [];
 
@@ -60,16 +57,6 @@ class SearchContext
     public function setPriceGroup(?string $priceGroup): void
     {
         $this->priceGroup = $priceGroup;
-    }
-
-    public function getLocalizedCatalog(): ?LocalizedCatalog
-    {
-        return $this->localizedCatalog;
-    }
-
-    public function setLocalizedCatalog(?LocalizedCatalog $localizedCatalog): void
-    {
-        $this->localizedCatalog = $localizedCatalog;
     }
 
     public function getContextData(string $key, $default = null): mixed

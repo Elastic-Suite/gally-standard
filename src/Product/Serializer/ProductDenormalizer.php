@@ -18,9 +18,9 @@ use Gally\Entity\Model\Attribute\AttributeFactory;
 use Gally\Entity\Model\Attribute\StructuredAttributeInterface;
 use Gally\Entity\Model\Attribute\Type\NestedAttribute;
 use Gally\Entity\Model\Attribute\Type\PriceAttribute;
-use Gally\Entity\Service\PriceGroupProvider;
 use Gally\Product\Model\Product;
 use Gally\Search\Model\Document;
+use Gally\Search\Service\SearchContext;
 use Gally\Stitching\Service\SerializerService;
 use Symfony\Component\Serializer\Normalizer\ContextAwareDenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
@@ -34,7 +34,7 @@ class ProductDenormalizer implements ContextAwareDenormalizerInterface, Denormal
 
     public function __construct(
         private SerializerService $serializerService,
-        private PriceGroupProvider $priceGroupProvider,
+        private SearchContext $searchContext,
         private AttributeFactory $attributeFactory,
     ) {
     }
@@ -88,7 +88,7 @@ class ProductDenormalizer implements ContextAwareDenormalizerInterface, Denormal
                             } elseif (is_subclass_of($attributeType, StructuredAttributeInterface::class)) {
                                 if (is_a($attributeType, PriceAttribute::class, true)) {
                                     $product->addAttribute(
-                                        $this->attributeFactory->create($attributeType::ATTRIBUTE_TYPE, ['attributeCode' => $attributeCode, 'value' => $attributeValue, 'priceGroupProvider' => $this->priceGroupProvider])
+                                        $this->attributeFactory->create($attributeType::ATTRIBUTE_TYPE, ['attributeCode' => $attributeCode, 'value' => $attributeValue, 'searchContext' => $this->searchContext])
                                     );
                                 } else {
                                     // Structured/Complex fields, value is transmitted as is.

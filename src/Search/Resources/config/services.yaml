@@ -72,7 +72,7 @@ services:
     Gally\Search\Elasticsearch\Request\Aggregation\Provider\FilterableSourceFields:
         arguments:
             - '@Gally\Search\Repository\Facet\ConfigurationRepository'
-            - '@Gally\Category\Service\CurrentCategoryProvider'
+            - '@Gally\Search\Service\SearchContext'
             - !tagged_iterator { tag: 'gally.search.aggregation.resolver' }
             - {
                 coverageModifier: '@Gally\Search\Elasticsearch\Request\Aggregation\Modifier\Coverage',
@@ -152,8 +152,7 @@ services:
     Gally\Search\GraphQl\Type\Definition\SortInputType:
         arguments:
             - '@Gally\Search\GraphQl\Type\Definition\SortEnumType'
-            - '@Gally\Entity\Service\PriceGroupProvider'
-            - '@Gally\Category\Service\CurrentCategoryProvider'
+            - '@Gally\Search\Service\SearchContext'
             - '@Gally\Search\Service\ReverseSourceFieldProvider'
         tags:
             - { name: api_platform.graphql.type }
@@ -230,6 +229,9 @@ services:
             - '@Gally\Search\Elasticsearch\Adapter'
             - '@Gally\Search\Service\GraphQl\FilterManager'
             - '@Gally\Search\GraphQl\Type\Definition\SortInputType'
+            - '@Gally\Category\Service\CurrentCategoryProvider'
+            - '@Gally\Entity\Service\PriceGroupProvider'
+            - '@Gally\Search\Service\SearchContext'
         tags:
             - { name: api_platform.collection_data_provider }
 
@@ -257,7 +259,7 @@ services:
             - '@Gally\Search\Elasticsearch\Request\Container\Configuration\ContainerConfigurationProvider'
             - '@Gally\Catalog\Repository\LocalizedCatalogRepository'
             - '@Gally\Search\Repository\Facet\ConfigurationRepository'
-            - '@Gally\Category\Service\CurrentCategoryProvider'
+            - '@Gally\Search\Service\SearchContext'
             - '@Gally\Search\Service\ReverseSourceFieldProvider'
             - '@Gally\Category\Repository\CategoryConfigurationRepository'
             - !tagged_iterator { tag: 'gally.entity_api.filter' }
@@ -325,7 +327,7 @@ services:
             - '@Gally\Metadata\Repository\SourceFieldRepository'
             - '@Gally\Search\Elasticsearch\Request\QueryFactory'
             - '@Gally\Search\Service\SearchSettingsProvider'
-            - '@Gally\Entity\Service\PriceGroupProvider'
+            - '@Gally\Search\Service\SearchContext'
                 
     Gally\Search\Service\ViewMoreContext: ~
 
@@ -346,6 +348,9 @@ services:
             - '@Gally\Search\Service\ViewMoreContext'
             - '@Gally\Search\Service\ReverseSourceFieldProvider'
             - '@Gally\Category\Repository\CategoryConfigurationRepository'
+            - '@Gally\Category\Service\CurrentCategoryProvider'
+            - '@Gally\Entity\Service\PriceGroupProvider'
+            - '@Gally\Search\Service\SearchContext'
             - '%api_platform.graphql.nesting_separator%'
         tags:
             - { name: api_platform.collection_data_provider }

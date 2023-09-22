@@ -17,16 +17,13 @@ namespace Gally\Product\DataProvider;
 use ApiPlatform\Core\DataProvider\ContextAwareCollectionDataProviderInterface;
 use ApiPlatform\Core\DataProvider\Pagination;
 use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
-use ApiPlatform\Core\Exception\InvalidArgumentException;
 use ApiPlatform\Core\Exception\ResourceClassNotFoundException;
-use ApiPlatform\Core\Metadata\Resource\Factory\ResourceMetadataFactoryInterface;
-use Gally\Catalog\Model\LocalizedCatalog;
 use Gally\Catalog\Repository\LocalizedCatalogRepository;
 use Gally\Category\Service\CurrentCategoryProvider;
+use Gally\Entity\Service\PriceGroupProvider;
 use Gally\Metadata\Repository\MetadataRepository;
 use Gally\Product\GraphQl\Type\Definition\SortInputType;
 use Gally\Product\Model\Product;
-use Gally\ResourceMetadata\Service\ResourceMetadataManager;
 use Gally\Search\DataProvider\Paginator;
 use Gally\Search\Elasticsearch\Adapter;
 use Gally\Search\Elasticsearch\Builder\Request\SimpleRequestBuilder as RequestBuilder;
@@ -40,8 +37,6 @@ class ProductDataProvider implements ContextAwareCollectionDataProviderInterface
     public function __construct(
         private DenormalizerInterface $denormalizer,
         private Pagination $pagination,
-        private ResourceMetadataFactoryInterface $resourceMetadataFactory,
-        private ResourceMetadataManager $resourceMetadataManager,
         private MetadataRepository $metadataRepository,
         private LocalizedCatalogRepository $localizedCatalogRepository,
         private RequestBuilder $requestBuilder,
@@ -50,6 +45,7 @@ class ProductDataProvider implements ContextAwareCollectionDataProviderInterface
         private SortInputType $sortInputType,
         private FilterManager $filterManager,
         private CurrentCategoryProvider $currentCategoryProvider,
+        private PriceGroupProvider $priceGroupProvider,
         private SearchContext $searchContext,
     ) {
     }
@@ -69,22 +65,9 @@ class ProductDataProvider implements ContextAwareCollectionDataProviderInterface
      */
     public function getCollection(string $resourceClass, string $operationName = null, array $context = []): iterable
     {
-        $resourceMetadata = $this->resourceMetadataFactory->create($resourceClass);
-        $entityType = $this->resourceMetadataManager->getMetadataEntity($resourceMetadata);
-        if (null === $entityType) {
-            throw new ResourceClassNotFoundException(sprintf('Resource "%s" has no declared metadata entity.', $resourceClass));
-        }
-
         // TODO Supposed to be pulled from header.
         $localizedCatalogCode = $context['filters']['localizedCatalog'];
-        $metadata = $this->metadataRepository->findOneBy(['entity' => $entityType]);
-        if (!$metadata) {
-            throw new InvalidArgumentException(sprintf('Entity type [%s] does not exist', $entityType));
-        }
-        if (null === $metadata->getEntity()) {
-            throw new InvalidArgumentException(sprintf('Entity type [%s] is not defined', $entityType));
-        }
-
+        $metadata = $this->metadataRepository->findByRessourceClass($resourceClass);
         $localizedCatalog = $this->localizedCatalogRepository->findByCodeOrId($localizedCatalogCode);
 
         $containerConfig = $this->containerConfigurationProvider->get(
@@ -106,7 +89,7 @@ class ProductDataProvider implements ContextAwareCollectionDataProviderInterface
             $containerConfig
         );
 
-        $this->setSearchContext($searchQuery, $localizedCatalog);
+        $this->initSearchContext($searchQuery);
 
         $request = $this->requestBuilder->create(
             $containerConfig,
@@ -134,10 +117,10 @@ class ProductDataProvider implements ContextAwareCollectionDataProviderInterface
         );
     }
 
-    protected function setSearchContext(?string $searchQuery, LocalizedCatalog $localizedCatalog): void
+    protected function initSearchContext(?string $searchQuery): void
     {
         $this->searchContext->setCategory($this->currentCategoryProvider->getCurrentCategory());
         $this->searchContext->setSearchQueryText($searchQuery);
-        $this->searchContext->setLocalizedCatalog($localizedCatalog);
+        $this->searchContext->setPriceGroup($this->priceGroupProvider->getCurrentPriceGroupId());
     }
 }

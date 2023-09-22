@@ -20,7 +20,6 @@ use Gally\Category\Model\Category\ProductMerchandising;
 use Gally\Index\Repository\Index\IndexRepositoryInterface;
 use Gally\Index\Service\IndexSettings;
 use Gally\Metadata\Repository\MetadataRepository;
-use Gally\Search\Model\Document;
 use Psr\Log\LoggerInterface;
 
 class CategoryProductPositionIndexerRepository implements CategoryProductPositionIndexerRepositoryInterface

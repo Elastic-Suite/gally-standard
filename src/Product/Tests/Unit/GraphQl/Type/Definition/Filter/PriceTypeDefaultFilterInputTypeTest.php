@@ -15,11 +15,11 @@ declare(strict_types=1);
 namespace Gally\Product\Tests\Unit\GraphQl\Type\Definition\Filter;
 
 use Gally\Entity\GraphQl\Type\Definition\Filter\PriceTypeDefaultFilterInputType;
-use Gally\Entity\Service\PriceGroupProvider;
 use Gally\Search\Constant\FilterOperator;
 use Gally\Search\Elasticsearch\Builder\Request\Query\Filter\FilterQueryBuilder;
 use Gally\Search\Elasticsearch\Request\QueryFactory;
 use Gally\Search\Service\ReverseSourceFieldProvider;
+use Gally\Search\Service\SearchContext;
 use GraphQL\Type\Definition\Type;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
@@ -29,7 +29,7 @@ class PriceTypeDefaultFilterInputTypeTest extends KernelTestCase
 
     private static QueryFactory $queryFactory;
 
-    private static PriceGroupProvider $priceGroupProvider;
+    private static SearchContext $searchContext;
 
     private static ReverseSourceFieldProvider $reverseSourceFieldProvider;
 
@@ -38,7 +38,7 @@ class PriceTypeDefaultFilterInputTypeTest extends KernelTestCase
         parent::setUpBeforeClass();
         self::$filterQueryBuilder = static::getContainer()->get(FilterQueryBuilder::class);
         self::$queryFactory = static::getContainer()->get(QueryFactory::class);
-        self::$priceGroupProvider = static::getContainer()->get(PriceGroupProvider::class);
+        self::$searchContext = static::getContainer()->get(SearchContext::class);
         self::$reverseSourceFieldProvider = static::getContainer()->get(ReverseSourceFieldProvider::class);
     }
 
@@ -53,7 +53,7 @@ class PriceTypeDefaultFilterInputTypeTest extends KernelTestCase
         $priceTypeDefaultFilterInputType = new PriceTypeDefaultFilterInputType(
             self::$filterQueryBuilder,
             self::$queryFactory,
-            self::$priceGroupProvider,
+            self::$searchContext,
             self::$reverseSourceFieldProvider,
             '##'
         );
@@ -96,7 +96,7 @@ class PriceTypeDefaultFilterInputTypeTest extends KernelTestCase
         $priceTypeDefaultFilterInputType = new PriceTypeDefaultFilterInputType(
             self::$filterQueryBuilder,
             self::$queryFactory,
-            self::$priceGroupProvider,
+            self::$searchContext,
             self::$reverseSourceFieldProvider,
             '##'
         );

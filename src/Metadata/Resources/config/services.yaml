@@ -2,6 +2,8 @@ services:
     Gally\Metadata\Repository\MetadataRepository:
         arguments:
             - '@Doctrine\Persistence\ManagerRegistry'
+            - '@api_platform.metadata.resource.metadata_factory.cached'
+            - '@Gally\ResourceMetadata\Service\ResourceMetadataManager'
         tags:
             - { name: doctrine.repository_service }
 

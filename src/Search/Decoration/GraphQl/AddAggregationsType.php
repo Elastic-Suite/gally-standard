@@ -40,15 +40,17 @@ class AddAggregationsType implements TypeBuilderInterface
         $type = $this->decorated->getResourcePaginatedCollectionType($resourceType, $resourceClass, $operationName);
         if (Document::class === $resourceClass || is_subclass_of($resourceClass, Document::class)) {
             $fields = $type->getFields(); // @phpstan-ignore-line
-            $fields['aggregations'] = $this->getAggregationsType($resourceType);
-            $configuration = [
-                'name' => $type->name,
-                'description' => "Connection for {$type->name}.",
-                'fields' => $fields,
-            ];
+            if (!\array_key_exists('aggregations', $fields)) {
+                $fields['aggregations'] = $this->getAggregationsType($resourceType);
+                $configuration = [
+                    'name' => $type->name,
+                    'description' => "Connection for {$type->name}.",
+                    'fields' => $fields,
+                ];
 
-            $type = new ObjectType($configuration);
-            $this->typesContainer->set($type->name, $type);
+                $type = new ObjectType($configuration);
+                $this->typesContainer->set($type->name, $type);
+            }
         }
 
         return $type;

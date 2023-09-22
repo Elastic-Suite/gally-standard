@@ -25,12 +25,13 @@ class RequestGraphQlToTest extends RequestToTest
         string $query,
         ?User $user,
         array $headers = [],
+        array $variables = [],
     ) {
         parent::__construct(
             'POST',
             '/graphql',
             $user,
-            ['operationName' => null, 'query' => $query, 'variables' => []],
+            ['operationName' => null, 'query' => $query, 'variables' => $variables],
             $headers
         );
     }

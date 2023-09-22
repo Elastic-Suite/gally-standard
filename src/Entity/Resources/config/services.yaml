@@ -67,7 +67,7 @@ services:
         arguments:
             - '@Gally\Search\Elasticsearch\Builder\Request\Query\Filter\FilterQueryBuilder'
             - '@Gally\Search\Elasticsearch\Request\QueryFactory'
-            - '@Gally\Entity\Service\PriceGroupProvider'
+            - '@Gally\Search\Service\SearchContext'
             - '@Gally\Search\Service\ReverseSourceFieldProvider'
             - '%api_platform.graphql.nesting_separator%'
         tags:

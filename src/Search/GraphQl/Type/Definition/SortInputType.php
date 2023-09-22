@@ -15,13 +15,12 @@ declare(strict_types=1);
 namespace Gally\Search\GraphQl\Type\Definition;
 
 use ApiPlatform\Core\GraphQl\Type\Definition\TypeInterface;
-use Gally\Category\Service\CurrentCategoryProvider;
-use Gally\Entity\Service\PriceGroupProvider;
 use Gally\Metadata\Model\Metadata;
 use Gally\Metadata\Model\SourceField\Type;
 use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface;
 use Gally\Search\Elasticsearch\Request\SortOrderInterface;
 use Gally\Search\Service\ReverseSourceFieldProvider;
+use Gally\Search\Service\SearchContext;
 use GraphQL\Type\Definition\InputObjectType;
 use GraphQL\Type\Definition\Type as GraphQLType;
 
@@ -31,8 +30,7 @@ class SortInputType extends InputObjectType implements TypeInterface
 
     public function __construct(
         private TypeInterface $sortEnumType,
-        protected PriceGroupProvider $priceGroupProvider,
-        private CurrentCategoryProvider $currentCategoryProvider,
+        protected SearchContext $searchContext,
         protected ReverseSourceFieldProvider $reverseSourceFieldProvider,
     ) {
         $this->name = self::NAME;
@@ -77,12 +75,12 @@ class SortInputType extends InputObjectType implements TypeInterface
 
             if (Type::TYPE_PRICE == $sourceField?->getType()) {
                 $sortParams['nestedPath'] = $sourceField->getCode();
-                $sortParams['nestedFilter'] = [$sourceField->getCode() . '.group_id' => $this->priceGroupProvider->getCurrentPriceGroupId()];
+                $sortParams['nestedFilter'] = [$sourceField->getCode() . '.group_id' => $this->searchContext->getPriceGroup()];
             }
 
             if (Type::TYPE_CATEGORY == $sourceField?->getType()) {
                 $sortParams['nestedPath'] = $sourceField->getCode();
-                $sortParams['nestedFilter'] = [$sourceField->getCode() . '.id' => $this->currentCategoryProvider->getCurrentCategory()?->getId()];
+                $sortParams['nestedFilter'] = [$sourceField->getCode() . '.id' => $this->searchContext->getCategory()?->getId()];
             }
         }
 
