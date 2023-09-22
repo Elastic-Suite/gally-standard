@@ -51,14 +51,25 @@ class RenameGraphQlQuery implements FieldsBuilderInterface
         return $fields;
     }
 
+    public function getItemQueryFields(string $resourceClass, ResourceMetadata $resourceMetadata, string $queryName, array $configuration): array
+    {
+        $fields = $this->decorated->getItemQueryFields($resourceClass, $resourceMetadata, $queryName, $configuration);
+
+        if (\array_key_exists($resourceClass, $this->graphqlQueryRenamings)) {
+            foreach ($this->graphqlQueryRenamings[$resourceClass]['renamings'] as $oldName => $newName) {
+                if (\array_key_exists($oldName, $fields)) {
+                    $fields[$newName] = $fields[$oldName];
+                    unset($fields[$oldName]);
+                }
+            }
+        }
+
+        return $fields;
+    }
+
     public function getNodeQueryFields(): array
     {
         return $this->decorated->getNodeQueryFields();
-    }
-
-    public function getItemQueryFields(string $resourceClass, ResourceMetadata $resourceMetadata, string $queryName, array $configuration): array
-    {
-        return $this->decorated->getItemQueryFields($resourceClass, $resourceMetadata, $queryName, $configuration);
     }
 
     public function getMutationFields(string $resourceClass, ResourceMetadata $resourceMetadata, string $mutationName): array
