@@ -420,6 +420,26 @@ class SearchDocumentsTest extends AbstractTest
                 'b2b_fr',   // catalog ID.
                 10,     // page size.
                 1,      // current page.
+                ['fake_source_field' => SortOrderInterface::SORT_DESC], // sort order specifications.
+                'id', // document data identifier.
+                // default sort order applied as the source field doesn't exist
+                [10, 11, 12, 2, 3, 4, 5, 6, 7, 8],    // expected ordered document IDs
+            ],
+            [
+                'product',  // entity type.
+                'b2b_fr',   // catalog ID.
+                10,     // page size.
+                1,      // current page.
+                ['seller_reference' => SortOrderInterface::SORT_DESC], // sort order specifications.
+                'id', // document data identifier.
+                // default sort order applied as the source field is of type "text" and it is not sortable
+                [10, 11, 12, 2, 3, 4, 5, 6, 7, 8],    // expected ordered document IDs
+            ],
+            [
+                'product',  // entity type.
+                'b2b_fr',   // catalog ID.
+                10,     // page size.
+                1,      // current page.
                 ['_score' => SortOrderInterface::SORT_DESC], // sort order specifications.
                 'id', // document data identifier.
                 // score DESC first, then id DESC which exists in 'b2b_fr'

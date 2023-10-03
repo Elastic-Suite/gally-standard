@@ -26,6 +26,7 @@ use Gally\Search\Elasticsearch\Request\QueryFactory;
 use Gally\Search\Elasticsearch\Request\QueryInterface;
 use Gally\Search\Elasticsearch\Request\SortOrderInterface;
 use Gally\Test\AbstractTest;
+use Psr\Log\LoggerInterface;
 
 class SortOrderBuilderTest extends AbstractTest
 {
@@ -39,6 +40,8 @@ class SortOrderBuilderTest extends AbstractTest
 
     private static SortOrderBuilder $sortOrderBuilder;
 
+    private static LoggerInterface $logger;
+
     public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
@@ -46,7 +49,8 @@ class SortOrderBuilderTest extends AbstractTest
         \assert(static::getContainer()->get(QueryFactory::class) instanceof QueryFactory);
         self::$queryFactory = static::getContainer()->get(QueryFactory::class);
         self::$filterQueryBuilder = new FilterQueryBuilder(self::$queryFactory);
-        self::$sortOrderBuilder = new SortOrderBuilder(self::$filterQueryBuilder);
+        self::$logger = static::getContainer()->get(LoggerInterface::class);
+        self::$sortOrderBuilder = new SortOrderBuilder(self::$filterQueryBuilder, self::$logger);
 
         self::$metadataRepository = static::getContainer()->get(MetadataRepository::class);
         self::$metadataManager = static::getContainer()->get(MetadataManager::class);
@@ -62,7 +66,7 @@ class SortOrderBuilderTest extends AbstractTest
         $reflector = new \ReflectionClass(SortOrderBuilder::class);
         $filterQueryBuilderProperty = $reflector->getProperty('queryBuilder');
 
-        $sortOrderBuilder = new SortOrderBuilder(self::$filterQueryBuilder);
+        $sortOrderBuilder = new SortOrderBuilder(self::$filterQueryBuilder, self::$logger);
         $this->assertEquals($filterQueryBuilderProperty->getValue($sortOrderBuilder), self::$filterQueryBuilder);
     }
 

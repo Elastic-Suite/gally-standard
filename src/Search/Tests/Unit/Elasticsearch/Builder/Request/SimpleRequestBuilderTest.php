@@ -35,6 +35,7 @@ use Gally\Search\Elasticsearch\Request\QueryInterface;
 use Gally\Search\Elasticsearch\RequestFactoryInterface;
 use Gally\Search\Elasticsearch\Spellchecker;
 use Gally\Test\AbstractTest;
+use Psr\Log\LoggerInterface;
 
 class SimpleRequestBuilderTest extends AbstractTest
 {
@@ -70,6 +71,8 @@ class SimpleRequestBuilderTest extends AbstractTest
 
     private static SimpleRequestBuilder $requestBuilder;
 
+    private static LoggerInterface $logger;
+
     public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
@@ -84,8 +87,9 @@ class SimpleRequestBuilderTest extends AbstractTest
         self::$fuzzyFieldFilter = static::getContainer()->get(FuzzyFieldFilter::class);
         self::$fulltextQueryBuilder = new FulltextQueryBuilder(self::$queryFactory, self::$searchableFieldFilter, self::$fuzzyFieldFilter);
         self::$filterQueryBuilder = new FilterQueryBuilder(self::$queryFactory);
+        self::$logger = static::getContainer()->get(LoggerInterface::class);
         self::$queryBuilder = new QueryBuilder(self::$queryFactory, self::$fulltextQueryBuilder, self::$filterQueryBuilder);
-        self::$sortOrderBuilder = new SortOrderBuilder(self::$filterQueryBuilder);
+        self::$sortOrderBuilder = new SortOrderBuilder(self::$filterQueryBuilder, self::$logger);
         \assert(static::getContainer()->get(AggregationFactory::class) instanceof AggregationFactory);
         self::$aggregationFactory = static::getContainer()->get(AggregationFactory::class);
         self::$aggregationBuilder = new AggregationBuilder(self::$aggregationFactory, self::$filterQueryBuilder);
