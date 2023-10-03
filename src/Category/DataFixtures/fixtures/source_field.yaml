@@ -7,6 +7,7 @@ Gally\Metadata\Model\SourceField:
         code: 'id'
         type: 'text'
         isSystem: true
+        isSortable: true
     category_parent_id:
         metadata: '@category'
         code: 'parentId'
@@ -30,6 +31,6 @@ Gally\Metadata\Model\SourceField:
         isSearchable: true
         isFilterable: false
         isSortable: false
-        isSpellchecked: false
+        isSpellchecked: true
         isUsedForRules: false
         isSystem: true

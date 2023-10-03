@@ -29,6 +29,7 @@ use Gally\Search\Elasticsearch\Request\QueryFactory;
 use Gally\Search\Elasticsearch\Request\QueryInterface;
 use Gally\Search\Elasticsearch\Request\SortOrderInterface;
 use Gally\Test\AbstractTest;
+use Psr\Log\LoggerInterface;
 
 class AssemblerTest extends AbstractTest
 {
@@ -46,6 +47,8 @@ class AssemblerTest extends AbstractTest
 
     private static SortAssembler $sortAssembler;
 
+    private static LoggerInterface $logger;
+
     public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
@@ -53,7 +56,8 @@ class AssemblerTest extends AbstractTest
         \assert(static::getContainer()->get(QueryFactory::class) instanceof QueryFactory);
         self::$queryFactory = static::getContainer()->get(QueryFactory::class);
         self::$filterQueryBuilder = new FilterQueryBuilder(self::$queryFactory);
-        self::$sortOrderBuilder = new SortOrderBuilder(self::$filterQueryBuilder);
+        self::$logger = static::getContainer()->get(LoggerInterface::class);
+        self::$sortOrderBuilder = new SortOrderBuilder(self::$filterQueryBuilder, self::$logger);
         self::$queryAssembler = static::getContainer()->get(QueryAssembler::class);
         self::$sortAssembler = new SortAssembler(self::$queryAssembler);
 

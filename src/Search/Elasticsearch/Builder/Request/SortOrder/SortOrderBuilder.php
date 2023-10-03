@@ -19,6 +19,7 @@ use Gally\Index\Model\Index\MappingInterface;
 use Gally\Search\Elasticsearch\Builder\Request\Query\Filter\FilterQueryBuilder;
 use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface;
 use Gally\Search\Elasticsearch\Request\SortOrderInterface;
+use Psr\Log\LoggerInterface;
 
 /**
  * Allow to build a sort order from arrays.
@@ -30,8 +31,10 @@ class SortOrderBuilder
      *
      * @param FilterQueryBuilder $queryBuilder Query builder used to build queries inside nested sort order
      */
-    public function __construct(private FilterQueryBuilder $queryBuilder)
-    {
+    public function __construct(
+        private FilterQueryBuilder $queryBuilder,
+        private LoggerInterface $logger,
+    ) {
     }
 
     /**
@@ -81,6 +84,12 @@ class SortOrderBuilder
 
             if (Script::class == $type) {
                 unset($sortOrderParams['field']);
+            } elseif (!isset($sortOrderParams['field'])) {
+                $this->logger->error(
+                    "The source field '$fieldName' is not sortable",
+                    ['sortOrderParams', $sortOrderParams]
+                );
+                continue;
             }
 
             $sortOrders[] = new $type(...$sortOrderParams);

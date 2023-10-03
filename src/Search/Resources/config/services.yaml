@@ -108,6 +108,7 @@ services:
     Gally\Search\Elasticsearch\Builder\Request\SortOrder\SortOrderBuilder:
         arguments:
             - '@Gally\Search\Elasticsearch\Builder\Request\Query\Filter\FilterQueryBuilder'
+            - '@logger'
 
     Gally\Search\Elasticsearch\Builder\Request\Aggregation\AggregationBuilder:
         arguments:
