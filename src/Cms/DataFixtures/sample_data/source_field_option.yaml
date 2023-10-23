@@ -1,0 +1,66 @@
+Gally\Metadata\Model\SourceFieldOption:
+    cms_page_tags_option_fashion:
+        code: 'fashion'
+        source_field: '@cms_page_tags'
+        position: 0
+        defaultLabel: Fashion
+    cms_page_tags_option_dress:
+        code: 'dress'
+        source_field: '@cms_page_tags'
+        position: 0
+        defaultLabel: Dress
+    cms_page_tags_option_summer:
+        code: 'summer'
+        source_field: '@cms_page_tags'
+        position: 0
+        defaultLabel: Summer
+    cms_page_tags_option_slick:
+        code: 'slick'
+        source_field: '@cms_page_tags'
+        position: 0
+        defaultLabel: Slick
+    cms_page_tags_option_nylon:
+        code: 'nylon'
+        source_field: '@cms_page_tags'
+        position: 0
+        defaultLabel: Nylon
+    cms_page_tags_option_jewelry:
+        code: 'jewelry'
+        source_field: '@cms_page_tags'
+        position: 0
+        defaultLabel: Jewelry
+    cms_page_tags_option_gold:
+        code: 'gold'
+        source_field: '@cms_page_tags'
+        position: 0
+        defaultLabel: Gold
+    cms_page_tags_option_colors:
+        code: 'colors'
+        source_field: '@cms_page_tags'
+        position: 0
+        defaultLabel: Colors
+    cms_page_tags_option_shirts:
+        code: 'shirts'
+        source_field: '@cms_page_tags'
+        position: 0
+        defaultLabel: Shirts
+    cms_page_tags_option_blouses:
+        code: 'blouses'
+        source_field: '@cms_page_tags'
+        position: 0
+        defaultLabel: Blouses
+    cms_page_tags_option_neckline:
+        code: 'neckline'
+        source_field: '@cms_page_tags'
+        position: 0
+        defaultLabel: Neckline
+    cms_page_tags_option_materials:
+        code: 'materials'
+        source_field: '@cms_page_tags'
+        position: 0
+        defaultLabel: Materials
+    cms_page_tags_option_natural:
+        code: 'natural'
+        source_field: '@cms_page_tags'
+        position: 0
+        defaultLabel: Natural
