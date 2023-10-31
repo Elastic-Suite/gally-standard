@@ -1,6 +1,14 @@
+parameters:
+    es_config: {'hosts': ['http://opensearch:9200']}
+
 services:
     Gally\Configuration\DataProvider\ConfigurationDataProvider:
         arguments:
             - '%gally.base_url%'
         tags:
             - { name: api_platform.collection_data_provider }
+    
+    OpenSearch\ClientBuilder: ~
+    OpenSearch\Client:
+        factory:   ['@OpenSearch\ClientBuilder', fromConfig]
+        arguments: ['%es_config%']

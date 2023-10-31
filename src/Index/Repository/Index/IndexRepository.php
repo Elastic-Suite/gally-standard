@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace Gally\Index\Repository\Index;
 
-use Elasticsearch\Client;
+use OpenSearch\Client;
 use Exception;
 use Gally\Exception\LogicException;
 use Gally\Index\Api\IndexSettingsInterface;

@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace Gally\Index\Tests\Api\Rest;
 
-use Elasticsearch\Client;
+use OpenSearch\Client;
 use Gally\Fixture\Service\ElasticsearchFixturesInterface;
 use Gally\Index\Model\Index;
 use Gally\Index\Repository\Index\IndexRepositoryInterface;
@@ -38,7 +38,7 @@ class IndexOperationsTest extends AbstractEntityTest
         \assert(static::getContainer()->get(IndexRepositoryInterface::class) instanceof IndexRepositoryInterface);
         self::$indexRepository = static::getContainer()->get(IndexRepositoryInterface::class);
         self::$initialIndicesCount = \count(self::$indexRepository->findAll());
-        self::$elasticsearchClient = static::getContainer()->get('api_platform.elasticsearch.client.test'); // @phpstan-ignore-line
+        self::$elasticsearchClient = static::getContainer()->get('opensearch.client.test'); // @phpstan-ignore-line
 
         self::loadElasticsearchIndexFixtures([__DIR__ . '/../../fixtures/indices.json']);
         self::loadElasticsearchDocumentFixtures([__DIR__ . '/../../fixtures/documents.json']);
@@ -173,13 +173,6 @@ class IndexOperationsTest extends AbstractEntityTest
                     ],
                     'settings' => [
                         'index' => [
-                            'routing' => [
-                                'allocation' => [
-                                    'include' => [
-                                        '_tier_preference' => 'data_content',
-                                    ],
-                                ],
-                            ],
                             'number_of_shards' => '1',
                             'number_of_replicas' => '1',
                         ],
@@ -210,13 +203,6 @@ class IndexOperationsTest extends AbstractEntityTest
                     ],
                     'settings' => [
                         'index' => [
-                            'routing' => [
-                                'allocation' => [
-                                    'include' => [
-                                        '_tier_preference' => 'data_content',
-                                    ],
-                                ],
-                            ],
                             'number_of_shards' => '1',
                             'number_of_replicas' => '1',
                         ],
@@ -247,13 +233,6 @@ class IndexOperationsTest extends AbstractEntityTest
                     ],
                     'settings' => [
                         'index' => [
-                            'routing' => [
-                                'allocation' => [
-                                    'include' => [
-                                        '_tier_preference' => 'data_content',
-                                    ],
-                                ],
-                            ],
                             'number_of_shards' => '1',
                             'number_of_replicas' => '1',
                         ],
@@ -284,13 +263,6 @@ class IndexOperationsTest extends AbstractEntityTest
                     ],
                     'settings' => [
                         'index' => [
-                            'routing' => [
-                                'allocation' => [
-                                    'include' => [
-                                        '_tier_preference' => 'data_content',
-                                    ],
-                                ],
-                            ],
                             'number_of_shards' => '1',
                             'number_of_replicas' => '1',
                         ],
@@ -318,13 +290,6 @@ class IndexOperationsTest extends AbstractEntityTest
                     ],
                     'settings' => [
                         'index' => [
-                            'routing' => [
-                                'allocation' => [
-                                    'include' => [
-                                        '_tier_preference' => 'data_content',
-                                    ],
-                                ],
-                            ],
                             'number_of_shards' => '1',
                             'number_of_replicas' => '1',
                         ],

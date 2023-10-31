@@ -36,8 +36,8 @@ api_platform:
             page_parameter_name: currentPage
             items_per_page_parameter_name: pageSize
             items_per_page: 20
-    elasticsearch:
-        hosts: ['%env(ELASTICSEARCH_HOST)%']
+#    elasticsearch:
+#        hosts: ['%env(ELASTICSEARCH_HOST)%']
     # Mercure integration, remove if unwanted
     # mercure: ~
     http_cache:

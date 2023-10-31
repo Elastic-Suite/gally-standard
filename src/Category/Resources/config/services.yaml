@@ -199,7 +199,7 @@ services:
     Gally\Category\Repository\CategoryProductPositionIndexer\CategoryProductPositionIndexerRepositoryInterface: '@Gally\Category\Repository\CategoryProductPositionIndexer\CategoryProductPositionIndexerRepository'
     Gally\Category\Repository\CategoryProductPositionIndexer\CategoryProductPositionIndexerRepository:
         arguments:
-            - '@api_platform.elasticsearch.client'
+            - '@OpenSearch\Client'
             - '@Gally\Metadata\Repository\MetadataRepository'
             - '@Gally\Index\Service\IndexSettings'
             - '@Gally\Index\Repository\Index\IndexRepositoryInterface'

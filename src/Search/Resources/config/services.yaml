@@ -117,7 +117,7 @@ services:
                 
     Gally\Search\Elasticsearch\Spellchecker:
         arguments:
-            - '@api_platform.elasticsearch.client'
+            - '@OpenSearch\Client'
             - '@Gally\Cache\Service\CacheManagerInterface'
 
     Gally\Search\Elasticsearch\Builder\Request\SimpleRequestBuilder:
@@ -140,7 +140,7 @@ services:
     Gally\Search\Elasticsearch\Adapter:
         arguments:
             - '@Gally\Search\Elasticsearch\Adapter\Common\Request\Mapper'
-            - '@api_platform.elasticsearch.client'
+            - '@OpenSearch\Client'
             - '@Gally\Search\Elasticsearch\Builder\Response\AggregationBuilder'
             - '@logger'
 

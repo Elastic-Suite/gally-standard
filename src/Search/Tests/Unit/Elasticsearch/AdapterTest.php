@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace Gally\Search\Tests\Unit\Elasticsearch;
 
-use Elasticsearch\Client;
+use OpenSearch\Client;
 use Gally\Search\Elasticsearch\Adapter;
 use Gally\Search\Elasticsearch\Adapter\Common\Request;
 use Gally\Search\Elasticsearch\Adapter\Common\Response;

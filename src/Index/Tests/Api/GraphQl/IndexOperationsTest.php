@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace Gally\Index\Tests\Api\GraphQl;
 
-use Elasticsearch\Client;
+use OpenSearch\Client;
 use Gally\Catalog\Repository\LocalizedCatalogRepository;
 use Gally\Index\Api\IndexSettingsInterface;
 use Gally\Index\Model\Index;
@@ -47,7 +47,7 @@ class IndexOperationsTest extends AbstractTest
             __DIR__ . '/../../fixtures/metadata.yaml',
         ]);
         self::$indexSettings = static::getContainer()->get(IndexSettingsInterface::class);
-        self::$client = static::getContainer()->get('api_platform.elasticsearch.client.test'); // @phpstan-ignore-line
+        self::$client = static::getContainer()->get('opensearch.client.test'); // @phpstan-ignore-line
     }
 
     public static function tearDownAfterClass(): void
