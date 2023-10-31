@@ -12,14 +12,14 @@
 
 declare(strict_types=1);
 
-namespace Gally\Category\Tests\Api\GraphQl;
+namespace Gally\Product\Tests\Api\GraphQl;
 
 use Gally\Test\AbstractTest;
 use Gally\Test\ExpectedResponse;
 use Gally\Test\RequestGraphQlToTest;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
-class CategorySortingOptionTest extends AbstractTest
+class ProductSortingOptionTest extends AbstractTest
 {
     public static function setUpBeforeClass(): void
     {
@@ -36,7 +36,7 @@ class CategorySortingOptionTest extends AbstractTest
             new RequestGraphQlToTest(
                 <<<GQL
                     {
-                      categorySortingOptions {
+                      productSortingOptions {
                         code
                         label
                       }
@@ -50,14 +50,17 @@ class CategorySortingOptionTest extends AbstractTest
                     $responseData = $response->toArray();
                     $this->assertSame(
                         [
+                            ['code' => 'my_stock__status', 'label' => 'Stock status'],
                             ['code' => 'name', 'label' => 'Name'],
-                            ['code' => 'category__position', 'label' => 'Category.position'],
-                            ['code' => 'real_category__position', 'label' => 'Position'],
-                            ['code' => 'price__price', 'label' => 'Price'],
-                            ['code' => 'stock__status', 'label' => 'Stock status'],
+                            ['code' => 'brand__label', 'label' => 'Brand'],
+                            ['code' => 'size', 'label' => 'Size'],
+                            ['code' => 'my_price__price', 'label' => 'Price'],
+                            ['code' => 'price_as_nested__price', 'label' => 'Price_as_nested.price'],
+                            ['code' => 'created_at', 'label' => 'Created_at'],
+                            ['code' => 'category__position', 'label' => 'Position'],
                             ['code' => '_score', 'label' => 'Relevance'],
                         ],
-                        $responseData['data']['categorySortingOptions']
+                        $responseData['data']['productSortingOptions']
                     );
                 }
             )

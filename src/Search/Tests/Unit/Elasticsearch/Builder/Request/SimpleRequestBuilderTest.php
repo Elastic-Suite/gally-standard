@@ -238,10 +238,10 @@ class SimpleRequestBuilderTest extends AbstractTest
     protected function createRequestDataProvider(): array
     {
         return [
-            ['product', 1, 'gally_test__gally_b2c_fr_product'],
-            ['product', 2, 'gally_test__gally_b2c_en_product'],
-            ['product', 3, 'gally_test__gally_b2b_en_product'],
-            ['product', 4, 'gally_test__gally_b2b_fr_product'],
+            ['product_document', 1, 'gally_test__gally_b2c_fr_product_document'],
+            ['product_document', 2, 'gally_test__gally_b2c_en_product_document'],
+            ['product_document', 3, 'gally_test__gally_b2b_en_product_document'],
+            ['product_document', 4, 'gally_test__gally_b2b_fr_product_document'],
             ['category', 1, 'gally_test__gally_b2c_fr_category'],
             ['category', 2, 'gally_test__gally_b2c_en_category'],
             ['category', 3, 'gally_test__gally_b2b_en_category'],

@@ -12,10 +12,10 @@
 
 declare(strict_types=1);
 
-namespace Gally\Category\Validator;
+namespace Gally\Product\Validator;
 
-use Gally\Category\DataProvider\CategorySortingOptionDataProvider;
-use Gally\Category\Model\Source\CategorySortingOption;
+use Gally\Product\DataProvider\ProductSortingOptionDataProvider;
+use Gally\Search\Model\Source\SortingOption;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
@@ -23,7 +23,7 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 class DefaultSortingFieldConstraintValidator extends ConstraintValidator
 {
     public function __construct(
-        private CategorySortingOptionDataProvider $categorySortingOptionDataProvider,
+        private ProductSortingOptionDataProvider $sortingOptionDataProvider,
     ) {
     }
 
@@ -39,7 +39,7 @@ class DefaultSortingFieldConstraintValidator extends ConstraintValidator
         }
 
         $sortOptions = array_column(
-            $this->categorySortingOptionDataProvider->getCollection(CategorySortingOption::class),
+            $this->sortingOptionDataProvider->getCollection(SortingOption::class, null, ['filters' => ['entityType' => 'product']]),
             'code'
         );
         if (null != $value && !\in_array($value, $sortOptions, true)) {

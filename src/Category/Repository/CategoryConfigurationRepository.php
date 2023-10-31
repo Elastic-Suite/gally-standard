@@ -21,7 +21,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use Gally\Catalog\Model\Catalog;
 use Gally\Catalog\Model\LocalizedCatalog;
 use Gally\Category\Model\Category;
-use Gally\Category\Service\CategoryProductsSortingOptionsProvider;
+use Gally\Product\Service\ProductsSortingOptionsProvider;
 
 /**
  * @method Category\Configuration|null find($id, $lockMode = null, $lockVersion = null)
@@ -33,7 +33,7 @@ class CategoryConfigurationRepository extends ServiceEntityRepository
 {
     public function __construct(
         ManagerRegistry $registry,
-        private CategoryProductsSortingOptionsProvider $sortingOptionsProvider,
+        private ProductsSortingOptionsProvider $sortingOptionsProvider,
     ) {
         parent::__construct($registry, Category\Configuration::class);
     }

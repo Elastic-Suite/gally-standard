@@ -30,7 +30,7 @@ class FacetConfigurationTest extends AbstractTest
             __DIR__ . '/../../fixtures/catalogs.yaml',
             __DIR__ . '/../../fixtures/categories.yaml',
             __DIR__ . '/../../fixtures/source_field.yaml',
-            __DIR__ . '/../../fixtures/metadata.yaml',
+            __DIR__ . '/../../fixtures/metadata_with_product.yaml',
         ]);
     }
 
@@ -65,6 +65,7 @@ class FacetConfigurationTest extends AbstractTest
                     ['sourceField' => 7, 'sourceFieldCode' => 'size'],
                     ['sourceField' => 8, 'sourceFieldCode' => 'weight'],
                     ['sourceField' => 15, 'sourceFieldCode' => 'is_eco_friendly'],
+                    ['sourceField' => 20, 'sourceFieldCode' => 'color_full'],
                 ],
                 200,
             ],
@@ -81,6 +82,7 @@ class FacetConfigurationTest extends AbstractTest
                     ['sourceField' => 7, 'category' => 'cat_1', 'sourceFieldCode' => 'size'],
                     ['sourceField' => 8, 'category' => 'cat_1', 'sourceFieldCode' => 'weight'],
                     ['sourceField' => 15, 'category' => 'cat_1', 'sourceFieldCode' => 'is_eco_friendly'],
+                    ['sourceField' => 20, 'category' => 'cat_1', 'sourceFieldCode' => 'color_full'],
                 ],
                 200,
             ],
@@ -97,6 +99,7 @@ class FacetConfigurationTest extends AbstractTest
                     ['sourceField' => 7, 'category' => 'cat_2', 'sourceFieldCode' => 'size'],
                     ['sourceField' => 8, 'category' => 'cat_2', 'sourceFieldCode' => 'weight'],
                     ['sourceField' => 15, 'category' => 'cat_2', 'sourceFieldCode' => 'is_eco_friendly'],
+                    ['sourceField' => 20, 'category' => 'cat_2', 'sourceFieldCode' => 'color_full'],
                 ],
                 200,
             ],
@@ -112,6 +115,7 @@ class FacetConfigurationTest extends AbstractTest
                     ['sourceField' => 7, 'sourceFieldCode' => 'size'],
                     ['sourceField' => 8, 'sourceFieldCode' => 'weight'],
                     ['sourceField' => 15, 'sourceFieldCode' => 'is_eco_friendly'],
+                    ['sourceField' => 20, 'sourceFieldCode' => 'color_full'],
                 ],
                 200,
             ],
@@ -186,6 +190,7 @@ class FacetConfigurationTest extends AbstractTest
                     ['sourceField' => 7, 'sourceFieldCode' => 'size'], // size.
                     ['sourceField' => 8, 'sourceFieldCode' => 'weight'], // weight.
                     ['sourceField' => 15, 'sourceFieldCode' => 'is_eco_friendly'],
+                    ['sourceField' => 20, 'sourceFieldCode' => 'color_full'],
                 ],
                 200,
             ],
@@ -202,6 +207,7 @@ class FacetConfigurationTest extends AbstractTest
                     ['sourceField' => 7, 'category' => 'cat_1', 'coverageRate' => 90, 'sourceFieldCode' => 'size'],
                     ['sourceField' => 8, 'category' => 'cat_1', 'coverageRate' => 90, 'sourceFieldCode' => 'weight'],
                     ['sourceField' => 15, 'category' => 'cat_1', 'coverageRate' => 90, 'sourceFieldCode' => 'is_eco_friendly'],
+                    ['sourceField' => 20, 'category' => 'cat_1', 'coverageRate' => 90, 'sourceFieldCode' => 'color_full'],
                 ],
                 200,
             ],
@@ -218,6 +224,7 @@ class FacetConfigurationTest extends AbstractTest
                     ['sourceField' => 7, 'category' => 'cat_2', 'coverageRate' => 90, 'sourceFieldCode' => 'size'],
                     ['sourceField' => 8, 'category' => 'cat_2', 'coverageRate' => 90, 'sourceFieldCode' => 'weight'],
                     ['sourceField' => 15, 'category' => 'cat_2', 'coverageRate' => 90, 'sourceFieldCode' => 'is_eco_friendly'],
+                    ['sourceField' => 20, 'category' => 'cat_2', 'coverageRate' => 90, 'sourceFieldCode' => 'color_full'],
                 ],
                 200,
             ],
@@ -233,6 +240,7 @@ class FacetConfigurationTest extends AbstractTest
                     ['sourceField' => 7, 'sourceFieldCode' => 'size'], // size.
                     ['sourceField' => 8, 'sourceFieldCode' => 'weight'], // weight.
                     ['sourceField' => 15, 'sourceFieldCode' => 'is_eco_friendly'],
+                    ['sourceField' => 20, 'sourceFieldCode' => 'color_full'], // product_color_full.
                 ],
                 200,
             ],

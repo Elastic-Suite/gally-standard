@@ -41,7 +41,7 @@ class SearchDocumentsTest extends AbstractTest
             __DIR__ . '/../../fixtures/catalogs.yaml',
             __DIR__ . '/../../fixtures/metadata.yaml',
         ]);
-        self::createEntityElasticsearchIndices('product');
+        self::createEntityElasticsearchIndices('product_document');
         self::createEntityElasticsearchIndices('category');
         self::loadElasticsearchDocumentFixtures([__DIR__ . '/../../fixtures/documents.json']);
     }
@@ -49,7 +49,7 @@ class SearchDocumentsTest extends AbstractTest
     public static function tearDownAfterClass(): void
     {
         parent::tearDownAfterClass();
-        self::deleteEntityElasticsearchIndices('product');
+        self::deleteEntityElasticsearchIndices('product_document');
         self::deleteEntityElasticsearchIndices('category');
     }
 
@@ -206,7 +206,7 @@ class SearchDocumentsTest extends AbstractTest
                 1.0,    // expected score.
             ],
             [
-                'product',  // entity type.
+                'product_document',  // entity type.
                 '2',    // catalog ID.
                 10,     // page size.
                 1,      // current page.
@@ -215,11 +215,11 @@ class SearchDocumentsTest extends AbstractTest
                 14,     // expected total count.
                 10,     // expected items per page.
                 2,      // expected last page.
-                ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_b2c_en_product', // expected index alias.
+                ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_b2c_en_product_document', // expected index .
                 1.0,    // expected score.
             ],
             [
-                'product',  // entity type.
+                'product_document',  // entity type.
                 'b2c_en',   // catalog ID.
                 10,     // page size.
                 1,      // current page.
@@ -228,11 +228,11 @@ class SearchDocumentsTest extends AbstractTest
                 14,     // expected total count.
                 10,     // expected items per page.
                 2,      // expected last page.
-                ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_b2c_en_product', // expected index alias.
+                ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_b2c_en_product_document', // expected index .
                 1.0,    // expected score.
             ],
             [
-                'product',  // entity type.
+                'product_document',  // entity type.
                 'b2c_en',   // catalog ID.
                 10,     // page size.
                 2,      // current page.
@@ -241,11 +241,11 @@ class SearchDocumentsTest extends AbstractTest
                 14,     // expected total count.
                 10,     // expected items per page.
                 2,      // expected last page.
-                ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_b2c_en_product', // expected index alias.
+                ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_b2c_en_product_document', // expected index .
                 1.0,    // expected score.
             ],
             [
-                'product',  // entity type.
+                'product_document',  // entity type.
                 'b2b_fr',   // catalog ID.
                 null,   // page size.
                 null,   // current page.
@@ -254,11 +254,11 @@ class SearchDocumentsTest extends AbstractTest
                 12,     // expected total count.
                 30,     // expected items per page.
                 1,      // expected last page.
-                ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_b2b_fr_product', // expected index alias.
+                ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_b2b_fr_product_document', // expected index .
                 1.0,    // expected score.
             ],
             [
-                'product',  // entity type.
+                'product_document',  // entity type.
                 'b2b_fr',   // catalog ID.
                 5,      // page size.
                 2,      // current page.
@@ -267,11 +267,11 @@ class SearchDocumentsTest extends AbstractTest
                 12,     // expected total count.
                 5,      // expected items per page.
                 3,      // expected last page.
-                ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_b2b_fr_product', // expected index alias.
+                ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_b2b_fr_product_document', // expected index .
                 1.0,    // expected score.
             ],
             [
-                'product',  // entity type.
+                'product_document',  // entity type.
                 'b2b_fr',   // catalog ID.
                 1000,   // page size.
                 null,   // current page.
@@ -280,7 +280,7 @@ class SearchDocumentsTest extends AbstractTest
                 12,     // expected total count.
                 100,    // expected items per page.
                 1,      // expected last page.
-                ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_b2b_fr_product', // expected index alias.
+                ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_b2b_fr_product_document', // expected index .
                 1.0,    // expected score.
             ],
         ];
@@ -382,7 +382,7 @@ class SearchDocumentsTest extends AbstractTest
     {
         return [
             [
-                'product',  // entity type.
+                'product_document',  // entity type.
                 'b2c_en',   // catalog ID.
                 10,     // page size.
                 1,      // current page.
@@ -394,7 +394,7 @@ class SearchDocumentsTest extends AbstractTest
                 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],    // expected ordered document IDs
             ],
             [
-                'product',  // entity type.
+                'product_document',  // entity type.
                 'b2c_en',   // catalog ID.
                 10,     // page size.
                 1,      // current page.
@@ -404,7 +404,7 @@ class SearchDocumentsTest extends AbstractTest
                 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],    // expected ordered document IDs
             ],
             [
-                'product',  // entity type.
+                'product_document',  // entity type.
                 'b2b_fr',   // catalog ID.
                 10,     // page size.
                 1,      // current page.
@@ -416,7 +416,7 @@ class SearchDocumentsTest extends AbstractTest
                 [1, 9, 8, 7, 6, 5, 4, 3, 2, 12],    // expected ordered document IDs
             ],
             [
-                'product',  // entity type.
+                'product_document',  // entity type.
                 'b2b_fr',   // catalog ID.
                 10,     // page size.
                 1,      // current page.
@@ -426,7 +426,7 @@ class SearchDocumentsTest extends AbstractTest
                 [10, 11, 12, 2, 3, 4, 5, 6, 7, 8],    // expected ordered document IDs
             ],
             [
-                'product',  // entity type.
+                'product_document',  // entity type.
                 'b2b_fr',   // catalog ID.
                 10,     // page size.
                 1,      // current page.
@@ -436,7 +436,7 @@ class SearchDocumentsTest extends AbstractTest
                 [10, 11, 12, 2, 3, 4, 5, 6, 7, 8],    // expected ordered document IDs
             ],
             [
-                'product',  // entity type.
+                'product_document',  // entity type.
                 'b2b_fr',   // catalog ID.
                 10,     // page size.
                 1,      // current page.
@@ -448,7 +448,7 @@ class SearchDocumentsTest extends AbstractTest
                 [1, 9, 8, 7, 6, 5, 4, 3, 2, 12],    // expected ordered document IDs
             ],
             [
-                'product',  // entity type.
+                'product_document',  // entity type.
                 'b2b_fr',   // catalog ID.
                 10,     // page size.
                 1,      // current page.
@@ -458,7 +458,7 @@ class SearchDocumentsTest extends AbstractTest
                 [10, 11, 12, 2, 3, 4, 5, 6, 7, 8],    // expected ordered document IDs
             ],
             [
-                'product',  // entity type.
+                'product_document',  // entity type.
                 'b2b_fr',   // catalog ID.
                 10,     // page size.
                 1,      // current page.
@@ -468,7 +468,7 @@ class SearchDocumentsTest extends AbstractTest
                 [5, 8, 2, 11, 4, 3, 6, 9, 7, 1],   // expected ordered document IDs
             ],
             [
-                'product',  // entity type.
+                'product_document',  // entity type.
                 'b2b_fr',   // catalog ID.
                 10,     // page size.
                 1,      // current page.
@@ -478,7 +478,7 @@ class SearchDocumentsTest extends AbstractTest
                 [10, 12, 1, 7, 9, 6, 3, 4, 11, 2],   // expected ordered document IDs
             ],
             [
-                'product',  // entity type.
+                'product_document',  // entity type.
                 'b2b_fr',   // catalog ID.
                 5,     // page size.
                 1,      // current page.
@@ -488,7 +488,7 @@ class SearchDocumentsTest extends AbstractTest
                 [2, 1, 3, 9, 8],   // expected ordered document IDs
             ],
             [
-                'product',  // entity type.
+                'product_document',  // entity type.
                 'b2b_fr',   // catalog ID.
                 5,     // page size.
                 1,      // current page.
@@ -499,7 +499,7 @@ class SearchDocumentsTest extends AbstractTest
                 '0',
             ],
             [
-                'product',  // entity type.
+                'product_document',  // entity type.
                 'b2b_fr',   // catalog ID.
                 5,     // page size.
                 1,      // current page.
@@ -510,7 +510,7 @@ class SearchDocumentsTest extends AbstractTest
                 '1',
             ],
             [
-                'product',  // entity type.
+                'product_document',  // entity type.
                 'b2b_fr',   // catalog ID.
                 5,     // page size.
                 1,      // current page.
@@ -613,7 +613,7 @@ class SearchDocumentsTest extends AbstractTest
     {
         return [
             [
-                'product',  // entity type.
+                'product_document',  // entity type.
                 'b2c_en',   // catalog ID.
                 10,     // page size.
                 1,      // current page.
@@ -622,7 +622,7 @@ class SearchDocumentsTest extends AbstractTest
                 SortOrderInterface::SORT_DESC, // expected sort order direction.
             ],
             [
-                'product',  // entity type.
+                'product_document',  // entity type.
                 'b2b_fr',   // catalog ID.
                 10,     // page size.
                 1,      // current page.
@@ -631,7 +631,7 @@ class SearchDocumentsTest extends AbstractTest
                 SortOrderInterface::SORT_DESC, // expected sort order direction.
             ],
             [
-                'product',  // entity type.
+                'product_document',  // entity type.
                 'b2b_fr',   // catalog ID.
                 10,     // page size.
                 1,      // current page.
@@ -640,7 +640,7 @@ class SearchDocumentsTest extends AbstractTest
                 SortOrderInterface::SORT_ASC, // expected sort order direction.
             ],
             [
-                'product',  // entity type.
+                'product_document',  // entity type.
                 'b2b_fr',   // catalog ID.
                 10,     // page size.
                 1,      // current page.
@@ -649,7 +649,7 @@ class SearchDocumentsTest extends AbstractTest
                 SortOrderInterface::SORT_ASC, // expected sort order direction.
             ],
             [
-                'product',  // entity type.
+                'product_document',  // entity type.
                 'b2b_fr',   // catalog ID.
                 10,     // page size.
                 1,      // current page.
@@ -658,7 +658,7 @@ class SearchDocumentsTest extends AbstractTest
                 SortOrderInterface::SORT_DESC, // expected sort order direction.
             ],
             [
-                'product',  // entity type.
+                'product_document',  // entity type.
                 'b2b_fr',   // catalog ID.
                 5,     // page size.
                 1,      // current page.
@@ -667,7 +667,7 @@ class SearchDocumentsTest extends AbstractTest
                 SortOrderInterface::SORT_ASC, // expected sort order direction.
             ],
             [
-                'product',  // entity type.
+                'product_document',  // entity type.
                 'b2b_fr',   // catalog ID.
                 5,     // page size.
                 1,      // current page.
@@ -762,12 +762,12 @@ class SearchDocumentsTest extends AbstractTest
     {
         return [
             [
-                'product',  // entity type.
+                'product_document',  // entity type.
                 'b2c_en',   // catalog ID.
                 10,     // page size.
                 1,      // current page.
                 [       // expected aggregations sample.
-                    ['field' => 'is_eco_friendly', 'label' => 'Is_eco_friendly', 'type' => 'checkbox', 'hasMore' => false],
+                    ['field' => 'is_eco_friendly', 'label' => 'Is_eco_friendly', 'type' => 'boolean', 'hasMore' => false],
                     ['field' => 'weight', 'label' => 'Weight', 'type' => 'slider', 'hasMore' => false],
                     [
                         'field' => 'category__id',
@@ -789,6 +789,24 @@ class SearchDocumentsTest extends AbstractTest
                     ],
                     ['field' => 'size', 'label' => 'Size', 'type' => 'slider', 'hasMore' => false],
                     [
+                        'field' => 'color_full__value',
+                        'label' => 'Color',
+                        'type' => 'checkbox',
+                        'hasMore' => false,
+                        'options' => [
+                            [
+                                'label' => 'Red',
+                                'value' => 'red',
+                                'count' => 1,
+                            ],
+                            [
+                                'label' => 'Grey',
+                                'value' => 'grey',
+                                'count' => 6,
+                            ],
+                        ],
+                    ],
+                    [
                         'field' => 'color__value',
                         'label' => 'Color',
                         'type' => 'checkbox',
@@ -809,12 +827,12 @@ class SearchDocumentsTest extends AbstractTest
                 ],
             ],
             [
-                'product',  // entity type.
+                'product_document',  // entity type.
                 'b2b_fr',   // catalog ID.
                 10,     // page size.
                 1,      // current page.
                 [       // expected aggregations sample.
-                    ['field' => 'is_eco_friendly', 'label' => 'Is_eco_friendly', 'type' => 'checkbox', 'hasMore' => false],
+                    ['field' => 'is_eco_friendly', 'label' => 'Is_eco_friendly', 'type' => 'boolean', 'hasMore' => false],
                     ['field' => 'weight', 'label' => 'Weight', 'type' => 'slider'],
                     [
                         'field' => 'category__id',
@@ -839,6 +857,24 @@ class SearchDocumentsTest extends AbstractTest
                         'label' => 'Taille',
                         'type' => 'slider',
                         'hasMore' => false,
+                    ],
+                    [
+                        'field' => 'color_full__value',
+                        'label' => 'Couleur',
+                        'type' => 'checkbox',
+                        'hasMore' => false,
+                        'options' => [
+                            [
+                                'label' => 'Rouge',
+                                'value' => 'red',
+                                'count' => 1,
+                            ],
+                            [
+                                'label' => 'Gris',
+                                'value' => 'grey',
+                                'count' => 5,
+                            ],
+                        ],
                     ],
                     [
                         'field' => 'my_price__price',
@@ -879,12 +915,12 @@ class SearchDocumentsTest extends AbstractTest
                 '0',
             ],
             [
-                'product',  // entity type.
+                'product_document',  // entity type.
                 'b2b_fr',   // catalog ID.
                 10,     // page size.
                 1,      // current page.
                 [       // expected aggregations sample.
-                    ['field' => 'is_eco_friendly', 'label' => 'Is_eco_friendly', 'type' => 'checkbox', 'hasMore' => false],
+                    ['field' => 'is_eco_friendly', 'label' => 'Is_eco_friendly', 'type' => 'boolean', 'hasMore' => false],
                     ['field' => 'weight', 'label' => 'Weight', 'type' => 'slider'],
                     [
                         'field' => 'category__id',
@@ -909,6 +945,24 @@ class SearchDocumentsTest extends AbstractTest
                         'label' => 'Taille',
                         'type' => 'slider',
                         'hasMore' => false,
+                    ],
+                    [
+                        'field' => 'color_full__value',
+                        'label' => 'Couleur',
+                        'type' => 'checkbox',
+                        'hasMore' => false,
+                        'options' => [
+                            [
+                                'label' => 'Rouge',
+                                'value' => 'red',
+                                'count' => 1,
+                            ],
+                            [
+                                'label' => 'Gris',
+                                'value' => 'grey',
+                                'count' => 5,
+                            ],
+                        ],
                     ],
                     [
                         'field' => 'my_price__price',
@@ -949,12 +1003,12 @@ class SearchDocumentsTest extends AbstractTest
                 '1',
             ],
             [
-                'product',  // entity type.
+                'product_document',  // entity type.
                 'b2b_fr',   // catalog ID.
                 10,     // page size.
                 1,      // current page.
                 [       // expected aggregations sample.
-                    ['field' => 'is_eco_friendly', 'label' => 'Is_eco_friendly', 'type' => 'checkbox', 'hasMore' => false],
+                    ['field' => 'is_eco_friendly', 'label' => 'Is_eco_friendly', 'type' => 'boolean', 'hasMore' => false],
                     ['field' => 'weight', 'label' => 'Weight', 'type' => 'slider'],
                     [
                         'field' => 'category__id',
@@ -979,6 +1033,24 @@ class SearchDocumentsTest extends AbstractTest
                         'label' => 'Taille',
                         'type' => 'slider',
                         'hasMore' => false,
+                    ],
+                    [
+                        'field' => 'color_full__value',
+                        'label' => 'Couleur',
+                        'type' => 'checkbox',
+                        'hasMore' => false,
+                        'options' => [
+                            [
+                                'label' => 'Rouge',
+                                'value' => 'red',
+                                'count' => 1,
+                            ],
+                            [
+                                'label' => 'Gris',
+                                'value' => 'grey',
+                                'count' => 5,
+                            ],
+                        ],
                     ],
                     [
                         'field' => 'color__value',
@@ -1061,49 +1133,49 @@ class SearchDocumentsTest extends AbstractTest
     {
         return [
             [
-                'product', // entity type.
+                'product_document', // entity type.
                 'b2c_en', // catalog ID.
                 '{matchFilter: {field:"fake_source_field_match", match:"sacs"}}', // Filters.
                 "The field 'fake_source_field_match' does not exist", // debug message
             ],
             [
-                'product', // entity type.
+                'product_document', // entity type.
                 'b2c_en', // catalog ID.
                 '{equalFilter: {field:"fake_source_field_equal", eq: "24-MB03"}}', // Filters.
                 "The field 'fake_source_field_equal' does not exist", // debug message
             ],
             [
-                'product', // entity type.
+                'product_document', // entity type.
                 'b2c_en', // catalog ID.
                 '{rangeFilter: {field:"fake_source_field_range", gt: "0"}}', // Filters.
                 "The field 'fake_source_field_range' does not exist", // debug message
             ],
             [
-                'product', // entity type.
+                'product_document', // entity type.
                 'b2c_en', // catalog ID.
                 '{matchFilter: {field:"fake_source_field", match:"sacs"}}', // Filters.
                 "The field 'fake_source_field' does not exist", // debug message
             ],
             [
-                'product', // entity type.
+                'product_document', // entity type.
                 'b2c_en', // catalog ID.
                 '{rangeFilter: {field:"id"}}', // Filters.
                 "Filter argument rangeFilter: At least 'gt', 'lt', 'gte' or 'lte' should be filled.", // debug message
             ],
             [
-                'product', // entity type.
+                'product_document', // entity type.
                 'b2c_en', // catalog ID.
                 '{rangeFilter: {field:"id", gt: "1", gte: "1"}}', // Filters.
                 "Filter argument rangeFilter: Do not use 'gt' and 'gte' in the same filter.", // debug message
             ],
             [
-                'product', // entity type.
+                'product_document', // entity type.
                 'b2c_en', // catalog ID.
                 '{equalFilter:{field:"id"}}', // Filters.
                 "Filter argument equalFilter: At least 'eq' or 'in' should be filled.", // debug message
             ],
             [
-                'product', // entity type.
+                'product_document', // entity type.
                 'b2c_en', // catalog ID.
                 '{equalFilter:{field:"id" eq: "1" in:["1"]}}', // Filters.
                 "Filter argument equalFilter: Only 'eq' or only 'in' should be filled, not both.", // debug message
@@ -1196,7 +1268,7 @@ class SearchDocumentsTest extends AbstractTest
     {
         return [
             [
-                'product', // entity type.
+                'product_document', // entity type.
                 'b2b_fr', // catalog ID.
                 10, // page size.
                 1,  // current page.
@@ -1206,7 +1278,7 @@ class SearchDocumentsTest extends AbstractTest
                 [3], // expected ordered document IDs
             ],
             [
-                'product', // entity type.
+                'product_document', // entity type.
                 'b2b_fr', // catalog ID.
                 10, // page size.
                 1,  // current page.
@@ -1216,7 +1288,7 @@ class SearchDocumentsTest extends AbstractTest
                 [6, 8], // expected ordered document IDs
             ],
             [
-                'product', // entity type.
+                'product_document', // entity type.
                 'b2b_fr', // catalog ID.
                 10, // page size.
                 1,  // current page.
@@ -1226,7 +1298,7 @@ class SearchDocumentsTest extends AbstractTest
                 [10, 11, 12], // expected ordered document IDs
             ],
             [
-                'product', // entity type.
+                'product_document', // entity type.
                 'b2b_fr', // catalog ID.
                 10, // page size.
                 1,  // current page.
@@ -1236,7 +1308,7 @@ class SearchDocumentsTest extends AbstractTest
                 [11], // expected ordered document IDs
             ],
             [
-                'product', // entity type.
+                'product_document', // entity type.
                 'b2b_fr', // catalog ID.
                 10, // page size.
                 1,  // current page.
@@ -1246,7 +1318,7 @@ class SearchDocumentsTest extends AbstractTest
                 [9], // expected ordered document IDs
             ],
             [
-                'product', // entity type.
+                'product_document', // entity type.
                 'b2b_fr', // catalog ID.
                 10, // page size.
                 1,  // current page.
@@ -1256,7 +1328,7 @@ class SearchDocumentsTest extends AbstractTest
                 [11, 12, 2, 3, 4, 5, 6, 7, 8, 9], // expected ordered document IDs
             ],
             [
-                'product', // entity type.
+                'product_document', // entity type.
                 'b2b_fr', // catalog ID.
                 10, // page size.
                 1,  // current page.
@@ -1269,7 +1341,7 @@ class SearchDocumentsTest extends AbstractTest
                 [11, 12], // expected ordered document IDs
             ],
             [
-                'product', // entity type.
+                'product_document', // entity type.
                 'b2b_fr', // catalog ID.
                 10, // page size.
                 1,  // current page.
@@ -1286,7 +1358,20 @@ class SearchDocumentsTest extends AbstractTest
                 [11, 12], // expected ordered document IDs
             ],
             [
-                'product', // entity type.
+                'product_document', // entity type.
+                'b2b_fr', // catalog ID.
+                10, // page size.
+                1,  // current page.
+                ['id' => SortOrderInterface::SORT_ASC], // sort order specifications.
+                <<<GQL
+                  {equalFilter: {field: "sku", in: ["24-WB06", "24-WB03", "24-WB05"]}}
+                  {equalFilter: {field:"color__value", eq:"black"}},
+                GQL, // filter.
+                'entity_id', // document data identifier.
+                [11, 12], // expected ordered document IDs
+            ],
+            [
+                'product_document', // entity type.
                 'b2b_fr', // catalog ID.
                 10, // page size.
                 1,  // current page.
@@ -1302,7 +1387,7 @@ class SearchDocumentsTest extends AbstractTest
                 [10], // expected ordered document IDs
             ],
             [
-                'product', // entity type.
+                'product_document', // entity type.
                 'b2b_fr', // catalog ID.
                 10, // page size.
                 1,  // current page.
@@ -1319,7 +1404,7 @@ class SearchDocumentsTest extends AbstractTest
                 [4, 7], // expected ordered document IDs
             ],
             [
-                'product', // entity type.
+                'product_document', // entity type.
                 'b2b_fr', // catalog ID.
                 10, // page size.
                 1,  // current page.
@@ -1335,7 +1420,7 @@ class SearchDocumentsTest extends AbstractTest
                 [10, 5, 9], // expected ordered document IDs
             ],
             [
-                'product', // entity type.
+                'product_document', // entity type.
                 'b2b_fr', // catalog ID.
                 10, // page size.
                 1,  // current page.
@@ -1355,7 +1440,7 @@ class SearchDocumentsTest extends AbstractTest
                 [11, 12], // expected ordered document IDs
             ],
             [
-                'product', // entity type.
+                'product_document', // entity type.
                 'b2b_fr', // catalog ID.
                 10, // page size.
                 1,  // current page.
@@ -1379,7 +1464,7 @@ class SearchDocumentsTest extends AbstractTest
                 [12, 8], // expected ordered document IDs
             ],
             [
-                'product', // entity type.
+                'product_document', // entity type.
                 'b2b_fr', // catalog ID.
                 10, // page size.
                 1,  // current page.
@@ -1471,7 +1556,7 @@ class SearchDocumentsTest extends AbstractTest
         return [
             // Search reference field
             [
-                'product',          // entity type.
+                'product_document', // entity type.
                 'b2c_en',           // catalog ID.
                 'striveshoulder',   // query.
                 1,                  // expected result count.
@@ -1482,7 +1567,7 @@ class SearchDocumentsTest extends AbstractTest
 
             // Search a word
             [
-                'product',          // entity type.
+                'product_document', // entity type.
                 'b2c_en',           // catalog ID.
                 'bag',              // query.
                 7,                  // expected result count.
@@ -1499,7 +1584,7 @@ class SearchDocumentsTest extends AbstractTest
 
             // Search a non-existing word
             [
-                'product',          // entity type.
+                'product_document', // entity type.
                 'b2c_fr',           // catalog ID.
                 'bag',              // query.
                 0,                  // expected result count.
@@ -1508,7 +1593,7 @@ class SearchDocumentsTest extends AbstractTest
 
             // Search in description field
             [
-                'product',          // entity type.
+                'product_document', // entity type.
                 'b2c_en',           // catalog ID.
                 'summer',           // query.
                 2,                  // expected result count.
@@ -1520,7 +1605,7 @@ class SearchDocumentsTest extends AbstractTest
 
             // Search in multiple field
             [
-                'product',          // entity type.
+                'product_document', // entity type.
                 'b2c_en',           // catalog ID.
                 'yoga',             // query.
                 2,                  // expected result count.
@@ -1532,7 +1617,7 @@ class SearchDocumentsTest extends AbstractTest
 
             // Search with multiple words
             [
-                'product',          // entity type.
+                'product_document', // entity type.
                 'b2c_en',           // catalog ID.
                 'bag autumn',       // query.
                 1,                  // expected result count.
@@ -1543,7 +1628,7 @@ class SearchDocumentsTest extends AbstractTest
 
             // Search with misspelled word
             [
-                'product',          // entity type.
+                'product_document', // entity type.
                 'b2c_en',           // catalog ID.
                 'bag automn',       // query.
                 1,                  // expected result count.
@@ -1554,7 +1639,7 @@ class SearchDocumentsTest extends AbstractTest
 
             // Search with word with same phonetic
             [
-                'product',          // entity type.
+                'product_document', // entity type.
                 'b2c_en',           // catalog ID.
                 'bohqpaq',          // query.
                 4,                  // expected result count.
@@ -1568,7 +1653,7 @@ class SearchDocumentsTest extends AbstractTest
 
             // Search with words from name and select attribute spellchecked
             [
-                'product',          // entity type.
+                'product_document', // entity type.
                 'b2c_en',           // catalog ID.
                 'Testtt Duffle',     // query.
                 1,                  // expected result count.
@@ -1579,7 +1664,7 @@ class SearchDocumentsTest extends AbstractTest
 
             // Search with words from name and select attribute not spellchecked
             [
-                'product',          // entity type.
+                'product_document', // entity type.
                 'b2c_en',           // catalog ID.
                 'red backpack',     // query.
                 1,                  // expected result count.
@@ -1590,7 +1675,7 @@ class SearchDocumentsTest extends AbstractTest
 
             // Search with sku
             [
-                'product',          // entity type.
+                'product_document', // entity type.
                 'b2c_en',           // catalog ID.
                 '24-MB04',          // query.
                 1,                  // expected result count.
@@ -1673,39 +1758,45 @@ class SearchDocumentsTest extends AbstractTest
 
     public function searchWithAggregationAndFilterDataProvider(): array
     {
+        //todo tests faux, il faut utiliser un autre attribut car il y a un max size sur la color
+        // tester en faisant un filtre si toutes les options dans les aggregations sont renvoyés.
+        // Modifier les tests pour les aggregation (coverage + filterable attributes ) + dans les tests de documents ajouter les test des liste déroulante
         return [
             [
-                'product',  // entity type.
+                'product_document',  // entity type.
                 'b2c_en',   // catalog ID.
                 10,     // page size.
                 1,      // current page.
                 null, // filter.
                 [ // expected option result
                     'color__value' => 2,
+                    'color_full__value' => 9,
                     'category__id' => 2,
                     'is_eco_friendly' => 2,
                 ],
             ],
             [
-                'product',  // entity type.
+                'product_document',  // entity type.
                 'b2c_en',   // catalog ID.
                 10,     // page size.
                 1,      // current page.
                 '{equalFilter: {field: "sku", eq: "24-WB05"}}', // filter.
                 [ // expected option result
                     'color__value' => 1,
+                    'color_full__value' => 1,
                     'category__id' => 0,
                     'is_eco_friendly' => 1,
                 ],
             ],
             [
-                'product',  // entity type.
+                'product_document',  // entity type.
                 'b2c_en',   // catalog ID.
                 10,     // page size.
                 1,      // current page.
                 '{equalFilter: {field: "color.value", in: ["pink"]}}', // filter.
                 [ // expected option result
                     'color__value' => 2,
+                    'color_full__value' => 4,
                     'category__id' => 0,
                     'is_eco_friendly' => 1,
                 ],

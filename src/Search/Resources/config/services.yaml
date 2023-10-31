@@ -173,6 +173,7 @@ services:
                 existFilter: '@Gally\Search\GraphQl\Type\Definition\Filter\ExistFilterInputType',
             }
             - '@Gally\Search\Elasticsearch\Builder\Request\Query\Filter\FilterQueryBuilder'
+            - '%api_platform.graphql.nesting_separator%'
         tags:
             - { name: api_platform.graphql.type }
 
@@ -284,7 +285,7 @@ services:
         decorates: api_platform.graphql.resolver.stage.serialize
         decoration_priority: 2
         arguments:
-            - !tagged_iterator { tag: 'gally.product_api.sort_order_provider', index_by: 'provider_name' }
+            - !tagged_iterator { tag: 'gally.api.sort_order_provider', index_by: 'provider_name' }
             - '@Gally\Search\Service\ReverseSourceFieldProvider'
             - '@Gally\Metadata\Repository\MetadataRepository'
             - '@.inner'
@@ -367,3 +368,45 @@ services:
         arguments:
             - '@Gally\OpenApi\Helper\Documentation'
             - '@.inner'
+
+    Gally\Search\GraphQl\Type\Definition\SortOrder\CategoryDefaultSortOrderProvider:
+        arguments:
+            - '%api_platform.graphql.nesting_separator%'
+        tags:
+            - { name: gally.api.sort_order_provider, provider_name: 'category_default' }
+
+    Gally\Search\GraphQl\Type\Definition\SortOrder\PriceDefaultSortOrderProvider:
+        arguments:
+            - '%api_platform.graphql.nesting_separator%'
+        tags:
+            - { name: gally.api.sort_order_provider, provider_name: 'price_default' }
+
+    Gally\Search\GraphQl\Type\Definition\SortOrder\ScalarSortOrderProvider:
+        arguments:
+            - '%api_platform.graphql.nesting_separator%'
+        tags:
+            - { name: gally.api.sort_order_provider, provider_name: 'scalar' }
+
+    Gally\Search\GraphQl\Type\Definition\SortOrder\StockDefaultSortOrderProvider:
+        arguments:
+            - '%api_platform.graphql.nesting_separator%'
+        tags:
+            - { name: gally.api.sort_order_provider, provider_name: 'stock_default' }
+
+    Gally\Search\GraphQl\Type\Definition\SortOrder\SelectDefaultSortOrderProvider:
+        arguments:
+            - '%api_platform.graphql.nesting_separator%'
+        tags:
+            - { name: gally.api.sort_order_provider, provider_name: 'select' }
+    
+    Gally\Search\Service\SortingOptionsProvider:
+        arguments:
+            - '@Gally\Metadata\Repository\SourceFieldRepository'
+            - '@Gally\Metadata\Repository\MetadataRepository'
+            - !tagged_iterator { tag: 'gally.api.sort_order_provider', index_by: 'provider_name' }
+                
+    Gally\Search\DataProvider\SortingOptionDataProvider:
+        arguments:
+            - '@Gally\Search\Service\SortingOptionsProvider'
+        tags:
+            - { name: api_platform.collection_data_provider }

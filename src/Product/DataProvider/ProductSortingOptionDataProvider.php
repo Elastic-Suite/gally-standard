@@ -12,17 +12,17 @@
 
 declare(strict_types=1);
 
-namespace Gally\Category\DataProvider;
+namespace Gally\Product\DataProvider;
 
 use ApiPlatform\Core\DataProvider\ContextAwareCollectionDataProviderInterface;
 use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
-use Gally\Category\Model\Source\CategorySortingOption;
-use Gally\Category\Service\CategoryProductsSortingOptionsProvider;
+use Gally\Product\Model\Source\ProductSortingOption;
+use Gally\Product\Service\ProductsSortingOptionsProvider;
 
-class CategorySortingOptionDataProvider implements ContextAwareCollectionDataProviderInterface, RestrictedDataProviderInterface
+class ProductSortingOptionDataProvider implements ContextAwareCollectionDataProviderInterface, RestrictedDataProviderInterface
 {
     public function __construct(
-        private CategoryProductsSortingOptionsProvider $sortingOptionsProvider
+        private ProductsSortingOptionsProvider $sortingOptionsProvider,
     ) {
     }
 
@@ -31,7 +31,7 @@ class CategorySortingOptionDataProvider implements ContextAwareCollectionDataPro
      */
     public function supports(string $resourceClass, string $operationName = null, array $context = []): bool
     {
-        return CategorySortingOption::class === $resourceClass;
+        return ProductSortingOption::class === $resourceClass;
     }
 
     /**

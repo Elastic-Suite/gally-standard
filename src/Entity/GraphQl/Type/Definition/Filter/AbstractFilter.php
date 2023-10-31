@@ -58,14 +58,6 @@ abstract class AbstractFilter extends InputObjectType implements TypeInterface, 
         return str_replace('.', $this->nestingSeparator, $mappingFilterName);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function getMappingFieldName(string $graphqlFieldName): string
-    {
-        return str_replace($this->nestingSeparator, '.', $graphqlFieldName);
-    }
-
     public function transformToGallyFilter(array $inputFilter, ContainerConfigurationInterface $containerConfig, array $filterContext = []): QueryInterface
     {
         if (isset($inputFilter['exist'])) {
@@ -88,7 +80,7 @@ abstract class AbstractFilter extends InputObjectType implements TypeInterface, 
             }
         }
 
-        return [$this->getMappingFieldName($inputFilter['field']) => $conditions];
+        return [$inputFilter['field'] => $conditions];
     }
 
     protected function getConditions(): array

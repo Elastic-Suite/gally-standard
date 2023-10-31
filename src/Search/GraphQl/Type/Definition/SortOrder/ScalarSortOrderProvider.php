@@ -12,7 +12,7 @@
 
 declare(strict_types=1);
 
-namespace Gally\Product\GraphQl\Type\Definition\SortOrder;
+namespace Gally\Search\GraphQl\Type\Definition\SortOrder;
 
 use Gally\Metadata\Model\SourceField;
 use Gally\Metadata\Model\SourceField\Type;

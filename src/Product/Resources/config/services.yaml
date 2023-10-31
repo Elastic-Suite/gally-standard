@@ -61,42 +61,12 @@ services:
             - '@Gally\Index\Repository\Index\IndexRepositoryInterface'
             - '@logger'
 
-    Gally\Product\GraphQl\Type\Definition\SortOrder\CategoryDefaultSortOrderProvider:
-        arguments:
-            - '%api_platform.graphql.nesting_separator%'
-        tags:
-            - { name: gally.product_api.sort_order_provider, provider_name: 'category_default' }
-
-    Gally\Product\GraphQl\Type\Definition\SortOrder\PriceDefaultSortOrderProvider:
-        arguments:
-            - '%api_platform.graphql.nesting_separator%'
-        tags:
-            - { name: gally.product_api.sort_order_provider, provider_name: 'price_default' }
-
-    Gally\Product\GraphQl\Type\Definition\SortOrder\ScalarSortOrderProvider:
-        arguments:
-            - '%api_platform.graphql.nesting_separator%'
-        tags:
-            - { name: gally.product_api.sort_order_provider, provider_name: 'scalar' }
-
-    Gally\Product\GraphQl\Type\Definition\SortOrder\StockDefaultSortOrderProvider:
-        arguments:
-            - '%api_platform.graphql.nesting_separator%'
-        tags:
-            - { name: gally.product_api.sort_order_provider, provider_name: 'stock_default' }
-
-    Gally\Product\GraphQl\Type\Definition\SortOrder\SelectDefaultSortOrderProvider:
-        arguments:
-            - '%api_platform.graphql.nesting_separator%'
-        tags:
-            - { name: gally.product_api.sort_order_provider, provider_name: 'select' }
-
     Gally\Product\GraphQl\Type\Definition\SortInputType:
         arguments:
             - '@Gally\Search\GraphQl\Type\Definition\SortEnumType'
             - '@Gally\Search\Service\SearchContext'
             - '@Gally\Metadata\Repository\SourceFieldRepository'
-            - !tagged_iterator { tag: 'gally.product_api.sort_order_provider', index_by: 'provider_name' }
+            - !tagged_iterator { tag: 'gally.api.sort_order_provider', index_by: 'provider_name' }
             - '@Gally\Search\Service\ReverseSourceFieldProvider'
             - '%api_platform.graphql.nesting_separator%'
         tags:
@@ -108,6 +78,7 @@ services:
             - !tagged_iterator { tag: 'gally.entity_api.filter' }
             - '@Gally\Entity\GraphQl\Type\Definition\Filter\BoolFilterInputType'
             - '@Gally\Metadata\Repository\SourceFieldRepository'
+            - '%api_platform.graphql.nesting_separator%'
         tags:
             - { name: api_platform.graphql.type }
     
@@ -158,3 +129,19 @@ services:
         arguments:
             - '@Gally\OpenApi\Helper\Documentation'
             - '@.inner'
+    
+    Gally\Product\Validator\DefaultSortingFieldConstraintValidator:
+        arguments:
+            - '@Gally\Product\DataProvider\ProductSortingOptionDataProvider'
+        tags:
+            - { name: validator.constraint_validator }
+    
+    Gally\Product\Service\ProductsSortingOptionsProvider:
+        arguments:
+            - '@Gally\Search\Service\SortingOptionsProvider'
+
+    Gally\Product\DataProvider\ProductSortingOptionDataProvider:
+        arguments:
+            - '@Gally\Product\Service\ProductsSortingOptionsProvider'
+        tags:
+            - { name: api_platform.collection_data_provider }

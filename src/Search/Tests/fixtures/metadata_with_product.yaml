@@ -1,5 +1,5 @@
 Gally\Metadata\Model\Metadata:
     product:
-        entity: product_document
+        entity: product
     category:
         entity: category

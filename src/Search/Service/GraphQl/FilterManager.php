@@ -60,12 +60,6 @@ class FilterManager
         $esFilters = [];
         foreach ($graphQlFilters as $filters) {
             foreach ($filters as $sourceFieldName => $condition) {
-                if (str_contains($sourceFieldName, '.')) {
-                    // Api platform automatically replace nesting separator by '.',
-                    // but it keeps the value with nesting separator. In order to avoid applying
-                    // the filter twice, we have to skip the one with the '.'.
-                    continue;
-                }
                 $esFilterData = $this->fieldFilterInputType->transformToGallyFilter(
                     [$sourceFieldName => $condition],
                     $containerConfig,
@@ -74,7 +68,7 @@ class FilterManager
                 if ('boolFilter' == $sourceFieldName) {
                     $esFilters[] = $esFilterData;
                 } else {
-                    $esFilters[str_replace($this->nestingSeparator, '.', $sourceFieldName)] = $esFilterData;
+                    $esFilters[str_replace($this->nestingSeparator, '.', $condition['field'])] = $esFilterData;
                 }
             }
         }

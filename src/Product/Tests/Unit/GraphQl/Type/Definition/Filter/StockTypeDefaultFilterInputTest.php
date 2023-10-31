@@ -88,7 +88,6 @@ class StockTypeDefaultFilterInputTest extends KernelTestCase
 
         $this->assertEquals('my_stock.status', $stockTypeDefaultFilterInputType->getFilterFieldName('my_stock'));
         $this->assertEquals('my_stock##status', $stockTypeDefaultFilterInputType->getGraphQlFieldName('my_stock.status'));
-        $this->assertEquals('my_stock.status', $stockTypeDefaultFilterInputType->getMappingFieldName('my_stock##status'));
     }
 
     /**

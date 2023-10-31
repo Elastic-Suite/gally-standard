@@ -12,11 +12,11 @@
 
 declare(strict_types=1);
 
-namespace Gally\Category\Model\Source;
+namespace Gally\Product\Model\Source;
 
-use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Gally\Metadata\Model\SourceField;
+use Gally\Search\Model\Source\SortingOption;
 
 #[ApiResource(
     itemOperations: [],
@@ -33,10 +33,6 @@ use Gally\Metadata\Model\SourceField;
         ],
     ],
 )]
-class CategorySortingOption
+class ProductSortingOption extends SortingOption
 {
-    #[ApiProperty(identifier: true)]
-    public string $code;
-
-    public string $label;
 }

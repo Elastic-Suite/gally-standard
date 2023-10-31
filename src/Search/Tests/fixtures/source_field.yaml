@@ -118,3 +118,11 @@ Gally\Metadata\Model\SourceField:
         code: 'id'
         type: 'int'
         isSystem: true
+    product_color_full:
+        metadata: '@product'
+        code: 'color_full'
+        type: 'select'
+        isFilterable: true
+        isSearchable: false
+        isSpellchecked: false
+        weight: 5

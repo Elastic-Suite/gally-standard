@@ -1381,7 +1381,7 @@ class SearchProductsTest extends AbstractTest
                 10,     // page size.
                 1,      // current page.
                 [       // expected aggregations sample.
-                    ['field' => 'is_eco_friendly', 'label' => 'Is_eco_friendly', 'type' => 'checkbox'],
+                    ['field' => 'is_eco_friendly', 'label' => 'Is_eco_friendly', 'type' => 'boolean'],
                     ['field' => 'weight', 'label' => 'Weight', 'type' => 'slider'],
                     ['field' => 'size', 'label' => 'Size', 'type' => 'slider'],
                     [
@@ -1422,7 +1422,7 @@ class SearchProductsTest extends AbstractTest
                 10,     // page size.
                 1,      // current page.
                 [       // expected aggregations sample.
-                    ['field' => 'is_eco_friendly', 'label' => 'Is_eco_friendly', 'type' => 'checkbox'],
+                    ['field' => 'is_eco_friendly', 'label' => 'Is_eco_friendly', 'type' => 'boolean'],
                     ['field' => 'weight', 'label' => 'Weight', 'type' => 'slider'],
                     [
                         'field' => 'category__id',
@@ -1457,7 +1457,7 @@ class SearchProductsTest extends AbstractTest
                 10,     // page size.
                 1,      // current page.
                 [       // expected aggregations sample.
-                    ['field' => 'is_eco_friendly', 'label' => 'Is_eco_friendly', 'type' => 'checkbox'],
+                    ['field' => 'is_eco_friendly', 'label' => 'Is_eco_friendly', 'type' => 'boolean'],
                     ['field' => 'weight', 'label' => 'Weight', 'type' => 'slider'],
                     ['field' => 'size', 'label' => 'Size', 'type' => 'slider'],
                     ['field' => 'brand__value', 'label' => 'Brand', 'type' => 'checkbox'],
@@ -1482,7 +1482,7 @@ class SearchProductsTest extends AbstractTest
                 10,     // page size.
                 1,      // current page.
                 [       // expected aggregations sample.
-                    ['field' => 'is_eco_friendly', 'label' => 'Is_eco_friendly', 'type' => 'checkbox'],
+                    ['field' => 'is_eco_friendly', 'label' => 'Is_eco_friendly', 'type' => 'boolean'],
                     ['field' => 'weight', 'label' => 'Weight', 'type' => 'slider'],
                     [
                         'field' => 'size',
@@ -1535,7 +1535,7 @@ class SearchProductsTest extends AbstractTest
                 10,     // page size.
                 1,      // current page.
                 [       // expected aggregations sample.
-                    ['field' => 'is_eco_friendly', 'label' => 'Is_eco_friendly', 'type' => 'checkbox'],
+                    ['field' => 'is_eco_friendly', 'label' => 'Is_eco_friendly', 'type' => 'boolean'],
                     ['field' => 'weight', 'label' => 'Weight', 'type' => 'slider'],
                     [
                         'field' => 'my_price__price',
@@ -1566,7 +1566,7 @@ class SearchProductsTest extends AbstractTest
                 10,     // page size.
                 1,      // current page.
                 [       // expected aggregations sample.
-                    ['field' => 'is_eco_friendly', 'label' => 'Is_eco_friendly', 'type' => 'checkbox'],
+                    ['field' => 'is_eco_friendly', 'label' => 'Is_eco_friendly', 'type' => 'boolean'],
                     ['field' => 'weight', 'label' => 'Weight', 'type' => 'slider'],
                     [
                         'field' => 'my_price__price',
@@ -1597,7 +1597,7 @@ class SearchProductsTest extends AbstractTest
                 10,     // page size.
                 1,      // current page.
                 [       // expected aggregations sample.
-                    ['field' => 'is_eco_friendly', 'label' => 'Is_eco_friendly', 'type' => 'checkbox'],
+                    ['field' => 'is_eco_friendly', 'label' => 'Is_eco_friendly', 'type' => 'boolean'],
                     ['field' => 'weight', 'label' => 'Weight', 'type' => 'slider'],
                     ['field' => 'category__id', 'label' => 'Category', 'type' => 'category'],
                     ['field' => 'color__value', 'label' => 'Couleur', 'type' => 'checkbox'],

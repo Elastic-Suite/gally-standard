@@ -119,8 +119,8 @@ class Configuration
                 'gally' => [
                     'input' => 'select',
                     'options' => [
-                        'api_rest' => '/category_sorting_options',
-                        'api_graphql' => 'categorySortingOptions',
+                        'api_rest' => '/product_sorting_options',
+                        'api_graphql' => 'productSortingOptions',
                     ],
                 ],
             ],
