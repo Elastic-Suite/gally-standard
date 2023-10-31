@@ -77,19 +77,6 @@ class CategoryTypeDefaultFilterInputTypeTest extends KernelTestCase
         );
     }
 
-    public function testFieldNames(): void
-    {
-        $categoryTypeDefaultFilterInputType = new CategoryTypeDefaultFilterInputType(
-            self::$filterQueryBuilder,
-            self::$queryFactory,
-            '##'
-        );
-
-        $this->assertEquals('my_category.id', $categoryTypeDefaultFilterInputType->getFilterFieldName('my_category'));
-        $this->assertEquals('my_category##id', $categoryTypeDefaultFilterInputType->getGraphQlFieldName('my_category.id'));
-        $this->assertEquals('my_category.id', $categoryTypeDefaultFilterInputType->getMappingFieldName('my_category##id'));
-    }
-
     /**
      * @dataProvider validateDataProvider
      *

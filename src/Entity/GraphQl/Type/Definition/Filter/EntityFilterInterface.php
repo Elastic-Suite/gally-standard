@@ -39,11 +39,4 @@ interface EntityFilterInterface extends SearchFilterInterface
      * @param string $mappingFilterName Mapping filter name
      */
     public function getGraphQlFieldName(string $mappingFilterName): string;
-
-    /**
-     * Get the Elasticsearch mapping field name corresponding to the provided graphql filter input field name.
-     *
-     * @param string $graphqlFieldName GraphQL field name
-     */
-    public function getMappingFieldName(string $graphqlFieldName): string;
 }

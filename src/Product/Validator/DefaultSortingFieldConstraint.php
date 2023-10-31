@@ -12,7 +12,7 @@
 
 declare(strict_types=1);
 
-namespace Gally\Category\Validator;
+namespace Gally\Product\Validator;
 
 use Symfony\Component\Validator\Constraint;
 

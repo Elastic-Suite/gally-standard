@@ -32,6 +32,7 @@ class FieldFilterInputType extends InputObjectType implements TypeInterface, Fil
     public function __construct(
         private iterable $availableTypes,
         private FilterQueryBuilder $filterQueryBuilder,
+        protected string $nestingSeparator,
     ) {
         $this->name = self::NAME;
 
@@ -99,6 +100,8 @@ class FieldFilterInputType extends InputObjectType implements TypeInterface, Fil
             if (!\array_key_exists('field', $data)) {
                 $data['field'] = $filterType;
             }
+
+            $data['field'] = str_replace($this->nestingSeparator, '.', $data['field']);
             $filters[] = $type->transformToGallyFilter($data, $containerConfig, $filterContext);
         }
 

@@ -17,10 +17,10 @@ namespace Gally\Product\GraphQl\Type\Definition;
 use ApiPlatform\Core\GraphQl\Type\Definition\TypeInterface;
 use Gally\Metadata\Model\Metadata;
 use Gally\Metadata\Repository\SourceFieldRepository;
-use Gally\Product\GraphQl\Type\Definition\SortOrder\SortOrderProviderInterface;
 use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface;
 use Gally\Search\Elasticsearch\Request\SortOrderInterface;
 use Gally\Search\GraphQl\Type\Definition\SortInputType as SearchSortInputType;
+use Gally\Search\GraphQl\Type\Definition\SortOrder\SortOrderProviderInterface;
 use Gally\Search\Service\ReverseSourceFieldProvider;
 use Gally\Search\Service\SearchContext;
 

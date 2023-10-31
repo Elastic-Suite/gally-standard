@@ -12,6 +12,11 @@ Gally\Search\Model\Facet\Configuration:
             category: ~
         maxSize: 2
         sortOrder: _manual
+    product_color__full_facet:
+        __construct:
+            sourceField: '@product_color_full'
+            category: ~
+        sortOrder: _manual
     product_weight_facet:
         __construct:
             sourceField: '@product_weight'

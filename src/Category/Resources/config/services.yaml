@@ -8,7 +8,7 @@ services:
     Gally\Category\Repository\CategoryConfigurationRepository:
         arguments:
             - '@Doctrine\Persistence\ManagerRegistry'
-            - '@Gally\Category\Service\CategoryProductsSortingOptionsProvider'
+            - '@Gally\Product\Service\ProductsSortingOptionsProvider'
         tags:
             - { name: doctrine.repository_service }
 
@@ -86,23 +86,6 @@ services:
             - '@Gally\Category\Service\CategorySynchronizer'
             - '@Gally\Category\Service\CategoryProductPositionManager'
         decoration_priority: 100
-
-    Gally\Category\Service\CategoryProductsSortingOptionsProvider:
-        arguments:
-            - '@Gally\Metadata\Repository\SourceFieldRepository'
-            - !tagged_iterator { tag: 'gally.product_api.sort_order_provider', index_by: 'provider_name' }
-
-    Gally\Category\DataProvider\CategorySortingOptionDataProvider:
-        arguments:
-            - '@Gally\Category\Service\CategoryProductsSortingOptionsProvider'
-        tags:
-            - { name: api_platform.collection_data_provider }
-
-    Gally\Category\Validator\DefaultSortingFieldConstraintValidator:
-        arguments:
-            - '@Gally\Category\DataProvider\CategorySortingOptionDataProvider'
-        tags:
-            - { name: validator.constraint_validator } 
 
     Gally\Category\Controller\CategoryConfigurationGet:
         arguments:

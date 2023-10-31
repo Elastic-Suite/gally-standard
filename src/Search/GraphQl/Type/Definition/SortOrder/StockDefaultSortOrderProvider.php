@@ -12,12 +12,12 @@
 
 declare(strict_types=1);
 
-namespace Gally\Product\GraphQl\Type\Definition\SortOrder;
+namespace Gally\Search\GraphQl\Type\Definition\SortOrder;
 
 use Gally\Metadata\Model\SourceField;
 use Gally\Metadata\Model\SourceField\Type;
 
-class CategoryDefaultSortOrderProvider implements SortOrderProviderInterface
+class StockDefaultSortOrderProvider implements SortOrderProviderInterface
 {
     public function __construct(protected string $nestingSeparator)
     {
@@ -28,7 +28,7 @@ class CategoryDefaultSortOrderProvider implements SortOrderProviderInterface
      */
     public function supports(SourceField $sourceField): bool
     {
-        return Type::TYPE_CATEGORY === $sourceField->getType();
+        return Type::TYPE_STOCK === $sourceField->getType();
     }
 
     /**
@@ -39,7 +39,7 @@ class CategoryDefaultSortOrderProvider implements SortOrderProviderInterface
         return str_replace(
             '.',
             $this->nestingSeparator,
-            sprintf('%s.%s', $sourceField->getCode(), 'position'),
+            sprintf('%s.%s', $sourceField->getCode(), 'status'),
         );
     }
 
@@ -49,7 +49,7 @@ class CategoryDefaultSortOrderProvider implements SortOrderProviderInterface
     public function getLabel(SourceField $sourceField): string
     {
         return sprintf(
-            "Sorting by %s's Position (%s)",
+            "Sorting by %s's status (%s)",
             $sourceField->getDefaultLabel(),
             $sourceField->getCode()
         );
@@ -60,6 +60,6 @@ class CategoryDefaultSortOrderProvider implements SortOrderProviderInterface
      */
     public function getSimplifiedLabel(SourceField $sourceField): string
     {
-        return 'Position';
+        return 'Stock status';
     }
 }

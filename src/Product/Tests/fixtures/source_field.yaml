@@ -18,6 +18,13 @@ Gally\Metadata\Model\SourceField:
         defaultLabel: 'Stock data'
         type: 'stock'
         isSystem: true
+    product_my_stock:
+        metadata: '@product'
+        code: 'my_stock'
+        defaultLabel: 'Stock data'
+        type: 'stock'
+        isSortable: true
+        isSystem: true
     product_stock_as_nested_status:
         metadata: '@product'
         code: 'stock_as_nested.status'
@@ -127,6 +134,7 @@ Gally\Metadata\Model\SourceField:
         code: 'category'
         type: 'category'
         isFilterable: true
+        isSortable: true
         isSystem: true
     product_category_id:
         metadata: '@product'

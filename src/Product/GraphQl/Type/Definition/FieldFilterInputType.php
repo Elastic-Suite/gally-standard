@@ -32,8 +32,9 @@ class FieldFilterInputType extends BaseFieldFilterInputType
         private iterable $availableTypes,
         private BoolFilterInputType $boolFilterInputType,
         private SourceFieldRepository $sourceFieldRepository,
+        protected string $nestingSeparator
     ) {
-        parent::__construct($availableTypes, $filterQueryBuilder);
+        parent::__construct($availableTypes, $filterQueryBuilder, $nestingSeparator);
         $this->name = self::NAME;
     }
 

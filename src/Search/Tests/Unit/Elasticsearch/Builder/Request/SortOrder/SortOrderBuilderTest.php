@@ -118,7 +118,7 @@ class SortOrderBuilderTest extends AbstractTest
     {
         return [
             [
-                'product',  // entity type.
+                'product_document',  // entity type.
                 [], // sort order specifications.
                 [   // expected built sort orders.
                     [
@@ -134,7 +134,7 @@ class SortOrderBuilderTest extends AbstractTest
                 ],
             ],
             [
-                'product',  // entity type.
+                'product_document',  // entity type.
                 [   // sort order specifications.
                     'price.price' => [
                         'field' => 'price.price',
@@ -161,7 +161,7 @@ class SortOrderBuilderTest extends AbstractTest
                 ],
             ],
             [
-                'product',  // entity type.
+                'product_document',  // entity type.
                 [   // sort order specifications.
                     'price.price' => [
                         'field' => 'price.price',
@@ -188,7 +188,7 @@ class SortOrderBuilderTest extends AbstractTest
                 ],
             ],
             [
-                'product',  // entity type.
+                'product_document',  // entity type.
                 [   // sort order specifications.
                     'price.price' => [
                         'field' => 'price.price',
@@ -217,7 +217,7 @@ class SortOrderBuilderTest extends AbstractTest
                 ],
             ],
             [
-                'product',  // entity type.
+                'product_document',  // entity type.
                 [   // sort order specifications.
                     'price.price' => [
                         'field' => 'price.price',
@@ -246,7 +246,7 @@ class SortOrderBuilderTest extends AbstractTest
                 ],
             ],
             [
-                'product',  // entity type.
+                'product_document',  // entity type.
                 [   // sort order specifications.
                     Script::SCRIPT_FIELD => [
                         'field' => Script::SCRIPT_FIELD,
@@ -282,7 +282,7 @@ class SortOrderBuilderTest extends AbstractTest
                 ],
             ],
             [
-                'product',  // entity type.
+                'product_document',  // entity type.
                 [   // sort order specifications.
                     // Ugly hack that allows dynamic product positioning.
                     Script::SCRIPT_FIELD => [

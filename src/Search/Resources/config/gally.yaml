@@ -3,6 +3,9 @@ gally:
         Gally\Search\Model\Document:
             renamings:
                 searchDocuments: documents
+        Gally\Search\Model\Source\SortingOption:
+            renamings:
+                getSortingOptions: sortingOptions
     search_settings:
         aggregations:
             coverage_use_indexed_fields_property: false

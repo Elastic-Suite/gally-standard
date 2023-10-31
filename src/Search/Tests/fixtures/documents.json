@@ -1,6 +1,6 @@
 [
   {
-    "index_name": "gally_b2c_en_product",
+    "index_name": "gally_b2c_en_product_document",
     "documents": [
       {
         "entity_id": "1",
@@ -11,6 +11,12 @@
         "size" : 12,
         "weight" : 1.200,
         "color": [
+          {
+            "value": "black",
+            "label": "Black"
+          }
+        ],
+        "color_full": [
           {
             "value": "black",
             "label": "Black"
@@ -54,6 +60,7 @@
           "size",
           "weight",
           "color",
+          "color_full",
           "category",
           "is_eco_friendly",
           "created_at"
@@ -68,6 +75,12 @@
         "size" : 5,
         "weight" : 1.100,
         "color": [
+          {
+            "value": "black",
+            "label": "Black"
+          }
+        ],
+        "color_full": [
           {
             "value": "black",
             "label": "Black"
@@ -104,6 +117,7 @@
           "size",
           "weight",
           "color",
+          "color_full",
           "category",
           "is_eco_friendly",
           "created_at"
@@ -126,6 +140,16 @@
             "label": "Grey"
           }
         ],
+        "color_full": [
+          {
+            "value": "black",
+            "label": "Black"
+          },
+          {
+            "value": "grey",
+            "label": "Grey"
+          }
+        ],
         "is_eco_friendly": true,
         "created_at": "2022-09-05",
         "indexed_fields": [
@@ -137,6 +161,7 @@
           "size",
           "weight",
           "color",
+          "color_full",
           "category",
           "is_eco_friendly",
           "created_at"
@@ -154,6 +179,12 @@
             "label": "Black"
           }
         ],
+        "color_full": [
+          {
+            "value": "black",
+            "label": "Black"
+          }
+        ],
         "is_eco_friendly": true,
         "created_at": "2022-09-05",
         "indexed_fields": [
@@ -164,6 +195,7 @@
           "seller_reference",
           "size",
           "color",
+          "color_full",
           "is_eco_friendly",
           "created_at"
         ]
@@ -180,6 +212,12 @@
             "label": "Grey"
           }
         ],
+        "color_full": [
+          {
+            "value": "grey",
+            "label": "Grey"
+          }
+        ],
         "is_eco_friendly": true,
         "created_at": "2022-09-06",
         "indexed_fields": [
@@ -190,6 +228,7 @@
           "seller_reference",
           "size",
           "color",
+          "color_full",
           "is_eco_friendly",
           "created_at"
         ]
@@ -213,6 +252,20 @@
             "label": "Red"
           }
         ],
+        "color_full": [
+          {
+            "value": "grey",
+            "label": "Grey"
+          },
+          {
+            "value": "black",
+            "label": "Black"
+          },
+          {
+            "value": "red",
+            "label": "Red"
+          }
+        ],
         "is_eco_friendly": true,
         "created_at": "2022-09-01",
         "indexed_fields": [
@@ -222,6 +275,7 @@
           "seller_reference",
           "size",
           "color",
+          "color_full",
           "is_eco_friendly",
           "created_at"
         ]
@@ -237,6 +291,12 @@
             "label": "Black"
           }
         ],
+        "color_full": [
+          {
+            "value": "black",
+            "label": "Black"
+          }
+        ],
         "is_eco_friendly": false,
         "created_at": "2022-09-01",
         "indexed_fields": [
@@ -245,6 +305,7 @@
           "name",
           "size",
           "color",
+          "color_full",
           "category",
           "is_eco_friendly",
           "created_at"
@@ -265,6 +326,16 @@
             "label": "White"
           }
         ],
+        "color_full": [
+          {
+            "value": "black",
+            "label": "Black"
+          },
+          {
+            "value": "white",
+            "label": "White"
+          }
+        ],
         "is_eco_friendly": false,
         "created_at": "2022-09-01",
         "indexed_fields": [
@@ -273,6 +344,7 @@
           "name",
           "size",
           "color",
+          "color_full",
           "is_eco_friendly",
           "created_at"
         ]
@@ -292,6 +364,16 @@
             "label": "White"
           }
         ],
+        "color_full": [
+          {
+            "value": "green",
+            "label": "Green"
+          },
+          {
+            "value": "white",
+            "label": "White"
+          }
+        ],
         "is_eco_friendly": false,
         "created_at": "2022-09-01",
         "indexed_fields": [
@@ -300,6 +382,7 @@
           "name",
           "size",
           "color",
+          "color_full",
           "is_eco_friendly",
           "created_at"
         ]
@@ -315,6 +398,12 @@
             "label": "Pink"
           }
         ],
+        "color_full": [
+          {
+            "value": "pink",
+            "label": "Pink"
+          }
+        ],
         "is_eco_friendly": false,
         "indexed_fields": [
           "entity_id",
@@ -322,6 +411,7 @@
           "name",
           "size",
           "color",
+          "color_full",
           "is_eco_friendly"
         ]
       },
@@ -348,12 +438,31 @@
             "label": "Black"
           }
         ],
+        "color_full": [
+          {
+            "value": "pink",
+            "label": "Pink"
+          },
+          {
+            "value": "fuchsia",
+            "label": "Fuchsia"
+          },
+          {
+            "value": "grey",
+            "label": "Grey"
+          },
+          {
+            "value": "black",
+            "label": "Black"
+          }
+        ],
         "created_at": "2022-09-01",
         "indexed_fields": [
           "entity_id",
           "sku",
           "name",
           "color",
+          "color_full",
           "is_eco_friendly",
           "created_at"
         ]
@@ -373,12 +482,23 @@
             "label": "Black"
           }
         ],
+        "color_full": [
+          {
+            "value": "grey",
+            "label": "Grey"
+          },
+          {
+            "value": "black",
+            "label": "Black"
+          }
+        ],
         "created_at": "2022-09-01",
         "indexed_fields": [
           "entity_id",
           "sku",
           "name",
           "color",
+          "color_full",
           "is_eco_friendly",
           "created_at"
         ]
@@ -394,12 +514,19 @@
             "label": "Brown"
           }
         ],
+        "color_full": [
+          {
+            "value": "brown",
+            "label": "Brown"
+          }
+        ],
         "created_at": "2022-09-01",
         "indexed_fields": [
           "entity_id",
           "sku",
           "name",
           "color",
+          "color_full",
           "is_eco_friendly",
           "created_at"
         ]
@@ -423,6 +550,20 @@
             "label": "Black"
           }
         ],
+        "color_full": [
+          {
+            "value": "grey",
+            "label": "Grey"
+          },
+          {
+            "value": "blue",
+            "label": "Blue"
+          },
+          {
+            "value": "black",
+            "label": "Black"
+          }
+        ],
         "indexed_fields": [
           "entity_id",
           "sku",
@@ -433,7 +574,7 @@
     ]
   },
   {
-    "index_name": "gally_b2b_fr_product",
+    "index_name": "gally_b2b_fr_product_document",
     "documents": [
       {
         "entity_id": "1",
@@ -454,6 +595,12 @@
           "qty": 0
         },
         "color": [
+          {
+            "value": "black",
+            "label": "Noir"
+          }
+        ],
+        "color_full": [
           {
             "value": "black",
             "label": "Noir"
@@ -510,6 +657,12 @@
             "label": "Noir"
           }
         ],
+        "color_full": [
+          {
+            "value": "black",
+            "label": "Noir"
+          }
+        ],
         "category_as_nested": [
           {
             "id": "cat_1"
@@ -557,6 +710,16 @@
             "label": "Gris"
           }
         ],
+        "color_full": [
+          {
+            "value": "black",
+            "label": "Noir"
+          },
+          {
+            "value": "grey",
+            "label": "Gris"
+          }
+        ],
         "is_eco_friendly": true,
         "created_at": "2022-09-05"
       },
@@ -576,6 +739,12 @@
             "label": "Noir"
           }
         ],
+        "color_full": [
+          {
+            "value": "black",
+            "label": "Noir"
+          }
+        ],
         "is_eco_friendly": true,
         "created_at": "2022-09-05"
       },
@@ -590,6 +759,12 @@
           "qty": 3
         },
         "color": [
+          {
+            "value": "grey",
+            "label": "Gris"
+          }
+        ],
+        "color_full": [
           {
             "value": "grey",
             "label": "Gris"
@@ -622,6 +797,20 @@
             "label": "Rouge"
           }
         ],
+        "color_full": [
+          {
+            "value": "grey",
+            "label": "Gris"
+          },
+          {
+            "value": "black",
+            "label": "Noir"
+          },
+          {
+            "value": "red",
+            "label": "Rouge"
+          }
+        ],
         "is_eco_friendly": true,
         "created_at": "2022-09-01"
       },
@@ -641,6 +830,12 @@
             "label": "Noir"
           }
         ],
+        "color_full": [
+          {
+            "value": "black",
+            "label": "Noir"
+          }
+        ],
         "is_eco_friendly": false,
         "created_at": "2022-09-01"
       },
@@ -655,6 +850,16 @@
           "qty": -2
         },
         "color": [
+          {
+            "value": "black",
+            "label": "Noir"
+          },
+          {
+            "value": "white",
+            "label": "Blanc"
+          }
+        ],
+        "color_full": [
           {
             "value": "black",
             "label": "Noir"
@@ -686,6 +891,16 @@
             "value": "white",
             "label": "Blanc"
           }
+        ],
+        "color_full": [
+          {
+            "value": "green",
+            "label": "Vert"
+          },
+          {
+            "value": "white",
+            "label": "Blanc"
+          }
         ]
       },
       {
@@ -698,6 +913,12 @@
           "qty": 8
         },
         "color": [
+          {
+            "value": "pink",
+            "label": "Rose"
+          }
+        ],
+        "color_full": [
           {
             "value": "pink",
             "label": "Rose"
@@ -733,6 +954,24 @@
             "label": "Noir"
           }
         ],
+        "color_full": [
+          {
+            "value": "pink",
+            "label": "Rose"
+          },
+          {
+            "value": "fuchsia",
+            "label": "Fuchsia"
+          },
+          {
+            "value": "grey",
+            "label": "Gris"
+          },
+          {
+            "value": "black",
+            "label": "Noir"
+          }
+        ],
         "created_at": "2022-09-01"
       },
       {
@@ -746,6 +985,16 @@
           "qty": 17
         },
         "color": [
+          {
+            "value": "grey",
+            "label": "Gris"
+          },
+          {
+            "value": "black",
+            "label": "Noir"
+          }
+        ],
+        "color_full": [
           {
             "value": "grey",
             "label": "Gris"

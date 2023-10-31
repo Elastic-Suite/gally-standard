@@ -79,19 +79,6 @@ class SelectTypeDefaultFilterInputTypeTest extends KernelTestCase
         );
     }
 
-    public function testFieldNames(): void
-    {
-        $selectTypeDefaultFilterInputType = new SelectTypeDefaultFilterInputType(
-            self::$filterQueryBuilder,
-            self::$queryFactory,
-            '##'
-        );
-
-        $this->assertEquals('my_select.value', $selectTypeDefaultFilterInputType->getFilterFieldName('my_select'));
-        $this->assertEquals('my_select##value', $selectTypeDefaultFilterInputType->getGraphQlFieldName('my_select.value'));
-        $this->assertEquals('my_select.value', $selectTypeDefaultFilterInputType->getMappingFieldName('my_select##value'));
-    }
-
     /**
      * @dataProvider validateDataProvider
      *

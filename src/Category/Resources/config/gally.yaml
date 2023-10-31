@@ -1,0 +1,5 @@
+gally:
+    graphql_query_renaming:
+        Gally\Category\Model\Source\CategorySortingOption:
+            renamings:
+                getCategorySortingOptions: categorySortingOptions

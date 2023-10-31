@@ -52,7 +52,7 @@ class CoverageAggregationProvider implements AggregationProviderInterface
             ];
         }
 
-        $sourceFields = $this->sourceFieldRepository->getFilterableInAggregationFields('product');
+        $sourceFields = $this->sourceFieldRepository->getFilterableInAggregationFields($containerConfig->getMetadata()->getEntity());
         $queries = [];
 
         foreach ($sourceFields as $sourceField) {

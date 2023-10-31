@@ -12,34 +12,39 @@
 
 declare(strict_types=1);
 
-namespace Gally\Category\Service;
+namespace Gally\Search\Service;
 
+use Gally\Metadata\Repository\MetadataRepository;
 use Gally\Metadata\Repository\SourceFieldRepository;
-use Gally\Product\GraphQl\Type\Definition\SortOrder\SortOrderProviderInterface as ProductSortOrderProviderInterface;
 use Gally\Search\Elasticsearch\Request\SortOrderInterface;
+use Gally\Search\GraphQl\Type\Definition\SortOrder\SortOrderProviderInterface as ProductSortOrderProviderInterface;
 
-class CategoryProductsSortingOptionsProvider
+class SortingOptionsProvider
 {
     private ?array $sortingOptions;
 
     public function __construct(
         private SourceFieldRepository $sourceFieldRepository,
+        private MetadataRepository $metadataRepository,
         private iterable $sortOrderProviders
     ) {
         $this->sortingOptions = null;
     }
 
     /**
-     * Return all products sorting options for categories.
+     * Return all entity sorting options for categories.
      */
-    public function getAllSortingOptions(): array
+    public function getAllSortingOptions(string $entityType): array
     {
+        // Exception thrown if the entity does not exist.
+        $metadata = $this->metadataRepository->findByEntity($entityType);
+
         if (null === $this->sortingOptions) {
             $sortOptions = [];
 
             // Id source field need to be sortable to be used as default sort option,
             // but we don't want to have it in the list
-            $sortableFields = $this->sourceFieldRepository->getSortableFields('product', ['id']);
+            $sortableFields = $this->sourceFieldRepository->getSortableFields($metadata->getEntity(), ['id']);
             foreach ($sortableFields as $sourceField) {
                 /** @var ProductSortOrderProviderInterface $sortOrderProvider */
                 foreach ($this->sortOrderProviders as $sortOrderProvider) {
@@ -61,20 +66,5 @@ class CategoryProductsSortingOptionsProvider
         }
 
         return $this->sortingOptions;
-    }
-
-    /**
-     * Return the default sorting field.
-     */
-    public function getDefaultSortingField(): ?string
-    {
-        $defaultSortingField = null;
-
-        $defaultSortOption = current($this->getAllSortingOptions());
-        if (\is_array($defaultSortOption) && \array_key_exists('code', $defaultSortOption)) {
-            $defaultSortingField = $defaultSortOption['code'];
-        }
-
-        return $defaultSortingField;
     }
 }

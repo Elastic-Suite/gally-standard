@@ -44,14 +44,14 @@ class CoverageTest extends AbstractTest
             __DIR__ . '/../../../../fixtures/catalogs.yaml',
             __DIR__ . '/../../../../fixtures/metadata.yaml',
         ]);
-        self::createEntityElasticsearchIndices('product');
+        self::createEntityElasticsearchIndices('product_document');
         self::loadElasticsearchDocumentFixtures([__DIR__ . '/../../../../fixtures/documents.json']);
     }
 
     public static function tearDownAfterClass(): void
     {
         parent::tearDownAfterClass();
-        self::deleteEntityElasticsearchIndices('product');
+        self::deleteEntityElasticsearchIndices('product_document');
     }
 
     /**
@@ -77,7 +77,7 @@ class CoverageTest extends AbstractTest
         \assert(static::getContainer()->get(SearchSettingsProvider::class) instanceof TestSearchSettingsProvider);
         $searchSettings = static::getContainer()->get(SearchSettingsProvider::class);
 
-        $metadata = $metadataRepository->findByEntity('product');
+        $metadata = $metadataRepository->findByEntity('product_document');
         $localizedCatalog = $localizedCatalogRepository->findOneBy(['code' => 'b2c_en']);
         $containerConfig = $containerConfigurationProvider->get($metadata, $localizedCatalog);
 
@@ -99,11 +99,11 @@ class CoverageTest extends AbstractTest
         return [
             [
                 false, // coverage_use_indexed_fields_property conf value
-                ['is_eco_friendly', 'weight', 'category', 'size', 'color'], //expected aggregation
+                ['is_eco_friendly', 'weight', 'category', 'size', 'color_full', 'color'], //expected aggregation
             ],
             [
                 true, // coverage_use_indexed_fields_property conf value
-                ['is_eco_friendly', 'weight', 'category', 'color'], // Expected aggregations
+                ['is_eco_friendly', 'weight', 'category', 'color_full', 'color'], // Expected aggregations
             ],
         ];
     }

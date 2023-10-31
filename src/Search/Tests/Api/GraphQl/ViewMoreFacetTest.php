@@ -35,7 +35,7 @@ class ViewMoreFacetTest extends AbstractTest
             __DIR__ . '/../../fixtures/catalogs.yaml',
             __DIR__ . '/../../fixtures/metadata.yaml',
         ]);
-        self::createEntityElasticsearchIndices('product');
+        self::createEntityElasticsearchIndices('product_document');
         self::createEntityElasticsearchIndices('category');
         self::loadElasticsearchDocumentFixtures([__DIR__ . '/../../fixtures/documents.json']);
     }
@@ -43,7 +43,7 @@ class ViewMoreFacetTest extends AbstractTest
     public static function tearDownAfterClass(): void
     {
         parent::tearDownAfterClass();
-        self::deleteEntityElasticsearchIndices('product');
+        self::deleteEntityElasticsearchIndices('product_document');
         self::deleteEntityElasticsearchIndices('category');
     }
 
@@ -113,7 +113,7 @@ class ViewMoreFacetTest extends AbstractTest
     {
         return [
             [
-                'product', // entity type.
+                'product_document', // entity type.
                 'b2c_en', // catalog ID.
                 'invalid_field', // aggregation.
                 ['errors' => [['message' => 'Internal server error', 'debugMessage' => 'The source field \'invalid_field\' does not exist']]], // expected error.
@@ -121,7 +121,7 @@ class ViewMoreFacetTest extends AbstractTest
                 '', // filter.
             ],
             [
-                'product', // entity type.
+                'product_document', // entity type.
                 'b2c_en', // catalog ID.
                 'size', // aggregation.
                 [], // expected error.
@@ -129,7 +129,7 @@ class ViewMoreFacetTest extends AbstractTest
                 '', // filter.
             ],
             [
-                'product', // entity type.
+                'product_document', // entity type.
                 'b2c_en', // catalog ID.
                 'category__id', // aggregation.
                 [], // expected error.
@@ -137,7 +137,7 @@ class ViewMoreFacetTest extends AbstractTest
                 '', // filter.
             ],
             [
-                'product', // entity type.
+                'product_document', // entity type.
                 'b2c_en', // catalog ID.
                 'size', // aggregation.
                 [], // expected error.

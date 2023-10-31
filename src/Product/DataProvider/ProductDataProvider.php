@@ -24,11 +24,11 @@ use Gally\Entity\Service\PriceGroupProvider;
 use Gally\Metadata\Repository\MetadataRepository;
 use Gally\Product\GraphQl\Type\Definition\SortInputType;
 use Gally\Product\Model\Product;
+use Gally\Product\Service\GraphQl\FilterManager;
 use Gally\Search\DataProvider\Paginator;
 use Gally\Search\Elasticsearch\Adapter;
 use Gally\Search\Elasticsearch\Builder\Request\SimpleRequestBuilder as RequestBuilder;
 use Gally\Search\Elasticsearch\Request\Container\Configuration\ContainerConfigurationProvider;
-use Gally\Search\Service\GraphQl\FilterManager;
 use Gally\Search\Service\SearchContext;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 
