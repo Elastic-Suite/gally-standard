@@ -280,7 +280,10 @@ class Field implements FieldInterface
      */
     private function getPropertyConfig(?string $analyzer = self::ANALYZER_UNTOUCHED): array
     {
-        $fieldMapping = ['type' => $this->getType()];
+        $fieldMapping = array_merge(
+            ['type' => $this->getType()],
+            $this->config['specific_mapping_configuration'] ?? []
+        );
 
         switch ($this->getType()) {
             case self::FIELD_TYPE_TEXT:
