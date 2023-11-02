@@ -21,6 +21,7 @@ use Gally\Search\Elasticsearch\Request\SortOrderInterface;
  */
 class Field implements FieldInterface
 {
+    public const SPECIFIC_CONFIGURATION_KEY = 'specific_mapping_configuration';
     private const IGNORE_ABOVE_COUNT = 256;
 
     private string $name;
@@ -230,6 +231,10 @@ class Field implements FieldInterface
         $property = [];
 
         $property = array_merge($property, $this->getPropertyConfig(array_shift($analyzers)));
+
+        // Prevent to propagate specific configuration to sub fields.
+        unset($this->config[self::SPECIFIC_CONFIGURATION_KEY]);
+
         foreach ($analyzers as $analyzer) {
             $property['fields'][$analyzer] = $this->getPropertyConfig($analyzer);
         }
@@ -280,7 +285,10 @@ class Field implements FieldInterface
      */
     private function getPropertyConfig(?string $analyzer = self::ANALYZER_UNTOUCHED): array
     {
-        $fieldMapping = ['type' => $this->getType()];
+        $fieldMapping = array_merge(
+            ['type' => $this->getType()],
+            $this->config[self::SPECIFIC_CONFIGURATION_KEY] ?? []
+        );
 
         switch ($this->getType()) {
             case self::FIELD_TYPE_TEXT:

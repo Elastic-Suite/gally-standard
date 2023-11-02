@@ -909,6 +909,103 @@ class SourceFieldConverterTest extends AbstractTest
         ];
     }
 
+    /**
+     * @dataProvider getMappingPropertyConfigDataProvider
+     */
+    public function testGetMappingPropertyConfig(
+        string $fieldCode,
+        string $fieldType,
+        ?string $path,
+        array $fieldConfig,
+        array $expectedMappingProperties
+    ): void {
+        $field = new Mapping\Field($fieldCode, $fieldType, $path, $fieldConfig);
+        $this->assertEquals($expectedMappingProperties, $field->getMappingPropertyConfig());
+    }
+
+    public function getMappingPropertyConfigDataProvider(): array
+    {
+        return [
+            [
+                'testField1',
+                Mapping\FieldInterface::FIELD_TYPE_TEXT,
+                null,
+                ['is_searchable' => false, 'is_filterable' => false],
+                [
+                    'type' => 'text',
+                    'analyzer' => 'keyword',
+                    'norms' => false,
+                ],
+            ],
+            [
+                'testField1',
+                Mapping\FieldInterface::FIELD_TYPE_TEXT,
+                null,
+                ['is_searchable' => true, 'is_filterable' => false],
+                [
+                    'type' => 'text',
+                    'analyzer' => 'keyword',
+                    'norms' => false,
+                    'fields' => [
+                        'standard' => [
+                            'type' => 'text',
+                            'analyzer' => 'standard',
+                        ],
+                    ],
+                ],
+            ],
+            [
+                'testField1',
+                Mapping\FieldInterface::FIELD_TYPE_TEXT,
+                null,
+                ['is_searchable' => false, 'is_filterable' => true],
+                [
+                    'type' => 'text',
+                    'analyzer' => 'keyword',
+                    'norms' => false,
+                    'fields' => [
+                        'standard' => [
+                            'type' => 'text',
+                            'analyzer' => 'standard',
+                        ],
+                        'untouched' => [
+                            'type' => 'keyword',
+                            'ignore_above' => 256,
+                        ],
+                    ],
+                ],
+            ],
+            [
+                'testField1',
+                Mapping\FieldInterface::FIELD_TYPE_TEXT,
+                null,
+                [
+                    'is_searchable' => true,
+                    'is_filterable' => true,
+                    'specific_mapping_configuration' => [
+                        'other_es_option' => 0.25,
+                    ],
+                ],
+                [
+                    'type' => 'text',
+                    'analyzer' => 'keyword',
+                    'norms' => false,
+                    'fields' => [
+                        'standard' => [
+                            'type' => 'text',
+                            'analyzer' => 'standard',
+                        ],
+                        'untouched' => [
+                            'type' => 'keyword',
+                            'ignore_above' => 256,
+                        ],
+                    ],
+                    'other_es_option' => 0.25,
+                ],
+            ],
+        ];
+    }
+
     private static function getSourceFieldConfigs(): array
     {
         if ([] === self::$sourceFieldConfigs) {
