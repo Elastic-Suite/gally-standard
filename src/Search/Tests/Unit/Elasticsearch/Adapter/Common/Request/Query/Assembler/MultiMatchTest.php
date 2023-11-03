@@ -70,30 +70,6 @@ class MultiMatchTest extends AbstractSimpleQueryAssemblerTest
     }
 
     /**
-     * Test the assembler with mandatory + cutoff_frequency params.
-     */
-    public function testCutoffFrequencyMultiMatchQueryAssembler(): void
-    {
-        $assembler = $this->getQueryAssembler();
-
-        $matchQuery = new MultiMatchQuery(
-            'search text',
-            ['searchField' => 1],
-            MultiMatchQuery::DEFAULT_MINIMUM_SHOULD_MATCH,
-            MultiMatchQuery::DEFAULT_TIE_BREAKER,
-            null,
-            MultiMatchQuery::DEFAULT_BOOST_VALUE,
-            null,
-            0.1
-        );
-
-        $query = $assembler->assembleQuery($matchQuery);
-
-        $this->assertArrayHasKey('cutoff_frequency', $query['multi_match']);
-        $this->assertEquals(0.1, $query['multi_match']['cutoff_frequency']);
-    }
-
-    /**
      * Test the assembler with mandatory + fuzziness params.
      */
     public function testFuzzyMultiMatchQueryAssembler(): void

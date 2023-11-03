@@ -47,10 +47,6 @@ class MultiMatch implements AssemblerInterface
             'type' => $query->getMatchType(),
         ];
 
-        if ($query->getCutoffFrequency()) {
-            $searchQueryParams['cutoff_frequency'] = $query->getCutoffFrequency();
-        }
-
         if ($query->getFuzzinessConfiguration()) {
             $searchQueryParams['fuzziness'] = $query->getFuzzinessConfiguration()->getValue();
             $searchQueryParams['prefix_length'] = $query->getFuzzinessConfiguration()->getPrefixLength();
