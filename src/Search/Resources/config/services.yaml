@@ -374,8 +374,8 @@ services:
     
     Gally\Search\OpenSearch\ClientBuilder:
         arguments:
+            - '%es_config%'
             - !tagged_iterator { tag: 'gally.opensearch.namespacebuilder' }
     
     OpenSearch\Client:
-        factory:   ['@Gally\Search\OpenSearch\ClientBuilder', fromConfig]
-        arguments: ['%es_config%']
+        factory:   ['@Gally\Search\OpenSearch\ClientBuilder', build]
