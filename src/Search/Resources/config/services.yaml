@@ -5,6 +5,10 @@ imports:
     - { resource: elasticsearch/aggregation_assembler.yaml }
     - { resource: elasticsearch/aggregation_resolver.yaml }
     - { resource: elasticsearch/request_type.yaml }
+        
+parameters:
+    es_config:
+        hosts: ['%env(ELASTICSEARCH_URL)%']}
 
 services:
     Gally\Search\Repository\Facet\ConfigurationRepository:
@@ -368,6 +372,14 @@ services:
         arguments:
             - '@Gally\OpenApi\Helper\Documentation'
             - '@.inner'
+    
+    Gally\Search\OpenSearch\ClientBuilder:
+        arguments:
+            - '%es_config%'
+            - !tagged_iterator { tag: 'gally.opensearch.namespacebuilder' }
+    
+    OpenSearch\Client:
+        factory:   ['@Gally\Search\OpenSearch\ClientBuilder', build]
 
     Gally\Search\GraphQl\Type\Definition\SortOrder\CategoryDefaultSortOrderProvider:
         arguments:
