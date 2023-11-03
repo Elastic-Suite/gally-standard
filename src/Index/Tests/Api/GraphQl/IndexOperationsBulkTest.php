@@ -92,8 +92,13 @@ class IndexOperationsBulkTest extends AbstractTest
         yield ['wrongName', $documents, $admin, ['errors' => [['debugMessage' => 'Index with name [wrongName] does not exist']]]];
 
         $documents['id2'] = ['id' => 'id2', 'name' => 'Test doc 2', 'size' => 'wrongSize'];
-        $message = 'failed to parse field [size] of type [integer] in document with id \'id2\'. ' .
-            'Preview of field\'s value: \'wrongSize\'. Failed doc ids sample : id2.';
+        $message = sprintf(
+            'Bulk index operation failed %d times in index %s. ' .
+            'Error (mapper_parsing_exception) : failed to parse field [size] of type [integer] in document with id \'id2\'. ' .
+            'Preview of field\'s value: \'wrongSize\'. Failed doc ids sample : id2.',
+            1,
+            $indexName
+        );
         yield [$indexName, $documents, $admin, ['errors' => [['debugMessage' => $message]]]];
     }
 
