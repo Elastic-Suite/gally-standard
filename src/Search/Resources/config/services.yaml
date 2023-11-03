@@ -8,7 +8,7 @@ imports:
         
 parameters:
     es_config:
-        hosts: ['http://opensearch:9200']
+        hosts: ['http://search:9200']
 
 services:
     Gally\Search\Repository\Facet\ConfigurationRepository:
