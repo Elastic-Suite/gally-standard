@@ -60,7 +60,17 @@ class IndexOperationsBulkTest extends AbstractTest
             new ExpectedResponse(
                 200,
                 function (ResponseInterface $response) use ($expectedData) {
-                    $this->assertJsonContains($expectedData);
+                    if (array_key_exists('errors', $expectedData)) {
+                        // Check error messages with str contains assertion in order to manage variation in
+                        // error messages between es7 and es8
+                        $errorMessage = json_decode($response->getContent(), true)['errors'][0]['debugMessage'];
+                        $this->assertStringContainsString(
+                            $expectedData['errors'][0]['debugMessage'],
+                            $errorMessage
+                        );
+                    } else {
+                        $this->assertJsonContains($expectedData);
+                    }
                 }
             )
         );
@@ -82,13 +92,8 @@ class IndexOperationsBulkTest extends AbstractTest
         yield ['wrongName', $documents, $admin, ['errors' => [['debugMessage' => 'Index with name [wrongName] does not exist']]]];
 
         $documents['id2'] = ['id' => 'id2', 'name' => 'Test doc 2', 'size' => 'wrongSize'];
-        $message = sprintf(
-            'Bulk index operation failed %d times in index %s. ' .
-            'Error (mapper_parsing_exception) : failed to parse field [size] of type [integer] in document with id \'id2\'. ' .
-            'Preview of field\'s value: \'wrongSize\'. Failed doc ids sample : id2.',
-            1,
-            $indexName
-        );
+        $message = 'failed to parse field [size] of type [integer] in document with id \'id2\'. ' .
+            'Preview of field\'s value: \'wrongSize\'. Failed doc ids sample : id2.';
         yield [$indexName, $documents, $admin, ['errors' => [['debugMessage' => $message]]]];
     }
 
