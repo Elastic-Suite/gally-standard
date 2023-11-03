@@ -5,6 +5,10 @@ imports:
     - { resource: elasticsearch/aggregation_assembler.yaml }
     - { resource: elasticsearch/aggregation_resolver.yaml }
     - { resource: elasticsearch/request_type.yaml }
+        
+parameters:
+    es_config:
+        hosts: ['http://opensearch:9200']
 
 services:
     Gally\Search\Repository\Facet\ConfigurationRepository:
@@ -367,3 +371,11 @@ services:
         arguments:
             - '@Gally\OpenApi\Helper\Documentation'
             - '@.inner'
+    
+    Gally\Search\OpenSearch\ClientBuilder:
+        arguments:
+            - !tagged_iterator { tag: 'gally.opensearch.namespacebuilder' }
+    
+    OpenSearch\Client:
+        factory:   ['@Gally\Search\OpenSearch\ClientBuilder', fromConfig]
+        arguments: ['%es_config%']
