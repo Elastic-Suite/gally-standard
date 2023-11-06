@@ -14,7 +14,6 @@ declare(strict_types=1);
 
 namespace Gally\Category\Tests\Api\Rest;
 
-use Elasticsearch\Client;
 use Gally\Category\Service\CategoryProductPositionManager;
 use Gally\Category\Tests\Api\CategoryTestTrait;
 use Gally\Index\Service\IndexSettings;
@@ -23,6 +22,7 @@ use Gally\Test\ExpectedResponse;
 use Gally\Test\RequestToTest;
 use Gally\User\Constant\Role;
 use Gally\User\Model\User;
+use OpenSearch\Client;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
 class CategoryProductMerchandisingTest extends AbstractTest
@@ -36,7 +36,7 @@ class CategoryProductMerchandisingTest extends AbstractTest
     public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
-        self::$client = static::getContainer()->get('api_platform.elasticsearch.client');
+        self::$client = static::getContainer()->get('OpenSearch\Client');
         self::$indexSettings = static::getContainer()->get(IndexSettings::class);
         self::$subCategoryFields = ['position'];
 

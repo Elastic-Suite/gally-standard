@@ -36,7 +36,6 @@ class CommonTest extends AbstractSimpleQueryAssemblerTest
         $this->assertArrayHasKey('searchField', $query['common']);
         $this->assertEquals('search text', $query['common']['searchField']['query']);
         $this->assertEquals(CommonQuery::DEFAULT_MINIMUM_SHOULD_MATCH, $query['common']['searchField']['minimum_should_match']);
-        $this->assertEquals(CommonQuery::DEFAULT_CUTOFF_FREQUENCY, $query['common']['searchField']['cutoff_frequency']);
         $this->assertEquals(CommonQuery::DEFAULT_MINIMUM_SHOULD_MATCH, $query['common']['searchField']['minimum_should_match']);
 
         $this->assertArrayNotHasKey('_name', $query['common']);
@@ -52,7 +51,6 @@ class CommonTest extends AbstractSimpleQueryAssemblerTest
         $commonQuery = new CommonQuery(
             'search text',
             'searchField',
-            CommonQuery::DEFAULT_CUTOFF_FREQUENCY,
             CommonQuery::DEFAULT_MINIMUM_SHOULD_MATCH,
             'queryName',
             CommonQuery::DEFAULT_BOOST_VALUE

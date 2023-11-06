@@ -42,7 +42,6 @@ class MultiMatchTest extends AbstractSimpleQueryAssemblerTest
         $this->assertEquals(MultiMatchQuery::DEFAULT_MATCH_TYPE, $query['multi_match']['type']);
         $this->assertEquals(MultiMatchQuery::DEFAULT_BOOST_VALUE, $query['multi_match']['boost']);
         $this->assertArrayNotHasKey('_name', $query['multi_match']);
-        $this->assertArrayNotHasKey('cutoff_frequency', $query['multi_match']);
         $this->assertArrayNotHasKey('fuzziness', $query['multi_match']);
         $this->assertArrayNotHasKey('prefix_length', $query['multi_match']);
         $this->assertArrayNotHasKey('max_expansions', $query['multi_match']);
@@ -67,30 +66,6 @@ class MultiMatchTest extends AbstractSimpleQueryAssemblerTest
 
         $this->assertArrayHasKey('_name', $query['multi_match']);
         $this->assertEquals('queryName', $query['multi_match']['_name']);
-    }
-
-    /**
-     * Test the assembler with mandatory + cutoff_frequency params.
-     */
-    public function testCutoffFrequencyMultiMatchQueryAssembler(): void
-    {
-        $assembler = $this->getQueryAssembler();
-
-        $matchQuery = new MultiMatchQuery(
-            'search text',
-            ['searchField' => 1],
-            MultiMatchQuery::DEFAULT_MINIMUM_SHOULD_MATCH,
-            MultiMatchQuery::DEFAULT_TIE_BREAKER,
-            null,
-            MultiMatchQuery::DEFAULT_BOOST_VALUE,
-            null,
-            0.1
-        );
-
-        $query = $assembler->assembleQuery($matchQuery);
-
-        $this->assertArrayHasKey('cutoff_frequency', $query['multi_match']);
-        $this->assertEquals(0.1, $query['multi_match']['cutoff_frequency']);
     }
 
     /**

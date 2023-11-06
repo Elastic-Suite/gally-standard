@@ -22,18 +22,10 @@ use Gally\Search\Elasticsearch\Request\QueryInterface;
 class Common extends MatchQuery
 {
     /**
-     * @var float
-     */
-    public const DEFAULT_CUTOFF_FREQUENCY = 0.1;
-
-    private float $cutoffFrequency;
-
-    /**
      * Constructor.
      *
      * @param string  $queryText          Matched text
      * @param string  $field              Query field
-     * @param float   $cutoffFrequency    Cutoff frequency
      * @param string  $minimumShouldMatch Minimum should match for the match query
      * @param ?string $name               Query name
      * @param float   $boost              Query boost
@@ -41,13 +33,11 @@ class Common extends MatchQuery
     public function __construct(
         string $queryText,
         string $field,
-        float $cutoffFrequency = self::DEFAULT_CUTOFF_FREQUENCY,
         string $minimumShouldMatch = self::DEFAULT_MINIMUM_SHOULD_MATCH,
         ?string $name = null,
         float $boost = QueryInterface::DEFAULT_BOOST_VALUE
     ) {
         parent::__construct($queryText, $field, $minimumShouldMatch, $name, $boost);
-        $this->cutoffFrequency = $cutoffFrequency;
     }
 
     /**
@@ -56,13 +46,5 @@ class Common extends MatchQuery
     public function getType(): string
     {
         return QueryInterface::TYPE_COMMON;
-    }
-
-    /**
-     * Query cutoff frequency.
-     */
-    public function getCutoffFrequency(): float
-    {
-        return $this->cutoffFrequency;
     }
 }

@@ -97,8 +97,8 @@ class Paginator implements \IteratorAggregate, PaginatorInterface
         /** @var DocumentInterface $document */
         foreach ($this->response->getIterator() as $document) {
             $cacheKey = null;
-            if (!empty($document->getIndex()) && !empty($document->getType()) && !empty($document->getInternalId())) {
-                $cacheKey = md5(sprintf('%s_%s_%s', $document->getIndex(), $document->getType(), $document->getInternalId()));
+            if (!empty($document->getIndex()) && !empty($document->getInternalId())) {
+                $cacheKey = md5(sprintf('%s_%s', $document->getIndex(), $document->getInternalId()));
             }
 
             if ($cacheKey && \array_key_exists($cacheKey, $this->cachedDenormalizedDocuments)) {

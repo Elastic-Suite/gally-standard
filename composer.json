@@ -16,7 +16,7 @@
         "api-platform/core": "~2.6.0",
         "composer/package-versions-deprecated": "^1.11",
         "cweagans/composer-patches": "^1.7",
-        "elasticsearch/elasticsearch": "^7.0",
+        "opensearch-project/opensearch-php": "^2.1",
         "guzzlehttp/guzzle": "^7.0",
         "lexik/jwt-authentication-bundle": "^2.14",
         "nelmio/cors-bundle": "^2.1",

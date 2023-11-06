@@ -14,12 +14,12 @@ declare(strict_types=1);
 
 namespace Gally\Category\Repository\CategoryProductPositionIndexer;
 
-use Elasticsearch\Client;
 use Gally\Catalog\Model\LocalizedCatalog;
 use Gally\Category\Model\Category\ProductMerchandising;
 use Gally\Index\Repository\Index\IndexRepositoryInterface;
 use Gally\Index\Service\IndexSettings;
 use Gally\Metadata\Repository\MetadataRepository;
+use OpenSearch\Client;
 use Psr\Log\LoggerInterface;
 
 class CategoryProductPositionIndexerRepository implements CategoryProductPositionIndexerRepositoryInterface

@@ -14,11 +14,11 @@ declare(strict_types=1);
 
 namespace Gally\Search\Elasticsearch;
 
-use Elasticsearch\Client;
 use Exception;
 use Gally\Search\Elasticsearch\Adapter\Common\Request;
 use Gally\Search\Elasticsearch\Adapter\Common\Response;
 use Gally\Search\Elasticsearch\Builder\Response\AggregationBuilder;
+use OpenSearch\Client;
 use Psr\Log\LoggerInterface;
 
 class Adapter

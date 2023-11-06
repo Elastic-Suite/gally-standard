@@ -35,7 +35,6 @@ class Common implements AssemblerInterface
         $searchQueryParams = [
             'query' => $query->getQueryText(),
             'minimum_should_match' => $query->getMinimumShouldMatch(),
-            'cutoff_frequency' => $query->getCutoffFrequency(),
             'boost' => $query->getBoost(),
         ];
 

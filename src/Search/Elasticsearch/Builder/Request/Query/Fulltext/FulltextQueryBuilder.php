@@ -72,7 +72,7 @@ class FulltextQueryBuilder
         if (null === $query) {
             $queryParams = [
                 'query' => $this->getWeightedSearchQuery($containerConfig, $queryText),
-                'filter' => $this->getCutoffFrequencyQuery($containerConfig, $queryText),
+                'filter' => $this->getMinimumShouldMatchQuery($containerConfig, $queryText),
                 'boost' => $boost,
             ];
             $query = $this->queryFactory->create(QueryInterface::TYPE_FILTER, $queryParams);
@@ -87,14 +87,13 @@ class FulltextQueryBuilder
      * @param ContainerConfigInterface $containerConfig Search request container configuration
      * @param string                   $queryText       The text query
      */
-    private function getCutoffFrequencyQuery(ContainerConfigInterface $containerConfig, string $queryText): QueryInterface
+    private function getMinimumShouldMatchQuery(ContainerConfigInterface $containerConfig, string $queryText): QueryInterface
     {
         $relevanceConfig = $containerConfig->getRelevanceConfig();
 
         $queryParams = [
             'fields' => array_fill_keys([MappingInterface::DEFAULT_SEARCH_FIELD, 'sku'], 1),
             'queryText' => $queryText,
-            'cutoffFrequency' => $relevanceConfig->getCutOffFrequency(),
             'minimumShouldMatch' => $relevanceConfig->getMinimumShouldMatch(),
         ];
 
@@ -129,7 +128,6 @@ class FulltextQueryBuilder
             'fields' => $searchFields,
             'queryText' => $queryText,
             'minimumShouldMatch' => '1',
-            'cutoffFrequency' => $relevanceConfig->getCutOffFrequency(),
             'tieBreaker' => $relevanceConfig->getTieBreaker(),
         ];
 
@@ -243,7 +241,6 @@ class FulltextQueryBuilder
             'minimumShouldMatch' => '100%',
             'tieBreaker' => $relevanceConfig->getTieBreaker(),
             'fuzzinessConfig' => $relevanceConfig->getFuzzinessConfiguration(),
-            'cutoffFrequency' => $relevanceConfig->getCutoffFrequency(),
         ];
 
         return $this->queryFactory->create(QueryInterface::TYPE_MULTIMATCH, $queryParams);
@@ -268,7 +265,6 @@ class FulltextQueryBuilder
             'queryText' => $queryText,
             'minimumShouldMatch' => '100%',
             'tieBreaker' => $relevanceConfig->getTieBreaker(),
-            'cutoffFrequency' => $relevanceConfig->getCutoffFrequency(),
         ];
 
         return $this->queryFactory->create(QueryInterface::TYPE_MULTIMATCH, $queryParams);

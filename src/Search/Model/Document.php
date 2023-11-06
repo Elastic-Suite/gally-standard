@@ -79,11 +79,6 @@ class Document implements DocumentInterface
     /**
      * @var string
      */
-    protected const TYPE = '_type';
-
-    /**
-     * @var string
-     */
     protected const SCORE_DOC_FIELD_NAME = '_score';
 
     /**
@@ -121,14 +116,6 @@ class Document implements DocumentInterface
     public function getIndex(): string
     {
         return $this->data[self::INDEX];
-    }
-
-    /**
-     * Document type.
-     */
-    public function getType(): string
-    {
-        return $this->data[self::TYPE] ?? '_doc';
     }
 
     /**
