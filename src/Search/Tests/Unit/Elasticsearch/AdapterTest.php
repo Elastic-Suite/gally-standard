@@ -14,12 +14,12 @@ declare(strict_types=1);
 
 namespace Gally\Search\Tests\Unit\Elasticsearch;
 
-use Elasticsearch\Client;
 use Gally\Search\Elasticsearch\Adapter;
 use Gally\Search\Elasticsearch\Adapter\Common\Request;
 use Gally\Search\Elasticsearch\Adapter\Common\Response;
 use Gally\Search\Elasticsearch\Builder\Response\AggregationBuilder;
 use Gally\Search\Elasticsearch\RequestInterface;
+use OpenSearch\Client;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;

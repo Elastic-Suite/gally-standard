@@ -58,7 +58,6 @@ class MultiMatchTest extends KernelTestCase
         $this->assertNull($query->getName());
         $this->assertEquals(QueryInterface::DEFAULT_BOOST_VALUE, $query->getBoost());
         $this->assertNull($query->getFuzzinessConfiguration());
-        $this->assertNull($query->getCutoffFrequency());
         $this->assertEquals(MultiMatch::DEFAULT_MATCH_TYPE, $query->getMatchType());
     }
 
@@ -72,7 +71,6 @@ class MultiMatchTest extends KernelTestCase
      * @param ?string                          $name               Query name
      * @param ?float                           $boost              Query boost
      * @param ?FuzzinessConfigurationInterface $fuzzinessConfig    Fuzziness config
-     * @param ?float                           $cutoffFrequency    Cut-off frequency
      * @param ?string                          $matchType          Match type
      */
     public function testCreateComplexParams(
@@ -83,7 +81,6 @@ class MultiMatchTest extends KernelTestCase
         ?string $name,
         ?float $boost,
         ?FuzzinessConfigurationInterface $fuzzinessConfig,
-        ?float $cutoffFrequency,
         ?string $matchType
     ): void {
         // TODO: use reflection to build mapping ?
@@ -95,7 +92,6 @@ class MultiMatchTest extends KernelTestCase
             'name' => $name,
             'boost' => $boost,
             'fuzzinessConfig' => $fuzzinessConfig,
-            'cutoffFrequency' => $cutoffFrequency,
             'matchType' => $matchType,
         ];
         $queryParams = array_filter(
@@ -131,9 +127,6 @@ class MultiMatchTest extends KernelTestCase
         if ($fuzzinessConfig) {
             $this->assertEquals($fuzzinessConfig, $query->getFuzzinessConfiguration());
         }
-        if ($cutoffFrequency) {
-            $this->assertEquals($cutoffFrequency, $query->getCutoffFrequency());
-        }
         if ($matchType) {
             $this->assertEquals($matchType, $query->getMatchType());
         }
@@ -162,13 +155,11 @@ class MultiMatchTest extends KernelTestCase
                 null,
                 null,
                 null,
-                null,
             ],
             [
                 'little red riding hood',
                 ['title', 'description'],
                 '2<75%',
-                null,
                 null,
                 null,
                 null,
@@ -185,7 +176,6 @@ class MultiMatchTest extends KernelTestCase
                 null,
                 null,
                 null,
-                null,
             ],
             [
                 'little red riding hood',
@@ -193,7 +183,6 @@ class MultiMatchTest extends KernelTestCase
                 null,
                 null,
                 'multimatch query',
-                null,
                 null,
                 null,
                 null,
@@ -207,7 +196,6 @@ class MultiMatchTest extends KernelTestCase
                 15,
                 null,
                 null,
-                null,
             ],
             [
                 'little red riding hood',
@@ -217,7 +205,6 @@ class MultiMatchTest extends KernelTestCase
                 null,
                 null,
                 null,
-                0.15,
                 null,
             ],
             [
@@ -228,7 +215,6 @@ class MultiMatchTest extends KernelTestCase
                 null,
                 null,
                 null,
-                0.09,
                 'best_fields',
             ],
             [
@@ -239,7 +225,6 @@ class MultiMatchTest extends KernelTestCase
                 null,
                 null,
                 null,
-                0.09,
                 'most_fields',
             ],
             [
@@ -250,7 +235,6 @@ class MultiMatchTest extends KernelTestCase
                 null,
                 null,
                 null,
-                0.09,
                 'cross_fields',
             ],
             [
@@ -261,7 +245,6 @@ class MultiMatchTest extends KernelTestCase
                 null,
                 null,
                 null,
-                0.09,
                 'phrase',
             ],
             [
@@ -272,7 +255,6 @@ class MultiMatchTest extends KernelTestCase
                 null,
                 null,
                 null,
-                0.09,
                 'phrase_prefix',
             ],
             [
@@ -283,7 +265,6 @@ class MultiMatchTest extends KernelTestCase
                 null,
                 null,
                 null,
-                0.09,
                 'bool_prefix',
             ],
         ];
@@ -311,9 +292,6 @@ class MultiMatchTest extends KernelTestCase
         $this->assertIsFloat($query->getBoost());
         if ($query->getFuzzinessConfiguration()) {
             $this->assertInstanceOf(FuzzinessConfigurationInterface::class, $query->getFuzzinessConfiguration());
-        }
-        if ($query->getCutoffFrequency()) {
-            $this->assertIsFloat($query->getCutoffFrequency());
         }
         $this->assertIsString($query->getMatchType());
     }

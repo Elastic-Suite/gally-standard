@@ -51,8 +51,6 @@ class MultiMatch implements QueryInterface
 
     private ?FuzzinessConfigurationInterface $fuzzinessConfig;
 
-    private ?float $cutoffFrequency;
-
     private string $matchType;
 
     /**
@@ -63,7 +61,6 @@ class MultiMatch implements QueryInterface
      * @param ?string                          $name               query name
      * @param float                            $boost              query boost
      * @param ?FuzzinessConfigurationInterface $fuzzinessConfig    The fuzziness Configuration
-     * @param ?float                           $cutoffFrequency    cutoff frequency
      * @param string                           $matchType          the match type
      */
     public function __construct(
@@ -74,7 +71,6 @@ class MultiMatch implements QueryInterface
         ?string $name = null,
         float $boost = QueryInterface::DEFAULT_BOOST_VALUE,
         ?FuzzinessConfigurationInterface $fuzzinessConfig = null,
-        ?float $cutoffFrequency = null,
         string $matchType = self::DEFAULT_MATCH_TYPE
     ) {
         $this->name = $name;
@@ -84,7 +80,6 @@ class MultiMatch implements QueryInterface
         $this->tieBreaker = $tieBreaker;
         $this->boost = $boost;
         $this->fuzzinessConfig = $fuzzinessConfig;
-        $this->cutoffFrequency = $cutoffFrequency;
         $this->matchType = $matchType;
     }
 
@@ -150,14 +145,6 @@ class MultiMatch implements QueryInterface
     public function getFuzzinessConfiguration(): ?FuzzinessConfigurationInterface
     {
         return $this->fuzzinessConfig;
-    }
-
-    /**
-     * Query cutoff frequency.
-     */
-    public function getCutoffFrequency(): ?float
-    {
-        return $this->cutoffFrequency;
     }
 
     /**

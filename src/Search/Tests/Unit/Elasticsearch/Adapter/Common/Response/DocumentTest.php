@@ -53,11 +53,6 @@ class DocumentTest extends KernelTestCase
 
         $this->assertEquals($documentId, $document->getId());
         $this->assertEquals($indexName, $document->getIndex());
-        if (null !== $docType) {
-            $this->assertEquals($docType, $document->getType());
-        } else {
-            $this->assertEquals('_doc', $document->getType());
-        }
         if (null !== $score) {
             $this->assertEquals($score, $document->getScore());
         } else {

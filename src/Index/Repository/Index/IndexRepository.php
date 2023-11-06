@@ -14,12 +14,12 @@ declare(strict_types=1);
 
 namespace Gally\Index\Repository\Index;
 
-use Elasticsearch\Client;
 use Exception;
 use Gally\Exception\LogicException;
 use Gally\Index\Api\IndexSettingsInterface;
 use Gally\Index\Dto\Bulk;
 use Gally\Index\Model\Index;
+use OpenSearch\Client;
 
 class IndexRepository implements IndexRepositoryInterface
 {

@@ -14,7 +14,6 @@ declare(strict_types=1);
 
 namespace Gally\Index\Service;
 
-use Elasticsearch\Common\Exceptions\Missing404Exception;
 use Gally\Catalog\Model\LocalizedCatalog;
 use Gally\Exception\LogicException;
 use Gally\Index\Api\IndexSettingsInterface;
@@ -22,6 +21,7 @@ use Gally\Index\Model\Index;
 use Gally\Index\Model\Index\Mapping\FieldInterface;
 use Gally\Index\Repository\Index\IndexRepositoryInterface;
 use Gally\Metadata\Model\Metadata;
+use OpenSearch\Common\Exceptions\Missing404Exception;
 
 class IndexOperation
 {
@@ -162,7 +162,7 @@ class IndexOperation
 
         try {
             $indicesToDelete = array_keys($this->indexRepository->getMapping($indexAlias));
-        } catch (\Elasticsearch\Common\Exceptions\Missing404Exception $e) {
+        } catch (Missing404Exception $e) {
             $indicesToDelete = [];
         }
 

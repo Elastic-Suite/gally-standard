@@ -149,7 +149,6 @@ class RequestBuilder
         $spellcheckRequestParams = [
             'index' => $containerConfig->getIndexName(),
             'queryText' => $queryText,
-            'cutoffFrequency' => $containerConfig->getRelevanceConfig()->getCutOffFrequency(),
         ];
 
         $spellcheckRequest = $this->spellcheckRequestFactory->create($spellcheckRequestParams);

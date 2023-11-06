@@ -53,7 +53,6 @@ class RelevanceConfigurationTest extends AbstractTest
                 'fulltext_minimumShouldMatch' => '100%',
                 'fulltext_tieBreaker' => 1.0,
                 'phraseMatch_boost' => false,
-                'cutOffFrequency_value' => 0.15,
                 'fuzziness_enabled' => true,
                 'fuzziness_value' => FuzzinessConfig::VALUE_AUTO,
                 'fuzziness_prefixLength' => 1,
@@ -71,7 +70,6 @@ class RelevanceConfigurationTest extends AbstractTest
                 'fulltext_minimumShouldMatch' => '100%',
                 'fulltext_tieBreaker' => 1.0,
                 'phraseMatch_boost' => false,
-                'cutOffFrequency_value' => 0.15,
                 'fuzziness_enabled' => true,
                 'fuzziness_value' => FuzzinessConfig::VALUE_AUTO,
                 'fuzziness_prefixLength' => 1,
@@ -89,7 +87,6 @@ class RelevanceConfigurationTest extends AbstractTest
                 'fulltext_minimumShouldMatch' => '50%',
                 'fulltext_tieBreaker' => 1.0,
                 'phraseMatch_boost' => 25,
-                'cutOffFrequency_value' => 0.30,
                 'fuzziness_enabled' => true,
                 'fuzziness_value' => FuzzinessConfig::VALUE_AUTO,
                 'fuzziness_prefixLength' => 1,
@@ -104,7 +101,6 @@ class RelevanceConfigurationTest extends AbstractTest
         $this->assertEquals($relevanceConfig->getMinimumShouldMatch(), $expectedConfig['fulltext_minimumShouldMatch']);
         $this->assertEquals($relevanceConfig->getTieBreaker(), $expectedConfig['fulltext_tieBreaker']);
         $this->assertEquals($relevanceConfig->getPhraseMatchBoost(), $expectedConfig['phraseMatch_boost']);
-        $this->assertEquals($relevanceConfig->getCutOffFrequency(), $expectedConfig['cutOffFrequency_value']);
         $this->assertEquals($relevanceConfig->isFuzzinessEnabled(), $expectedConfig['fuzziness_enabled']);
         $this->assertEquals($relevanceConfig->getFuzzinessConfiguration()->getValue(), $expectedConfig['fuzziness_value']);
         $this->assertEquals($relevanceConfig->getFuzzinessConfiguration()->getPrefixLength(), $expectedConfig['fuzziness_prefixLength']);

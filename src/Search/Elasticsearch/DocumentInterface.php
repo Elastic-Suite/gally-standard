@@ -32,11 +32,6 @@ interface DocumentInterface
     public function getIndex(): string;
 
     /**
-     * Get document type.
-     */
-    public function getType(): string;
-
-    /**
      * Get document score if defined or 0.
      */
     public function getScore(): float;

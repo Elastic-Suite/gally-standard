@@ -47,7 +47,7 @@ class Request
      */
     public function addDocument(Index $index, string|int|null $docId, array $data): self
     {
-        $this->bulkData[] = ['index' => ['_index' => $index->getName(), '_type' => '_doc', '_id' => $docId]];
+        $this->bulkData[] = ['index' => ['_index' => $index->getName(), '_id' => $docId]];
         $this->bulkData[] = $data;
 
         return $this;
@@ -74,7 +74,7 @@ class Request
      */
     public function updateDocument(Index $index, string|int|null $docId, array $data): self
     {
-        $this->bulkData[] = ['update' => ['_index' => $index->getName(), '_type' => '_doc', '_id' => $docId]];
+        $this->bulkData[] = ['update' => ['_index' => $index->getName(), '_id' => $docId]];
         $this->bulkData[] = ['doc' => $data];
 
         return $this;
@@ -101,7 +101,7 @@ class Request
      */
     public function deleteDocument(Index $index, string|int $docId): self
     {
-        $this->bulkData[] = ['delete' => ['_index' => $index->getName(), '_type' => '_doc', '_id' => $docId]];
+        $this->bulkData[] = ['delete' => ['_index' => $index->getName(), '_id' => $docId]];
 
         return $this;
     }

@@ -2,19 +2,10 @@ imports:
     - { resource: conversion/sourcefield_to_mapping.yaml }
 
 services:
-    Gally\Index\Decoration\Metadata\Document\Factory\AttributeDocumentMetadataFactory:
-        decorates: api_platform.elasticsearch.metadata.document.metadata_factory
-        arguments:
-            - '@Gally\Fixture\Service\ElasticsearchFixtures'
-            - '@api_platform.metadata.resource.metadata_factory'
-            - '@Gally\ResourceMetadata\Service\ResourceMetadataManager'
-            - '@.inner'
-        decoration_priority: 100
-
     Gally\Index\Repository\Index\IndexRepositoryInterface: '@Gally\Index\Repository\Index\IndexRepository'
     Gally\Index\Repository\Index\IndexRepository:
         arguments:
-            - '@api_platform.elasticsearch.client'
+            - '@OpenSearch\Client'
             - '@Gally\Index\Api\IndexSettingsInterface'
 
     Gally\Index\Repository\Document\DocumentRepositoryInterface: '@Gally\Index\Repository\Document\DocumentRepository'

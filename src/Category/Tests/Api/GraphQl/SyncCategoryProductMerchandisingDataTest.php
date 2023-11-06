@@ -14,13 +14,13 @@ declare(strict_types=1);
 
 namespace Gally\Category\Tests\Api\GraphQl;
 
-use Elasticsearch\Client;
 use Gally\Catalog\Repository\LocalizedCatalogRepository;
 use Gally\Category\Repository\CategoryProductMerchandisingRepository;
 use Gally\Category\Tests\Api\CategoryTestTrait;
 use Gally\Fixture\Service\ElasticsearchFixturesInterface;
 use Gally\Index\Service\IndexSettings;
 use Gally\Test\AbstractTest;
+use OpenSearch\Client;
 
 class SyncCategoryProductMerchandisingDataTest extends AbstractTest
 {
@@ -34,7 +34,7 @@ class SyncCategoryProductMerchandisingDataTest extends AbstractTest
     public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
-        self::$client = static::getContainer()->get('api_platform.elasticsearch.client');
+        self::$client = static::getContainer()->get('OpenSearch\Client');
         self::$indexSettings = static::getContainer()->get(IndexSettings::class);
         self::$subCategoryFields = ['position'];
 

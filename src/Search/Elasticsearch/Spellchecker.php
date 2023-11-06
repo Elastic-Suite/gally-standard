@@ -14,10 +14,10 @@ declare(strict_types=1);
 
 namespace Gally\Search\Elasticsearch;
 
-use Elasticsearch\Client;
 use Gally\Cache\Service\CacheManagerInterface;
 use Gally\Index\Model\Index\Mapping\FieldInterface;
 use Gally\Index\Model\Index\MappingInterface;
+use OpenSearch\Client;
 
 /**
  * Spellchecker Elasticsearch implementation.
@@ -121,7 +121,6 @@ class Spellchecker implements SpellcheckerInterface
 
         $doc = [
             '_index' => $request->getIndexName(),
-            '_type' => '_doc',
             'term_statistics' => true,
             'fields' => [
                 MappingInterface::DEFAULT_SPELLING_FIELD,
