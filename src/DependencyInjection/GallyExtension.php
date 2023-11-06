@@ -43,7 +43,10 @@ class GallyExtension extends Extension
             'api_platform',
             [
                 'mapping' => [
-                    'paths' => $this->getPaths(__DIR__ . '/../*/Model/'),
+                    'paths' => array_merge(
+                        $this->getPaths(__DIR__ . '/../*/Model/'),
+                        $this->getPaths(__DIR__ . '/../*/Resources/config/api_resources.yaml'),
+                    )
                 ],
             ]
         );
