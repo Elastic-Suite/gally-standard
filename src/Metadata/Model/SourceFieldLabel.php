@@ -19,6 +19,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use Gally\Catalog\Model\LocalizedCatalog;
 use Gally\User\Constant\Role;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ApiResource(
     collectionOperations: [
@@ -43,8 +44,13 @@ use Gally\User\Constant\Role;
 class SourceFieldLabel
 {
     private int $id;
+
     private SourceField $sourceField;
+
+    #[Groups(['source_field:read', 'source_field:write'])]
     private LocalizedCatalog $localizedCatalog;
+
+    #[Groups(['source_field:read', 'source_field:write'])]
     private string $label;
 
     public function getId(): int
