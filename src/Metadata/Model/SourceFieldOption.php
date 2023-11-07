@@ -18,6 +18,7 @@ use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Gally\User\Constant\Role;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -30,7 +31,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
     itemOperations: [
         'get' => ['security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"],
         'put' => ['security' => "is_granted('" . Role::ROLE_ADMIN . "')"],
-        'patch' => ['security' => "is_granted('" . Role::ROLE_ADMIN . "')"],
         'delete' => ['security' => "is_granted('" . Role::ROLE_ADMIN . "')"],
     ],
     graphql: [
@@ -66,14 +66,19 @@ class SourceFieldOption
     #[Groups(['source_field_option:read', 'source_field_option:write'])]
     private Collection $labels;
 
-    public function getId(): int
+    public function __construct()
     {
-        return $this->id;
+        $this->labels = new ArrayCollection();
     }
 
-    public function getCode(): string
+    public function getId(): ?int
     {
-        return $this->code;
+        return $this->id ?? null;
+    }
+
+    public function getCode(): ?string
+    {
+        return $this->code ?? null;
     }
 
     public function setCode(string $code): self
@@ -107,9 +112,9 @@ class SourceFieldOption
         return $this;
     }
 
-    public function getDefaultLabel(): string
+    public function getDefaultLabel(): ?string
     {
-        return $this->defaultLabel;
+        return $this->defaultLabel ?? null;
     }
 
     public function setDefaultLabel(string $defaultLabel): self
@@ -127,6 +132,13 @@ class SourceFieldOption
         return $this->labels;
     }
 
+    public function setLabels(Collection $labels): self
+    {
+        $this->labels = $labels;
+
+        return $this;
+    }
+
     public function addLabel(SourceFieldOptionLabel $label): self
     {
         if (!$this->labels->contains($label)) {
@@ -139,11 +151,7 @@ class SourceFieldOption
 
     public function removeLabel(SourceFieldOptionLabel $label): self
     {
-        if ($this->labels->removeElement($label)) {
-            if ($label->getSourceFieldOption() === $this) {
-                $label->setSourceFieldOption(null);
-            }
-        }
+        $this->labels->removeElement($label);
 
         return $this;
     }

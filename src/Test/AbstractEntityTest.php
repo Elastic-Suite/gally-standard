@@ -66,7 +66,8 @@ abstract class AbstractEntityTest extends AbstractTest
                     array_merge(
                         ['@context' => "/contexts/$shortName", '@type' => $shortName],
                         $this->getJsonCreationValidation($data)
-                    )
+                    ),
+                    false
                 );
                 $this->assertMatchesRegularExpression($validRegex ?? '~^' . $this->getApiPath() . '/\d+$~', $response->toArray()['@id']);
                 $this->assertMatchesResourceItemJsonSchema($this->getEntityClass());

@@ -66,3 +66,7 @@ Gally\Metadata\Model\SourceField:
         type: 'text'
         isFilterable: false
         isSortable: false
+    product_material:
+        metadata: '@product'
+        code: 'material'
+        type: 'select'

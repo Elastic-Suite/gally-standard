@@ -137,6 +137,12 @@ class SpreadSourceFieldData implements EventSubscriberInterface
     {
         $origSourceField = clone $sourceField;
         $changeSet = $this->entityManager->getUnitOfWork()->getEntityChangeSet($sourceField);
+
+        // Remove labels from change set because it create conflict with
+        // \Gally\Metadata\DataPersister\SourceFieldDataPersister::replaceLabels
+        // and labels doesn't affect mapping definition.
+        unset($changeSet['labels']);
+
         foreach ($changeSet as $field => $values) {
             $setFunction = 'set' . ucfirst($field);
             if (method_exists($origSourceField, $setFunction)) {

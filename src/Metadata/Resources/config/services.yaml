@@ -38,6 +38,12 @@ services:
         tags:
             - { name: api_platform.data_persister }
 
+    Gally\Metadata\DataPersister\SourceFieldOptionDataPersister:
+        arguments:
+            - '@doctrine.orm.entity_manager'
+        tags:
+            - { name: api_platform.data_persister }
+
     Gally\Metadata\EventSubscriber\ValidateSourceFieldCode:
         arguments:
             - '@Gally\Metadata\Repository\SourceFieldRepository'
@@ -59,3 +65,13 @@ services:
             - '@Gally\Metadata\Repository\SourceFieldRepository'
         tags:
             - { name: doctrine.event_subscriber }
+
+    Gally\Metadata\Controller\AddSourceFieldOptions:
+        arguments:
+            - '@Gally\Metadata\Repository\SourceFieldRepository'
+            - '@api_platform.serializer'
+            - '@doctrine.orm.entity_manager'
+        calls:
+            - [ setContainer, [ '@service_container' ] ]
+        tags:
+            - { name: controller.service_arguments }
