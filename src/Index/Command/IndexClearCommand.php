@@ -54,7 +54,7 @@ class IndexClearCommand extends Command
             return Command::SUCCESS;
         }
 
-        $this->indexRepository->delete('*');
+        $this->indexRepository->delete('gally*');
         $ui->writeln('Elasticsearch indices have been deleted.');
 
         return Command::SUCCESS;
