@@ -33,7 +33,7 @@ class DocumentDenormalizer implements ContextAwareDenormalizerInterface, Denorma
     {
         $alreadyCalled = $context[self::ALREADY_CALLED_DENORMALIZER] ?? false;
 
-        return Document::class === $type && !$alreadyCalled;
+        return is_a($type, Document::class, true) && !$alreadyCalled;
     }
 
     /**
