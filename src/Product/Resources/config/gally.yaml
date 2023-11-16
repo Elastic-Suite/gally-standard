@@ -3,6 +3,7 @@ gally:
         Gally\Product\Model\Product:
             renamings:
                 searchProducts: products
+                searchPreviewProducts: previewProducts
 
     request_context:
         headers:

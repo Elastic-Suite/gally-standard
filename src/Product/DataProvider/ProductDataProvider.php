@@ -18,7 +18,11 @@ use ApiPlatform\Core\DataProvider\ContextAwareCollectionDataProviderInterface;
 use ApiPlatform\Core\DataProvider\Pagination;
 use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
 use ApiPlatform\Core\Exception\ResourceClassNotFoundException;
+use Doctrine\ORM\EntityManagerInterface;
+use Gally\Catalog\Model\LocalizedCatalog;
 use Gally\Catalog\Repository\LocalizedCatalogRepository;
+use Gally\Category\Model\Category;
+use Gally\Category\Repository\CategoryConfigurationRepository;
 use Gally\Category\Service\CurrentCategoryProvider;
 use Gally\Entity\Service\PriceGroupProvider;
 use Gally\Metadata\Repository\MetadataRepository;
@@ -31,6 +35,7 @@ use Gally\Search\Elasticsearch\Builder\Request\SimpleRequestBuilder as RequestBu
 use Gally\Search\Elasticsearch\Request\Container\Configuration\ContainerConfigurationProvider;
 use Gally\Search\Service\SearchContext;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
+use Symfony\Component\Serializer\Serializer;
 
 class ProductDataProvider implements ContextAwareCollectionDataProviderInterface, RestrictedDataProviderInterface
 {
@@ -47,6 +52,9 @@ class ProductDataProvider implements ContextAwareCollectionDataProviderInterface
         private CurrentCategoryProvider $currentCategoryProvider,
         private PriceGroupProvider $priceGroupProvider,
         private SearchContext $searchContext,
+        private EntityManagerInterface $entityManager,
+        private Serializer $serializer,
+        private CategoryConfigurationRepository $categoryConfigurationRepository
     ) {
     }
 
@@ -69,6 +77,8 @@ class ProductDataProvider implements ContextAwareCollectionDataProviderInterface
         $localizedCatalogCode = $context['filters']['localizedCatalog'];
         $metadata = $this->metadataRepository->findByRessourceClass($resourceClass);
         $localizedCatalog = $this->localizedCatalogRepository->findByCodeOrId($localizedCatalogCode);
+
+        $currentCategoryConfiguration = $this->emulateCategoryConfigurationStart($context, $localizedCatalog);
 
         $containerConfig = $this->containerConfigurationProvider->get(
             $metadata,
@@ -106,6 +116,8 @@ class ProductDataProvider implements ContextAwareCollectionDataProviderInterface
         );
         $response = $this->adapter->search($request);
 
+        $this->emulateCategoryConfigurationStop($context, $currentCategoryConfiguration);
+
         return new Paginator(
             $this->denormalizer,
             $request,
@@ -122,5 +134,50 @@ class ProductDataProvider implements ContextAwareCollectionDataProviderInterface
         $this->searchContext->setCategory($this->currentCategoryProvider->getCurrentCategory());
         $this->searchContext->setSearchQueryText($searchQuery);
         $this->searchContext->setPriceGroup($this->priceGroupProvider->getCurrentPriceGroupId());
+    }
+
+    protected function isPreviewMode(array $context): bool
+    {
+        return 'searchPreview' === $context['graphql_operation_name'];
+    }
+
+    /**
+     * Remove the category configuration with the scope $localizedCatalog to replace it by the configuration get from GraphQL args.
+     */
+    protected function emulateCategoryConfigurationStart(array $context, LocalizedCatalog $localizedCatalog): ?Category\Configuration
+    {
+        if (!$this->isPreviewMode($context)) {
+            return null;
+        }
+
+        $currentCategoryConfigurationData = isset($context['filters']['currentCategoryConfiguration']) ? json_decode($context['filters']['currentCategoryConfiguration'], true) : null;
+        $currentCategoryConfiguration = $currentCategoryConfigurationData ? $this->serializer->denormalize($currentCategoryConfigurationData, Category\Configuration::class, 'jsonld') : null;
+        if ($currentCategoryConfiguration instanceof Category\Configuration) {
+            $this->entityManager->beginTransaction();
+
+            $prevCatConf = $this->categoryConfigurationRepository->findOneBy([
+                'catalog' => $localizedCatalog->getCatalog(),
+                'localizedCatalog' => $localizedCatalog,
+                'category' => $currentCategoryConfiguration->getCategory(),
+            ]);
+            if ($prevCatConf instanceof Category\Configuration) {
+                $this->entityManager->remove($prevCatConf);
+                $this->entityManager->flush();
+            }
+
+            $currentCategoryConfiguration->setLocalizedCatalog($localizedCatalog);
+            $currentCategoryConfiguration->setCatalog($localizedCatalog->getCatalog());
+            $this->entityManager->persist($currentCategoryConfiguration);
+            $this->entityManager->flush();
+        }
+
+        return $currentCategoryConfiguration;
+    }
+
+    protected function emulateCategoryConfigurationStop(array $context, ?Category\Configuration $currentCategoryConfiguration): void
+    {
+        if ($this->isPreviewMode($context) && $currentCategoryConfiguration instanceof Category\Configuration) {
+            $this->entityManager->rollback();
+        }
     }
 }

@@ -22,6 +22,9 @@ services:
             - '@Gally\Category\Service\CurrentCategoryProvider'
             - '@Gally\Entity\Service\PriceGroupProvider'
             - '@Gally\Search\Service\SearchContext'
+            - '@doctrine.orm.entity_manager'
+            - '@api_platform.serializer'
+            - '@Gally\Category\Repository\CategoryConfigurationRepository'
         tags:
             - { name: api_platform.collection_data_provider }
 

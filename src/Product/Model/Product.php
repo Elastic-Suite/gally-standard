@@ -23,6 +23,7 @@ use Gally\Product\GraphQl\Type\Definition\ProductRequestTypeEnumType;
 use Gally\Product\GraphQl\Type\Definition\SortInputType;
 use Gally\Search\Model\Document;
 use Gally\Search\Resolver\DummyResolver;
+use Gally\User\Constant\Role;
 
 #[
     ApiResource(
@@ -45,6 +46,26 @@ use Gally\Search\Resolver\DummyResolver;
                 'deserialize' => true,
                 'write' => false,
                 'serialize' => true,
+            ],
+            'searchPreview' => [
+                'collection_query' => DummyResolver::class,
+                'pagination_type' => 'page',
+                'args' => [
+                    'localizedCatalog' => ['type' => 'String!', 'description' => 'Localized Catalog'],
+                    'requestType' => ['type' => ProductRequestTypeEnumType::NAME . '!', 'description' => 'Request Type'],
+                    'currentPage' => ['type' => 'Int'],
+                    'search' => ['type' => 'String', 'description' => 'Query Text'],
+                    'currentCategoryId' => ['type' => 'String', 'description' => 'Current category ID'],
+                    'pageSize' => ['type' => 'Int'],
+                    'sort' => ['type' => SortInputType::NAME],
+                    'filter' => ['type' => '[' . FieldFilterInputType::NAME . ']', ReadStage::IS_GRAPHQL_GALLY_ARG_KEY => true],
+                    'currentCategoryConfiguration' => ['type' => 'String', 'description' => 'Current category configuration'],
+                ],
+                'read' => true, // Required so the dataprovider is called.
+                'deserialize' => true,
+                'write' => false,
+                'serialize' => true,
+                'security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
             ],
         ],
         itemOperations: [
