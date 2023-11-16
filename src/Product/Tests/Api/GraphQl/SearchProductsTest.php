@@ -20,10 +20,14 @@ use Gally\Search\Elasticsearch\Request\SortOrderInterface;
 use Gally\Test\AbstractTest;
 use Gally\Test\ExpectedResponse;
 use Gally\Test\RequestGraphQlToTest;
+use Gally\User\Constant\Role;
+use Gally\User\Model\User;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
 class SearchProductsTest extends AbstractTest
 {
+    protected string $graphQlQuery = 'products';
+
     public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
@@ -46,6 +50,58 @@ class SearchProductsTest extends AbstractTest
     {
         parent::tearDownAfterClass();
         self::deleteEntityElasticsearchIndices('product');
+    }
+
+    /**
+     * @dataProvider securityDataProvider
+     */
+    public function testSecurity(?User $user, ?string $expectedError): void
+    {
+        $this->validateApiCall(
+            new RequestGraphQlToTest(
+                <<<GQL
+                    {
+                        products: {$this->graphQlQuery}(requestType: product_catalog, localizedCatalog: "b2c_en") {
+                            collection {
+                              id
+                            }
+                        }
+                    }
+                GQL,
+                $user
+            ),
+            new ExpectedResponse(
+                200,
+                function (ResponseInterface $response) use ($expectedError) {
+                    if ($expectedError) {
+                        $this->assertJsonContains([
+                            'errors' => [
+                                [
+                                    'debugMessage' => $expectedError,
+                                ],
+                            ],
+                        ]);
+                    } else {
+                        $this->assertJsonContains([
+                            'data' => [
+                                'products' => [
+                                    'collection' => [],
+                                ],
+                            ],
+                        ]);
+                    }
+                }
+            )
+        );
+    }
+
+    public function securityDataProvider(): array
+    {
+        return [
+            [$this->getUser(Role::ROLE_ADMIN), null],
+            [$this->getUser(Role::ROLE_CONTRIBUTOR), null],
+            [null, null],
+        ];
     }
 
     /**
@@ -74,7 +130,7 @@ class SearchProductsTest extends AbstractTest
         ?string $expectedIndexAlias,
         ?float $expectedScore
     ): void {
-        $user = null;
+        $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
 
         $arguments = sprintf(
             'requestType: product_catalog, localizedCatalog: "%s"',
@@ -91,7 +147,7 @@ class SearchProductsTest extends AbstractTest
             new RequestGraphQlToTest(
                 <<<GQL
                     {
-                        products({$arguments}) {
+                        products: {$this->graphQlQuery}({$arguments}) {
                             collection {
                               id
                               score
@@ -264,8 +320,9 @@ class SearchProductsTest extends AbstractTest
         array $expectedOrderedDocIds,
         string $priceGroupId = '0',
         ?string $currentCategoryId = null,
+        ?string $currentCategoryConfiguration = null,
     ): void {
-        $user = null;
+        $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
 
         $arguments = sprintf(
             'requestType: product_catalog, localizedCatalog: "%s", pageSize: %d, currentPage: %d',
@@ -276,6 +333,10 @@ class SearchProductsTest extends AbstractTest
 
         if ($currentCategoryId) {
             $arguments .= ", currentCategoryId: \"$currentCategoryId\"";
+        }
+
+        if (null !== $currentCategoryConfiguration) {
+            $arguments .= sprintf(', currentCategoryConfiguration: "%s"', addslashes($currentCategoryConfiguration));
         }
 
         if (!empty($sortOrders)) {
@@ -290,7 +351,7 @@ class SearchProductsTest extends AbstractTest
             new RequestGraphQlToTest(
                 <<<GQL
                     {
-                        products({$arguments}) {
+                        products: {$this->graphQlQuery}({$arguments}) {
                             collection {
                               id
                               score
@@ -492,7 +553,7 @@ class SearchProductsTest extends AbstractTest
         string $expectedSortOrderField,
         string $expectedSortOrderDirection
     ): void {
-        $user = null;
+        $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
 
         $arguments = sprintf(
             'requestType: product_catalog, localizedCatalog: "%s", pageSize: %d, currentPage: %d',
@@ -513,7 +574,7 @@ class SearchProductsTest extends AbstractTest
             new RequestGraphQlToTest(
                 <<<GQL
                     {
-                        products({$arguments}) {
+                        products: {$this->graphQlQuery}({$arguments}) {
                             collection {
                               id
                               score
@@ -646,7 +707,7 @@ class SearchProductsTest extends AbstractTest
             new RequestGraphQlToTest(
                 <<<GQL
                     {
-                        products(requestType: product_catalog, localizedCatalog: "b2c_fr", sort: { length: desc }) {
+                        products: {$this->graphQlQuery}(requestType: product_catalog, localizedCatalog: "b2c_fr", sort: { length: desc }) {
                             collection { id }
                         }
                     }
@@ -667,7 +728,7 @@ class SearchProductsTest extends AbstractTest
             new RequestGraphQlToTest(
                 <<<GQL
                     {
-                        products(requestType: product_catalog, localizedCatalog: "b2c_fr", sort: { stock__qty: desc }) {
+                        products: {$this->graphQlQuery}(requestType: product_catalog, localizedCatalog: "b2c_fr", sort: { stock__qty: desc }) {
                             collection { id }
                         }
                     }
@@ -688,7 +749,7 @@ class SearchProductsTest extends AbstractTest
             new RequestGraphQlToTest(
                 <<<GQL
                     {
-                        products(requestType: product_catalog, localizedCatalog: "b2c_fr", sort: { price__price: desc }) {
+                        products: {$this->graphQlQuery}(requestType: product_catalog, localizedCatalog: "b2c_fr", sort: { price__price: desc }) {
                             collection { id }
                         }
                     }
@@ -709,7 +770,7 @@ class SearchProductsTest extends AbstractTest
             new RequestGraphQlToTest(
                 <<<GQL
                     {
-                        products(requestType: product_catalog, localizedCatalog: "b2c_fr", sort: { stock_as_nested__qty: desc }) {
+                        products: {$this->graphQlQuery}(requestType: product_catalog, localizedCatalog: "b2c_fr", sort: { stock_as_nested__qty: desc }) {
                             collection { id }
                         }
                     }
@@ -730,7 +791,7 @@ class SearchProductsTest extends AbstractTest
             new RequestGraphQlToTest(
                 <<<GQL
                     {
-                        products(requestType: product_catalog, localizedCatalog: "b2c_fr", sort: { id: desc, size: asc }) {
+                        products: {$this->graphQlQuery}(requestType: product_catalog, localizedCatalog: "b2c_fr", sort: { id: desc, size: asc }) {
                             collection { id }
                         }
                     }
@@ -766,7 +827,7 @@ class SearchProductsTest extends AbstractTest
         string $documentIdentifier,
         array $expectedOrderedDocIds
     ): void {
-        $user = null;
+        $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
 
         $arguments = sprintf(
             'requestType: product_catalog, localizedCatalog: "%s", pageSize: %d, currentPage: %d, search: "%s"',
@@ -780,7 +841,7 @@ class SearchProductsTest extends AbstractTest
             new RequestGraphQlToTest(
                 <<<GQL
                     {
-                        products({$arguments}) {
+                        products: {$this->graphQlQuery}({$arguments}) {
                             collection { id score source }
                         }
                     }
@@ -878,13 +939,13 @@ class SearchProductsTest extends AbstractTest
         string $filter,
         array $debugMessage
     ): void {
-        $user = null;
+        $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
         $arguments = sprintf('requestType: product_catalog, localizedCatalog: "%s", filter: {%s}', $catalogId, $filter);
         $this->validateApiCall(
             new RequestGraphQlToTest(
                 <<<GQL
                     {
-                        products({$arguments}) {
+                        products: {$this->graphQlQuery}({$arguments}) {
                             collection { id }
                         }
                     }
@@ -968,7 +1029,7 @@ class SearchProductsTest extends AbstractTest
         array $expectedOrderedDocIds,
         string $priceGroupId = '0'
     ): void {
-        $user = null;
+        $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
         $arguments = sprintf(
             'requestType: product_catalog, localizedCatalog: "%s", pageSize: %d, currentPage: %d, filter: {%s}',
             $catalogId,
@@ -983,7 +1044,7 @@ class SearchProductsTest extends AbstractTest
             new RequestGraphQlToTest(
                 <<<GQL
                     {
-                        products({$arguments}) {
+                        products: {$this->graphQlQuery}({$arguments}) {
                             collection { id source }
                         }
                     }
@@ -1231,7 +1292,7 @@ class SearchProductsTest extends AbstractTest
         string $documentIdentifier,
         array $expectedOrderedDocIds
     ): void {
-        $user = null;
+        $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
         $arguments = sprintf(
             'requestType: product_catalog, localizedCatalog: "%s", pageSize: %d, currentPage: %d, currentCategoryId: "%s"',
             $catalogId,
@@ -1246,7 +1307,7 @@ class SearchProductsTest extends AbstractTest
             new RequestGraphQlToTest(
                 <<<GQL
                     {
-                        products({$arguments}) {
+                        products: {$this->graphQlQuery}({$arguments}) {
                             collection { id source }
                         }
                     }
@@ -1302,7 +1363,7 @@ class SearchProductsTest extends AbstractTest
         ?array $expectedAggregations,
         string $priceGroupId = '0'
     ): void {
-        $user = null;
+        $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
 
         $arguments = sprintf(
             'requestType: %s, localizedCatalog: "%s", pageSize: %d, currentPage: %d',
@@ -1320,7 +1381,7 @@ class SearchProductsTest extends AbstractTest
             new RequestGraphQlToTest(
                 <<<GQL
                     {
-                        products({$arguments}) {
+                        products: {$this->graphQlQuery}({$arguments}) {
                             collection {
                               id
                               score
@@ -1623,7 +1684,7 @@ class SearchProductsTest extends AbstractTest
         ?string $filter,
         array $expectedOptionsCount,
     ): void {
-        $user = null;
+        $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
 
         $arguments = sprintf(
             'requestType: product_catalog, localizedCatalog: "%s", pageSize: %d, currentPage: %d',
@@ -1645,7 +1706,7 @@ class SearchProductsTest extends AbstractTest
             new RequestGraphQlToTest(
                 <<<GQL
                     {
-                        products({$arguments}) {
+                        products: {$this->graphQlQuery}({$arguments}) {
                             aggregations {
                               field
                               count
