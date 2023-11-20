@@ -29,6 +29,7 @@ class CreateIndexInputDataTransformer implements DataTransformerInterface
         private MetadataRepository $metadataRepository,
         private IndexOperation $indexOperation,
     ) {
+        $test = 'otot';
     }
 
     /**

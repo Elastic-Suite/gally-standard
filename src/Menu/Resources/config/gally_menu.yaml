@@ -61,6 +61,9 @@ gally:
         search_facets:
             order: 20
             parent: search
+        search_vector:
+            order: 30
+            parent: search
 #        search_thesaurus:
 #            order: 30
 #            parent: search
