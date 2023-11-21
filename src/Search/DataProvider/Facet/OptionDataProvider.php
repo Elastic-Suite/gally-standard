@@ -34,24 +34,27 @@ use Gally\Search\Service\ViewMoreContext;
 class OptionDataProvider implements ContextAwareCollectionDataProviderInterface, RestrictedDataProviderInterface
 {
     public function __construct(
-        private MetadataRepository $metadataRepository,
-        private LocalizedCatalogRepository $catalogRepository,
-        private ContainerConfigurationProvider $containerConfigurationProvider,
-        private SimpleRequestBuilder $requestBuilder,
-        private Adapter $searchEngine,
-        private FilterManager $filterManager,
-        private ViewMoreContext $viewMoreContext,
-        private ReverseSourceFieldProvider $reverseSourceFieldProvider,
-        private CategoryConfigurationRepository $categoryConfigurationRepository,
-        private CurrentCategoryProvider $currentCategoryProvider,
-        private PriceGroupProvider $priceGroupProvider,
-        private SearchContext $searchContext,
-        private string $nestingSeparator,
+        protected MetadataRepository $metadataRepository,
+        protected LocalizedCatalogRepository $catalogRepository,
+        protected ContainerConfigurationProvider $containerConfigurationProvider,
+        protected SimpleRequestBuilder $requestBuilder,
+        protected Adapter $searchEngine,
+        protected FilterManager $filterManager,
+        protected ViewMoreContext $viewMoreContext,
+        protected ReverseSourceFieldProvider $reverseSourceFieldProvider,
+        protected CategoryConfigurationRepository $categoryConfigurationRepository,
+        protected CurrentCategoryProvider $currentCategoryProvider,
+        protected PriceGroupProvider $priceGroupProvider,
+        protected SearchContext $searchContext,
+        protected string $nestingSeparator,
     ) {
     }
 
     public function getCollection(string $resourceClass, string $operationName = null, array $context = [])
     {
+        $searchQuery = $context['filters']['search'] ?? null;
+        $this->initSearchContext($searchQuery);
+
         $metadata = $this->metadataRepository->findByEntity($context['filters']['entityType']);
         $localizedCatalog = $this->catalogRepository->findByCodeOrId($context['filters']['localizedCatalog']);
         $filterName = str_replace($this->nestingSeparator, '.', $context['filters']['aggregation']);
@@ -66,15 +69,12 @@ class OptionDataProvider implements ContextAwareCollectionDataProviderInterface,
         $containerConfig = $this->containerConfigurationProvider->get($metadata, $localizedCatalog);
 
         $this->filterManager->validateFilters($context, $containerConfig);
-        $searchQuery = $context['filters']['search'] ?? null;
 
         // Get query filter and set current category.
         $queryFilter = $this->filterManager->transformToGallyFilters(
             $this->filterManager->getQueryFilterFromContext($context),
             $containerConfig
         );
-
-        $this->initSearchContext($searchQuery);
 
         $request = $this->requestBuilder->create(
             $containerConfig,

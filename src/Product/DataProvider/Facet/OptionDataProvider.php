@@ -21,6 +21,10 @@ class OptionDataProvider extends \Gally\Search\DataProvider\Facet\OptionDataProv
     public function getCollection(string $resourceClass, string $operationName = null, array $context = [])
     {
         $context['filters']['entityType'] = 'product';
+        $currentCategoryId = $context['filters']['currentCategoryId'] ?? null;
+        if ($currentCategoryId) {
+            $this->currentCategoryProvider->setCurrentCategory($currentCategoryId);
+        }
 
         return parent::getCollection($resourceClass, $operationName, $context);
     }

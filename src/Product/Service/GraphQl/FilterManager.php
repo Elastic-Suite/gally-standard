@@ -14,16 +14,16 @@ declare(strict_types=1);
 
 namespace Gally\Product\Service\GraphQl;
 
-use Gally\Category\Service\CurrentCategoryProvider;
 use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface;
 use Gally\Search\GraphQl\Type\Definition\FieldFilterInputType;
+use Gally\Search\Service\SearchContext;
 
 class FilterManager extends \Gally\Search\Service\GraphQl\FilterManager
 {
     public function __construct(
         private FieldFilterInputType $fieldFilterInputType,
         protected string $nestingSeparator,
-        private CurrentCategoryProvider $currentCategoryProvider,
+        private SearchContext $searchContext,
     ) {
         parent::__construct($fieldFilterInputType, $nestingSeparator);
     }
@@ -32,9 +32,8 @@ class FilterManager extends \Gally\Search\Service\GraphQl\FilterManager
     {
         $queryFilters = parent::getQueryFilterFromContext($context);
 
-        if (isset($context['filters']['currentCategoryId'])) {
-            $queryFilters[]['category__id'] = ['eq' => $context['filters']['currentCategoryId']];
-            $this->currentCategoryProvider->setCurrentCategory($context['filters']['currentCategoryId']);
+        if ($this->searchContext->getCategory()) {
+            $queryFilters[]['category__id'] = ['eq' => $this->searchContext->getCategory()->getId()];
         }
 
         return $queryFilters;
