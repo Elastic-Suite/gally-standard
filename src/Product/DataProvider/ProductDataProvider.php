@@ -73,6 +73,14 @@ class ProductDataProvider implements ContextAwareCollectionDataProviderInterface
      */
     public function getCollection(string $resourceClass, string $operationName = null, array $context = []): iterable
     {
+        $searchQuery = $context['filters']['search'] ?? null;
+        $currentCategoryId = $context['filters']['currentCategoryId'] ?? null;
+        if ($currentCategoryId) {
+            $this->currentCategoryProvider->setCurrentCategory($currentCategoryId);
+        }
+
+        $this->initSearchContext($searchQuery);
+
         // TODO Supposed to be pulled from header.
         $localizedCatalogCode = $context['filters']['localizedCatalog'];
         $metadata = $this->metadataRepository->findByRessourceClass($resourceClass);
@@ -89,7 +97,6 @@ class ProductDataProvider implements ContextAwareCollectionDataProviderInterface
         $this->filterManager->validateFilters($context, $containerConfig);
         $this->sortInputType->validateSort($context);
 
-        $searchQuery = $context['filters']['search'] ?? null;
         $limit = $this->pagination->getLimit($resourceClass, $operationName, $context);
         $offset = $this->pagination->getOffset($resourceClass, $operationName, $context);
 
@@ -98,8 +105,6 @@ class ProductDataProvider implements ContextAwareCollectionDataProviderInterface
             $this->filterManager->getQueryFilterFromContext($context),
             $containerConfig
         );
-
-        $this->initSearchContext($searchQuery);
 
         $request = $this->requestBuilder->create(
             $containerConfig,
