@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace Gally\Catalog\Tests\Api\Rest;
 
 use Gally\Catalog\Model\LocalizedCatalog;
+use Gally\Catalog\Repository\LocalizedCatalogRepository;
 use Gally\Test\AbstractEntityTestWithUpdate;
 use Gally\User\Constant\Role;
 
@@ -115,5 +116,22 @@ class LocalizedCatalogsTest extends AbstractEntityTestWithUpdate
             [$this->getUser(Role::ROLE_CONTRIBUTOR), 1, ['name' => 'B2C French Store View PATCH/PUT'], 403],
             [$this->getUser(Role::ROLE_ADMIN), 1, ['name' => 'B2C French Store View PATCH/PUT'], 200],
         ];
+    }
+
+    /**
+     * If a localized catalog is already "default", if we try to update it,  it stays default ?
+     *
+     * @depends testDelete
+     */
+    public function testUpdateIsDefault()
+    {
+        $user = $this->getUser(Role::ROLE_ADMIN);
+        $this->update('PUT', $user, 2, ['isDefault' => true], 200, ['Content-Type' => 'application/ld+json']);
+
+        $entityManager = static::getContainer()->get('doctrine')->getManager();
+        $entityManager->clear();
+
+        $localizedCatalog = static::getContainer()->get(LocalizedCatalogRepository::class)->find(2);
+        $this->assertTrue($localizedCatalog->getIsDefault());
     }
 }
