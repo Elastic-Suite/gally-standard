@@ -286,6 +286,28 @@ class SourceField
     #[Groups(['source_field:read', 'source_field:write', 'facet_configuration:graphql_read'])]
     private ?bool $isSpellchecked = null;
 
+    #[ApiProperty(
+        attributes: [
+            'hydra:supportedProperty' => [
+                'hydra:property' => [
+                    'rdfs:label' => 'Displayed in autocomplete',
+                ],
+                'gally' => [
+                    'visible' => true,
+                    'editable' => true,
+                    'position' => 100,
+                    'context' => [
+                        'search_configuration_attributes' => [
+                            'visible' => false,
+                        ],
+                    ],
+                ],
+            ],
+        ],
+    )]
+    #[Groups(['source_field:read', 'source_field:write', 'facet_configuration:graphql_read'])]
+    private ?bool $isUsedInAutocomplete = null;
+
     #[Groups(['source_field:read', 'source_field:write', 'facet_configuration:graphql_read'])]
     private bool $isSystem = false;
 
@@ -429,6 +451,18 @@ class SourceField
     public function setIsUsedForRules(?bool $isUsedForRules): self
     {
         $this->isUsedForRules = $isUsedForRules;
+
+        return $this;
+    }
+
+    public function getIsUsedInAutocomplete(): ?bool
+    {
+        return $this->isUsedInAutocomplete;
+    }
+
+    public function setIsUsedInAutocomplete(?bool $isUsedInAutocomplete): self
+    {
+        $this->isUsedInAutocomplete = $isUsedInAutocomplete;
 
         return $this;
     }
