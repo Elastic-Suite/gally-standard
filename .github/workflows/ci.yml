@@ -23,7 +23,7 @@ jobs:
         runs-on: ubuntu-latest
 
         env:
-            ref: "master" # ${{ github.base_ref }} cannot work on pushes.
+            ref: "1.2.x" # ${{ github.base_ref }} cannot work on pushes.
             gally-directory: ${{ github.workspace }}/gally
             package-name: ${{ github.event.repository.name }} # PHP package name is equal to the repository name.
 
