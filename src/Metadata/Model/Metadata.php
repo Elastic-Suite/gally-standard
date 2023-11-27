@@ -25,12 +25,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
         'get' => ['security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"],
         'post' => ['security' => "is_granted('" . Role::ROLE_ADMIN . "')"],
     ],
-    itemOperations: [
-        'get' => ['security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"],
-        'put' => ['security' => "is_granted('" . Role::ROLE_ADMIN . "')"],
-        'patch' => ['security' => "is_granted('" . Role::ROLE_ADMIN . "')"],
-        'delete' => ['security' => "is_granted('" . Role::ROLE_ADMIN . "')"],
-    ],
     graphql: [
         'item_query' => ['security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"],
         'collection_query' => ['security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"],
@@ -38,13 +32,20 @@ use Symfony\Component\Serializer\Annotation\Groups;
         'update' => ['security' => "is_granted('" . Role::ROLE_ADMIN . "')"],
         'delete' => ['security' => "is_granted('" . Role::ROLE_ADMIN . "')"],
     ],
-    normalizationContext: ['groups' => ['metadata:read']],
+    itemOperations: [
+        'get' => ['security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"],
+        'put' => ['security' => "is_granted('" . Role::ROLE_ADMIN . "')"],
+        'patch' => ['security' => "is_granted('" . Role::ROLE_ADMIN . "')"],
+        'delete' => ['security' => "is_granted('" . Role::ROLE_ADMIN . "')"],
+    ],
     denormalizationContext: ['groups' => ['metadata:write']],
+    normalizationContext: ['groups' => ['metadata:read']],
 )]
 class Metadata
 {
     #[Groups(['metadata:read'])]
     private int $id;
+
     #[Groups(['metadata:read', 'metadata:write'])]
     private string $entity;
 
@@ -100,5 +101,11 @@ class Metadata
         }
 
         return $this;
+    }
+
+    #[Groups(['metadata:read'])]
+    public function getTest(): string
+    {
+        return 'To remove when https://github.com/Elastic-Suite/gally-admin/pull/165/files will be fixed';
     }
 }

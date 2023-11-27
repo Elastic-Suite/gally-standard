@@ -95,7 +95,11 @@ class CategorySynchronizer
                 $configuration->setCatalog($localizedCatalog->getCatalog());
                 $configuration->setLocalizedCatalog($localizedCatalog);
                 $configuration->setCategory($category);
-                $configuration->setName($categoryDoc->getSource()['name']);
+                $name = $categoryDoc->getSource()['name'] ?? '';
+                if (is_array($name)) {
+                    $name = reset($name);
+                }
+                $configuration->setName($name);
 
                 $this->save($configuration);
             }
