@@ -75,12 +75,12 @@ class CreateIndexInputDataTransformer implements DataTransformerInterface
             throw new InvalidArgumentException(sprintf('Localized catalog of ID or code [%s] does not exist', $localizedCatalogCode));
         }
 
-        try {
+//        try {
             $index = $this->indexOperation->createEntityIndex($metadata, $catalog);
-        } catch (\Exception $exception) {
+//        } catch (\Exception $exception) {
             // TODO log error
-            throw new \Exception('An error occurred when creating the index');
-        }
+//            throw new \Exception('An error occurred when creating the index');
+//        }
 
         return $index;
     }
