@@ -33,8 +33,8 @@ abstract class AbstractEntityTestWithUpdate extends AbstractEntityTest
         int $responseCode,
         ?string $message = null,
         string $validRegex = null
-    ): void {
-        $this->update('PATCH', $user, $id, $data, $responseCode, ['Content-Type' => 'application/merge-patch+json'], $message, $validRegex);
+    ): ResponseInterface {
+        return $this->update('PATCH', $user, $id, $data, $responseCode, ['Content-Type' => 'application/merge-patch+json'], $message, $validRegex);
     }
 
     /**
@@ -48,8 +48,8 @@ abstract class AbstractEntityTestWithUpdate extends AbstractEntityTest
         int $responseCode,
         ?string $message = null,
         string $validRegex = null
-    ): void {
-        $this->update('PUT', $user, $id, $data, $responseCode, ['Content-Type' => 'application/ld+json'], $message, $validRegex);
+    ): ResponseInterface {
+        return $this->update('PUT', $user, $id, $data, $responseCode, ['Content-Type' => 'application/ld+json'], $message, $validRegex);
     }
 
     /**
@@ -88,7 +88,7 @@ abstract class AbstractEntityTestWithUpdate extends AbstractEntityTest
         array $headers = [],
         ?string $message = null,
         string $validRegex = null
-    ): void {
+    ): ResponseInterface {
         $request = new RequestToTest($method, "{$this->getApiPath()}/{$id}", $user, $data, $headers);
         $expectedResponse = new ExpectedResponse(
             $responseCode,
@@ -106,7 +106,7 @@ abstract class AbstractEntityTestWithUpdate extends AbstractEntityTest
             $message
         );
 
-        $this->validateApiCall($request, $expectedResponse);
+        return $this->validateApiCall($request, $expectedResponse);
     }
 
     protected function getJsonUpdateValidation(array $expectedData): array

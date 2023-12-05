@@ -19,13 +19,26 @@ use ApiPlatform\Core\Exception\InvalidArgumentException;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\DBAL\Exception;
 use Doctrine\ORM\EntityManagerInterface;
+use Gally\Catalog\Service\DefaultCatalogProvider;
 use Gally\Metadata\Model\SourceField;
-use Gally\Metadata\Model\SourceFieldLabel;
+use Gally\Metadata\Repository\SourceFieldLabelRepository;
+use Gally\Metadata\Repository\SourceFieldRepository;
+use Gally\Metadata\Validator\SourceFieldDataValidator;
 
 class SourceFieldDataPersister implements DataPersisterInterface
 {
+    private array $sourceFieldData = [];
+    private array $labelsData = [];
+    private array $metadataIds = [];
+    private array $sourceFieldCodes = [];
+    private array $errors = [];
+
     public function __construct(
-        private EntityManagerInterface $entityManager
+        private EntityManagerInterface $entityManager,
+        private DefaultCatalogProvider $defaultCatalogProvider,
+        private SourceFieldRepository $sourceFieldRepository,
+        private SourceFieldLabelRepository $sourceFieldLabelRepository,
+        private SourceFieldDataValidator $validator,
     ) {
     }
 
@@ -52,24 +65,7 @@ class SourceFieldDataPersister implements DataPersisterInterface
 
         try {
             $this->entityManager->beginTransaction();
-
-            // Is it an update ?
-            if ($this->entityManager->getUnitOfWork()->isInIdentityMap($sourceField)) {
-                // Call function computeChangeSets to get the entity changes from the function getEntityChangeSet.
-                $this->entityManager->getUnitOfWork()->computeChangeSets();
-                $changeSet = $this->entityManager->getUnitOfWork()->getEntityChangeSet($sourceField);
-
-                unset($changeSet['isSpellchecked']);
-                unset($changeSet['weight']);
-
-                // Prevent user to update a system source field, only the value of 'weight' and 'isSpellchecked' can be changed.
-                if (\count($changeSet) > 0 && ($sourceField->getIsSystem() || ($changeSet['isSystem'][0] ?? false) === true)) {
-                    throw new InvalidArgumentException(sprintf("The source field '%s' cannot be updated because it is a system source field, only the value  of 'weight' and 'isSpellchecked' can be changed.", $sourceField->getCode()));
-                }
-
-                // Clean entity manager before manage label data.
-                $this->entityManager->flush();
-            }
+            $this->validator->validateObject($sourceField);
             $this->replaceLabels($sourceField);
 
             $this->entityManager->persist($sourceField);
@@ -80,7 +76,32 @@ class SourceFieldDataPersister implements DataPersisterInterface
             throw $e;
         }
 
+        $this->entityManager->clear();
+
         return $data;
+    }
+
+    /**
+     * Persiste multiple source fields with a minium of database query.
+     * For better performance, we have implemented this method voluntarily without using the ORM that was too slow for this purpose.
+     */
+    public function persistMultiple(array $sourceFields): array
+    {
+        $this->validateAndFormatData($sourceFields);
+
+        $this->insertSourceFields();
+        $this->insertSourceFieldLabels();
+
+        if (!empty($this->errors)) {
+            throw new InvalidArgumentException(implode(' ', $this->errors));
+        }
+
+        return $this->sourceFieldRepository->findBy(
+            [
+                'code' => $this->sourceFieldCodes,
+                'metadata' => $this->metadataIds,
+            ]
+        );
     }
 
     /**
@@ -100,7 +121,7 @@ class SourceFieldDataPersister implements DataPersisterInterface
     }
 
     /**
-     * Remove and re-add sub-resources when it's necessary.
+     * Replace sourceField labels by the ones provided in the request.
      *
      * To avoid 'Unique violation' error  from database on labels,
      * we have to delete all the label rows related to $sourceField and add them again.
@@ -113,19 +134,29 @@ class SourceFieldDataPersister implements DataPersisterInterface
      */
     protected function replaceLabels(SourceField $sourceField): void
     {
-        // Save labels in $newLabels.
+        // Retrieve original label from label repository in order to avoid entity manager cache issue.
+        // And index them by localized catalog.
+        $originalLabels = [];
+        foreach ($this->sourceFieldLabelRepository->findBy(['sourceField' => $sourceField]) as $originalLabel) {
+            $originalLabels[$originalLabel->getLocalizedCatalog()->getId()] = $originalLabel;
+        }
+
         $newLabels = [];
         foreach ($sourceField->getLabels() as $label) {
-            if ($this->entityManager->getUnitOfWork()->isInIdentityMap($label)) {
-                $newLabel = new SourceFieldLabel();
-                $newLabel->setSourceField($label->getSourceField());
-                $newLabel->setLocalizedCatalog($label->getLocalizedCatalog());
+            $localizedCatalogId = $label->getLocalizedCatalog()->getId();
+            if (\array_key_exists($localizedCatalogId, $originalLabels)) {
+                $newLabel = $originalLabels[$localizedCatalogId];
                 $newLabel->setLabel($label->getLabel());
                 $newLabels[] = $newLabel;
+                $sourceField->removeLabel($label);
+                unset($originalLabels[$localizedCatalogId]);
             } else {
                 $newLabels[] = $label;
             }
-            $this->entityManager->remove($label);
+        }
+
+        foreach ($originalLabels as $labelToRemove) {
+            $this->entityManager->remove($labelToRemove);
         }
 
         // Force remove old labels before persist new ones.
@@ -134,6 +165,223 @@ class SourceFieldDataPersister implements DataPersisterInterface
         $sourceField->setLabels(new ArrayCollection());
         foreach ($newLabels as $newLabel) {
             $sourceField->addLabel($newLabel);
+        }
+    }
+
+    /**
+     * Manually parse and validate data from the bulk request content.
+     * This will fill the property $sourceFieldData and $labelsData of this class with multi dimentional array.
+     * The levels of these arrays are :
+     *   - The metadata id.
+     *   - The source field code.
+     *   - The localized catalog id (only for $labelsData).
+     *
+     * The method perform the same validations as the default persist method.
+     */
+    private function validateAndFormatData(array $rawData): void
+    {
+        $this->metadataIds = array_unique(array_filter(
+            array_map(
+                fn ($item) => \array_key_exists('metadata', $item)
+                    ? (int) str_replace('/metadata/', '', $item['metadata'])
+                    : null,
+                $rawData
+            )
+        ));
+
+        $this->sourceFieldCodes = array_unique(array_filter(
+            array_map(
+                fn ($item) => $item['code'] ?? null,
+                $rawData
+            )
+        ));
+
+        $defaultLocalizedCatalog = $this->defaultCatalogProvider->getDefaultLocalizedCatalog();
+        $existingSourceFields = $this->getExistingSourceFields();
+
+        // Parse data to sort option by sourceField and code
+        foreach ($rawData as $index => $sourceField) {
+            try {
+                $this->validator->validateRawData($sourceField, $existingSourceFields);
+                $metadataId = (int) str_replace('/metadata/', '', $sourceField['metadata']);
+                $defaultLabel = $sourceField['defaultLabel'] ?? ucfirst($sourceField['code']);
+
+                // Manage labels data
+                foreach ($sourceField['labels'] ?? [] as $label) {
+                    $localizedCatalogId = (int) str_replace('/localized_catalogs/', '', $label['localizedCatalog']);
+                    $this->labelsData[$metadataId][$sourceField['code']][$localizedCatalogId] = $label;
+
+                    if ($localizedCatalogId === $defaultLocalizedCatalog->getId()) {
+                        $defaultLabel = $label['label'];
+                    }
+                }
+
+                $sourceField['search'] = "{$sourceField['code']} $defaultLabel";
+                $this->sourceFieldData[$metadataId][$sourceField['code']] = $sourceField;
+            } catch (\Exception $exception) {
+                $this->errors[] = sprintf('Option #%d: %s', $index, $exception->getMessage());
+            }
+        }
+    }
+
+    /**
+     * Get existing source fields from database without using the ORM
+     * (in order to avoid running the unserialization/normalization process).
+     *  This will return a multidimensional array with these levels
+     *     - The metadata id.
+     *     - The source field code.
+     */
+    private function getExistingSourceFields(): array
+    {
+        $existingSourceFields = [];
+        $rawSourceFieldData = $this->sourceFieldRepository->getRawSourceFieldDataByCodes(
+            $this->metadataIds,
+            $this->sourceFieldCodes
+        );
+        foreach ($rawSourceFieldData as $existing) {
+            $existingSourceFields[$existing['metadata']][$existing['code']] = $existing;
+        }
+
+        return $existingSourceFields;
+    }
+
+    /**
+     * Get existing source field labels from database without using the ORM
+     * (in order to avoid running the unserialization/normalization process).
+     *   This will return a multidimensional array with these levels
+     *    - The metadata id.
+     *    - The source field code.
+     *    - The localized catalog id.
+     */
+    private function getExistingLabels(): array
+    {
+        $existingLabels = [];
+        $rawData = $this->sourceFieldLabelRepository->getRawLabelDataBySourceFieldCodes($this->metadataIds, $this->sourceFieldCodes);
+        foreach ($rawData as $existing) {
+            $existingLabels[$existing['metadata_id']][$existing['code']][$existing['localized_catalog_id']] = $existing;
+        }
+
+        return $existingLabels;
+    }
+
+    /**
+     * Insert the current sourceField batch in the database in a single query.
+     */
+    private function insertSourceFields()
+    {
+        $expBuilder = $this->entityManager->getExpressionBuilder();
+
+        // Get existing sourceFields
+        $existingSourceFields = $this->getExistingSourceFields();
+
+        $sourceFieldToUpdate = [];
+        foreach ($this->sourceFieldData as $metadataId => $sourceFields) {
+            foreach ($sourceFields as $code => $sourceFieldData) {
+                if (\array_key_exists($metadataId, $existingSourceFields)
+                    && \array_key_exists($code, $existingSourceFields[$metadataId])
+                ) {
+                    // Update existing
+                    $sourceFieldData = array_merge($existingSourceFields[$metadataId][$code], $sourceFieldData);
+                    $sourceFieldToUpdate[] = [
+                        'id' => (int) $sourceFieldData['id'],
+                        'metadata_id' => $metadataId,
+                        'code' => $expBuilder->literal($sourceFieldData['code']),
+                        'default_label' => $sourceFieldData['defaultLabel'] ? $expBuilder->literal($sourceFieldData['defaultLabel']) : 'NULL',
+                        'type' => $sourceFieldData['type'] ? $expBuilder->literal($sourceFieldData['type']) : 'NULL',
+                        'weight' => (int) $sourceFieldData['weight'],
+                        'is_searchable' => null === $sourceFieldData['isSearchable'] ? 'NULL' : ($sourceFieldData['isSearchable'] ? 'True' : 'False'),
+                        'is_filterable' => null === $sourceFieldData['isFilterable'] ? 'NULL' : ($sourceFieldData['isFilterable'] ? 'True' : 'False'),
+                        'is_sortable' => null === $sourceFieldData['isSortable'] ? 'NULL' : ($sourceFieldData['isSortable'] ? 'True' : 'False'),
+                        'is_spellchecked' => null === $sourceFieldData['isSpellchecked'] ? 'NULL' : ($sourceFieldData['isSpellchecked'] ? 'True' : 'False'),
+                        'is_used_for_rules' => null === $sourceFieldData['isUsedForRules'] ? 'NULL' : ($sourceFieldData['isUsedForRules'] ? 'True' : 'False'),
+                        'is_system' => ($sourceFieldData['isSystem'] ?? false) ? 'True' : 'False',
+                        'search' => $expBuilder->literal($sourceFieldData['search']),
+                    ];
+                } else {
+                    // Create new
+                    $sourceFieldToUpdate[] = [
+                        'id' => "nextval('source_field_id_seq')",
+                        'metadata_id' => $metadataId,
+                        'code' => $expBuilder->literal($sourceFieldData['code']),
+                        'default_label' => isset($sourceFieldData['defaultLabel']) ? $expBuilder->literal($sourceFieldData['defaultLabel']) : 'NULL',
+                        'type' => isset($sourceFieldData['type']) ? $expBuilder->literal($sourceFieldData['type']) : 'NULL',
+                        'weight' => isset($sourceFieldData['weight']) ? (int) $sourceFieldData['weight'] : 1,
+                        'is_searchable' => isset($sourceFieldData['isSearchable']) ? ($sourceFieldData['isSearchable'] ? 'True' : 'False') : 'NULL',
+                        'is_filterable' => isset($sourceFieldData['isFilterable']) ? ($sourceFieldData['isFilterable'] ? 'True' : 'False') : 'NULL',
+                        'is_sortable' => isset($sourceFieldData['isSortable']) ? ($sourceFieldData['isSortable'] ? 'True' : 'False') : 'NULL',
+                        'is_spellchecked' => isset($sourceFieldData['isSpellchecked']) ? ($sourceFieldData['isSpellchecked'] ? 'True' : 'False') : 'NULL',
+                        'is_used_for_rules' => isset($sourceFieldData['isUsedForRules']) ? ($sourceFieldData['isUsedForRules'] ? 'True' : 'False') : 'NULL',
+                        'is_system' => ($sourceFieldData['isSystem'] ?? false) ? 'True' : 'False',
+                        'search' => $expBuilder->literal($sourceFieldData['search']),
+                    ];
+                }
+            }
+        }
+
+        // Insert options in db
+        if (!empty($sourceFieldToUpdate)) {
+            $this->sourceFieldRepository->massInsertOrUpdate($sourceFieldToUpdate);
+        }
+    }
+
+    /**
+     * Insert the current sourceField label batch in the database in a single query.
+     */
+    private function insertSourceFieldLabels()
+    {
+        $expBuilder = $this->entityManager->getExpressionBuilder();
+
+        // Update existing options list and get existing labels
+        $existingSourceFields = $this->getExistingSourceFields();
+        $existingLabels = $this->getExistingLabels();
+
+        $labelsToUpdate = [];
+        foreach ($this->labelsData as $metadataId => $metadataLabels) {
+            foreach ($metadataLabels as $code => $sourceFieldLabels) {
+                foreach ($sourceFieldLabels as $localizedCatalogId => $sourceFieldLabelsData) {
+                    if (\array_key_exists($metadataId, $existingLabels)
+                        && \array_key_exists($code, $existingLabels[$metadataId])
+                        && \array_key_exists($localizedCatalogId, $existingLabels[$metadataId][$code])
+                    ) {
+                        // Update existing
+                        $sourceFieldLabelsData = array_merge($existingLabels[$metadataId][$code][$localizedCatalogId], $sourceFieldLabelsData);
+                        $labelsToUpdate[] = [
+                            'id' => (int) $sourceFieldLabelsData['id'],
+                            'localized_catalog_id' => (int) $localizedCatalogId,
+                            'source_field_id' => (int) $existingSourceFields[$metadataId][$code]['id'],
+                            'label' => $expBuilder->literal($sourceFieldLabelsData['label']),
+                        ];
+                        unset($existingLabels[$metadataId][$code][$localizedCatalogId]);
+                    } else {
+                        // Create new
+                        $labelsToUpdate[] = [
+                            'id' => 'nextval(\'source_field_label_id_seq\')',
+                            'localized_catalog_id' => (int) $localizedCatalogId,
+                            'source_field_id' => (int) $existingSourceFields[$metadataId][$code]['id'],
+                            'label' => $expBuilder->literal($sourceFieldLabelsData['label']),
+                        ];
+                    }
+                }
+            }
+        }
+
+        // Insert labels in db
+        if (!empty($labelsToUpdate)) {
+            $this->sourceFieldLabelRepository->massInsertOrUpdate($labelsToUpdate);
+        }
+
+        $labelsToDelete = [];
+        foreach ($existingLabels as $metadataLabels) {
+            foreach ($metadataLabels as $sourceFieldLabels) {
+                foreach ($sourceFieldLabels as $sourceFieldLabelsData) {
+                    $labelsToDelete[] = $sourceFieldLabelsData['id'];
+                }
+            }
+        }
+
+        // Remove inexistant labels
+        if (!empty($labelsToDelete)) {
+            $this->sourceFieldLabelRepository->massDelete($labelsToDelete);
         }
     }
 }

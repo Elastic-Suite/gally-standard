@@ -15,7 +15,13 @@ declare(strict_types=1);
 namespace Gally\Metadata\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\DBAL\Connection;
+use Doctrine\ORM\AbstractQuery;
+use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\Persistence\ManagerRegistry;
+use Gally\Catalog\Model\LocalizedCatalog;
+use Gally\Metadata\Model\SourceField;
+use Gally\Metadata\Model\SourceFieldOption;
 use Gally\Metadata\Model\SourceFieldOptionLabel;
 
 /**
@@ -29,5 +35,65 @@ class SourceFieldOptionLabelRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, SourceFieldOptionLabel::class);
+    }
+
+    public function getRawLabelDataByOptionCodes($sourceFieldIds, $optionCodes): array
+    {
+        $exprBuilder = $this->getEntityManager()->getExpressionBuilder();
+
+        return $this->createQueryBuilder('ol')
+            ->select(
+                [
+                    'ol.id as id',
+                    'ol.label as label',
+                    'lc.id as localized_catalog_id',
+                    'sf.id as source_field_id',
+                    'sfo.id as source_field_option_id',
+                    'sfo.code',
+                ]
+            )
+            ->join(SourceFieldOption::class, 'sfo', Join::WITH, $exprBuilder->eq('ol.sourceFieldOption', 'sfo'))
+            ->join(SourceField::class, 'sf', Join::WITH, $exprBuilder->eq('sfo.sourceField', 'sf'))
+            ->join(LocalizedCatalog::class, 'lc', Join::WITH, $exprBuilder->eq('ol.localizedCatalog', 'lc'))
+            ->where('sf.id IN (:sourceFieldIds)')
+            ->andWhere('sfo.code IN (:optionCodes)')
+            ->setParameter('sourceFieldIds', $sourceFieldIds, Connection::PARAM_INT_ARRAY)
+            ->setParameter('optionCodes', $optionCodes, Connection::PARAM_STR_ARRAY)
+            ->getQuery()
+            ->getResult(AbstractQuery::HYDRATE_ARRAY);
+    }
+
+    public function massInsertOrUpdate(array $labelData): void
+    {
+        $labelData = array_map(
+            fn ($data) => sprintf(
+                '(%s, %d, %d, %s)',
+                $data['id'],
+                $data['localized_catalog_id'],
+                $data['source_field_option_id'],
+                $data['label']
+            ),
+            $labelData
+        );
+        $this->getEntityManager()
+            ->getConnection()
+            ->executeQuery(
+                sprintf(
+                    'INSERT INTO source_field_option_label (id, localized_catalog_id, source_field_option_id, label) ' .
+                    'VALUES %s ON CONFLICT (localized_catalog_id, source_field_option_id) ' .
+                    'DO UPDATE SET label = excluded.label',
+                    implode(',', $labelData)
+                )
+            );
+    }
+
+    public function massDelete(array $labelIds): void
+    {
+        $this->createQueryBuilder('l')
+            ->delete(SourceFieldOptionLabel::class, 'l')
+            ->where('l.id in (:ids)')
+            ->setParameter('ids', $labelIds, Connection::PARAM_INT_ARRAY)
+            ->getQuery()
+            ->execute();
     }
 }

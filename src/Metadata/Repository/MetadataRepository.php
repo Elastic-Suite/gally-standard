@@ -66,4 +66,9 @@ class MetadataRepository extends ServiceEntityRepository
 
         return $this->findByEntity($entityType);
     }
+
+    public function getAllIds(): array
+    {
+        return $this->createQueryBuilder('o', 'o.id')->select('o.id')->getQuery()->getResult();
+    }
 }

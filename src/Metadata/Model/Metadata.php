@@ -18,6 +18,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Gally\User\Constant\Role;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ApiResource(
     collectionOperations: [
@@ -37,10 +38,14 @@ use Gally\User\Constant\Role;
         'update' => ['security' => "is_granted('" . Role::ROLE_ADMIN . "')"],
         'delete' => ['security' => "is_granted('" . Role::ROLE_ADMIN . "')"],
     ],
+    normalizationContext: ['groups' => ['metadata:read']],
+    denormalizationContext: ['groups' => ['metadata:write']],
 )]
 class Metadata
 {
+    #[Groups(['metadata:read'])]
     private int $id;
+    #[Groups(['metadata:read', 'metadata:write'])]
     private string $entity;
 
     /** @var Collection<SourceField> */

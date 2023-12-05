@@ -35,12 +35,20 @@ services:
     Gally\Metadata\DataPersister\SourceFieldDataPersister:
         arguments:
             - '@doctrine.orm.entity_manager'
+            - '@Gally\Catalog\Service\DefaultCatalogProvider'
+            - '@Gally\Metadata\Repository\SourceFieldRepository'
+            - '@Gally\Metadata\Repository\SourceFieldLabelRepository'
+            - '@Gally\Metadata\Validator\SourceFieldDataValidator'
         tags:
             - { name: api_platform.data_persister }
-
+ 
     Gally\Metadata\DataPersister\SourceFieldOptionDataPersister:
         arguments:
             - '@doctrine.orm.entity_manager'
+            - '@Gally\Metadata\Repository\SourceFieldRepository'
+            - '@Gally\Metadata\Repository\SourceFieldOptionRepository'
+            - '@Gally\Metadata\Repository\SourceFieldOptionLabelRepository'
+            - '@Gally\Metadata\Validator\SourceFieldOptionDataValidator'
         tags:
             - { name: api_platform.data_persister }
 
@@ -66,12 +74,28 @@ services:
         tags:
             - { name: doctrine.event_subscriber }
 
-    Gally\Metadata\Controller\AddSourceFieldOptions:
+    Gally\Metadata\Controller\BulkSourceFields:
         arguments:
-            - '@Gally\Metadata\Repository\SourceFieldRepository'
-            - '@api_platform.serializer'
-            - '@doctrine.orm.entity_manager'
+            - '@Gally\Metadata\DataPersister\SourceFieldDataPersister'
         calls:
             - [ setContainer, [ '@service_container' ] ]
         tags:
             - { name: controller.service_arguments }
+
+    Gally\Metadata\Controller\BulkSourceFieldOptions:
+        arguments:
+            - '@Gally\Metadata\DataPersister\SourceFieldOptionDataPersister'
+        calls:
+            - [ setContainer, [ '@service_container' ] ]
+        tags:
+            - { name: controller.service_arguments }
+
+    Gally\Metadata\Validator\SourceFieldDataValidator: 
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@Gally\Metadata\Repository\MetadataRepository'
+            - '@Gally\Catalog\Repository\LocalizedCatalogRepository'
+
+    Gally\Metadata\Validator\SourceFieldOptionDataValidator: 
+        arguments:
+            - '@Gally\Catalog\Repository\LocalizedCatalogRepository'

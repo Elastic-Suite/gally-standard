@@ -15,8 +15,8 @@ declare(strict_types=1);
 namespace Gally\Metadata\Tests\Api\Rest;
 
 use Gally\Metadata\Model\SourceField;
-use Gally\Metadata\Model\SourceFieldOption;
-use Gally\Metadata\Repository\SourceFieldOptionRepository;
+use Gally\Metadata\Repository\SourceFieldLabelRepository;
+use Gally\Metadata\Repository\SourceFieldRepository;
 use Gally\Test\AbstractEntityTestWithUpdate;
 use Gally\Test\ExpectedResponse;
 use Gally\Test\RequestToTest;
@@ -171,7 +171,7 @@ class SourceFieldTest extends AbstractEntityTestWithUpdate
             [$adminUser, 1, 204],
             [$adminUser, 5, 400], // Can't remove system source field
             [$adminUser, 10, 204],
-            [$adminUser, 21, 404],
+            [$adminUser, 99, 404],
         ];
     }
 
@@ -181,9 +181,9 @@ class SourceFieldTest extends AbstractEntityTestWithUpdate
     public function getCollectionDataProvider(): iterable
     {
         return [
-            [null, 18, 401],
-            [$this->getUser(Role::ROLE_CONTRIBUTOR), 18, 200],
-            [$this->getUser(Role::ROLE_ADMIN), 18, 200],
+            [null, 23, 401],
+            [$this->getUser(Role::ROLE_CONTRIBUTOR), 23, 200],
+            [$this->getUser(Role::ROLE_ADMIN), 23, 200],
         ];
     }
 
@@ -192,6 +192,28 @@ class SourceFieldTest extends AbstractEntityTestWithUpdate
         return [
             [null, 5, ['weight' => 10, 'isSpellchecked' => true], 405],
         ];
+    }
+
+    /**
+     * @dataProvider putUpdateDataProvider
+     * @depends testPatchUpdate
+     */
+    public function testPutUpdate(
+        ?User $user,
+        int|string $id,
+        array $data,
+        int $responseCode,
+        ?string $message = null,
+        string $validRegex = null
+    ): ResponseInterface {
+        $response = parent::testPutUpdate($user, $id, $data, $responseCode, $message, $validRegex);
+
+        /** @var SourceFieldRepository $sourceFieldRepository */
+        $sourceFieldRepository = static::getContainer()->get(SourceFieldLabelRepository::class);
+        $labels = $sourceFieldRepository->findBy(['sourceField' => $id]);
+        $this->assertCount(\count($data['labels'] ?? []), $labels);
+
+        return $response;
     }
 
     public function putUpdateDataProvider(): iterable
@@ -207,14 +229,20 @@ class SourceFieldTest extends AbstractEntityTestWithUpdate
                 5,
                 ['isFilterable' => true],
                 400,
-                "The source field 'sku' cannot be updated because it is a system source field, only the value  of 'weight' and 'isSpellchecked' can be changed.",
+                "The source field 'sku' cannot be updated because it is a system source field, only the value of 'weight' and 'isSpellchecked' can be changed.",
             ],
             [
                 $adminUser,
                 5,
                 ['isSystem' => false],
                 400,
-                "The source field 'sku' cannot be updated because it is a system source field, only the value  of 'weight' and 'isSpellchecked' can be changed.",
+                "The source field 'sku' cannot be updated because it is a system source field, only the value of 'weight' and 'isSpellchecked' can be changed.",
+            ],
+            [
+                $adminUser,
+                5,
+                ['weight' => 5],
+                200,
             ],
             [ // Create labels for sourceField
                 $adminUser,
@@ -235,11 +263,10 @@ class SourceFieldTest extends AbstractEntityTestWithUpdate
             ],
             [ // Update label for sourceField
                 $adminUser,
-                18,
+                19,
                 [
                     'labels' => [
                         [
-                            '@id' => '/source_field_labels/3',
                             'localizedCatalog' => '/localized_catalogs/1',
                             'label' => 'Les nouveautés updated',
                         ],
@@ -247,9 +274,9 @@ class SourceFieldTest extends AbstractEntityTestWithUpdate
                 ],
                 200,
             ],
-            [ // Add new label for sourceField
+            [ // Replace labels for sourceField
                 $adminUser,
-                18,
+                19,
                 [
                     'labels' => [
                         [
@@ -269,9 +296,6 @@ class SourceFieldTest extends AbstractEntityTestWithUpdate
             // Remove localized catalog in labels data because localized catalog are include as sub entity in response.
             // @see api/packages/gally-standard/src/Catalog/Model/LocalizedCatalog.php:55
             unset($expectedData['labels'][$index]['localizedCatalog']);
-
-            // Remove id because the label will be removed and added on update
-            unset($expectedData['labels'][$index]['@id']);
         }
 
         return parent::getJsonCreationValidation($expectedData);
@@ -313,35 +337,35 @@ class SourceFieldTest extends AbstractEntityTestWithUpdate
 
     /**
      * @depends testPutUpdate
-     * @dataProvider addOptionsDataProvider
+     * @dataProvider bulkDataProvider
      */
-    public function testAddOptions(
+    public function testBulk(
         ?User $user,
-        int $sourceFieldId,
-        array $options,
-        int $expectedOptionCount,
+        array $sourceFields,
+        int $expectedSourceFieldNumber,
+        array $expectedResponseData,
+        array $expectedSearchValues,
         int $responseCode,
         ?string $message = null
     ): void {
-        $request = new RequestToTest(
-            'POST',
-            "{$this->getApiPath()}/{$sourceFieldId}/add_options",
-            $user,
-            $options
-        );
+        $request = new RequestToTest('POST', "{$this->getApiPath()}/bulk", $user, $sourceFields);
         $expectedResponse = new ExpectedResponse(
             $responseCode,
-            function (ResponseInterface $response) use ($expectedOptionCount, $sourceFieldId, $options) {
-                $sourceFieldOptionRepository = static::getContainer()->get(SourceFieldOptionRepository::class);
-                $responseData = json_decode($response->getContent(), true);
-                $this->assertCount($expectedOptionCount, $responseData['options']);
-
-                foreach ($options as $optionData) {
-                    /** @var SourceFieldOption $option */
-                    $option = $sourceFieldOptionRepository->findOneBy(
-                        ['code' => $optionData['code'], 'sourceField' => $sourceFieldId]
+            function (ResponseInterface $response) use ($sourceFields, $expectedSourceFieldNumber, $expectedResponseData, $expectedSearchValues) {
+                $this->assertJsonContains(['hydra:member' => $expectedResponseData]);
+                $sourceFieldRepository = static::getContainer()->get(SourceFieldRepository::class);
+                $existingSourceFields = $sourceFieldRepository->findAll();
+                $this->assertCount($expectedSourceFieldNumber, $sourceFieldRepository->findAll());
+                $this->assertCount(18, (array) reset($existingSourceFields), 'Please check if all sourceField properties are manage in \Gally\Metadata\DataPersister\SourceFieldDataPersister and \Gally\Metadata\Repository\SourceFieldRepository.');
+                foreach ($sourceFields as $sourceFieldData) {
+                    $sourceField = $sourceFieldRepository->findOneBy(
+                        [
+                            'metadata' => (int) str_replace('/metadata/', '', $sourceFieldData['metadata']),
+                            'code' => $sourceFieldData['code'],
+                        ]
                     );
-                    $this->assertCount(\count($optionData['labels'] ?? []), $option->getLabels());
+                    $this->assertCount(\count($sourceFieldData['labels'] ?? []), $sourceField->getLabels());
+                    $this->assertSame($expectedSearchValues[$sourceFieldData['code']], $sourceField->getSearch());
                 }
             },
             $message
@@ -350,150 +374,152 @@ class SourceFieldTest extends AbstractEntityTestWithUpdate
         $this->validateApiCall($request, $expectedResponse);
     }
 
-    private function addOptionsDataProvider(): iterable
+    private function bulkDataProvider(): iterable
     {
         $adminUser = $this->getUser(Role::ROLE_ADMIN);
 
         // Test ACL
-        yield [null, 5, [], 0, 401];
-        yield [$this->getUser(Role::ROLE_CONTRIBUTOR), 5, [], 0, 403];
+        yield [null, [], 20, [], [], 401];
+        yield [$this->getUser(Role::ROLE_CONTRIBUTOR), [], 20, [], [], 403];
 
-        // Invalid source field
+        // Incomplete / invalid data
         yield [
-            $adminUser,
-            105,
-            [
-                ['code' => 'new_brand_code', 'defaultLabel' => 'New brand'],
+            $adminUser, // Api User
+            [ // Source field post data
+                ['weight' => 1],
+                ['code' => 'new_source_field_1', 'weight' => 1],
+                ['code' => 'sku', 'metadata' => '/metadata/1', 'isFilterable' => true],
             ],
-            5,
-            400,
-            "The source field doesn't exist.",
-        ];
-
-        // Non-select source field
-        yield [
-            $adminUser,
-            5,
-            [
-                ['code' => 'new_brand_code', 'defaultLabel' => 'New brand'],
-            ],
-            5,
-            400,
-            'You can only add options to a source field of type "select".',
+            20, // Expected source field number
+            [], // Expected data in response
+            [], // Expected search values
+            400, // Expected response code
+            //Expected error messages
+            'Option #0: A code value is required for source field. ' .
+            'Option #1: A metadata value is required for source field. ' .
+            "Option #2: The source field 'sku' cannot be updated because it is a system source field, only the value of 'weight' and 'isSpellchecked' can be changed.",
         ];
 
-        // Incomplete data
+        // With one sourceField
         yield [
-            $adminUser,
-            9,
-            [
-                ['position' => 4],
+            $adminUser, // Api User
+            [ // Source field post data
+                ['code' => 'new_source_field_1', 'metadata' => '/metadata/1', 'weight' => 1],
             ],
-            0,
-            400,
-            'A code value is required for source field option.',
+            21, // Expected source field number
+            [], // Expected data in response
+            [ // Expected search values
+                'new_source_field_1' => 'new_source_field_1 New_source_field_1',
+            ],
+            200, // Expected response code
         ];
         yield [
-            $adminUser,
-            9,
-            [
-                ['code' => 'new_option_code'],
+            $adminUser, // Api User
+            [ // Source field post data
+                ['code' => 'new_source_field_2', 'metadata' => '/metadata/1', 'weight' => 1],
+                ['code' => 'new_source_field_3', 'weight' => 1],
+                ['code' => 'new_source_field_3', 'metadata' => '/metadata/1', 'weight' => 1],
+                ['code' => 'sku', 'metadata' => '/metadata/1', 'weight' => 2, 'isSpellchecked' => true],
             ],
-            5,
-            400,
-            'The option new_option_code doesn\'t have a default label.',
-        ];
-
-        // With one option
-        yield [
-            $adminUser,
-            9,
-            [
-                ['code' => 'new_brand_code', 'defaultLabel' => 'New brand'],
+            23, // Expected source field number
+            [], // Expected data in response
+            [ // Expected search values
+                'new_source_field_2' => 'new_source_field_2 New_source_field_2',
+                'new_source_field_3' => 'new_source_field_3 New_source_field_3',
+                'sku' => 'sku',
             ],
-            5,
-            200,
+            400, // Expected response code
+            'Option #1: A metadata value is required for source field.',
         ];
-        // With multiple options
         yield [
-            $adminUser,
-            9,
-            [
-                ['code' => 'new_brand_code_2', 'defaultLabel' => 'New brand 2'],
-                ['code' => 'new_brand_code_3', 'defaultLabel' => 'New brand 3'],
+            $adminUser, // Api User
+            [ // Source field post data
+                ['code' => 'new_source_field_2', 'metadata' => '/metadata/1', 'defaultLabel' => 'New source field 2', 'isFilterable' => true],
+                ['code' => 'new_source_field_4', 'metadata' => '/metadata/1', 'weight' => 5],
             ],
-            7,
-            200,
-        ];
-        // With new & updated options
-        yield [
-            $adminUser,
-            9,
-            [
-                ['@id' => '/source_field_options/5', 'code' => 'new_brand_code', 'defaultLabel' => 'New brand Updated'],
-                ['code' => 'new_brand_code_4', 'defaultLabel' => 'New brand 4'],
+            24, // Expected source field number
+            [ // Expected data in response
+                0 => ['isFilterable' => true, 'weight' => 1, 'isSystem' => false],
+                1 => ['isFilterable' => null, 'weight' => 5, 'isSystem' => false],
             ],
-            8,
-            200,
-        ];
-        // With updated option of another sourceField
-        yield [
-            $adminUser,
-            12,
-            [
-                ['@id' => '/source_field_options/5', 'code' => 'new_brand_code', 'defaultLabel' => 'New brand Updated'],
+            [ // Expected search values
+                'new_source_field_2' => 'new_source_field_2 New source field 2',
+                'new_source_field_4' => 'new_source_field_4 New_source_field_4',
             ],
-            8,
-            400,
-            'The option 5 is not linked to the source field 12.',
+            200, // Expected response code
         ];
-        // With labels
         yield [
-            $adminUser,
-            9,
-            [
+            $adminUser, // Api User
+            [ // Source field post data
                 [
-                    'code' => 'new_brand_code_6',
-                    'defaultLabel' => 'New brand 6',
+                    'code' => 'sku',
+                    'metadata' => '/metadata/1',
                     'labels' => [
-                        ['localizedCatalog' => '/localized_catalogs/1', 'label' => 'Localized label brand 6'],
+                        ['localizedCatalog' => '/localized_catalogs/2', 'label' => 'Reference'],
                     ],
                 ],
                 [
-                    'code' => 'new_brand_code_7',
-                    'defaultLabel' => 'New brand 7',
+                    'code' => 'new_source_field_2',
+                    'metadata' => '/metadata/1',
+                    'weight' => 1,
+                    'defaultLabel' => 'New source field 2',
                     'labels' => [
-                        ['localizedCatalog' => '/localized_catalogs/1', 'label' => 'Localized label1 brand 7'],
+                        ['localizedCatalog' => '/localized_catalogs/1', 'label' => 'Localized label source field 2'],
                     ],
                 ],
-            ],
-            10,
-            200,
-        ];
-        // With updated & new labels
-        yield [
-            $adminUser,
-            9,
-            [
                 [
-                    '@id' => '/source_field_options/10',
-                    'code' => 'new_brand_code_7',
-                    'defaultLabel' => 'New brand 7',
+                    'code' => 'new_source_field_5',
+                    'metadata' => '/metadata/1',
+                    'weight' => 1,
                     'labels' => [
-                        [
-                            '@id' => '/source_field_option_labels/2',
-                            'localizedCatalog' => '/localized_catalogs/1',
-                            'label' => 'Localized label1 brand 7 update',
-                        ],
-                        [
-                            'localizedCatalog' => '/localized_catalogs/2',
-                            'label' => 'Localized label2 brand 7',
-                        ],
+                        ['localizedCatalog' => '/localized_catalogs/1', 'label' => 'Localized label source field 5'],
+                        ['localizedCatalog' => '/localized_catalogs/2', 'label' => 'Localized label 2 source field 5'],
                     ],
                 ],
             ],
-            10,
-            200,
+            25, // Expected source field number
+            [ // Expected data in response
+                1 => ['labels' => [0 => ['label' => 'Localized label source field 2']]],
+                2 => ['labels' => [1 => ['label' => 'Localized label 2 source field 5']]],
+            ],
+            [ // Expected search values
+                'sku' => 'sku Reference',
+                'new_source_field_2' => 'new_source_field_2 New source field 2',
+                'new_source_field_5' => 'new_source_field_5 Localized label 2 source field 5',
+            ],
+            200, // Expected response code
+        ];
+        yield [
+            $adminUser, // Api User
+            [ // Source field post data
+                [
+                    'code' => 'new_source_field_2',
+                    'metadata' => '/metadata/1',
+                    'weight' => 1,
+                    'defaultLabel' => 'New source field 2',
+                    'labels' => [
+                        ['localizedCatalog' => '/localized_catalogs/2', 'label' => 'Localized label 2 source field 2'],
+                    ],
+                ],
+                [
+                    'code' => 'new_source_field_5',
+                    'metadata' => '/metadata/1',
+                    'weight' => 1,
+                    'labels' => [
+                        ['localizedCatalog' => '/localized_catalogs/2', 'label' => 'Localized label 2 source field 5'],
+                    ],
+                ],
+            ],
+            25, // Expected source field number
+            [ // Expected data in response
+                0 => ['labels' => [0 => ['label' => 'Localized label 2 source field 2']]],
+                1 => ['labels' => [0 => ['label' => 'Localized label 2 source field 5']]],
+            ],
+            [ // Expected search values
+                'new_source_field_2' => 'new_source_field_2 Localized label 2 source field 2',
+                'new_source_field_5' => 'new_source_field_5 Localized label 2 source field 5',
+            ],
+            200, // Expected response code
         ];
     }
 }
