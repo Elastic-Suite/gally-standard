@@ -15,8 +15,15 @@ declare(strict_types=1);
 namespace Gally\Metadata\Tests\Api\Rest;
 
 use Gally\Metadata\Model\SourceFieldOption;
+use Gally\Metadata\Repository\SourceFieldOptionLabelRepository;
+use Gally\Metadata\Repository\SourceFieldOptionRepository;
+use Gally\Metadata\Repository\SourceFieldRepository;
 use Gally\Test\AbstractEntityTestWithUpdate;
+use Gally\Test\ExpectedResponse;
+use Gally\Test\RequestToTest;
 use Gally\User\Constant\Role;
+use Gally\User\Model\User;
+use Symfony\Contracts\HttpClient\ResponseInterface;
 
 class SourceFieldOptionTest extends AbstractEntityTestWithUpdate
 {
@@ -105,7 +112,7 @@ class SourceFieldOptionTest extends AbstractEntityTestWithUpdate
             [$this->getUser(Role::ROLE_CONTRIBUTOR), 1, 403],
             [$adminUser, 1, 204],
             [$adminUser, 2, 204],
-            [$adminUser, 10, 404],
+            [$adminUser, 99, 404],
         ];
     }
 
@@ -115,9 +122,9 @@ class SourceFieldOptionTest extends AbstractEntityTestWithUpdate
     public function getCollectionDataProvider(): iterable
     {
         return [
-            [null, 5, 401],
-            [$this->getUser(Role::ROLE_CONTRIBUTOR), 5, 200],
-            [$this->getUser(Role::ROLE_ADMIN), 5, 200],
+            [null, 11, 401],
+            [$this->getUser(Role::ROLE_CONTRIBUTOR), 11, 200],
+            [$this->getUser(Role::ROLE_ADMIN), 11, 200],
         ];
     }
 
@@ -126,6 +133,28 @@ class SourceFieldOptionTest extends AbstractEntityTestWithUpdate
         return [
             [null, 1, ['defaultLabel' => 'label PATCH/PUT'], 405],
         ];
+    }
+
+    /**
+     * @dataProvider putUpdateDataProvider
+     * @depends testPatchUpdate
+     */
+    public function testPutUpdate(
+        ?User $user,
+        int|string $id,
+        array $data,
+        int $responseCode,
+        ?string $message = null,
+        string $validRegex = null
+    ): ResponseInterface {
+        $response = parent::testPutUpdate($user, $id, $data, $responseCode, $message, $validRegex);
+
+        /** @var SourceFieldOptionLabelRepository $sourceFieldOptionLabelRepository */
+        $sourceFieldOptionLabelRepository = static::getContainer()->get(SourceFieldOptionLabelRepository::class);
+        $labels = $sourceFieldOptionLabelRepository->findBy(['sourceFieldOption' => $id]);
+        $this->assertCount(\count($data['labels'] ?? []), $labels);
+
+        return $response;
     }
 
     public function putUpdateDataProvider(): iterable
@@ -160,7 +189,7 @@ class SourceFieldOptionTest extends AbstractEntityTestWithUpdate
                 5,
                 [
                     'labels' => [
-                        ['@id' => '/source_field_option_labels/3', 'localizedCatalog' => '/localized_catalogs/1', 'label' => 'L\'option A Updated'],
+                        ['localizedCatalog' => '/localized_catalogs/1', 'label' => 'L\'option A Updated'],
                         ['localizedCatalog' => '/localized_catalogs/2', 'label' => 'A option'],
                     ],
                 ],
@@ -181,5 +210,234 @@ class SourceFieldOptionTest extends AbstractEntityTestWithUpdate
         }
 
         return parent::getJsonCreationValidation($expectedData);
+    }
+
+    /**
+     * @depends testPutUpdate
+     * @dataProvider bulkDataProvider
+     */
+    public function testBulk(
+        ?User $user,
+        array $options,
+        array $expectedOptionCountBySourceField,
+        array $expectedResponseData,
+        int $responseCode,
+        ?string $message = null
+    ): void {
+        $request = new RequestToTest('POST', "{$this->getApiPath()}/bulk", $user, $options);
+        $expectedResponse = new ExpectedResponse(
+            $responseCode,
+            function (ResponseInterface $response) use ($expectedOptionCountBySourceField, $expectedResponseData, $options) {
+                $this->assertJsonContains(['hydra:member' => $expectedResponseData]);
+                $sourceFieldRepository = static::getContainer()->get(SourceFieldRepository::class);
+                $optionRepository = static::getContainer()->get(SourceFieldOptionRepository::class);
+                foreach ($options as $optionData) {
+                    $sourceFieldId = (int) str_replace('/source_fields/', '', $optionData['sourceField']);
+                    $sourceField = $sourceFieldRepository->find($sourceFieldId);
+                    $this->assertCount($expectedOptionCountBySourceField[$sourceField->getId()], $sourceField->getOptions());
+
+                    /** @var SourceFieldOption $option */
+                    $option = $optionRepository->findOneBy(['code' => $optionData['code'], 'sourceField' => $sourceFieldId]);
+                    $this->assertCount(\count($optionData['labels'] ?? []), $option->getLabels());
+                }
+            },
+            $message
+        );
+
+        $this->validateApiCall($request, $expectedResponse);
+    }
+
+    private function bulkDataProvider(): iterable
+    {
+        $adminUser = $this->getUser(Role::ROLE_ADMIN);
+
+        // Test ACL
+        yield [null, [], [], [], 401];
+        yield [$this->getUser(Role::ROLE_CONTRIBUTOR), [], [], [], 403];
+
+        // Invalid source field
+        yield [
+            $adminUser,
+            [
+                ['sourceField' => '/source_fields/105', 'code' => 'new_brand_code', 'defaultLabel' => 'New brand'],
+            ],
+            [105 => 5],
+            [],
+            400,
+            'Option #0: Item not found for "/source_fields/105".',
+        ];
+
+        // Incomplete/Invalid data
+        yield [
+            $adminUser,
+            [
+                ['position' => 4],
+                ['sourceField' => '/source_fields/9', 'position' => 4],
+                ['sourceField' => '/source_fields/9', 'code' => 'new_option_code'],
+                ['sourceField' => '/source_fields/5', 'code' => 'new_brand_code', 'defaultLabel' => 'New brand'],
+                [
+                    'sourceField' => '/source_fields/9',
+                    'code' => 'new_brand_code',
+                    'defaultLabel' => 'New brand',
+                    'labels' => [
+                        ['localizedCatalog' => '/localized_catalogs/1000', 'label' => 'Label brand on fake localized catalog'],
+                    ],
+                ],
+            ],
+            [],
+            [],
+            400,
+            'Option #0: A sourceField value is required for source field option. ' .
+            'Option #1: A code value is required for source field option. ' .
+            'Option #2: A defaultLabel value is required for source field option. ' .
+            'Option #3: You can only add options to a source field of type "select". ' .
+            'Option #4: Item not found for "/localized_catalogs/1000".',
+        ];
+
+        // With one option
+        yield [
+            $adminUser,
+            [
+                ['sourceField' => '/source_fields/9', 'code' => 'new_brand_code', 'defaultLabel' => 'New brand'],
+            ],
+            [9 => 5],
+            [
+                0 => ['defaultLabel' => 'New brand'],
+            ],
+            200,
+        ];
+        // With multiple valid options and one invalid option
+        yield [
+            $adminUser,
+            [
+                ['sourceField' => '/source_fields/9', 'code' => 'new_brand_code_2', 'defaultLabel' => 'New brand 2'],
+                ['sourceField' => '/source_fields/9', 'code' => 'new_brand_code_3', 'defaultLabel' => 'New brand 3'],
+                ['sourceField' => '/source_fields/12', 'defaultLabel' => 'New material 0'],
+                ['sourceField' => '/source_fields/12', 'code' => 'new_material_code_1', 'defaultLabel' => 'New material 1'],
+            ],
+            [
+                9 => 7,
+                12 => 1,
+            ],
+            [
+                2 => ['code' => 'new_material_code_1'],
+            ],
+            400,
+            'Option #2: A code value is required for source field option.',
+        ];
+        // With new & updated options
+        yield [
+            $adminUser,
+            [
+                ['sourceField' => '/source_fields/9', 'code' => 'new_brand_code', 'defaultLabel' => 'New brand Updated'],
+                ['sourceField' => '/source_fields/9', 'code' => 'new_brand_code_4', 'defaultLabel' => 'New brand 4'],
+            ],
+            [9 => 8],
+            [
+                0 => ['defaultLabel' => 'New brand Updated'],
+            ],
+            200,
+        ];
+        // With labels on new option and existing option
+        yield [
+            $adminUser,
+            [
+                [
+                    'sourceField' => '/source_fields/9',
+                    'code' => 'new_brand_code_4',
+                    'defaultLabel' => 'New brand 4',
+                    'labels' => [
+                        ['localizedCatalog' => '/localized_catalogs/1', 'label' => 'Localized label brand 4'],
+                    ],
+                ],
+                [
+                    'sourceField' => '/source_fields/9',
+                    'code' => 'new_brand_code_5',
+                    'defaultLabel' => 'New brand 5',
+                    'labels' => [
+                        ['localizedCatalog' => '/localized_catalogs/1', 'label' => 'Localized label1 brand 5'],
+                    ],
+                ],
+            ],
+            [9 => 9],
+            [
+                0 => [
+                    'labels' => [
+                        0 => ['label' => 'Localized label brand 4'],
+                    ],
+                ],
+                1 => [
+                    'labels' => [
+                        0 => ['label' => 'Localized label1 brand 5'],
+                    ],
+                ],
+            ],
+            200,
+        ];
+        // With updated & new labels
+        yield [
+            $adminUser,
+            [
+                [
+                    'sourceField' => '/source_fields/9',
+                    'code' => 'new_brand_code_4',
+                    'defaultLabel' => 'New brand 4',
+                    'labels' => [
+                        [
+                            'localizedCatalog' => '/localized_catalogs/1',
+                            'label' => 'Localized label1 brand 4 update',
+                        ],
+                        [
+                            'localizedCatalog' => '/localized_catalogs/2',
+                            'label' => 'Localized label2 brand 4',
+                        ],
+                    ],
+                ],
+                [
+                    'sourceField' => '/source_fields/9',
+                    'code' => 'new_brand_code_5',
+                    'defaultLabel' => 'New brand 5',
+                    'labels' => [
+                        [
+                            'localizedCatalog' => '/localized_catalogs/2',
+                            'label' => 'Localized label2 brand 5',
+                        ],
+                    ],
+                ],
+                [
+                    'sourceField' => '/source_fields/12',
+                    'code' => 'new_material_code_1',
+                    'defaultLabel' => 'New Material 1',
+                    'labels' => [
+                        [
+                            'localizedCatalog' => '/localized_catalogs/1',
+                            'label' => 'Localized label1 material 1',
+                        ],
+                    ],
+                ],
+            ],
+            [
+                9 => 9,
+                12 => 1,
+            ],
+            [
+                0 => [
+                    'labels' => [
+                        1 => ['label' => 'Localized label2 brand 4'],
+                    ],
+                ],
+                1 => [
+                    'labels' => [
+                        0 => ['label' => 'Localized label2 brand 5'],
+                    ],
+                ],
+                2 => [
+                    'labels' => [
+                        0 => ['label' => 'Localized label1 material 1'],
+                    ],
+                ],
+            ],
+            200,
+        ];
     }
 }

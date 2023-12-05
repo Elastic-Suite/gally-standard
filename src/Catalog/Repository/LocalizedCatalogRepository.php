@@ -69,4 +69,9 @@ class LocalizedCatalogRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function getAllIds(): array
+    {
+        return $this->createQueryBuilder('o', 'o.id')->select('o.id')->getQuery()->getResult();
+    }
 }

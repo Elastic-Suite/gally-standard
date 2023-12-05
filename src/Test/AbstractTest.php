@@ -84,7 +84,7 @@ abstract class AbstractTest extends ApiTestCase
         return $client->request($request->getMethod(), $request->getPath(), $data);
     }
 
-    protected function validateApiCall(RequestToTest $request, ExpectedResponse $expectedResponse): void
+    protected function validateApiCall(RequestToTest $request, ExpectedResponse $expectedResponse): ResponseInterface
     {
         $response = $this->request($request);
         $this->assertResponseStatusCodeSame($expectedResponse->getResponseCode());
@@ -129,5 +129,7 @@ abstract class AbstractTest extends ApiTestCase
                 isset($data['errors']) ? $data['errors'][0]['debugMessage'] : ''
             );
         }
+
+        return $response;
     }
 }

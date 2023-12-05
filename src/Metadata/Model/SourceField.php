@@ -22,7 +22,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Gally\Entity\Filter\BooleanFilter;
 use Gally\Entity\Filter\SearchColumnsFilter;
-use Gally\Metadata\Controller\AddSourceFieldOptions;
+use Gally\Metadata\Controller\BulkSourceFields;
 use Gally\Metadata\Model\SourceField\Type;
 use Gally\Metadata\Model\SourceField\Weight;
 use Gally\User\Constant\Role;
@@ -38,11 +38,11 @@ use Symfony\Component\Serializer\Annotation\Groups;
         'get' => ['security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"],
         'put' => ['security' => "is_granted('" . Role::ROLE_ADMIN . "')"],
         'delete' => ['security' => "is_granted('" . Role::ROLE_ADMIN . "')"],
-        'add_options' => [
+        'bulk' => [
             'security' => "is_granted('" . Role::ROLE_ADMIN . "')",
             'method' => 'POST',
-            'controller' => AddSourceFieldOptions::class,
-            'path' => '/source_fields/{id}/add_options',
+            'controller' => BulkSourceFields::class,
+            'path' => '/source_fields/bulk',
             'read' => false,
             'deserialize' => false,
             'validate' => false,
@@ -50,8 +50,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
             'serialize' => true,
             'status' => Response::HTTP_OK,
             'openapi_context' => [
-                'summary' => 'Add options to a sourceField.',
-                'description' => 'Add options to a sourceField.',
+                'summary' => 'Add source fields.',
+                'description' => 'Add source fields.',
                 'requestBody' => [
                     'content' => [
                         'application/json' => [
@@ -62,8 +62,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
                                 ],
                             ],
                             'example' => [
-                                ['@id' => '/source_field_options/1', 'code' => 'brand_A', 'defaultLabel' => 'Brand A'],
-                                ['code' => 'brand_B', 'defaultLabel' => 'Brand B'],
+                                ['sourceField' => '/metadata/1', 'code' => 'brand', 'type' => 'text', 'defaultLabel' => 'Brand'],
+                                ['sourceField' => '/metadata/1', 'code' => 'color', 'type' => 'select', 'defaultLabel' => 'Color'],
                             ],
                         ],
                     ],
@@ -305,7 +305,7 @@ class SourceField
     private Collection $labels;
 
     /** @var Collection<SourceFieldOption> */
-    #[Groups(['source_field:read', 'facet_configuration:graphql_read'])]
+    #[Groups(['facet_configuration:graphql_read'])]
     private Collection $options;
 
     public function __construct()
@@ -319,9 +319,9 @@ class SourceField
         return $this->id;
     }
 
-    public function getCode(): string
+    public function getCode(): ?string
     {
-        return $this->code;
+        return $this->code ?? null;
     }
 
     public function setCode(string $code): self
@@ -459,7 +459,7 @@ class SourceField
 
     public function getMetadata(): ?Metadata
     {
-        return $this->metadata;
+        return $this->metadata ?? null;
     }
 
     public function setMetadata(?Metadata $metadata): self

@@ -20,7 +20,9 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Gally\Metadata\Controller\BulkSourceFieldOptions;
 use Gally\User\Constant\Role;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ApiResource(
@@ -32,6 +34,38 @@ use Symfony\Component\Serializer\Annotation\Groups;
         'get' => ['security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"],
         'put' => ['security' => "is_granted('" . Role::ROLE_ADMIN . "')"],
         'delete' => ['security' => "is_granted('" . Role::ROLE_ADMIN . "')"],
+        'bulk' => [
+            'security' => "is_granted('" . Role::ROLE_ADMIN . "')",
+            'method' => 'POST',
+            'controller' => BulkSourceFieldOptions::class,
+            'path' => '/source_field_options/bulk',
+            'read' => false,
+            'deserialize' => false,
+            'validate' => false,
+            'write' => false,
+            'serialize' => true,
+            'status' => Response::HTTP_OK,
+            'openapi_context' => [
+                'summary' => 'Add source field options.',
+                'description' => 'Add source field options.',
+                'requestBody' => [
+                    'content' => [
+                        'application/json' => [
+                            'schema' => [
+                                'type' => 'array',
+                                'items' => [
+                                    'type' => 'string',
+                                ],
+                            ],
+                            'example' => [
+                                ['sourceField' => '/source_fields/1', 'code' => 'brand_A', 'defaultLabel' => 'Brand A'],
+                                ['sourceField' => '/source_fields/1', 'code' => 'brand_B', 'defaultLabel' => 'Brand B'],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ],
     ],
     graphql: [
         'item_query' => ['security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"],
@@ -90,7 +124,7 @@ class SourceFieldOption
 
     public function getSourceField(): ?SourceField
     {
-        return $this->sourceField;
+        return $this->sourceField ?? null;
     }
 
     public function setSourceField(?SourceField $sourceField): self
@@ -102,7 +136,7 @@ class SourceFieldOption
 
     public function getPosition(): ?int
     {
-        return $this->position;
+        return $this->position ?? null;
     }
 
     public function setPosition(?int $position): self

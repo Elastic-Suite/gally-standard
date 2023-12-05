@@ -19,6 +19,7 @@ Gally\Catalog\Model\LocalizedCatalog:
         locale: en_US
         currency: EUR
         name: B2C English Store View
+        isDefault: true
     catalog2_en:
         catalog: '@catalog2'
         code: b2b_en
