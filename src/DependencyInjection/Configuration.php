@@ -254,6 +254,23 @@ class Configuration implements ConfigurationInterface
                     ->end()
                 ->end()
 
+                // Request types config
+                ->arrayNode('request_types')
+                    ->arrayPrototype()
+                        ->children()
+                            ->scalarNode('code')
+                                ->isRequired()
+                            ->end()
+                            ->scalarNode('label')
+                                ->isRequired()
+                            ->end()
+                            ->scalarNode('limitation_type')
+                                ->isRequired()
+                            ->end()
+                        ->end()
+                    ->end()
+                ->end()
+
                 // Default price group id config
                 ->scalarNode('default_price_group_id')
                     ->defaultValue('0')

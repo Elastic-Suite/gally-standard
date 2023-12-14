@@ -13,3 +13,6 @@ gally:
             default_asc_sort_field:
                 - '_count'
                 - '_score'
+    request_types:
+        - { code: product_catalog, label: 'Catalog product view', limitation_type: !php/const Gally\Search\Constant\RequestType\LimitationType::LIMITATION_CATEGORY }
+        - { code: product_search, label: 'Search items', limitation_type: !php/const Gally\Search\Constant\RequestType\LimitationType::LIMITATION_SEARCH }
