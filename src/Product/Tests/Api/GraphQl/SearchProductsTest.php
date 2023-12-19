@@ -1353,6 +1353,7 @@ class SearchProductsTest extends AbstractTest
      * @param int         $currentPage          Current page
      * @param array|null  $expectedAggregations Expected aggregations sample
      * @param string      $priceGroupId         Price group id
+     * @param string|null $query                Query text
      */
     public function testSearchProductsWithAggregation(
         string $requestType,
@@ -1361,7 +1362,8 @@ class SearchProductsTest extends AbstractTest
         int $pageSize,
         int $currentPage,
         ?array $expectedAggregations,
-        string $priceGroupId = '0'
+        string $priceGroupId = '0',
+        ?string $query = null,
     ): void {
         $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
 
@@ -1375,6 +1377,10 @@ class SearchProductsTest extends AbstractTest
 
         if ($categoryId) {
             $arguments .= ", currentCategoryId: \"$categoryId\"";
+        }
+
+        if (null !== $query) {
+            $arguments .= sprintf(', search: "%s"', $query);
         }
 
         $this->validateApiCall(
@@ -1397,6 +1403,7 @@ class SearchProductsTest extends AbstractTest
                                 value
                                 count
                               }
+                              hasMore
                             }
                         }
                     }
@@ -1651,7 +1658,7 @@ class SearchProductsTest extends AbstractTest
                 ],
                 '1',
             ],
-            [
+            [ // Test autocomplete aggregations
                 'product_catalog',
                 'b2c_fr',   // catalog ID.
                 'cat_1', // Current category id.
@@ -1664,6 +1671,60 @@ class SearchProductsTest extends AbstractTest
                     ['field' => 'color__value', 'label' => 'Couleur', 'type' => 'checkbox'],
                 ],
                 'fake_price_group_id',
+            ],
+            [
+                'product_autocomplete',
+                'b2c_en',   // catalog ID.
+                null, // Current category id.
+                10,     // page size.
+                1,      // current page.
+                [       // expected aggregations sample.
+                    [
+                        'field' => 'color__value',
+                        'label' => 'Color',
+                        'type' => 'checkbox',
+                        'hasMore' => true,
+                        'options' => [
+                            [
+                                'label' => 'Black',
+                                'value' => 'black',
+                                'count' => 6,
+                            ],
+                            [
+                                'label' => 'Grey',
+                                'value' => 'grey',
+                                'count' => 3,
+                            ],
+                            [
+                                'label' => 'Blue',
+                                'value' => 'blue',
+                                'count' => 1,
+                            ],
+                        ],
+                    ],
+                    ['field' => 'weight', 'label' => 'Weight', 'type' => 'slider', 'hasMore' => false],
+                    ['field' => 'is_eco_friendly', 'label' => 'Is_eco_friendly', 'type' => 'boolean', 'hasMore' => false],
+                    [
+                        'field' => 'category__id',
+                        'label' => 'Category',
+                        'type' => 'category',
+                        'hasMore' => false,
+                        'options' => [
+                            [
+                                'label' => 'One',
+                                'value' => 'cat_1',
+                                'count' => 2,
+                            ],
+                            [
+                                'label' => 'Five',
+                                'value' => 'cat_5',
+                                'count' => 1,
+                            ],
+                        ],
+                    ],
+                ],
+                '0',
+                'bag',
             ],
         ];
     }

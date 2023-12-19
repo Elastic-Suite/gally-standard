@@ -102,6 +102,7 @@ class GallyExtension extends Extension
         $container->setParameter('gally.menu', $config['menu'] ?? []);
         $container->setParameter('gally.analysis', $config['analysis'] ?? []);
         $container->setParameter('gally.graphql_query_renaming', $config['graphql_query_renaming'] ?? []);
+        $container->setParameter('gally.autocomplete_settings', $config['autocomplete_settings'] ?? []);
         $container->setParameter('gally.search_settings', $config['search_settings'] ?? []);
         $container->setParameter('gally.relevance', $config['relevance'] ?? []);
         $container->setParameter('gally.base_url', $config['base_url'] ?? []);

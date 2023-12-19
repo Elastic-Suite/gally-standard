@@ -17,22 +17,21 @@ namespace Gally\Search\Elasticsearch\Request\Aggregation\ConfigResolver;
 use Gally\Metadata\Model\SourceField;
 use Gally\Search\Elasticsearch\Request\BucketInterface;
 use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface;
-use Gally\Search\Model\Facet\Configuration;
 
 class SelectAggregationConfigResolver implements FieldAggregationConfigResolverInterface
 {
-    public function supports(Configuration $facetConfig): bool
+    public function supports(SourceField $sourceField): bool
     {
-        return SourceField\Type::TYPE_SELECT === $facetConfig->getSourceField()->getType();
+        return SourceField\Type::TYPE_SELECT === $sourceField->getType();
     }
 
-    public function getConfig(ContainerConfigurationInterface $containerConfig, Configuration $facetConfig): array
+    public function getConfig(ContainerConfigurationInterface $containerConfig, SourceField $sourceField): array
     {
         return [
-            'name' => $facetConfig->getSourceField()->getCode() . '.value',
+            'name' => $sourceField->getCode() . '.value',
             'type' => BucketInterface::TYPE_MULTI_TERMS,
             'additionalFields' => [
-                $facetConfig->getSourceField()->getCode() . '.label',
+                $sourceField->getCode() . '.label',
             ],
         ];
     }

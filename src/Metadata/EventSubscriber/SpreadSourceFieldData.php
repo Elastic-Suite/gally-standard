@@ -33,6 +33,7 @@ class SpreadSourceFieldData implements EventSubscriberInterface
         'search_weight',
         'is_used_for_sort_by',
         'is_used_in_spellcheck',
+        'is_used_in_autocomplete',
     ];
 
     public function __construct(

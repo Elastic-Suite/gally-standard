@@ -40,6 +40,12 @@ class GetContainerConfigurationFactory implements CompilerPassInterface
                         $attributes['metadata'] ?? 'generic',
                     ]
                 );
+
+                if (isset($attributes['internal']) && $attributes['internal']) {
+                    $containerConfigProviderDef->addMethodCall(
+                        'addInternalRequestType', [$attributes['requestType']]
+                    );
+                }
             }
         }
     }

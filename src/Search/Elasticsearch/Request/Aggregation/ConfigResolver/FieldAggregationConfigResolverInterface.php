@@ -14,12 +14,12 @@ declare(strict_types=1);
 
 namespace Gally\Search\Elasticsearch\Request\Aggregation\ConfigResolver;
 
+use Gally\Metadata\Model\SourceField;
 use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface;
-use Gally\Search\Model\Facet\Configuration;
 
 interface FieldAggregationConfigResolverInterface
 {
-    public function supports(Configuration $facetConfig): bool;
+    public function supports(SourceField $sourceField): bool;
 
-    public function getConfig(ContainerConfigurationInterface $containerConfig, Configuration $facetConfig): array;
+    public function getConfig(ContainerConfigurationInterface $containerConfig, SourceField $sourceField): array;
 }

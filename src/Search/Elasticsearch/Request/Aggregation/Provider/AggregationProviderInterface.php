@@ -36,4 +36,9 @@ interface AggregationProviderInterface
         array $filters = [],
         array $queryFilters = []
     ): array;
+
+    /**
+     * Is the aggregation provider uses the facet configuration to configure the aggregation query ?
+     */
+    public function useFacetConfiguration(): bool;
 }

@@ -41,6 +41,7 @@ class SourceFieldRepository extends ServiceEntityRepository
         'isSortable' => 'is_sortable',
         'isSpellchecked' => 'is_spellchecked',
         'isUsedForRules' => 'is_used_for_rules',
+        'isUsedInAutocomplete' => 'is_used_in_autocomplete',
         'isSystem' => 'is_system',
         'search' => 'search',
     ];
@@ -184,7 +185,7 @@ class SourceFieldRepository extends ServiceEntityRepository
     {
         $sourceFieldData = array_map(
             fn ($data) => sprintf(
-                '(%s, %d, %s, %s, %s, %d, %s, %s, %s, %s, %s, %s, %s)',
+                '(%s, %s' . str_repeat(',%s', \count($this->entityFields)) . ')',
                 $data['id'],
                 $data['metadata_id'],
                 ...array_values(array_map(fn ($field) => $data[$field], $this->entityFields))

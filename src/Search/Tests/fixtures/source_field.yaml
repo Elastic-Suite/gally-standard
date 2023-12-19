@@ -35,11 +35,13 @@ Gally\Metadata\Model\SourceField:
         isSearchable: true
         isSpellchecked: false
         weight: 5
+        isUsedInAutocomplete: true
     product_category:
         metadata: '@product'
         code: 'category'
         type: 'category'
         isFilterable: true
+        isUsedInAutocomplete: true
     product_length:
         metadata: '@product'
         code: 'length'
@@ -55,6 +57,7 @@ Gally\Metadata\Model\SourceField:
         code: 'weight'
         type: 'int'
         isFilterable: true
+        isUsedInAutocomplete: true
     product_id:
         metadata: '@product'
         code: 'id'
@@ -90,6 +93,7 @@ Gally\Metadata\Model\SourceField:
         code: 'is_eco_friendly'
         type: 'boolean'
         isFilterable: true
+        isUsedInAutocomplete: true
     product_created_at:
         metadata: '@product'
         code: 'created_at'

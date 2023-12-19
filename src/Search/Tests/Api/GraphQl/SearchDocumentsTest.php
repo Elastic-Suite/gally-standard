@@ -681,12 +681,14 @@ class SearchDocumentsTest extends AbstractTest
     /**
      * @dataProvider searchWithAggregationDataProvider
      *
-     * @param string $entityType           Entity Type
-     * @param string $catalogId            Catalog ID or code
-     * @param int    $pageSize             Pagination size
-     * @param int    $currentPage          Current page
-     * @param array  $expectedAggregations expected aggregations sample
-     * @param string $priceGroupId         Price group id
+     * @param string      $entityType           Entity Type
+     * @param string      $catalogId            Catalog ID or code
+     * @param int         $pageSize             Pagination size
+     * @param int         $currentPage          Current page
+     * @param array       $expectedAggregations expected aggregations sample
+     * @param string      $priceGroupId         Price group id
+     * @param string|null $query                Query text
+     * @param string|null $requestType          Request type
      */
     public function testSearchDocumentsWithAggregation(
         string $entityType,
@@ -695,6 +697,8 @@ class SearchDocumentsTest extends AbstractTest
         int $currentPage,
         array $expectedAggregations,
         string $priceGroupId = '0',
+        ?string $query = null,
+        ?string $requestType = null,
     ): void {
         $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
 
@@ -705,6 +709,14 @@ class SearchDocumentsTest extends AbstractTest
             $pageSize,
             $currentPage
         );
+
+        if (null !== $query) {
+            $arguments .= sprintf(', search: "%s"', $query);
+        }
+
+        if (null !== $requestType) {
+            $arguments .= sprintf(', requestType: %s', $requestType);
+        }
 
         $this->validateApiCall(
             new RequestGraphQlToTest(
@@ -1072,6 +1084,60 @@ class SearchDocumentsTest extends AbstractTest
                     ],
                 ],
                 'fake_price_group_id',
+            ],
+            [ // Test autocomplete aggregations
+                'product_document',  // entity type.
+                'b2c_en',   // catalog ID.
+                10,     // page size.
+                1,      // current page.
+                [       // expected aggregations sample.
+                    [
+                        'field' => 'color__value',
+                        'label' => 'Color',
+                        'type' => 'checkbox',
+                        'hasMore' => true,
+                        'options' => [
+                            [
+                                'label' => 'Black',
+                                'value' => 'black',
+                                'count' => 6,
+                            ],
+                            [
+                                'label' => 'Grey',
+                                'value' => 'grey',
+                                'count' => 3,
+                            ],
+                            [
+                                'label' => 'Blue',
+                                'value' => 'blue',
+                                'count' => 1,
+                            ],
+                        ],
+                    ],
+                    [
+                        'field' => 'category__id',
+                        'label' => 'Category',
+                        'type' => 'category',
+                        'hasMore' => false,
+                        'options' => [
+                            [
+                                'label' => 'One',
+                                'value' => 'cat_1',
+                                'count' => 2,
+                            ],
+                            [
+                                'label' => 'Five',
+                                'value' => 'cat_5',
+                                'count' => 1,
+                            ],
+                        ],
+                    ],
+                    ['field' => 'weight', 'label' => 'Weight', 'type' => 'slider', 'hasMore' => false],
+                    ['field' => 'is_eco_friendly', 'label' => 'Is_eco_friendly', 'type' => 'boolean', 'hasMore' => false],
+                ],
+                '0',
+                'bag', // query
+                'autocomplete', // request type
             ],
         ];
     }
@@ -1758,9 +1824,6 @@ class SearchDocumentsTest extends AbstractTest
 
     public function searchWithAggregationAndFilterDataProvider(): array
     {
-        //todo tests faux, il faut utiliser un autre attribut car il y a un max size sur la color
-        // tester en faisant un filtre si toutes les options dans les aggregations sont renvoyés.
-        // Modifier les tests pour les aggregation (coverage + filterable attributes ) + dans les tests de documents ajouter les test des liste déroulante
         return [
             [
                 'product_document',  // entity type.

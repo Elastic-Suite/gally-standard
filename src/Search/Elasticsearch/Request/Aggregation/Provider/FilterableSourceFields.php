@@ -68,6 +68,11 @@ class FilterableSourceFields implements AggregationProviderInterface
         return $aggregations;
     }
 
+    public function useFacetConfiguration(): bool
+    {
+        return true;
+    }
+
     /**
      * Get aggregations config.
      *
@@ -95,8 +100,8 @@ class FilterableSourceFields implements AggregationProviderInterface
         ];
 
         foreach ($this->aggregationResolvers as $aggregationResolver) {
-            if ($aggregationResolver->supports($facetConfig)) {
-                $config = $aggregationResolver->getConfig($containerConfig, $facetConfig);
+            if ($aggregationResolver->supports($facetConfig->getSourceField())) {
+                $config = $aggregationResolver->getConfig($containerConfig, $facetConfig->getSourceField());
                 break;
             }
         }

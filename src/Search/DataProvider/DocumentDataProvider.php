@@ -66,7 +66,12 @@ class DocumentDataProvider implements ContextAwareCollectionDataProviderInterfac
 
         $metadata = $this->metadataRepository->findByEntity($context['filters']['entityType']);
         $localizedCatalog = $this->catalogRepository->findByCodeOrId($context['filters']['localizedCatalog']);
-        $containerConfig = $this->containerConfigurationProvider->get($metadata, $localizedCatalog);
+
+        $containerConfig = $this->containerConfigurationProvider->get(
+            $metadata,
+            $localizedCatalog,
+            $context['filters']['requestType'] ?? null
+        );
 
         $this->filterManager->validateFilters($context, $containerConfig);
 

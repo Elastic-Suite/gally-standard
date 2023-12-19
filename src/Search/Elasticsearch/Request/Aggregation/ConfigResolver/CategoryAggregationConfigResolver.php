@@ -20,7 +20,6 @@ use Gally\Search\Elasticsearch\Request\BucketInterface;
 use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface;
 use Gally\Search\Elasticsearch\Request\QueryFactory;
 use Gally\Search\Elasticsearch\Request\QueryInterface;
-use Gally\Search\Model\Facet\Configuration;
 use Gally\Search\Service\SearchContext;
 
 class CategoryAggregationConfigResolver implements FieldAggregationConfigResolverInterface
@@ -32,16 +31,16 @@ class CategoryAggregationConfigResolver implements FieldAggregationConfigResolve
     ) {
     }
 
-    public function supports(Configuration $facetConfig): bool
+    public function supports(SourceField $sourceField): bool
     {
-        return SourceField\Type::TYPE_CATEGORY === $facetConfig->getSourceField()->getType();
+        return SourceField\Type::TYPE_CATEGORY === $sourceField->getType();
     }
 
     /**
      * The category aggregation should return only the categories that are direct child of the current category.
      * If no category are provided in context, the aggregation should return only first level categories.
      */
-    public function getConfig(ContainerConfigurationInterface $containerConfig, Configuration $facetConfig): array
+    public function getConfig(ContainerConfigurationInterface $containerConfig, SourceField $sourceField): array
     {
         $config = [];
 
@@ -52,13 +51,13 @@ class CategoryAggregationConfigResolver implements FieldAggregationConfigResolve
         foreach ($children as $child) {
             $queries[$child->getId()] = $this->queryFactory->create(
                 QueryInterface::TYPE_TERM,
-                ['field' => $facetConfig->getSourceField()->getCode() . '.id', 'value' => $child->getId()]
+                ['field' => $sourceField->getCode() . '.id', 'value' => $child->getId()]
             );
         }
 
         if (!empty($queries)) {
             $config = [
-                'name' => $facetConfig->getSourceField()->getCode() . '.id',
+                'name' => $sourceField->getCode() . '.id',
                 'type' => BucketInterface::TYPE_QUERY_GROUP,
                 'queries' => $queries,
             ];

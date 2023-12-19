@@ -284,16 +284,17 @@ class SourceFieldDataPersister implements DataPersisterInterface
                     $sourceFieldData = array_merge($existingSourceFields[$metadataId][$code], $sourceFieldData);
                     $sourceFieldToUpdate = [
                         'id' => (int) $sourceFieldData['id'],
-                        'metadata_id' => $metadataId,
+                        'metadata_id' => $expBuilder->literal($metadataId),
                         'code' => $expBuilder->literal($sourceFieldData['code']),
                         'default_label' => $sourceFieldData['defaultLabel'] ? $expBuilder->literal($sourceFieldData['defaultLabel']) : 'NULL',
                         'type' => $sourceFieldData['type'] ? $expBuilder->literal($sourceFieldData['type']) : 'NULL',
-                        'weight' => (int) $sourceFieldData['weight'],
+                        'weight' => $expBuilder->literal($sourceFieldData['weight']),
                         'is_searchable' => null === $sourceFieldData['isSearchable'] ? 'NULL' : ($sourceFieldData['isSearchable'] ? 'True' : 'False'),
                         'is_filterable' => null === $sourceFieldData['isFilterable'] ? 'NULL' : ($sourceFieldData['isFilterable'] ? 'True' : 'False'),
                         'is_sortable' => null === $sourceFieldData['isSortable'] ? 'NULL' : ($sourceFieldData['isSortable'] ? 'True' : 'False'),
                         'is_spellchecked' => null === $sourceFieldData['isSpellchecked'] ? 'NULL' : ($sourceFieldData['isSpellchecked'] ? 'True' : 'False'),
                         'is_used_for_rules' => null === $sourceFieldData['isUsedForRules'] ? 'NULL' : ($sourceFieldData['isUsedForRules'] ? 'True' : 'False'),
+                        'is_used_in_autocomplete' => null === $sourceFieldData['isUsedInAutocomplete'] ? 'NULL' : ($sourceFieldData['isUsedInAutocomplete'] ? 'True' : 'False'),
                         'is_system' => ($sourceFieldData['isSystem'] ?? false) ? 'True' : 'False',
                         'search' => $expBuilder->literal($sourceFieldData['search']),
                     ];
@@ -301,16 +302,17 @@ class SourceFieldDataPersister implements DataPersisterInterface
                     // Create new
                     $sourceFieldToUpdate = [
                         'id' => "nextval('source_field_id_seq')",
-                        'metadata_id' => $metadataId,
+                        'metadata_id' => $expBuilder->literal($metadataId),
                         'code' => $expBuilder->literal($sourceFieldData['code']),
                         'default_label' => isset($sourceFieldData['defaultLabel']) ? $expBuilder->literal($sourceFieldData['defaultLabel']) : 'NULL',
                         'type' => isset($sourceFieldData['type']) ? $expBuilder->literal($sourceFieldData['type']) : 'NULL',
-                        'weight' => isset($sourceFieldData['weight']) ? (int) $sourceFieldData['weight'] : 1,
+                        'weight' => $expBuilder->literal(isset($sourceFieldData['weight']) ? (int) $sourceFieldData['weight'] : 1),
                         'is_searchable' => isset($sourceFieldData['isSearchable']) ? ($sourceFieldData['isSearchable'] ? 'True' : 'False') : 'NULL',
                         'is_filterable' => isset($sourceFieldData['isFilterable']) ? ($sourceFieldData['isFilterable'] ? 'True' : 'False') : 'NULL',
                         'is_sortable' => isset($sourceFieldData['isSortable']) ? ($sourceFieldData['isSortable'] ? 'True' : 'False') : 'NULL',
                         'is_spellchecked' => isset($sourceFieldData['isSpellchecked']) ? ($sourceFieldData['isSpellchecked'] ? 'True' : 'False') : 'NULL',
                         'is_used_for_rules' => isset($sourceFieldData['isUsedForRules']) ? ($sourceFieldData['isUsedForRules'] ? 'True' : 'False') : 'NULL',
+                        'is_used_in_autocomplete' => isset($sourceFieldData['isUsedInAutocomplete']) ? ($sourceFieldData['isUsedInAutocomplete'] ? 'True' : 'False') : 'NULL',
                         'is_system' => ($sourceFieldData['isSystem'] ?? false) ? 'True' : 'False',
                         'search' => $expBuilder->literal($sourceFieldData['search']),
                     ];

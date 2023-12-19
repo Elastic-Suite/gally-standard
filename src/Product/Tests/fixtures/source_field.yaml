@@ -58,6 +58,7 @@ Gally\Metadata\Model\SourceField:
         code: 'color'
         type: 'select'
         isFilterable: true
+        isUsedInAutocomplete: true
     product_length:
         metadata: '@product'
         code: 'length'
@@ -74,6 +75,7 @@ Gally\Metadata\Model\SourceField:
         code: 'weight'
         type: 'float'
         isFilterable: true
+        isUsedInAutocomplete: true
     product_price:
         metadata: '@product'
         code: 'price'
@@ -106,6 +108,7 @@ Gally\Metadata\Model\SourceField:
         code: 'is_eco_friendly'
         type: 'boolean'
         isFilterable: true
+        isUsedInAutocomplete: true
     product_created_at:
         metadata: '@product'
         code: 'created_at'
@@ -136,6 +139,7 @@ Gally\Metadata\Model\SourceField:
         isFilterable: true
         isSortable: true
         isSystem: true
+        isUsedInAutocomplete: true
     product_category_id:
         metadata: '@product'
         code: 'category_as_nested.id'

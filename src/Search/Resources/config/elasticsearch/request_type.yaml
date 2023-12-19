@@ -8,11 +8,18 @@ services:
             $aggregationProvider: '@Gally\Search\Elasticsearch\Request\Aggregation\Provider\FilterableSourceFields'
             $defaultSortingOptionProvider: ~
         tags:
-            - { name: gally.container_configuration.factory, requestType: generic }
+            - { name: gally.container_configuration.factory, requestType: generic, internal: true }
 
     gally.container_configuration.coverage_rate.factory:
         parent: 'Gally\Search\Elasticsearch\Request\Container\Configuration\GenericContainerConfigurationFactory'
         arguments:
             $aggregationProvider: '@Gally\Search\Elasticsearch\Request\Aggregation\Provider\CoverageAggregationProvider'
         tags:
-            - { name: gally.container_configuration.factory, requestType: coverage_rate }
+            - { name: gally.container_configuration.factory, requestType: coverage_rate , internal: true }
+                
+    gally.container_configuration.autocomplete.factory:
+        parent: 'Gally\Search\Elasticsearch\Request\Container\Configuration\GenericContainerConfigurationFactory'
+        arguments:
+            $aggregationProvider: '@Gally\Search\Elasticsearch\Request\Aggregation\Provider\AutocompleteSourceFields'
+        tags:
+            - { name: gally.container_configuration.factory, requestType: autocomplete }

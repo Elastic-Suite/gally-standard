@@ -34,7 +34,7 @@ use Gally\User\Constant\Role;
                 'pagination_type' => 'page',
                 'args' => [
                     'localizedCatalog' => ['type' => 'String!', 'description' => 'Localized Catalog'],
-                    'requestType' => ['type' => ProductRequestTypeEnumType::NAME . '!', 'description' => 'Request Type'],
+                    'requestType' => ['type' => ProductRequestTypeEnumType::NAME . '!', 'description' => 'Product Request Type'],
                     'currentPage' => ['type' => 'Int'],
                     'search' => ['type' => 'String', 'description' => 'Query Text'],
                     'currentCategoryId' => ['type' => 'String', 'description' => 'Current category ID'],
