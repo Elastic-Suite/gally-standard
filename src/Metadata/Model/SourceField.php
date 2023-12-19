@@ -84,7 +84,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ApiFilter(SearchFilter::class, properties: ['code' => 'ipartial', 'type' => 'exact', 'metadata.entity' => 'exact', 'weight' => 'exact', 'search' => 'ipartial'])]
 #[ApiFilter(SearchColumnsFilter::class, properties: ['defaultLabel' => ['code', 'labels.label']])]
-#[ApiFilter(BooleanFilter::class, properties: ['isSearchable', 'isFilterable', 'isSortable', 'isSpellchecked', 'isUsedForRules'], arguments: ['treatNullAsFalse' => true])]
+#[ApiFilter(BooleanFilter::class, properties: ['isSearchable', 'isFilterable', 'isSortable', 'isUsedInAutocomplete',  'isSpellchecked', 'isUsedForRules'], arguments: ['treatNullAsFalse' => true])]
 class SourceField
 {
     #[Groups(['source_field:read', 'facet_configuration:graphql_read'])]

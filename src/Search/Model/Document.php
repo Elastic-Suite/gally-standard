@@ -19,6 +19,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use Gally\GraphQl\Decoration\Resolver\Stage\ReadStage;
 use Gally\Search\Elasticsearch\DocumentInterface;
 use Gally\Search\GraphQl\Type\Definition\FieldFilterInputType;
+use Gally\Search\GraphQl\Type\Definition\RequestTypeEnumType;
 use Gally\Search\GraphQl\Type\Definition\SortInputType;
 use Gally\Search\Resolver\DummyResolver;
 
@@ -31,6 +32,7 @@ use Gally\Search\Resolver\DummyResolver;
                 'pagination_type' => 'page',
                 'args' => [
                     'entityType' => ['type' => 'String!', 'description' => 'Entity Type'],
+                    'requestType' => ['type' => RequestTypeEnumType::NAME, 'description' => 'Request Type'],
                     'localizedCatalog' => ['type' => 'String!', 'description' => 'Localized Catalog'],
                     'search' => ['type' => 'String', 'description' => 'Query Text'],
                     'currentPage' => ['type' => 'Int'],

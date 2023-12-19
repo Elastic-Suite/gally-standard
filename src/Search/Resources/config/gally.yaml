@@ -6,6 +6,9 @@ gally:
         Gally\Search\Model\Source\SortingOption:
             renamings:
                 getSortingOptions: sortingOptions
+    autocomplete_settings:
+        document_attribute:
+            max_size: 3
     search_settings:
         aggregations:
             coverage_use_indexed_fields_property: false

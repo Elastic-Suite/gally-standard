@@ -122,7 +122,7 @@ class AddAggregationsData implements SerializeStageInterface
             $data['count'] = $aggregation->getCount();
             $data['hasMore'] = false;
         }
-        $facetConfigs = $sourceField ? $this->facetConfigRepository->findOndBySourceField($sourceField) : null;
+        $facetConfigs = $sourceField && $containerConfig->getAggregationProvider()->useFacetConfiguration() ? $this->facetConfigRepository->findOndBySourceField($sourceField) : null;
         $labels = [];
 
         if (Type::TYPE_CATEGORY === $sourceField->getType()) {

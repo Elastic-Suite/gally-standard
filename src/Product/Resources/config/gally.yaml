@@ -4,7 +4,9 @@ gally:
             renamings:
                 searchProducts: products
                 searchPreviewProducts: previewProducts
-
+    autocomplete_settings:
+        product_attribute:
+            max_size: 3
     request_context:
         headers:
             - !php/const Gally\Entity\Service\PriceGroupProvider::PRICE_GROUP_ID

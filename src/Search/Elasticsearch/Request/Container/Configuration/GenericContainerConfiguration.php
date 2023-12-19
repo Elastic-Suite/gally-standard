@@ -124,4 +124,12 @@ class GenericContainerConfiguration implements ContainerConfigurationInterface
     {
         return $this->defaultSortingOptionProvider?->getSortingOption($this) ?: [];
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getAggregationProvider(): AggregationProviderInterface
+    {
+        return $this->aggregationProvider;
+    }
 }

@@ -10,3 +10,10 @@ services:
         parent: 'Gally\Search\Elasticsearch\Request\Container\Configuration\GenericContainerConfigurationFactory'
         tags:
             - { name: gally.container_configuration.factory, requestType: product_search, metadata: product }
+
+    gally.container_configuration.product_autocomplete.factory:
+        parent: 'Gally\Search\Elasticsearch\Request\Container\Configuration\GenericContainerConfigurationFactory'
+        arguments:
+            $aggregationProvider: '@Gally\Search\Elasticsearch\Request\Aggregation\Provider\AutocompleteSourceFields'
+        tags:
+            - { name: gally.container_configuration.factory, requestType: product_autocomplete, metadata: product }

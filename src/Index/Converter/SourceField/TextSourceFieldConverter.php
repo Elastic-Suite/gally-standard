@@ -42,7 +42,7 @@ class TextSourceFieldConverter implements SourceFieldConverterInterface
         $fieldConfig = [
             'is_searchable' => $sourceField->getIsSearchable(),
             'is_used_in_spellcheck' => $sourceField->getIsSpellchecked(),
-            'is_filterable' => $sourceField->getIsFilterable() || $sourceField->getIsUsedForRules(),
+            'is_filterable' => $sourceField->getIsFilterable() || $sourceField->getIsUsedForRules() || $sourceField->getIsUsedInAutocomplete(),
             'search_weight' => $sourceField->getWeight(),
             'is_used_for_sort_by' => $sourceField->getIsSortable(),
         ];

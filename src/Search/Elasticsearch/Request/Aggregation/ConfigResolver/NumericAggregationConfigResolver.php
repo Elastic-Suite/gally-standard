@@ -17,14 +17,13 @@ namespace Gally\Search\Elasticsearch\Request\Aggregation\ConfigResolver;
 use Gally\Metadata\Model\SourceField;
 use Gally\Search\Elasticsearch\Request\BucketInterface;
 use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface;
-use Gally\Search\Model\Facet\Configuration;
 
 class NumericAggregationConfigResolver implements FieldAggregationConfigResolverInterface
 {
-    public function supports(Configuration $facetConfig): bool
+    public function supports(SourceField $sourceField): bool
     {
         return \in_array(
-            $facetConfig->getSourceField()->getType(),
+            $sourceField->getType(),
             [
                 SourceField\Type::TYPE_INT,
                 SourceField\Type::TYPE_FLOAT,
@@ -32,10 +31,10 @@ class NumericAggregationConfigResolver implements FieldAggregationConfigResolver
         );
     }
 
-    public function getConfig(ContainerConfigurationInterface $containerConfig, Configuration $facetConfig): array
+    public function getConfig(ContainerConfigurationInterface $containerConfig, SourceField $sourceField): array
     {
         return [
-            'name' => $facetConfig->getSourceField()->getCode(),
+            'name' => $sourceField->getCode(),
             'type' => BucketInterface::TYPE_HISTOGRAM,
             'minDocCount' => 1,
         ];

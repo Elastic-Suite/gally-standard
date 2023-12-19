@@ -17,19 +17,18 @@ namespace Gally\Search\Elasticsearch\Request\Aggregation\ConfigResolver;
 use Gally\Metadata\Model\SourceField;
 use Gally\Search\Elasticsearch\Request\BucketInterface;
 use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface;
-use Gally\Search\Model\Facet\Configuration;
 
 class DateAggregationConfigResolver implements FieldAggregationConfigResolverInterface
 {
-    public function supports(Configuration $facetConfig): bool
+    public function supports(SourceField $sourceField): bool
     {
-        return SourceField\Type::TYPE_DATE === $facetConfig->getSourceField()->getType();
+        return SourceField\Type::TYPE_DATE === $sourceField->getType();
     }
 
-    public function getConfig(ContainerConfigurationInterface $containerConfig, Configuration $facetConfig): array
+    public function getConfig(ContainerConfigurationInterface $containerConfig, SourceField $sourceField): array
     {
         return [
-            'name' => $facetConfig->getSourceField()->getCode(),
+            'name' => $sourceField->getCode(),
             'type' => BucketInterface::TYPE_DATE_HISTOGRAM,
             'minDocCount' => 1,
         ];

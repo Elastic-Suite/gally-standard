@@ -17,7 +17,6 @@ namespace Gally\Search\Elasticsearch\Request\Aggregation\ConfigResolver;
 use Gally\Metadata\Model\SourceField;
 use Gally\Search\Elasticsearch\Request\BucketInterface;
 use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface;
-use Gally\Search\Model\Facet\Configuration;
 use Gally\Search\Service\SearchContext;
 
 class PriceAggregationConfigResolver implements FieldAggregationConfigResolverInterface
@@ -27,17 +26,17 @@ class PriceAggregationConfigResolver implements FieldAggregationConfigResolverIn
     ) {
     }
 
-    public function supports(Configuration $facetConfig): bool
+    public function supports(SourceField $sourceField): bool
     {
-        return SourceField\Type::TYPE_PRICE === $facetConfig->getSourceField()->getType();
+        return SourceField\Type::TYPE_PRICE === $sourceField->getType();
     }
 
-    public function getConfig(ContainerConfigurationInterface $containerConfig, Configuration $facetConfig): array
+    public function getConfig(ContainerConfigurationInterface $containerConfig, SourceField $sourceField): array
     {
         return [
-            'name' => $facetConfig->getSourceField()->getCode() . '.price',
+            'name' => $sourceField->getCode() . '.price',
             'type' => BucketInterface::TYPE_HISTOGRAM,
-            'nestedFilter' => [$facetConfig->getSourceField()->getCode() . '.group_id' => $this->searchContext->getPriceGroup()],
+            'nestedFilter' => [$sourceField->getCode() . '.group_id' => $this->searchContext->getPriceGroup()],
             'minDocCount' => 1,
         ];
     }

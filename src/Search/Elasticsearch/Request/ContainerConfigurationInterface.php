@@ -17,6 +17,7 @@ namespace Gally\Search\Elasticsearch\Request;
 use Gally\Catalog\Model\LocalizedCatalog;
 use Gally\Index\Model\Index\MappingInterface;
 use Gally\Metadata\Model\Metadata;
+use Gally\Search\Elasticsearch\Request\Aggregation\Provider\AggregationProviderInterface;
 use Gally\Search\Elasticsearch\Request\Container\RelevanceConfiguration\RelevanceConfigurationInterface;
 
 /**
@@ -84,4 +85,9 @@ interface ContainerConfigurationInterface
      * Get default sorting option for context.
      */
     public function getDefaultSortingOption(): array;
+
+    /**
+     * Get aggregation provider.
+     */
+    public function getAggregationProvider(): AggregationProviderInterface;
 }

@@ -33,4 +33,12 @@ class DummyAggregationProvider implements AggregationProviderInterface
     ): array {
         return [];
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function useFacetConfiguration(): bool
+    {
+        return true;
+    }
 }

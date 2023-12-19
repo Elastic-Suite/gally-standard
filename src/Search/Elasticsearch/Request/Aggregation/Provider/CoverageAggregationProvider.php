@@ -86,4 +86,12 @@ class CoverageAggregationProvider implements AggregationProviderInterface
             ],
         ];
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function useFacetConfiguration(): bool
+    {
+        return true;
+    }
 }

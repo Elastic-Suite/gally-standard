@@ -105,13 +105,6 @@ services:
         decoration_priority: 1
         arguments:
             - '@.inner'
-
-    gally.container_configuration.coverage_rate.factory:
-        parent: 'Gally\Search\Elasticsearch\Request\Container\Configuration\GenericContainerConfigurationFactory'
-        arguments:
-            $aggregationProvider: '@Gally\Search\Elasticsearch\Request\Aggregation\Provider\CoverageAggregationProvider'
-        tags:
-            - { name: gally.container_configuration.factory, requestType: coverage_rate }
     
     Gally\Product\DataProvider\Facet\OptionDataProvider:
         parent: Gally\Search\DataProvider\Facet\OptionDataProvider

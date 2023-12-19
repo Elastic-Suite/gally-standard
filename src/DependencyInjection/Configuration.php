@@ -170,6 +170,28 @@ class Configuration implements ConfigurationInterface
                     ->end()
                 ->end()
 
+                // Autocomplete settings
+                ->arrayNode('autocomplete_settings')
+                    ->children()
+                        ->arrayNode('product_attribute')
+                            ->children()
+                                ->integerNode('max_size')
+                                    ->min(0)
+                                    ->defaultValue(3)
+                                ->end()
+                            ->end()
+                        ->end()
+                        ->arrayNode('document_attribute')
+                            ->children()
+                                ->integerNode('max_size')
+                                    ->min(0)
+                                    ->defaultValue(3)
+                                ->end()
+                            ->end()
+                        ->end()
+                    ->end()
+                ->end()
+
                 // Indices setting config
                 ->arrayNode('relevance')
                     ->useAttributeAsKey('localized_catalog_code')

@@ -24,6 +24,9 @@ class ContainerConfigurationProvider
     /** @var ContainerConfigurationFactoryInterface[][] */
     private array $containerConfigFactories;
 
+    /** @var string[] */
+    private array $internalRequestTypes = [];
+
     /**
      * Add factories via compiler pass.
      *
@@ -35,6 +38,17 @@ class ContainerConfigurationProvider
         string $entityCode = 'generic'
     ): void {
         $this->containerConfigFactories[$entityCode][$requestType] = $configurationFactory;
+    }
+
+    public function addInternalRequestType(string $requestType): void
+    {
+        $this->internalRequestTypes[] = $requestType;
+        $this->internalRequestTypes = array_unique($this->internalRequestTypes);
+    }
+
+    public function getInternalRequestTypes(): array
+    {
+        return $this->internalRequestTypes;
     }
 
     /**
@@ -69,12 +83,31 @@ class ContainerConfigurationProvider
     }
 
     /**
+     * Get all available request type names by entity.
+     *
+     * @return string[]
+     */
+    public function getAvailableRequestType(string $entityCode = 'generic', bool $withInternal = false): array
+    {
+        $internalRequestTypes = $withInternal ? [] : $this->getInternalRequestTypes();
+
+        return array_diff(array_keys($this->containerConfigFactories[$entityCode]), $internalRequestTypes);
+    }
+
+    /**
      * Get all available request type names.
      *
      * @return string[]
      */
-    public function getAvailableRequestType(string $entityCode = 'generic'): array
+    public function getAllAvailableRequestTypes(bool $withInternal = false): array
     {
-        return array_keys($this->containerConfigFactories[$entityCode]);
+        $internalRequestTypes = $withInternal ? [] : $this->getInternalRequestTypes();
+        $allRequestTypes = array_reduce(
+            $this->containerConfigFactories,
+            fn ($acc, $requestTypes) => array_merge($acc, array_keys($requestTypes)),
+            []
+        );
+
+        return array_diff($allRequestTypes, $internalRequestTypes);
     }
 }
