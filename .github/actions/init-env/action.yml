@@ -9,6 +9,10 @@ inputs:
         description: 'The version to require'
         default: 'master'
         required: true
+    front-version:
+        description: 'The front version to install'
+        default: 'main'
+        required: true
     gally-directory:
         description: 'Base gally directory'
         default: ''
@@ -27,6 +31,13 @@ runs:
                repository: 'Elastic-Suite/gally'
                ref: ${{ inputs.ref }}
                path: ${{ inputs.gally-directory }}
+
+         - name: Checkout Gally admin
+           uses: actions/checkout@v3
+           with:
+               repository: 'Elastic-Suite/gally-admin'
+               ref: ${{ env.front-version }}
+               path: ${{ inputs.gally-directory }}/front/gally-admin
          
          # Checkout current package
          # in $GITHUB_WORKSPACE we will have this after this step :
