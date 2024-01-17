@@ -36,6 +36,7 @@ jobs:
               with:
                   ref: ${{ env.ref }}
                   version: ${{ env.ref == 'master' && 'dev-master' || format('{0}-dev', env.ref) }}
+                  front-version: ${{ env.ref == 'master' && 'main' || env.ref }}
                   gally-directory: ${{ env.gally-directory }}
                   package-name: ${{ github.event.repository.name }}
 
