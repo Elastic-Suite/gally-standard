@@ -274,7 +274,7 @@ class SourceFieldDataPersister implements DataPersisterInterface
         // Get existing sourceFields
         $existingSourceFields = $this->getExistingSourceFields();
 
-        $sourceFieldToUpdate = [];
+        $sourceFieldsToUpdate = [];
         foreach ($this->sourceFieldData as $metadataId => $sourceFields) {
             foreach ($sourceFields as $code => $sourceFieldData) {
                 if (\array_key_exists($metadataId, $existingSourceFields)
@@ -282,7 +282,7 @@ class SourceFieldDataPersister implements DataPersisterInterface
                 ) {
                     // Update existing
                     $sourceFieldData = array_merge($existingSourceFields[$metadataId][$code], $sourceFieldData);
-                    $sourceFieldToUpdate[] = [
+                    $sourceFieldToUpdate = [
                         'id' => (int) $sourceFieldData['id'],
                         'metadata_id' => $metadataId,
                         'code' => $expBuilder->literal($sourceFieldData['code']),
@@ -299,7 +299,7 @@ class SourceFieldDataPersister implements DataPersisterInterface
                     ];
                 } else {
                     // Create new
-                    $sourceFieldToUpdate[] = [
+                    $sourceFieldToUpdate = [
                         'id' => "nextval('source_field_id_seq')",
                         'metadata_id' => $metadataId,
                         'code' => $expBuilder->literal($sourceFieldData['code']),
@@ -315,12 +315,25 @@ class SourceFieldDataPersister implements DataPersisterInterface
                         'search' => $expBuilder->literal($sourceFieldData['search']),
                     ];
                 }
+
+                // Validate if provided data for sourceField match the list of managed source field listed in the repository.
+                if (
+                    !empty(
+                        array_diff_key(
+                            $this->sourceFieldRepository->getManagedSourceFieldProperty(),
+                            array_flip(array_keys($sourceFieldToUpdate))
+                        )
+                    )
+                ) {
+                    throw new InvalidArgumentException('Some sourceField properties are not managed in bulk data');
+                }
+                $sourceFieldsToUpdate[] = $sourceFieldToUpdate;
             }
         }
 
         // Insert options in db
-        if (!empty($sourceFieldToUpdate)) {
-            $this->sourceFieldRepository->massInsertOrUpdate($sourceFieldToUpdate);
+        if (!empty($sourceFieldsToUpdate)) {
+            $this->sourceFieldRepository->massInsertOrUpdate($sourceFieldsToUpdate);
         }
     }
 

@@ -356,7 +356,11 @@ class SourceFieldTest extends AbstractEntityTestWithUpdate
                 $sourceFieldRepository = static::getContainer()->get(SourceFieldRepository::class);
                 $existingSourceFields = $sourceFieldRepository->findAll();
                 $this->assertCount($expectedSourceFieldNumber, $sourceFieldRepository->findAll());
-                $this->assertCount(18, (array) reset($existingSourceFields), 'Please check if all sourceField properties are manage in \Gally\Metadata\DataPersister\SourceFieldDataPersister and \Gally\Metadata\Repository\SourceFieldRepository.');
+                $this->assertCount(
+                    7 /* base properties */ + \count($sourceFieldRepository->getManagedSourceFieldProperty()),
+                    (array) reset($existingSourceFields),
+                    'Please check, if you just add a new sourceField property, to add it in the bulk query, see \Gally\Metadata\DataPersister\SourceFieldDataPersister and \Gally\Metadata\Repository\SourceFieldRepository.'
+                );
                 foreach ($sourceFields as $sourceFieldData) {
                     $sourceField = $sourceFieldRepository->findOneBy(
                         [
