@@ -51,6 +51,15 @@ class SourceFieldRepository extends ServiceEntityRepository
     }
 
     /**
+     * Get list of all sourceField properties managed in bulk api
+     * (This is used to detect missing property in bulk management).
+     */
+    public function getManagedSourceFieldProperty(): array
+    {
+        return array_flip($this->entityFields);
+    }
+
+    /**
      * @return SourceField[]
      */
     public function getSortableFields(string $entityCode, array $attributeToExclude = []): array
