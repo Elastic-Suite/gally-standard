@@ -127,6 +127,12 @@
                 <target>Thesaurus</target>
             </segment>
         </unit>
+        <unit id="gally.menu.search_vector.label">
+            <segment>
+                <source>gally.menu.search_vector.label</source>
+                <target>Vector search</target>
+            </segment>
+        </unit>
         <unit id="gally.menu.monitoring.label">
             <segment>
                 <source>gally.menu.monitoring.label</source>

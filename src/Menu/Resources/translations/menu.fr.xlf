@@ -127,6 +127,12 @@
                 <target>Thésaurus</target>
             </segment>
         </unit>
+        <unit id="gally.menu.search_vector.label">
+            <segment>
+                <source>gally.menu.search_vector.label</source>
+                <target>Recherche vectorielle</target>
+            </segment>
+        </unit>
         <unit id="gally.menu.monitoring.label">
             <segment>
                 <source>gally.menu.monitoring.label</source>
