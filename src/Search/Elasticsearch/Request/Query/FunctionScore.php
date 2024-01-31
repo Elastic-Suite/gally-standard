@@ -29,6 +29,8 @@ class FunctionScore implements QueryInterface
 
     private string $boostMode;
 
+    private ?float $minScore;
+
     /**
      * @var array<mixed>
      */
@@ -76,12 +78,14 @@ class FunctionScore implements QueryInterface
         array $functions = [],
         ?string $name = null,
         string $scoreMode = self::SCORE_MODE_SUM,
-        string $boostMode = self::BOOST_MODE_SUM
+        string $boostMode = self::BOOST_MODE_SUM,
+        float $minScore = null,
     ) {
         $this->name = $name;
         $this->query = $query;
         $this->scoreMode = $scoreMode;
         $this->boostMode = $boostMode;
+        $this->minScore = $minScore;
         $this->functions = $functions;
     }
 
@@ -123,6 +127,14 @@ class FunctionScore implements QueryInterface
     public function getBoostMode(): string
     {
         return $this->boostMode;
+    }
+
+    /**
+     * Returns min score.
+     */
+    public function getMinScore(): ?float
+    {
+        return $this->minScore;
     }
 
     /**
