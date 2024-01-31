@@ -149,6 +149,7 @@ class FunctionScoreTest extends KernelTestCase
                             'queryText' => 'value',
                             'field' => 'otherField',
                             'boost' => 10,
+                            'minScore' => 0.12,
                         ]
                     ),
                 ],
@@ -191,7 +192,8 @@ class FunctionScoreTest extends KernelTestCase
         array $functions,
         ?string $name,
         string $scoreMode,
-        string $boostMode
+        string $boostMode,
+        ?float $minScore = null,
     ): void {
         // TODO: use reflection to build mapping ?
         $queryParams = [
@@ -223,5 +225,6 @@ class FunctionScoreTest extends KernelTestCase
         $this->assertEquals($name, $functionScoreQuery->getName());
         $this->assertEquals($scoreMode, $functionScoreQuery->getScoreMode());
         $this->assertEquals($boostMode, $functionScoreQuery->getBoostMode());
+        $this->assertEquals($minScore, $functionScoreQuery->getMinScore());
     }
 }
