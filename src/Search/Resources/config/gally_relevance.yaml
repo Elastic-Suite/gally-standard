@@ -4,7 +4,7 @@ gally:
             request_types:
                 generic:
                     fulltext:
-                        minimumShouldMatch: '100%'
+                        minimumShouldMatch: '3<80%'
                         tieBreaker: 1.0
                     phraseMatch:
                         enabled: false
