@@ -98,13 +98,13 @@ class RelevanceConfigurationTest extends AbstractTest
 
     protected function checkRelevanceConfig(RelevanceConfigurationInterface $relevanceConfig, array $expectedConfig)
     {
-        $this->assertEquals($relevanceConfig->getMinimumShouldMatch(), $expectedConfig['fulltext_minimumShouldMatch']);
-        $this->assertEquals($relevanceConfig->getTieBreaker(), $expectedConfig['fulltext_tieBreaker']);
-        $this->assertEquals($relevanceConfig->getPhraseMatchBoost(), $expectedConfig['phraseMatch_boost']);
-        $this->assertEquals($relevanceConfig->isFuzzinessEnabled(), $expectedConfig['fuzziness_enabled']);
-        $this->assertEquals($relevanceConfig->getFuzzinessConfiguration()->getValue(), $expectedConfig['fuzziness_value']);
-        $this->assertEquals($relevanceConfig->getFuzzinessConfiguration()->getPrefixLength(), $expectedConfig['fuzziness_prefixLength']);
-        $this->assertEquals($relevanceConfig->getFuzzinessConfiguration()->getMaxExpansion(), $expectedConfig['fuzziness_maxExpansions']);
-        $this->assertEquals($relevanceConfig->isPhoneticSearchEnabled(), $expectedConfig['phonetic_enabled']);
+        $this->assertEquals($expectedConfig['fulltext_minimumShouldMatch'], $relevanceConfig->getMinimumShouldMatch());
+        $this->assertEquals($expectedConfig['fulltext_tieBreaker'], $relevanceConfig->getTieBreaker());
+        $this->assertEquals($expectedConfig['phraseMatch_boost'], $relevanceConfig->getPhraseMatchBoost());
+        $this->assertEquals($expectedConfig['fuzziness_enabled'], $relevanceConfig->isFuzzinessEnabled());
+        $this->assertEquals($expectedConfig['fuzziness_value'], $relevanceConfig->getFuzzinessConfiguration()->getValue());
+        $this->assertEquals($expectedConfig['fuzziness_prefixLength'], $relevanceConfig->getFuzzinessConfiguration()->getPrefixLength());
+        $this->assertEquals($expectedConfig['fuzziness_maxExpansions'], $relevanceConfig->getFuzzinessConfiguration()->getMaxExpansion());
+        $this->assertEquals($expectedConfig['phonetic_enabled'], $relevanceConfig->isPhoneticSearchEnabled());
     }
 }
