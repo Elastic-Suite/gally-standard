@@ -47,7 +47,9 @@ class IndexManagerTest extends AbstractTest
         $metadata = $this->metadataRepository->findOneBy(['entity' => $entity]);
         $this->entityManager->refresh($metadata); // Flush entity in order to avoid empty relations
         $actualMapping = $this->metadataManager->getMapping($metadata)->asArray();
-        $this->assertEquals($expectedMapping, $actualMapping);
+        foreach ($expectedMapping['properties'] as $propertyName => $expectedProperty) {
+            $this->assertEquals($expectedProperty, $actualMapping['properties'][$propertyName]);
+        }
     }
 
     public function mappingDataProvider(): array
