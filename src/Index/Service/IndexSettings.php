@@ -402,7 +402,7 @@ class IndexSettings implements IndexSettingsInterface
      */
     public function getAnalysisSettings(LocalizedCatalog|int|string $localizedCatalog): array
     {
-        $language = explode('_', $localizedCatalog->getLocale())[0];
+        $language = explode('_', $this->getLocalizedCatalog($localizedCatalog)->getLocale())[0];
 
         return $this->analysisConfig->get($language);
     }
