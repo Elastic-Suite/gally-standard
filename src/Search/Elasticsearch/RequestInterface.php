@@ -82,4 +82,14 @@ interface RequestInterface
      * Get the value of the track_total_hits parameter, if any.
      */
     public function getTrackTotalHits(): int|bool;
+
+    /**
+     * Set Elasticsearch query.
+     */
+    public function setElasticsearchQuery(string $esQuery): void;
+
+    /**
+     * Get Elasticsearch query.
+     */
+    public function getElasticsearchQuery(): ?string;
 }

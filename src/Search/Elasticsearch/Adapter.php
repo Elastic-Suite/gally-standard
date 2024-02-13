@@ -38,6 +38,7 @@ class Adapter
                 'index' => $request->getIndex(),
                 'body' => $this->requestMapper->assembleSearchRequest($request),
             ];
+            $request->setElasticsearchQuery(json_encode($searchRequest['body']));
 
             try {
                 $searchResponse = $this->client->search($searchRequest);
