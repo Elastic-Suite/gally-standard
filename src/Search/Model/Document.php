@@ -88,7 +88,7 @@ class Document implements DocumentInterface
      */
     protected const SOURCE_DOC_FIELD_NAME = '_source';
 
-    public function __construct(private array $data = [])
+    public function __construct(protected array $data = [])
     {
     }
 

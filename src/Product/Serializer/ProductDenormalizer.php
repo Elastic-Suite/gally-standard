@@ -33,9 +33,9 @@ class ProductDenormalizer implements ContextAwareDenormalizerInterface, Denormal
     private const ALREADY_CALLED_DENORMALIZER = 'ProductDenormalizerCalled';
 
     public function __construct(
-        private SerializerService $serializerService,
-        private SearchContext $searchContext,
-        private AttributeFactory $attributeFactory,
+        protected SerializerService $serializerService,
+        protected SearchContext $searchContext,
+        protected AttributeFactory $attributeFactory,
     ) {
     }
 
