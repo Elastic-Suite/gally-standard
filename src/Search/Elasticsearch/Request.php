@@ -41,6 +41,8 @@ class Request implements RequestInterface
 
     private bool|int $trackTotalHits = IndexSettings::PER_SHARD_MAX_RESULT_WINDOW;
 
+    private ?string $elasticsearchQuery = null;
+
     /**
      * Constructor.
      *
@@ -170,6 +172,16 @@ class Request implements RequestInterface
         ];
 
         return \in_array($this->spellingType, $fuzzySpellingTypes, true);
+    }
+
+    public function setElasticsearchQuery(string $esQuery): void
+    {
+        $this->elasticsearchQuery = $esQuery;
+    }
+
+    public function getElasticsearchQuery(): ?string
+    {
+        return $this->elasticsearchQuery;
     }
 
     /**
