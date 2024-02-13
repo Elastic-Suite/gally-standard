@@ -26,16 +26,16 @@ use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 
 class Paginator implements \IteratorAggregate, PaginatorInterface
 {
-    private array $cachedDenormalizedDocuments = [];
+    protected array $cachedDenormalizedDocuments = [];
 
     public function __construct(
-        private DenormalizerInterface $denormalizer,
-        private RequestInterface $request,
-        private ResponseInterface $response,
-        private string $resourceClass,
-        private int $limit,
-        private int $offset,
-        private array $denormalizationContext = []
+        protected DenormalizerInterface $denormalizer,
+        protected RequestInterface $request,
+        protected ResponseInterface $response,
+        protected string $resourceClass,
+        protected int $limit,
+        protected int $offset,
+        protected array $denormalizationContext = []
     ) {
     }
 
