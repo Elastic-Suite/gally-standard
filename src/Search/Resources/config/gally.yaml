@@ -19,3 +19,4 @@ gally:
     request_types:
         - { code: product_catalog, label: 'Category listing', limitation_type: !php/const Gally\Search\Constant\RequestType\LimitationType::LIMITATION_CATEGORY }
         - { code: product_search, label: 'Search result', limitation_type: !php/const Gally\Search\Constant\RequestType\LimitationType::LIMITATION_SEARCH }
+    pipeline_prefix: 'gally-llm-pipeline-'

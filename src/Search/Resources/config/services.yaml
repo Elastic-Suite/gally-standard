@@ -427,3 +427,11 @@ services:
             - '@Gally\Search\Service\SortingOptionsProvider'
         tags:
             - { name: api_platform.collection_data_provider }
+
+    Gally\Search\Repository\Ingest\PipelineRepositoryInterface: '@Gally\Search\Repository\Ingest\PipelineRepository'
+
+    Gally\Search\Repository\Ingest\PipelineRepository:
+        arguments:
+            - '@OpenSearch\Client'
+            - '%gally.pipeline_prefix%'
+            - !tagged_iterator { tag: 'gally.search.ingest_pipeline_processors_provider' }
