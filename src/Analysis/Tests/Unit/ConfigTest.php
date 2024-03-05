@@ -37,7 +37,7 @@ class ConfigTest extends AbstractTest
         $yamlParser = new YamlParser();
         $configData = $yamlParser->parseFile(__DIR__ . '/../config/gally_analysis.yaml');
         $processor = new Processor();
-        $configurationFormat = new Configuration();
+        $configurationFormat = new ConfigurationMock();
         self::$config = new Config(
             new CacheManagerMock(),
             $processor->processConfiguration($configurationFormat, $configData)['analysis']

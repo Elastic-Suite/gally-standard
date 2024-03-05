@@ -22,6 +22,7 @@ use Gally\Index\Api\IndexSettingsInterface;
 use Gally\Index\Model\Index;
 use Gally\Metadata\Model\Metadata;
 use Gally\Metadata\Repository\SourceFieldRepository;
+use Gally\Search\Repository\Ingest\PipelineRepositoryInterface;
 
 class IndexSettings implements IndexSettingsInterface
 {
@@ -88,16 +89,18 @@ class IndexSettings implements IndexSettingsInterface
     /**
      * IndexSettings constructor.
      *
-     * @param LocalizedCatalogRepository $localizedCatalogRepository Catalog repository
-     * @param array<mixed>               $indicesConfiguration       Indices configuration
-     * @param Config                     $analysisConfig             Analysis configuration
-     * @param SourceFieldRepository      $sourceFieldRepository      Source field repository
+     * @param LocalizedCatalogRepository  $localizedCatalogRepository Catalog repository
+     * @param array<mixed>                $indicesConfiguration       Indices configuration
+     * @param Config                      $analysisConfig             Analysis configuration
+     * @param SourceFieldRepository       $sourceFieldRepository      Source field repository
+     * @param PipelineRepositoryInterface $pipelineRepository         Pipeline repository
      */
     public function __construct(
         private LocalizedCatalogRepository $localizedCatalogRepository,
         private array $indicesConfiguration,
         private Config $analysisConfig,
         private SourceFieldRepository $sourceFieldRepository,
+        private PipelineRepositoryInterface $pipelineRepository
     ) {
     }
 
@@ -443,6 +446,10 @@ class IndexSettings implements IndexSettingsInterface
 
         $complexeSourceField = $this->sourceFieldRepository->getComplexeFields($metadata);
         $settings += ['mapping.nested_fields.limit' => \count($complexeSourceField)];
+
+        // Add default pipeline
+        $pipeline = $this->pipelineRepository->createByMetadata($metadata);
+        $settings['default_pipeline'] = $pipeline->getName();
 
         return $settings;
     }

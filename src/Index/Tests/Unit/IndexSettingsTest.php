@@ -26,7 +26,7 @@ class IndexSettingsTest extends AbstractTest
      *
      * @dataProvider dynamicAttributeDataProvider
      */
-    public function testDynamicIndexSettings(string $fieldName, int $expectedNestedFieldsLimit)
+    public function testDynamicIndexSettings(string $fieldName, int $expectedNestedFieldsLimit, string $expectedDefaultPipeline)
     {
         static::loadFixture(
             [
@@ -41,19 +41,18 @@ class IndexSettingsTest extends AbstractTest
 
         $metadata = $metadataRepository->findOneBy(['entity' => 'product']);
         $localizedCatalogs = $localizedCatalogRepository->findOneBy([]);
+        $settings = $indexSettings->getDynamicIndexSettings($metadata, $localizedCatalogs);
 
-        $this->assertEquals(
-            $expectedNestedFieldsLimit,
-            $indexSettings->getDynamicIndexSettings($metadata, $localizedCatalogs)['mapping.nested_fields.limit']
-        );
+        $this->assertEquals($expectedNestedFieldsLimit, $settings['mapping.nested_fields.limit']);
+        $this->assertEquals($expectedDefaultPipeline, $settings['default_pipeline']);
     }
 
-    private function dynamicAttributeDataProvider(): array
+    protected function dynamicAttributeDataProvider(): array
     {
         return [
-            ['source_field_1.yaml', 0],
-            ['source_field_2.yaml', 2],
-            ['source_field_3.yaml', 4],
+            ['source_field_1.yaml', 0, 'test-gally-llm-pipeline-product'],
+            ['source_field_2.yaml', 2, 'test-gally-llm-pipeline-product'],
+            ['source_field_3.yaml', 4, 'test-gally-llm-pipeline-product'],
         ];
     }
 }

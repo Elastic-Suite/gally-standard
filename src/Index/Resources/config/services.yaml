@@ -43,6 +43,7 @@ services:
             - '%gally.indices_settings%'
             - '@Gally\Analysis\Service\Config'
             - '@Gally\Metadata\Repository\SourceFieldRepository'
+            - '@Gally\Search\Repository\Ingest\PipelineRepositoryInterface'
 
     Gally\Index\Service\IndexOperation:
         arguments:

@@ -1,0 +1,2 @@
+gally:
+    pipeline_prefix: 'test-gally-llm-pipeline-'

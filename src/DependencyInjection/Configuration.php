@@ -298,6 +298,9 @@ class Configuration implements ConfigurationInterface
                     ->defaultValue('0')
                 ->end()
 
+                // Ingest pipeline configuration
+                ->scalarNode('pipeline_prefix')->isRequired()->end()
+
             ->end();
 
         return $treeBuilder;
