@@ -36,8 +36,11 @@ class FunctionScore extends AbstractComplexAssembler implements AssemblerInterfa
             'score_mode' => $query->getScoreMode(),
             'boost_mode' => $query->getBoostMode(),
             'functions' => array_values($query->getFunctions()),
-            'min_score' => $query->getMinScore(),
         ];
+
+        if ($query->getMinScore()) {
+            $searchQueryParams['min_score'] = $query->getMinScore();
+        }
 
         // if ($query->getQuery()) {
         $searchQueryParams['query'] = $this->parentAssembler->assembleQuery($query->getQuery());
