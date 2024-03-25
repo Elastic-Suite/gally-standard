@@ -57,3 +57,14 @@ Gally\Metadata\Model\SourceField:
         isFilterable: true
         isUsedForRules: true
         isSortable: true
+    product_description:
+        metadata: '@product'
+        code: description
+        type: text
+        isSearchable: true
+        weight: 1
+        isSpellchecked: true
+        isFilterable: false
+        isSortable: false
+        isUsedForRules: false
+        isSystem: true
