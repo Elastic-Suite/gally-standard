@@ -74,7 +74,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     ],
 )]
 #[ApiFilter(VirtualSearchFilter::class, properties: ['search' => ['type' => 'string', 'strategy' => 'ipartial']])]
-#[ApiFilter(SearchFilterWithDefault::class, properties: ['sourceField.code' => 'ipartial', 'sourceField.metadata.entity' => 'exact', 'category' => 'exact', 'displayMode' => 'exact', 'sortOrder' => 'exact'], arguments: ['defaultValues' => self::DEFAULT_VALUES])]
+#[ApiFilter(SearchFilterWithDefault::class, properties: ['sourceField.metadata.entity' => 'exact', 'category' => 'exact', 'displayMode' => 'exact', 'sortOrder' => 'exact'], arguments: ['defaultValues' => self::DEFAULT_VALUES])]
 #[ApiFilter(RangeFilterWithDefault::class, properties: ['coverageRate', 'maxSize', 'position'], arguments: ['defaultValues' => self::DEFAULT_VALUES])]
 class Configuration
 {
@@ -412,21 +412,21 @@ class Configuration
         attributes: [
             'hydra:supportedProperty' => [
                 'hydra:property' => [
-                    'rdfs:label' => 'Attribute code',
+                    'rdfs:label' => 'Attribute label',
                 ],
                 'gally' => [
                     'visible' => true,
                     'editable' => false,
                     'position' => 10,
-                    'alias' => 'sourceField.code',
+                    'alias' => 'sourceField.defaultLabel',
                 ],
             ],
         ],
     )]
     #[Groups(['facet_configuration:read'])]
-    public function getSourceFieldCode(): string
+    public function getSourceFieldLabel(): string
     {
-        return $this->getSourceField()->getCode();
+        return $this->getSourceField()->getDefaultLabel();
     }
 
     public function initDefaultValue(self $defaultConfiguration)

@@ -37,7 +37,7 @@ class ViewMore implements ModifierInterface
             $sourceFieldCode = $this->viewMoreContext->getSourceField()->getCode();
             $relevantSourceFields = array_filter(
                 $relevantSourceFields,
-                fn ($facetConfig) => $facetConfig->getSourceFieldCode() === $sourceFieldCode
+                fn ($facetConfig) => $facetConfig->getSourceField()->getCode() === $sourceFieldCode
             );
         }
 
