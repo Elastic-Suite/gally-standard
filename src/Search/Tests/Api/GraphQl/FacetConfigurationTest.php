@@ -113,8 +113,7 @@ class FacetConfigurationTest extends RestFacetConfigurationTest
                             defaultSortOrder
                             defaultPosition
                             category { id }
-                            sourceField { id }
-                            sourceFieldCode
+                            sourceField { id defaultLabel }
                         }
                         paginationInfo {totalCount}
                       }
@@ -223,6 +222,7 @@ class FacetConfigurationTest extends RestFacetConfigurationTest
     protected function completeContent(array $data): array
     {
         $sourceFieldId = $data['sourceField'];
+        $sourceFieldLabel = $data['sourceFieldLabel'];
         $categoryId = $data['category'] ?? 0;
         unset($data['sourceField']);
         unset($data['category']);
@@ -232,6 +232,7 @@ class FacetConfigurationTest extends RestFacetConfigurationTest
             'id' => "/facet_configurations/$id",
             'sourceField' => [
                 'id' => "/source_fields/$sourceFieldId",
+                'defaultLabel' => $sourceFieldLabel,
             ],
             'category' => null,
             'displayMode' => 'auto',
@@ -244,6 +245,7 @@ class FacetConfigurationTest extends RestFacetConfigurationTest
             'defaultMaxSize' => 10,
             'defaultSortOrder' => BucketInterface::SORT_ORDER_COUNT,
             'defaultPosition' => null,
+            'sourceFieldLabel' => $sourceFieldLabel,
         ];
 
         if ($categoryId) {
@@ -252,7 +254,10 @@ class FacetConfigurationTest extends RestFacetConfigurationTest
             ];
         }
 
-        return array_merge($baseData, $data);
+        $data = array_merge($baseData, $data);
+        unset($data['sourceFieldLabel']);
+
+        return $data;
     }
 
     protected function getById(string $id, array $list): ?array

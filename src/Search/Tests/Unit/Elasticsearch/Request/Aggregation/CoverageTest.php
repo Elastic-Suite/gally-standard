@@ -90,7 +90,10 @@ class CoverageTest extends AbstractTest
         $facetsConfigs = $coverage->modifyFacetConfigs($containerConfig, $facetsConfigs, null, [], []);
         $this->assertEquals(
             $expectedAggregations,
-            array_map(fn (Configuration $facetsConfig): string => $facetsConfig->getSourceFieldCode(), $facetsConfigs)
+            array_map(
+                fn (Configuration $facetsConfig): string => $facetsConfig->getSourceField()->getCode(),
+                $facetsConfigs
+            )
         );
     }
 
