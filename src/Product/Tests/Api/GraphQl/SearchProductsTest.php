@@ -851,6 +851,12 @@ class SearchProductsTest extends AbstractTest
             new ExpectedResponse(
                 200,
                 function (ResponseInterface $response) use ($documentIdentifier, $expectedOrderedDocIds) {
+                    $data = $response->toArray();
+                    $this->assertArrayNotHasKey(
+                        'errors',
+                        $data,
+                        isset($data['errors']) ? json_encode($data['errors']) : ''
+                    );
                     $this->validateExpectedResults($response, $documentIdentifier, $expectedOrderedDocIds);
                 }
             )
@@ -923,6 +929,54 @@ class SearchProductsTest extends AbstractTest
                 'bohqpaq',  // query: search with word with same phonetic.
                 'id',       // document data identifier.
                 [6, 12, 11, 3],  // expected ordered document IDs
+            ],
+            [
+                'b2c_en',   // catalog ID.
+                10,         // page size.
+                1,          // current page.
+                '123456',   // query: search with number.
+                'id',       // document data identifier.
+                [],         // expected ordered document IDs
+            ],
+            [
+                'b2c_en',   // catalog ID.
+                10,         // page size.
+                1,          // current page.
+                '(yoga)\"{}()/\\\\@:\".',  // query: search with special chars.
+                'id',       // document data identifier.
+                [8, 3],     // expected ordered document IDs
+            ],
+            [
+                'b2c_en',   // catalog ID.
+                10,         // page size.
+                1,          // current page.
+                '24-MB04',  // query: search with word with same sku.
+                'id',       // document data identifier.
+                [2],        // expected ordered document IDs
+            ],
+            [
+                'b2c_en',   // catalog ID.
+                10,         // page size.
+                1,          // current page.
+                '24MB04',   // query: search with word with same sku.
+                'id',       // document data identifier.
+                [2],        // expected ordered document IDs
+            ],
+            [
+                'b2c_en',   // catalog ID.
+                10,         // page size.
+                1,          // current page.
+                '24 MB 04', // query: search with word with same sku.
+                'id',       // document data identifier.
+                [2],  // expected ordered document IDs
+            ],
+            [
+                'b2c_en',   // catalog ID.
+                10,         // page size.
+                1,          // current page.
+                "£¨µùµ㈀㌫\xc3\xb1", // query: various utf8 char.
+                'id',       // document data identifier.
+                [],  // expected ordered document IDs
             ],
         ];
     }
