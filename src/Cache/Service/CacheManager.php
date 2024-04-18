@@ -32,6 +32,7 @@ class CacheManager implements CacheManagerInterface
      */
     public function get(string $cacheKey, callable $callback, array $tags, $ttl = null): mixed
     {
+        $cacheKey = urlencode($cacheKey);
         $callback = function (ItemInterface $item, bool &$save) use ($callback, $tags, $ttl) {
             $value = $callback($tags, $ttl);
             $item->set($value);
