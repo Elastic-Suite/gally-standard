@@ -1,3 +1,6 @@
+include:
+    - ./source_field_option.yaml
+
 Gally\Metadata\Model\SourceFieldOptionLabel:
     categories_custom_apply_to_products_option_1_com_fr:
         source_field_option: '@categories_custom_apply_to_products_option_1'

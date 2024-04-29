@@ -1,5 +1,5 @@
 include:
-    - ./d_metadata.yaml
+    - ./metadata.yaml
 
 Gally\Metadata\Model\SourceField:        
     cms_page_id:

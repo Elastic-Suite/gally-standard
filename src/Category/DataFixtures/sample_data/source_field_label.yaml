@@ -1,3 +1,6 @@
+include:
+    - ./source_field.yaml
+
 Gally\Metadata\Model\SourceFieldLabel:
     category_name_com_en:
         source_field: '@category_name'
