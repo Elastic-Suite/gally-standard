@@ -74,6 +74,12 @@ services:
         tags:
             - { name: doctrine.event_subscriber }
 
+    Gally\Metadata\EventSubscriber\ValidateSourceFieldProperties:
+        arguments:
+            - '@doctrine.orm.entity_manager'
+        tags:
+            - { name: doctrine.event_subscriber }
+
     Gally\Metadata\Controller\BulkSourceFields:
         arguments:
             - '@Gally\Metadata\DataPersister\SourceFieldDataPersister'

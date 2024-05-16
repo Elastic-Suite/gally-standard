@@ -471,9 +471,6 @@ class SourceField
     {
         $this->isUsedInAutocomplete = $isUsedInAutocomplete;
 
-        // If the sourceField is set as used in autocomplete, we force it to be filterable.
-        $this->isFilterable = $this->isUsedInAutocomplete ?: $this->isFilterable;
-
         return $this;
     }
 
