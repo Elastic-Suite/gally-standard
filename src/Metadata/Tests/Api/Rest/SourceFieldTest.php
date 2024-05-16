@@ -57,6 +57,7 @@ class SourceFieldTest extends AbstractEntityTestWithUpdate
             [$adminUser, ['code' => 'image', 'metadata' => '/metadata/2'], 201],
             [$adminUser, ['code' => 'length', 'isSearchable' => true, 'metadata' => '/metadata/1', 'weight' => 2], 201],
             [$adminUser, ['code' => 'height', 'isUsedInAutocomplete' => true, 'metadata' => '/metadata/1'], 201],
+            [$adminUser, ['code' => 'width', 'isFilterable' => false, 'isUsedInAutocomplete' => true, 'metadata' => '/metadata/1'], 201],
             [$adminUser, ['code' => 'description'], 422, 'metadata: This value should not be blank.'],
             [$adminUser, ['metadata' => '/metadata/1'], 422, 'code: This value should not be blank.'],
             [
@@ -148,6 +149,10 @@ class SourceFieldTest extends AbstractEntityTestWithUpdate
             $expectedData['isFilterable'] = true;
         }
 
+        if (\array_key_exists('isFilterable', $expectedData) && !$expectedData['isFilterable']) {
+            $expectedData['isUsedInAutocomplete'] = false;
+        }
+
         return parent::getJsonCreationValidation($expectedData);
     }
 
@@ -165,7 +170,7 @@ class SourceFieldTest extends AbstractEntityTestWithUpdate
             [$user, 1, ['id' => 1, 'code' => 'name', 'weight' => 10], 200],
             [$user, 13, ['id' => 13, 'code' => 'description', 'weight' => 1], 200],
             [$user, 16, ['id' => 16, 'code' => 'length', 'weight' => 2], 200],
-            [$user, 22, [], 404],
+            [$user, 23, [], 404],
         ];
     }
 
@@ -192,9 +197,9 @@ class SourceFieldTest extends AbstractEntityTestWithUpdate
     public function getCollectionDataProvider(): iterable
     {
         return [
-            [null, 24, 401],
-            [$this->getUser(Role::ROLE_CONTRIBUTOR), 24, 200],
-            [$this->getUser(Role::ROLE_ADMIN), 24, 200],
+            [null, 25, 401],
+            [$this->getUser(Role::ROLE_CONTRIBUTOR), 25, 200],
+            [$this->getUser(Role::ROLE_ADMIN), 25, 200],
         ];
     }
 
@@ -304,6 +309,12 @@ class SourceFieldTest extends AbstractEntityTestWithUpdate
                 ['isUsedInAutocomplete' => true],
                 200,
             ],
+            [ // Test that if we remove the filterable property of a field used in autocomplete, that remove the usedInAutocomplete property too
+                $adminUser,
+                17,
+                ['isFilterable' => false],
+                200,
+            ],
         ];
     }
 
@@ -318,6 +329,10 @@ class SourceFieldTest extends AbstractEntityTestWithUpdate
         // Test that autocomplete sourceField are always filterable
         if (\array_key_exists('isUsedInAutocomplete', $expectedData) && $expectedData['isUsedInAutocomplete']) {
             $expectedData['isFilterable'] = true;
+        }
+
+        if (\array_key_exists('isFilterable', $expectedData) && !$expectedData['isFilterable']) {
+            $expectedData['isUsedInAutocomplete'] = false;
         }
 
         return parent::getJsonCreationValidation($expectedData);
@@ -432,7 +447,7 @@ class SourceFieldTest extends AbstractEntityTestWithUpdate
             [ // Source field post data
                 ['code' => 'new_source_field_1', 'metadata' => '/metadata/1', 'weight' => 1],
             ],
-            22, // Expected source field number
+            23, // Expected source field number
             [], // Expected data in response
             [ // Expected search values
                 'new_source_field_1' => 'new_source_field_1 New_source_field_1',
@@ -447,7 +462,7 @@ class SourceFieldTest extends AbstractEntityTestWithUpdate
                 ['code' => 'new_source_field_3', 'metadata' => '/metadata/1', 'weight' => 1],
                 ['code' => 'sku', 'metadata' => '/metadata/1', 'weight' => 2, 'isSpellchecked' => true],
             ],
-            24, // Expected source field number
+            25, // Expected source field number
             [], // Expected data in response
             [ // Expected search values
                 'new_source_field_2' => 'new_source_field_2 New_source_field_2',
@@ -463,7 +478,7 @@ class SourceFieldTest extends AbstractEntityTestWithUpdate
                 ['code' => 'new_source_field_2', 'metadata' => '/metadata/1', 'defaultLabel' => 'New source field 2', 'isFilterable' => true],
                 ['code' => 'new_source_field_4', 'metadata' => '/metadata/1', 'weight' => 5],
             ],
-            25, // Expected source field number
+            26, // Expected source field number
             [ // Expected data in response
                 0 => ['isFilterable' => true, 'weight' => 1, 'isSystem' => false],
                 1 => ['isFilterable' => null, 'weight' => 5, 'isSystem' => false],
@@ -503,7 +518,7 @@ class SourceFieldTest extends AbstractEntityTestWithUpdate
                     ],
                 ],
             ],
-            26, // Expected source field number
+            27, // Expected source field number
             [ // Expected data in response
                 1 => ['labels' => [0 => ['label' => 'Localized label source field 2']]],
                 2 => ['labels' => [1 => ['label' => 'Localized label 2 source field 5']]],
@@ -536,7 +551,7 @@ class SourceFieldTest extends AbstractEntityTestWithUpdate
                     ],
                 ],
             ],
-            26, // Expected source field number
+            27, // Expected source field number
             [ // Expected data in response
                 0 => ['labels' => [0 => ['label' => 'Localized label 2 source field 2']]],
                 1 => ['labels' => [0 => ['label' => 'Localized label 2 source field 5']]],
