@@ -86,7 +86,7 @@ class SimpleRequestBuilderTest extends AbstractTest
         \assert(static::getContainer()->get(FuzzyFieldFilter::class) instanceof FuzzyFieldFilter);
         self::$fuzzyFieldFilter = static::getContainer()->get(FuzzyFieldFilter::class);
         self::$fulltextQueryBuilder = new FulltextQueryBuilder(self::$queryFactory, self::$searchableFieldFilter, self::$fuzzyFieldFilter);
-        self::$filterQueryBuilder = new FilterQueryBuilder(self::$queryFactory);
+        self::$filterQueryBuilder = static::getContainer()->get(FilterQueryBuilder::class);
         self::$logger = static::getContainer()->get(LoggerInterface::class);
         self::$queryBuilder = new QueryBuilder(self::$queryFactory, self::$fulltextQueryBuilder, self::$filterQueryBuilder);
         self::$sortOrderBuilder = new SortOrderBuilder(self::$filterQueryBuilder, self::$logger);

@@ -209,7 +209,10 @@ class FilterQueryBuilderTest extends KernelTestCase
      */
     private function buildQuery(array $conditions, string $nestedPath = null): QueryInterface
     {
-        $builder = new FilterQueryBuilder($this->getQueryFactory($this->mockedQueryTypes));
+        $builder = new FilterQueryBuilder(
+            $this->getQueryFactory($this->mockedQueryTypes),
+            static::getContainer()->getParameter('gally.search_settings'),
+        );
         $config = $this->getContainerConfigMock(self::$fields);
 
         return $builder->create($config, $conditions, $nestedPath);
