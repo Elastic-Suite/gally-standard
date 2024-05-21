@@ -152,11 +152,13 @@ class Configuration implements ConfigurationInterface
                 // Indices setting config
                 ->arrayNode('search_settings')
                     ->children()
+                        ->scalarNode('default_date_field_format')->end()
                         ->arrayNode('aggregations')
                             ->children()
                                 ->booleanNode('coverage_use_indexed_fields_property')
                                     ->defaultFalse()
                                 ->end()
+                                ->scalarNode('default_date_range_interval')->end()
                             ->end()
                         ->end()
                         ->arrayNode('sort')

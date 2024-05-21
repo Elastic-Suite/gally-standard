@@ -520,6 +520,16 @@ class SearchDocumentsTest extends AbstractTest
                 [10, 11, 12, 2, 3],   // expected ordered document IDs
                 'fake_price_group_id',
             ],
+            [
+                'product_document',  // entity type.
+                'b2b_fr',   // catalog ID.
+                5,     // page size.
+                1,      // current page.
+                ['created_at' => SortOrderInterface::SORT_DESC], // sort order specifications.
+                'id', // document data identifier.
+                // price.price ASC, then score DESC first, then id DESC (missing _first)
+                [10, 9, 5, 2, 3],   // expected ordered document IDs
+            ],
         ];
     }
 
@@ -801,6 +811,24 @@ class SearchDocumentsTest extends AbstractTest
                     ],
                     ['field' => 'size', 'label' => 'Size', 'type' => 'slider', 'hasMore' => false],
                     [
+                        'field' => 'created_at',
+                        'label' => 'Created_at',
+                        'type' => 'histogram',
+                        'hasMore' => false,
+                        'options' => [
+                            [
+                                'label' => '2022-09-01',
+                                'value' => '2022-09-01',
+                                'count' => 8,
+                            ],
+                            [
+                                'label' => '2022-09-05',
+                                'value' => '2022-09-05',
+                                'count' => 3,
+                            ],
+                        ],
+                    ],
+                    [
                         'field' => 'color_full__value',
                         'label' => 'Color',
                         'type' => 'checkbox',
@@ -869,6 +897,24 @@ class SearchDocumentsTest extends AbstractTest
                         'label' => 'Taille',
                         'type' => 'slider',
                         'hasMore' => false,
+                    ],
+                    [
+                        'field' => 'created_at',
+                        'label' => 'Created_at',
+                        'type' => 'histogram',
+                        'hasMore' => false,
+                        'options' => [
+                            [
+                                'label' => '2022-09-01',
+                                'value' => '2022-09-01',
+                                'count' => 6,
+                            ],
+                            [
+                                'label' => '2022-09-05',
+                                'value' => '2022-09-05',
+                                'count' => 3,
+                            ],
+                        ],
                     ],
                     [
                         'field' => 'color_full__value',
@@ -959,6 +1005,24 @@ class SearchDocumentsTest extends AbstractTest
                         'hasMore' => false,
                     ],
                     [
+                        'field' => 'created_at',
+                        'label' => 'Created_at',
+                        'type' => 'histogram',
+                        'hasMore' => false,
+                        'options' => [
+                            [
+                                'label' => '2022-09-01',
+                                'value' => '2022-09-01',
+                                'count' => 6,
+                            ],
+                            [
+                                'label' => '2022-09-05',
+                                'value' => '2022-09-05',
+                                'count' => 3,
+                            ],
+                        ],
+                    ],
+                    [
                         'field' => 'color_full__value',
                         'label' => 'Couleur',
                         'type' => 'checkbox',
@@ -1045,6 +1109,24 @@ class SearchDocumentsTest extends AbstractTest
                         'label' => 'Taille',
                         'type' => 'slider',
                         'hasMore' => false,
+                    ],
+                    [
+                        'field' => 'created_at',
+                        'label' => 'Created_at',
+                        'type' => 'histogram',
+                        'hasMore' => false,
+                        'options' => [
+                            [
+                                'label' => '2022-09-01',
+                                'value' => '2022-09-01',
+                                'count' => 6,
+                            ],
+                            [
+                                'label' => '2022-09-05',
+                                'value' => '2022-09-05',
+                                'count' => 3,
+                            ],
+                        ],
                     ],
                     [
                         'field' => 'color_full__value',
@@ -1551,6 +1633,16 @@ class SearchDocumentsTest extends AbstractTest
                 'entity_id', // document data identifier.
                 [11, 12], // expected ordered document IDs
             ],
+            [
+                'product_document', // entity type.
+                'b2c_en', // catalog ID.
+                10, // page size.
+                1,  // current page.
+                [], // sort order specifications.
+                '{rangeFilter: {field: "created_at", lte: "2022-09-04"}}',
+                'entity_id', // document data identifier.
+                [1, 6, 7, 8, 9, 11, 12, 13], // expected ordered document IDs
+            ],
         ];
     }
 
@@ -1920,6 +2012,76 @@ class SearchDocumentsTest extends AbstractTest
                 ],
             ],
         ];
+    }
+
+    /**
+     * @dataProvider searchWithAggregationAndFilterDataProvider
+     *
+     * @param string      $entityType           Entity Type
+     * @param string      $catalogId            Catalog ID or code
+     * @param int         $pageSize             Pagination size
+     * @param int         $currentPage          Current page
+     * @param string|null $filter               Filters to apply
+     * @param array       $expectedOptionsCount expected aggregation option count
+     */
+    public function testSearchDocumentsWithDateField(
+        string $entityType,
+        string $catalogId,
+        int $pageSize,
+        int $currentPage,
+        ?string $filter,
+        array $expectedOptionsCount,
+    ): void {
+        $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
+
+        $arguments = sprintf(
+            'entityType: "%s", localizedCatalog: "%s", pageSize: %d, currentPage: %d',
+            $entityType,
+            $catalogId,
+            $pageSize,
+            $currentPage,
+        );
+        if ($filter) {
+            $arguments = sprintf(
+                'entityType: "%s", localizedCatalog: "%s", pageSize: %d, currentPage: %d, filter: [%s]',
+                $entityType,
+                $catalogId,
+                $pageSize,
+                $currentPage,
+                $filter,
+            );
+        }
+
+        $this->validateApiCall(
+            new RequestGraphQlToTest(
+                <<<GQL
+                    {
+                        documents({$arguments}) {
+                            aggregations {
+                              field
+                              count
+                              options {
+                                value
+                              }
+                            }
+                        }
+                    }
+                GQL,
+                $user
+            ),
+            new ExpectedResponse(
+                200,
+                function (ResponseInterface $response) use ($expectedOptionsCount) {
+                    $responseData = $response->toArray();
+                    $this->assertIsArray($responseData['data']['documents']['aggregations']);
+                    foreach ($responseData['data']['documents']['aggregations'] as $data) {
+                        if (\array_key_exists($data['field'], $expectedOptionsCount)) {
+                            $this->assertCount($expectedOptionsCount[$data['field']], $data['options'] ?? []);
+                        }
+                    }
+                }
+            )
+        );
     }
 
     private function addSortOrders(array $sortOrders, string &$arguments): void

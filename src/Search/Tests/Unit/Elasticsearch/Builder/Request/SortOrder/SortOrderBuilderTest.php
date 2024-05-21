@@ -30,8 +30,6 @@ use Psr\Log\LoggerInterface;
 
 class SortOrderBuilderTest extends AbstractTest
 {
-    private static QueryFactory $queryFactory;
-
     private static FilterQueryBuilder $filterQueryBuilder;
 
     private static MetadataRepository $metadataRepository;
@@ -47,8 +45,7 @@ class SortOrderBuilderTest extends AbstractTest
         parent::setUpBeforeClass();
 
         \assert(static::getContainer()->get(QueryFactory::class) instanceof QueryFactory);
-        self::$queryFactory = static::getContainer()->get(QueryFactory::class);
-        self::$filterQueryBuilder = new FilterQueryBuilder(self::$queryFactory);
+        self::$filterQueryBuilder = static::getContainer()->get(FilterQueryBuilder::class);
         self::$logger = static::getContainer()->get(LoggerInterface::class);
         self::$sortOrderBuilder = new SortOrderBuilder(self::$filterQueryBuilder, self::$logger);
 

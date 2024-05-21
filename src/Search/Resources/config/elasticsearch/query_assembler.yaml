@@ -61,6 +61,12 @@ services:
         tags:
             - { name: 'gally.search.request.query.assembler', queryType: 'rangeQuery' }
 
+    Gally\Search\Elasticsearch\Adapter\Common\Request\Query\Assembler\DateRange:
+        abstract: false
+        lazy: true
+        tags:
+            - { name: 'gally.search.request.query.assembler', queryType: 'dateRangeQuery' }
+
     Gally\Search\Elasticsearch\Adapter\Common\Request\Query\Assembler\MatchQuery:
         abstract: false
         lazy: true

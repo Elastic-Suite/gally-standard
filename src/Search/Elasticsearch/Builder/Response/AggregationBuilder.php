@@ -68,6 +68,10 @@ class AggregationBuilder
                 unset($value['key']);
             }
 
+            if (!\is_array($key) && isset($value['key_as_string'])) {
+                $key = $value['key_as_string'];
+            }
+
             $values[(string) ($value['key_as_string'] ?? $key)] = new BucketValue(
                 $key,
                 (int) ($value['doc_count'] ?? 0),

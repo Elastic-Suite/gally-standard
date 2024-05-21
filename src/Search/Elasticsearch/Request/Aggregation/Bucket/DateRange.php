@@ -19,32 +19,31 @@ use Gally\Search\Elasticsearch\Request\BucketInterface;
 use Gally\Search\Elasticsearch\Request\QueryInterface;
 
 /**
- * Date histogram bucket implementation.
+ * Date range bucket implementation.
  */
-class DateHistogram extends Histogram
+class DateRange extends AbstractBucket
 {
     /**
      * Constructor.
      *
      * @param string                 $name              Bucket name
      * @param string                 $field             Bucket field
+     * @param array                  $ranges            List of date ranges
+     * @param string                 $format            Date format
      * @param AggregationInterface[] $childAggregations Child aggregations
      * @param ?string                $nestedPath        Nested path for nested bucket
      * @param ?QueryInterface        $filter            Bucket filter
      * @param ?QueryInterface        $nestedFilter      Nested filter for the bucket
-     * @param int|string             $interval          Histogram interval
-     * @param int                    $minDocCount       Histogram min doc count
      */
     public function __construct(
         string $name,
         string $field,
+        protected array $ranges,
+        protected string $format = 'yyyy-MM-dd',
         array $childAggregations = [],
         ?string $nestedPath = null,
         ?QueryInterface $filter = null,
-        ?QueryInterface $nestedFilter = null,
-        int|string $interval = '1d',
-        int $minDocCount = 0,
-        protected string $format = 'yyyy-MM-dd',
+        ?QueryInterface $nestedFilter = null
     ) {
         parent::__construct(
             $name,
@@ -53,8 +52,6 @@ class DateHistogram extends Histogram
             $nestedPath,
             $filter,
             $nestedFilter,
-            $interval,
-            $minDocCount
         );
     }
 
@@ -63,11 +60,19 @@ class DateHistogram extends Histogram
      */
     public function getType(): string
     {
-        return BucketInterface::TYPE_DATE_HISTOGRAM;
+        return BucketInterface::TYPE_DATE_RANGE;
     }
 
     /**
-     * Date histograms format.
+     * Date ranges.
+     */
+    public function getRanges(): array
+    {
+        return $this->ranges;
+    }
+
+    /**
+     * Date range format.
      */
     public function getFormat(): string
     {
