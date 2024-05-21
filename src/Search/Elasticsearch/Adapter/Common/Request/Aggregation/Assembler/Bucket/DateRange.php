@@ -15,32 +15,31 @@ declare(strict_types=1);
 namespace Gally\Search\Elasticsearch\Adapter\Common\Request\Aggregation\Assembler\Bucket;
 
 use Gally\Search\Elasticsearch\Adapter\Common\Request\Aggregation\AssemblerInterface;
-use Gally\Search\Elasticsearch\Request\Aggregation\Bucket\DateHistogram as DateHistogramBucket;
+use Gally\Search\Elasticsearch\Request\Aggregation\Bucket\DateRange as DateRangeBucket;
 use Gally\Search\Elasticsearch\Request\AggregationInterface;
 use Gally\Search\Elasticsearch\Request\BucketInterface;
 
 /**
- * Assemble an ES date histogram aggregation.
+ * Assemble an ES date range aggregation.
  */
-class DateHistogram implements AssemblerInterface
+class DateRange implements AssemblerInterface
 {
     /**
      * {@inheritDoc}
      */
     public function assembleAggregation(AggregationInterface $aggregation): array
     {
-        if (BucketInterface::TYPE_DATE_HISTOGRAM !== $aggregation->getType()) {
+        if (BucketInterface::TYPE_DATE_RANGE !== $aggregation->getType()) {
             throw new \InvalidArgumentException("Aggregation assembler : invalid aggregation type {$aggregation->getType()}.");
         }
 
-        /** @var DateHistogramBucket $aggregation */
+        /** @var DateRangeBucket $aggregation */
         $aggParams = [
             'field' => $aggregation->getField(),
-            'interval' => $aggregation->getInterval(),
-            'min_doc_count' => $aggregation->getMinDocCount(),
             'format' => $aggregation->getFormat(),
+            'ranges' => $aggregation->getRanges(),
         ];
 
-        return ['date_histogram' => $aggParams];
+        return ['date_range' => $aggParams];
     }
 }

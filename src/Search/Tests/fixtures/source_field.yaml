@@ -98,8 +98,11 @@ Gally\Metadata\Model\SourceField:
         metadata: '@product'
         code: 'created_at'
         type: 'date'
-        isUsedForRules: true
+        isSearchable: false
+        isFilterable: true
         isSortable: true
+        isSpellchecked: true
+        isUsedForRules: true
     product_description:
         metadata: '@product'
         code: 'description'

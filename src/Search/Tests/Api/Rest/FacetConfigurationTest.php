@@ -65,6 +65,7 @@ class FacetConfigurationTest extends AbstractTest
                     ['sourceField' => 7, 'sourceFieldLabel' => 'Size'],
                     ['sourceField' => 8, 'sourceFieldLabel' => 'Weight'],
                     ['sourceField' => 15, 'sourceFieldLabel' => 'Is_eco_friendly'],
+                    ['sourceField' => 16, 'sourceFieldLabel' => 'Created_at'],
                     ['sourceField' => 20, 'sourceFieldLabel' => 'Color_full'],
                 ],
                 200,
@@ -82,6 +83,7 @@ class FacetConfigurationTest extends AbstractTest
                     ['sourceField' => 7, 'category' => 'cat_1', 'sourceFieldLabel' => 'Size'],
                     ['sourceField' => 8, 'category' => 'cat_1', 'sourceFieldLabel' => 'Weight'],
                     ['sourceField' => 15, 'category' => 'cat_1', 'sourceFieldLabel' => 'Is_eco_friendly'],
+                    ['sourceField' => 16, 'category' => 'cat_1', 'sourceFieldLabel' => 'Created_at'],
                     ['sourceField' => 20, 'category' => 'cat_1', 'sourceFieldLabel' => 'Color_full'],
                 ],
                 200,
@@ -99,6 +101,7 @@ class FacetConfigurationTest extends AbstractTest
                     ['sourceField' => 7, 'category' => 'cat_2', 'sourceFieldLabel' => 'Size'],
                     ['sourceField' => 8, 'category' => 'cat_2', 'sourceFieldLabel' => 'Weight'],
                     ['sourceField' => 15, 'category' => 'cat_2', 'sourceFieldLabel' => 'Is_eco_friendly'],
+                    ['sourceField' => 16, 'category' => 'cat_2', 'sourceFieldLabel' => 'Created_at'],
                     ['sourceField' => 20, 'category' => 'cat_2', 'sourceFieldLabel' => 'Color_full'],
                 ],
                 200,
@@ -115,6 +118,7 @@ class FacetConfigurationTest extends AbstractTest
                     ['sourceField' => 7, 'sourceFieldLabel' => 'Size'],
                     ['sourceField' => 8, 'sourceFieldLabel' => 'Weight'],
                     ['sourceField' => 15, 'sourceFieldLabel' => 'Is_eco_friendly'],
+                    ['sourceField' => 16, 'sourceFieldLabel' => 'Created_at'],
                     ['sourceField' => 20, 'sourceFieldLabel' => 'Color_full'],
                 ],
                 200,
@@ -190,6 +194,7 @@ class FacetConfigurationTest extends AbstractTest
                     ['sourceField' => 7, 'sourceFieldLabel' => 'Size'], // size.
                     ['sourceField' => 8, 'sourceFieldLabel' => 'Weight'], // weight.
                     ['sourceField' => 15, 'sourceFieldLabel' => 'Is_eco_friendly'],
+                    ['sourceField' => 16, 'sourceFieldLabel' => 'Created_at'],
                     ['sourceField' => 20, 'sourceFieldLabel' => 'Color_full'],
                 ],
                 200,
@@ -207,6 +212,7 @@ class FacetConfigurationTest extends AbstractTest
                     ['sourceField' => 7, 'category' => 'cat_1', 'coverageRate' => 90, 'sourceFieldLabel' => 'Size'],
                     ['sourceField' => 8, 'category' => 'cat_1', 'coverageRate' => 90, 'sourceFieldLabel' => 'Weight'],
                     ['sourceField' => 15, 'category' => 'cat_1', 'coverageRate' => 90, 'sourceFieldLabel' => 'Is_eco_friendly'],
+                    ['sourceField' => 16, 'category' => 'cat_1', 'coverageRate' => 90, 'sourceFieldLabel' => 'Created_at'],
                     ['sourceField' => 20, 'category' => 'cat_1', 'coverageRate' => 90, 'sourceFieldLabel' => 'Color_full'],
                 ],
                 200,
@@ -224,6 +230,7 @@ class FacetConfigurationTest extends AbstractTest
                     ['sourceField' => 7, 'category' => 'cat_2', 'coverageRate' => 90, 'sourceFieldLabel' => 'Size'],
                     ['sourceField' => 8, 'category' => 'cat_2', 'coverageRate' => 90, 'sourceFieldLabel' => 'Weight'],
                     ['sourceField' => 15, 'category' => 'cat_2', 'coverageRate' => 90, 'sourceFieldLabel' => 'Is_eco_friendly'],
+                    ['sourceField' => 16, 'category' => 'cat_2', 'coverageRate' => 90, 'sourceFieldLabel' => 'Created_at'],
                     ['sourceField' => 20, 'category' => 'cat_2', 'coverageRate' => 90, 'sourceFieldLabel' => 'Color_full'],
                 ],
                 200,
@@ -240,6 +247,7 @@ class FacetConfigurationTest extends AbstractTest
                     ['sourceField' => 7, 'sourceFieldLabel' => 'Size'], // size.
                     ['sourceField' => 8, 'sourceFieldLabel' => 'Weight'], // weight.
                     ['sourceField' => 15, 'sourceFieldLabel' => 'Is_eco_friendly'],
+                    ['sourceField' => 16, 'sourceFieldLabel' => 'Created_at'],
                     ['sourceField' => 20, 'sourceFieldLabel' => 'Color_full'], // product_color_full.
                 ],
                 200,
