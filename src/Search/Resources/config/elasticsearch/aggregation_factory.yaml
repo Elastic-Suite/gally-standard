@@ -1,4 +1,11 @@
 services:
+    gally.search.request.aggregation.bucket.date_range.factory:
+        parent: Gally\DependencyInjection\GenericFactory
+        arguments:
+            - 'Gally\Search\Elasticsearch\Request\Aggregation\Bucket\DateRange'
+        tags:
+            - { name: 'gally.search.request.aggregation.factory', aggregationType: 'dateRangeBucket' }
+
     gally.search.request.aggregation.bucket.date_histogram.factory:
         parent: Gally\DependencyInjection\GenericFactory
         arguments:

@@ -29,6 +29,11 @@ Gally\Search\Model\Facet\Configuration:
             category: ~
         coverageRate: 50
         position: 1
+    product_created_at_facet:
+        __construct:
+            sourceField: '@product_created_at'
+            category: ~
+        coverageRate: 80
     product_size_facet:
         __construct:
             sourceField: '@product_size'
