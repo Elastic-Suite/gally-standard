@@ -22,6 +22,7 @@ use Gally\Index\Repository\Index\IndexRepositoryInterface;
 use Gally\Metadata\Model\Metadata;
 use Gally\Metadata\Repository\MetadataRepository;
 use Gally\Search\Elasticsearch\Request\Container\Configuration\ContainerConfigurationProvider;
+use Psr\Log\LoggerInterface;
 
 class SelfReindexOperation
 {
@@ -30,7 +31,8 @@ class SelfReindexOperation
         private LocalizedCatalogRepository $catalogRepository,
         private IndexOperation $indexOperation,
         private IndexRepositoryInterface $indexRepository,
-        private ContainerConfigurationProvider $containerConfigurationProvider
+        private ContainerConfigurationProvider $containerConfigurationProvider,
+        private LoggerInterface $logger,
     ) {
     }
 
@@ -62,8 +64,8 @@ class SelfReindexOperation
 
         try {
             $indices = $this->reindexEntities($metadataToReindex);
-        } catch (\Exception $e) {
-            // TODO log error
+        } catch (\Exception $exception) {
+            $this->logger->error($exception);
             $selfReindex->setStatus(SelfReindex::STATUS_FAILURE);
             throw new \Exception('An error occurred when creating the index');
         }

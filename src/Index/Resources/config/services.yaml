@@ -58,12 +58,14 @@ services:
             - '@Gally\Index\Service\IndexOperation'
             - '@Gally\Index\Repository\Index\IndexRepositoryInterface'
             - '@Gally\Search\Elasticsearch\Request\Container\Configuration\ContainerConfigurationProvider'
+            - '@logger'
 
     Gally\Index\MutationResolver\CreateIndexMutation:
         arguments:
             - '@Gally\Catalog\Repository\LocalizedCatalogRepository'
             - '@Gally\Metadata\Repository\MetadataRepository'
             - '@Gally\Index\Service\IndexOperation'
+            - '@logger'
         tags:
             - { name: api_platform.graphql.mutation_resolver }
 
@@ -103,6 +105,7 @@ services:
             - '@Gally\Catalog\Repository\LocalizedCatalogRepository'
             - '@Gally\Metadata\Repository\MetadataRepository'
             - '@Gally\Index\Service\IndexOperation'
+            - '@logger'
         tags:
             - { name: api_platform.data_transformer }
 
