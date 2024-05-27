@@ -1,12 +1,27 @@
 gally:
     relevance:
+        global:
+            request_types:
+                product_search_relevance:
+                    fulltext:
+                        minimumShouldMatch: '80%'
+                    phraseMatch:
+                        enabled: true
+                        boost: 20
         b2c_fr_relevance:
             request_types:
                 product_catalog:
                     fulltext:
-                        minimumShouldMatch: '50%'
+                        minimumShouldMatch: '70%'
                     phraseMatch:
                         enabled: true
                         boost: 25
                     cutOffFrequency:
                         value: 0.30
+        b2b_en_relevance:
+            request_types:
+                generic:
+                    fulltext:
+                        minimumShouldMatch: '60%'
+                        tieBreaker: 2.0
+                        
