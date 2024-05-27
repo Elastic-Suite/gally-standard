@@ -20,6 +20,7 @@ use Gally\Catalog\Repository\LocalizedCatalogRepository;
 use Gally\Exception\LogicException;
 use Gally\Index\Service\IndexOperation;
 use Gally\Metadata\Repository\MetadataRepository;
+use Psr\Log\LoggerInterface;
 
 class CreateIndexMutation implements MutationResolverInterface
 {
@@ -27,6 +28,7 @@ class CreateIndexMutation implements MutationResolverInterface
         private LocalizedCatalogRepository $localizedCatalogRepository,
         private MetadataRepository $metadataRepository,
         private IndexOperation $indexOperation,
+        private LoggerInterface $logger,
     ) {
     }
 
@@ -60,8 +62,8 @@ class CreateIndexMutation implements MutationResolverInterface
 
         try {
             $item = $this->indexOperation->createEntityIndex($metadata, $catalog);
-        } catch (\Exception $e) {
-            // TODO log error
+        } catch (\Exception $exception) {
+            $this->logger->error($exception);
             throw new \Exception('An error occurred when creating the index');
         }
 

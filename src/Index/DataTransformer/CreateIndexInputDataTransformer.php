@@ -21,6 +21,7 @@ use Gally\Index\Dto\CreateIndexInput;
 use Gally\Index\Model\Index;
 use Gally\Index\Service\IndexOperation;
 use Gally\Metadata\Repository\MetadataRepository;
+use Psr\Log\LoggerInterface;
 
 class CreateIndexInputDataTransformer implements DataTransformerInterface
 {
@@ -28,6 +29,7 @@ class CreateIndexInputDataTransformer implements DataTransformerInterface
         private LocalizedCatalogRepository $localizedCatalogRepository,
         private MetadataRepository $metadataRepository,
         private IndexOperation $indexOperation,
+        private LoggerInterface $logger,
     ) {
     }
 
@@ -77,7 +79,7 @@ class CreateIndexInputDataTransformer implements DataTransformerInterface
         try {
             $index = $this->indexOperation->createEntityIndex($metadata, $catalog);
         } catch (\Exception $exception) {
-            // TODO log error
+            $this->logger->error($exception);
             throw new \Exception('An error occurred when creating the index');
         }
 
