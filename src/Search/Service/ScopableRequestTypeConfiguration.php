@@ -36,7 +36,8 @@ abstract class ScopableRequestTypeConfiguration
 
         $defaultConfig = $scopedConfig['global']['request_types']['generic'];
         $defaultLocalizedConfig = $scopedConfig[$localizedCatalogCode]['request_types']['generic'] ?? [];
-        $defaultConfig = array_replace_recursive($defaultConfig, $defaultLocalizedConfig);
+        $defaultRequestTypeConfig = $scopedConfig['global']['request_types'][$requestType] ?? [];
+        $defaultConfig = array_replace_recursive($defaultConfig, $defaultLocalizedConfig, $defaultRequestTypeConfig);
 
         $config = $scopedConfig[$localizedCatalogCode]['request_types'][$requestType] ?? [];
 
