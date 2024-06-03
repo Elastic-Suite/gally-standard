@@ -33,6 +33,7 @@ interface FieldInterface
     public const FIELD_TYPE_BOOLEAN = 'boolean';
     public const FIELD_TYPE_NESTED = 'nested';
     public const FIELD_TYPE_OBJECT = 'object';
+    public const FIELD_TYPE_GEOPOINT = 'geo_point';
 
     /**
      * Analyzers declarations.

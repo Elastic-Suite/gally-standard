@@ -16,6 +16,7 @@ namespace Gally\Index\Tests\Unit\Converter\SourceField;
 
 use Gally\Index\Converter\SourceField\BasicSourceFieldConverter;
 use Gally\Index\Converter\SourceField\ImageSourceFieldConverter;
+use Gally\Index\Converter\SourceField\LocationSourceFieldConverter;
 use Gally\Index\Converter\SourceField\PriceSourceFieldConverter;
 use Gally\Index\Converter\SourceField\ReferenceSourceFieldConverter;
 use Gally\Index\Converter\SourceField\SelectSourceFieldConverter;
@@ -46,6 +47,7 @@ class SourceFieldConverterTest extends AbstractTest
             SelectSourceFieldConverter::class => static::getContainer()->get(SelectSourceFieldConverter::class),
             StockSourceFieldConverter::class => static::getContainer()->get(StockSourceFieldConverter::class),
             TextSourceFieldConverter::class => static::getContainer()->get(TextSourceFieldConverter::class),
+            LocationSourceFieldConverter::class => static::getContainer()->get(LocationSourceFieldConverter::class),
         ];
     }
 
@@ -76,6 +78,7 @@ class SourceFieldConverterTest extends AbstractTest
             [BasicSourceFieldConverter::class, SourceField\Type::TYPE_REFERENCE, false],
             [BasicSourceFieldConverter::class, SourceField\Type::TYPE_IMAGE, false],
             [BasicSourceFieldConverter::class, SourceField\Type::TYPE_OBJECT, false],
+            [BasicSourceFieldConverter::class, SourceField\Type::TYPE_LOCATION, false],
 
             [ImageSourceFieldConverter::class, SourceField\Type::TYPE_TEXT, false],
             [ImageSourceFieldConverter::class, SourceField\Type::TYPE_KEYWORD, false],
@@ -88,6 +91,7 @@ class SourceFieldConverterTest extends AbstractTest
             [ImageSourceFieldConverter::class, SourceField\Type::TYPE_REFERENCE, false],
             [ImageSourceFieldConverter::class, SourceField\Type::TYPE_IMAGE, true],
             [ImageSourceFieldConverter::class, SourceField\Type::TYPE_OBJECT, false],
+            [ImageSourceFieldConverter::class, SourceField\Type::TYPE_LOCATION, false],
 
             [PriceSourceFieldConverter::class, SourceField\Type::TYPE_TEXT, false],
             [PriceSourceFieldConverter::class, SourceField\Type::TYPE_KEYWORD, false],
@@ -100,6 +104,7 @@ class SourceFieldConverterTest extends AbstractTest
             [PriceSourceFieldConverter::class, SourceField\Type::TYPE_REFERENCE, false],
             [PriceSourceFieldConverter::class, SourceField\Type::TYPE_IMAGE, false],
             [PriceSourceFieldConverter::class, SourceField\Type::TYPE_OBJECT, false],
+            [PriceSourceFieldConverter::class, SourceField\Type::TYPE_LOCATION, false],
 
             [ReferenceSourceFieldConverter::class, SourceField\Type::TYPE_TEXT, false],
             [ReferenceSourceFieldConverter::class, SourceField\Type::TYPE_KEYWORD, false],
@@ -112,6 +117,7 @@ class SourceFieldConverterTest extends AbstractTest
             [ReferenceSourceFieldConverter::class, SourceField\Type::TYPE_REFERENCE, true],
             [ReferenceSourceFieldConverter::class, SourceField\Type::TYPE_IMAGE, false],
             [ReferenceSourceFieldConverter::class, SourceField\Type::TYPE_OBJECT, false],
+            [ReferenceSourceFieldConverter::class, SourceField\Type::TYPE_LOCATION, false],
 
             [SelectSourceFieldConverter::class, SourceField\Type::TYPE_TEXT, false],
             [SelectSourceFieldConverter::class, SourceField\Type::TYPE_KEYWORD, false],
@@ -124,6 +130,7 @@ class SourceFieldConverterTest extends AbstractTest
             [SelectSourceFieldConverter::class, SourceField\Type::TYPE_REFERENCE, false],
             [SelectSourceFieldConverter::class, SourceField\Type::TYPE_IMAGE, false],
             [SelectSourceFieldConverter::class, SourceField\Type::TYPE_OBJECT, false],
+            [SelectSourceFieldConverter::class, SourceField\Type::TYPE_LOCATION, false],
 
             [StockSourceFieldConverter::class, SourceField\Type::TYPE_TEXT, false],
             [StockSourceFieldConverter::class, SourceField\Type::TYPE_KEYWORD, false],
@@ -136,6 +143,7 @@ class SourceFieldConverterTest extends AbstractTest
             [StockSourceFieldConverter::class, SourceField\Type::TYPE_REFERENCE, false],
             [StockSourceFieldConverter::class, SourceField\Type::TYPE_IMAGE, false],
             [StockSourceFieldConverter::class, SourceField\Type::TYPE_OBJECT, false],
+            [StockSourceFieldConverter::class, SourceField\Type::TYPE_LOCATION, false],
 
             [TextSourceFieldConverter::class, SourceField\Type::TYPE_TEXT, true],
             [TextSourceFieldConverter::class, SourceField\Type::TYPE_KEYWORD, false],
@@ -148,6 +156,19 @@ class SourceFieldConverterTest extends AbstractTest
             [TextSourceFieldConverter::class, SourceField\Type::TYPE_REFERENCE, false],
             [TextSourceFieldConverter::class, SourceField\Type::TYPE_IMAGE, false],
             [TextSourceFieldConverter::class, SourceField\Type::TYPE_OBJECT, false],
+            [TextSourceFieldConverter::class, SourceField\Type::TYPE_LOCATION, false],
+
+            [LocationSourceFieldConverter::class, SourceField\Type::TYPE_TEXT, false],
+            [LocationSourceFieldConverter::class, SourceField\Type::TYPE_KEYWORD, false],
+            [LocationSourceFieldConverter::class, SourceField\Type::TYPE_SELECT, false],
+            [LocationSourceFieldConverter::class, SourceField\Type::TYPE_INT, false],
+            [LocationSourceFieldConverter::class, SourceField\Type::TYPE_BOOLEAN, false],
+            [LocationSourceFieldConverter::class, SourceField\Type::TYPE_PRICE, false],
+            [LocationSourceFieldConverter::class, SourceField\Type::TYPE_STOCK, false],
+            [LocationSourceFieldConverter::class, SourceField\Type::TYPE_REFERENCE, false],
+            [LocationSourceFieldConverter::class, SourceField\Type::TYPE_IMAGE, false],
+            [LocationSourceFieldConverter::class, SourceField\Type::TYPE_OBJECT, false],
+            [LocationSourceFieldConverter::class, SourceField\Type::TYPE_LOCATION, true],
         ];
     }
 
@@ -902,6 +923,98 @@ class SourceFieldConverterTest extends AbstractTest
                     [
                         'code' => 'nested.textField',
                         'type' => Mapping\FieldInterface::FIELD_TYPE_TEXT,
+                        'path' => 'nested',
+                    ],
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider locationSourceFieldConversionDataProvider
+     */
+    public function testLocationSourceFieldConversion(
+        string $sourceFieldCode,
+        string $sourceFieldType,
+        array $expectedFields
+    ): void {
+        // Initialize reflector to be able to check the private properties set in the Mapping\Field constructor.
+        $fieldReflector = new \ReflectionClass(Mapping\Field::class);
+        $fieldNameProperty = $fieldReflector->getProperty('name');
+        $fieldTypeProperty = $fieldReflector->getProperty('type');
+        $fieldConfigProperty = $fieldReflector->getProperty('config');
+        $fieldNestedPathProperty = $fieldReflector->getProperty('nestedPath');
+
+        $sourceFieldReflector = new \ReflectionClass(SourceField::class);
+        $sourceFieldProperties = [
+            'isSearchable' => $sourceFieldReflector->getProperty('isSearchable'),
+            'isSpellchecked' => $sourceFieldReflector->getProperty('isSpellchecked'),
+            'isFilterable' => $sourceFieldReflector->getProperty('isFilterable'),
+            'isUsedForRules' => $sourceFieldReflector->getProperty('isUsedForRules'),
+            'isSortable' => $sourceFieldReflector->getProperty('isSortable'),
+            'weight' => $sourceFieldReflector->getProperty('weight'),
+        ];
+
+        $sourceField = new SourceField();
+        $sourceField->setCode($sourceFieldCode)
+            ->setType($sourceFieldType);
+
+        $sourceFieldConfigs = self::getSourceFieldConfigs();
+        foreach ($sourceFieldConfigs as $sourceFieldConfig) {
+            // Apply source field configuration.
+            foreach ($sourceFieldConfig as $configItem => $configValue) {
+                /** @var \ReflectionProperty $sourceFieldProperty */
+                $sourceFieldProperty = &$sourceFieldProperties[$configItem];
+                $sourceFieldProperty->setValue($sourceField, $configValue);
+            }
+
+            $mappingFields = self::$sourceFieldConverters[LocationSourceFieldConverter::class]->getFields($sourceField);
+            $this->assertIsArray($mappingFields);
+            $this->assertCount(\count($expectedFields), $mappingFields);
+
+            foreach ($expectedFields as $expectedField) {
+                $this->assertArrayHasKey($expectedField['code'], $mappingFields);
+                $mappingField = $mappingFields[$expectedField['code']];
+                $this->assertInstanceOf(Mapping\FieldInterface::class, $mappingField);
+
+                $this->assertEquals($fieldNameProperty->getValue($mappingField), $expectedField['code']);
+                $this->assertEquals($fieldTypeProperty->getValue($mappingField), $expectedField['type']);
+                $this->assertEquals($fieldNestedPathProperty->getValue($mappingField), $expectedField['path']);
+
+                $fieldConfig = $fieldConfigProperty->getValue($mappingField);
+                $this->assertEquals($sourceFieldProperties['isSearchable']->getValue($sourceField), $fieldConfig['is_searchable']);
+                $this->assertEquals($sourceFieldProperties['isSpellchecked']->getValue($sourceField), $fieldConfig['is_used_in_spellcheck']);
+                $this->assertEquals(
+                    $sourceFieldProperties['isFilterable']->getValue($sourceField) || $sourceFieldProperties['isUsedForRules']->getValue($sourceField),
+                    $fieldConfig['is_filterable']
+                );
+                $this->assertEquals($sourceFieldProperties['isSortable']->getValue($sourceField), $fieldConfig['is_used_for_sort_by']);
+                $this->assertEquals($sourceFieldProperties['weight']->getValue($sourceField), $fieldConfig['search_weight']);
+            }
+        }
+    }
+
+    public function locationSourceFieldConversionDataProvider(): array
+    {
+        return [
+            [
+                'locationField',
+                SourceField\Type::TYPE_LOCATION,
+                [
+                    [
+                        'code' => 'locationField',
+                        'type' => Mapping\FieldInterface::FIELD_TYPE_GEOPOINT,
+                        'path' => null,
+                    ],
+                ],
+            ],
+            [
+                'nested.locationField',
+                SourceField\Type::TYPE_LOCATION,
+                [
+                    [
+                        'code' => 'nested.locationField',
+                        'type' => Mapping\FieldInterface::FIELD_TYPE_GEOPOINT,
                         'path' => 'nested',
                     ],
                 ],
