@@ -78,6 +78,11 @@ class SortOrderBuilder
                     );
                     $sortOrderParams['nestedFilter'] = $nestedFilter;
                 }
+
+                if (FieldInterface::FIELD_TYPE_GEOPOINT === $sortField->getType()) {
+                    $type = GeoDistance::class;
+                    unset($sortOrderParams['missing']); // Missing parameter is not available for geo distance sort order.
+                }
             } catch (\LogicException $exception) {
                 $sortOrderParams['field'] = $fieldName;
             }

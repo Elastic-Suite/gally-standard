@@ -22,11 +22,9 @@ use Gally\Category\Model\Category;
 class SearchContext
 {
     private ?Category $category = null;
-
     private ?string  $searchQueryText = null;
-
     private ?string $priceGroup = null;
-
+    private ?string $referenceLocation = null;
     private array $contextData = [];
 
     public function getCategory(): ?Category
@@ -57,6 +55,16 @@ class SearchContext
     public function setPriceGroup(?string $priceGroup): void
     {
         $this->priceGroup = $priceGroup;
+    }
+
+    public function getReferenceLocation(): ?string
+    {
+        return $this->referenceLocation;
+    }
+
+    public function setReferenceLocation(?string $referenceLocation): void
+    {
+        $this->referenceLocation = $referenceLocation;
     }
 
     public function getContextData(string $key, $default = null): mixed

@@ -318,6 +318,39 @@ class SortOrderBuilderTest extends AbstractTest
                 ],
             ],
             [
+                'product_document',  // entity type.
+                [   // sort order specifications.
+                    // Geo distance sort
+                    'manufacture_location' => [
+                        'field' => 'manufacture_location',
+                        'referenceLocation' => '12,3456 -65,4321',
+                        'direction' => SortOrderInterface::SORT_DESC,
+                    ],
+                ],
+                [   // expected built sort orders.
+                    [
+                        'type' => SortOrderInterface::TYPE_DISTANCE,
+                        'field' => 'manufacture_location',
+                        'direction' => SortOrderInterface::SORT_DESC,
+                        'referenceLocation' => '12,3456 -65,4321',
+                        'unit' => 'km',
+                        'mode' => 'min',
+                        'distanceType' => 'arc',
+                        'ignoreUnmapped' => false,
+                    ],
+                    [
+                        'type' => SortOrderInterface::TYPE_STANDARD,
+                        'field' => SortOrderInterface::DEFAULT_SORT_FIELD,
+                        'direction' => SortOrderInterface::SORT_ASC,
+                    ],
+                    [
+                        'type' => SortOrderInterface::TYPE_STANDARD,
+                        'field' => 'id.sortable',
+                        'direction' => SortOrderInterface::SORT_ASC,
+                    ],
+                ],
+            ],
+            [
                 'category', // entity type.
                 [], // sort order specifications.
                 [   // expected built sort orders.

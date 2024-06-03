@@ -249,6 +249,7 @@ services:
             - '@Gally\Search\GraphQl\Type\Definition\SortInputType'
             - '@Gally\Category\Service\CurrentCategoryProvider'
             - '@Gally\Entity\Service\PriceGroupProvider'
+            - '@Gally\Entity\Service\ReferenceLocationProvider'
             - '@Gally\Search\Service\SearchContext'
         tags:
             - { name: api_platform.collection_data_provider }
@@ -368,6 +369,7 @@ services:
             - '@Gally\Category\Repository\CategoryConfigurationRepository'
             - '@Gally\Category\Service\CurrentCategoryProvider'
             - '@Gally\Entity\Service\PriceGroupProvider'
+            - '@Gally\Entity\Service\ReferenceLocationProvider'
             - '@Gally\Search\Service\SearchContext'
             - '%api_platform.graphql.nesting_separator%'
         tags:
@@ -416,6 +418,12 @@ services:
             - '%api_platform.graphql.nesting_separator%'
         tags:
             - { name: gally.api.sort_order_provider, provider_name: 'select' }
+
+    Gally\Search\GraphQl\Type\Definition\SortOrder\LocationDefaultSortOrderProvider:
+        arguments:
+            - '%api_platform.graphql.nesting_separator%'
+        tags:
+            - { name: gally.api.sort_order_provider, provider_name: 'location' }
     
     Gally\Search\Service\SortingOptionsProvider:
         arguments:

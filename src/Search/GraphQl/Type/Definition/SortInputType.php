@@ -82,6 +82,10 @@ class SortInputType extends InputObjectType implements TypeInterface
                 $sortParams['nestedPath'] = $sourceField->getCode();
                 $sortParams['nestedFilter'] = [$sourceField->getCode() . '.id' => $this->searchContext->getCategory()?->getId()];
             }
+
+            if (Type::TYPE_LOCATION == $sourceField?->getType()) {
+                $sortParams['referenceLocation'] = $this->searchContext->getReferenceLocation();
+            }
         }
 
         return $sortOrders;

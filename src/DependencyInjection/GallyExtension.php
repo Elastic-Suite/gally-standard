@@ -108,6 +108,7 @@ class GallyExtension extends Extension
         $container->setParameter('gally.base_url', $config['base_url'] ?? []);
         $container->setParameter('gally.request_context', $config['request_context'] ?? []);
         $container->setParameter('gally.default_price_group_id', $config['default_price_group_id'] ?? null);
+        $container->setParameter('gally.default_reference_location', $config['default_reference_location'] ?? null);
         $container->setParameter('gally.request_types', $config['request_types'] ?? []);
         $container->setParameter('gally.pipeline_prefix', $config['pipeline_prefix'] ?? '');
 
