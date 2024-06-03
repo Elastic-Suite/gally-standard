@@ -1,0 +1,45 @@
+<?php
+/**
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
+ *
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
+ * @copyright 2022-present Smile
+ * @license   Open Software License v. 3.0 (OSL-3.0)
+ */
+
+declare(strict_types=1);
+
+namespace Gally\Search\Elasticsearch\Request\Aggregation\ConfigResolver;
+
+use Gally\Metadata\Model\SourceField;
+use Gally\Search\Elasticsearch\Request\BucketInterface;
+use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface;
+use Gally\Search\Service\SearchContext;
+
+class GeoDistanceAggregationConfigResolver implements FieldAggregationConfigResolverInterface
+{
+    public function __construct(
+        private SearchContext $searchContext,
+        private array $searchConfig
+    ) {
+    }
+
+    public function supports(SourceField $sourceField): bool
+    {
+        return SourceField\Type::TYPE_LOCATION === $sourceField->getType();
+    }
+
+    public function getConfig(ContainerConfigurationInterface $containerConfig, SourceField $sourceField): array
+    {
+        return [
+            'name' => $sourceField->getCode(),
+            'type' => BucketInterface::TYPE_GEO_DISTANCE,
+            'origin' => $this->searchContext->getReferenceLocation(),
+            'unit' => $this->searchConfig['aggregations']['default_geo_distance_unit'],
+            'ranges' => $this->searchConfig['aggregations']['default_geo_distance_ranges'],
+        ];
+    }
+}

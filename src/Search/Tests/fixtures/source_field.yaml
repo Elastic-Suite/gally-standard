@@ -137,7 +137,7 @@ Gally\Metadata\Model\SourceField:
         metadata: '@product'
         code: 'manufacture_location'
         type: 'location'
-        isFilterable: false
+        isFilterable: true
         isSearchable: false
         isSpellchecked: false
         isSortable: true
