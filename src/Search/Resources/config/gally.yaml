@@ -14,6 +14,17 @@ gally:
         aggregations:
             coverage_use_indexed_fields_property: false
             default_date_range_interval: '1y'
+            default_geo_distance_unit: 'km'
+            default_geo_distance_ranges: 
+                - {to: 1}
+                - {from: 1, to: 5}
+                - {from: 5, to: 10}
+                - {from: 10, to: 20}
+                - {from: 20, to: 30}
+                - {from: 30, to: 50}
+                - {from: 50, to: 100}
+                - {from: 100, to: 200}
+                - {from: 200}
         sort:
             default_asc_sort_field:
                 - '_count'

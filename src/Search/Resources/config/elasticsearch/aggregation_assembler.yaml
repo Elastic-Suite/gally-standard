@@ -116,6 +116,12 @@ services:
         tags:
             - { name: 'gally.search.request.aggregation.assembler', aggregationType: 'multiTermsBucket' }
 
+    Gally\Search\Elasticsearch\Adapter\Common\Request\Aggregation\Assembler\Bucket\GeoDistance:
+        abstract: false
+        lazy: true
+        tags:
+            - { name: 'gally.search.request.aggregation.assembler', aggregationType: 'geoDistanceBucket' }
+
     Gally\Search\Elasticsearch\Adapter\Common\Request\Aggregation\Assembler\Pipeline\BucketSelector:
         abstract: false
         lazy: true

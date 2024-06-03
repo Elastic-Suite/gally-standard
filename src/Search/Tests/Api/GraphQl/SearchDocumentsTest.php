@@ -883,6 +883,19 @@ class SearchDocumentsTest extends AbstractTest
                         ],
                     ],
                     [
+                        'field' => 'manufacture_location',
+                        'label' => 'Manufacture_location',
+                        'type' => 'histogram',
+                        'hasMore' => false,
+                        'options' => [
+                            [
+                                'label' => '200.0-*',
+                                'value' => '200.0-*',
+                                'count' => 12,
+                            ],
+                        ],
+                    ],
+                    [
                         'field' => 'color__value',
                         'label' => 'Color',
                         'type' => 'checkbox',
@@ -967,6 +980,19 @@ class SearchDocumentsTest extends AbstractTest
                                 'label' => 'Gris',
                                 'value' => 'grey',
                                 'count' => 5,
+                            ],
+                        ],
+                    ],
+                    [
+                        'field' => 'manufacture_location',
+                        'label' => 'Manufacture_location',
+                        'type' => 'histogram',
+                        'hasMore' => false,
+                        'options' => [
+                            [
+                                'label' => '200.0-*',
+                                'value' => '200.0-*',
+                                'count' => 10,
                             ],
                         ],
                     ],
@@ -1077,6 +1103,19 @@ class SearchDocumentsTest extends AbstractTest
                         ],
                     ],
                     [
+                        'field' => 'manufacture_location',
+                        'label' => 'Manufacture_location',
+                        'type' => 'histogram',
+                        'hasMore' => false,
+                        'options' => [
+                            [
+                                'label' => '200.0-*',
+                                'value' => '200.0-*',
+                                'count' => 10,
+                            ],
+                        ],
+                    ],
+                    [
                         'field' => 'my_price__price',
                         'label' => 'My_price',
                         'type' => 'slider',
@@ -1179,6 +1218,19 @@ class SearchDocumentsTest extends AbstractTest
                                 'label' => 'Gris',
                                 'value' => 'grey',
                                 'count' => 5,
+                            ],
+                        ],
+                    ],
+                    [
+                        'field' => 'manufacture_location',
+                        'label' => 'Manufacture_location',
+                        'type' => 'histogram',
+                        'hasMore' => false,
+                        'options' => [
+                            [
+                                'label' => '200.0-*',
+                                'value' => '200.0-*',
+                                'count' => 10,
                             ],
                         ],
                     ],
