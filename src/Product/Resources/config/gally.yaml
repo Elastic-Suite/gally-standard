@@ -10,5 +10,7 @@ gally:
     request_context:
         headers:
             - !php/const Gally\Entity\Service\PriceGroupProvider::PRICE_GROUP_ID
+            - !php/const Gally\Entity\Service\ReferenceLocationProvider::REFERENCE_LOCATION
 
     default_price_group_id: 0
+    default_reference_location: 48.981299, 2.309959

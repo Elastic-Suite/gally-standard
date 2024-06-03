@@ -25,6 +25,7 @@ use Gally\Category\Model\Category;
 use Gally\Category\Repository\CategoryConfigurationRepository;
 use Gally\Category\Service\CurrentCategoryProvider;
 use Gally\Entity\Service\PriceGroupProvider;
+use Gally\Entity\Service\ReferenceLocationProvider;
 use Gally\Metadata\Repository\MetadataRepository;
 use Gally\Product\GraphQl\Type\Definition\SortInputType;
 use Gally\Product\Model\Product;
@@ -51,6 +52,7 @@ class ProductDataProvider implements ContextAwareCollectionDataProviderInterface
         private FilterManager $filterManager,
         private CurrentCategoryProvider $currentCategoryProvider,
         private PriceGroupProvider $priceGroupProvider,
+        private ReferenceLocationProvider $referenceLocationProvider,
         private SearchContext $searchContext,
         private EntityManagerInterface $entityManager,
         private Serializer $serializer,
@@ -139,6 +141,7 @@ class ProductDataProvider implements ContextAwareCollectionDataProviderInterface
         $this->searchContext->setCategory($this->currentCategoryProvider->getCurrentCategory());
         $this->searchContext->setSearchQueryText($searchQuery);
         $this->searchContext->setPriceGroup($this->priceGroupProvider->getCurrentPriceGroupId());
+        $this->searchContext->setReferenceLocation($this->referenceLocationProvider->getReferenceLocation());
     }
 
     protected function isPreviewMode(array $context): bool

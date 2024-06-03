@@ -3,3 +3,4 @@ nelmio_cors:
         allow_headers:
             - !php/const Gally\Locale\EventSubscriber\LocaleSubscriber::GALLY_LANGUAGE_HEADER
             - !php/const Gally\Entity\Service\PriceGroupProvider::PRICE_GROUP_ID
+            - !php/const Gally\Entity\Service\ReferenceLocationProvider::REFERENCE_LOCATION

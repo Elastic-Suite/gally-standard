@@ -20,6 +20,7 @@ use Gally\Catalog\Repository\LocalizedCatalogRepository;
 use Gally\Category\Repository\CategoryConfigurationRepository;
 use Gally\Category\Service\CurrentCategoryProvider;
 use Gally\Entity\Service\PriceGroupProvider;
+use Gally\Entity\Service\ReferenceLocationProvider;
 use Gally\Metadata\Model\SourceField\Type;
 use Gally\Metadata\Repository\MetadataRepository;
 use Gally\Search\Elasticsearch\Adapter;
@@ -45,6 +46,7 @@ class OptionDataProvider implements ContextAwareCollectionDataProviderInterface,
         protected CategoryConfigurationRepository $categoryConfigurationRepository,
         protected CurrentCategoryProvider $currentCategoryProvider,
         protected PriceGroupProvider $priceGroupProvider,
+        protected ReferenceLocationProvider $referenceLocationProvider,
         protected SearchContext $searchContext,
         protected string $nestingSeparator,
     ) {
@@ -138,5 +140,6 @@ class OptionDataProvider implements ContextAwareCollectionDataProviderInterface,
         $this->searchContext->setCategory($this->currentCategoryProvider->getCurrentCategory());
         $this->searchContext->setSearchQueryText($searchQuery);
         $this->searchContext->setPriceGroup($this->priceGroupProvider->getCurrentPriceGroupId());
+        $this->searchContext->setReferenceLocation($this->referenceLocationProvider->getReferenceLocation());
     }
 }

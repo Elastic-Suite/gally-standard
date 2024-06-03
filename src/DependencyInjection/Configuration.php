@@ -279,6 +279,11 @@ class Configuration implements ConfigurationInterface
                     ->defaultValue('0')
                 ->end()
 
+                // Default reference location
+                ->scalarNode('default_reference_location')
+                    ->defaultValue('48.981299, 2.309959')
+                ->end()
+
                 // Ingest pipeline configuration
                 ->scalarNode('pipeline_prefix')->isRequired()->end()
 

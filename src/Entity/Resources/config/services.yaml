@@ -104,3 +104,8 @@ services:
         arguments:
             - '@Gally\RequestContext\Service\RequestContextManager'
             - '%gally.default_price_group_id%'
+
+    Gally\Entity\Service\ReferenceLocationProvider:
+        arguments:
+            - '@Gally\RequestContext\Service\RequestContextManager'
+            - '%gally.default_reference_location%'

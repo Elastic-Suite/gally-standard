@@ -36,6 +36,11 @@ Gally\Metadata\Model\SourceField:
         code: 'stock'
         type: 'stock'
         isSortable: true
+    product_manufacture_location:
+        metadata: '@product'
+        code: 'manufacture_location'
+        type: 'location'
+        isSortable: true
     category_id:
         metadata: '@category'
         code: 'id'

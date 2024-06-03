@@ -28,6 +28,7 @@ interface SortOrderInterface
     public const TYPE_STANDARD = 'standardSortOrder';
     public const TYPE_NESTED = 'nestedSortOrder';
     public const TYPE_SCRIPT = 'scriptSortOrder';
+    public const TYPE_DISTANCE = 'distanceSortOrder';
 
     public const SCORE_MODE_MIN = 'min';
     public const SCORE_MODE_MAX = 'max';
@@ -58,9 +59,4 @@ interface SortOrderInterface
      * Sort order type.
      */
     public function getType(): string;
-
-    /**
-     * Sort order 'missing' directive.
-     */
-    public function getMissing(): string;
 }

@@ -16,8 +16,10 @@ namespace Gally\Search\Elasticsearch\Adapter\Common\Request\SortOrder;
 
 use Gally\Index\Model\Index\Mapping\FieldInterface;
 use Gally\Search\Elasticsearch\Adapter\Common\Request\Query\Assembler as QueryAssembler;
+use Gally\Search\Elasticsearch\Builder\Request\SortOrder\GeoDistance;
 use Gally\Search\Elasticsearch\Builder\Request\SortOrder\Nested;
 use Gally\Search\Elasticsearch\Builder\Request\SortOrder\Script;
+use Gally\Search\Elasticsearch\Builder\Request\SortOrder\Standard;
 use Gally\Search\Elasticsearch\Request\SortOrderInterface;
 
 class Assembler
@@ -56,7 +58,17 @@ class Assembler
             /** @var Script $sortOrder */
             $sortOrderConfig['type'] = $sortOrder->getScriptType();
             $sortOrderConfig['script'] = $sortOrder->getScript();
-        } elseif (SortOrderInterface::DEFAULT_SORT_FIELD !== $sortField) {
+        } elseif (SortOrderInterface::TYPE_DISTANCE === $sortOrder->getType()) {
+            /** @var GeoDistance $sortOrder */
+            $sortOrderConfig[$sortField] = $sortOrder->getReferenceLocation();
+            $sortOrderConfig['unit'] = $sortOrder->getUnit();
+            $sortOrderConfig['mode'] = $sortOrder->getMode();
+            $sortOrderConfig['distance_type'] = $sortOrder->getDistanceType();
+            $sortOrderConfig['ignore_unmapped'] = $sortOrder->getIgnoreUnmapped();
+            $sortField = GeoDistance::GEO_DISTANCE_FIELD;
+        } elseif (SortOrderInterface::DEFAULT_SORT_FIELD !== $sortField
+            && \in_array($sortOrder->getType(), [SortOrderInterface::TYPE_STANDARD, SortOrderInterface::TYPE_NESTED, SortOrderInterface::TYPE_SCRIPT], true)) {
+            /** @var Standard|Nested|Script $sortOrder */
             $sortOrderConfig['missing'] = $sortOrder->getMissing();
             $sortOrderConfig['unmapped_type'] = FieldInterface::FIELD_TYPE_KEYWORD;
         }

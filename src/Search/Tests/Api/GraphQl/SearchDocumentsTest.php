@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace Gally\Search\Tests\Api\GraphQl;
 
 use Gally\Entity\Service\PriceGroupProvider;
+use Gally\Entity\Service\ReferenceLocationProvider;
 use Gally\Fixture\Service\ElasticsearchFixturesInterface;
 use Gally\Search\Elasticsearch\Request\SortOrderInterface;
 use Gally\Test\AbstractTest;
@@ -307,6 +308,7 @@ class SearchDocumentsTest extends AbstractTest
         string $documentIdentifier,
         array $expectedOrderedDocIds,
         string $priceGroupId = '0',
+        string $referenceLocation = '48.913066, 2.298293'
     ): void {
         $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
 
@@ -337,7 +339,10 @@ class SearchDocumentsTest extends AbstractTest
                     }
                 GQL,
                 $user,
-                [PriceGroupProvider::PRICE_GROUP_ID => $priceGroupId]
+                [
+                    PriceGroupProvider::PRICE_GROUP_ID => $priceGroupId,
+                    ReferenceLocationProvider::REFERENCE_LOCATION => $referenceLocation,
+                ]
             ),
             new ExpectedResponse(
                 200,
@@ -527,8 +532,30 @@ class SearchDocumentsTest extends AbstractTest
                 1,      // current page.
                 ['created_at' => SortOrderInterface::SORT_DESC], // sort order specifications.
                 'id', // document data identifier.
-                // price.price ASC, then score DESC first, then id DESC (missing _first)
+                // created_at ASC, then score DESC first, then id DESC (missing _first)
                 [10, 9, 5, 2, 3],   // expected ordered document IDs
+            ],
+            [
+                'product_document',  // entity type.
+                'b2b_fr',   // catalog ID.
+                5,     // page size.
+                1,      // current page.
+                ['manufacture_location' => SortOrderInterface::SORT_ASC], // sort order specifications.
+                'id', // document data identifier.
+                // manufacture_location ASC, then score DESC first, then id DESC (missing _first)
+                [1, 8, 7, 6, 12],   // expected ordered document IDs
+            ],
+            [
+                'product_document',  // entity type.
+                'b2b_fr',   // catalog ID.
+                5,     // page size.
+                1,      // current page.
+                ['manufacture_location' => SortOrderInterface::SORT_ASC], // sort order specifications.
+                'id', // document data identifier.
+                // manufacture_location ASC, then score DESC first, then id DESC (missing _first)
+                [5, 4, 3, 2, 1],   // expected ordered document IDs
+                '0', // Price group id
+                '45.770000, 4.890000', // Reference location
             ],
         ];
     }
@@ -683,6 +710,15 @@ class SearchDocumentsTest extends AbstractTest
                 1,      // current page.
                 ['price__price' => SortOrderInterface::SORT_ASC], // sort order specifications.
                 'price__price', // expected sort order field.
+                SortOrderInterface::SORT_ASC, // expected sort order direction.
+            ],
+            [
+                'product_document',  // entity type.
+                'b2b_fr',   // catalog ID.
+                5,     // page size.
+                1,      // current page.
+                ['manufacture_location' => SortOrderInterface::SORT_ASC], // sort order specifications.
+                'manufacture_location', // expected sort order field.
                 SortOrderInterface::SORT_ASC, // expected sort order direction.
             ],
         ];
