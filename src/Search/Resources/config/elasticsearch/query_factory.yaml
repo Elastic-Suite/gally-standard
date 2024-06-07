@@ -111,6 +111,13 @@ services:
         tags:
             - { name: 'gally.search.request.query.factory', queryType: 'termsQuery' }
 
+    gally.search.request.query.geoDistance.factory:
+        parent: Gally\DependencyInjection\GenericFactory
+        arguments:
+            - 'Gally\Search\Elasticsearch\Request\Query\GeoDistance'
+        tags:
+            - { name: 'gally.search.request.query.factory', queryType: 'geoDistanceQuery' }
+
     Gally\Search\Elasticsearch\Request\QueryFactory:
         public: true
         arguments: [!tagged_iterator { tag: 'gally.search.request.query.factory', index_by: 'queryType' }]

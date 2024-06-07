@@ -22,6 +22,7 @@ use Gally\Search\Elasticsearch\Builder\Request\Query\Filter\FilterQueryBuilder;
 use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface;
 use Gally\Search\Elasticsearch\Request\QueryFactory;
 use Gally\Search\Elasticsearch\Request\QueryInterface;
+use Gally\Search\Service\SearchContext;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class FilterQueryBuilderTest extends KernelTestCase
@@ -211,6 +212,7 @@ class FilterQueryBuilderTest extends KernelTestCase
     {
         $builder = new FilterQueryBuilder(
             $this->getQueryFactory($this->mockedQueryTypes),
+            static::getContainer()->get(SearchContext::class),
             static::getContainer()->getParameter('gally.search_settings'),
         );
         $config = $this->getContainerConfigMock(self::$fields);

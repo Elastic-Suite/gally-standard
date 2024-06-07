@@ -16,7 +16,6 @@ namespace Gally\Search\Tests\Unit\Elasticsearch\Request\Query;
 
 use ArgumentCountError;
 use Gally\Search\Elasticsearch\Request\Query\DateRange;
-use Gally\Search\Elasticsearch\Request\Query\Range;
 use Gally\Search\Elasticsearch\Request\QueryFactory;
 use Gally\Search\Elasticsearch\Request\QueryInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -40,7 +39,7 @@ class DateRangeTest extends KernelTestCase
 
     public function testDefaultCreate(): void
     {
-        /** @var Range $query */
+        /** @var DateRange $query */
         $query = self::$queryFactory->create(QueryInterface::TYPE_DATE_RANGE, ['field' => 'created_at']);
         $this->doStructureTest($query);
 
@@ -137,14 +136,14 @@ class DateRangeTest extends KernelTestCase
     private function doStructureTest(mixed $query): void
     {
         $this->assertInstanceOf(QueryInterface::class, $query);
-        $this->assertInstanceOf(Range::class, $query);
+        $this->assertInstanceOf(DateRange::class, $query);
         $this->assertEquals(QueryInterface::TYPE_DATE_RANGE, $query->getType());
         if ($query->getName()) {
             $this->assertIsString($query->getName());
         }
         $this->assertIsFloat($query->getBoost());
 
-        /** @var Range $query */
+        /** @var DateRange $query */
         $this->assertIsString($query->getField());
         $this->assertIsArray($query->getBounds());
     }

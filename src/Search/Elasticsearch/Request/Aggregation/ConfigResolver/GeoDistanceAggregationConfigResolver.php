@@ -38,8 +38,8 @@ class GeoDistanceAggregationConfigResolver implements FieldAggregationConfigReso
             'name' => $sourceField->getCode(),
             'type' => BucketInterface::TYPE_GEO_DISTANCE,
             'origin' => $this->searchContext->getReferenceLocation(),
-            'unit' => $this->searchConfig['aggregations']['default_geo_distance_unit'],
-            'ranges' => $this->searchConfig['aggregations']['default_geo_distance_ranges'],
+            'unit' => $this->searchConfig['default_distance_unit'],
+            'ranges' => $this->searchConfig['aggregations']['default_distance_ranges'],
         ];
     }
 }

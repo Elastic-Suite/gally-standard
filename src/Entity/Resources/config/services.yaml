@@ -99,6 +99,15 @@ services:
             - '@Gally\Search\Elasticsearch\Request\QueryFactory'
         tags:
             - { name: api_platform.graphql.type }
+    
+    Gally\Entity\GraphQl\Type\Definition\Filter\LocationTypeFilterInputType:
+        arguments:
+            - '@Gally\Search\Elasticsearch\Builder\Request\Query\Filter\FilterQueryBuilder'
+            - '@Gally\Search\Elasticsearch\Request\QueryFactory'
+            - '%api_platform.graphql.nesting_separator%'
+        tags:
+            - { name: api_platform.graphql.type }
+            - { name: gally.entity_api.filter }
 
     Gally\Entity\Service\PriceGroupProvider:
         arguments:

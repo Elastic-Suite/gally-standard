@@ -47,7 +47,11 @@ class SortOrderBuilderTest extends AbstractTest
         \assert(static::getContainer()->get(QueryFactory::class) instanceof QueryFactory);
         self::$filterQueryBuilder = static::getContainer()->get(FilterQueryBuilder::class);
         self::$logger = static::getContainer()->get(LoggerInterface::class);
-        self::$sortOrderBuilder = new SortOrderBuilder(self::$filterQueryBuilder, self::$logger);
+        self::$sortOrderBuilder = new SortOrderBuilder(
+            self::$filterQueryBuilder,
+            self::$logger,
+            static::getContainer()->getParameter('gally.search_settings')
+        );
 
         self::$metadataRepository = static::getContainer()->get(MetadataRepository::class);
         self::$metadataManager = static::getContainer()->get(MetadataManager::class);
@@ -63,7 +67,11 @@ class SortOrderBuilderTest extends AbstractTest
         $reflector = new \ReflectionClass(SortOrderBuilder::class);
         $filterQueryBuilderProperty = $reflector->getProperty('queryBuilder');
 
-        $sortOrderBuilder = new SortOrderBuilder(self::$filterQueryBuilder, self::$logger);
+        $sortOrderBuilder = new SortOrderBuilder(
+            self::$filterQueryBuilder,
+            self::$logger,
+            static::getContainer()->getParameter('gally.search_settings')
+        );
         $this->assertEquals($filterQueryBuilderProperty->getValue($sortOrderBuilder), self::$filterQueryBuilder);
     }
 
