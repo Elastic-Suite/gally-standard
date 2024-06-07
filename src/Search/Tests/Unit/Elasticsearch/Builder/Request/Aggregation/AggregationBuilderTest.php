@@ -24,6 +24,7 @@ use Gally\Search\Elasticsearch\Request\BucketInterface;
 use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface;
 use Gally\Search\Elasticsearch\Request\QueryFactory;
 use Gally\Search\Elasticsearch\Request\QueryInterface;
+use Gally\Search\Service\SearchContext;
 use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
@@ -198,7 +199,11 @@ class AggregationBuilderTest extends KernelTestCase
         $queryFactory = $this->getMockBuilder(QueryFactory::class)->disableOriginalConstructor()->getMock();
         $queryFactory->method('create')->willReturn($queryMock);
 
-        return new FilterQueryBuilder($queryFactory, static::getContainer()->getParameter('gally.search_settings'));
+        return new FilterQueryBuilder(
+            $queryFactory,
+            static::getContainer()->get(SearchContext::class),
+            static::getContainer()->getParameter('gally.search_settings')
+        );
     }
 
     /**

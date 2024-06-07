@@ -89,7 +89,11 @@ class SimpleRequestBuilderTest extends AbstractTest
         self::$filterQueryBuilder = static::getContainer()->get(FilterQueryBuilder::class);
         self::$logger = static::getContainer()->get(LoggerInterface::class);
         self::$queryBuilder = new QueryBuilder(self::$queryFactory, self::$fulltextQueryBuilder, self::$filterQueryBuilder);
-        self::$sortOrderBuilder = new SortOrderBuilder(self::$filterQueryBuilder, self::$logger);
+        self::$sortOrderBuilder = new SortOrderBuilder(
+            self::$filterQueryBuilder,
+            self::$logger,
+            static::getContainer()->getParameter('gally.search_settings')
+        );
         \assert(static::getContainer()->get(AggregationFactory::class) instanceof AggregationFactory);
         self::$aggregationFactory = static::getContainer()->get(AggregationFactory::class);
         self::$aggregationBuilder = new AggregationBuilder(self::$aggregationFactory, self::$filterQueryBuilder);

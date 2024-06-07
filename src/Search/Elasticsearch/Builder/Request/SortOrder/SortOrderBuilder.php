@@ -34,6 +34,7 @@ class SortOrderBuilder
     public function __construct(
         private FilterQueryBuilder $queryBuilder,
         private LoggerInterface $logger,
+        private array $searchSettings,
     ) {
     }
 
@@ -81,6 +82,7 @@ class SortOrderBuilder
 
                 if (FieldInterface::FIELD_TYPE_GEOPOINT === $sortField->getType()) {
                     $type = GeoDistance::class;
+                    $sortOrderParams['unit'] = $this->searchSettings['default_distance_unit'];
                     unset($sortOrderParams['missing']); // Missing parameter is not available for geo distance sort order.
                 }
             } catch (\LogicException $exception) {

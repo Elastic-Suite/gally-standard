@@ -105,6 +105,12 @@ services:
         tags:
             - { name: 'gally.search.request.query.assembler', queryType: 'matchPhrasePrefixQuery' }
 
+    Gally\Search\Elasticsearch\Adapter\Common\Request\Query\Assembler\GeoDistance:
+        abstract: false
+        lazy: true
+        tags:
+            - { name: 'gally.search.request.query.assembler', queryType: 'geoDistanceQuery' }
+
     Gally\Search\Elasticsearch\Adapter\Common\Request\Query\Assembler:
         public: true
         lazy: true

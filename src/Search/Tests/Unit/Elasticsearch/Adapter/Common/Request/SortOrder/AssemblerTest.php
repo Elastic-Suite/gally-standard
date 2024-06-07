@@ -55,7 +55,11 @@ class AssemblerTest extends AbstractTest
         \assert(static::getContainer()->get(QueryFactory::class) instanceof QueryFactory);
         self::$filterQueryBuilder = static::getContainer()->get(FilterQueryBuilder::class);
         self::$logger = static::getContainer()->get(LoggerInterface::class);
-        self::$sortOrderBuilder = new SortOrderBuilder(self::$filterQueryBuilder, self::$logger);
+        self::$sortOrderBuilder = new SortOrderBuilder(
+            self::$filterQueryBuilder,
+            self::$logger,
+            static::getContainer()->getParameter('gally.search_settings')
+        );
         self::$queryAssembler = static::getContainer()->get(QueryAssembler::class);
         self::$sortAssembler = new SortAssembler(self::$queryAssembler);
 

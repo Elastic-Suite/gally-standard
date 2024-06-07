@@ -114,12 +114,14 @@ services:
     Gally\Search\Elasticsearch\Builder\Request\Query\Filter\FilterQueryBuilder:
         arguments:
             - '@Gally\Search\Elasticsearch\Request\QueryFactory'
+            - '@Gally\Search\Service\SearchContext'
             - '%gally.search_settings%'
 
     Gally\Search\Elasticsearch\Builder\Request\SortOrder\SortOrderBuilder:
         arguments:
             - '@Gally\Search\Elasticsearch\Builder\Request\Query\Filter\FilterQueryBuilder'
             - '@logger'
+            - '%gally.search_settings%'
 
     Gally\Search\Elasticsearch\Builder\Request\Aggregation\AggregationBuilder:
         arguments:
@@ -182,6 +184,7 @@ services:
                 matchFilter: '@Gally\Search\GraphQl\Type\Definition\Filter\MatchFilterInputType',
                 rangeFilter: '@Gally\Search\GraphQl\Type\Definition\Filter\RangeFilterInputType',
                 existFilter: '@Gally\Search\GraphQl\Type\Definition\Filter\ExistFilterInputType',
+                distanceFilter: '@Gally\Search\GraphQl\Type\Definition\Filter\DistanceFilterInputType',
             }
             - '@Gally\Search\Elasticsearch\Builder\Request\Query\Filter\FilterQueryBuilder'
             - '%api_platform.graphql.nesting_separator%'
@@ -219,6 +222,13 @@ services:
             - { name: api_platform.graphql.type }
 
     Gally\Search\GraphQl\Type\Definition\Filter\RangeFilterInputType:
+        arguments:
+            - '@Gally\Search\Elasticsearch\Builder\Request\Query\Filter\FilterQueryBuilder'
+            - '@Gally\Search\Service\ReverseSourceFieldProvider'
+        tags:
+            - { name: api_platform.graphql.type }
+
+    Gally\Search\GraphQl\Type\Definition\Filter\DistanceFilterInputType:
         arguments:
             - '@Gally\Search\Elasticsearch\Builder\Request\Query\Filter\FilterQueryBuilder'
             - '@Gally\Search\Service\ReverseSourceFieldProvider'

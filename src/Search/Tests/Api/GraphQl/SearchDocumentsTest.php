@@ -1416,6 +1416,12 @@ class SearchDocumentsTest extends AbstractTest
                 '{equalFilter:{field:"id" eq: "1" in:["1"]}}', // Filters.
                 "Filter argument equalFilter: Only 'eq' or only 'in' should be filled, not both.", // debug message
             ],
+            [
+                'product_document', // entity type.
+                'b2c_en', // catalog ID.
+                '{distanceFilter:{field:"id" lte: 100}}', // Filters.
+                'Filter argument distanceFilter: The field id should be of type geo_point.', // debug message
+            ],
         ];
     }
 
@@ -1439,7 +1445,8 @@ class SearchDocumentsTest extends AbstractTest
         array $sortOrders,
         string $filter,
         string $documentIdentifier,
-        array $expectedOrderedDocIds
+        array $expectedOrderedDocIds,
+        ?string $referenceLocation = null,
     ): void {
         $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
 
@@ -1451,6 +1458,10 @@ class SearchDocumentsTest extends AbstractTest
             $currentPage,
             $filter
         );
+        $headers = [];
+        if ($referenceLocation) {
+            $headers['reference-location'] = $referenceLocation;
+        }
 
         $this->addSortOrders($sortOrders, $arguments);
 
@@ -1466,7 +1477,8 @@ class SearchDocumentsTest extends AbstractTest
                         }
                     }
                 GQL,
-                $user
+                $user,
+                $headers
             ),
             new ExpectedResponse(
                 200,
@@ -1730,6 +1742,37 @@ class SearchDocumentsTest extends AbstractTest
                 '{rangeFilter: {field: "created_at", lte: "2022-09-04"}}',
                 'entity_id', // document data identifier.
                 [1, 6, 7, 8, 9, 11, 12, 13], // expected ordered document IDs
+            ],
+            [
+                'product_document', // entity type.
+                'b2c_en', // catalog ID.
+                10, // page size.
+                1,  // current page.
+                ['manufacture_location' => SortOrderInterface::SORT_ASC], // sort order specifications.
+                '{distanceFilter: {field: "manufacture_location", lte: 350}}',
+                'entity_id', // document data identifier.
+                [1, 6, 7, 8, 9, 11, 12, 13], // expected ordered document IDs
+            ],
+            [
+                'product_document', // entity type.
+                'b2c_en', // catalog ID.
+                10, // page size.
+                1,  // current page.
+                ['manufacture_location' => SortOrderInterface::SORT_ASC], // sort order specifications.
+                '{distanceFilter: {field: "manufacture_location", lte: 500}}',
+                'entity_id', // document data identifier.
+                [1, 6, 7, 8, 9, 11, 12, 13, 5], // expected ordered document IDs
+            ],
+            [
+                'product_document', // entity type.
+                'b2c_en', // catalog ID.
+                10, // page size.
+                1,  // current page.
+                ['manufacture_location' => SortOrderInterface::SORT_ASC], // sort order specifications.
+                '{distanceFilter: {field: "manufacture_location", lte: 400}}',
+                'entity_id', // document data identifier.
+                [1, 6, 7, 8, 9, 11, 12, 13, 2, 3], // expected ordered document IDs
+                '44.832196, -0.554729', // reference location
             ],
         ];
     }
