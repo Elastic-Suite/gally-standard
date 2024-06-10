@@ -232,6 +232,7 @@ services:
         arguments:
             - '@Gally\Search\Elasticsearch\Builder\Request\Query\Filter\FilterQueryBuilder'
             - '@Gally\Search\Service\ReverseSourceFieldProvider'
+            - '@Gally\Search\Elasticsearch\Request\QueryFactory'
         tags:
             - { name: api_platform.graphql.type }
 

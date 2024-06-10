@@ -1392,6 +1392,14 @@ class SearchProductsTest extends AbstractTest
             [
                 'b2c_en', // catalog ID.
                 ['manufacture_location' => SortOrderInterface::SORT_ASC], // sort order specifications.
+                'manufacture_location: {gte: 350}', // filter.
+                'entity_id', // document data identifier.
+                ['5', '2', '3', '4', '10', '14'], // expected ordered document IDs
+                'fake_price_group_id',
+            ],
+            [
+                'b2c_en', // catalog ID.
+                ['manufacture_location' => SortOrderInterface::SORT_ASC], // sort order specifications.
                 'manufacture_location: {lte: 400}', // filter.
                 'entity_id', // document data identifier.
                 ['1', '6', '7', '8', '9', '11', '12', '13', '2', '3'], // expected ordered document IDs

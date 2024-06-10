@@ -21,12 +21,12 @@ use Gally\Metadata\Model\SourceField\Type as SourceFieldType;
 use Gally\Search\Constant\FilterOperator;
 use Gally\Search\Elasticsearch\Builder\Request\Query\Filter\FilterQueryBuilder;
 use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface;
+use Gally\Search\Elasticsearch\Request\QueryFactory;
 use Gally\Search\Elasticsearch\Request\QueryInterface;
 use Gally\Search\Service\ReverseSourceFieldProvider;
-use GraphQL\Type\Definition\InputObjectType;
 use GraphQL\Type\Definition\Type;
 
-class DistanceFilterInputType extends InputObjectType implements TypeInterface, FilterInterface
+class DistanceFilterInputType extends RangeFilterInputType implements TypeInterface, FilterInterface
 {
     use FilterableFieldTrait;
 
@@ -35,10 +35,10 @@ class DistanceFilterInputType extends InputObjectType implements TypeInterface, 
     public function __construct(
         private FilterQueryBuilder $filterQueryBuilder,
         private ReverseSourceFieldProvider $reverseSourceFieldProvider,
+        private QueryFactory $queryFactory,
     ) {
+        parent::__construct($filterQueryBuilder, $reverseSourceFieldProvider);
         $this->name = self::NAME;
-
-        parent::__construct($this->getConfig());
     }
 
     public function getConfig(): array
@@ -46,19 +46,17 @@ class DistanceFilterInputType extends InputObjectType implements TypeInterface, 
         return [
             'fields' => [
                 'field' => ['type' => Type::nonNull(Type::string())],
-                FilterOperator::LTE => Type::nonNull(Type::float()),
+                FilterOperator::GTE => Type::float(),
+                FilterOperator::LTE => Type::float(),
+                FilterOperator::GT => Type::float(),
+                FilterOperator::LT => Type::float(),
             ],
         ];
     }
 
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
     public function validate(string $argName, mixed $inputData, $containerConfig): array
     {
-        $errors = $this->validateIsFilterable($inputData['field'], $containerConfig);
+        $errors = parent::validateIsFilterable($inputData['field'], $containerConfig);
 
         $field = $this->reverseSourceFieldProvider->getSourceFieldFromFieldName(
             $inputData['field'],
@@ -78,8 +76,33 @@ class DistanceFilterInputType extends InputObjectType implements TypeInterface, 
 
     public function transformToGallyFilter(array $inputFilter, ContainerConfigurationInterface $containerConfig, array $filterContext = []): QueryInterface
     {
-        $filterData = [$inputFilter['field'] => [FilterOperator::LTE => $inputFilter[FilterOperator::LTE]]];
+        $queryParams = [];
 
-        return $this->filterQueryBuilder->create($containerConfig, $filterData);
+        if (isset($inputFilter[FilterOperator::GT])) {
+            $queryParams['mustNot'][] = $this->filterQueryBuilder->create(
+                $containerConfig,
+                [$inputFilter['field'] => [FilterOperator::LTE => $inputFilter[FilterOperator::GT]]]
+            );
+        }
+        if (isset($inputFilter[FilterOperator::GTE])) {
+            $queryParams['mustNot'][] = $this->filterQueryBuilder->create(
+                $containerConfig,
+                [$inputFilter['field'] => [FilterOperator::LTE => $inputFilter[FilterOperator::GTE] + 1]]
+            );
+        }
+        if (isset($inputFilter[FilterOperator::LTE])) {
+            $queryParams['must'][] = $this->filterQueryBuilder->create(
+                $containerConfig,
+                [$inputFilter['field'] => [FilterOperator::LTE => $inputFilter[FilterOperator::LTE]]]
+            );
+        }
+        if (isset($inputFilter[FilterOperator::LT])) {
+            $queryParams['must'][] = $this->filterQueryBuilder->create(
+                $containerConfig,
+                [$inputFilter['field'] => [FilterOperator::LTE => $inputFilter[FilterOperator::LT] - 1]]
+            );
+        }
+
+        return $this->queryFactory->create(QueryInterface::TYPE_BOOL, $queryParams);
     }
 }

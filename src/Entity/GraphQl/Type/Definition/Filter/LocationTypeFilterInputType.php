@@ -16,6 +16,11 @@ namespace Gally\Entity\GraphQl\Type\Definition\Filter;
 
 use Gally\Metadata\Model\SourceField;
 use Gally\Search\Constant\FilterOperator;
+use Gally\Search\Elasticsearch\Builder\Request\Query\Filter\FilterQueryBuilder;
+use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface;
+use Gally\Search\Elasticsearch\Request\QueryFactory;
+use Gally\Search\Elasticsearch\Request\QueryInterface;
+use Gally\Search\GraphQl\Type\Definition\Filter\DistanceFilterInputType;
 use GraphQL\Type\Definition\Type;
 
 class LocationTypeFilterInputType extends FloatTypeFilterInputType
@@ -24,26 +29,34 @@ class LocationTypeFilterInputType extends FloatTypeFilterInputType
 
     public $name = self::NAME;
 
+    public function __construct(
+        FilterQueryBuilder $filterQueryBuilder,
+        QueryFactory $queryFactory,
+        private DistanceFilterInputType $distanceFilterInputType,
+        string $nestingSeparator,
+    ) {
+        parent::__construct($filterQueryBuilder, $queryFactory, $nestingSeparator);
+    }
+
     public function supports(SourceField $sourceField): bool
     {
-        return \in_array(
-            $sourceField->getType(),
-            [SourceField\Type::TYPE_LOCATION],
-            true
-        );
+        return SourceField\Type::TYPE_LOCATION === $sourceField->getType();
     }
 
     public function getConfig(): array
     {
         return [
             'fields' => [
+                FilterOperator::GTE => Type::float(),
+                FilterOperator::GT => Type::float(),
+                FilterOperator::LT => Type::float(),
                 FilterOperator::LTE => Type::float(),
             ],
         ];
     }
 
-    public function validateValueType(string $field, string $operator, mixed $value): void
+    public function transformToGallyFilter(array $inputFilter, ContainerConfigurationInterface $containerConfig, array $filterContext = []): QueryInterface
     {
-        $this->validateValueTypeByType($field, $operator, $value, 'float');
+        return $this->distanceFilterInputType->transformToGallyFilter($inputFilter, $containerConfig, $filterContext);
     }
 }
