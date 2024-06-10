@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" version="2.0"
+       srcLang="en-US" trgLang="en-US">
+    <file id="gally_search.fr">
+        <unit id="search.distance_facet.option_to.label">
+            <segment>
+                <source>search.distance_facet.option_to.label</source>
+                <target>Less than %distance%unit</target>
+            </segment>
+        </unit>
+        <unit id="search.distance_facet.option_fromto.label">
+            <segment>
+                <source>search.distance_facet.option_fromto.label</source>
+                <target>From %distanceFrom%unit to %distanceTo%unit</target>
+            </segment>
+        </unit>
+        <unit id="search.distance_facet.option_from.label">
+            <segment>
+                <source>search.distance_facet.option_from.label</source>
+                <target>%distance%unit and more</target>
+            </segment>
+        </unit>
+    </file>
+</xliff>

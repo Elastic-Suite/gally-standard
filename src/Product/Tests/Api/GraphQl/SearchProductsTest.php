@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace Gally\Product\Tests\Api\GraphQl;
 
 use Gally\Entity\Service\PriceGroupProvider;
+use Gally\Entity\Service\ReferenceLocationProvider;
 use Gally\Fixture\Service\ElasticsearchFixturesInterface;
 use Gally\Search\Elasticsearch\Request\SortOrderInterface;
 use Gally\Test\AbstractTest;
@@ -321,6 +322,7 @@ class SearchProductsTest extends AbstractTest
         string $priceGroupId = '0',
         ?string $currentCategoryId = null,
         ?string $currentCategoryConfiguration = null,
+        ?string $referenceLocation = null
     ): void {
         $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
 
@@ -347,6 +349,11 @@ class SearchProductsTest extends AbstractTest
             $arguments .= sprintf(', sort: {%s}', implode(', ', $sortArguments));
         }
 
+        $headers = [PriceGroupProvider::PRICE_GROUP_ID => $priceGroupId];
+        if ($referenceLocation) {
+            $headers[ReferenceLocationProvider::REFERENCE_LOCATION] = $referenceLocation;
+        }
+
         $this->validateApiCall(
             new RequestGraphQlToTest(
                 <<<GQL
@@ -364,7 +371,7 @@ class SearchProductsTest extends AbstractTest
                     }
                 GQL,
                 $user,
-                [PriceGroupProvider::PRICE_GROUP_ID => $priceGroupId]
+                $headers
             ),
             new ExpectedResponse(
                 200,
@@ -531,6 +538,39 @@ class SearchProductsTest extends AbstractTest
                 ['p_02', '1'],    // expected ordered document IDs
                 '0',
                 'cat_1',
+            ],
+            [
+                'b2c_en',   // catalog ID.
+                10,     // page size.
+                1,      // current page.
+                ['manufacture_location' => SortOrderInterface::SORT_ASC],     // sort order specifications.
+                'entity_id', // document data identifier.
+                // test product are sorted by price because category "cat_1" has price as default sorting option.
+                ['1', '6', '7', '8', '9', '11', '12', '13', '5', '2'],    // expected ordered document IDs
+                '0',
+            ],
+            [
+                'b2c_en',   // catalog ID.
+                10,     // page size.
+                1,      // current page.
+                ['manufacture_location' => SortOrderInterface::SORT_DESC],     // sort order specifications.
+                'entity_id', // document data identifier.
+                // test product are sorted by price because category "cat_1" has price as default sorting option.
+                ['10', '14', '2', '3', '4', '5', '1', '6', '7', '8'],    // expected ordered document IDs
+                '0',
+            ],
+            [
+                'b2c_en',   // catalog ID.
+                10,     // page size.
+                1,      // current page.
+                ['manufacture_location' => SortOrderInterface::SORT_ASC],     // sort order specifications.
+                'entity_id', // document data identifier.
+                // test product are sorted by price because category "cat_1" has price as default sorting option.
+                ['1', '6', '7', '8', '9', '11', '12', '13', '2', '3'],  // expected ordered document IDs
+                '0',
+                null,
+                null,
+                '44.832196, -0.554729',
             ],
         ];
     }
@@ -1081,7 +1121,8 @@ class SearchProductsTest extends AbstractTest
         string $filter,
         string $documentIdentifier,
         array $expectedOrderedDocIds,
-        string $priceGroupId = '0'
+        string $priceGroupId = '0',
+        ?string $referenceLocation = null,
     ): void {
         $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
         $arguments = sprintf(
@@ -1094,6 +1135,11 @@ class SearchProductsTest extends AbstractTest
 
         $this->addSortOrders($sortOrders, $arguments);
 
+        $headers = [PriceGroupProvider::PRICE_GROUP_ID => $priceGroupId];
+        if ($referenceLocation) {
+            $headers[ReferenceLocationProvider::REFERENCE_LOCATION] = $referenceLocation;
+        }
+
         $this->validateApiCall(
             new RequestGraphQlToTest(
                 <<<GQL
@@ -1104,7 +1150,7 @@ class SearchProductsTest extends AbstractTest
                     }
                 GQL,
                 $user,
-                [PriceGroupProvider::PRICE_GROUP_ID => $priceGroupId]
+                $headers
             ),
             new ExpectedResponse(
                 200,
@@ -1327,6 +1373,31 @@ class SearchProductsTest extends AbstractTest
                 [], // expected ordered document IDs
                 'fake_price_group_id',
             ],
+            [
+                'b2c_en', // catalog ID.
+                ['manufacture_location' => SortOrderInterface::SORT_ASC], // sort order specifications.
+                'manufacture_location: {lte: 10}', // filter.
+                'entity_id', // document data identifier.
+                [], // expected ordered document IDs
+                'fake_price_group_id',
+            ],
+            [
+                'b2c_en', // catalog ID.
+                ['manufacture_location' => SortOrderInterface::SORT_ASC], // sort order specifications.
+                'manufacture_location: {lte: 350}', // filter.
+                'entity_id', // document data identifier.
+                ['1', '6', '7', '8', '9', '11', '12', '13'], // expected ordered document IDs
+                'fake_price_group_id',
+            ],
+            [
+                'b2c_en', // catalog ID.
+                ['manufacture_location' => SortOrderInterface::SORT_ASC], // sort order specifications.
+                'manufacture_location: {lte: 400}', // filter.
+                'entity_id', // document data identifier.
+                ['1', '6', '7', '8', '9', '11', '12', '13', '2', '3'], // expected ordered document IDs
+                'fake_price_group_id',
+                '44.832196, -0.554729',
+            ],
         ];
     }
 
@@ -1418,6 +1489,7 @@ class SearchProductsTest extends AbstractTest
         ?array $expectedAggregations,
         string $priceGroupId = '0',
         ?string $query = null,
+        ?string $referenceLocation = null,
     ): void {
         $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
 
@@ -1435,6 +1507,11 @@ class SearchProductsTest extends AbstractTest
 
         if (null !== $query) {
             $arguments .= sprintf(', search: "%s"', $query);
+        }
+
+        $headers = [PriceGroupProvider::PRICE_GROUP_ID => $priceGroupId];
+        if ($referenceLocation) {
+            $headers[ReferenceLocationProvider::REFERENCE_LOCATION] = $referenceLocation;
         }
 
         $this->validateApiCall(
@@ -1463,7 +1540,7 @@ class SearchProductsTest extends AbstractTest
                     }
                 GQL,
                 $user,
-                [PriceGroupProvider::PRICE_GROUP_ID => $priceGroupId]
+                $headers
             ),
             new ExpectedResponse(
                 200,
@@ -1524,6 +1601,18 @@ class SearchProductsTest extends AbstractTest
                         ],
                     ],
                     [
+                        'field' => 'manufacture_location',
+                        'label' => 'Manufacture_location',
+                        'type' => 'histogram',
+                        'options' => [
+                            [
+                                'label' => '200.0km and more',
+                                'value' => '200.0-*',
+                                'count' => 12,
+                            ],
+                        ],
+                    ],
+                    [
                         'field' => 'color__value',
                         'label' => 'Color',
                         'type' => 'checkbox',
@@ -1559,6 +1648,18 @@ class SearchProductsTest extends AbstractTest
                         ],
                     ],
                     [
+                        'field' => 'manufacture_location',
+                        'label' => 'Manufacture_location',
+                        'type' => 'histogram',
+                        'options' => [
+                            [
+                                'label' => '200.0km and more',
+                                'value' => '200.0-*',
+                                'count' => 2,
+                            ],
+                        ],
+                    ],
+                    [
                         'field' => 'color__value',
                         'label' => 'Color',
                         'type' => 'checkbox',
@@ -1583,6 +1684,18 @@ class SearchProductsTest extends AbstractTest
                     ['field' => 'weight', 'label' => 'Weight', 'type' => 'slider'],
                     ['field' => 'size', 'label' => 'Size', 'type' => 'slider'],
                     ['field' => 'brand__value', 'label' => 'Brand', 'type' => 'checkbox'],
+                    [
+                        'field' => 'manufacture_location',
+                        'label' => 'Manufacture_location',
+                        'type' => 'histogram',
+                        'options' => [
+                            [
+                                'label' => '200.0km and more',
+                                'value' => '200.0-*',
+                                'count' => 1,
+                            ],
+                        ],
+                    ],
                     [
                         'field' => 'color__value',
                         'label' => 'Color',
@@ -1625,6 +1738,18 @@ class SearchProductsTest extends AbstractTest
                                 'label' => 'Deux',
                                 'value' => 'cat_2',
                                 'count' => 1,
+                            ],
+                        ],
+                    ],
+                    [
+                        'field' => 'manufacture_location',
+                        'label' => 'Manufacture_location',
+                        'type' => 'histogram',
+                        'options' => [
+                            [
+                                'label' => 'Plus de 200.0km',
+                                'value' => '200.0-*',
+                                'count' => 10,
                             ],
                         ],
                     ],
@@ -1677,6 +1802,18 @@ class SearchProductsTest extends AbstractTest
                         ],
                     ],
                     ['field' => 'category__id', 'label' => 'Category', 'type' => 'category'],
+                    [
+                        'field' => 'manufacture_location',
+                        'label' => 'Manufacture_location',
+                        'type' => 'histogram',
+                        'options' => [
+                            [
+                                'label' => 'Plus de 200.0km',
+                                'value' => '200.0-*',
+                                'count' => 2,
+                            ],
+                        ],
+                    ],
                     ['field' => 'color__value', 'label' => 'Couleur', 'type' => 'checkbox'],
                 ],
                 '0',
@@ -1708,6 +1845,18 @@ class SearchProductsTest extends AbstractTest
                         ],
                     ],
                     ['field' => 'category__id', 'label' => 'Category', 'type' => 'category'],
+                    [
+                        'field' => 'manufacture_location',
+                        'label' => 'Manufacture_location',
+                        'type' => 'histogram',
+                        'options' => [
+                            [
+                                'label' => 'Plus de 200.0km',
+                                'value' => '200.0-*',
+                                'count' => 2,
+                            ],
+                        ],
+                    ],
                     ['field' => 'color__value', 'label' => 'Couleur', 'type' => 'checkbox'],
                 ],
                 '1',
@@ -1722,6 +1871,18 @@ class SearchProductsTest extends AbstractTest
                     ['field' => 'is_eco_friendly', 'label' => 'Is_eco_friendly', 'type' => 'boolean'],
                     ['field' => 'weight', 'label' => 'Weight', 'type' => 'slider'],
                     ['field' => 'category__id', 'label' => 'Category', 'type' => 'category'],
+                    [
+                        'field' => 'manufacture_location',
+                        'label' => 'Manufacture_location',
+                        'type' => 'histogram',
+                        'options' => [
+                            [
+                                'label' => 'Plus de 200.0km',
+                                'value' => '200.0-*',
+                                'count' => 2,
+                            ],
+                        ],
+                    ],
                     ['field' => 'color__value', 'label' => 'Couleur', 'type' => 'checkbox'],
                 ],
                 'fake_price_group_id',
@@ -1779,6 +1940,39 @@ class SearchProductsTest extends AbstractTest
                 ],
                 '0',
                 'bag',
+            ],
+            [ // Test autocomplete aggregations
+                'product_search',
+                'b2c_fr',   // catalog ID.
+                'cat_1', // Current category id.
+                10,     // page size.
+                1,      // current page.
+                [       // expected aggregations sample.
+                    ['field' => 'is_eco_friendly', 'label' => 'Is_eco_friendly', 'type' => 'boolean'],
+                    ['field' => 'weight', 'label' => 'Weight', 'type' => 'slider'],
+                    ['field' => 'category__id', 'label' => 'Category', 'type' => 'category'],
+                    [
+                        'field' => 'manufacture_location',
+                        'label' => 'Manufacture_location',
+                        'type' => 'histogram',
+                        'options' => [
+                            [
+                                'label' => 'Moins de 1.0km',
+                                'value' => '*-1.0',
+                                'count' => 1,
+                            ],
+                            [
+                                'label' => 'Plus de 200.0km',
+                                'value' => '200.0-*',
+                                'count' => 1,
+                            ],
+                        ],
+                    ],
+                    ['field' => 'color__value', 'label' => 'Couleur', 'type' => 'checkbox'],
+                ],
+                'fake_price_group_id',
+                null,
+                '47.2030827,-1.553246',
             ],
         ];
     }
