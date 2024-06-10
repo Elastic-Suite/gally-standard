@@ -1759,9 +1759,19 @@ class SearchDocumentsTest extends AbstractTest
                 10, // page size.
                 1,  // current page.
                 ['manufacture_location' => SortOrderInterface::SORT_ASC], // sort order specifications.
-                '{distanceFilter: {field: "manufacture_location", lte: 500}}',
+                '{distanceFilter: {field: "manufacture_location", gte: 350, lte: 500}}',
                 'entity_id', // document data identifier.
-                [1, 6, 7, 8, 9, 11, 12, 13, 5], // expected ordered document IDs
+                [5], // expected ordered document IDs
+            ],
+            [
+                'product_document', // entity type.
+                'b2c_en', // catalog ID.
+                10, // page size.
+                1,  // current page.
+                ['manufacture_location' => SortOrderInterface::SORT_ASC], // sort order specifications.
+                '{distanceFilter: {field: "manufacture_location", gte: 350}}',
+                'entity_id', // document data identifier.
+                [5, 2, 3, 4, 10, 14], // expected ordered document IDs
             ],
             [
                 'product_document', // entity type.

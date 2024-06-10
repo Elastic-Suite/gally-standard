@@ -104,6 +104,7 @@ services:
         arguments:
             - '@Gally\Search\Elasticsearch\Builder\Request\Query\Filter\FilterQueryBuilder'
             - '@Gally\Search\Elasticsearch\Request\QueryFactory'
+            - '@Gally\Search\GraphQl\Type\Definition\Filter\DistanceFilterInputType'
             - '%api_platform.graphql.nesting_separator%'
         tags:
             - { name: api_platform.graphql.type }
