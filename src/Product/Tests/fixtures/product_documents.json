@@ -45,6 +45,7 @@
         ],
         "is_eco_friendly": false,
         "created_at": "2022-09-01",
+        "manufacture_location": "47.2030827,-1.5532463",
         "indexed_fields": [
           "entity_id",
           "sku",
@@ -95,6 +96,7 @@
         ],
         "is_eco_friendly": false,
         "created_at": "2022-09-05",
+        "manufacture_location": "43.607413, 3.871533",
         "indexed_fields": [
           "entity_id",
           "sku",
@@ -128,6 +130,7 @@
         ],
         "is_eco_friendly": true,
         "created_at": "2022-09-05",
+        "manufacture_location": "43.607413, 3.871533",
         "indexed_fields": [
           "entity_id",
           "sku",
@@ -156,6 +159,7 @@
         ],
         "is_eco_friendly": true,
         "created_at": "2022-09-05",
+        "manufacture_location": "43.607413, 3.871533",
         "indexed_fields": [
           "entity_id",
           "sku",
@@ -182,6 +186,7 @@
         ],
         "is_eco_friendly": true,
         "created_at": "2022-09-06",
+        "manufacture_location": "45.777119, 4.859665",
         "indexed_fields": [
           "entity_id",
           "sku",
@@ -215,6 +220,7 @@
         ],
         "is_eco_friendly": true,
         "created_at": "2022-09-01",
+        "manufacture_location": "47.2030827,-1.5532463",
         "indexed_fields": [
           "entity_id",
           "sku",
@@ -239,6 +245,7 @@
         ],
         "is_eco_friendly": false,
         "created_at": "2022-09-01",
+        "manufacture_location": "47.2030827,-1.5532463",
         "indexed_fields": [
           "entity_id",
           "sku",
@@ -267,6 +274,7 @@
         ],
         "is_eco_friendly": false,
         "created_at": "2022-09-01",
+        "manufacture_location": "47.2030827,-1.5532463",
         "indexed_fields": [
           "entity_id",
           "sku",
@@ -294,6 +302,7 @@
         ],
         "is_eco_friendly": false,
         "created_at": "2022-09-01",
+        "manufacture_location": "47.2030827,-1.5532463",
         "indexed_fields": [
           "entity_id",
           "sku",
@@ -349,6 +358,7 @@
           }
         ],
         "created_at": "2022-09-01",
+        "manufacture_location": "47.2030827,-1.5532463",
         "indexed_fields": [
           "entity_id",
           "sku",
@@ -374,6 +384,7 @@
           }
         ],
         "created_at": "2022-09-01",
+        "manufacture_location": "47.2030827,-1.5532463",
         "indexed_fields": [
           "entity_id",
           "sku",
@@ -395,6 +406,7 @@
           }
         ],
         "created_at": "2022-09-01",
+        "manufacture_location": "47.2030827,-1.5532463",
         "indexed_fields": [
           "entity_id",
           "sku",
@@ -491,7 +503,8 @@
             "position": 1
           }
         ],
-        "created_at": "2022-09-01"
+        "created_at": "2022-09-01",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "id": "p_02",
@@ -543,7 +556,8 @@
           }
         ],
         "is_eco_friendly": false,
-        "created_at": "2022-09-05"
+        "created_at": "2022-09-05",
+        "manufacture_location": "43.607413, 3.871533"
       },
       {
         "id": "p_03",
@@ -583,7 +597,8 @@
           }
         ],
         "is_eco_friendly": true,
-        "created_at": "2022-09-05"
+        "created_at": "2022-09-05",
+        "manufacture_location": "43.607413, 3.871533"
       },
       {
         "id": "p_04",
@@ -606,7 +621,8 @@
           }
         ],
         "is_eco_friendly": true,
-        "created_at": "2022-09-05"
+        "created_at": "2022-09-05",
+        "manufacture_location": "43.607413, 3.871533"
       },
       {
         "id": "p_05",
@@ -629,7 +645,8 @@
           }
         ],
         "is_eco_friendly": true,
-        "created_at": "2022-09-06"
+        "created_at": "2022-09-06",
+        "manufacture_location": "45.777119, 4.859665"
       },
       {
         "id": "p_06",
@@ -660,7 +677,8 @@
           }
         ],
         "is_eco_friendly": true,
-        "created_at": "2022-09-01"
+        "created_at": "2022-09-01",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "id": "p_07",
@@ -683,7 +701,8 @@
           }
         ],
         "is_eco_friendly": false,
-        "created_at": "2022-09-01"
+        "created_at": "2022-09-01",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "id": "p_08",
@@ -709,7 +728,8 @@
           }
         ],
         "is_eco_friendly": false,
-        "created_at": "2022-09-01"
+        "created_at": "2022-09-01",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "id": "p_09",
@@ -790,7 +810,8 @@
             "label": "Noir"
           }
         ],
-        "created_at": "2022-09-01"
+        "created_at": "2022-09-01",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "id": "p_12",
@@ -816,7 +837,8 @@
             "label": "Noir"
           }
         ],
-        "created_at": "2022-09-01"
+        "created_at": "2022-09-01",
+        "manufacture_location": "47.2030827,-1.5532463"
       }
     ]
   }

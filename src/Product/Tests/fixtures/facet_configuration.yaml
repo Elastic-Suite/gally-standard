@@ -16,6 +16,11 @@ Gally\Search\Model\Facet\Configuration:
             category: ~
         coverageRate: 50
         position: 1
+    product_manufacture_location_facet:
+        __construct:
+            sourceField: '@product_manufacture_location'
+            category: ~
+        coverageRate: 80
     product_size_facet:
         __construct:
             sourceField: '@product_size'

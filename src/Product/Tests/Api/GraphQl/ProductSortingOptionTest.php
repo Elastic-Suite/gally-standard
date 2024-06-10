@@ -58,6 +58,7 @@ class ProductSortingOptionTest extends AbstractTest
                             ['code' => 'price_as_nested__price', 'label' => 'Price_as_nested.price'],
                             ['code' => 'created_at', 'label' => 'Created_at'],
                             ['code' => 'category__position', 'label' => 'Position'],
+                            ['code' => 'manufacture_location', 'label' => 'Manufacture_location\'s distance'],
                             ['code' => '_score', 'label' => 'Relevance'],
                         ],
                         $responseData['data']['productSortingOptions']

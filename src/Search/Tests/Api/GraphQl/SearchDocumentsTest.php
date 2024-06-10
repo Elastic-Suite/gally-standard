@@ -889,7 +889,7 @@ class SearchDocumentsTest extends AbstractTest
                         'hasMore' => false,
                         'options' => [
                             [
-                                'label' => '200.0-*',
+                                'label' => '200.0km and more',
                                 'value' => '200.0-*',
                                 'count' => 12,
                             ],
@@ -990,7 +990,7 @@ class SearchDocumentsTest extends AbstractTest
                         'hasMore' => false,
                         'options' => [
                             [
-                                'label' => '200.0-*',
+                                'label' => 'Plus de 200.0km',
                                 'value' => '200.0-*',
                                 'count' => 10,
                             ],
@@ -1109,7 +1109,7 @@ class SearchDocumentsTest extends AbstractTest
                         'hasMore' => false,
                         'options' => [
                             [
-                                'label' => '200.0-*',
+                                'label' => 'Plus de 200.0km',
                                 'value' => '200.0-*',
                                 'count' => 10,
                             ],
@@ -1228,7 +1228,7 @@ class SearchDocumentsTest extends AbstractTest
                         'hasMore' => false,
                         'options' => [
                             [
-                                'label' => '200.0-*',
+                                'label' => 'Plus de 200.0km',
                                 'value' => '200.0-*',
                                 'count' => 10,
                             ],

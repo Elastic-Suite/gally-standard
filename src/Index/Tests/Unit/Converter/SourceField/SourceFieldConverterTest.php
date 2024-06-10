@@ -970,7 +970,7 @@ class SourceFieldConverterTest extends AbstractTest
 
             $mappingFields = self::$sourceFieldConverters[LocationSourceFieldConverter::class]->getFields($sourceField);
             $this->assertIsArray($mappingFields);
-            $this->assertCount(\count($expectedFields), $mappingFields);
+            $this->assertCount(1, $mappingFields);
 
             foreach ($expectedFields as $expectedField) {
                 $this->assertArrayHasKey($expectedField['code'], $mappingFields);
@@ -982,8 +982,8 @@ class SourceFieldConverterTest extends AbstractTest
                 $this->assertEquals($fieldNestedPathProperty->getValue($mappingField), $expectedField['path']);
 
                 $fieldConfig = $fieldConfigProperty->getValue($mappingField);
-                $this->assertEquals($sourceFieldProperties['isSearchable']->getValue($sourceField), $fieldConfig['is_searchable']);
-                $this->assertEquals($sourceFieldProperties['isSpellchecked']->getValue($sourceField), $fieldConfig['is_used_in_spellcheck']);
+                $this->assertFalse($fieldConfig['is_searchable']);
+                $this->assertFalse($fieldConfig['is_used_in_spellcheck']);
                 $this->assertEquals(
                     $sourceFieldProperties['isFilterable']->getValue($sourceField) || $sourceFieldProperties['isUsedForRules']->getValue($sourceField),
                     $fieldConfig['is_filterable']

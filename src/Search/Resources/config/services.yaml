@@ -291,7 +291,9 @@ services:
             - '@Gally\Search\Service\SearchContext'
             - '@Gally\Search\Service\ReverseSourceFieldProvider'
             - '@Gally\Category\Repository\CategoryConfigurationRepository'
+            - '@Symfony\Contracts\Translation\TranslatorInterface'
             - !tagged_iterator { tag: 'gally.entity_api.filter' }
+            - '%gally.search_settings%'
             
     Gally\Search\Decoration\GraphQl\AddAggregationsInContext:
         decorates: api_platform.graphql.serializer.context_builder
