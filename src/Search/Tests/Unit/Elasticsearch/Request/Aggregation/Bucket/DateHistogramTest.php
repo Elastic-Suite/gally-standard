@@ -66,15 +66,6 @@ class DateHistogramTest extends AbstractBucketTest
 
         yield [[
             'name' => 'test_bucket_name',
-            'field' => 'created_at',
-            'nestedPath' => 'category',
-            'interval' => '2y',
-            'minDocCount' => 10,
-            'format' => 'yyyy-MM',
-        ]];
-
-        yield [[
-            'name' => 'test_bucket_name',
             'field' => 'ca',
             'interval' => '2y',
             'filter' => $queryFactory->create(
@@ -107,6 +98,5 @@ class DateHistogramTest extends AbstractBucketTest
         /** @var DateHistogram $bucket */
         $this->assertEquals($params['interval'] ?? '1d', $bucket->getInterval());
         $this->assertEquals($params['minDocCount'] ?? 0, $bucket->getMinDocCount());
-        $this->assertEquals($params['format'] ?? 'yyyy-MM-dd', $bucket->getFormat());
     }
 }

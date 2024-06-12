@@ -50,10 +50,8 @@ class FilterQueryBuilder
      *
      * @param QueryFactory $queryFactory Query factory (used to build sub-queries)
      */
-    public function __construct(
-        private QueryFactory $queryFactory,
-        private array $searchSettings,
-    ) {
+    public function __construct(private QueryFactory $queryFactory)
+    {
     }
 
     /**
@@ -102,10 +100,6 @@ class FilterQueryBuilder
         if (\count(array_intersect($this->rangeConditions, array_keys($condition))) >= 1) {
             $queryType = QueryInterface::TYPE_RANGE;
             $condition = ['bounds' => $condition];
-            if (FieldInterface::FIELD_TYPE_DATE === $field->getType()) {
-                $queryType = QueryInterface::TYPE_DATE_RANGE;
-                $condition['format'] = $this->searchSettings['default_date_field_format'];
-            }
         }
 
         $condition['field'] = $field->getMappingProperty(FieldInterface::ANALYZER_UNTOUCHED);

@@ -41,7 +41,6 @@ class AddAggregationsData implements SerializeStageInterface
     public const AGGREGATION_TYPE_BOOLEAN = 'boolean';
     public const AGGREGATION_TYPE_SLIDER = 'slider';
     public const AGGREGATION_TYPE_CATEGORY = 'category';
-    public const AGGREGATION_TYPE_HISTOGRAM = 'histogram';
 
     public function __construct(
         private SerializeStageInterface $decorated,
@@ -105,7 +104,6 @@ class AddAggregationsData implements SerializeStageInterface
                 Type::TYPE_PRICE, Type::TYPE_FLOAT, Type::TYPE_INT => self::AGGREGATION_TYPE_SLIDER,
                 Type::TYPE_CATEGORY => self::AGGREGATION_TYPE_CATEGORY,
                 Type::TYPE_STOCK, Type::TYPE_BOOLEAN => self::AGGREGATION_TYPE_BOOLEAN,
-                Type::TYPE_DATE => self::AGGREGATION_TYPE_HISTOGRAM,
                 default => self::AGGREGATION_TYPE_CHECKBOX,
             },
             'count' => $aggregation->getCount(),

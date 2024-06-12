@@ -43,8 +43,7 @@ class DateHistogram extends Histogram
         ?QueryInterface $filter = null,
         ?QueryInterface $nestedFilter = null,
         int|string $interval = '1d',
-        int $minDocCount = 0,
-        protected string $format = 'yyyy-MM-dd',
+        int $minDocCount = 0
     ) {
         parent::__construct(
             $name,
@@ -64,13 +63,5 @@ class DateHistogram extends Histogram
     public function getType(): string
     {
         return BucketInterface::TYPE_DATE_HISTOGRAM;
-    }
-
-    /**
-     * Date histograms format.
-     */
-    public function getFormat(): string
-    {
-        return $this->format;
     }
 }

@@ -10,10 +10,8 @@ gally:
         document_attribute:
             max_size: 3
     search_settings:
-        default_date_field_format: 'yyyy'
         aggregations:
             coverage_use_indexed_fields_property: false
-            default_date_range_interval: '1y'
         sort:
             default_asc_sort_field:
                 - '_count'

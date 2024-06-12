@@ -114,7 +114,6 @@ services:
     Gally\Search\Elasticsearch\Builder\Request\Query\Filter\FilterQueryBuilder:
         arguments:
             - '@Gally\Search\Elasticsearch\Request\QueryFactory'
-            - '%gally.search_settings%'
 
     Gally\Search\Elasticsearch\Builder\Request\SortOrder\SortOrderBuilder:
         arguments:
