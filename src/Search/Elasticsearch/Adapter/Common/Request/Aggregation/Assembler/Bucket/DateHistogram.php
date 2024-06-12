@@ -38,7 +38,6 @@ class DateHistogram implements AssemblerInterface
             'field' => $aggregation->getField(),
             'interval' => $aggregation->getInterval(),
             'min_doc_count' => $aggregation->getMinDocCount(),
-            'format' => $aggregation->getFormat(),
         ];
 
         return ['date_histogram' => $aggParams];

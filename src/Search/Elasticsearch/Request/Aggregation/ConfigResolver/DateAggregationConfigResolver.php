@@ -20,10 +20,6 @@ use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface;
 
 class DateAggregationConfigResolver implements FieldAggregationConfigResolverInterface
 {
-    public function __construct(private array $searchConfig)
-    {
-    }
-
     public function supports(SourceField $sourceField): bool
     {
         return SourceField\Type::TYPE_DATE === $sourceField->getType();
@@ -35,8 +31,6 @@ class DateAggregationConfigResolver implements FieldAggregationConfigResolverInt
             'name' => $sourceField->getCode(),
             'type' => BucketInterface::TYPE_DATE_HISTOGRAM,
             'minDocCount' => 1,
-            'interval' => $this->searchConfig['aggregations']['default_date_range_interval'],
-            'format' => $this->searchConfig['default_date_field_format'],
         ];
     }
 }

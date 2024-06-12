@@ -5,8 +5,6 @@ services:
             - { name: 'gally.search.aggregation.resolver' }
 
     Gally\Search\Elasticsearch\Request\Aggregation\ConfigResolver\DateAggregationConfigResolver:
-        arguments:
-            - '%gally.search_settings%'
         tags:
             - { name: 'gally.search.aggregation.resolver' }
 

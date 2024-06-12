@@ -198,7 +198,7 @@ class AggregationBuilderTest extends KernelTestCase
         $queryFactory = $this->getMockBuilder(QueryFactory::class)->disableOriginalConstructor()->getMock();
         $queryFactory->method('create')->willReturn($queryMock);
 
-        return new FilterQueryBuilder($queryFactory, static::getContainer()->getParameter('gally.search_settings'));
+        return new FilterQueryBuilder($queryFactory);
     }
 
     /**

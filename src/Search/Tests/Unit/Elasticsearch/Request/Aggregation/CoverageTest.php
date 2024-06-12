@@ -102,11 +102,11 @@ class CoverageTest extends AbstractTest
         return [
             [
                 false, // coverage_use_indexed_fields_property conf value
-                ['is_eco_friendly', 'weight', 'category', 'size', 'created_at', 'color_full', 'color'], //expected aggregation
+                ['is_eco_friendly', 'weight', 'category', 'size', 'color_full', 'color'], //expected aggregation
             ],
             [
                 true, // coverage_use_indexed_fields_property conf value
-                ['is_eco_friendly', 'weight', 'category', 'created_at', 'color_full', 'color'], // Expected aggregations
+                ['is_eco_friendly', 'weight', 'category', 'color_full', 'color'], // Expected aggregations
             ],
         ];
     }

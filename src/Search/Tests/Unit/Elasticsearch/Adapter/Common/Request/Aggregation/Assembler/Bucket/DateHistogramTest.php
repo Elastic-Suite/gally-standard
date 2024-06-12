@@ -38,7 +38,6 @@ class DateHistogramTest extends KernelTestCase
         $this->assertEquals('fieldName', $aggregation['date_histogram']['field']);
         $this->assertEquals('1d', $aggregation['date_histogram']['interval']);
         $this->assertEquals(0, $aggregation['date_histogram']['min_doc_count']);
-        $this->assertEquals('yyyy-MM-dd', $aggregation['date_histogram']['format']);
     }
 
     /**
@@ -47,7 +46,7 @@ class DateHistogramTest extends KernelTestCase
     public function testComplexeAggregationBuild(): void
     {
         $aggBuilder = new DateHistogramAssembler();
-        $bucket = new DateHistogram('aggregationName', 'fieldName', [], null, null, null, '2y', 10, 'yyyy-MM');
+        $bucket = new DateHistogram('aggregationName', 'fieldName', [], null, null, null, '2y', 10);
 
         $aggregation = $aggBuilder->assembleAggregation($bucket);
 
@@ -55,7 +54,6 @@ class DateHistogramTest extends KernelTestCase
         $this->assertEquals('fieldName', $aggregation['date_histogram']['field']);
         $this->assertEquals('2y', $aggregation['date_histogram']['interval']);
         $this->assertEquals(10, $aggregation['date_histogram']['min_doc_count']);
-        $this->assertEquals('yyyy-MM', $aggregation['date_histogram']['format']);
     }
 
     /**
