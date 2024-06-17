@@ -12,6 +12,7 @@ Gally\Metadata\Model\SourceField:
         type: 'reference'
         isSystem: true
         isUsedForRules: true
+        isSearchable: true
     product_stock:
         metadata: '@product'
         code: 'stock'

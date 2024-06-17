@@ -1,3 +1,6 @@
+include:
+    - ./source_field.yaml
+
 Gally\Metadata\Model\SourceFieldOption:
     cms_page_tags_option_fashion:
         code: 'fashion'

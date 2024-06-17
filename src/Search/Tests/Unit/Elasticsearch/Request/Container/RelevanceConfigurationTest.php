@@ -41,10 +41,11 @@ class RelevanceConfigurationTest extends AbstractTest
         $metadata = $metadataRepository->findOneBy(['entity' => 'product_document']);
         $b2cEnRelevance = $localizedCatalogRepository->findOneBy(['code' => 'b2c_en_relevance']);
         $b2cFrRelevance = $localizedCatalogRepository->findOneBy(['code' => 'b2c_fr_relevance']);
+        $b2bEnRelevance = $localizedCatalogRepository->findOneBy(['code' => 'b2b_en_relevance']);
 
         $configurationFactory = static::getContainer()->get(GenericContainerConfigurationFactory::class);
 
-        // Check relevance config for 'global' scope + 'generic' request type.
+        // Check relevance config for 'b2c_en_relevance' scope + 'generic' request type.
         $containerConfig = $configurationFactory->create('generic', $metadata, $b2cEnRelevance);
         $relevanceConfig = $containerConfig->getRelevanceConfig();
         $this->checkRelevanceConfig(
@@ -61,7 +62,58 @@ class RelevanceConfigurationTest extends AbstractTest
             ]
         );
 
-        // Check relevance config for 'global' scope + 'product_catalog' request type.
+        // Check relevance config for 'b2c_en_relevance' scope + 'product_search_relevance' request type.
+        $containerConfig = $configurationFactory->create('product_search_relevance', $metadata, $b2cEnRelevance);
+        $relevanceConfig = $containerConfig->getRelevanceConfig();
+        $this->checkRelevanceConfig(
+            $relevanceConfig,
+            [
+                'fulltext_minimumShouldMatch' => '80%',
+                'fulltext_tieBreaker' => 1.0,
+                'phraseMatch_boost' => 20,
+                'fuzziness_enabled' => true,
+                'fuzziness_value' => FuzzinessConfig::VALUE_AUTO,
+                'fuzziness_prefixLength' => 1,
+                'fuzziness_maxExpansions' => 10,
+                'phonetic_enabled' => true,
+            ]
+        );
+
+        // Check relevance config for 'b2c_fr_relevance' scope + 'product_catalog' request type.
+        $containerConfig = $configurationFactory->create('product_catalog', $metadata, $b2cFrRelevance);
+        $relevanceConfig = $containerConfig->getRelevanceConfig();
+        $this->checkRelevanceConfig(
+            $relevanceConfig,
+            [
+                'fulltext_minimumShouldMatch' => '70%',
+                'fulltext_tieBreaker' => 1.0,
+                'phraseMatch_boost' => 25,
+                'fuzziness_enabled' => true,
+                'fuzziness_value' => FuzzinessConfig::VALUE_AUTO,
+                'fuzziness_prefixLength' => 1,
+                'fuzziness_maxExpansions' => 10,
+                'phonetic_enabled' => true,
+            ]
+        );
+
+        // Check relevance config for 'b2b_en_relevance' scope + 'generic' request type.
+        $containerConfig = $configurationFactory->create('generic', $metadata, $b2bEnRelevance);
+        $relevanceConfig = $containerConfig->getRelevanceConfig();
+        $this->checkRelevanceConfig(
+            $relevanceConfig,
+            [
+                'fulltext_minimumShouldMatch' => '60%',
+                'fulltext_tieBreaker' => 2.0,
+                'phraseMatch_boost' => false,
+                'fuzziness_enabled' => true,
+                'fuzziness_value' => FuzzinessConfig::VALUE_AUTO,
+                'fuzziness_prefixLength' => 1,
+                'fuzziness_maxExpansions' => 10,
+                'phonetic_enabled' => true,
+            ]
+        );
+
+        // Check relevance config for 'b2c_en_relevance' scope + 'product_catalog' request type.
         $containerConfig = $configurationFactory->create('product_catalog', $metadata, $b2cEnRelevance);
         $relevanceConfig = $containerConfig->getRelevanceConfig();
         $this->checkRelevanceConfig(
@@ -78,13 +130,47 @@ class RelevanceConfigurationTest extends AbstractTest
             ]
         );
 
+        // Check relevance config for 'b2b_en_relevance' scope + 'product_search_relevance' request type.
+        $containerConfig = $configurationFactory->create('product_search_relevance', $metadata, $b2bEnRelevance);
+        $relevanceConfig = $containerConfig->getRelevanceConfig();
+        $this->checkRelevanceConfig(
+            $relevanceConfig,
+            [
+                'fulltext_minimumShouldMatch' => '80%',
+                'fulltext_tieBreaker' => 2.0,
+                'phraseMatch_boost' => 20,
+                'fuzziness_enabled' => true,
+                'fuzziness_value' => FuzzinessConfig::VALUE_AUTO,
+                'fuzziness_prefixLength' => 1,
+                'fuzziness_maxExpansions' => 10,
+                'phonetic_enabled' => true,
+            ]
+        );
+
+        // Check relevance config for 'b2c_fr_relevance' localized catalog scope + 'product_catalog' request type.
+        $containerConfig = $configurationFactory->create('product_search_relevance', $metadata, $b2cFrRelevance);
+        $relevanceConfig = $containerConfig->getRelevanceConfig();
+        $this->checkRelevanceConfig(
+            $relevanceConfig,
+            [
+                'fulltext_minimumShouldMatch' => '80%',
+                'fulltext_tieBreaker' => 1.0,
+                'phraseMatch_boost' => 20,
+                'fuzziness_enabled' => true,
+                'fuzziness_value' => FuzzinessConfig::VALUE_AUTO,
+                'fuzziness_prefixLength' => 1,
+                'fuzziness_maxExpansions' => 10,
+                'phonetic_enabled' => true,
+            ]
+        );
+
         // Check relevance config for 'b2c_fr_relevance' localized catalog scope + 'product_catalog' request type.
         $containerConfig = $configurationFactory->create('product_catalog', $metadata, $b2cFrRelevance);
         $relevanceConfig = $containerConfig->getRelevanceConfig();
         $this->checkRelevanceConfig(
             $relevanceConfig,
             [
-                'fulltext_minimumShouldMatch' => '50%',
+                'fulltext_minimumShouldMatch' => '70%',
                 'fulltext_tieBreaker' => 1.0,
                 'phraseMatch_boost' => 25,
                 'fuzziness_enabled' => true,

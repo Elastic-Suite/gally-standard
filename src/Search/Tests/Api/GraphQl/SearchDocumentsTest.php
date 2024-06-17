@@ -1599,6 +1599,13 @@ class SearchDocumentsTest extends AbstractTest
             new ExpectedResponse(
                 200,
                 function (ResponseInterface $response) use ($expectedResultCount, $expectedResultNames) {
+                    $data = $response->toArray();
+                    $this->assertArrayNotHasKey(
+                        'errors',
+                        $data,
+                        isset($data['errors']) ? json_encode($data['errors']) : ''
+                    );
+
                     // Extra test on response structure because all exceptions might not throw an HTTP error code.
                     $this->assertJsonContains([
                         'data' => [
@@ -1748,6 +1755,54 @@ class SearchDocumentsTest extends AbstractTest
                 [                   // expected result name.
                     'Strive Shoulder Pack',
                 ],
+            ],
+            [
+                'product_document', // entity type.
+                'b2c_en',           // catalog ID.
+                '24MB04',           // query.
+                1,                  // expected result count.
+                [                   // expected result name.
+                    'Strive Shoulder Pack',
+                ],
+            ],
+            [
+                'product_document', // entity type.
+                'b2c_en',           // catalog ID.
+                '24 MB 04',         // query.
+                1,                  // expected result count.
+                [                   // expected result name.
+                    'Strive Shoulder Pack',
+                ],
+            ],
+
+            // Search with number
+            [
+                'product_document', // entity type.
+                'b2c_en',           // catalog ID.
+                '123456',           // query.
+                0,                  // expected result count.
+                [],
+            ],
+
+            // Search with special chars
+            [
+                'product_document', // entity type.
+                'b2c_en',           // catalog ID.
+                '(yoga)\"{}()/\\\\@:\".',  // query.
+                2,                  // expected result count.
+                [
+                    'Voyage Yoga Bag',
+                    'Crown Summit Backpack',
+                ],
+            ],
+
+            // Search with various utf8 chars.
+            [
+                'product_document', // entity type.
+                'b2c_en',           // catalog ID.
+                "£¨µùµ㈀㌫\xc3\xb1", // query.
+                0,                  // expected result count.
+                [],
             ],
         ];
     }

@@ -1,3 +1,6 @@
+include:
+    - ./source_field_option.yaml
+        
 Gally\Metadata\Model\SourceFieldLabel:
     cms_page_tags_com_en:
         source_field: '@cms_page_tags'

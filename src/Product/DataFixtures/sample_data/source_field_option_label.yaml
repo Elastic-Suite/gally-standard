@@ -1,3 +1,6 @@
+include:
+    - source_field_option.yaml
+        
 Gally\Metadata\Model\SourceFieldOptionLabel:
     product_accessory_brand_option_13_com_en:
         source_field_option: '@product_accessory_brand_option_13'

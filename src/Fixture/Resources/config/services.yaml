@@ -18,3 +18,9 @@ services:
             - '@Gally\Index\Repository\Index\IndexRepositoryInterface'
             - '@Gally\Index\Api\IndexSettingsInterface'
         public: true
+        
+    Gally\Fixture\Service\ORMPsqlSequenceProvider:
+        arguments:
+            - '@doctrine.orm.entity_manager'
+        tags:
+            - { name: 'nelmio_alice.faker.provider' }

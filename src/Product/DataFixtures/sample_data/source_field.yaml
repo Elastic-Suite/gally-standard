@@ -152,16 +152,6 @@ Gally\Metadata\Model\SourceField:
         isFilterable: false
         isSortable: false
         isUsedForRules: false
-    product_description:
-        metadata: '@product'
-        code: description
-        type: text
-        isSearchable: true
-        weight: 1
-        isSpellchecked: true
-        isFilterable: false
-        isSortable: false
-        isUsedForRules: false
     product_description_extra:
         metadata: '@product'
         code: description_extra
