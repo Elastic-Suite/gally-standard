@@ -30,8 +30,6 @@ use Psr\Log\LoggerInterface;
 
 class SortOrderBuilderTest extends AbstractTest
 {
-    private static QueryFactory $queryFactory;
-
     private static FilterQueryBuilder $filterQueryBuilder;
 
     private static MetadataRepository $metadataRepository;
@@ -47,10 +45,13 @@ class SortOrderBuilderTest extends AbstractTest
         parent::setUpBeforeClass();
 
         \assert(static::getContainer()->get(QueryFactory::class) instanceof QueryFactory);
-        self::$queryFactory = static::getContainer()->get(QueryFactory::class);
-        self::$filterQueryBuilder = new FilterQueryBuilder(self::$queryFactory);
+        self::$filterQueryBuilder = static::getContainer()->get(FilterQueryBuilder::class);
         self::$logger = static::getContainer()->get(LoggerInterface::class);
-        self::$sortOrderBuilder = new SortOrderBuilder(self::$filterQueryBuilder, self::$logger);
+        self::$sortOrderBuilder = new SortOrderBuilder(
+            self::$filterQueryBuilder,
+            self::$logger,
+            static::getContainer()->getParameter('gally.search_settings')
+        );
 
         self::$metadataRepository = static::getContainer()->get(MetadataRepository::class);
         self::$metadataManager = static::getContainer()->get(MetadataManager::class);
@@ -66,7 +67,11 @@ class SortOrderBuilderTest extends AbstractTest
         $reflector = new \ReflectionClass(SortOrderBuilder::class);
         $filterQueryBuilderProperty = $reflector->getProperty('queryBuilder');
 
-        $sortOrderBuilder = new SortOrderBuilder(self::$filterQueryBuilder, self::$logger);
+        $sortOrderBuilder = new SortOrderBuilder(
+            self::$filterQueryBuilder,
+            self::$logger,
+            static::getContainer()->getParameter('gally.search_settings')
+        );
         $this->assertEquals($filterQueryBuilderProperty->getValue($sortOrderBuilder), self::$filterQueryBuilder);
     }
 
@@ -317,6 +322,39 @@ class SortOrderBuilderTest extends AbstractTest
                         'type' => SortOrderInterface::TYPE_STANDARD,
                         'field' => 'id.sortable',
                         'direction' => SortOrderInterface::SORT_DESC,
+                    ],
+                ],
+            ],
+            [
+                'product_document',  // entity type.
+                [   // sort order specifications.
+                    // Geo distance sort
+                    'manufacture_location' => [
+                        'field' => 'manufacture_location',
+                        'referenceLocation' => '12,3456 -65,4321',
+                        'direction' => SortOrderInterface::SORT_DESC,
+                    ],
+                ],
+                [   // expected built sort orders.
+                    [
+                        'type' => SortOrderInterface::TYPE_DISTANCE,
+                        'field' => 'manufacture_location',
+                        'direction' => SortOrderInterface::SORT_DESC,
+                        'referenceLocation' => '12,3456 -65,4321',
+                        'unit' => 'km',
+                        'mode' => 'min',
+                        'distanceType' => 'arc',
+                        'ignoreUnmapped' => false,
+                    ],
+                    [
+                        'type' => SortOrderInterface::TYPE_STANDARD,
+                        'field' => SortOrderInterface::DEFAULT_SORT_FIELD,
+                        'direction' => SortOrderInterface::SORT_ASC,
+                    ],
+                    [
+                        'type' => SortOrderInterface::TYPE_STANDARD,
+                        'field' => 'id.sortable',
+                        'direction' => SortOrderInterface::SORT_ASC,
                     ],
                 ],
             ],

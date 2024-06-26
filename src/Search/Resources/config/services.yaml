@@ -114,11 +114,14 @@ services:
     Gally\Search\Elasticsearch\Builder\Request\Query\Filter\FilterQueryBuilder:
         arguments:
             - '@Gally\Search\Elasticsearch\Request\QueryFactory'
+            - '@Gally\Search\Service\SearchContext'
+            - '%gally.search_settings%'
 
     Gally\Search\Elasticsearch\Builder\Request\SortOrder\SortOrderBuilder:
         arguments:
             - '@Gally\Search\Elasticsearch\Builder\Request\Query\Filter\FilterQueryBuilder'
             - '@logger'
+            - '%gally.search_settings%'
 
     Gally\Search\Elasticsearch\Builder\Request\Aggregation\AggregationBuilder:
         arguments:
@@ -181,6 +184,7 @@ services:
                 matchFilter: '@Gally\Search\GraphQl\Type\Definition\Filter\MatchFilterInputType',
                 rangeFilter: '@Gally\Search\GraphQl\Type\Definition\Filter\RangeFilterInputType',
                 existFilter: '@Gally\Search\GraphQl\Type\Definition\Filter\ExistFilterInputType',
+                distanceFilter: '@Gally\Search\GraphQl\Type\Definition\Filter\DistanceFilterInputType',
             }
             - '@Gally\Search\Elasticsearch\Builder\Request\Query\Filter\FilterQueryBuilder'
             - '%api_platform.graphql.nesting_separator%'
@@ -224,6 +228,14 @@ services:
         tags:
             - { name: api_platform.graphql.type }
 
+    Gally\Search\GraphQl\Type\Definition\Filter\DistanceFilterInputType:
+        arguments:
+            - '@Gally\Search\Elasticsearch\Builder\Request\Query\Filter\FilterQueryBuilder'
+            - '@Gally\Search\Service\ReverseSourceFieldProvider'
+            - '@Gally\Search\Elasticsearch\Request\QueryFactory'
+        tags:
+            - { name: api_platform.graphql.type }
+
     Gally\Search\GraphQl\Type\Definition\RequestTypeEnumType:
         arguments:
             - '@Gally\Search\Elasticsearch\Request\Container\Configuration\ContainerConfigurationProvider'
@@ -248,6 +260,7 @@ services:
             - '@Gally\Search\GraphQl\Type\Definition\SortInputType'
             - '@Gally\Category\Service\CurrentCategoryProvider'
             - '@Gally\Entity\Service\PriceGroupProvider'
+            - '@Gally\Entity\Service\ReferenceLocationProvider'
             - '@Gally\Search\Service\SearchContext'
         tags:
             - { name: api_platform.collection_data_provider }
@@ -279,7 +292,9 @@ services:
             - '@Gally\Search\Service\SearchContext'
             - '@Gally\Search\Service\ReverseSourceFieldProvider'
             - '@Gally\Category\Repository\CategoryConfigurationRepository'
+            - '@Symfony\Contracts\Translation\TranslatorInterface'
             - !tagged_iterator { tag: 'gally.entity_api.filter' }
+            - '%gally.search_settings%'
             
     Gally\Search\Decoration\GraphQl\AddAggregationsInContext:
         decorates: api_platform.graphql.serializer.context_builder
@@ -367,6 +382,7 @@ services:
             - '@Gally\Category\Repository\CategoryConfigurationRepository'
             - '@Gally\Category\Service\CurrentCategoryProvider'
             - '@Gally\Entity\Service\PriceGroupProvider'
+            - '@Gally\Entity\Service\ReferenceLocationProvider'
             - '@Gally\Search\Service\SearchContext'
             - '%api_platform.graphql.nesting_separator%'
         tags:
@@ -415,6 +431,12 @@ services:
             - '%api_platform.graphql.nesting_separator%'
         tags:
             - { name: gally.api.sort_order_provider, provider_name: 'select' }
+
+    Gally\Search\GraphQl\Type\Definition\SortOrder\LocationDefaultSortOrderProvider:
+        arguments:
+            - '%api_platform.graphql.nesting_separator%'
+        tags:
+            - { name: gally.api.sort_order_provider, provider_name: 'location' }
     
     Gally\Search\Service\SortingOptionsProvider:
         arguments:

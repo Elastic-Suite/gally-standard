@@ -105,7 +105,12 @@
         "stock": {
           "qty": 100,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": [
+          "47.2030827,-1.5532463",
+          "44.850571, -0.540661"
+        ]
       },
       {
         "entity_id": "2",
@@ -217,7 +222,9 @@
         "stock": {
           "qty": 100,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "3",
@@ -354,7 +361,9 @@
         "stock": {
           "qty": 100,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "4",
@@ -466,7 +475,9 @@
         "stock": {
           "qty": 100,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "5",
@@ -578,7 +589,9 @@
         "stock": {
           "qty": 100,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "6",
@@ -690,7 +703,9 @@
         "stock": {
           "qty": 100,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-03-12",
+        "manufacture_location": "44.850571, -0.540661"
       },
       {
         "entity_id": "7",
@@ -808,7 +823,9 @@
         "stock": {
           "qty": 100,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "8",
@@ -919,7 +936,9 @@
         "stock": {
           "qty": 100,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2024-05-23",
+        "manufacture_location": "45.777119, 4.859665"
       },
       {
         "entity_id": "9",
@@ -1031,7 +1050,9 @@
         "stock": {
           "qty": 100,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "10",
@@ -1142,7 +1163,9 @@
         "stock": {
           "qty": 100,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "11",
@@ -1253,7 +1276,9 @@
         "stock": {
           "qty": 100,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "12",
@@ -1365,7 +1390,9 @@
         "stock": {
           "qty": 98,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "13",
@@ -1455,7 +1482,9 @@
         "stock": {
           "qty": 1000,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "14",
@@ -1679,7 +1708,9 @@
         "stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-03-12",
+        "manufacture_location": "44.850571, -0.540661"
       },
       {
         "entity_id": "15",
@@ -1832,7 +1863,9 @@
         "stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1096",
@@ -2070,7 +2103,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/t\/vt12-kh_main.jpg"
+        "image": "\/v\/t\/vt12-kh_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1097",
@@ -2321,7 +2356,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/t\/vt11-ll_main.jpg"
+        "image": "\/v\/t\/vt11-ll_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1098",
@@ -2568,7 +2605,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/t\/vt10-ly_main.jpg"
+        "image": "\/v\/t\/vt10-ly_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1099",
@@ -2797,7 +2836,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/t\/vt09-ll_main.jpg"
+        "image": "\/v\/t\/vt09-ll_main.jpg",
+        "date_of_manufacture": "2024-05-23",
+        "manufacture_location": "45.777119, 4.859665"
       },
       {
         "entity_id": "1100",
@@ -3031,7 +3072,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/t\/vt08-mt_main.jpg"
+        "image": "\/v\/t\/vt08-mt_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1101",
@@ -3264,7 +3307,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/t\/vt07-rn_main.jpg"
+        "image": "\/v\/t\/vt07-rn_main.jpg",
+        "date_of_manufacture": "2023-03-12",
+        "manufacture_location": "44.850571, -0.540661"
       },
       {
         "entity_id": "1102",
@@ -3497,7 +3542,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/t\/vt06-mt_main.jpg"
+        "image": "\/v\/t\/vt06-mt_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1103",
@@ -3506,8 +3553,8 @@
         "sku": "VT05",
         "has_options": false,
         "required_options": false,
-        "created_at": "2022-09-07 14:57:19",
-        "updated_at": "2022-09-07 14:57:19",
+        "created_at": "2022-09-05 14:57:19",
+        "updated_at": "2022-09-05 14:57:19",
         "visibility": {
           "value": "4",
           "label": "Catalog, Search"
@@ -3730,7 +3777,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/t\/vt05-pe_main.jpg"
+        "image": "\/v\/t\/vt05-pe_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1104",
@@ -3968,7 +4017,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/t\/vt04-mt_main.jpg"
+        "image": "\/v\/t\/vt04-mt_main.jpg",
+        "date_of_manufacture": "2021-06-30",
+        "manufacture_location": "43.607413, 3.871533"
       },
       {
         "entity_id": "1105",
@@ -4202,7 +4253,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/t\/vt03-rn_main.jpg"
+        "image": "\/v\/t\/vt03-rn_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1106",
@@ -4435,7 +4488,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/t\/vt02-rn_main.jpg"
+        "image": "\/v\/t\/vt02-rn_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1107",
@@ -4664,7 +4719,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/t\/vt01-kh_main.jpg"
+        "image": "\/v\/t\/vt01-kh_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1108",
@@ -4898,7 +4955,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/s\/vsw12-pe_main.jpg"
+        "image": "\/v\/s\/vsw12-pe_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1109",
@@ -5127,7 +5186,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/s\/vsw11-pe_main.jpg"
+        "image": "\/v\/s\/vsw11-pe_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1110",
@@ -5360,7 +5421,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/s\/vsw10-ly_main.jpg"
+        "image": "\/v\/s\/vsw10-ly_main.jpg",
+        "date_of_manufacture": "2024-05-23",
+        "manufacture_location": "45.777119, 4.859665"
       },
       {
         "entity_id": "1111",
@@ -5607,7 +5670,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/s\/vsw09-rn_main.jpg"
+        "image": "\/v\/s\/vsw09-rn_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1112",
@@ -5840,7 +5905,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/s\/vsw08-ll_main.jpg"
+        "image": "\/v\/s\/vsw08-ll_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1113",
@@ -6086,7 +6153,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/s\/vsw07-mt_main.jpg"
+        "image": "\/v\/s\/vsw07-mt_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1114",
@@ -6328,7 +6397,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/s\/vsw06-rn_main.jpg"
+        "image": "\/v\/s\/vsw06-rn_main.jpg",
+        "date_of_manufacture": "2021-06-30",
+        "manufacture_location": "43.607413, 3.871533"
       },
       {
         "entity_id": "1115",
@@ -6576,7 +6647,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/s\/vsw05-kh_main.jpg"
+        "image": "\/v\/s\/vsw05-kh_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1116",
@@ -6810,7 +6883,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/s\/vsw04-pe_main.jpg"
+        "image": "\/v\/s\/vsw04-pe_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1117",
@@ -7043,7 +7118,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/s\/vsw03-kh_main.jpg"
+        "image": "\/v\/s\/vsw03-kh_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1118",
@@ -7272,7 +7349,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/s\/vsw02-pe_main.jpg"
+        "image": "\/v\/s\/vsw02-pe_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1119",
@@ -7518,7 +7597,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/s\/vsw01-rn_main.jpg"
+        "image": "\/v\/s\/vsw01-rn_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1120",
@@ -7764,7 +7845,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/s\/vsk12-la_main.jpg"
+        "image": "\/v\/s\/vsk12-la_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1121",
@@ -7994,7 +8077,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/s\/vsk11-ly_main.jpg"
+        "image": "\/v\/s\/vsk11-ly_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1122",
@@ -8223,7 +8308,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/s\/vsk10-pe_main.jpg"
+        "image": "\/v\/s\/vsk10-pe_main.jpg",
+        "date_of_manufacture": "2024-05-23",
+        "manufacture_location": "45.777119, 4.859665"
       },
       {
         "entity_id": "1123",
@@ -8452,7 +8539,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/s\/vsk09-rn_main.jpg"
+        "image": "\/v\/s\/vsk09-rn_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1124",
@@ -8695,7 +8784,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/s\/vsk08-ly_main.jpg"
+        "image": "\/v\/s\/vsk08-ly_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1125",
@@ -8924,7 +9015,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/s\/vsk07-rn_main.jpg"
+        "image": "\/v\/s\/vsk07-rn_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1126",
@@ -9158,7 +9251,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/s\/vsk06-la_main.jpg"
+        "image": "\/v\/s\/vsk06-la_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1127",
@@ -9387,7 +9482,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/s\/vsk05-pe_main.jpg"
+        "image": "\/v\/s\/vsk05-pe_main.jpg",
+        "date_of_manufacture": "2021-06-30",
+        "manufacture_location": "43.607413, 3.871533"
       },
       {
         "entity_id": "1128",
@@ -9396,8 +9493,8 @@
         "sku": "VSK04",
         "has_options": false,
         "required_options": false,
-        "created_at": "2022-09-07 14:57:19",
-        "updated_at": "2022-09-07 14:57:19",
+        "created_at": "2022-09-12 14:57:19",
+        "updated_at": "2022-09-12 14:57:19",
         "visibility": {
           "value": "4",
           "label": "Catalog, Search"
@@ -9622,7 +9719,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/s\/vsk04-kh_main.jpg"
+        "image": "\/v\/s\/vsk04-kh_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1129",
@@ -9856,7 +9955,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/s\/vsk03-pe_main.jpg"
+        "image": "\/v\/s\/vsk03-pe_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1130",
@@ -10085,7 +10186,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/s\/vsk02-ll_main.jpg"
+        "image": "\/v\/s\/vsk02-ll_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1131",
@@ -10314,7 +10417,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/s\/vsk01-la_main.jpg"
+        "image": "\/v\/s\/vsk01-la_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1132",
@@ -10560,7 +10665,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/p\/vp12-la_main.jpg"
+        "image": "\/v\/p\/vp12-la_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1133",
@@ -10789,7 +10896,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/p\/vp11-pe_main.jpg"
+        "image": "\/v\/p\/vp11-pe_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1134",
@@ -11024,7 +11133,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/p\/vp10-la_main.jpg"
+        "image": "\/v\/p\/vp10-la_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1135",
@@ -11253,7 +11364,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/p\/vp09-pe_main.jpg"
+        "image": "\/v\/p\/vp09-pe_main.jpg",
+        "date_of_manufacture": "2024-05-23",
+        "manufacture_location": "45.777119, 4.859665"
       },
       {
         "entity_id": "1136",
@@ -11499,7 +11612,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/p\/vp08-rn_main.jpg"
+        "image": "\/v\/p\/vp08-rn_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1137",
@@ -11736,7 +11851,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/p\/vp07-ll_main.jpg"
+        "image": "\/v\/p\/vp07-ll_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1138",
@@ -11970,7 +12087,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/p\/vp06-ly_main.jpg"
+        "image": "\/v\/p\/vp06-ly_main.jpg",
+        "date_of_manufacture": "2023-03-12",
+        "manufacture_location": "44.850571, -0.540661"
       },
       {
         "entity_id": "1139",
@@ -12221,7 +12340,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/p\/vp05-rn_main.jpg"
+        "image": "\/v\/p\/vp05-rn_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1140",
@@ -12473,7 +12594,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/p\/vp04-ll_main.jpg"
+        "image": "\/v\/p\/vp04-ll_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1141",
@@ -12711,7 +12834,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/p\/vp03-pe_main.jpg"
+        "image": "\/v\/p\/vp03-pe_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1142",
@@ -12944,7 +13069,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/p\/vp02-pe_main.jpg"
+        "image": "\/v\/p\/vp02-pe_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1143",
@@ -13177,7 +13304,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/p\/vp01-ll_main.jpg"
+        "image": "\/v\/p\/vp01-ll_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1144",
@@ -13404,7 +13533,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/d\/vd12-rn_main.jpg"
+        "image": "\/v\/d\/vd12-rn_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1145",
@@ -13631,7 +13762,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/d\/vd11-ly_main.jpg"
+        "image": "\/v\/d\/vd11-ly_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1146",
@@ -13855,7 +13988,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/d\/vd10-ly_main.jpg"
+        "image": "\/v\/d\/vd10-ly_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1147",
@@ -14082,7 +14217,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/d\/vd09-pe_main.jpg"
+        "image": "\/v\/d\/vd09-pe_main.jpg",
+        "date_of_manufacture": "2024-05-23",
+        "manufacture_location": "45.777119, 4.859665"
       },
       {
         "entity_id": "1148",
@@ -14309,7 +14446,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/d\/vd08-ll_main.jpg"
+        "image": "\/v\/d\/vd08-ll_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1149",
@@ -14536,7 +14675,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/d\/vd07-pe_main.jpg"
+        "image": "\/v\/d\/vd07-pe_main.jpg",
+        "date_of_manufacture": "2021-06-30",
+        "manufacture_location": "43.607413, 3.871533"
       },
       {
         "entity_id": "1150",
@@ -14776,7 +14917,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/d\/vd06-mt_main.jpg"
+        "image": "\/v\/d\/vd06-mt_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1151",
@@ -14999,7 +15142,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/d\/vd05-ly_main.jpg"
+        "image": "\/v\/d\/vd05-ly_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1152",
@@ -15008,8 +15153,8 @@
         "sku": "VD04",
         "has_options": false,
         "required_options": false,
-        "created_at": "2022-09-07 14:57:19",
-        "updated_at": "2022-09-07 14:57:19",
+        "created_at": "2022-09-02 14:57:19",
+        "updated_at": "2022-09-02 14:57:19",
         "visibility": {
           "value": "4",
           "label": "Catalog, Search"
@@ -15239,7 +15384,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/d\/vd04-pe_main.jpg"
+        "image": "\/v\/d\/vd04-pe_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1153",
@@ -15466,7 +15613,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/d\/vd03-mt_main.jpg"
+        "image": "\/v\/d\/vd03-mt_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1154",
@@ -15689,7 +15838,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/d\/vd02-ll_main.jpg"
+        "image": "\/v\/d\/vd02-ll_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1155",
@@ -15917,7 +16068,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/d\/vd01-ll_main.jpg"
+        "image": "\/v\/d\/vd01-ll_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1156",
@@ -15926,8 +16079,8 @@
         "sku": "VA10",
         "has_options": false,
         "required_options": false,
-        "created_at": "2022-09-07 14:57:19",
-        "updated_at": "2022-09-07 14:57:19",
+        "created_at": "2022-09-13 14:57:19",
+        "updated_at": "2022-09-13 14:57:19",
         "visibility": {
           "value": "4",
           "label": "Catalog, Search"
@@ -16131,7 +16284,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/a\/va10-ct_main.jpg"
+        "image": "\/v\/a\/va10-ct_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1157",
@@ -16300,7 +16455,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/a\/va09-br_main.jpg"
+        "image": "\/v\/a\/va09-br_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1158",
@@ -16470,7 +16627,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/a\/va08-br_main.jpg"
+        "image": "\/v\/a\/va08-br_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1159",
@@ -16653,7 +16812,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/a\/va07-bc_main.jpg"
+        "image": "\/v\/a\/va07-bc_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1160",
@@ -16879,7 +17040,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/a\/va06-ly_main.jpg"
+        "image": "\/v\/a\/va06-ly_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1161",
@@ -17100,7 +17263,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/a\/va05-ll_main.jpg"
+        "image": "\/v\/a\/va05-ll_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1162",
@@ -17109,8 +17274,8 @@
         "sku": "VA04",
         "has_options": false,
         "required_options": false,
-        "created_at": "2022-09-07 14:57:19",
-        "updated_at": "2022-09-07 14:57:19",
+        "created_at": "2022-09-03 14:57:19",
+        "updated_at": "2022-09-03 14:57:19",
         "visibility": {
           "value": "4",
           "label": "Catalog, Search"
@@ -17321,7 +17486,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/a\/va04-ll_main.jpg"
+        "image": "\/v\/a\/va04-ll_main.jpg",
+        "date_of_manufacture": "2021-06-30",
+        "manufacture_location": "43.607413, 3.871533"
       },
       {
         "entity_id": "1163",
@@ -17542,7 +17709,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/a\/va03-ly_main.jpg"
+        "image": "\/v\/a\/va03-ly_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1164",
@@ -17763,7 +17932,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/a\/va02-pe_main.jpg"
+        "image": "\/v\/a\/va02-pe_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "50.391359, 30.531358"
       },
       {
         "entity_id": "1165",
@@ -18092,7 +18263,9 @@
         "stock": {
           "qty": 100,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "2",
@@ -18203,7 +18376,9 @@
         "stock": {
           "qty": 100,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-03-12",
+        "manufacture_location": "44.850571, -0.540661"
       },
       {
         "entity_id": "3",
@@ -18340,7 +18515,9 @@
         "stock": {
           "qty": 100,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "4",
@@ -18452,7 +18629,9 @@
         "stock": {
           "qty": 100,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "5",
@@ -18564,7 +18743,9 @@
         "stock": {
           "qty": 100,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-03-12",
+        "manufacture_location": "44.850571, -0.540661"
       },
       {
         "entity_id": "6",
@@ -18676,7 +18857,9 @@
         "stock": {
           "qty": 100,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "7",
@@ -18794,7 +18977,9 @@
         "stock": {
           "qty": 100,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "8",
@@ -18905,7 +19090,9 @@
         "stock": {
           "qty": 100,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "9",
@@ -19017,7 +19204,9 @@
         "stock": {
           "qty": 100,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "10",
@@ -19128,7 +19317,9 @@
         "stock": {
           "qty": 100,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "11",
@@ -19239,7 +19430,9 @@
         "stock": {
           "qty": 100,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "12",
@@ -19351,7 +19544,9 @@
         "stock": {
           "qty": 98,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2021-06-30",
+        "manufacture_location": "43.607413, 3.871533"
       },
       {
         "entity_id": "13",
@@ -19441,7 +19636,9 @@
         "stock": {
           "qty": 1000,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "14",
@@ -19665,7 +19862,9 @@
         "stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "15",
@@ -19818,7 +20017,9 @@
         "stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1096",
@@ -20056,7 +20257,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/t\/vt12-kh_main.jpg"
+        "image": "\/v\/t\/vt12-kh_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1097",
@@ -20307,7 +20510,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/t\/vt11-ll_main.jpg"
+        "image": "\/v\/t\/vt11-ll_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1098",
@@ -20554,7 +20759,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/t\/vt10-ly_main.jpg"
+        "image": "\/v\/t\/vt10-ly_main.jpg",
+        "date_of_manufacture": "2023-03-12",
+        "manufacture_location": "44.850571, -0.540661"
       },
       {
         "entity_id": "1099",
@@ -20783,7 +20990,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/t\/vt09-ll_main.jpg"
+        "image": "\/v\/t\/vt09-ll_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1100",
@@ -21017,7 +21226,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/t\/vt08-mt_main.jpg"
+        "image": "\/v\/t\/vt08-mt_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1101",
@@ -21250,7 +21461,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/t\/vt07-rn_main.jpg"
+        "image": "\/v\/t\/vt07-rn_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1102",
@@ -21483,7 +21696,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/t\/vt06-mt_main.jpg"
+        "image": "\/v\/t\/vt06-mt_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1103",
@@ -21716,7 +21931,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/t\/vt05-pe_main.jpg"
+        "image": "\/v\/t\/vt05-pe_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1104",
@@ -21954,7 +22171,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/t\/vt04-mt_main.jpg"
+        "image": "\/v\/t\/vt04-mt_main.jpg",
+        "date_of_manufacture": "2021-06-30",
+        "manufacture_location": "43.607413, 3.871533"
       },
       {
         "entity_id": "1105",
@@ -22188,7 +22407,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/t\/vt03-rn_main.jpg"
+        "image": "\/v\/t\/vt03-rn_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1106",
@@ -22421,7 +22642,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/t\/vt02-rn_main.jpg"
+        "image": "\/v\/t\/vt02-rn_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1107",
@@ -22650,7 +22873,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/t\/vt01-kh_main.jpg"
+        "image": "\/v\/t\/vt01-kh_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1108",
@@ -22884,7 +23109,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/s\/vsw12-pe_main.jpg"
+        "image": "\/v\/s\/vsw12-pe_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1109",
@@ -23113,7 +23340,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/s\/vsw11-pe_main.jpg"
+        "image": "\/v\/s\/vsw11-pe_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1110",
@@ -23346,7 +23575,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/s\/vsw10-ly_main.jpg"
+        "image": "\/v\/s\/vsw10-ly_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1111",
@@ -23593,7 +23824,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/s\/vsw09-rn_main.jpg"
+        "image": "\/v\/s\/vsw09-rn_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1112",
@@ -23826,7 +24059,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/s\/vsw08-ll_main.jpg"
+        "image": "\/v\/s\/vsw08-ll_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1113",
@@ -24072,7 +24307,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/s\/vsw07-mt_main.jpg"
+        "image": "\/v\/s\/vsw07-mt_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1114",
@@ -24314,7 +24551,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/s\/vsw06-rn_main.jpg"
+        "image": "\/v\/s\/vsw06-rn_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1115",
@@ -24562,7 +24801,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/s\/vsw05-kh_main.jpg"
+        "image": "\/v\/s\/vsw05-kh_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1116",
@@ -24796,7 +25037,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/s\/vsw04-pe_main.jpg"
+        "image": "\/v\/s\/vsw04-pe_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1117",
@@ -25029,7 +25272,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/s\/vsw03-kh_main.jpg"
+        "image": "\/v\/s\/vsw03-kh_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1118",
@@ -25258,7 +25503,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/s\/vsw02-pe_main.jpg"
+        "image": "\/v\/s\/vsw02-pe_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1119",
@@ -25504,7 +25751,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/s\/vsw01-rn_main.jpg"
+        "image": "\/v\/s\/vsw01-rn_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1120",
@@ -25750,7 +25999,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/s\/vsk12-la_main.jpg"
+        "image": "\/v\/s\/vsk12-la_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1121",
@@ -25980,7 +26231,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/s\/vsk11-ly_main.jpg"
+        "image": "\/v\/s\/vsk11-ly_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1122",
@@ -26209,7 +26462,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/s\/vsk10-pe_main.jpg"
+        "image": "\/v\/s\/vsk10-pe_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1123",
@@ -26438,7 +26693,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/s\/vsk09-rn_main.jpg"
+        "image": "\/v\/s\/vsk09-rn_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1124",
@@ -26681,7 +26938,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/s\/vsk08-ly_main.jpg"
+        "image": "\/v\/s\/vsk08-ly_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1125",
@@ -26910,7 +27169,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/s\/vsk07-rn_main.jpg"
+        "image": "\/v\/s\/vsk07-rn_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1126",
@@ -27144,7 +27405,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/s\/vsk06-la_main.jpg"
+        "image": "\/v\/s\/vsk06-la_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1127",
@@ -27373,7 +27636,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/s\/vsk05-pe_main.jpg"
+        "image": "\/v\/s\/vsk05-pe_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1128",
@@ -27608,7 +27873,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/s\/vsk04-kh_main.jpg"
+        "image": "\/v\/s\/vsk04-kh_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1129",
@@ -27842,7 +28109,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/s\/vsk03-pe_main.jpg"
+        "image": "\/v\/s\/vsk03-pe_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1130",
@@ -28071,7 +28340,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/s\/vsk02-ll_main.jpg"
+        "image": "\/v\/s\/vsk02-ll_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1131",
@@ -28300,7 +28571,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/s\/vsk01-la_main.jpg"
+        "image": "\/v\/s\/vsk01-la_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1132",
@@ -28546,7 +28819,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/p\/vp12-la_main.jpg"
+        "image": "\/v\/p\/vp12-la_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1133",
@@ -28775,7 +29050,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/p\/vp11-pe_main.jpg"
+        "image": "\/v\/p\/vp11-pe_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1134",
@@ -29010,7 +29287,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/p\/vp10-la_main.jpg"
+        "image": "\/v\/p\/vp10-la_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1135",
@@ -29239,7 +29518,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/p\/vp09-pe_main.jpg"
+        "image": "\/v\/p\/vp09-pe_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1136",
@@ -29485,7 +29766,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/p\/vp08-rn_main.jpg"
+        "image": "\/v\/p\/vp08-rn_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1137",
@@ -29722,7 +30005,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/p\/vp07-ll_main.jpg"
+        "image": "\/v\/p\/vp07-ll_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1138",
@@ -29956,7 +30241,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/p\/vp06-ly_main.jpg"
+        "image": "\/v\/p\/vp06-ly_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1139",
@@ -30207,7 +30494,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/p\/vp05-rn_main.jpg"
+        "image": "\/v\/p\/vp05-rn_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1140",
@@ -30459,7 +30748,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/p\/vp04-ll_main.jpg"
+        "image": "\/v\/p\/vp04-ll_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1141",
@@ -30697,7 +30988,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/p\/vp03-pe_main.jpg"
+        "image": "\/v\/p\/vp03-pe_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1142",
@@ -30930,7 +31223,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/p\/vp02-pe_main.jpg"
+        "image": "\/v\/p\/vp02-pe_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1143",
@@ -31163,7 +31458,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/p\/vp01-ll_main.jpg"
+        "image": "\/v\/p\/vp01-ll_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1144",
@@ -31390,7 +31687,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/d\/vd12-rn_main.jpg"
+        "image": "\/v\/d\/vd12-rn_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1145",
@@ -31617,7 +31916,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/d\/vd11-ly_main.jpg"
+        "image": "\/v\/d\/vd11-ly_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1146",
@@ -31841,7 +32142,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/d\/vd10-ly_main.jpg"
+        "image": "\/v\/d\/vd10-ly_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1147",
@@ -32068,7 +32371,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/d\/vd09-pe_main.jpg"
+        "image": "\/v\/d\/vd09-pe_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1148",
@@ -32295,7 +32600,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/d\/vd08-ll_main.jpg"
+        "image": "\/v\/d\/vd08-ll_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1149",
@@ -32522,7 +32829,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/d\/vd07-pe_main.jpg"
+        "image": "\/v\/d\/vd07-pe_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1150",
@@ -32762,7 +33071,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/d\/vd06-mt_main.jpg"
+        "image": "\/v\/d\/vd06-mt_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1151",
@@ -32985,7 +33296,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/d\/vd05-ly_main.jpg"
+        "image": "\/v\/d\/vd05-ly_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1152",
@@ -33225,7 +33538,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/d\/vd04-pe_main.jpg"
+        "image": "\/v\/d\/vd04-pe_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1153",
@@ -33452,7 +33767,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/d\/vd03-mt_main.jpg"
+        "image": "\/v\/d\/vd03-mt_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1154",
@@ -33675,7 +33992,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/d\/vd02-ll_main.jpg"
+        "image": "\/v\/d\/vd02-ll_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1155",
@@ -33903,7 +34222,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/d\/vd01-ll_main.jpg"
+        "image": "\/v\/d\/vd01-ll_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1156",
@@ -34117,7 +34438,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/a\/va10-ct_main.jpg"
+        "image": "\/v\/a\/va10-ct_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1157",
@@ -34286,7 +34609,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/a\/va09-br_main.jpg"
+        "image": "\/v\/a\/va09-br_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1158",
@@ -34456,7 +34781,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/a\/va08-br_main.jpg"
+        "image": "\/v\/a\/va08-br_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1159",
@@ -34639,7 +34966,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/a\/va07-bc_main.jpg"
+        "image": "\/v\/a\/va07-bc_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1160",
@@ -34865,7 +35194,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/a\/va06-ly_main.jpg"
+        "image": "\/v\/a\/va06-ly_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1161",
@@ -35086,7 +35417,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/a\/va05-ll_main.jpg"
+        "image": "\/v\/a\/va05-ll_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1162",
@@ -35307,7 +35640,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/a\/va04-ll_main.jpg"
+        "image": "\/v\/a\/va04-ll_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1163",
@@ -35528,7 +35863,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/a\/va03-ly_main.jpg"
+        "image": "\/v\/a\/va03-ly_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1164",
@@ -35749,7 +36086,9 @@
           "qty": 0,
           "status": true
         },
-        "image": "\/v\/a\/va02-pe_main.jpg"
+        "image": "\/v\/a\/va02-pe_main.jpg",
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1165",
@@ -36093,7 +36432,9 @@
         "simple_stock": {
           "qty": 100,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "2",
@@ -36337,7 +36678,9 @@
         "simple_stock": {
           "qty": 100,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "3",
@@ -36555,7 +36898,9 @@
         "simple_stock": {
           "qty": 100,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "4",
@@ -36799,7 +37144,9 @@
         "simple_stock": {
           "qty": 100,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "5",
@@ -37035,7 +37382,9 @@
         "simple_stock": {
           "qty": 100,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "6",
@@ -37241,7 +37590,9 @@
         "simple_stock": {
           "qty": 100,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "7",
@@ -37439,7 +37790,9 @@
         "simple_stock": {
           "qty": 100,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "8",
@@ -37629,7 +37982,9 @@
         "simple_stock": {
           "qty": 100,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "9",
@@ -37831,7 +38186,9 @@
         "simple_stock": {
           "qty": 100,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "10",
@@ -38032,7 +38389,9 @@
         "simple_stock": {
           "qty": 100,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "11",
@@ -38264,7 +38623,9 @@
         "simple_stock": {
           "qty": 100,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "12",
@@ -38474,7 +38835,9 @@
         "simple_stock": {
           "qty": 100,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "13",
@@ -38686,7 +39049,9 @@
         "simple_stock": {
           "qty": 100,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "14",
@@ -38916,7 +39281,9 @@
         "simple_stock": {
           "qty": 100,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "15",
@@ -39073,7 +39440,9 @@
         "simple_stock": {
           "qty": 100,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "16",
@@ -39270,7 +39639,9 @@
         "simple_stock": {
           "qty": 100,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "17",
@@ -39445,7 +39816,9 @@
         "simple_stock": {
           "qty": 100,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "18",
@@ -39620,7 +39993,9 @@
         "simple_stock": {
           "qty": 100,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "19",
@@ -39827,7 +40202,9 @@
         "simple_stock": {
           "qty": 100,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "20",
@@ -40006,7 +40383,9 @@
         "simple_stock": {
           "qty": 100,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "21",
@@ -40185,7 +40564,9 @@
         "simple_stock": {
           "qty": 100,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "22",
@@ -40356,7 +40737,9 @@
         "simple_stock": {
           "qty": 100,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "23",
@@ -40531,7 +40914,9 @@
         "simple_stock": {
           "qty": 100,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "36",
@@ -40714,7 +41099,9 @@
         "simple_stock": {
           "qty": 100,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "37",
@@ -40893,7 +41280,9 @@
         "simple_stock": {
           "qty": 100,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "38",
@@ -41122,7 +41511,9 @@
         "simple_stock": {
           "qty": 100,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "39",
@@ -41323,7 +41714,9 @@
         "simple_stock": {
           "qty": 100,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "40",
@@ -41532,7 +41925,9 @@
         "simple_stock": {
           "qty": 100,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "41",
@@ -41701,7 +42096,9 @@
         "simple_stock": {
           "qty": 100,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "42",
@@ -41874,7 +42271,9 @@
         "simple_stock": {
           "qty": 100,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "43",
@@ -42061,7 +42460,9 @@
         "simple_stock": {
           "qty": 100,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "44",
@@ -42270,7 +42671,9 @@
         "simple_stock": {
           "qty": 100,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "45",
@@ -42499,7 +42902,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "46",
@@ -42801,7 +43206,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "62",
@@ -43128,7 +43535,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "78",
@@ -43437,7 +43846,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "94",
@@ -43764,7 +44175,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "110",
@@ -44091,7 +44504,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "126",
@@ -44384,7 +44799,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "142",
@@ -44689,7 +45106,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "158",
@@ -44985,7 +45404,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "174",
@@ -45282,7 +45703,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "190",
@@ -45579,7 +46002,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "206",
@@ -45880,7 +46305,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "222",
@@ -46185,7 +46612,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "238",
@@ -46490,7 +46919,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "254",
@@ -46798,7 +47229,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "270",
@@ -47134,7 +47567,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "286",
@@ -47462,7 +47897,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "302",
@@ -47812,7 +48249,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "318",
@@ -48136,7 +48575,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "334",
@@ -48452,7 +48893,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "350",
@@ -48787,7 +49230,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "366",
@@ -49119,7 +49564,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "382",
@@ -49447,7 +49894,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "398",
@@ -49801,7 +50250,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "414",
@@ -50125,7 +50576,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "430",
@@ -50449,7 +50902,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "446",
@@ -50757,7 +51212,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "462",
@@ -51091,7 +51548,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "478",
@@ -51395,7 +51854,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "494",
@@ -51703,7 +52164,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "510",
@@ -52011,7 +52474,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "526",
@@ -52315,7 +52780,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "542",
@@ -52619,7 +53086,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "558",
@@ -52922,7 +53391,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "574",
@@ -53230,7 +53701,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "590",
@@ -53534,7 +54007,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "606",
@@ -53846,7 +54321,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "622",
@@ -54154,7 +54631,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "638",
@@ -54462,7 +54941,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "654",
@@ -54773,7 +55254,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "670",
@@ -55077,7 +55560,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "676",
@@ -55345,7 +55830,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "682",
@@ -55613,7 +56100,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "688",
@@ -55877,7 +56366,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "694",
@@ -56167,7 +56658,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "700",
@@ -56427,7 +56920,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "706",
@@ -56687,7 +57182,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "712",
@@ -56955,7 +57452,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "718",
@@ -57245,7 +57744,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "724",
@@ -57509,7 +58010,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "737",
@@ -57838,7 +58341,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "750",
@@ -58192,7 +58697,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "763",
@@ -58563,7 +59070,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "776",
@@ -58904,7 +59413,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "789",
@@ -59255,7 +59766,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "802",
@@ -59626,7 +60139,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "815",
@@ -59993,7 +60508,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "828",
@@ -60368,7 +60885,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "841",
@@ -60757,7 +61276,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "854",
@@ -61123,7 +61644,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "867",
@@ -61498,7 +62021,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "880",
@@ -61839,7 +62364,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "893",
@@ -62168,7 +62695,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "898",
@@ -62429,7 +62958,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "911",
@@ -62750,7 +63281,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "924",
@@ -63057,7 +63590,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "937",
@@ -63394,7 +63929,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "950",
@@ -63730,7 +64267,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "963",
@@ -64093,7 +64632,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "976",
@@ -64414,7 +64955,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "989",
@@ -64743,7 +65286,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1002",
@@ -65064,7 +65609,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1015",
@@ -65371,7 +65918,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1028",
@@ -65704,7 +66253,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1044",
@@ -66056,7 +66607,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1060",
@@ -66396,7 +66949,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1076",
@@ -66708,7 +67263,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1092",
@@ -67016,7 +67573,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1108",
@@ -67324,7 +67883,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1114",
@@ -67604,7 +68165,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1130",
@@ -67956,7 +68519,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1146",
@@ -68328,7 +68893,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1162",
@@ -68662,7 +69229,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1178",
@@ -68996,7 +69565,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1194",
@@ -69334,7 +69905,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1210",
@@ -69672,7 +70245,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1220",
@@ -70014,7 +70589,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1236",
@@ -70364,7 +70941,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1252",
@@ -70699,7 +71278,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1268",
@@ -71063,7 +71644,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1284",
@@ -71399,7 +71982,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1300",
@@ -71739,7 +72324,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1316",
@@ -72127,7 +72714,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1332",
@@ -72477,7 +73066,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1348",
@@ -72858,7 +73449,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1364",
@@ -73224,7 +73817,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1380",
@@ -73612,7 +74207,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1396",
@@ -73992,7 +74589,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1412",
@@ -74344,7 +74943,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1428",
@@ -74704,7 +75305,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1444",
@@ -75066,7 +75669,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1460",
@@ -75434,7 +76039,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1476",
@@ -75800,7 +76407,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1492",
@@ -76140,7 +76749,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1508",
@@ -76502,7 +77113,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1524",
@@ -76854,7 +77467,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1540",
@@ -77220,7 +77835,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1556",
@@ -77579,7 +78196,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1572",
@@ -77905,7 +78524,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1588",
@@ -78231,7 +78852,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1604",
@@ -78587,7 +79210,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1620",
@@ -78887,7 +79512,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1636",
@@ -79227,7 +79854,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1652",
@@ -79534,7 +80163,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1668",
@@ -79838,7 +80469,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1684",
@@ -80160,7 +80793,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1700",
@@ -80460,7 +81095,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1716",
@@ -80800,7 +81437,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1732",
@@ -81126,7 +81765,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1748",
@@ -81457,7 +82098,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1764",
@@ -81761,7 +82404,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1780",
@@ -82087,7 +82732,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1796",
@@ -82443,7 +83090,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1812",
@@ -82795,7 +83444,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1819",
@@ -83108,7 +83759,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1826",
@@ -83429,7 +84082,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1833",
@@ -83762,7 +84417,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1840",
@@ -84069,7 +84726,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1847",
@@ -84394,7 +85053,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1854",
@@ -84731,7 +85392,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1861",
@@ -85052,7 +85715,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1868",
@@ -85355,7 +86020,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1875",
@@ -85662,7 +86329,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1882",
@@ -85987,7 +86656,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1889",
@@ -86274,7 +86945,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1896",
@@ -86595,7 +87268,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1903",
@@ -86908,7 +87583,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1919",
@@ -87260,7 +87937,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1935",
@@ -87594,7 +88273,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1951",
@@ -87949,7 +88630,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1967",
@@ -88261,7 +88944,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1983",
@@ -88595,7 +89280,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1990",
@@ -88868,7 +89555,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1997",
@@ -89179,7 +89868,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "2003",
@@ -89469,7 +90160,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "2010",
@@ -89734,7 +90427,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "2017",
@@ -90025,7 +90720,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "2024",
@@ -90324,7 +91021,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "2040",
@@ -90662,7 +91361,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "2041",
@@ -90772,7 +91473,9 @@
         "simple_stock": {
           "qty": 100,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "2042",
@@ -91007,7 +91710,9 @@
         "simple_stock": {
           "qty": 100,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "2",
@@ -91251,7 +91956,9 @@
         "simple_stock": {
           "qty": 100,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "3",
@@ -91469,7 +92176,9 @@
         "simple_stock": {
           "qty": 100,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "4",
@@ -91713,7 +92422,9 @@
         "simple_stock": {
           "qty": 100,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "5",
@@ -91949,7 +92660,9 @@
         "simple_stock": {
           "qty": 100,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "6",
@@ -92155,7 +92868,9 @@
         "simple_stock": {
           "qty": 100,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "7",
@@ -92353,7 +93068,9 @@
         "simple_stock": {
           "qty": 100,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "8",
@@ -92543,7 +93260,9 @@
         "simple_stock": {
           "qty": 100,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "9",
@@ -92745,7 +93464,9 @@
         "simple_stock": {
           "qty": 100,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "10",
@@ -92946,7 +93667,9 @@
         "simple_stock": {
           "qty": 100,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "11",
@@ -93178,7 +93901,9 @@
         "simple_stock": {
           "qty": 100,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "12",
@@ -93388,7 +94113,9 @@
         "simple_stock": {
           "qty": 100,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "13",
@@ -93600,7 +94327,9 @@
         "simple_stock": {
           "qty": 100,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "14",
@@ -93830,7 +94559,9 @@
         "simple_stock": {
           "qty": 100,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "15",
@@ -93987,7 +94718,9 @@
         "simple_stock": {
           "qty": 100,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "16",
@@ -94184,7 +94917,9 @@
         "simple_stock": {
           "qty": 100,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "17",
@@ -94359,7 +95094,9 @@
         "simple_stock": {
           "qty": 100,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "18",
@@ -94534,7 +95271,9 @@
         "simple_stock": {
           "qty": 100,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "19",
@@ -94741,7 +95480,9 @@
         "simple_stock": {
           "qty": 100,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "20",
@@ -94920,7 +95661,9 @@
         "simple_stock": {
           "qty": 100,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "21",
@@ -95099,7 +95842,9 @@
         "simple_stock": {
           "qty": 100,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "22",
@@ -95270,7 +96015,9 @@
         "simple_stock": {
           "qty": 100,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "23",
@@ -95445,7 +96192,9 @@
         "simple_stock": {
           "qty": 100,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "36",
@@ -95628,7 +96377,9 @@
         "simple_stock": {
           "qty": 100,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "37",
@@ -95807,7 +96558,9 @@
         "simple_stock": {
           "qty": 100,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "38",
@@ -96036,7 +96789,9 @@
         "simple_stock": {
           "qty": 100,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "39",
@@ -96237,7 +96992,9 @@
         "simple_stock": {
           "qty": 100,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "40",
@@ -96446,7 +97203,9 @@
         "simple_stock": {
           "qty": 100,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "41",
@@ -96615,7 +97374,9 @@
         "simple_stock": {
           "qty": 100,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "42",
@@ -96788,7 +97549,9 @@
         "simple_stock": {
           "qty": 100,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "43",
@@ -96975,7 +97738,9 @@
         "simple_stock": {
           "qty": 100,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "44",
@@ -97184,7 +97949,9 @@
         "simple_stock": {
           "qty": 100,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "45",
@@ -97413,7 +98180,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "46",
@@ -97715,7 +98484,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "62",
@@ -98042,7 +98813,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "78",
@@ -98351,7 +99124,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "94",
@@ -98678,7 +99453,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "110",
@@ -99005,7 +99782,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "126",
@@ -99298,7 +100077,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "142",
@@ -99603,7 +100384,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "158",
@@ -99899,7 +100682,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "174",
@@ -100196,7 +100981,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "190",
@@ -100493,7 +101280,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "206",
@@ -100794,7 +101583,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "222",
@@ -101099,7 +101890,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "238",
@@ -101404,7 +102197,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "254",
@@ -101712,7 +102507,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "270",
@@ -102048,7 +102845,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "286",
@@ -102376,7 +103175,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "302",
@@ -102726,7 +103527,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "318",
@@ -103050,7 +103853,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "334",
@@ -103366,7 +104171,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "350",
@@ -103701,7 +104508,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "366",
@@ -104033,7 +104842,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "382",
@@ -104361,7 +105172,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "398",
@@ -104715,7 +105528,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "414",
@@ -105039,7 +105854,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "430",
@@ -105363,7 +106180,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "446",
@@ -105671,7 +106490,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "462",
@@ -106005,7 +106826,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "478",
@@ -106309,7 +107132,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "494",
@@ -106617,7 +107442,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "510",
@@ -106925,7 +107752,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "526",
@@ -107229,7 +108058,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "542",
@@ -107533,7 +108364,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "558",
@@ -107836,7 +108669,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "574",
@@ -108144,7 +108979,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "590",
@@ -108448,7 +109285,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "606",
@@ -108760,7 +109599,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "622",
@@ -109068,7 +109909,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "638",
@@ -109376,7 +110219,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "654",
@@ -109687,7 +110532,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "670",
@@ -109991,7 +110838,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "676",
@@ -110259,7 +111108,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "682",
@@ -110527,7 +111378,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "688",
@@ -110791,7 +111644,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "694",
@@ -111081,7 +111936,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "700",
@@ -111341,7 +112198,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "706",
@@ -111601,7 +112460,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "712",
@@ -111869,7 +112730,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "718",
@@ -112159,7 +113022,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "724",
@@ -112423,7 +113288,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "737",
@@ -112752,7 +113619,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "750",
@@ -113106,7 +113975,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "763",
@@ -113477,7 +114348,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "776",
@@ -113818,7 +114691,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "789",
@@ -114169,7 +115044,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "802",
@@ -114540,7 +115417,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "815",
@@ -114907,7 +115786,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "828",
@@ -115282,7 +116163,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "841",
@@ -115671,7 +116554,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "854",
@@ -116037,7 +116922,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "867",
@@ -116412,7 +117299,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "880",
@@ -116753,7 +117642,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "893",
@@ -117082,7 +117973,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "898",
@@ -117343,7 +118236,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "911",
@@ -117664,7 +118559,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "924",
@@ -117971,7 +118868,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "937",
@@ -118308,7 +119207,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "950",
@@ -118644,7 +119545,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "963",
@@ -119007,7 +119910,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "976",
@@ -119328,7 +120233,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "989",
@@ -119657,7 +120564,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1002",
@@ -119978,7 +120887,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1015",
@@ -120285,7 +121196,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1028",
@@ -120618,7 +121531,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1044",
@@ -120970,7 +121885,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1060",
@@ -121310,7 +122227,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1076",
@@ -121622,7 +122541,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1092",
@@ -121930,7 +122851,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1108",
@@ -122238,7 +123161,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1114",
@@ -122518,7 +123443,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1130",
@@ -122870,7 +123797,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1146",
@@ -123242,7 +124171,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1162",
@@ -123576,7 +124507,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1178",
@@ -123910,7 +124843,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1194",
@@ -124248,7 +125183,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1210",
@@ -124586,7 +125523,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1220",
@@ -124928,7 +125867,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1236",
@@ -125278,7 +126219,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1252",
@@ -125613,7 +126556,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1268",
@@ -125977,7 +126922,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1284",
@@ -126313,7 +127260,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1300",
@@ -126653,7 +127602,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1316",
@@ -127041,7 +127992,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1332",
@@ -127391,7 +128344,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1348",
@@ -127772,7 +128727,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1364",
@@ -128138,7 +129095,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1380",
@@ -128526,7 +129485,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1396",
@@ -128906,7 +129867,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1412",
@@ -129258,7 +130221,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1428",
@@ -129618,7 +130583,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1444",
@@ -129980,7 +130947,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1460",
@@ -130348,7 +131317,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1476",
@@ -130714,7 +131685,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1492",
@@ -131054,7 +132027,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1508",
@@ -131416,7 +132391,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1524",
@@ -131768,7 +132745,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1540",
@@ -132134,7 +133113,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1556",
@@ -132493,7 +133474,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1572",
@@ -132819,7 +133802,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1588",
@@ -133145,7 +134130,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2024-05-23",
+        "manufacture_location": "45.777119, 4.859665"
       },
       {
         "entity_id": "1604",
@@ -133501,7 +134488,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1620",
@@ -133801,7 +134790,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1636",
@@ -134141,7 +135132,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1652",
@@ -134448,7 +135441,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1668",
@@ -134752,7 +135747,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1684",
@@ -135074,7 +136071,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1700",
@@ -135374,7 +136373,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1716",
@@ -135714,7 +136715,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1732",
@@ -136040,7 +137043,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1748",
@@ -136371,7 +137376,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2024-05-23",
+        "manufacture_location": "45.777119, 4.859665"
       },
       {
         "entity_id": "1764",
@@ -136675,7 +137682,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1780",
@@ -137001,7 +138010,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1796",
@@ -137357,7 +138368,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1812",
@@ -137709,7 +138722,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1819",
@@ -138022,7 +139037,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1826",
@@ -138343,7 +139360,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1833",
@@ -138676,7 +139695,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1840",
@@ -138983,7 +140004,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1847",
@@ -139308,7 +140331,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1854",
@@ -139645,7 +140670,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1861",
@@ -139966,7 +140993,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1868",
@@ -140269,7 +141298,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1875",
@@ -140576,7 +141607,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1882",
@@ -140901,7 +141934,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1889",
@@ -141188,7 +142223,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1896",
@@ -141509,7 +142546,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1903",
@@ -141822,7 +142861,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1919",
@@ -142174,7 +143215,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1935",
@@ -142508,7 +143551,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1951",
@@ -142863,7 +143908,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1967",
@@ -143175,7 +144222,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1983",
@@ -143509,7 +144558,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1990",
@@ -143782,7 +144833,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "1997",
@@ -144093,7 +145146,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "2003",
@@ -144383,7 +145438,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2024-05-23",
+        "manufacture_location": "45.777119, 4.859665"
       },
       {
         "entity_id": "2010",
@@ -144648,7 +145705,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "2017",
@@ -144939,7 +145998,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "2024",
@@ -145238,7 +146299,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "2040",
@@ -145576,7 +146639,9 @@
         "simple_stock": {
           "qty": 0,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "2041",
@@ -145686,7 +146751,9 @@
         "simple_stock": {
           "qty": 100,
           "status": true
-        }
+        },
+        "date_of_manufacture": "2023-08-02",
+        "manufacture_location": "47.2030827,-1.5532463"
       },
       {
         "entity_id": "2042",

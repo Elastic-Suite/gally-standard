@@ -31,6 +31,7 @@ use Gally\Search\Model\Document;
 use Gally\Search\Repository\Facet\ConfigurationRepository;
 use Gally\Search\Service\ReverseSourceFieldProvider;
 use Gally\Search\Service\SearchContext;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Add aggregations data in graphql search document response.
@@ -41,6 +42,7 @@ class AddAggregationsData implements SerializeStageInterface
     public const AGGREGATION_TYPE_BOOLEAN = 'boolean';
     public const AGGREGATION_TYPE_SLIDER = 'slider';
     public const AGGREGATION_TYPE_CATEGORY = 'category';
+    public const AGGREGATION_TYPE_HISTOGRAM = 'histogram';
 
     public function __construct(
         private SerializeStageInterface $decorated,
@@ -51,7 +53,9 @@ class AddAggregationsData implements SerializeStageInterface
         private SearchContext $searchContext,
         private ReverseSourceFieldProvider $reverseSourceFieldProvider,
         private CategoryConfigurationRepository $categoryConfigurationRepository,
+        private TranslatorInterface $translator,
         private iterable $availableFilterTypes,
+        private array $searchSettings,
     ) {
     }
 
@@ -104,6 +108,7 @@ class AddAggregationsData implements SerializeStageInterface
                 Type::TYPE_PRICE, Type::TYPE_FLOAT, Type::TYPE_INT => self::AGGREGATION_TYPE_SLIDER,
                 Type::TYPE_CATEGORY => self::AGGREGATION_TYPE_CATEGORY,
                 Type::TYPE_STOCK, Type::TYPE_BOOLEAN => self::AGGREGATION_TYPE_BOOLEAN,
+                Type::TYPE_DATE, Type::TYPE_LOCATION => self::AGGREGATION_TYPE_HISTOGRAM,
                 default => self::AGGREGATION_TYPE_CHECKBOX,
             },
             'count' => $aggregation->getCount(),
@@ -156,7 +161,10 @@ class AddAggregationsData implements SerializeStageInterface
                     continue;
                 }
 
-                if (\is_array($key)) {
+                if (Type::TYPE_LOCATION === $sourceField->getType()) {
+                    $code = $key; // TODO not sure if I should keep the 10-20 key format or only the "to" value (20)
+                    $label = $this->getDistanceRangeLabel($key, $containerConfig);
+                } elseif (\is_array($key)) {
                     $code = $key[1];
                     $label = 'None' !== $key[0] ? $key[0] : $key[1];
                 } else {
@@ -187,5 +195,34 @@ class AddAggregationsData implements SerializeStageInterface
             }
             $data['options'] = $options;
         }
+    }
+
+    private function getDistanceRangeLabel(string $key, ContainerConfigurationInterface $containerConfig): string
+    {
+        $range = explode('-', $key);
+        $unit = $this->searchSettings['default_distance_unit'];
+        if ('*' === $range[0]) {
+            return $this->translator->trans(
+                'search.distance_facet.option_to.label',
+                ['%distance' => $range[1], '%unit' => $unit],
+                'gally_search',
+                $containerConfig->getLocalizedCatalog()->getLocale()
+            );
+        }
+        if ('*' === $range[1]) {
+            return $this->translator->trans(
+                'search.distance_facet.option_from.label',
+                ['%distance' => $range[0], '%unit' => $unit],
+                'gally_search',
+                $containerConfig->getLocalizedCatalog()->getLocale()
+            );
+        }
+
+        return $this->translator->trans(
+                'search.distance_facet.option_fromto.label',
+                ['%distanceFrom' => $range[0], '%distanceTo' => $range[1], '%unit' => $unit],
+                'gally_search',
+                $containerConfig->getLocalizedCatalog()->getLocale()
+            );
     }
 }

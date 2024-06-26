@@ -19,6 +19,7 @@ use Gally\Index\Model\Index\Mapping\FieldInterface;
 use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface;
 use Gally\Search\Elasticsearch\Request\QueryFactory;
 use Gally\Search\Elasticsearch\Request\QueryInterface;
+use Gally\Search\Service\SearchContext;
 
 /**
  * Prepare filter condition from an array as used into addFieldToFilter.
@@ -50,8 +51,11 @@ class FilterQueryBuilder
      *
      * @param QueryFactory $queryFactory Query factory (used to build sub-queries)
      */
-    public function __construct(private QueryFactory $queryFactory)
-    {
+    public function __construct(
+        private QueryFactory $queryFactory,
+        private SearchContext $searchContext,
+        private array $searchSettings,
+    ) {
     }
 
     /**
@@ -100,6 +104,15 @@ class FilterQueryBuilder
         if (\count(array_intersect($this->rangeConditions, array_keys($condition))) >= 1) {
             $queryType = QueryInterface::TYPE_RANGE;
             $condition = ['bounds' => $condition];
+            if (FieldInterface::FIELD_TYPE_DATE === $field->getType()) {
+                $queryType = QueryInterface::TYPE_DATE_RANGE;
+                $condition['format'] = $this->searchSettings['default_date_field_format'];
+            } elseif (FieldInterface::FIELD_TYPE_GEOPOINT === $field->getType()) {
+                $queryType = QueryInterface::TYPE_GEO_DISTANCE;
+                $condition = $condition['bounds'];
+                $condition['distance'] = "{$condition['lte']}{$this->searchSettings['default_distance_unit']}";
+                $condition['referenceLocation'] = $this->searchContext->getReferenceLocation();
+            }
         }
 
         $condition['field'] = $field->getMappingProperty(FieldInterface::ANALYZER_UNTOUCHED);

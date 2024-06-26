@@ -10,8 +10,21 @@ gally:
         document_attribute:
             max_size: 3
     search_settings:
+        default_date_field_format: 'yyyy'
+        default_distance_unit: 'km'
         aggregations:
             coverage_use_indexed_fields_property: false
+            default_date_range_interval: '1y'
+            default_distance_ranges: 
+                - {to: 1}
+                - {from: 1, to: 5}
+                - {from: 5, to: 10}
+                - {from: 10, to: 20}
+                - {from: 20, to: 30}
+                - {from: 30, to: 50}
+                - {from: 50, to: 100}
+                - {from: 100, to: 200}
+                - {from: 200}
         sort:
             default_asc_sort_field:
                 - '_count'
@@ -20,3 +33,4 @@ gally:
         - { code: product_catalog, label: 'Category listing', limitation_type: !php/const Gally\Search\Constant\RequestType\LimitationType::LIMITATION_CATEGORY }
         - { code: product_search, label: 'Search result', limitation_type: !php/const Gally\Search\Constant\RequestType\LimitationType::LIMITATION_SEARCH }
     pipeline_prefix: 'gally-llm-pipeline-'
+    default_reference_location: 48.981299, 2.309959

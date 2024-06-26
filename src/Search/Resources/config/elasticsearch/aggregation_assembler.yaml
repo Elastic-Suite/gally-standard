@@ -78,6 +78,12 @@ services:
         tags:
             - { name: 'gally.search.request.aggregation.assembler', aggregationType: 'histogramBucket' }
     
+    Gally\Search\Elasticsearch\Adapter\Common\Request\Aggregation\Assembler\Bucket\DateRange:
+        abstract: false
+        lazy: true
+        tags:
+            - { name: 'gally.search.request.aggregation.assembler', aggregationType: 'dateRangeBucket' }
+    
     Gally\Search\Elasticsearch\Adapter\Common\Request\Aggregation\Assembler\Bucket\QueryGroup:
         abstract: false
         lazy: true
@@ -109,6 +115,12 @@ services:
         lazy: true
         tags:
             - { name: 'gally.search.request.aggregation.assembler', aggregationType: 'multiTermsBucket' }
+
+    Gally\Search\Elasticsearch\Adapter\Common\Request\Aggregation\Assembler\Bucket\GeoDistance:
+        abstract: false
+        lazy: true
+        tags:
+            - { name: 'gally.search.request.aggregation.assembler', aggregationType: 'geoDistanceBucket' }
 
     Gally\Search\Elasticsearch\Adapter\Common\Request\Aggregation\Assembler\Pipeline\BucketSelector:
         abstract: false

@@ -90,6 +90,13 @@ services:
         tags:
             - { name: 'gally.search.request.query.factory', queryType: 'rangeQuery' }
 
+    gally.search.request.query.dateRange.factory:
+        parent: Gally\DependencyInjection\GenericFactory
+        arguments:
+            - 'Gally\Search\Elasticsearch\Request\Query\DateRange'
+        tags:
+            - { name: 'gally.search.request.query.factory', queryType: 'dateRangeQuery' }
+
     gally.search.request.query.term.factory:
         parent: Gally\DependencyInjection\GenericFactory
         arguments:
@@ -103,6 +110,13 @@ services:
             - 'Gally\Search\Elasticsearch\Request\Query\Terms'
         tags:
             - { name: 'gally.search.request.query.factory', queryType: 'termsQuery' }
+
+    gally.search.request.query.geoDistance.factory:
+        parent: Gally\DependencyInjection\GenericFactory
+        arguments:
+            - 'Gally\Search\Elasticsearch\Request\Query\GeoDistance'
+        tags:
+            - { name: 'gally.search.request.query.factory', queryType: 'geoDistanceQuery' }
 
     Gally\Search\Elasticsearch\Request\QueryFactory:
         public: true

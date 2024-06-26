@@ -147,6 +147,15 @@ Gally\Metadata\Model\SourceField:
         type: 'keyword'
         isUsedForRules: true
         isSystem: true
+    product_manufacture_location:
+        metadata: '@product'
+        code: 'manufacture_location'
+        type: 'location'
+        isSearchable: false
+        isFilterable: true
+        isSortable: true
+        isSpellchecked: false
+        isUsedForRules: true
     category_id:
         metadata: '@category'
         code: 'id'

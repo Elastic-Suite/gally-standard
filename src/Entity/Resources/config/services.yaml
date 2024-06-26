@@ -99,8 +99,23 @@ services:
             - '@Gally\Search\Elasticsearch\Request\QueryFactory'
         tags:
             - { name: api_platform.graphql.type }
+    
+    Gally\Entity\GraphQl\Type\Definition\Filter\LocationTypeFilterInputType:
+        arguments:
+            - '@Gally\Search\Elasticsearch\Builder\Request\Query\Filter\FilterQueryBuilder'
+            - '@Gally\Search\Elasticsearch\Request\QueryFactory'
+            - '@Gally\Search\GraphQl\Type\Definition\Filter\DistanceFilterInputType'
+            - '%api_platform.graphql.nesting_separator%'
+        tags:
+            - { name: api_platform.graphql.type }
+            - { name: gally.entity_api.filter }
 
     Gally\Entity\Service\PriceGroupProvider:
         arguments:
             - '@Gally\RequestContext\Service\RequestContextManager'
             - '%gally.default_price_group_id%'
+
+    Gally\Entity\Service\ReferenceLocationProvider:
+        arguments:
+            - '@Gally\RequestContext\Service\RequestContextManager'
+            - '%gally.default_reference_location%'

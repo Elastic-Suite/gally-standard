@@ -5,6 +5,8 @@ services:
             - { name: 'gally.search.aggregation.resolver' }
 
     Gally\Search\Elasticsearch\Request\Aggregation\ConfigResolver\DateAggregationConfigResolver:
+        arguments:
+            - '%gally.search_settings%'
         tags:
             - { name: 'gally.search.aggregation.resolver' }
 
@@ -27,5 +29,12 @@ services:
             - { name: 'gally.search.aggregation.resolver' }
 
     Gally\Search\Elasticsearch\Request\Aggregation\ConfigResolver\StockAggregationConfigResolver:
+        tags:
+            - { name: 'gally.search.aggregation.resolver' }
+
+    Gally\Search\Elasticsearch\Request\Aggregation\ConfigResolver\GeoDistanceAggregationConfigResolver:
+        arguments:
+            - '@Gally\Search\Service\SearchContext'
+            - '%gally.search_settings%'
         tags:
             - { name: 'gally.search.aggregation.resolver' }

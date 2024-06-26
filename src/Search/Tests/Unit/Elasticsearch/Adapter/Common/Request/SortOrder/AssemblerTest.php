@@ -21,6 +21,7 @@ use Gally\Metadata\Repository\MetadataRepository;
 use Gally\Search\Elasticsearch\Adapter\Common\Request\Query\Assembler as QueryAssembler;
 use Gally\Search\Elasticsearch\Adapter\Common\Request\SortOrder\Assembler as SortAssembler;
 use Gally\Search\Elasticsearch\Builder\Request\Query\Filter\FilterQueryBuilder;
+use Gally\Search\Elasticsearch\Builder\Request\SortOrder\GeoDistance;
 use Gally\Search\Elasticsearch\Builder\Request\SortOrder\Nested;
 use Gally\Search\Elasticsearch\Builder\Request\SortOrder\Script;
 use Gally\Search\Elasticsearch\Builder\Request\SortOrder\SortOrderBuilder;
@@ -33,8 +34,6 @@ use Psr\Log\LoggerInterface;
 
 class AssemblerTest extends AbstractTest
 {
-    private static QueryFactory $queryFactory;
-
     private static FilterQueryBuilder $filterQueryBuilder;
 
     private static MetadataRepository $metadataRepository;
@@ -54,10 +53,13 @@ class AssemblerTest extends AbstractTest
         parent::setUpBeforeClass();
 
         \assert(static::getContainer()->get(QueryFactory::class) instanceof QueryFactory);
-        self::$queryFactory = static::getContainer()->get(QueryFactory::class);
-        self::$filterQueryBuilder = new FilterQueryBuilder(self::$queryFactory);
+        self::$filterQueryBuilder = static::getContainer()->get(FilterQueryBuilder::class);
         self::$logger = static::getContainer()->get(LoggerInterface::class);
-        self::$sortOrderBuilder = new SortOrderBuilder(self::$filterQueryBuilder, self::$logger);
+        self::$sortOrderBuilder = new SortOrderBuilder(
+            self::$filterQueryBuilder,
+            self::$logger,
+            static::getContainer()->getParameter('gally.search_settings')
+        );
         self::$queryAssembler = static::getContainer()->get(QueryAssembler::class);
         self::$sortAssembler = new SortAssembler(self::$queryAssembler);
 
@@ -439,6 +441,63 @@ class AssemblerTest extends AbstractTest
                                 'missing' => SortOrderInterface::MISSING_FIRST,
                                 'unmapped_type' => 'keyword',
                             ],
+                        ],
+                    ],
+                ],
+            ],
+            [
+                'product_document',  // entity type.
+                [   // sort order specifications.
+                    'manufacture_location' => [
+                        'field' => 'manufacture_location',
+                        'direction' => SortOrderInterface::SORT_DESC,
+                        'referenceLocation' => '-01,23 45,67',
+                    ],
+                ],
+                [   // expected built sort orders.
+                    [
+                        'type' => SortOrderInterface::TYPE_DISTANCE,
+                        'field' => 'manufacture_location',
+                        'direction' => SortOrderInterface::SORT_DESC,
+                        'referenceLocation' => '-01,23 45,67',
+                        'unit' => 'km',
+                        'mode' => 'min',
+                        'distanceType' => 'arc',
+                        'ignoreUnmapped' => false,
+                        'name' => null,
+                    ],
+                    [
+                        'type' => SortOrderInterface::TYPE_STANDARD,
+                        'field' => SortOrderInterface::DEFAULT_SORT_FIELD,
+                        'direction' => SortOrderInterface::SORT_ASC,
+                    ],
+                    [
+                        'type' => SortOrderInterface::TYPE_STANDARD,
+                        'field' => 'id.sortable',
+                        'direction' => SortOrderInterface::SORT_ASC,
+                    ],
+                ],
+                [
+                    [
+                        GeoDistance::GEO_DISTANCE_FIELD => [
+                            'order' => SortOrderInterface::SORT_DESC,
+                            'manufacture_location' => '-01,23 45,67',
+                            'unit' => 'km',
+                            'mode' => 'min',
+                            'distance_type' => 'arc',
+                            'ignore_unmapped' => false,
+                        ],
+                    ],
+                    [
+                        SortOrderInterface::DEFAULT_SORT_FIELD => [
+                            'order' => SortOrderInterface::SORT_ASC,
+                        ],
+                    ],
+                    [
+                        'id.sortable' => [
+                            'order' => SortOrderInterface::SORT_ASC,
+                            'missing' => SortOrderInterface::MISSING_LAST,
+                            'unmapped_type' => FieldInterface::FIELD_TYPE_KEYWORD,
                         ],
                     ],
                 ],

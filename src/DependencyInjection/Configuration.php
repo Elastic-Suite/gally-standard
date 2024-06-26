@@ -152,10 +152,21 @@ class Configuration implements ConfigurationInterface
                 // Indices setting config
                 ->arrayNode('search_settings')
                     ->children()
+                        ->scalarNode('default_date_field_format')->end()
+                        ->scalarNode('default_distance_unit')->end()
                         ->arrayNode('aggregations')
                             ->children()
                                 ->booleanNode('coverage_use_indexed_fields_property')
                                     ->defaultFalse()
+                                ->end()
+                                ->scalarNode('default_date_range_interval')->end()
+                                ->arrayNode('default_distance_ranges')
+                                    ->arrayPrototype()
+                                        ->children()
+                                            ->scalarNode('from')->end()
+                                            ->scalarNode('to')->end()
+                                        ->end()
+                                    ->end()
                                 ->end()
                             ->end()
                         ->end()
@@ -275,6 +286,11 @@ class Configuration implements ConfigurationInterface
                 // Default price group id config
                 ->scalarNode('default_price_group_id')
                     ->defaultValue('0')
+                ->end()
+
+                // Default reference location
+                ->scalarNode('default_reference_location')
+                    ->defaultValue('48.981299, 2.309959')
                 ->end()
 
                 // Ingest pipeline configuration

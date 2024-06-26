@@ -1027,3 +1027,23 @@ Gally\Metadata\Model\SourceField:
         isFilterable: false
         isSortable: false
         isUsedForRules: false
+    product_date_of_manufacture:
+        metadata: '@product'
+        code: date_of_manufacture
+        type: date
+        weight: 1
+        isSearchable: true
+        isSpellchecked: false
+        isFilterable: true
+        isSortable: true
+        isUsedForRules: true
+    product_manufacture_location:
+        metadata: '@product'
+        code: manufacture_location
+        type: location
+        weight: 1
+        isSearchable: false
+        isSpellchecked: false
+        isFilterable: true
+        isSortable: true
+        isUsedForRules: true

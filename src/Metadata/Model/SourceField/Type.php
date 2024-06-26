@@ -29,6 +29,7 @@ class Type
     public const TYPE_IMAGE = 'image';
     public const TYPE_OBJECT = 'object';
     public const TYPE_DATE = 'date';
+    public const TYPE_LOCATION = 'location';
 
     public const AVAILABLE_TYPES = [
         self::TYPE_TEXT,
@@ -44,6 +45,7 @@ class Type
         self::TYPE_IMAGE,
         self::TYPE_OBJECT,
         self::TYPE_DATE,
+        self::TYPE_LOCATION,
     ];
 
     public const COMPLEX_TYPES = [
@@ -67,6 +69,7 @@ class Type
         ['label' => 'Image', 'value' => self::TYPE_IMAGE],
         ['label' => 'Object', 'value' => self::TYPE_OBJECT],
         ['label' => 'Date', 'value' => self::TYPE_DATE],
+        ['label' => 'Location', 'value' => self::TYPE_LOCATION],
     ];
 
     public static function getAvailableTypes(): array

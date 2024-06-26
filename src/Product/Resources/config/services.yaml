@@ -21,6 +21,7 @@ services:
             - '@Gally\Product\Service\GraphQl\FilterManager'
             - '@Gally\Category\Service\CurrentCategoryProvider'
             - '@Gally\Entity\Service\PriceGroupProvider'
+            - '@Gally\Entity\Service\ReferenceLocationProvider'
             - '@Gally\Search\Service\SearchContext'
             - '@doctrine.orm.entity_manager'
             - '@api_platform.serializer'

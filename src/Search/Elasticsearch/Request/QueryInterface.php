@@ -29,6 +29,8 @@ interface QueryInterface
     public const TYPE_FILTER = 'filteredQuery';
     public const TYPE_NESTED = 'nestedQuery';
     public const TYPE_RANGE = 'rangeQuery';
+    public const TYPE_DATE_RANGE = 'dateRangeQuery';
+    public const TYPE_GEO_DISTANCE = 'geoDistanceQuery';
     public const TYPE_TERM = 'termQuery';
     public const TYPE_TERMS = 'termsQuery';
     public const TYPE_NOT = 'notQuery';

@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace Gally\Search\Tests\Api\GraphQl;
 
 use Gally\Entity\Service\PriceGroupProvider;
+use Gally\Entity\Service\ReferenceLocationProvider;
 use Gally\Fixture\Service\ElasticsearchFixturesInterface;
 use Gally\Search\Elasticsearch\Request\SortOrderInterface;
 use Gally\Test\AbstractTest;
@@ -307,6 +308,7 @@ class SearchDocumentsTest extends AbstractTest
         string $documentIdentifier,
         array $expectedOrderedDocIds,
         string $priceGroupId = '0',
+        string $referenceLocation = '48.913066, 2.298293'
     ): void {
         $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
 
@@ -337,7 +339,10 @@ class SearchDocumentsTest extends AbstractTest
                     }
                 GQL,
                 $user,
-                [PriceGroupProvider::PRICE_GROUP_ID => $priceGroupId]
+                [
+                    PriceGroupProvider::PRICE_GROUP_ID => $priceGroupId,
+                    ReferenceLocationProvider::REFERENCE_LOCATION => $referenceLocation,
+                ]
             ),
             new ExpectedResponse(
                 200,
@@ -520,6 +525,38 @@ class SearchDocumentsTest extends AbstractTest
                 [10, 11, 12, 2, 3],   // expected ordered document IDs
                 'fake_price_group_id',
             ],
+            [
+                'product_document',  // entity type.
+                'b2b_fr',   // catalog ID.
+                5,     // page size.
+                1,      // current page.
+                ['created_at' => SortOrderInterface::SORT_DESC], // sort order specifications.
+                'id', // document data identifier.
+                // created_at ASC, then score DESC first, then id DESC (missing _first)
+                [10, 9, 5, 2, 3],   // expected ordered document IDs
+            ],
+            [
+                'product_document',  // entity type.
+                'b2b_fr',   // catalog ID.
+                5,     // page size.
+                1,      // current page.
+                ['manufacture_location' => SortOrderInterface::SORT_ASC], // sort order specifications.
+                'id', // document data identifier.
+                // manufacture_location ASC, then score DESC first, then id DESC (missing _first)
+                [1, 8, 7, 6, 12],   // expected ordered document IDs
+            ],
+            [
+                'product_document',  // entity type.
+                'b2b_fr',   // catalog ID.
+                5,     // page size.
+                1,      // current page.
+                ['manufacture_location' => SortOrderInterface::SORT_ASC], // sort order specifications.
+                'id', // document data identifier.
+                // manufacture_location ASC, then score DESC first, then id DESC (missing _first)
+                [5, 4, 3, 2, 1],   // expected ordered document IDs
+                '0', // Price group id
+                '45.770000, 4.890000', // Reference location
+            ],
         ];
     }
 
@@ -675,6 +712,15 @@ class SearchDocumentsTest extends AbstractTest
                 'price__price', // expected sort order field.
                 SortOrderInterface::SORT_ASC, // expected sort order direction.
             ],
+            [
+                'product_document',  // entity type.
+                'b2b_fr',   // catalog ID.
+                5,     // page size.
+                1,      // current page.
+                ['manufacture_location' => SortOrderInterface::SORT_ASC], // sort order specifications.
+                'manufacture_location', // expected sort order field.
+                SortOrderInterface::SORT_ASC, // expected sort order direction.
+            ],
         ];
     }
 
@@ -801,6 +847,24 @@ class SearchDocumentsTest extends AbstractTest
                     ],
                     ['field' => 'size', 'label' => 'Size', 'type' => 'slider', 'hasMore' => false],
                     [
+                        'field' => 'created_at',
+                        'label' => 'Created_at',
+                        'type' => 'histogram',
+                        'hasMore' => false,
+                        'options' => [
+                            [
+                                'label' => '2022-09-01',
+                                'value' => '2022-09-01',
+                                'count' => 8,
+                            ],
+                            [
+                                'label' => '2022-09-05',
+                                'value' => '2022-09-05',
+                                'count' => 3,
+                            ],
+                        ],
+                    ],
+                    [
                         'field' => 'color_full__value',
                         'label' => 'Color',
                         'type' => 'checkbox',
@@ -815,6 +879,19 @@ class SearchDocumentsTest extends AbstractTest
                                 'label' => 'Grey',
                                 'value' => 'grey',
                                 'count' => 6,
+                            ],
+                        ],
+                    ],
+                    [
+                        'field' => 'manufacture_location',
+                        'label' => 'Manufacture_location',
+                        'type' => 'histogram',
+                        'hasMore' => false,
+                        'options' => [
+                            [
+                                'label' => '200.0km and more',
+                                'value' => '200.0-*',
+                                'count' => 12,
                             ],
                         ],
                     ],
@@ -871,6 +948,24 @@ class SearchDocumentsTest extends AbstractTest
                         'hasMore' => false,
                     ],
                     [
+                        'field' => 'created_at',
+                        'label' => 'Created_at',
+                        'type' => 'histogram',
+                        'hasMore' => false,
+                        'options' => [
+                            [
+                                'label' => '2022-09-01',
+                                'value' => '2022-09-01',
+                                'count' => 6,
+                            ],
+                            [
+                                'label' => '2022-09-05',
+                                'value' => '2022-09-05',
+                                'count' => 3,
+                            ],
+                        ],
+                    ],
+                    [
                         'field' => 'color_full__value',
                         'label' => 'Couleur',
                         'type' => 'checkbox',
@@ -885,6 +980,19 @@ class SearchDocumentsTest extends AbstractTest
                                 'label' => 'Gris',
                                 'value' => 'grey',
                                 'count' => 5,
+                            ],
+                        ],
+                    ],
+                    [
+                        'field' => 'manufacture_location',
+                        'label' => 'Manufacture_location',
+                        'type' => 'histogram',
+                        'hasMore' => false,
+                        'options' => [
+                            [
+                                'label' => 'Plus de 200.0km',
+                                'value' => '200.0-*',
+                                'count' => 10,
                             ],
                         ],
                     ],
@@ -959,6 +1067,24 @@ class SearchDocumentsTest extends AbstractTest
                         'hasMore' => false,
                     ],
                     [
+                        'field' => 'created_at',
+                        'label' => 'Created_at',
+                        'type' => 'histogram',
+                        'hasMore' => false,
+                        'options' => [
+                            [
+                                'label' => '2022-09-01',
+                                'value' => '2022-09-01',
+                                'count' => 6,
+                            ],
+                            [
+                                'label' => '2022-09-05',
+                                'value' => '2022-09-05',
+                                'count' => 3,
+                            ],
+                        ],
+                    ],
+                    [
                         'field' => 'color_full__value',
                         'label' => 'Couleur',
                         'type' => 'checkbox',
@@ -973,6 +1099,19 @@ class SearchDocumentsTest extends AbstractTest
                                 'label' => 'Gris',
                                 'value' => 'grey',
                                 'count' => 5,
+                            ],
+                        ],
+                    ],
+                    [
+                        'field' => 'manufacture_location',
+                        'label' => 'Manufacture_location',
+                        'type' => 'histogram',
+                        'hasMore' => false,
+                        'options' => [
+                            [
+                                'label' => 'Plus de 200.0km',
+                                'value' => '200.0-*',
+                                'count' => 10,
                             ],
                         ],
                     ],
@@ -1047,6 +1186,24 @@ class SearchDocumentsTest extends AbstractTest
                         'hasMore' => false,
                     ],
                     [
+                        'field' => 'created_at',
+                        'label' => 'Created_at',
+                        'type' => 'histogram',
+                        'hasMore' => false,
+                        'options' => [
+                            [
+                                'label' => '2022-09-01',
+                                'value' => '2022-09-01',
+                                'count' => 6,
+                            ],
+                            [
+                                'label' => '2022-09-05',
+                                'value' => '2022-09-05',
+                                'count' => 3,
+                            ],
+                        ],
+                    ],
+                    [
                         'field' => 'color_full__value',
                         'label' => 'Couleur',
                         'type' => 'checkbox',
@@ -1061,6 +1218,19 @@ class SearchDocumentsTest extends AbstractTest
                                 'label' => 'Gris',
                                 'value' => 'grey',
                                 'count' => 5,
+                            ],
+                        ],
+                    ],
+                    [
+                        'field' => 'manufacture_location',
+                        'label' => 'Manufacture_location',
+                        'type' => 'histogram',
+                        'hasMore' => false,
+                        'options' => [
+                            [
+                                'label' => 'Plus de 200.0km',
+                                'value' => '200.0-*',
+                                'count' => 10,
                             ],
                         ],
                     ],
@@ -1246,6 +1416,12 @@ class SearchDocumentsTest extends AbstractTest
                 '{equalFilter:{field:"id" eq: "1" in:["1"]}}', // Filters.
                 "Filter argument equalFilter: Only 'eq' or only 'in' should be filled, not both.", // debug message
             ],
+            [
+                'product_document', // entity type.
+                'b2c_en', // catalog ID.
+                '{distanceFilter:{field:"id" lte: 100}}', // Filters.
+                'Filter argument distanceFilter: The field id should be of type geo_point.', // debug message
+            ],
         ];
     }
 
@@ -1269,7 +1445,8 @@ class SearchDocumentsTest extends AbstractTest
         array $sortOrders,
         string $filter,
         string $documentIdentifier,
-        array $expectedOrderedDocIds
+        array $expectedOrderedDocIds,
+        ?string $referenceLocation = null,
     ): void {
         $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
 
@@ -1281,6 +1458,10 @@ class SearchDocumentsTest extends AbstractTest
             $currentPage,
             $filter
         );
+        $headers = [];
+        if ($referenceLocation) {
+            $headers['reference-location'] = $referenceLocation;
+        }
 
         $this->addSortOrders($sortOrders, $arguments);
 
@@ -1296,7 +1477,8 @@ class SearchDocumentsTest extends AbstractTest
                         }
                     }
                 GQL,
-                $user
+                $user,
+                $headers
             ),
             new ExpectedResponse(
                 200,
@@ -1550,6 +1732,57 @@ class SearchDocumentsTest extends AbstractTest
                 GQL, // filter.
                 'entity_id', // document data identifier.
                 [11, 12], // expected ordered document IDs
+            ],
+            [
+                'product_document', // entity type.
+                'b2c_en', // catalog ID.
+                10, // page size.
+                1,  // current page.
+                [], // sort order specifications.
+                '{rangeFilter: {field: "created_at", lte: "2022-09-04"}}',
+                'entity_id', // document data identifier.
+                [1, 6, 7, 8, 9, 11, 12, 13], // expected ordered document IDs
+            ],
+            [
+                'product_document', // entity type.
+                'b2c_en', // catalog ID.
+                10, // page size.
+                1,  // current page.
+                ['manufacture_location' => SortOrderInterface::SORT_ASC], // sort order specifications.
+                '{distanceFilter: {field: "manufacture_location", lte: 350}}',
+                'entity_id', // document data identifier.
+                [1, 6, 7, 8, 9, 11, 12, 13], // expected ordered document IDs
+            ],
+            [
+                'product_document', // entity type.
+                'b2c_en', // catalog ID.
+                10, // page size.
+                1,  // current page.
+                ['manufacture_location' => SortOrderInterface::SORT_ASC], // sort order specifications.
+                '{distanceFilter: {field: "manufacture_location", gte: 350, lte: 500}}',
+                'entity_id', // document data identifier.
+                [5], // expected ordered document IDs
+            ],
+            [
+                'product_document', // entity type.
+                'b2c_en', // catalog ID.
+                10, // page size.
+                1,  // current page.
+                ['manufacture_location' => SortOrderInterface::SORT_ASC], // sort order specifications.
+                '{distanceFilter: {field: "manufacture_location", gte: 350}}',
+                'entity_id', // document data identifier.
+                [5, 2, 3, 4, 10, 14], // expected ordered document IDs
+            ],
+            [
+                'product_document', // entity type.
+                'b2c_en', // catalog ID.
+                10, // page size.
+                1,  // current page.
+                ['manufacture_location' => SortOrderInterface::SORT_ASC], // sort order specifications.
+                '{distanceFilter: {field: "manufacture_location", lte: 400}}',
+                'entity_id', // document data identifier.
+                [1, 6, 7, 8, 9, 11, 12, 13, 2, 3], // expected ordered document IDs
+                '44.832196, -0.554729', // reference location
             ],
         ];
     }
@@ -1920,6 +2153,76 @@ class SearchDocumentsTest extends AbstractTest
                 ],
             ],
         ];
+    }
+
+    /**
+     * @dataProvider searchWithAggregationAndFilterDataProvider
+     *
+     * @param string      $entityType           Entity Type
+     * @param string      $catalogId            Catalog ID or code
+     * @param int         $pageSize             Pagination size
+     * @param int         $currentPage          Current page
+     * @param string|null $filter               Filters to apply
+     * @param array       $expectedOptionsCount expected aggregation option count
+     */
+    public function testSearchDocumentsWithDateField(
+        string $entityType,
+        string $catalogId,
+        int $pageSize,
+        int $currentPage,
+        ?string $filter,
+        array $expectedOptionsCount,
+    ): void {
+        $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
+
+        $arguments = sprintf(
+            'entityType: "%s", localizedCatalog: "%s", pageSize: %d, currentPage: %d',
+            $entityType,
+            $catalogId,
+            $pageSize,
+            $currentPage,
+        );
+        if ($filter) {
+            $arguments = sprintf(
+                'entityType: "%s", localizedCatalog: "%s", pageSize: %d, currentPage: %d, filter: [%s]',
+                $entityType,
+                $catalogId,
+                $pageSize,
+                $currentPage,
+                $filter,
+            );
+        }
+
+        $this->validateApiCall(
+            new RequestGraphQlToTest(
+                <<<GQL
+                    {
+                        documents({$arguments}) {
+                            aggregations {
+                              field
+                              count
+                              options {
+                                value
+                              }
+                            }
+                        }
+                    }
+                GQL,
+                $user
+            ),
+            new ExpectedResponse(
+                200,
+                function (ResponseInterface $response) use ($expectedOptionsCount) {
+                    $responseData = $response->toArray();
+                    $this->assertIsArray($responseData['data']['documents']['aggregations']);
+                    foreach ($responseData['data']['documents']['aggregations'] as $data) {
+                        if (\array_key_exists($data['field'], $expectedOptionsCount)) {
+                            $this->assertCount($expectedOptionsCount[$data['field']], $data['options'] ?? []);
+                        }
+                    }
+                }
+            )
+        );
     }
 
     private function addSortOrders(array $sortOrders, string &$arguments): void

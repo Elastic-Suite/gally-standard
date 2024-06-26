@@ -55,6 +55,7 @@ class SortingOptionTest extends AbstractTest
                             ['code' => 'real_category__position', 'label' => 'Position'],
                             ['code' => 'price__price', 'label' => 'Price'],
                             ['code' => 'stock__status', 'label' => 'Stock status'],
+                            ['code' => 'manufacture_location', 'label' => 'Manufacture_location\'s distance'],
                             ['code' => '_score', 'label' => 'Relevance'],
                         ],
                         $responseData['data']['sortingOptions']

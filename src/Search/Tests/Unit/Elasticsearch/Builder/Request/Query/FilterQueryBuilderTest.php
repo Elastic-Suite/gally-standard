@@ -22,6 +22,7 @@ use Gally\Search\Elasticsearch\Builder\Request\Query\Filter\FilterQueryBuilder;
 use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface;
 use Gally\Search\Elasticsearch\Request\QueryFactory;
 use Gally\Search\Elasticsearch\Request\QueryInterface;
+use Gally\Search\Service\SearchContext;
 use LogicException;
 use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -34,6 +35,8 @@ class FilterQueryBuilderTest extends KernelTestCase
     private array $mockedQueryTypes = [
         QueryInterface::TYPE_TERMS,
         QueryInterface::TYPE_RANGE,
+        QueryInterface::TYPE_DATE_RANGE,
+        QueryInterface::TYPE_GEO_DISTANCE,
         QueryInterface::TYPE_MATCH,
         QueryInterface::TYPE_BOOL,
         QueryInterface::TYPE_NESTED,
@@ -58,6 +61,8 @@ class FilterQueryBuilderTest extends KernelTestCase
             new Field('simpleTextField', FieldInterface::FIELD_TYPE_KEYWORD),
             new Field('analyzedField', FieldInterface::FIELD_TYPE_TEXT, null, ['is_searchable' => true, 'is_filterable' => false]),
             new Field('nested.child', FieldInterface::FIELD_TYPE_KEYWORD, 'nested'),
+            new Field('dateField', FieldInterface::FIELD_TYPE_DATE),
+            new Field('locationField', FieldInterface::FIELD_TYPE_GEOPOINT),
         ];
     }
 
@@ -106,7 +111,21 @@ class FilterQueryBuilderTest extends KernelTestCase
             $query = $this->buildQuery(['id' => [$condition => 1]]);
             $this->assertInstanceOf(QueryInterface::class, $query);
             $this->assertEquals(QueryInterface::TYPE_RANGE, $query->getType());
+
+            $query = $this->buildQuery(['dateField' => [$condition => 1]]);
+            $this->assertInstanceOf(QueryInterface::class, $query);
+            $this->assertEquals(QueryInterface::TYPE_DATE_RANGE, $query->getType());
         }
+    }
+
+    /**
+     * Test geo distance query conditions.
+     */
+    public function testGeoDistanceQueryFilters(): void
+    {
+        $query = $this->buildQuery(['locationField' => ['lte' => 1]]);
+        $this->assertInstanceOf(QueryInterface::class, $query);
+        $this->assertEquals(QueryInterface::TYPE_GEO_DISTANCE, $query->getType());
     }
 
     /**
@@ -180,7 +199,11 @@ class FilterQueryBuilderTest extends KernelTestCase
      */
     private function buildQuery(array $conditions, ?string $currentPath = null): QueryInterface
     {
-        $builder = new FilterQueryBuilder($this->getQueryFactory($this->mockedQueryTypes));
+        $builder = new FilterQueryBuilder(
+            $this->getQueryFactory($this->mockedQueryTypes),
+            static::getContainer()->get(SearchContext::class),
+            static::getContainer()->getParameter('gally.search_settings'),
+        );
         $config = $this->getContainerConfigMock($this->fields);
 
         return $builder->create($config, $conditions, $currentPath);
