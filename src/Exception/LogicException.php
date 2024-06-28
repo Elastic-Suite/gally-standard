@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace Gally\Exception;
 
-use ApiPlatform\Core\Exception\ExceptionInterface;
+use ApiPlatform\Exception\ExceptionInterface;
 
 class LogicException extends \LogicException implements ExceptionInterface
 {

@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace Gally\Category\Exception;
 
-use ApiPlatform\Core\Exception\ExceptionInterface;
+use ApiPlatform\Exception\ExceptionInterface;
 
 class SyncCategoryException extends \LogicException implements ExceptionInterface
 {
