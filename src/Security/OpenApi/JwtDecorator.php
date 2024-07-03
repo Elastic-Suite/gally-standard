@@ -14,9 +14,9 @@ declare(strict_types=1);
 
 namespace Gally\Security\OpenApi;
 
-use ApiPlatform\Core\OpenApi\Factory\OpenApiFactoryInterface;
-use ApiPlatform\Core\OpenApi\Model;
-use ApiPlatform\Core\OpenApi\OpenApi;
+use ApiPlatform\OpenApi\Factory\OpenApiFactoryInterface;
+use ApiPlatform\OpenApi\Model;
+use ApiPlatform\OpenApi\OpenApi;
 use Gally\OpenApi\Helper\Documentation as DocumentationHelper;
 
 final class JwtDecorator implements OpenApiFactoryInterface

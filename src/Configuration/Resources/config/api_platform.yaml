@@ -2,6 +2,12 @@ api_platform:
     title: Gally API
     version: 1.3.1
     show_webby: false
+    formats:
+        jsonld: [ 'application/ld+json' ]
+    docs_formats:
+        jsonld: [ 'application/ld+json' ]
+        jsonopenapi: [ 'application/vnd.openapi+json' ]
+        html: [ 'text/html' ]
     patch_formats:
         json: ['application/merge-patch+json']
     swagger:
@@ -13,9 +19,9 @@ api_platform:
     exception_to_status:
         # The 4 following handlers are registered by default, keep those lines to prevent unexpected side effects
         Symfony\Component\Serializer\Exception\ExceptionInterface: 400 # Use a raw status code (recommended)
-        # ApiPlatform\Core\Exception\InvalidArgumentException: !php/const Symfony\Component\HttpFoundation\Response::HTTP_BAD_REQUEST
-        ApiPlatform\Core\Exception\InvalidArgumentException: !php/const Symfony\Component\HttpFoundation\Response::HTTP_BAD_REQUEST
-        ApiPlatform\Core\Exception\FilterValidationException: 400
+        # ApiPlatform\Exception\InvalidArgumentException: !php/const Symfony\Component\HttpFoundation\Response::HTTP_BAD_REQUEST
+        ApiPlatform\Exception\InvalidArgumentException: !php/const Symfony\Component\HttpFoundation\Response::HTTP_BAD_REQUEST
+        ApiPlatform\Exception\FilterValidationException: 400
         Doctrine\ORM\OptimisticLockException: 409
         # Validation exception
         ApiPlatform\Core\Bridge\Symfony\Validator\Exception\ValidationException: !php/const Symfony\Component\HttpFoundation\Response::HTTP_UNPROCESSABLE_ENTITY
@@ -32,6 +38,8 @@ api_platform:
         pagination_client_enabled: true # Enabled by default because this value cannot be specified by GraphQL endpoint 
         pagination_client_items_per_page: true # Enabled by default because this value cannot be specified by GraphQL endpoint
         pagination_items_per_page: 20
+        normalization_context:
+            skip_null_values: false
     collection:
         pagination:
             page_parameter_name: currentPage

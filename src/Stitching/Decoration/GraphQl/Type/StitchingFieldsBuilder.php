@@ -14,14 +14,15 @@ declare(strict_types=1);
 
 namespace Gally\Stitching\Decoration\GraphQl\Type;
 
-use ApiPlatform\Core\GraphQl\Type\FieldsBuilderInterface;
-use ApiPlatform\Core\GraphQl\Type\TypesContainerInterface;
-use ApiPlatform\Core\Metadata\Resource\Factory\ResourceMetadataFactoryInterface;
 use ApiPlatform\Core\Metadata\Resource\ResourceMetadata;
+use ApiPlatform\GraphQl\Type\FieldsBuilderInterface;
+use ApiPlatform\GraphQl\Type\TypesContainerInterface;
+use ApiPlatform\Metadata\GraphQl\Operation;
+use ApiPlatform\Metadata\Resource\Factory\ResourceMetadataCollectionFactoryInterface;
 use Doctrine\ORM\EntityNotFoundException;
-use Gally\Entity\Constant\SourceFieldAttributeMapping;
-use Gally\Entity\Model\Attribute\GraphQlAttributeInterface;
-use Gally\Entity\Model\Attribute\StructuredAttributeInterface;
+use Gally\Metadata\Constant\SourceFieldAttributeMapping;
+use Gally\Metadata\Model\Attribute\GraphQlAttributeInterface;
+use Gally\Metadata\Model\Attribute\StructuredAttributeInterface;
 use Gally\Metadata\Model\Metadata;
 use Gally\Metadata\Model\SourceField;
 use Gally\Metadata\Repository\MetadataRepository;
@@ -38,7 +39,7 @@ class StitchingFieldsBuilder implements FieldsBuilderInterface
 {
     public function __construct(
         private MetadataRepository $metadataRepository,
-        private ResourceMetadataFactoryInterface $resourceMetadataFactory,
+        private ResourceMetadataCollectionFactoryInterface $resourceMetadataCollectionFactory,
         private ResourceMetadataManager $resourceMetadataManager,
         private TypesContainerInterface $typesContainer,
         private FieldsBuilderInterface $decorated,
@@ -48,32 +49,21 @@ class StitchingFieldsBuilder implements FieldsBuilderInterface
     /**
      * {@inheritdoc}
      */
-    public function getResourceObjectTypeFields(
-        ?string $resourceClass,
-        ResourceMetadata $resourceMetadata,
-        bool $input,
-        ?string $queryName,
-        ?string $mutationName,
-        ?string $subscriptionName,
-        int $depth,
-        ?array $ioMetadata
-    ): array {
-        $fields = $this->decorated->getResourceObjectTypeFields(
-            $resourceClass, $resourceMetadata, $input, $queryName, $mutationName, $subscriptionName, $depth, $ioMetadata
-        );
+    public function getResourceObjectTypeFields(?string $resourceClass, Operation $operation, bool $input, int $depth = 0, array $ioMetadata = null): array {
+        $fields = $this->decorated->getResourceObjectTypeFields($resourceClass, $operation, $input, $depth, $ioMetadata);
 
-        $resourceMetadata = $this->resourceMetadataFactory->create($resourceClass);
+        $resourceMetadata = $this->resourceMetadataCollectionFactory->create($resourceClass);
         $metadataEntity = $this->resourceMetadataManager->getMetadataEntity($resourceMetadata);
         $stitchingProperty = $this->resourceMetadataManager->getStitchingProperty($resourceMetadata);
 
         /*
-         * All these tests have been get from the "decorated" function (\ApiPlatform\Core\GraphQl\Type\FieldsBuilder::getResourceObjectTypeFields),
+         * All these tests have been get from the "decorated" function (\ApiPlatform\GraphQl\Type\FieldsBuilder::getResourceObjectTypeFields),
          * if one of these tests is true we don't make the stitching because it's not necessary.
          *
          */
         if ((null !== $ioMetadata && \array_key_exists('class', $ioMetadata) && null === $ioMetadata['class'])
-            || (null !== $subscriptionName && $input)
-            || ('delete' === $mutationName)
+            || (null !== $operation->getName() && $input)
+            || ('delete' === $operation->getName())
             || (null === $metadataEntity || null === $stitchingProperty) // Check if we have necessary ApiResource data to make the stitching.
         ) {
             return $fields;
@@ -145,7 +135,7 @@ class StitchingFieldsBuilder implements FieldsBuilderInterface
 
     public function processBasicNestedFields(array $basicNestedFields, array $fields): array
     {
-        // This part has been inspired by the function \ApiPlatform\Core\GraphQl\Type\TypeBuilder::getResourceObjectType.
+        // This part has been inspired by the function \ApiPlatform\GraphQl\Type\TypeBuilder::getResourceObjectType.
         foreach ($basicNestedFields as $nestedPath => $children) {
             $shortName = ucfirst($nestedPath) . 'Attribute';
             $typeDescription = ucfirst($nestedPath) . ' attribute.';
@@ -166,7 +156,7 @@ class StitchingFieldsBuilder implements FieldsBuilderInterface
 
     public function processStructuredFields(array $structuredFields, array $fields): array
     {
-        // This part has been inspired by the function \ApiPlatform\Core\GraphQl\Type\TypeBuilder::getResourceObjectType.
+        // This part has been inspired by the function \ApiPlatform\GraphQl\Type\TypeBuilder::getResourceObjectType.
         /**
          * @var StructuredAttributeInterface $structuredAttributeClass
          */
@@ -196,7 +186,7 @@ class StitchingFieldsBuilder implements FieldsBuilderInterface
         ?callable $resolve = null,
         ?string $deprecationReason = null
     ): array {
-        // This part has been inspired by the function \ApiPlatform\Core\GraphQl\Type\FieldsBuilder::getResourceFieldConfiguration.
+        // This part has been inspired by the function \ApiPlatform\GraphQl\Type\FieldsBuilder::getResourceFieldConfiguration.
         /** @var GraphQlAttributeInterface $attributeClassType */
         return [
             'type' => $attributeClassType::getGraphQlType(),
@@ -218,54 +208,38 @@ class StitchingFieldsBuilder implements FieldsBuilderInterface
     /**
      * {@inheritdoc}
      */
-    public function getItemQueryFields(
-        string $resourceClass,
-        ResourceMetadata $resourceMetadata,
-        string $queryName,
-        array $configuration
-    ): array {
-        return $this->decorated->getItemQueryFields($resourceClass, $resourceMetadata, $queryName, $configuration);
+    public function getItemQueryFields(string $resourceClass, Operation $operation, array $configuration): array {
+        return $this->decorated->getItemQueryFields($resourceClass, $operation, $configuration);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getCollectionQueryFields(
-        string $resourceClass,
-        ResourceMetadata $resourceMetadata,
-        string $queryName,
-        array $configuration
-    ): array {
-        return $this->decorated->getCollectionQueryFields($resourceClass, $resourceMetadata, $queryName, $configuration);
+    public function getCollectionQueryFields(string $resourceClass, Operation $operation, array $configuration): array {
+        return $this->decorated->getCollectionQueryFields($resourceClass, $operation, $configuration);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getMutationFields(
-        string $resourceClass,
-        ResourceMetadata $resourceMetadata,
-        string $mutationName
-    ): array {
-        return $this->decorated->getMutationFields($resourceClass, $resourceMetadata, $mutationName);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getSubscriptionFields(
-        string $resourceClass,
-        ResourceMetadata $resourceMetadata,
-        string $subscriptionName
-    ): array {
-        return $this->decorated->getSubscriptionFields($resourceClass, $resourceMetadata, $subscriptionName);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function resolveResourceArgs(array $args, string $operationName, string $shortName): array
+    public function getMutationFields(string $resourceClass, Operation $operation): array
     {
-        return $this->decorated->resolveResourceArgs($args, $operationName, $shortName);
+        return $this->decorated->getMutationFields($resourceClass, $operation);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getSubscriptionFields(string $resourceClass, Operation $operation): array
+    {
+        return $this->decorated->getSubscriptionFields($resourceClass, $operation);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function resolveResourceArgs(array $args, Operation $operation): array
+    {
+        return $this->decorated->resolveResourceArgs($args, $operation);
     }
 }

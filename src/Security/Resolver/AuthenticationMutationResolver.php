@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace Gally\Security\Resolver;
 
-use ApiPlatform\Core\GraphQl\Resolver\MutationResolverInterface;
+use ApiPlatform\GraphQl\Resolver\MutationResolverInterface;
 use Gally\Security\Model\Authentication;
 use Gally\User\Repository\UserRepository;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
@@ -45,7 +45,7 @@ class AuthenticationMutationResolver implements MutationResolverInterface
      *
      * @throws \Exception
      */
-    public function __invoke($item, array $context): Authentication
+    public function __invoke(?object $item, array $context): ?object
     {
         $email = $context['args']['input']['email'];
         $password = $context['args']['input']['password'];

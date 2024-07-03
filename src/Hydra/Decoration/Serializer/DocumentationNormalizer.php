@@ -14,12 +14,13 @@ declare(strict_types=1);
 
 namespace Gally\Hydra\Decoration\Serializer;
 
-use ApiPlatform\Core\Api\OperationType;
-use ApiPlatform\Core\Hydra\Serializer\DocumentationNormalizer as BaseDocumentationNormalizer;
-use ApiPlatform\Core\Metadata\Property\Factory\PropertyMetadataFactoryInterface;
-use ApiPlatform\Core\Metadata\Property\Factory\PropertyNameCollectionFactoryInterface;
-use ApiPlatform\Core\Metadata\Resource\Factory\ResourceMetadataFactoryInterface;
-use ApiPlatform\Core\Metadata\Resource\ResourceMetadata;
+use ApiPlatform\Hydra\Serializer\DocumentationNormalizer as BaseDocumentationNormalizer;
+use ApiPlatform\Metadata\Property\Factory\PropertyMetadataFactoryInterface;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\CollectionOperationInterface;
+use ApiPlatform\Metadata\Operation;
+use ApiPlatform\Metadata\Property\Factory\PropertyNameCollectionFactoryInterface;
+use ApiPlatform\Metadata\Resource\Factory\ResourceMetadataCollectionFactoryInterface;
 use Symfony\Component\Serializer\NameConverter\MetadataAwareNameConverter;
 use Symfony\Component\Serializer\NameConverter\NameConverterInterface;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
@@ -31,7 +32,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 class DocumentationNormalizer implements NormalizerInterface
 {
     public function __construct(
-        private ResourceMetadataFactoryInterface $resourceMetadataFactory,
+        private ResourceMetadataCollectionFactoryInterface $resourceMetadataCollectionFactory,
         private PropertyNameCollectionFactoryInterface $propertyNameCollectionFactory,
         private PropertyMetadataFactoryInterface $propertyMetadataFactory,
         private NormalizerInterface $decorated,
@@ -49,12 +50,13 @@ class DocumentationNormalizer implements NormalizerInterface
 
         /*
          * We loop on the "ApiResources" as in the service decorated.
-         * @see \ApiPlatform\Core\Hydra\Serializer\DocumentationNormalizer::normalize
+         * @see \ApiPlatform\Hydra\Serializer\DocumentationNormalizer::normalize
          */
         foreach ($object->getResourceNameCollection() as $resourceClass) {
-            $resourceMetadata = $this->resourceMetadataFactory->create($resourceClass);
+            $resourceMetadataCollection = $this->resourceMetadataCollectionFactory->create($resourceClass);
+            $resourceMetadata = $resourceMetadataCollection[0];
             $shortName = $resourceMetadata->getShortName();
-            $prefixedShortName = $resourceMetadata->getIri() ?? "#$shortName";
+            $prefixedShortName = $resourceMetadata->getTypes()[0] ?? "#$shortName";
 
             // Custom function to add hydra custom documentation.
             $this->updateHydraProperties($documentation, $resourceClass, $resourceMetadata, $shortName, $prefixedShortName, $context);
@@ -66,7 +68,7 @@ class DocumentationNormalizer implements NormalizerInterface
     /**
      * Update Hydra properties from the attributes get from ApiProperty.
      */
-    private function updateHydraProperties(array &$documentation, string $resourceClass, ResourceMetadata $resourceMetadata, string $shortName, string $prefixedShortName, array $context): void
+    private function updateHydraProperties(array &$documentation, string $resourceClass, ApiResource $resourceMetadata, string $shortName, string $prefixedShortName, array $context): void
     {
         // We get the key of the class "$shortName" from documentation array.
         $classKey = array_search($shortName, array_column($documentation['hydra:supportedClass'] ?? [], 'hydra:title'), true);
@@ -75,17 +77,22 @@ class DocumentationNormalizer implements NormalizerInterface
         }
 
         /**
-         * The following code is inspired by @see \ApiPlatform\Core\Hydra\Serializer\DocumentationNormalizer::getHydraProperties
+         * The following code is inspired by @see \ApiPlatform\Hydra\Serializer\DocumentationNormalizer::getHydraProperties
          * The goal is to parse the ApiResource "$shortName" and get the metadata of properties.
          */
-        $classes = [];
-        foreach ($resourceMetadata->getCollectionOperations() as $operationName => $operation) {
-            $inputMetadata = $resourceMetadata->getTypedOperationAttribute(OperationType::COLLECTION, $operationName, 'input', ['class' => $resourceClass], true);
+        $classes[$resourceClass] = true;
+        foreach ($resourceMetadata->getOperations() as $operation) {
+            /** @var Operation $operation */
+            if (!$operation instanceof CollectionOperationInterface) {
+                continue;
+            }
+
+            $inputMetadata = $operation->getInput();
             if (null !== $inputClass = $inputMetadata['class'] ?? null) {
                 $classes[$inputClass] = true;
             }
 
-            $outputMetadata = $resourceMetadata->getTypedOperationAttribute(OperationType::COLLECTION, $operationName, 'output', ['class' => $resourceClass], true);
+            $outputMetadata = $operation->getOutput();
             if (null !== $outputClass = $outputMetadata['class'] ?? null) {
                 $classes[$outputClass] = true;
             }
@@ -97,15 +104,14 @@ class DocumentationNormalizer implements NormalizerInterface
             // Add gally documentation at class level.
             $classDoc = array_replace_recursive(
                 $documentation['hydra:supportedClass'][$classKey],
-                $resourceMetadata->getAttribute('hydra:supportedClass') ?? [],
+                $resourceMetadata->getExtraProperties()['hydra:supportedClass'] ?? [],
             );
             $documentation['hydra:supportedClass'][$classKey] = $classDoc;
 
-            foreach ($this->propertyNameCollectionFactory->create($class, $this->getPropertyNameCollectionFactoryContext($resourceMetadata)) as $propertyName) {
+            foreach ($this->propertyNameCollectionFactory->create($class, $this->getPropertyMetadataFactoryContext($resourceMetadata)[0]) as $propertyName) {
                 $propertyMetadata = $this->propertyMetadataFactory->create($class, $propertyName);
-                if (null === $propertyMetadata->getAttribute('hydra:supportedProperty')
-                    || !\is_array($propertyMetadata->getAttribute('hydra:supportedProperty'))
-                ) {
+                $hydraSupportedProperty = $propertyMetadata->getExtraProperties()['hydra:supportedProperty'] ?? null;
+                if (!\is_array($hydraSupportedProperty)) {
                     continue;
                 }
 
@@ -126,7 +132,7 @@ class DocumentationNormalizer implements NormalizerInterface
                     // In $documentation, we add the documentation get from the metadata property on the ApiResource.
                     $propertyDoc = array_replace_recursive(
                         $documentation['hydra:supportedClass'][$classKey]['hydra:supportedProperty'][$propertyKey],
-                        $propertyMetadata->getAttribute('hydra:supportedProperty')
+                        $hydraSupportedProperty
                     );
                     $documentation['hydra:supportedClass'][$classKey]['hydra:supportedProperty'][$propertyKey] = $propertyDoc;
                 }
@@ -135,35 +141,40 @@ class DocumentationNormalizer implements NormalizerInterface
     }
 
     /**
-     * Gets the context for the property name factory.
+     * Creates context for property metatata factories.
      * Copy/Paste as this function is private.
      *
-     * @see \ApiPlatform\Core\Hydra\Serializer\DocumentationNormalizer::getPropertyNameCollectionFactoryContext
+     * @see \ApiPlatform\Hydra\Serializer\DocumentationNormalizer::getPropertyMetadataFactoryContext
      */
-    private function getPropertyNameCollectionFactoryContext(ResourceMetadata $resourceMetadata): array
+    private function getPropertyMetadataFactoryContext(ApiResource $resourceMetadata): array
     {
-        $attributes = $resourceMetadata->getAttributes();
-        $context = [];
+        $normalizationGroups = $resourceMetadata->getNormalizationContext()[AbstractNormalizer::GROUPS] ?? null;
+        $denormalizationGroups = $resourceMetadata->getDenormalizationContext()[AbstractNormalizer::GROUPS] ?? null;
+        $propertyContext = [
+            'normalization_groups' => $normalizationGroups,
+            'denormalization_groups' => $denormalizationGroups,
+        ];
+        $propertyNameContext = [];
 
-        if (isset($attributes['normalization_context'][AbstractNormalizer::GROUPS])) {
-            $context['serializer_groups'] = (array) $attributes['normalization_context'][AbstractNormalizer::GROUPS];
+        if ($normalizationGroups) {
+            $propertyNameContext['serializer_groups'] = $normalizationGroups;
         }
 
-        if (!isset($attributes['denormalization_context'][AbstractNormalizer::GROUPS])) {
-            return $context;
+        if (!$denormalizationGroups) {
+            return [$propertyNameContext, $propertyContext];
         }
 
-        if (isset($context['serializer_groups'])) {
-            foreach ((array) $attributes['denormalization_context'][AbstractNormalizer::GROUPS] as $groupName) {
-                $context['serializer_groups'][] = $groupName;
-            }
+        if (!isset($propertyNameContext['serializer_groups'])) {
+            $propertyNameContext['serializer_groups'] = $denormalizationGroups;
 
-            return $context;
+            return [$propertyNameContext, $propertyContext];
         }
 
-        $context['serializer_groups'] = (array) $attributes['denormalization_context'][AbstractNormalizer::GROUPS];
+        foreach ($denormalizationGroups as $group) {
+            $propertyNameContext['serializer_groups'][] = $group;
+        }
 
-        return $context;
+        return [$propertyNameContext, $propertyContext];
     }
 
     /**

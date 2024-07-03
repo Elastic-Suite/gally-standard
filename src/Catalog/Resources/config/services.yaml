@@ -15,19 +15,21 @@ services:
         tags:
             - { name: doctrine.repository_service }
             
-    Gally\Catalog\DataPersister\LocalizedCatalogDataPersister:
+    Gally\Catalog\State\LocalizedCatalogProcessor:
         arguments:
             - '@doctrine.orm.entity_manager'
             - '@Gally\Catalog\Repository\LocalizedCatalogRepository'
+            - '@api_platform.doctrine.orm.state.persist_processor'
+            - '@api_platform.doctrine.orm.state.remove_processor'
         tags:
-            - { name: api_platform.data_persister }
+            - { name: api_platform.state_processor }
                 
     Gally\Catalog\Service\DefaultCatalogProvider:
         arguments:
             - '@Gally\Catalog\Repository\LocalizedCatalogRepository'
 
-    Gally\Catalog\DataProvider\Source\LocalizedCatalogGroupOptionDataProvider:
+    Gally\Catalog\State\Source\LocalizedCatalogGroupOptionProvider:
         arguments:
             - '@Gally\Catalog\Repository\CatalogRepository'
         tags:
-            - { name: api_platform.collection_data_provider }
+            - { name: api_platform.state_provider }

@@ -14,8 +14,8 @@ declare(strict_types=1);
 
 namespace Gally\RuleEngine\Service\RuleType;
 
-use Gally\Entity\GraphQl\Type\Definition\Filter\BoolFilterInputType;
 use Gally\Exception\LogicException;
+use Gally\Metadata\GraphQl\Type\Definition\Filter\BoolFilterInputType;
 use Gally\RuleEngine\Service\RuleEngineManager;
 
 class CombinationRule extends AbstractRuleType implements RuleTypeInterface

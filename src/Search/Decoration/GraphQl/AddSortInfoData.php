@@ -14,32 +14,36 @@ declare(strict_types=1);
 
 namespace Gally\Search\Decoration\GraphQl;
 
-use ApiPlatform\Core\GraphQl\Resolver\Stage\SerializeStageInterface;
+use ApiPlatform\Metadata\Operation;
+use ApiPlatform\State\ProcessorInterface;
 use Gally\Metadata\Repository\MetadataRepository;
-use Gally\Search\DataProvider\Paginator;
+use Gally\Search\State\Paginator;
 use Gally\Search\Model\Document;
 use Gally\Search\Service\ReverseSourceFieldProvider;
 
-class AddSortInfoData implements SerializeStageInterface
+class AddSortInfoData implements ProcessorInterface
 {
     public function __construct(
         private iterable $sortOrderProviders,
         private ReverseSourceFieldProvider $reverseSourceFieldProvider,
         private MetadataRepository $metadataRepository,
-        private SerializeStageInterface $decorated
+        private ProcessorInterface $decorated,
     ) {
     }
 
-    public function __invoke($itemOrCollection, string $resourceClass, string $operationName, array $context): ?array
+    /**
+     * @inheritdoc
+     */
+    public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = [])
     {
-        $data = $this->decorated->__invoke($itemOrCollection, $resourceClass, $operationName, $context);
+        $result = $this->decorated->process($data, $operation, $uriVariables, $context);
 
-        if (Document::class === $resourceClass || is_subclass_of($resourceClass, Document::class)) {
+        if (Document::class === $operation->getClass() || is_subclass_of($operation->getClass(), Document::class)) {
             $metadata = $this->metadataRepository->findByEntity($context['args']['entityType']);
-            /** @var Paginator $itemOrCollection */
-            $sortOrders = $itemOrCollection->getCurrentSortOrders();
+            /** @var Paginator $data */
+            $sortOrders = $data->getCurrentSortOrders();
             if (!empty($sortOrders)) {
-                $data['sortInfo'] = ['current' => []];
+                $result['sortInfo'] = ['current' => []];
                 // TODO handle correctly or filter out \Gally\Search\Elasticsearch\Builder\Request\SortOrder\Script.
                 foreach ($sortOrders as $sortOrder) {
                     $sourceField = $this->reverseSourceFieldProvider->getSourceFieldFromFieldName($sortOrder->getField(), $metadata);
@@ -54,12 +58,12 @@ class AddSortInfoData implements SerializeStageInterface
                         $fieldName = $sortOrder->getField();
                     }
 
-                    $data['sortInfo']['current'][] = ['field' => $fieldName, 'direction' => $sortOrder->getDirection()];
+                    $result['sortInfo']['current'][] = ['field' => $fieldName, 'direction' => $sortOrder->getDirection()];
                     break;
                 }
             }
         }
 
-        return $data;
+        return $result;
     }
 }

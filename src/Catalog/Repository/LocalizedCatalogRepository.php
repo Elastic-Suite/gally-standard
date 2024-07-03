@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace Gally\Catalog\Repository;
 
-use ApiPlatform\Core\Exception\InvalidArgumentException;
+use ApiPlatform\Exception\InvalidArgumentException;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Gally\Catalog\Model\LocalizedCatalog;

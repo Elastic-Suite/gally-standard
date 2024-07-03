@@ -111,7 +111,7 @@ class SelfReindexOperationTest extends AbstractTest
                                 '@id' => [
                                     'type' => 'string',
                                     'format' => 'uri-reference',
-                                    'pattern' => '^\/indices\/self-reindex\?id=[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$',
+                                    'enum' => ['/indices/self-reindex'],
                                 ],
                                 '@type' => [
                                     'type' => 'string',

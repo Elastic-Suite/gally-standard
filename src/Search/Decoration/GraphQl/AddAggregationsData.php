@@ -14,13 +14,14 @@ declare(strict_types=1);
 
 namespace Gally\Search\Decoration\GraphQl;
 
-use ApiPlatform\Core\GraphQl\Resolver\Stage\SerializeStageInterface;
+use ApiPlatform\Metadata\Operation;
+use ApiPlatform\State\ProcessorInterface;
 use Gally\Catalog\Repository\LocalizedCatalogRepository;
 use Gally\Category\Repository\CategoryConfigurationRepository;
 use Gally\Metadata\Model\SourceField;
 use Gally\Metadata\Model\SourceField\Type;
 use Gally\Metadata\Repository\MetadataRepository;
-use Gally\Search\DataProvider\Paginator;
+use Gally\Search\State\Paginator;
 use Gally\Search\Elasticsearch\Adapter\Common\Response\AggregationInterface;
 use Gally\Search\Elasticsearch\Adapter\Common\Response\BucketValueInterface;
 use Gally\Search\Elasticsearch\Builder\Response\AggregationBuilder;
@@ -36,7 +37,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 /**
  * Add aggregations data in graphql search document response.
  */
-class AddAggregationsData implements SerializeStageInterface
+class AddAggregationsData implements ProcessorInterface
 {
     public const AGGREGATION_TYPE_CHECKBOX = 'checkbox';
     public const AGGREGATION_TYPE_BOOLEAN = 'boolean';
@@ -46,7 +47,7 @@ class AddAggregationsData implements SerializeStageInterface
     public const AGGREGATION_TYPE_HISTOGRAM = 'histogram';
 
     public function __construct(
-        private SerializeStageInterface $decorated,
+        private ProcessorInterface $decorated,
         private MetadataRepository $metadataRepository,
         private ContainerConfigurationProvider $containerConfigurationProvider,
         private LocalizedCatalogRepository $localizedCatalogRepository,
@@ -60,11 +61,14 @@ class AddAggregationsData implements SerializeStageInterface
     ) {
     }
 
-    public function __invoke($itemOrCollection, string $resourceClass, string $operationName, array $context): ?array
+    /**
+     * @inheritdoc
+     */
+    public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = [])
     {
-        $data = $this->decorated->__invoke($itemOrCollection, $resourceClass, $operationName, $context);
+        $result = $this->decorated->process($data, $operation, $uriVariables, $context);
 
-        if (Document::class === $resourceClass || is_subclass_of($resourceClass, Document::class)) {
+        if (Document::class === $operation->getClass() || is_subclass_of($operation->getClass(), Document::class)) {
             $metadata = $this->metadataRepository->findByEntity($context['args']['entityType']);
             $localizedCatalog = $this->localizedCatalogRepository->findByCodeOrId($context['args']['localizedCatalog']);
             $containerConfig = $this->containerConfigurationProvider->get($metadata, $localizedCatalog, $context['args']['requestType'] ?? null);
@@ -72,20 +76,20 @@ class AddAggregationsData implements SerializeStageInterface
             $this->facetConfigRepository->setCategoryId($currentCategory?->getId());
             $this->facetConfigRepository->setMetadata($containerConfig->getMetadata());
 
-            /** @var Paginator $itemOrCollection */
-            $aggregations = $itemOrCollection->getAggregations();
+            /** @var Paginator $data */
+            $aggregations = $data->getAggregations();
             if (!empty($aggregations)) {
-                $data['aggregations'] = [];
+                $result['aggregations'] = [];
                 foreach ($aggregations as $aggregation) {
                     if (empty($aggregation->getValues())) {
                         continue;
                     }
-                    $data['aggregations'][] = $this->formatAggregation($aggregation, $containerConfig);
+                    $result['aggregations'][] = $this->formatAggregation($aggregation, $containerConfig);
                 }
             }
         }
 
-        return $data;
+        return $result;
     }
 
     private function formatAggregation(AggregationInterface $aggregation, ContainerConfigurationInterface $containerConfig): array

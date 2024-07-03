@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace Gally\Category\Resolver;
 
-use ApiPlatform\Core\GraphQl\Resolver\QueryItemResolverInterface;
+use ApiPlatform\GraphQl\Resolver\QueryItemResolverInterface;
 use Gally\Category\Model\CategoryTree;
 use Gally\Category\Service\CategoryTreeBuilder;
 
@@ -26,8 +26,10 @@ class CategoryTreeResolver implements QueryItemResolverInterface
 
     /**
      * @param mixed $item
+     *
+     * @return CategoryTree
      */
-    public function __invoke($item, array $context): CategoryTree
+    public function __invoke(?object $item, array $context): object
     {
         $catalogId = isset($context['args']['catalogId']) ? (int) $context['args']['catalogId'] : null;
         $localizedCatalogId = isset($context['args']['localizedCatalogId']) ? (int) $context['args']['localizedCatalogId'] : null;

@@ -12,6 +12,9 @@
         <field name="name" type="string" length="255" nullable="true" unique="false" />
 
         <one-to-many field="localizedCatalogs" target-entity="Gally\Catalog\Model\LocalizedCatalog" mapped-by="catalog" fetch="EAGER">
+            <order-by>
+                <order-by-field name="id" direction="ASC" />
+            </order-by>
             <cascade>
                 <cascade-persist/>
             </cascade>

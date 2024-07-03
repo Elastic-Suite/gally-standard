@@ -14,8 +14,8 @@ declare(strict_types=1);
 
 namespace Gally\Index\MutationResolver;
 
-use ApiPlatform\Core\Exception\InvalidArgumentException;
-use ApiPlatform\Core\GraphQl\Resolver\MutationResolverInterface;
+use ApiPlatform\Exception\InvalidArgumentException;
+use ApiPlatform\GraphQl\Resolver\MutationResolverInterface;
 use Gally\Index\Model\Index;
 use Gally\Index\Repository\Index\IndexRepositoryInterface;
 use Gally\Index\Service\IndexOperation;
@@ -34,7 +34,7 @@ class InstallIndexMutation implements MutationResolverInterface
      *
      * @return object|null
      */
-    public function __invoke($item, array $context)
+    public function __invoke(?object $item, array $context): ?object
     {
         /** @var Index $item */
         $index = $this->indexRepository->findByName($item->getName());

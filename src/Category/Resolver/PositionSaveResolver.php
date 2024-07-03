@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace Gally\Category\Resolver;
 
-use ApiPlatform\Core\GraphQl\Resolver\QueryItemResolverInterface;
+use ApiPlatform\GraphQl\Resolver\QueryItemResolverInterface;
 use Exception;
 use Gally\Catalog\Repository\CatalogRepository;
 use Gally\Catalog\Repository\LocalizedCatalogRepository;
@@ -36,9 +36,11 @@ class PositionSaveResolver implements QueryItemResolverInterface
     /**
      * @param mixed $item
      *
+     * @return ProductMerchandising
+     *
      * @throws Exception
      */
-    public function __invoke($item, array $context): ProductMerchandising
+    public function __invoke(?object $item, array $context): object
     {
         $categoryId = $context['args']['input']['categoryId'];
         $category = $this->categoryRepository->find($categoryId);

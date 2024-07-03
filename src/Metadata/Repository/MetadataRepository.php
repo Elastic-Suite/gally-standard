@@ -14,9 +14,9 @@ declare(strict_types=1);
 
 namespace Gally\Metadata\Repository;
 
-use ApiPlatform\Core\Exception\InvalidArgumentException;
-use ApiPlatform\Core\Exception\ResourceClassNotFoundException;
-use ApiPlatform\Core\Metadata\Resource\Factory\ResourceMetadataFactoryInterface;
+use ApiPlatform\Exception\InvalidArgumentException;
+use ApiPlatform\Exception\ResourceClassNotFoundException;
+use ApiPlatform\Metadata\Resource\Factory\ResourceMetadataCollectionFactoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Gally\Metadata\Model\Metadata;
@@ -34,7 +34,7 @@ class MetadataRepository extends ServiceEntityRepository
 
     public function __construct(
         ManagerRegistry $registry,
-        private ResourceMetadataFactoryInterface $resourceMetadataFactory,
+        private ResourceMetadataCollectionFactoryInterface $resourceMetadataCollectionFactory,
         private ResourceMetadataManager $resourceMetadataManager,
     ) {
         parent::__construct($registry, Metadata::class);
@@ -58,7 +58,7 @@ class MetadataRepository extends ServiceEntityRepository
 
     public function findByRessourceClass(string $resourceClass): ?Metadata
     {
-        $resourceMetadata = $this->resourceMetadataFactory->create($resourceClass);
+        $resourceMetadata = $this->resourceMetadataCollectionFactory->create($resourceClass);
         $entityType = $this->resourceMetadataManager->getMetadataEntity($resourceMetadata);
         if (null === $entityType) {
             throw new ResourceClassNotFoundException(sprintf('Resource "%s" has no declared metadata entity.', $resourceClass));

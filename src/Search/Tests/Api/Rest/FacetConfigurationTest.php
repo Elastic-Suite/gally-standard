@@ -437,6 +437,9 @@ class FacetConfigurationTest extends AbstractTest
             'defaultSortOrder' => BucketInterface::SORT_ORDER_COUNT,
             'defaultIsRecommendable' => false,
             'defaultIsVirtual' => false,
+            'defaultPosition' => null,
+            'position'=> null,
+            'category' => $categoryId ? "/categories/$categoryId" : null,
         ];
 
         if ($categoryId) {

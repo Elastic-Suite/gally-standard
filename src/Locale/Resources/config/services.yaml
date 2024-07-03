@@ -8,9 +8,9 @@ services:
         tags:
             - { name: kernel.event_subscriber }
 
-    Gally\Locale\DataProvider\Source\LocaleGroupOptionDataProvider:
+    Gally\Locale\State\Source\LocaleGroupOptionProvider:
         arguments:
             - '@Gally\Catalog\Repository\LocalizedCatalogRepository'
             - '@Symfony\Contracts\Translation\TranslatorInterface'
         tags:
-            - { name: api_platform.collection_data_provider }    
+            - { name: api_platform.state_provider }    

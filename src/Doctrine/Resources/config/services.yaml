@@ -1,0 +1,8 @@
+services:
+    Gally\Doctrine\Filter\SearchColumnsFilter:
+        arguments: [ '@doctrine', ~, '@?logger' ]
+        tags: [ 'api_platform.filter' ]
+
+    Gally\Doctrine\Filter\BooleanFilter:
+        arguments: [ '@doctrine', ~, '@?logger' ]
+        tags: [ 'api_platform.filter' ]

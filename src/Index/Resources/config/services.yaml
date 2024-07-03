@@ -13,23 +13,23 @@ services:
         arguments:
             - '@Gally\Index\Repository\Index\IndexRepository'
 
-    Gally\Index\DataPersister\DocumentDataPersister:
+    Gally\Index\State\DocumentProcessor:
         arguments:
             - '@Gally\Index\Repository\Document\DocumentRepositoryInterface'
         tags:
-            - { name: api_platform.data_persister }
+            - { name: api_platform.state_processor }
 
-    Gally\Index\DataPersister\IndexDataPersister:
+    Gally\Index\State\IndexProcessor:
         arguments:
             - '@Gally\Index\Repository\Index\IndexRepositoryInterface'
         tags:
-            - { name: api_platform.data_persister }
+            - { name: api_platform.state_processor }
 
-    Gally\Index\DataProvider\IndexDataProvider:
+    Gally\Index\State\IndexProvider:
         arguments:
             - '@Gally\Index\Repository\Index\IndexRepositoryInterface'
         tags:
-            - { name: api_platform.item_data_provider }
+            - { name: api_platform.state_provider }
             - { name: api_platform.collection_data_provider }
 
     Gally\Index\Service\MetadataManager:
@@ -100,33 +100,35 @@ services:
         tags:
             - { name: api_platform.graphql.mutation_resolver }
 
-    Gally\Index\DataTransformer\CreateIndexInputDataTransformer:
+    Gally\Index\State\CreateIndexProcessor:
         arguments:
             - '@Gally\Catalog\Repository\LocalizedCatalogRepository'
             - '@Gally\Metadata\Repository\MetadataRepository'
             - '@Gally\Index\Service\IndexOperation'
             - '@logger'
         tags:
-            - { name: api_platform.data_transformer }
+            - { name: api_platform.state_processor }
 
-    Gally\Index\DataTransformer\InstallIndexDataTransformer:
+    Gally\Index\State\InstallIndexProcessor:
         arguments:
             - '@Gally\Index\Service\IndexOperation'
             - '@Gally\Index\Repository\Index\IndexRepository'
+            - '@api_platform.serializer'
         tags:
-            - { name: api_platform.data_transformer }
+            - { name: api_platform.state_processor }
 
-    Gally\Index\DataTransformer\RefreshIndexDataTransformer:
+    Gally\Index\State\RefreshIndexProcessor:
         arguments:
             - '@Gally\Index\Repository\Index\IndexRepositoryInterface'
+            - '@api_platform.serializer'    
         tags:
-            - { name: api_platform.data_transformer }
+            - { name: api_platform.state_processor }
 
-    Gally\Index\DataTransformer\SelfReIndexDataTransformer:
+    Gally\Index\State\SelfReIndexProcessor:
         arguments:
             - '@Gally\Index\Service\SelfReindexOperation'
         tags:
-            - { name: api_platform.data_transformer }
+            - { name: api_platform.state_processor }
 
     Gally\Index\Command\IndexClearCommand:
         arguments:
@@ -151,12 +153,12 @@ services:
         tags:
             - { name: console.command }           
     
-    Gally\Index\DataProvider\MappingStatusDataProvider:
+    Gally\Index\State\MappingStatusProvider:
         arguments:
             - '@Gally\Metadata\Repository\MetadataRepository'
             - '@Gally\Index\Service\MetadataManager'
         tags:
-            - { name: api_platform.item_data_provider }
+            - { name: api_platform.state_provider }
             - { name: api_platform.graphql.query_resolver }
 
     Gally\Index\OpenApi\IndexDecorator:

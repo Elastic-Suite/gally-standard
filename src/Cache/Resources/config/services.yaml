@@ -55,5 +55,5 @@ services:
         arguments:
             - '@request_stack'
             - '@Gally\ResourceMetadata\Service\ResourceMetadataManager'
-            - '@ApiPlatform\Core\Metadata\Resource\Factory\ResourceMetadataFactoryInterface'
+            - '@api_platform.metadata.resource.metadata_collection_factory'
             - '@api_platform.iri_converter'

@@ -14,7 +14,8 @@ declare(strict_types=1);
 
 namespace Gally\Search\Decoration\GraphQl;
 
-use ApiPlatform\Core\GraphQl\Serializer\SerializerContextBuilderInterface;
+use ApiPlatform\GraphQl\Serializer\SerializerContextBuilderInterface;
+use ApiPlatform\Metadata\GraphQl\Operation;
 use Gally\Search\Model\Document;
 
 /**
@@ -27,9 +28,9 @@ class AddAggregationsInContext implements SerializerContextBuilderInterface
     ) {
     }
 
-    public function create(?string $resourceClass, string $operationName, array $resolverContext, bool $normalization): array
+    public function create(string $resourceClass, Operation $operation, array $resolverContext, bool $normalization): array
     {
-        $context = $this->decorated->create($resourceClass, $operationName, $resolverContext, $normalization);
+        $context = $this->decorated->create($resourceClass, $operation, $resolverContext, $normalization);
         if (Document::class === $resourceClass || is_subclass_of($resourceClass, Document::class)) {
             $context['need_aggregations'] = $resolverContext['info']->getFieldSelection()['aggregations'] ?? false;
         }

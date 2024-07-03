@@ -1,14 +1,3 @@
-Gally\Catalog\Model\Catalog:
-    com:
-        code: com
-        name: COM Catalog
-    fr:
-        code: fr
-        name: FR Catalog
-    uk:
-        code: uk
-        name: UK Catalog
-
 Gally\Catalog\Model\LocalizedCatalog:
     com_fr:
         catalog: '@com'
@@ -46,4 +35,4 @@ Gally\Catalog\Model\LocalizedCatalog:
         code: en_en
         locale: en_US
         currency: GBP
-        name: EN English Catalog        
+        name: EN English Catalog   

@@ -14,11 +14,12 @@ declare(strict_types=1);
 
 namespace Gally\Catalog\Filter;
 
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Util\QueryNameGeneratorInterface;
+use ApiPlatform\Doctrine\Orm\Util\QueryNameGeneratorInterface;
+use ApiPlatform\Metadata\Operation;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use Gally\Catalog\Model\LocalizedCatalog;
+use Gally\Doctrine\Filter\SearchFilter as GallySearchFilter;
 use Gally\Exception\LogicException;
 use Symfony\Component\PropertyInfo\Type;
 
@@ -28,8 +29,10 @@ use Symfony\Component\PropertyInfo\Type;
  * For example:
  * #[ApiFilter(LocalizedCatalogLocaleFilter::class, properties: ['localizedCatalogs.id' => ['locale_property' => 'locales.locale']])]
  * Here locales.locale is the property where locales are stored.
+ *
+ * todo upgrade: add test on this filter
  */
-class LocalizedCatalogLocaleFilter extends SearchFilter
+class LocalizedCatalogLocaleFilter extends GallySearchFilter
 {
     protected function filterProperty(
         string $property,
@@ -37,8 +40,9 @@ class LocalizedCatalogLocaleFilter extends SearchFilter
         QueryBuilder $queryBuilder,
         QueryNameGeneratorInterface $queryNameGenerator,
         string $resourceClass,
-        string $operationName = null
-    ) {
+        Operation $operation = null,
+        array $context = []
+    ): void {
         if (
             !$this->isPropertyEnabled($property, $resourceClass) ||
             !$this->isPropertyMapped($property, $resourceClass)

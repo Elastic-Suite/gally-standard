@@ -14,25 +14,23 @@ declare(strict_types=1);
 
 namespace Gally\Catalog\Model\Source;
 
-use ApiPlatform\Core\Annotation\ApiProperty;
-use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Metadata\GraphQl\QueryCollection;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\ApiProperty;
+use ApiPlatform\Metadata\ApiFilter;
 use Gally\Catalog\Model\Catalog;
 use Gally\Catalog\Model\LocalizedCatalog;
+use Gally\Catalog\State\Source\LocalizedCatalogGroupOptionProvider;
 
 #[ApiResource(
-    itemOperations: [],
-    collectionOperations: [
-        'get' => ['pagination_enabled' => false],
-    ],
-    graphql: [
-        'collection_query' => ['pagination_enabled' => false],
-    ],
-    attributes: [
-        'gally' => [
-            // Allows to add cache tag "/catalogs" and "/localized_catalogs" in the HTTP response to invalidate proxy cache when a source field is saved.
-            'cache_tag' => ['resource_classes' => [Catalog::class, LocalizedCatalog::class]],
-        ],
-    ],
+    operations: [new GetCollection(paginationEnabled: false)],
+    graphQlOperations: [new QueryCollection(name: 'collection_query', paginationEnabled: false)],
+    provider: LocalizedCatalogGroupOptionProvider::class,
+    extraProperties: [
+        'gally' => ['cache_tag' => ['resource_classes' => [Catalog::class, LocalizedCatalog::class]]]
+    ]
+
 )]
 class LocalizedCatalogGroupOption
 {

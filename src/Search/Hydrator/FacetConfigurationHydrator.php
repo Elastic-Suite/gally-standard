@@ -69,6 +69,8 @@ final class FacetConfigurationHydrator extends ObjectHydrator
                 $this->filterData($rowData['data']['default'] ?? [])    // Source field default values
             );
 
+            $defaultValues['id'] = $defaultValues['id'] ?? 'hydrator-default-id';
+
             /** @var Configuration $default */
             $default = $this->_uow->createEntity(Configuration::class, $defaultValues, $this->_hints);
 

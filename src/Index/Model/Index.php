@@ -14,146 +14,180 @@ declare(strict_types=1);
 
 namespace Gally\Index\Model;
 
-use ApiPlatform\Core\Annotation\ApiProperty;
-use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Metadata\GraphQl\Mutation;
+use ApiPlatform\Metadata\GraphQl\QueryCollection;
+use ApiPlatform\Metadata\GraphQl\Query;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Put;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\ApiProperty;
 use Gally\Catalog\Model\LocalizedCatalog;
-use Gally\Index\Dto\CreateIndexInput;
-use Gally\Index\Dto\InstallIndexInput;
-use Gally\Index\Dto\RefreshIndexInput;
+use Gally\Index\Dto\CreateIndexDto;
+use Gally\Index\Dto\InstallIndexDto;
+use Gally\Index\Dto\RefreshIndexDto;
 use Gally\Index\MutationResolver\BulkDeleteIndexMutation;
 use Gally\Index\MutationResolver\BulkIndexMutation;
 use Gally\Index\MutationResolver\CreateIndexMutation;
 use Gally\Index\MutationResolver\InstallIndexMutation;
 use Gally\Index\MutationResolver\RefreshIndexMutation;
-use Gally\User\Constant\Role;
+use Gally\Index\State\CreateIndexProcessor;
+use Gally\Index\State\IndexProcessor;
+use Gally\Index\State\IndexProvider;
+use Gally\Index\State\InstallIndexProcessor;
+use Gally\Index\State\RefreshIndexProcessor;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Gally\User\Constant\Role;
 
-#[
-    ApiResource(
-        collectionOperations: [
-            'get' => ['security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"],
-            'post' => [
-                'method' => 'POST',
-                'input' => CreateIndexInput::class,
-                'write' => false,
-                'serialize' => true,
-                'security' => "is_granted('" . Role::ROLE_ADMIN . "')",
-                'normalization_context' => ['groups' => ['create']],
-                'denormalization_context' => ['groups' => ['create']],
+#[ApiResource(
+    operations: [
+        new Get(
+            normalizationContext: ['groups' => ['details']],
+            denormalizationContext: ['groups' => ['details']],
+            security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"
+        ),
+        new Delete(
+            security: "is_granted('" . Role::ROLE_ADMIN . "')"
+        ),
+        new Put(
+            openapiContext: [
+                'description' => 'Installs an Index resource',
+                'summary' => 'Installs an Index resource'
             ],
-        ],
-        graphql: [
-            // Auto-generated queries and mutations.
-            'item_query' => [
-                'normalization_context' => ['groups' => ['details']],
-                'denormalization_context' => ['groups' => ['details']],
-                'security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
+            serialize: false,
+            uriTemplate: '/indices/install/{name}',
+            input: InstallIndexDto::class,
+            processor: InstallIndexProcessor::class,
+            security: "is_granted('" . Role::ROLE_ADMIN . "')",
+        ),
+        new Put(
+            openapiContext: [
+                'description' => 'Refreshes an Index resource',
+                'summary' => 'Refreshes an Index resource'
             ],
-            'collection_query' => ['security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"],
-            'create' => [
-                'mutation' => CreateIndexMutation::class,
-                'args' => [
-                    'entityType' => ['type' => 'String!', 'description' => 'Entity type for which to create an index'],
-                    'localizedCatalog' => ['type' => 'String!', 'description' => 'Catalog scope for which to create an index'],
+            uriTemplate: '/indices/refresh/{name}',
+            serialize: false,
+            input: RefreshIndexDto::class,
+            processor: RefreshIndexProcessor::class,
+            security: "is_granted('" . Role::ROLE_ADMIN . "')",
+        ),
+        new GetCollection(
+            security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
+        ),
+        new Post(
+            input: CreateIndexDto::class,
+            processor: CreateIndexProcessor::class,
+            write: true,
+            serialize: true,
+            security: "is_granted('" . Role::ROLE_ADMIN . "')",
+            normalizationContext: ['groups' => ['create']],
+            denormalizationContext: ['groups' => ['create']],
+        )
+    ],
+    graphQlOperations: [
+        new Query(
+            name: 'item_query',
+            normalizationContext: ['groups' => ['details']],
+            denormalizationContext: ['groups' => ['details']],
+            security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
+        ),
+        new QueryCollection(
+            name: 'collection_query',
+            security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
+        ),
+        new Mutation(
+            name: 'create',
+            resolver: CreateIndexMutation::class,
+            args: [
+                'entityType' => [
+                    'type' => 'String!',
+                    'description' => 'Entity type for which to create an index'
                 ],
-                'read' => false,
-                'deserialize' => false,
-                'write' => false,
-                'serialize' => true,
-                'security' => "is_granted('" . Role::ROLE_ADMIN . "')",
-                'normalization_context' => ['groups' => ['details']],
-                'denormalization_context' => ['groups' => ['details']],
+                'localizedCatalog' => [
+                    'type' => 'String!',
+                    'description' => 'Catalog scope for which to create an index'
+                ]
             ],
-            'update' => ['security' => "is_granted('" . Role::ROLE_ADMIN . "')"],
-            'delete' => ['security' => "is_granted('" . Role::ROLE_ADMIN . "')"],
-            'bulk' => [
-                'mutation' => BulkIndexMutation::class,
-                'args' => [
-                    'indexName' => ['type' => 'String!'],
-                    'data' => ['type' => 'String!'],
-                ],
-                'read' => false,
-                'deserialize' => false,
-                'write' => false,
-                'serialize' => true,
-                'security' => "is_granted('" . Role::ROLE_ADMIN . "')",
+            read: false,
+            deserialize: false,
+            write: false,
+            serialize: true,
+            security: "is_granted('" . Role::ROLE_ADMIN . "')",
+            normalizationContext: ['groups' => ['details']],
+            denormalizationContext: ['groups' => ['details']]),
+        new Mutation(
+            name: 'update',
+            security: "is_granted('" . Role::ROLE_ADMIN . "')",
+        ),
+        new Mutation(
+            name: 'delete',
+            security: "is_granted('" . Role::ROLE_ADMIN . "')",
+        ),
+        new Mutation(
+            name: 'bulk',
+            resolver: BulkIndexMutation::class,
+            args: [
+                'indexName' => ['type' => 'String!'],
+                'data' => ['type' => 'String!'],
             ],
-            'bulkDelete' => [
-                'mutation' => BulkDeleteIndexMutation::class,
-                'args' => [
-                    'indexName' => ['type' => 'String!'],
-                    'ids' => ['type' => '[ID]!'],
-                ],
-                'read' => false,
-                'deserialize' => false,
-                'write' => false,
-                'serialize' => true,
-                'security' => "is_granted('" . Role::ROLE_ADMIN . "')",
+            read: false,
+            deserialize: false,
+            write: false,
+            serialize: true,
+            security: "is_granted('" . Role::ROLE_ADMIN . "')",
+        ),
+        new Mutation(
+            name: 'bulkDelete',
+            resolver: BulkDeleteIndexMutation::class,
+            args: [
+                'indexName' => ['type' => 'String!'],
+                'ids' => ['type' => '[ID]!'],
             ],
-            'install' => [
-                'mutation' => InstallIndexMutation::class,
-                'args' => [
-                    'name' => ['type' => 'String!', 'description' => 'Full index name'],
-                ],
-                'read' => true,
-                'deserialize' => true,
-                'write' => false,
-                'serialize' => true,
-                'security' => "is_granted('" . Role::ROLE_ADMIN . "')",
+            read: false,
+            deserialize: false,
+            write: false,
+            serialize: true,
+            security: "is_granted('" . Role::ROLE_ADMIN . "')",
+        ),
+        new Mutation(
+            name: 'install',
+            resolver: InstallIndexMutation::class,
+            args: [
+                'name' => [
+                    'type' => 'String!',
+                    'description' => 'Full index name',
+                ]
             ],
-            'refresh' => [
-                'mutation' => RefreshIndexMutation::class,
-                'args' => [
-                    'name' => ['type' => 'String!', 'description' => 'Full index name'],
-                ],
-                'read' => true,
-                'deserialize' => true,
-                'write' => false,
-                'serialize' => true,
-                'security' => "is_granted('" . Role::ROLE_ADMIN . "')",
+            read: true,
+            deserialize: true,
+            write: false,
+            serialize: true,
+            security: "is_granted('" . Role::ROLE_ADMIN . "')",
+        ),
+        new Mutation(
+            name: 'refresh',
+            resolver: RefreshIndexMutation::class,
+            args: [
+                'name' => [
+                    'type' => 'String!',
+                    'description' => 'Full index name',
+                ]
             ],
-        ],
-        itemOperations: [
-            'get' => [
-                'normalization_context' => ['groups' => ['details']],
-                'denormalization_context' => ['groups' => ['details']],
-                'security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
-            ],
-            'delete' => ['security' => "is_granted('" . Role::ROLE_ADMIN . "')"],
-            'install' => [
-                'openapi_context' => [
-                    'description' => 'Installs an Index resource',
-                    'summary' => 'Installs an Index resource',
-                ],
-                'path' => '/indices/install/{name}',
-                'method' => 'PUT',
-                'input' => InstallIndexInput::class, // RefreshIndexInput::class,
-                'deserialize' => true,
-                'read' => true,
-                'write' => false,
-                'serialize' => true,
-                'security' => "is_granted('" . Role::ROLE_ADMIN . "')",
-            ],
-            'refresh' => [
-                'openapi_context' => [
-                    'description' => 'Refreshes an Index resource',
-                    'summary' => 'Refreshes an Index resource',
-                ],
-                'path' => '/indices/refresh/{name}',
-                'method' => 'PUT',
-                'input' => RefreshIndexInput::class,
-                'deserialize' => true,
-                'read' => true,
-                'write' => false,
-                'serialize' => true,
-                'security' => "is_granted('" . Role::ROLE_ADMIN . "')",
-            ],
-        ],
-        normalizationContext: ['groups' => ['list']],
-        denormalizationContext: ['groups' => ['list']],
-        paginationEnabled: false,
-    ),
-]
+            read: true,
+            deserialize: true,
+            write: false,
+            serialize: true,
+            security: "is_granted('" . Role::ROLE_ADMIN . "')",
+        )
+    ],
+    provider: IndexProvider::class,
+    processor: IndexProcessor::class,
+    denormalizationContext: ['groups' => ['list']],
+    normalizationContext: ['groups' => ['list']],
+    paginationEnabled: false,
+)]
 class Index
 {
     public const STATUS_LIVE = 'live';
@@ -162,9 +196,7 @@ class Index
     public const STATUS_INVALID = 'invalid';
     public const STATUS_INDEXING = 'indexing';
 
-    #[ApiProperty(
-        identifier: true
-    )]
+    #[ApiProperty(identifier: true)]
     #[Groups(['list', 'details', 'create'])]
     private string $name;
 

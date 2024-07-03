@@ -14,53 +14,65 @@ declare(strict_types=1);
 
 namespace Gally\Search\Model;
 
-use ApiPlatform\Core\Action\NotFoundAction;
-use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Metadata\GraphQl\QueryCollection;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\ApiProperty;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Action\NotFoundAction;
 use Gally\GraphQl\Decoration\Resolver\Stage\ReadStage;
 use Gally\Search\Elasticsearch\DocumentInterface;
 use Gally\Search\GraphQl\Type\Definition\FieldFilterInputType;
 use Gally\Search\GraphQl\Type\Definition\RequestTypeEnumType;
 use Gally\Search\GraphQl\Type\Definition\SortInputType;
 use Gally\Search\Resolver\DummyResolver;
+use Gally\Search\State\DocumentProvider;
 
-#[
-    ApiResource(
-        collectionOperations: [],
-        graphql: [
-            'search' => [
-                'collection_query' => DummyResolver::class,
-                'pagination_type' => 'page',
-                'args' => [
-                    'entityType' => ['type' => 'String!', 'description' => 'Entity Type'],
-                    'requestType' => ['type' => RequestTypeEnumType::NAME, 'description' => 'Request Type'],
-                    'localizedCatalog' => ['type' => 'String!', 'description' => 'Localized Catalog'],
-                    'search' => ['type' => 'String', 'description' => 'Query Text'],
-                    'currentPage' => ['type' => 'Int'],
-                    'pageSize' => ['type' => 'Int'],
-                    'sort' => ['type' => SortInputType::NAME],
-                    'filter' => ['type' => '[' . FieldFilterInputType::NAME . ']', ReadStage::IS_GRAPHQL_GALLY_ARG_KEY => true],
+#[ApiResource(
+    operations: [
+        new Get(controller: NotFoundAction::class, read: false, output: false)
+    ],
+    graphQlOperations: [
+        new QueryCollection(
+            name: 'search',
+            resolver: DummyResolver::class,
+            paginationType: 'page',
+            args: [
+                'entityType' => [
+                    'type' => 'String!',
+                    'description' => 'Entity Type'
                 ],
-                'read' => true, // Required so the dataprovider is called.
-                'deserialize' => true,
-                'write' => false,
-                'serialize' => true,
+                'requestType' => [
+                    'type' => 'RequestTypeEnum',
+                    'description' => 'Request Type'
+                ],
+                'localizedCatalog' => [
+                    'type' => 'String!',
+                    'description' => 'Localized Catalog'
+                ],
+                'search' => [
+                    'type' => 'String',
+                    'description' => 'Query Text'
+                ],
+                'currentPage' => ['type' => 'Int'],
+                'pageSize' => ['type' => 'Int'],
+                'sort' => ['type' => 'SortInput'],
+                'filter' => ['type' => '[FieldFilterInput]', 'is_gally_arg' => true]
             ],
-        ],
-        itemOperations: [
-            'get' => [
-                'controller' => NotFoundAction::class,
-                'read' => false,
-                'output' => false,
-            ],
-        ],
-        paginationClientEnabled: true,
-        paginationClientItemsPerPage: true,
-        paginationClientPartial: false,
-        paginationEnabled: true,
-        paginationItemsPerPage: 30, // Default items per page if pageSize not provided.
-        paginationMaximumItemsPerPage: 100, // Max. allowed items per page.
-    ),
-]
+            read: true,
+            deserialize: true,
+            write: false,
+            serialize: true
+        )
+    ],
+    provider: DocumentProvider::class,
+    paginationClientEnabled: true,
+    paginationClientItemsPerPage: true,
+    paginationClientPartial: false,
+    paginationEnabled: true,
+    paginationItemsPerPage: 30,
+    paginationMaximumItemsPerPage: 100
+)]
 class Document implements DocumentInterface
 {
     /**

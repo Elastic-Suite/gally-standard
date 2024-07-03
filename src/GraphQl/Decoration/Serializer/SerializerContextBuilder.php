@@ -14,7 +14,8 @@ declare(strict_types=1);
 
 namespace Gally\GraphQl\Decoration\Serializer;
 
-use ApiPlatform\Core\GraphQl\Serializer\SerializerContextBuilderInterface;
+use ApiPlatform\GraphQl\Serializer\SerializerContextBuilderInterface;
+use ApiPlatform\Metadata\GraphQl\Operation;
 use Gally\GraphQl\Decoration\Resolver\Stage\ReadStage;
 
 /**
@@ -30,9 +31,9 @@ class SerializerContextBuilder implements SerializerContextBuilderInterface
     ) {
     }
 
-    public function create(?string $resourceClass, string $operationName, array $resolverContext, bool $normalization): array
+    public function create(string $resourceClass, Operation $operation, array $resolverContext, bool $normalization): array
     {
-        $context = $this->decorated->create($resourceClass, $operationName, $resolverContext, $normalization);
+        $context = $this->decorated->create($resourceClass, $operation, $resolverContext, $normalization);
 
         if (isset($resolverContext[ReadStage::GRAPHQL_GALLY_ARGS_KEY])) {
             $context[self::GRAPHQL_GALLY_FILTERS_KEY] = $this->getNormalizedFilters($resolverContext[ReadStage::GRAPHQL_GALLY_ARGS_KEY]);
@@ -42,7 +43,7 @@ class SerializerContextBuilder implements SerializerContextBuilderInterface
     }
 
     /**
-     * Copy of @see ApiPlatform\Core\GraphQl\Resolver\Stage\ReadStage::getNormalizedFilters
+     * Copy of @see ApiPlatform\GraphQl\Resolver\Stage\ReadStage::getNormalizedFilters
      * In this function  we removed useless code for GraphQl gally args.
      */
     private function getNormalizedFilters(array $args): array

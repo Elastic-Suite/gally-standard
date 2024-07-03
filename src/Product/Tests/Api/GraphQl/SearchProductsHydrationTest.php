@@ -14,8 +14,8 @@ declare(strict_types=1);
 
 namespace Gally\Product\Tests\Api\GraphQl;
 
-use Gally\Entity\Service\PriceGroupProvider;
 use Gally\Fixture\Service\ElasticsearchFixturesInterface;
+use Gally\Metadata\Service\PriceGroupProvider;
 use Gally\Test\AbstractTest;
 use Gally\Test\ExpectedResponse;
 use Gally\Test\RequestGraphQlToTest;

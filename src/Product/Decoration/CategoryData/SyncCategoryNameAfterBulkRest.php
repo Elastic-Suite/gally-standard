@@ -15,15 +15,19 @@ declare(strict_types=1);
 namespace Gally\Product\Decoration\CategoryData;
 
 use ApiPlatform\Core\DataPersister\DataPersisterInterface;
+use ApiPlatform\Metadata\DeleteOperationInterface;
+use ApiPlatform\Metadata\Operation;
+use ApiPlatform\State\ProcessorInterface;
 use Gally\Index\DataPersister\DocumentDataPersister;
 use Gally\Index\Model\IndexDocument;
 use Gally\Index\Repository\Index\IndexRepositoryInterface;
+use Gally\Index\State\DocumentProcessor;
 use Gally\Product\Service\CategoryNameUpdater;
 
-class SyncCategoryNameAfterBulkRest implements DataPersisterInterface
+class SyncCategoryNameAfterBulkRest implements ProcessorInterface
 {
     public function __construct(
-        private DocumentDataPersister $decorated,
+        private DocumentProcessor $decorated,
         private IndexRepositoryInterface $indexRepository,
         private CategoryNameUpdater $categoryNameUpdater
     ) {
@@ -34,9 +38,13 @@ class SyncCategoryNameAfterBulkRest implements DataPersisterInterface
      *
      * @param IndexDocument $data
      */
-    public function persist($data): IndexDocument
+    public function process($data, Operation $operation, array $uriVariables = [], array $context = []): void
     {
-        $this->decorated->persist($data);
+        $this->decorated->process($data, $operation, $uriVariables, $context);
+        if ($operation instanceof DeleteOperationInterface) {
+            return;
+        }
+
         $index = $this->indexRepository->findByName($data->getIndexName());
 
         if (null !== $index->getEntityType()) {
@@ -52,25 +60,5 @@ class SyncCategoryNameAfterBulkRest implements DataPersisterInterface
                 );
             }
         }
-
-        return $data;
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @codeCoverageIgnore
-     */
-    public function remove($data)
-    {
-        $this->decorated->remove($data);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function supports($data): bool
-    {
-        return $this->decorated->supports($data);
     }
 }

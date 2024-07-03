@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace Gally\Category\Tests\Api\Rest;
 
+use ApiPlatform\Metadata\Get;
 use Gally\Catalog\Repository\LocalizedCatalogRepository;
 use Gally\Category\Decoration\SyncCategoryDataAfterBulkDeleteRest;
 use Gally\Category\Decoration\SyncCategoryDataAfterBulkRest;
@@ -23,11 +24,11 @@ use Gally\Category\Repository\CategoryProductMerchandisingRepository;
 use Gally\Category\Service\CategoryProductPositionManager;
 use Gally\Category\Tests\Api\GraphQl\CategorySynchronizerTest as GraphQlVersion;
 use Gally\Index\Controller\RemoveIndexDocument;
-use Gally\Index\DataPersister\DocumentDataPersister;
-use Gally\Index\DataTransformer\InstallIndexDataTransformer;
 use Gally\Index\Model\IndexDocument;
 use Gally\Index\Repository\Index\IndexRepository;
 use Gally\Index\Service\IndexSettings;
+use Gally\Index\State\DocumentProcessor;
+use Gally\Index\State\InstallIndexProcessor;
 use Symfony\Component\HttpFoundation\Request;
 
 class CategorySynchronizerTest extends GraphQlVersion
@@ -53,15 +54,15 @@ class CategorySynchronizerTest extends GraphQlVersion
         $mutationMock = $this->getMockBuilder($decoratedClass)
             ->disableOriginalConstructor()
             ->getMock();
-        if (DocumentDataPersister::class == $decoratedClass) {
-            $decoratedMethodParams = [new IndexDocument($indexName, [])];
+        if (DocumentProcessor::class == $decoratedClass) {
+            $decoratedMethodParams = [new IndexDocument($indexName, []), new Get()];
             $mutationMock->method($decoratedMethod);
         } elseif (RemoveIndexDocument::class == $decoratedClass) {
             $decoratedMethodParams = [$indexName, new Request()];
             $mutationMock->method($decoratedMethod)->willReturn($index);
         } else {
-            $decoratedMethodParams = [null, '', []];
-            $mutationMock->method($decoratedMethod)->willReturn($index);
+            $decoratedMethodParams = [null, new Get(), []];
+            $mutationMock->method($decoratedMethod)->willReturn(self::$serializer->serialize($index, 'jsonld'));
         }
 
         $synchronizer = $this->getMockerSynchronizer(true);
@@ -80,25 +81,26 @@ class CategorySynchronizerTest extends GraphQlVersion
         $indexRepository = static::getContainer()->get(IndexRepository::class);
         $categoryProductPositionManager = static::getContainer()->get(CategoryProductPositionManager::class);
         $categoryProductMerchandisingRepository = static::getContainer()->get(CategoryProductMerchandisingRepository::class);
+        $serializer = static::getContainer()->get('api_platform.serializer');
 
         yield [
-            InstallIndexDataTransformer::class,
-            SyncCategoryDataAfterInstallRest::class,
-            [$categoryProductPositionManager],
-            'transform',
+            InstallIndexProcessor::class, // Decorated class
+            SyncCategoryDataAfterInstallRest::class, // Decorator
+            [$categoryProductPositionManager, $serializer], // Constructor params
+            'process', // Decorated method
         ];
 
         yield [
-            DocumentDataPersister::class,
-            SyncCategoryDataAfterBulkRest::class,
-            [$indexSettings, $indexRepository, $categoryProductPositionManager],
-            'persist',
+            DocumentProcessor::class, // Decorated class
+            SyncCategoryDataAfterBulkRest::class, // Decorator
+            [$indexSettings, $indexRepository, $categoryProductPositionManager, $serializer], // Constructor params
+            'process', // Decorated method
         ];
 
         yield [
-            RemoveIndexDocument::class,
-            SyncCategoryDataAfterBulkDeleteRest::class,
-            [$indexSettings, $indexRepository, $categoryProductMerchandisingRepository],
+            RemoveIndexDocument::class, // Decorated class
+            SyncCategoryDataAfterBulkDeleteRest::class, // Decorator
+            [$indexSettings, $indexRepository, $categoryProductMerchandisingRepository], // Constructor params
         ];
     }
 }

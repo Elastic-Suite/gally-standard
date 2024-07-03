@@ -14,81 +14,107 @@ declare(strict_types=1);
 
 namespace Gally\Product\Model;
 
-use ApiPlatform\Core\Action\NotFoundAction;
-use ApiPlatform\Core\Annotation\ApiResource;
-use Gally\Entity\Model\Attribute\AttributeInterface;
-use Gally\GraphQl\Decoration\Resolver\Stage\ReadStage;
-use Gally\Product\GraphQl\Type\Definition\FieldFilterInputType;
-use Gally\Product\GraphQl\Type\Definition\ProductRequestTypeEnumType;
-use Gally\Product\GraphQl\Type\Definition\SortInputType;
+use ApiPlatform\Action\NotFoundAction;
+use Gally\User\Constant\Role;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GraphQl\QueryCollection;
+use Gally\Metadata\Model\Attribute\AttributeInterface;
+use Gally\Product\State\ProductProvider;
 use Gally\Search\Model\Document;
 use Gally\Search\Resolver\DummyResolver;
-use Gally\User\Constant\Role;
 
-#[
-    ApiResource(
-        collectionOperations: [],
-        graphql: [
-            'search' => [
-                'collection_query' => DummyResolver::class,
-                'pagination_type' => 'page',
-                'args' => [
-                    'localizedCatalog' => ['type' => 'String!', 'description' => 'Localized Catalog'],
-                    'requestType' => ['type' => ProductRequestTypeEnumType::NAME . '!', 'description' => 'Product Request Type'],
-                    'currentPage' => ['type' => 'Int'],
-                    'search' => ['type' => 'String', 'description' => 'Query Text'],
-                    'currentCategoryId' => ['type' => 'String', 'description' => 'Current category ID'],
-                    'pageSize' => ['type' => 'Int'],
-                    'sort' => ['type' => SortInputType::NAME],
-                    'filter' => ['type' => '[' . FieldFilterInputType::NAME . ']', ReadStage::IS_GRAPHQL_GALLY_ARG_KEY => true],
+#[ApiResource(
+    operations: [
+        new Get(controller: NotFoundAction::class, read: false, output: false)
+    ],
+    graphQlOperations: [
+        new QueryCollection(
+            name: 'search',
+            resolver: DummyResolver::class,
+            paginationType: 'page',
+            args: [
+                'localizedCatalog' => [
+                    'type' => 'String!',
+                    'description' => 'Localized Catalog'
                 ],
-                'read' => true, // Required so the dataprovider is called.
-                'deserialize' => true,
-                'write' => false,
-                'serialize' => true,
-            ],
-            'searchPreview' => [
-                'collection_query' => DummyResolver::class,
-                'pagination_type' => 'page',
-                'args' => [
-                    'localizedCatalog' => ['type' => 'String!', 'description' => 'Localized Catalog'],
-                    'requestType' => ['type' => ProductRequestTypeEnumType::NAME . '!', 'description' => 'Request Type'],
-                    'currentPage' => ['type' => 'Int'],
-                    'search' => ['type' => 'String', 'description' => 'Query Text'],
-                    'currentCategoryId' => ['type' => 'String', 'description' => 'Current category ID'],
-                    'pageSize' => ['type' => 'Int'],
-                    'sort' => ['type' => SortInputType::NAME],
-                    'filter' => ['type' => '[' . FieldFilterInputType::NAME . ']', ReadStage::IS_GRAPHQL_GALLY_ARG_KEY => true],
-                    'currentCategoryConfiguration' => ['type' => 'String', 'description' => 'Current category configuration'],
+                'requestType' => [
+                    'type' => 'ProductRequestTypeEnum!',
+                    'description' => 'Product Request Type'
                 ],
-                'read' => true, // Required so the dataprovider is called.
-                'deserialize' => true,
-                'write' => false,
-                'serialize' => true,
-                'security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
+                'currentPage' => ['type' => 'Int'],
+                'search' => [
+                    'type' => 'String',
+                    'description' => 'Query Text'
+                ],
+                'currentCategoryId' => [
+                    'type' => 'String',
+                    'description' => 'Current category ID'
+                ],
+                'pageSize' => ['type' => 'Int'],
+                'sort' => ['type' => 'ProductSortInput'],
+                'filter' => [
+                    'type' => '[ProductFieldFilterInput]',
+                    'is_gally_arg' => true]
             ],
-        ],
-        itemOperations: [
-            'get' => [
-                'controller' => NotFoundAction::class,
-                'read' => false,
-                'output' => false,
+            read: true,
+            deserialize: true,
+            write: false,
+            serialize: true
+        ),
+        new QueryCollection(
+            name: 'searchPreview',
+            resolver: DummyResolver::class,
+            paginationType: 'page',
+            args: [
+                'localizedCatalog' => [
+                    'type' => 'String!',
+                    'description' => 'Localized Catalog'
+                ],
+                'requestType' => [
+                    'type' => 'ProductRequestTypeEnum!',
+                    'description' => 'Request Type'
+                ],
+                'currentPage' => ['type' => 'Int'],
+                'search' => [
+                    'type' => 'String',
+                    'description' => 'Query Text'
+                ],
+                'currentCategoryId' => [
+                    'type' => 'String',
+                    'description' => 'Current category ID'
+                ],
+                'pageSize' => ['type' => 'Int'],
+                'sort' => ['type' => 'ProductSortInput'],
+                'filter' => [
+                    'type' => '[ProductFieldFilterInput]',
+                    'is_gally_arg' => true
+                ],
+                'currentCategoryConfiguration' => [
+                    'type' => 'String',
+                    'description' => 'Current category configuration'
+                ]
             ],
-        ],
-        attributes: [
-            'gally' => [
-                'stitching' => ['property' => 'attributes'],
-                'metadata' => ['entity' => 'product'],
-            ],
-        ],
-        paginationClientEnabled: true,
-        paginationClientItemsPerPage: true,
-        paginationClientPartial: false,
-        paginationEnabled: true,
-        paginationItemsPerPage: 30, // Default items per page if pageSize not provided.
-        paginationMaximumItemsPerPage: 100, // Max. allowed items per page.
-    ),
-]
+            read: true,
+            deserialize: true,
+            write: false,
+            serialize: true,
+            security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')")
+    ],
+    provider: ProductProvider::class,
+    extraProperties: [
+        'gally' =>  [
+            'stitching' => ['property' => 'attributes'],
+            'metadata' => ['entity' => 'product']
+        ]
+    ],
+    paginationClientEnabled: true,
+    paginationClientItemsPerPage: true,
+    paginationClientPartial: false,
+    paginationEnabled: true,
+    paginationItemsPerPage: 30,
+    paginationMaximumItemsPerPage: 100
+)]
 class Product extends Document
 {
     public const DEFAULT_ATTRIBUTES = ['_id', 'id', 'data', 'source', 'index', 'type', 'score'];

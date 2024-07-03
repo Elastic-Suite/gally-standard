@@ -14,64 +14,63 @@ declare(strict_types=1);
 
 namespace Gally\RuleEngine\Model;
 
-use ApiPlatform\Core\Action\NotFoundAction;
-use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Metadata\GraphQl\Query;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\ApiProperty;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Action\NotFoundAction;
 use Gally\RuleEngine\Controller\RuleEngineGraphQlFiltersController;
 use Gally\RuleEngine\Resolver\RuleEngineGraphQlFiltersResolver;
 use Gally\User\Constant\Role;
 use Symfony\Component\HttpFoundation\Response;
 
-#[
-    ApiResource(
-        itemOperations: [
-            'get' => [
-                'controller' => NotFoundAction::class,
-                'read' => false,
-                'output' => false,
-            ],
-        ],
-        collectionOperations: [
-            'rule_engine_filters' => [
-                'security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
-                'method' => 'POST',
-                'path' => 'rule_engine_graphql_filters',
-                'read' => false,
-                'deserialize' => false,
-                'controller' => RuleEngineGraphQlFiltersController::class,
-                'status' => Response::HTTP_OK,
-                'openapi_context' => [
-                    'requestBody' => [
-                        'content' => [
-                            'application/json' => [
-                                'schema' => [
-                                    'type' => 'object',
-                                    'properties' => [
-                                        'rule' => ['type' => 'string'],
-                                    ],
+#[ApiResource(
+    operations: [
+        new Get(
+            controller: NotFoundAction::class,
+            read: false,
+            output: false
+        ),
+        new Post(
+            security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
+            uriTemplate: 'rule_engine_graphql_filters',
+            read: false,
+            deserialize: false,
+            controller: RuleEngineGraphQlFiltersController::class,
+            status: 200,
+            openapiContext: [
+                'requestBody' => [
+                    'content' => [
+                        'application/json' => [
+                            'schema' => [
+                                'type' => 'object',
+                                'properties' => [
+                                    'rule' => ['type' => 'string']
                                 ],
-                                'example' => [
-                                    'rule' => '{"type": "combination", "operator": "all", "value": "true", "children": [{"type": "attribute", "field": "id", "operator": "eq", "attribute_type": "int", "value": 1}]}',
-                                ],
+                            ],
+                            'example' => [
+                                'rule' => '{"type": "combination", "operator": "all", "value": "true", "children": [{"type": "attribute", "field": "id", "operator": "eq", "attribute_type": "int", "value": 1}]}'
                             ],
                         ],
                     ],
                 ],
             ],
-        ],
-        paginationEnabled: false,
-        graphql: [
-            'get' => [
-                'item_query' => RuleEngineGraphQlFiltersResolver::class,
-                'read' => false,
-                'deserialize' => false,
-                'args' => [
-                    'rule' => ['type' => 'String!'],
-                ],
-                'security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
-            ],
-        ],
-    )
-]
+        ),
+    ],
+    graphQlOperations: [
+        new Query(
+            name: 'get',
+            resolver: RuleEngineGraphQlFiltersResolver::class,
+            read: false,
+            deserialize: false,
+            args: ['rule' => ['type' => 'String!']],
+            security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"
+        ),
+    ],
+    paginationEnabled: false,
+)]
 
 class RuleEngineGraphQlFilters
 {

@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace Gally\Test;
 
 use ApiPlatform\Core\Metadata\Resource\ResourceMetadata;
+use ApiPlatform\Metadata\Resource\ResourceMetadataCollection;
 use Gally\Locale\EventSubscriber\LocaleSubscriber;
 use Gally\User\Model\User;
 use Symfony\Contracts\HttpClient\ResponseInterface;
@@ -24,7 +25,7 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
  */
 abstract class AbstractEntityTest extends AbstractTest
 {
-    private ?ResourceMetadata $resource = null;
+    private ?ResourceMetadataCollection $resourceMetadataCollection = null;
 
     public static function setUpBeforeClass(): void
     {
@@ -209,12 +210,12 @@ abstract class AbstractEntityTest extends AbstractTest
 
     protected function getShortName(): string
     {
-        if (!$this->resource) {
-            $metadataFactory = static::getContainer()->get('api_platform.metadata.resource.metadata_factory');
-            $this->resource = $metadataFactory->create($this->getEntityClass());
+        if (!$this->resourceMetadataCollection) {
+            $resourceMetadataCollectionFactory = static::getContainer()->get('api_platform.metadata.resource.metadata_collection_factory');
+            $this->resourceMetadataCollection = $resourceMetadataCollectionFactory->create($this->getEntityClass());
         }
 
-        return $this->resource->getShortName();
+        return $this->resourceMetadataCollection[0]->getShortName()  ?? '';
     }
 
     protected function getApiPath(): string

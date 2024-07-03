@@ -14,34 +14,32 @@ declare(strict_types=1);
 
 namespace Gally\Locale\Model\Source;
 
-use ApiPlatform\Core\Annotation\ApiProperty;
-use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Metadata\GraphQl\QueryCollection;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\ApiProperty;
+use ApiPlatform\Metadata\ApiFilter;
 use Gally\Catalog\Model\LocalizedCatalog;
+use Gally\Locale\State\Source\LocaleGroupOptionProvider;
 use Gally\User\Constant\Role;
 
 #[ApiResource(
-    itemOperations: [],
-    collectionOperations: [
-        'get' => [
-            'pagination_enabled' => false,
-            'security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
-        ],
+    operations: [
+        new GetCollection(paginationEnabled: false, security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')")
     ],
-    graphql: [
-        'collection_query' => [
-            'pagination_enabled' => false,
-            'security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
-        ],
+    graphQlOperations: [
+        new QueryCollection(name: 'collection_query', paginationEnabled: false, security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')")
     ],
-    attributes: [
+    extraProperties: [
         'gally' => [
-            // Allows to add cache tag "/localized_catalogs" in the HTTP response to invalidate proxy cache when a source field is saved.
-            'cache_tag' => ['resource_classes' => [LocalizedCatalog::class]],
-        ],
+            'cache_tag' => ['resource_classes' => [LocalizedCatalog::class]]
+        ]
     ],
+    provider: LocaleGroupOptionProvider::class,
 )]
 class LocaleGroupOption
 {
+
     #[ApiProperty(identifier: true)]
     public string $value;
 

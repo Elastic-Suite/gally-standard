@@ -8,7 +8,7 @@ services:
             - '%api_platform.graphql.nesting_separator%'
             - '@Gally\Search\Service\SearchContext'
 
-    Gally\Product\DataProvider\ProductDataProvider:
+    Gally\Product\State\ProductProvider:
         arguments:
             - '@serializer'
             - '@api_platform.pagination'
@@ -20,20 +20,21 @@ services:
             - '@Gally\Product\GraphQl\Type\Definition\SortInputType'
             - '@Gally\Product\Service\GraphQl\FilterManager'
             - '@Gally\Category\Service\CurrentCategoryProvider'
-            - '@Gally\Entity\Service\PriceGroupProvider'
-            - '@Gally\Entity\Service\ReferenceLocationProvider'
+            - '@Gally\Metadata\Service\PriceGroupProvider'
+            - '@Gally\Metadata\Service\ReferenceLocationProvider'
             - '@Gally\Search\Service\SearchContext'
             - '@doctrine.orm.entity_manager'
             - '@api_platform.serializer'
             - '@Gally\Category\Repository\CategoryConfigurationRepository'
+            - '@api_platform.doctrine.orm.state.item_provider'
         tags:
-            - { name: api_platform.collection_data_provider }
+            - { name: api_platform.state_provider }
 
     Gally\Product\Serializer\ProductDenormalizer:
         arguments:
             - '@Gally\Stitching\Service\SerializerService'
             - '@Gally\Search\Service\SearchContext'
-            - '@Gally\Entity\Model\Attribute\AttributeFactory'
+            - '@Gally\Metadata\Model\Attribute\AttributeFactory'
         tags:
             - { name: serializer.normalizer }
 
@@ -52,7 +53,7 @@ services:
             - '@Gally\Product\Service\CategoryNameUpdater'
         decoration_priority: 200
     Gally\Product\Decoration\CategoryData\SyncCategoryNameAfterBulkRest:
-        decorates: Gally\Index\DataPersister\DocumentDataPersister
+        decorates: Gally\Index\State\DocumentProcessor
         arguments:
             - '@.inner'
             - '@Gally\Index\Repository\Index\IndexRepository'
@@ -80,7 +81,7 @@ services:
         arguments:
             - '@Gally\Search\Elasticsearch\Builder\Request\Query\Filter\FilterQueryBuilder'
             - !tagged_iterator { tag: 'gally.entity_api.filter' }
-            - '@Gally\Entity\GraphQl\Type\Definition\Filter\BoolFilterInputType'
+            - '@Gally\Metadata\GraphQl\Type\Definition\Filter\BoolFilterInputType'
             - '@Gally\Metadata\Repository\SourceFieldRepository'
             - '%api_platform.graphql.nesting_separator%'
         tags:
@@ -100,19 +101,19 @@ services:
         arguments:
             - '@Gally\RequestContext\Service\RequestContextManager'
             - '%gally.default_price_group_id%'
-
+ 
     Gally\Product\Decoration\GraphQl\AddEntityTypeInContext:
-        decorates: api_platform.graphql.resolver.stage.serialize
+        decorates: api_platform.graphql.state_processor.normalize
         decoration_priority: 1
         arguments:
             - '@.inner'
     
-    Gally\Product\DataProvider\Facet\OptionDataProvider:
-        parent: Gally\Search\DataProvider\Facet\OptionDataProvider
+    Gally\Product\State\Facet\OptionProvider:
+        parent: Gally\Search\State\Facet\OptionProvider
         arguments:
             $filterManager: '@Gally\Product\Service\GraphQl\FilterManager'
         tags:
-            - { name: api_platform.collection_data_provider }
+            - { name: api_platform.state_provider }
 
     Gally\Product\Service\ProductDefaultSortingOptionProvider:
         arguments:
@@ -129,7 +130,7 @@ services:
     
     Gally\Product\Validator\DefaultSortingFieldConstraintValidator:
         arguments:
-            - '@Gally\Product\DataProvider\ProductSortingOptionDataProvider'
+            - '@Gally\Product\State\ProductSortingOptionProvider'
         tags:
             - { name: validator.constraint_validator }
     
@@ -137,8 +138,9 @@ services:
         arguments:
             - '@Gally\Search\Service\SortingOptionsProvider'
 
-    Gally\Product\DataProvider\ProductSortingOptionDataProvider:
+    Gally\Product\State\ProductSortingOptionProvider:
         arguments:
             - '@Gally\Product\Service\ProductsSortingOptionsProvider'
+            - '@api_platform.doctrine.orm.state.item_provider'
         tags:
-            - { name: api_platform.collection_data_provider }
+            - { name: api_platform.state_provider }

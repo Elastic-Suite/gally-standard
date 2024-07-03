@@ -42,7 +42,7 @@ services:
             - '@Gally\Category\Service\CategoryProductPositionManager'
         decoration_priority: 100
     Gally\Category\Decoration\SyncCategoryDataAfterBulkRest:
-        decorates: Gally\Index\DataPersister\DocumentDataPersister
+        decorates: Gally\Index\State\DocumentProcessor
         arguments:
             - '@.inner'
             - '@Gally\Category\Service\CategorySynchronizer'
@@ -80,11 +80,12 @@ services:
             - '@Gally\Category\Service\CategoryProductPositionManager'
         decoration_priority: 100            
     Gally\Category\Decoration\SyncCategoryDataAfterInstallRest:
-        decorates: Gally\Index\DataTransformer\InstallIndexDataTransformer
+        decorates: Gally\Index\State\InstallIndexProcessor
         arguments:
             - '@.inner'
             - '@Gally\Category\Service\CategorySynchronizer'
             - '@Gally\Category\Service\CategoryProductPositionManager'
+            - '@api_platform.serializer' 
         decoration_priority: 100
 
     Gally\Category\Controller\CategoryConfigurationGet:

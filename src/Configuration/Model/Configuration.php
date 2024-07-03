@@ -14,17 +14,16 @@ declare(strict_types=1);
 
 namespace Gally\Configuration\Model;
 
-use ApiPlatform\Core\Annotation\ApiProperty;
-use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Metadata\GraphQl\QueryCollection;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\ApiProperty;
+use Gally\Configuration\State\ConfigurationProvider;
 
 #[ApiResource(
-    itemOperations: [],
-    collectionOperations: [
-        'get' => ['pagination_enabled' => false],
-    ],
-    graphql: [
-        'collection_query' => ['pagination_enabled' => false],
-    ],
+    operations: [new GetCollection(paginationEnabled: false)],
+    graphQlOperations: [new QueryCollection(name: 'collection_query', paginationEnabled: false)],
+    provider: ConfigurationProvider::class,
 )]
 
 class Configuration

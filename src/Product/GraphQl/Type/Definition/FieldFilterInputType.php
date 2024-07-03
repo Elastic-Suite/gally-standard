@@ -14,8 +14,8 @@ declare(strict_types=1);
 
 namespace Gally\Product\GraphQl\Type\Definition;
 
-use Gally\Entity\GraphQl\Type\Definition\Filter\BoolFilterInputType;
-use Gally\Entity\GraphQl\Type\Definition\Filter\EntityFilterInterface;
+use Gally\Metadata\GraphQl\Type\Definition\Filter\BoolFilterInputType;
+use Gally\Metadata\GraphQl\Type\Definition\Filter\EntityFilterInterface;
 use Gally\Metadata\Repository\SourceFieldRepository;
 use Gally\Search\Elasticsearch\Builder\Request\Query\Filter\FilterQueryBuilder;
 use Gally\Search\GraphQl\Type\Definition\FieldFilterInputType as BaseFieldFilterInputType;

@@ -14,71 +14,74 @@ declare(strict_types=1);
 
 namespace Gally\Metadata\Model;
 
-use ApiPlatform\Core\Annotation\ApiFilter;
-use ApiPlatform\Core\Annotation\ApiResource;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\GraphQl\Mutation;
+use ApiPlatform\Metadata\GraphQl\QueryCollection;
+use ApiPlatform\Metadata\GraphQl\Query;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Put;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\ApiProperty;
+use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Gally\Metadata\Controller\BulkSourceFieldOptions;
+use Gally\Metadata\State\SourceFieldOptionProcessor;
 use Gally\User\Constant\Role;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ApiResource(
-    collectionOperations: [
-        'get' => ['security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"],
-        'post' => ['security' => "is_granted('" . Role::ROLE_ADMIN . "')"],
-    ],
-    itemOperations: [
-        'get' => ['security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"],
-        'put' => ['security' => "is_granted('" . Role::ROLE_ADMIN . "')"],
-        'delete' => ['security' => "is_granted('" . Role::ROLE_ADMIN . "')"],
-        'bulk' => [
-            'security' => "is_granted('" . Role::ROLE_ADMIN . "')",
-            'method' => 'POST',
-            'controller' => BulkSourceFieldOptions::class,
-            'path' => '/source_field_options/bulk',
-            'read' => false,
-            'deserialize' => false,
-            'validate' => false,
-            'write' => false,
-            'serialize' => true,
-            'status' => Response::HTTP_OK,
-            'openapi_context' => [
+    operations: [
+        new Get(security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
+        new Put(security: "is_granted('" . Role::ROLE_ADMIN . "')"),
+        new Delete(security: "is_granted('" . Role::ROLE_ADMIN . "')"),
+        new Post(security: "is_granted('" . Role::ROLE_ADMIN . "')",
+            controller: BulkSourceFieldOptions::class,
+            uriTemplate: '/source_field_options/bulk',
+            read: false,
+            deserialize: false,
+            validate: false,
+            write: false,
+            serialize: true,
+            status: 200,
+            openapiContext: [
                 'summary' => 'Add source field options.',
                 'description' => 'Add source field options.',
                 'requestBody' => [
                     'content' => [
                         'application/json' => [
-                            'schema' => [
-                                'type' => 'array',
-                                'items' => [
-                                    'type' => 'string',
-                                ],
-                            ],
+                            'schema' => ['type' => 'array', 'items' => ['type' => 'string']],
                             'example' => [
                                 ['sourceField' => '/source_fields/1', 'code' => 'brand_A', 'defaultLabel' => 'Brand A'],
-                                ['sourceField' => '/source_fields/1', 'code' => 'brand_B', 'defaultLabel' => 'Brand B'],
-                            ],
-                        ],
-                    ],
-                ],
-            ],
-        ],
+                                ['sourceField' => '/source_fields/1', 'code' => 'brand_B', 'defaultLabel' => 'Brand B']
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ),
+        new GetCollection(security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
+        new Post(security: "is_granted('" . Role::ROLE_ADMIN . "')")
     ],
-    graphql: [
-        'item_query' => ['security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"],
-        'collection_query' => ['security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"],
-        'create' => ['security' => "is_granted('" . Role::ROLE_ADMIN . "')"],
-        'update' => ['security' => "is_granted('" . Role::ROLE_ADMIN . "')"],
-        'delete' => ['security' => "is_granted('" . Role::ROLE_ADMIN . "')"],
+    graphQlOperations: [
+        new Query(name: 'item_query', security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
+        new QueryCollection(name: 'collection_query', security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
+        new Mutation(name: 'create', security: "is_granted('" . Role::ROLE_ADMIN . "')"),
+        new Mutation(name: 'update', security: "is_granted('" . Role::ROLE_ADMIN . "')"),
+        new Mutation(name: 'delete', security: "is_granted('" . Role::ROLE_ADMIN . "')")
     ],
-    normalizationContext: ['groups' => ['source_field_option:read']],
+    processor: SourceFieldOptionProcessor::class,
     denormalizationContext: ['groups' => ['source_field_option:write']],
+    normalizationContext: ['groups' => ['source_field_option:read']]
 )]
-#[ApiFilter(SearchFilter::class, properties: ['sourceField' => 'exact'])]
-#[ApiFilter(OrderFilter::class, properties: ['position'], arguments: ['orderParameterName' => 'order'])]
+
+#[ApiFilter(filterClass: SearchFilter::class, properties: ['sourceField' => 'exact'])]
+#[ApiFilter(filterClass: OrderFilter::class, properties: ['position'], arguments: ['orderParameterName' => 'order'])]
 class SourceFieldOption
 {
     #[Groups(['source_field_option:read', 'source_field_option:write', 'source_field_option_label:read'])]

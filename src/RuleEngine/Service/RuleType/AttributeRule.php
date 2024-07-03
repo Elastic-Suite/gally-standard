@@ -14,10 +14,10 @@ declare(strict_types=1);
 
 namespace Gally\RuleEngine\Service\RuleType;
 
-use Gally\Entity\GraphQl\Type\Definition\Filter\AbstractFilter;
-use Gally\Entity\GraphQl\Type\Definition\Filter\BoolFilterInputType;
-use Gally\Entity\GraphQl\Type\Definition\Filter\EntityFilterInterface;
 use Gally\Exception\LogicException;
+use Gally\Metadata\GraphQl\Type\Definition\Filter\AbstractFilter;
+use Gally\Metadata\GraphQl\Type\Definition\Filter\BoolFilterInputType;
+use Gally\Metadata\GraphQl\Type\Definition\Filter\EntityFilterInterface;
 use Gally\Metadata\Model\Metadata;
 use Gally\Metadata\Model\SourceField;
 use Gally\Metadata\Model\SourceField\Type;

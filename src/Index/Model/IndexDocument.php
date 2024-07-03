@@ -14,66 +14,73 @@ declare(strict_types=1);
 
 namespace Gally\Index\Model;
 
-use ApiPlatform\Core\Action\NotFoundAction;
-use ApiPlatform\Core\Annotation\ApiProperty;
-use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Metadata\GraphQl\Mutation;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\ApiProperty;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Action\NotFoundAction;
 use Gally\Index\Controller\RemoveIndexDocument;
+use Gally\Index\State\DocumentProcessor;
 use Gally\User\Constant\Role;
 
-#[
-    ApiResource(
-        collectionOperations: [
-            'post' => ['security' => "is_granted('" . Role::ROLE_ADMIN . "')"],
-        ],
-        graphql: [
-            'create' => ['security' => "is_granted('" . Role::ROLE_ADMIN . "')"],
-        ],
-        itemOperations: [
-            'get' => [
-                'controller' => NotFoundAction::class,
-                'read' => false,
-                'output' => false,
-            ],
-            'remove' => [
-                'security' => "is_granted('" . Role::ROLE_ADMIN . "')",
-                'method' => 'DELETE',
-                'controller' => RemoveIndexDocument::class,
-                'read' => false,
-                'openapi_context' => [
-                    'parameters' => [
-                        [
-                            'name' => 'indexName',
-                            'in' => 'path',
-                            'type' => 'string',
-                            'required' => true,
-                        ],
+#[ApiResource(
+    operations: [
+        new Get(
+            controller: NotFoundAction::class,
+            read: false,
+            output: false,
+        ),
+        new Delete(
+            security: "is_granted('" . Role::ROLE_ADMIN . "')",
+            controller: RemoveIndexDocument::class,
+            read: false,
+            openapiContext: [
+                'parameters' => [
+                    [
+                        'name' => 'indexName',
+                        'in' => 'path', 'type' => 'string',
+                        'required' => true
                     ],
-                    'requestBody' => [
-                        'content' => [
-                            'application/json' => [
-                                'schema' => [
-                                    'type' => 'object',
-                                    'properties' => [
-                                        'document_ids' => ['type' => 'array'],
+                ],
+                'requestBody' => [
+                    'content' => [
+                        'application/json' => [
+                            'schema' => [
+                                'type' => 'object',
+                                'properties' => [
+                                    'document_ids' => [
+                                        'type' => 'array'
                                     ],
                                 ],
-                                'example' => [
-                                    'document_ids' => ['1', '2', '3'],
-                                ],
+                            ],
+                            'example' => [
+                                'document_ids' => ['1', '2', '3'],
                             ],
                         ],
                     ],
                 ],
             ],
-        ],
-        paginationEnabled: false,
-    ),
-]
+            name: 'remove'
+        ),
+        new Post(
+            security: "is_granted('" . Role::ROLE_ADMIN . "')"
+        ),
+    ],
+    graphQlOperations: [
+        new Mutation(
+            name: 'create',
+            security: "is_granted('" . Role::ROLE_ADMIN . "')"
+        ),
+    ],
+    processor: DocumentProcessor::class,
+    paginationEnabled: false,
+)]
 class IndexDocument
 {
-    #[ApiProperty(
-        identifier: true
-    )]
+    #[ApiProperty(identifier: true)]
     private string $indexName;
 
     /**

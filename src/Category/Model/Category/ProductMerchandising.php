@@ -14,8 +14,15 @@ declare(strict_types=1);
 
 namespace Gally\Category\Model\Category;
 
-use ApiPlatform\Core\Action\NotFoundAction;
-use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Metadata\GraphQl\Query;
+use ApiPlatform\Metadata\GraphQl\Mutation;
+use ApiPlatform\Metadata\Link;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\ApiProperty;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Action\NotFoundAction;
 use Gally\Catalog\Model\Catalog;
 use Gally\Catalog\Model\LocalizedCatalog;
 use Gally\Category\Controller\CategoryProductPositionGet;
@@ -28,32 +35,53 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ApiResource(
-    paginationEnabled: false,
-    normalizationContext: ['groups' => ['category_product_merchandising:read']],
-    denormalizationContext: ['groups' => ['category_product_merchandising:write']],
-    collectionOperations: [
-        'post_positions' => [
-            'security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
-            'method' => 'POST',
-            'path' => '/category_product_merchandisings/savePositions/{categoryId}',
-            'controller' => CategoryProductPositionSave::class,
-            'read' => false,
-            'deserialize' => false,
-            'validate' => false,
-            'write' => false,
-            'serialize' => true,
-            'status' => Response::HTTP_OK,
-            'normalization_context' => ['groups' => 'category_product_merchandising_result:read'],
-            'openapi_context' => [
+    operations: [
+        new Get(
+            controller: NotFoundAction::class,
+            read: false,
+            output: false
+        ),
+        new Get(
+            security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
+            uriTemplate: '/category_product_merchandisings/getPositions/{categoryId}/{localizedCatalogId}',
+            controller: CategoryProductPositionGet::class,
+            read: false,
+            deserialize: false,
+            validate: false,
+            write: false,
+            serialize: true,
+            status: Response::HTTP_OK,
+            normalizationContext: ['groups' => ['category_product_merchandising_result:read']],
+            openapiContext: [
+                'summary' => 'Get product positions in a category.',
+                'description' => 'Get product positions in a category.',
+                'parameters' => [
+                    ['name' => 'categoryId', 'in' => 'path', 'type' => 'string', 'required' => true],
+                    ['name' => 'localizedCatalogId', 'in' => 'path', 'type' => 'int', 'required' => true]
+                ]
+            ]),
+        new Post(
+            security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
+            uriTemplate: '/category_product_merchandisings/savePositions/{categoryId}',
+            uriVariables: [
+                'categoryId' => new Link(
+                    fromClass: Category::class,
+                    fromProperty: 'id'
+                )
+            ],
+            controller: CategoryProductPositionSave::class,
+            read: false,
+            deserialize: false,
+            validate: false,
+            write: false,
+            serialize: true,
+            status: Response::HTTP_OK,
+            normalizationContext: ['groups' => ['category_product_merchandising_result:read']],
+            openapiContext: [
                 'summary' => 'Save product positions in a category.',
                 'description' => 'Save product positions in a category.',
                 'parameters' => [
-                    [
-                        'name' => 'categoryId',
-                        'in' => 'path',
-                        'type' => 'Category',
-                        'required' => true,
-                    ],
+                    ['name' => 'categoryId', 'in' => 'path', 'type' => 'Category', 'required' => true]
                 ],
                 'requestBody' => [
                     'content' => [
@@ -63,89 +91,55 @@ use Symfony\Component\Serializer\Annotation\Groups;
                                 'properties' => [
                                     'catalogId' => ['type' => 'string'],
                                     'localizedCatalogId' => ['type' => 'string'],
-                                    'positions' => ['type' => 'string'],
-                                ],
+                                    'positions' => ['type' => 'string']
+                                ]
                             ],
                             'example' => [
                                 'catalogId' => 'string',
                                 'localizedCatalogId' => 'string',
-                                'positions' => '[{"productId": 1, "position": 10}, {"productId": 2, "position": 20}]',
-                            ],
-                        ],
-                    ],
-                ],
-            ],
-        ],
-    ],
-    itemOperations: [
-        'get' => [
-            'controller' => NotFoundAction::class,
-            'read' => false,
-            'output' => false,
-        ],
-        'get_positions' => [
-            'security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
-            'method' => 'GET',
-            'path' => '/category_product_merchandisings/getPositions/{categoryId}/{localizedCatalogId}',
-            'controller' => CategoryProductPositionGet::class,
-            'read' => false,
-            'deserialize' => false,
-            'validate' => false,
-            'write' => false,
-            'serialize' => true,
-            'status' => Response::HTTP_OK,
-            'normalization_context' => ['groups' => 'category_product_merchandising_result:read'],
-            'openapi_context' => [
-                'summary' => 'Get product positions in a category.',
-                'description' => 'Get product positions in a category.',
-                'parameters' => [
-                    [
-                        'name' => 'categoryId',
-                        'in' => 'path',
-                        'type' => 'string',
-                        'required' => true,
-                    ],
-                    [
-                        'name' => 'localizedCatalogId',
-                        'in' => 'path',
-                        'type' => 'int',
-                        'required' => true,
-                    ],
-                ],
-            ],
-        ],
-    ],
-    graphql: [
-        'savePositions' => [
-            'mutation' => PositionSaveResolver::class,
-            'args' => [
+                                'positions' => '[{"productId": 1, "position": 10}, {"productId": 2, "position": 20}]'
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        )],
+    graphQlOperations: [
+        new Mutation(
+            name: 'savePositions',
+            resolver: PositionSaveResolver::class,
+            args: [
                 'categoryId' => ['type' => 'String!'],
                 'catalogId' => ['type' => 'Int'],
                 'localizedCatalogId' => ['type' => 'Int'],
-                'positions' => ['type' => 'String!'],
+                'positions' => ['type' => 'String!']
             ],
-            'security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
-            'read' => false,
-            'deserialize' => false,
-            'write' => false,
-            'serialize' => true,
-            'normalization_context' => ['groups' => 'category_product_merchandising_result:read'],
-        ],
-        'getPositions' => [
-            'item_query' => PositionGetResolver::class,
-            'args' => [
+            security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
+            read: false,
+            deserialize: false,
+            write: false,
+            serialize: true,
+            normalizationContext: ['groups' => ['category_product_merchandising_result:read']]
+        ),
+        new Query(
+            name: 'getPositions',
+            resolver: PositionGetResolver::class,
+            args: [
                 'categoryId' => ['type' => 'String!'],
-                'localizedCatalogId' => ['type' => 'Int!'],
+                'localizedCatalogId' => ['type' => 'Int!']
             ],
-            'security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
-            'read' => false,
-            'deserialize' => false,
-            'write' => false,
-            'serialize' => true,
-            'normalization_context' => ['groups' => 'category_product_merchandising_result:read'],
-        ],
+            security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
+            read: false,
+            deserialize: false,
+            write: false,
+            serialize: true,
+            normalizationContext: ['groups' => ['category_product_merchandising_result:read']]
+        )
     ],
     shortName: 'CategoryProductMerchandising',
+    denormalizationContext: ['groups' => ['category_product_merchandising:write']],
+    normalizationContext: ['groups' => ['category_product_merchandising:read']],
+    paginationEnabled: false
 )]
 class ProductMerchandising
 {

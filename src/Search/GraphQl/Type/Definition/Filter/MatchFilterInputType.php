@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace Gally\Search\GraphQl\Type\Definition\Filter;
 
-use ApiPlatform\Core\GraphQl\Type\Definition\TypeInterface;
+use ApiPlatform\GraphQl\Type\Definition\TypeInterface;
 use Gally\GraphQl\Type\Definition\FilterInterface;
 use Gally\Search\Constant\FilterOperator;
 use Gally\Search\Elasticsearch\Builder\Request\Query\Filter\FilterQueryBuilder;

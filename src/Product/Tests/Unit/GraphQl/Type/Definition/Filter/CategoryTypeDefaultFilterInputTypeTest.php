@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace Gally\Product\Tests\Unit\GraphQl\Type\Definition\Filter;
 
-use Gally\Entity\GraphQl\Type\Definition\Filter\CategoryTypeDefaultFilterInputType;
+use Gally\Metadata\GraphQl\Type\Definition\Filter\CategoryTypeDefaultFilterInputType;
 use Gally\Search\Constant\FilterOperator;
 use Gally\Search\Elasticsearch\Builder\Request\Query\Filter\FilterQueryBuilder;
 use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface;

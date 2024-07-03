@@ -14,23 +14,30 @@ declare(strict_types=1);
 
 namespace Gally\Category\Model;
 
-use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Metadata\GraphQl\Mutation;
+use ApiPlatform\Metadata\GraphQl\QueryCollection;
+use ApiPlatform\Metadata\GraphQl\Query;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Put;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\ApiProperty;
+use ApiPlatform\Metadata\ApiFilter;
 use Gally\User\Constant\Role;
 
 #[ApiResource(
-    collectionOperations: [
-        'get' => ['security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"],
+    operations: [
+        new Get(security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
+        new Put(security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
+        new Patch(security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
+        new GetCollection(security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
     ],
-    itemOperations: [
-        'get' => ['security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"],
-        'put' => ['security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"],
-        'patch' => ['security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"],
-    ],
-    graphql: [
-        'item_query' => ['security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"],
-        'collection_query' => ['security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"],
-        'update' => ['security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"],
-    ],
+    graphQlOperations: [
+        new Query(name: 'item_query', security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
+        new QueryCollection(name: 'collection_query', security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
+        new Mutation(name: 'update', security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
+    ]
 )]
 class Category
 {

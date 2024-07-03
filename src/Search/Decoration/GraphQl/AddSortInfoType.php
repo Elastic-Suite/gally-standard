@@ -14,30 +14,32 @@ declare(strict_types=1);
 
 namespace Gally\Search\Decoration\GraphQl;
 
-use ApiPlatform\Core\GraphQl\Type\TypeBuilderInterface;
-use ApiPlatform\Core\GraphQl\Type\TypeNotFoundException;
-use ApiPlatform\Core\GraphQl\Type\TypesContainerInterface;
-use ApiPlatform\Core\Metadata\Resource\ResourceMetadata;
+use ApiPlatform\GraphQl\Type\TypeNotFoundException;
+use ApiPlatform\GraphQl\Type\TypesContainerInterface;
+use ApiPlatform\Metadata\ApiProperty;
+use ApiPlatform\Metadata\GraphQl\Operation;
+use ApiPlatform\Metadata\Resource\ResourceMetadataCollection;
 use Gally\Search\GraphQl\Type\Definition\SortOptionType;
 use Gally\Search\Model\Document;
 use GraphQL\Type\Definition\InterfaceType;
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type as GraphQLType;
 use Symfony\Component\PropertyInfo\Type;
+use ApiPlatform\GraphQl\Type\ContextAwareTypeBuilderInterface;
 
-class AddSortInfoType implements TypeBuilderInterface
+class AddSortInfoType implements ContextAwareTypeBuilderInterface
 {
     public function __construct(
         private TypesContainerInterface $typesContainer,
         private SortOptionType $sortOptionType,
-        private TypeBuilderInterface $decorated,
+        private ContextAwareTypeBuilderInterface $decorated,
     ) {
     }
 
-    public function getResourcePaginatedCollectionType(GraphQLType $resourceType, string $resourceClass, string $operationName): GraphQLType
+    public function getPaginatedCollectionType(GraphQLType $resourceType, Operation $operation): GraphQLType
     {
-        $type = $this->decorated->getResourcePaginatedCollectionType($resourceType, $resourceClass, $operationName);
-        if (Document::class === $resourceClass || is_subclass_of($resourceClass, Document::class)) {
+        $type = $this->decorated->getPaginatedCollectionType($resourceType, $operation);
+        if (Document::class === $operation->getClass() || is_subclass_of($operation->getClass(), Document::class)) {
             $fields = $type->getFields(); // @phpstan-ignore-line
             if (!\array_key_exists('sortInfo', $fields)) {
                 $fields['sortInfo'] = $this->getSortingInfoType($resourceType);
@@ -55,9 +57,14 @@ class AddSortInfoType implements TypeBuilderInterface
         return $type;
     }
 
-    public function getResourceObjectType(?string $resourceClass, ResourceMetadata $resourceMetadata, bool $input, ?string $queryName, ?string $mutationName, ?string $subscriptionName, bool $wrapped, int $depth): GraphQLType
+    public function getEnumType(Operation $operation): GraphQLType
     {
-        return $this->decorated->getResourceObjectType($resourceClass, $resourceMetadata, $input, $queryName, $mutationName, $subscriptionName, $wrapped, $depth);
+        return $this->decorated->getEnumType($operation);
+    }
+
+    public function getResourceObjectType(ResourceMetadataCollection $resourceMetadataCollection, Operation $operation, ?ApiProperty $propertyMetadata = null, array $context = []): GraphQLType
+    {
+        return $this->decorated->getResourceObjectType($resourceMetadataCollection, $operation, $propertyMetadata, $context);
     }
 
     public function getNodeInterface(): InterfaceType
