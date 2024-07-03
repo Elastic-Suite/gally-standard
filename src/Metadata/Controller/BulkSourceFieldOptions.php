@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace Gally\Metadata\Controller;
 
-use Gally\Metadata\DataPersister\SourceFieldOptionDataPersister;
+use Gally\Metadata\State\SourceFieldOptionProcessor;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Attribute\AsController;
@@ -23,7 +23,7 @@ use Symfony\Component\HttpKernel\Attribute\AsController;
 class BulkSourceFieldOptions extends AbstractController
 {
     public function __construct(
-        private SourceFieldOptionDataPersister $dataPersister,
+        private SourceFieldOptionProcessor $sourceFieldOptionProcessor,
     ) {
     }
 
@@ -31,6 +31,6 @@ class BulkSourceFieldOptions extends AbstractController
     {
         $options = json_decode($request->getContent(), true);
 
-        return $this->dataPersister->persistMultiple($options);
+        return $this->sourceFieldOptionProcessor->persistMultiple($options);
     }
 }

@@ -14,24 +14,29 @@ declare(strict_types=1);
 
 namespace Gally\Product\Model\Source;
 
-use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Metadata\GraphQl\QueryCollection;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\ApiProperty;
+use ApiPlatform\Metadata\ApiFilter;
 use Gally\Metadata\Model\SourceField;
+use Gally\Product\State\ProductSortingOptionProvider;
 use Gally\Search\Model\Source\SortingOption;
 
 #[ApiResource(
-    itemOperations: [],
-    collectionOperations: [
-        'get' => ['pagination_enabled' => false],
+    operations: [
+        new GetCollection(paginationEnabled: false)
     ],
-    graphql: [
-        'collection_query' => ['pagination_enabled' => false],
+    graphQlOperations: [
+        new QueryCollection(name: 'collection_query', paginationEnabled: false)
     ],
-    attributes: [
-        'gally' => [
-            // Allows to add cache tag "/source_fields" in the HTTP response to invalidate proxy cache when a source field is saved.
-            'cache_tag' => ['resource_classes' => [SourceField::class]],
-        ],
-    ],
+    provider: ProductSortingOptionProvider::class,
+    extraProperties: [
+            'gally' => ['cache_tag' => [
+                'resource_classes' => [SourceField::class]
+            ]
+        ]
+    ]
 )]
 class ProductSortingOption extends SortingOption
 {

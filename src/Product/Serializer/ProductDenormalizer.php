@@ -14,10 +14,10 @@ declare(strict_types=1);
 
 namespace Gally\Product\Serializer;
 
-use Gally\Entity\Model\Attribute\AttributeFactory;
-use Gally\Entity\Model\Attribute\StructuredAttributeInterface;
-use Gally\Entity\Model\Attribute\Type\NestedAttribute;
-use Gally\Entity\Model\Attribute\Type\PriceAttribute;
+use Gally\Metadata\Model\Attribute\AttributeFactory;
+use Gally\Metadata\Model\Attribute\StructuredAttributeInterface;
+use Gally\Metadata\Model\Attribute\Type\NestedAttribute;
+use Gally\Metadata\Model\Attribute\Type\PriceAttribute;
 use Gally\Product\Model\Product;
 use Gally\Search\Model\Document;
 use Gally\Search\Service\SearchContext;

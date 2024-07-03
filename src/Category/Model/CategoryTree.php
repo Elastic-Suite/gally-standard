@@ -14,47 +14,40 @@ declare(strict_types=1);
 
 namespace Gally\Category\Model;
 
-use ApiPlatform\Core\Annotation\ApiProperty;
-use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Metadata\GraphQl\Query;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\ApiProperty;
+use ApiPlatform\Metadata\ApiFilter;
 use Gally\Category\Controller\GetCategoryTree;
 use Gally\Category\Resolver\CategoryTreeResolver;
 
 #[ApiResource(
-    collectionOperations: [],
-    itemOperations: [
-        'get_tree' => [
-            'method' => 'GET',
-            'path' => '/categoryTree',
-            'controller' => GetCategoryTree::class,
-            'read' => false,
-            'openapi_context' => [
+    operations: [
+        new Get(
+            uriTemplate: '/categoryTree',
+            controller: GetCategoryTree::class,
+            read: false,
+            openapiContext: [
                 'parameters' => [
-                    [
-                        'name' => 'catalogId',
-                        'in' => 'query',
-                        'type' => 'int',
-                    ],
-                    [
-                        'name' => 'localizedCatalogId',
-                        'in' => 'query',
-                        'type' => 'int',
-                    ],
+                    ['name' => 'catalogId', 'in' => 'query', 'type' => 'int'],
+                    ['name' => 'localizedCatalogId', 'in' => 'query', 'type' => 'int'],
                 ],
             ],
-        ],
+        ),
     ],
-    graphql: [
-        'get' => [
-            'item_query' => CategoryTreeResolver::class,
-            'args' => [
+    graphQlOperations: [
+        new Query(
+            name: 'get',
+            resolver: CategoryTreeResolver::class,
+            args: [
                 'catalogId' => ['type' => 'Int'],
                 'localizedCatalogId' => ['type' => 'Int'],
             ],
-        ],
+        ),
     ],
-    attributes: [
+    extraProperties: [
         'gally' => [
-            // Allows to add cache tags related to these resources in the HTTP response.
             'cache_tag' => ['resource_classes' => [Category::class, Category\Configuration::class]],
         ],
     ],

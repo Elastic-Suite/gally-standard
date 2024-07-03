@@ -14,8 +14,9 @@ declare(strict_types=1);
 
 namespace Gally\GraphQl\Decoration\Type;
 
-use ApiPlatform\Core\GraphQl\Type\FieldsBuilderInterface;
+use ApiPlatform\GraphQl\Type\FieldsBuilderInterface;
 use ApiPlatform\Core\Metadata\Resource\ResourceMetadata;
+use ApiPlatform\Metadata\GraphQl\Operation;
 
 /**
  * Allows to add dynamically rename graphql queries.
@@ -31,13 +32,8 @@ class RenameGraphQlQuery implements FieldsBuilderInterface
     /**
      * {@inheritdoc}
      */
-    public function getCollectionQueryFields(
-        string $resourceClass,
-        ResourceMetadata $resourceMetadata,
-        string $queryName,
-        array $configuration
-    ): array {
-        $fields = $this->decorated->getCollectionQueryFields($resourceClass, $resourceMetadata, $queryName, $configuration);
+    public function getCollectionQueryFields(string $resourceClass, Operation $operation, array $configuration): array {
+        $fields = $this->decorated->getCollectionQueryFields($resourceClass, $operation, $configuration);
 
         if (\array_key_exists($resourceClass, $this->graphqlQueryRenamings)) {
             foreach ($this->graphqlQueryRenamings[$resourceClass]['renamings'] as $oldName => $newName) {
@@ -51,9 +47,9 @@ class RenameGraphQlQuery implements FieldsBuilderInterface
         return $fields;
     }
 
-    public function getItemQueryFields(string $resourceClass, ResourceMetadata $resourceMetadata, string $queryName, array $configuration): array
+    public function getItemQueryFields(string $resourceClass, Operation $operation, array $configuration): array
     {
-        $fields = $this->decorated->getItemQueryFields($resourceClass, $resourceMetadata, $queryName, $configuration);
+        $fields = $this->decorated->getItemQueryFields($resourceClass, $operation, $configuration);
 
         if (\array_key_exists($resourceClass, $this->graphqlQueryRenamings)) {
             foreach ($this->graphqlQueryRenamings[$resourceClass]['renamings'] as $oldName => $newName) {
@@ -72,23 +68,23 @@ class RenameGraphQlQuery implements FieldsBuilderInterface
         return $this->decorated->getNodeQueryFields();
     }
 
-    public function getMutationFields(string $resourceClass, ResourceMetadata $resourceMetadata, string $mutationName): array
+    public function getMutationFields(string $resourceClass, Operation $operation): array
     {
-        return $this->decorated->getMutationFields($resourceClass, $resourceMetadata, $mutationName);
+        return $this->decorated->getMutationFields($resourceClass, $operation);
     }
 
-    public function getSubscriptionFields(string $resourceClass, ResourceMetadata $resourceMetadata, string $subscriptionName): array
+    public function getSubscriptionFields(string $resourceClass, Operation $operation): array
     {
-        return $this->decorated->getSubscriptionFields($resourceClass, $resourceMetadata, $subscriptionName);
+        return $this->decorated->getSubscriptionFields($resourceClass, $operation);
     }
 
-    public function getResourceObjectTypeFields(?string $resourceClass, ResourceMetadata $resourceMetadata, bool $input, ?string $queryName, ?string $mutationName, ?string $subscriptionName, int $depth, ?array $ioMetadata): array
+    public function getResourceObjectTypeFields(?string $resourceClass, Operation $operation, bool $input, int $depth = 0, array $ioMetadata = null): array
     {
-        return $this->decorated->getResourceObjectTypeFields($resourceClass, $resourceMetadata, $input, $queryName, $mutationName, $subscriptionName, $depth, $ioMetadata);
+        return $this->decorated->getResourceObjectTypeFields($resourceClass, $operation, $input, $depth, $ioMetadata);
     }
 
-    public function resolveResourceArgs(array $args, string $operationName, string $shortName): array
+    public function resolveResourceArgs(array $args, Operation $operation): array
     {
-        return $this->decorated->resolveResourceArgs($args, $operationName, $shortName);
+        return $this->decorated->resolveResourceArgs($args, $operation);
     }
 }

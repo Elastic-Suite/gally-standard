@@ -14,25 +14,29 @@ declare(strict_types=1);
 
 namespace Gally\Product\Decoration\GraphQl;
 
-use ApiPlatform\Core\GraphQl\Resolver\Stage\SerializeStageInterface;
+use ApiPlatform\Metadata\Operation;
+use ApiPlatform\State\ProcessorInterface;
 use Gally\Product\Model\Product;
 
 /**
  * Add aggregations data in graphql search document response.
  */
-class AddEntityTypeInContext implements SerializeStageInterface
+class AddEntityTypeInContext implements ProcessorInterface
 {
     public function __construct(
-        private SerializeStageInterface $decorated,
+        private ProcessorInterface $decorated,
     ) {
     }
 
-    public function __invoke($itemOrCollection, string $resourceClass, string $operationName, array $context): ?array
+    /**
+     * @inheritdoc
+     */
+    public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = [])
     {
-        if (Product::class === $resourceClass) {
+        if (Product::class === $operation->getClass()) {
             $context['args']['entityType'] = 'product';
         }
 
-        return $this->decorated->__invoke($itemOrCollection, $resourceClass, $operationName, $context);
+        return $this->decorated->process($data, $operation, $uriVariables, $context);
     }
 }

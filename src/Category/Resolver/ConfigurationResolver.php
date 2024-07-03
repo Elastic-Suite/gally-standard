@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace Gally\Category\Resolver;
 
-use ApiPlatform\Core\GraphQl\Resolver\QueryItemResolverInterface;
+use ApiPlatform\GraphQl\Resolver\QueryItemResolverInterface;
 use Exception;
 use Gally\Catalog\Repository\CatalogRepository;
 use Gally\Catalog\Repository\LocalizedCatalogRepository;
@@ -40,7 +40,7 @@ class ConfigurationResolver implements QueryItemResolverInterface
      *
      * @return ?Configuration
      */
-    public function __invoke($item, array $context)
+    public function __invoke(?object $item, array $context): object
     {
         $categoryId = $context['args']['categoryId'];
         $category = $this->categoryRepository->find($categoryId);

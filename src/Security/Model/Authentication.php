@@ -14,46 +14,41 @@ declare(strict_types=1);
 
 namespace Gally\Security\Model;
 
-use ApiPlatform\Core\Action\NotFoundAction;
-use ApiPlatform\Core\Annotation\ApiProperty;
-use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Metadata\GraphQl\Mutation;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\ApiProperty;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Action\NotFoundAction;
 use Gally\Security\Resolver\AuthenticationMutationResolver;
 
-#[
-    ApiResource(
-        collectionOperations: [],
-        graphql: [
-            'token' => [
-                'mutation' => AuthenticationMutationResolver::class,
-                'validate' => false,
-                'read' => false,
-                'deserialize' => false,
-                'write' => false,
-                'serialize' => true,
-                'args' => [
-                    'email' => ['type' => 'String!', 'description' => 'Email of the user'],
-                    'password' => ['type' => 'String!', 'description' => 'Password of the user'],
-                ],
-            ],
-        ],
-        itemOperations: [
-            'get' => [
-                'controller' => NotFoundAction::class,
-                'read' => false,
-                'output' => false,
-            ],
-        ],
-    ),
-]
+#[ApiResource(
+    operations: [
+        new Get(controller: NotFoundAction::class, read: false, output: false)
+    ],
+    graphQlOperations: [
+        new Mutation(
+            name: 'token',
+            resolver: AuthenticationMutationResolver::class,
+            validate: false,
+            read: false,
+            deserialize: false,
+            write: false,
+            serialize: true,
+            args: [
+                'email' => ['type' => 'String!', 'description' => 'Email of the user'],
+                'password' => ['type' => 'String!', 'description' => 'Password of the user']
+            ]
+        )
+    ]
+)]
 class Authentication
 {
     /**
      * The id is not stored anywhere, it has been created because it is mandatory for ApiResources.
      * E-mail cannot be used as the identifier because of the dots in an e-mail.
      */
-    #[ApiProperty(
-        identifier: true
-    )]
+    #[ApiProperty(identifier: true)]
     private string $id;
 
     private string $email;

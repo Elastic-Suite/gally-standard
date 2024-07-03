@@ -44,7 +44,7 @@ class RuleEngineOperatorsTest extends AbstractTest
                 $this->assertJsonContains(
                     [
                         '@context' => '/contexts/RuleEngineOperators',
-                        '@id' => '/rule_engine_operators?id=rule_engine_operators',
+                        '@id' => '/rule_engine_operators',
                         '@type' => 'RuleEngineOperators',
                         'id' => 'rule_engine_operators',
                         'operators' => [],

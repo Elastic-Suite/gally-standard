@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace Gally\Index\MutationResolver;
 
-use ApiPlatform\Core\GraphQl\Resolver\MutationResolverInterface;
+use ApiPlatform\GraphQl\Resolver\MutationResolverInterface;
 use Gally\Index\Service\SelfReindexOperation;
 
 class SelfReindexMutation implements MutationResolverInterface
@@ -34,7 +34,7 @@ class SelfReindexMutation implements MutationResolverInterface
      *
      * @return object|null The mutated item
      */
-    public function __invoke($item, array $context)
+    public function __invoke(?object $item, array $context): ?object
     {
         $entityType = $context['args']['input']['entityType'];
 

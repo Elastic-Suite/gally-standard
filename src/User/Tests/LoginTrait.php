@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace Gally\User\Tests;
 
-use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\Client;
+use ApiPlatform\Symfony\Bundle\Test\Client;
 use Gally\User\Constant\Role;
 use Gally\User\Model\User;
 

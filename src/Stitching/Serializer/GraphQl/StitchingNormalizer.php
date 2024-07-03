@@ -14,8 +14,8 @@ declare(strict_types=1);
 
 namespace Gally\Stitching\Serializer\GraphQl;
 
-use ApiPlatform\Core\GraphQl\Serializer\ItemNormalizer;
-use ApiPlatform\Core\Metadata\Resource\Factory\ResourceMetadataFactoryInterface;
+use ApiPlatform\GraphQl\Serializer\ItemNormalizer;
+use ApiPlatform\Metadata\Resource\Factory\ResourceMetadataCollectionFactoryInterface;
 use Doctrine\Common\Util\ClassUtils;
 use Gally\Metadata\Repository\MetadataRepository;
 use Gally\ResourceMetadata\Service\ResourceMetadataManager;
@@ -36,7 +36,7 @@ class StitchingNormalizer implements ContextAwareNormalizerInterface, Normalizer
 
     public function __construct(
         private MetadataRepository $metadataRepository,
-        private ResourceMetadataFactoryInterface $resourceMetadataFactory,
+        private ResourceMetadataCollectionFactoryInterface $resourceMetadataCollectionFactory,
         private ResourceMetadataManager $resourceMetadataManager,
         private SerializerService $serializerService
     ) {
@@ -56,7 +56,7 @@ class StitchingNormalizer implements ContextAwareNormalizerInterface, Normalizer
         if (\is_object($data)) {
             // Get object glass with doctrine classUtils in order to avoid error with proxy classes
             $class = ClassUtils::getRealClass($data::class);
-            $resourceMetadata = $this->resourceMetadataFactory->create($class);
+            $resourceMetadata = $this->resourceMetadataCollectionFactory->create($class);
             $stitchingProperty = $this->resourceMetadataManager->getStitchingProperty($resourceMetadata);
         }
 
@@ -71,7 +71,7 @@ class StitchingNormalizer implements ContextAwareNormalizerInterface, Normalizer
         $context[self::ALREADY_CALLED_NORMALIZER] = true;
         $data = $this->normalizer->normalize($object, $format, $context);
 
-        $resourceMetadata = $this->resourceMetadataFactory->create($object::class);
+        $resourceMetadata = $this->resourceMetadataCollectionFactory->create($object::class);
         $metadataEntity = $this->resourceMetadataManager->getMetadataEntity($resourceMetadata);
         $stitchingProperty = $this->resourceMetadataManager->getStitchingProperty($resourceMetadata);
         $sourceFieldTypes = $this->serializerService->getStitchingConfigFromSourceFields($metadataEntity);

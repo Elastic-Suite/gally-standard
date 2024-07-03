@@ -26,7 +26,7 @@ class GallyLoader extends Loader
     {
         $routes = new RouteCollection();
 
-        $resource = '@GallyBundle/src/Security/Resources/config/routing.yaml';
+        $resource = '@GallyBundle/Security/Resources/config/routing.yaml';
         $type = 'yaml';
 
         $importedRoutes = $this->import($resource, $type);

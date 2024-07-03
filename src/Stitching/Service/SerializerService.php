@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace Gally\Stitching\Service;
 
-use Gally\Entity\Constant\SourceFieldAttributeMapping;
+use Gally\Metadata\Constant\SourceFieldAttributeMapping;
 use Gally\Metadata\Repository\MetadataRepository;
 use Gally\Metadata\Repository\SourceFieldRepository;
 

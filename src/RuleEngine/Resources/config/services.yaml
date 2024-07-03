@@ -1,14 +1,14 @@
 services:
     Gally\RuleEngine\Service\RuleType\CombinationRule:
         arguments:
-            - '@Gally\Entity\GraphQl\Type\Definition\Filter\BoolFilterInputType'
+            - '@Gally\Metadata\GraphQl\Type\Definition\Filter\BoolFilterInputType'
             - '@Gally\RuleEngine\Service\RuleEngineManager'
         tags:
             - { name: gally.rule_engine.rule_type } 
 
     Gally\RuleEngine\Service\RuleType\AttributeRule:
         arguments:
-            - '@Gally\Entity\GraphQl\Type\Definition\Filter\BoolFilterInputType'
+            - '@Gally\Metadata\GraphQl\Type\Definition\Filter\BoolFilterInputType'
             - '@Gally\Metadata\Repository\SourceFieldRepository'
             - '@Gally\Metadata\Repository\MetadataRepository'
             - !tagged_iterator { tag: 'gally.entity_api.filter' }

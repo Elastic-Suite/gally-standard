@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace Gally\Menu\Resolver;
 
-use ApiPlatform\Core\GraphQl\Resolver\QueryItemResolverInterface;
+use ApiPlatform\GraphQl\Resolver\QueryItemResolverInterface;
 use Exception;
 use Gally\Menu\Model\Menu;
 use Gally\Menu\Service\MenuBuilder;
@@ -32,7 +32,7 @@ class MenuResolver implements QueryItemResolverInterface
      *
      * @return ?Menu
      */
-    public function __invoke($item, array $context)
+    public function __invoke(?object $item, array $context): object
     {
         return $this->builder->build();
     }

@@ -14,29 +14,29 @@ declare(strict_types=1);
 
 namespace Gally\Index\Model\Index\Mapping;
 
-use ApiPlatform\Core\Annotation\ApiProperty;
-use ApiPlatform\Core\Annotation\ApiResource;
-use Gally\Index\DataProvider\MappingStatusDataProvider;
+use ApiPlatform\Metadata\GraphQl\Query;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\ApiProperty;
+use ApiPlatform\Metadata\ApiFilter;
+use Gally\Index\State\MappingStatusProvider;
 use Gally\User\Constant\Role;
 
-#[
-    ApiResource(
-        collectionOperations: [],
-        graphql: [
-            'get' => [
-                'item_query' => MappingStatusDataProvider::class,
-                'args' => [
-                    'entityType' => ['type' => 'String!'],
-                ],
-                'security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
-            ],
-        ],
-        itemOperations: [
-            'get' => ['security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"],
-        ],
-        shortName: 'MappingStatus',
-    )
-]
+#[ApiResource(
+    operations: [
+        new Get(security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')")
+    ],
+    graphQlOperations: [
+        new Query(
+            name: 'get',
+            resolver: MappingStatusProvider::class,
+            args: ['entityType' => ['type' => 'String!']],
+            security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"
+        )
+    ],
+    provider: MappingStatusProvider::class,
+    shortName: 'MappingStatus'
+)]
 class Status
 {
     public const Green = 'green';     // Current index mapping is accurate with metadata

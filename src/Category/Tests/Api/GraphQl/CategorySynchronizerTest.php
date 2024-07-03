@@ -43,6 +43,7 @@ use Gally\Search\Elasticsearch\Builder\Request\Query\QueryBuilder;
 use Gally\Search\Elasticsearch\Request\Container\Configuration\ContainerConfigurationProvider;
 use Gally\Search\Elasticsearch\RequestFactoryInterface;
 use Gally\Test\AbstractTest;
+use Symfony\Component\Serializer\SerializerInterface;
 
 class CategorySynchronizerTest extends AbstractTest
 {
@@ -51,6 +52,7 @@ class CategorySynchronizerTest extends AbstractTest
     protected static IndexRepositoryInterface $indexRepository;
     protected static CategoryRepository $categoryRepository;
     protected static CategoryConfigurationRepository $categoryConfigurationRepository;
+    protected static SerializerInterface $serializer;
 
     protected function setUp(): void
     {
@@ -61,6 +63,7 @@ class CategorySynchronizerTest extends AbstractTest
         self::$indexRepository = static::getContainer()->get(IndexRepositoryInterface::class);
         self::$categoryRepository = static::getContainer()->get(CategoryRepository::class);
         self::$categoryConfigurationRepository = static::getContainer()->get(CategoryConfigurationRepository::class);
+        self::$serializer = static::getContainer()->get('api_platform.serializer');
         self::loadFixture([
             __DIR__ . '/../../fixtures/catalogs.yaml',
             __DIR__ . '/../../fixtures/source_field.yaml',

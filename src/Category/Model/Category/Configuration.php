@@ -14,73 +14,73 @@ declare(strict_types=1);
 
 namespace Gally\Category\Model\Category;
 
-use ApiPlatform\Core\Annotation\ApiFilter;
-use ApiPlatform\Core\Annotation\ApiProperty;
-use ApiPlatform\Core\Annotation\ApiResource;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\GraphQl\QueryCollection;
+use ApiPlatform\Metadata\GraphQl\Query;
+use ApiPlatform\Metadata\GraphQl\Mutation;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Put;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\ApiProperty;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
 use Gally\Catalog\Model\Catalog;
 use Gally\Catalog\Model\LocalizedCatalog;
 use Gally\Category\Controller\CategoryConfigurationGet;
 use Gally\Category\Model\Category;
 use Gally\Category\Resolver\ConfigurationResolver;
+use ApiPlatform\Metadata\Link;
 use Gally\User\Constant\Role;
 
 #[ApiResource(
-    collectionOperations: [
-        'get' => ['security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"],
-        'post' => ['security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"],
-    ],
-    itemOperations: [
-        'get' => ['security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"],
-        'get_by_context' => [
-            'security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
-            'method' => 'GET',
-            'path' => '/category_configurations/category/{categoryId}',
-            'controller' => CategoryConfigurationGet::class,
-            'read' => false,
-            'openapi_context' => [
+    operations: [
+        new Get(security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
+        new Get(
+            security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
+            uriTemplate: '/category_configurations/category/{categoryId}',
+            uriVariables: [
+                'categoryId' => new Link(
+                    fromClass: Category::class,
+                    fromProperty: 'id'
+                )
+            ],
+            controller: CategoryConfigurationGet::class,
+            read: false,
+            openapiContext: [
                 'parameters' => [
-                    [
-                        'name' => 'categoryId',
-                        'in' => 'path',
-                        'type' => 'Category',
-                        'required' => true,
-                    ],
-                    [
-                        'name' => 'catalogId',
-                        'in' => 'query',
-                        'type' => 'int',
-                    ],
-                    [
-                        'name' => 'localizedCatalogId',
-                        'in' => 'query',
-                        'type' => 'int',
-                    ],
+                    ['name' => 'categoryId', 'in' => 'path', 'type' => 'Category', 'required' => true],
+                    ['name' => 'catalogId', 'in' => 'query', 'type' => 'int'],
+                    ['name' => 'localizedCatalogId', 'in' => 'query', 'type' => 'int'],
                 ],
             ],
-        ],
-        'put' => ['security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"],
-        'patch' => ['security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"],
+        ),
+        new Put(security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
+        new Patch(security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
+        new GetCollection(security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
+        new Post(security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
     ],
-    graphql: [
-        'update' => ['security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"],
-        'item_query' => ['security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"],
-        'collection_query' => ['security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"],
-        'get' => [
-            'item_query' => ConfigurationResolver::class,
-            'security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
-            'args' => [
+    graphQlOperations: [
+        new Mutation(name: 'update', security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
+        new Query(name: 'item_query', security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
+        new QueryCollection(name: 'collection_query', security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
+        new Query(
+            name: 'get',
+            resolver: ConfigurationResolver::class,
+            security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
+            args: [
                 'categoryId' => ['type' => 'String!'],
                 'catalogId' => ['type' => 'Int'],
                 'localizedCatalogId' => ['type' => 'Int'],
             ],
-        ],
+        ),
     ],
     shortName: 'CategoryConfiguration',
 )]
-#[ApiFilter(SearchFilter::class, properties: ['category' => 'exact'])]
-#[ApiFilter(SearchFilter::class, properties: ['catalog' => 'exact'])]
-#[ApiFilter(SearchFilter::class, properties: ['localized_catalog' => 'exact'])]
+#[ApiFilter(filterClass: SearchFilter::class, properties: ['category' => 'exact'])]
+#[ApiFilter(filterClass: SearchFilter::class, properties: ['catalog' => 'exact'])]
+#[ApiFilter(filterClass: SearchFilter::class, properties: ['localized_catalog' => 'exact'])]
 class Configuration
 {
     private int $id;
@@ -98,7 +98,7 @@ class Configuration
     private ?string $virtualRule = null;
 
     #[ApiProperty(
-        attributes: [
+        extraProperties: [
             'hydra:supportedProperty' => [
                 'gally' => [
                     'depends' => [
@@ -114,7 +114,7 @@ class Configuration
     private ?bool $useNameInProductSearch = null;
 
     #[ApiProperty(
-        attributes: [
+        extraProperties: [
             'hydra:supportedProperty' => [
                 'gally' => [
                     'input' => 'select',

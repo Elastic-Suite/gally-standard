@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace Gally\Search\GraphQl\Type\Definition;
 
-use ApiPlatform\Core\GraphQl\Type\Definition\TypeInterface;
+use ApiPlatform\GraphQl\Type\Definition\TypeInterface;
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type as GraphQLType;
 

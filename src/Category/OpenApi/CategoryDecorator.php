@@ -14,9 +14,9 @@ declare(strict_types=1);
 
 namespace Gally\Category\OpenApi;
 
-use ApiPlatform\Core\OpenApi\Factory\OpenApiFactoryInterface;
-use ApiPlatform\Core\OpenApi\Model\Parameter;
-use ApiPlatform\Core\OpenApi\OpenApi;
+use ApiPlatform\OpenApi\Factory\OpenApiFactoryInterface;
+use ApiPlatform\OpenApi\Model\Parameter;
+use ApiPlatform\OpenApi\OpenApi;
 use Gally\OpenApi\Helper\Documentation as DocumentationHelper;
 
 final class CategoryDecorator implements OpenApiFactoryInterface

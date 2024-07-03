@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace Gally\Hydra\Tests\Api\Rest;
 
-use ApiPlatform\Core\Bridge\Symfony\Bundle\Test\ApiTestCase;
+use ApiPlatform\Symfony\Bundle\Test\ApiTestCase;
 
 class DocumentationTest extends ApiTestCase
 {

@@ -14,18 +14,17 @@ declare(strict_types=1);
 
 namespace Gally\OpenApi\Helper;
 
-use ApiPlatform\Core\Documentation\DocumentationInterface;
-use ApiPlatform\Core\OpenApi\Model\Parameter;
-use ApiPlatform\Core\OpenApi\OpenApi;
+use ApiPlatform\Documentation\DocumentationInterface;
+use ApiPlatform\OpenApi\Model\Parameter;
+use ApiPlatform\OpenApi\OpenApi;
 
 class Documentation
 {
     /**
      * Allows to remove a field from swagger documentation.
      */
-    public function removeFieldFromEndpoint(DocumentationInterface $openApi, string $endpoint, string $field): void
+    public function removeFieldFromEndpoint(OpenApi $openApi, string $endpoint, string $field): void
     {
-        /** @var OpenApi $openApi */
         $path = $openApi->getPaths()->getPath($endpoint);
         $parametersWithoutField = [];
         /** @var Parameter $parameter */
@@ -44,9 +43,8 @@ class Documentation
     /**
      * Allows to remove an endpoint from swagger documentation.
      */
-    public function removeEndpoint(DocumentationInterface $openApi, string $endpoint, string $httpVerb = 'get'): void
+    public function removeEndpoint(OpenApi $openApi, string $endpoint, string $httpVerb = 'get'): void
     {
-        /** @var OpenApi $openApi */
         $withFunction = 'with' . ucfirst($httpVerb);
         $path = $openApi->getPaths()->getPath($endpoint);
         $openApi->getPaths()->addPath($endpoint, $path->{$withFunction}(null));

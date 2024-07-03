@@ -14,36 +14,36 @@ declare(strict_types=1);
 
 namespace Gally\Menu\Model;
 
-use ApiPlatform\Core\Annotation\ApiProperty;
-use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Metadata\GraphQl\Query;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\ApiProperty;
+use ApiPlatform\Metadata\ApiFilter;
 use Gally\Menu\Controller\MenuController;
 use Gally\Menu\Resolver\MenuResolver;
 use Gally\User\Constant\Role;
 
-#[
-    ApiResource(
-        itemOperations: [
-            'menu' => [
-                'security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
-                'method' => 'GET',
-                'path' => 'menu',
-                'read' => false,
-                'deserialize' => false,
-                'controller' => MenuController::class,
-            ],
-        ],
-        collectionOperations: [],
-        paginationEnabled: false,
-        graphql: [
-            'get' => [
-                'security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
-                'item_query' => MenuResolver::class,
-                'read' => false,
-                'deserialize' => false,
-                'args' => [],
-            ],
-        ],
-    )
+#[ApiResource(
+    operations: [
+        new Get(
+            security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
+            uriTemplate: 'menu',
+            read: false,
+            deserialize: false,
+            controller: MenuController::class
+        )
+    ],
+    graphQlOperations: [
+        new Query(
+            name: 'get',
+            security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
+            resolver: MenuResolver::class,
+            read: false,
+            deserialize: false,
+            args: []
+        )
+    ],
+    paginationEnabled: false)
 ]
 class Menu
 {

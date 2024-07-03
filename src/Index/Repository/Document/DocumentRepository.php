@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace Gally\Index\Repository\Document;
 
-use ApiPlatform\Core\Exception\InvalidArgumentException;
+use ApiPlatform\Exception\InvalidArgumentException;
 use Gally\Index\Dto\Bulk;
 use Gally\Index\Repository\Index\IndexRepository;
 

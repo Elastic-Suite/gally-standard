@@ -140,7 +140,7 @@ class SpreadSourceFieldData implements EventSubscriberInterface
         $changeSet = $this->entityManager->getUnitOfWork()->getEntityChangeSet($sourceField);
 
         // Remove labels from change set because it create conflict with
-        // \Gally\Metadata\DataPersister\SourceFieldDataPersister::replaceLabels
+        // \Gally\Metadata\State\SourceFieldProcessor::replaceLabels
         // and labels doesn't affect mapping definition.
         unset($changeSet['labels']);
 

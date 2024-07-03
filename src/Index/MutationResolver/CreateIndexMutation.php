@@ -14,8 +14,8 @@ declare(strict_types=1);
 
 namespace Gally\Index\MutationResolver;
 
-use ApiPlatform\Core\Exception\InvalidArgumentException;
-use ApiPlatform\Core\GraphQl\Resolver\MutationResolverInterface;
+use ApiPlatform\Exception\InvalidArgumentException;
+use ApiPlatform\GraphQl\Resolver\MutationResolverInterface;
 use Gally\Catalog\Repository\LocalizedCatalogRepository;
 use Gally\Exception\LogicException;
 use Gally\Index\Service\IndexOperation;
@@ -42,7 +42,7 @@ class CreateIndexMutation implements MutationResolverInterface
      *
      * @return object|null The mutated item
      */
-    public function __invoke($item, array $context)
+    public function __invoke(?object $item, array $context): ?object
     {
         $entityType = $context['args']['input']['entityType'];
         $localizedCatalogCode = $context['args']['input']['localizedCatalog'];

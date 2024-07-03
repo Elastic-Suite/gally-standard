@@ -1,2 +1,4 @@
 services:
-    Gally\ResourceMetadata\Service\ResourceMetadataManager: ~
+    Gally\ResourceMetadata\Service\ResourceMetadataManager:
+        arguments:
+            - '@ApiPlatform\Metadata\Resource\Factory\ResourceMetadataCollectionFactoryInterface'

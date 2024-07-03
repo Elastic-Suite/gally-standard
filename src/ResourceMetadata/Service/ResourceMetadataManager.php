@@ -15,6 +15,11 @@ declare(strict_types=1);
 namespace Gally\ResourceMetadata\Service;
 
 use ApiPlatform\Core\Metadata\Resource\ResourceMetadata;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Operation;
+use ApiPlatform\Metadata\Resource\Factory\ResourceMetadataCollectionFactoryInterface;
+use ApiPlatform\Metadata\Resource\ResourceMetadataCollection;
+use Gally\Exception\LogicException;
 
 /**
  *  Allows to manage gally attributes on ApiResources.
@@ -23,37 +28,49 @@ class ResourceMetadataManager
 {
     public const RESOURCE_METADATA_PATH_ROOT = 'gally';
 
-    public function getIndex(ResourceMetadata $resourceMetadata): ?string
-    {
-        return $this->getResourceMetadataValue($resourceMetadata, 'index');
+    public function __construct(
+        private ResourceMetadataCollectionFactoryInterface $resourceMetadataCollectionFactory,
+    ) {
     }
 
-    public function getMetadataEntity(ResourceMetadata $resourceMetadata): ?string
+    public function getIndex(ResourceMetadataCollection $resourceMetadataCollection): ?string
     {
-        return $this->getResourceMetadataValue($resourceMetadata, 'metadata/entity');
+        return $this->getResourceMetadataValue($resourceMetadataCollection, 'index');
     }
 
-    public function getStitchingProperty(ResourceMetadata $resourceMetadata): ?string
+    public function getMetadataEntity(ResourceMetadataCollection $resourceMetadataCollection): ?string
     {
-        return $this->getResourceMetadataValue($resourceMetadata, 'stitching/property');
+        return $this->getResourceMetadataValue($resourceMetadataCollection, 'metadata/entity');
     }
 
-    public function getCacheTagResourceClasses(ResourceMetadata $resourceMetadata): ?array
+    public function getStitchingProperty(ResourceMetadataCollection $resourceMetadataCollection): ?string
     {
-        return $this->getResourceMetadataValue($resourceMetadata, 'cache_tag/resource_classes');
+        return $this->getResourceMetadataValue($resourceMetadataCollection, 'stitching/property');
+    }
+
+    public function getCacheTagResourceClasses(ResourceMetadataCollection $resourceMetadataCollection): ?array
+    {
+        return $this->getResourceMetadataValue($resourceMetadataCollection, 'cache_tag/resource_classes');
     }
 
     /**
      * Get resource metadata value.
      *
-     * @param ResourceMetadata $resourceMetadata resource metadata
-     * @param string           $path             path of the metadata value node to get from gally node, key levels separated by a '/'
-     *                                           (example: stitching/property)
+     * @param ResourceMetadataCollection $resourceMetadataCollection  resource metadata collection
+     * @param string                     $path                        path of the metadata value node to get from gally node, key levels separated by a '/'
+     *                                                                (example: stitching/property)
      */
-    public function getResourceMetadataValue(ResourceMetadata $resourceMetadata, string $path): mixed
+    public function getResourceMetadataValue(ResourceMetadataCollection $resourceMetadataCollection, string $path): mixed
     {
         $path = explode('/', $path);
-        $value = $resourceMetadata->getAttribute(self::RESOURCE_METADATA_PATH_ROOT);
+
+        foreach ($resourceMetadataCollection as $resourceMetadata) {
+            $value = $resourceMetadata->getExtraProperties()[self::RESOURCE_METADATA_PATH_ROOT] ?? false;
+            if ($value) {
+                break;
+            }
+        }
+
         foreach ($path as $key) {
             if (!isset($value[$key])) {
                 $value = null;
@@ -63,5 +80,23 @@ class ResourceMetadataManager
         }
 
         return $value;
+    }
+
+    public function getOperation(string $resourceClass, ?string $operationClass = null): Operation
+    {
+        $resourceMetadataCollection = $this->resourceMetadataCollectionFactory->create($resourceClass);
+        $operationClass = $operationClass ?? Get::class;
+
+        foreach ($resourceMetadataCollection as $resourceMetadata) {
+            if ($resourceMetadata->getClass() === $resourceClass) {
+                foreach ($resourceMetadata->getOperations() as $operation) {
+                    if ($operation instanceof $operationClass) {
+                        return $operation;
+                    }
+                }
+            }
+        }
+
+        throw new LogicException("'{$operationClass}' operation does not exist for the resource '{$resourceClass}'.");
     }
 }

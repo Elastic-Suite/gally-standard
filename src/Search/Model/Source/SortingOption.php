@@ -14,43 +14,37 @@ declare(strict_types=1);
 
 namespace Gally\Search\Model\Source;
 
-use ApiPlatform\Core\Annotation\ApiProperty;
-use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Metadata\GraphQl\QueryCollection;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\ApiProperty;
+use ApiPlatform\Metadata\ApiFilter;
 use Gally\Metadata\Model\SourceField;
 use Gally\Search\Resolver\DummyResolver;
+use Gally\Search\State\SortingOptionProvider;
 
 #[ApiResource(
-    itemOperations: [],
-    collectionOperations: [
-        'get' => [
-            'pagination_enabled' => false,
-            'openapi_context' => [
+    operations: [
+        new GetCollection(
+            paginationEnabled: false,
+            openapiContext: [
                 'parameters' => [
-                    [
-                        'name' => 'entityType',
-                        'in' => 'query',
-                        'type' => 'string',
-                        'required' => true,
-                    ],
-                ],
-            ],
-        ],
+                    ['name' => 'entityType', 'in' => 'query', 'type' => 'string', 'required' => true]
+                ]
+            ]
+        )
     ],
-    graphql: [
-        'get' => [
-            'collection_query' => DummyResolver::class,
-            'pagination_enabled' => false,
-            'args' => [
-                'entityType' => ['type' => 'String'],
-            ],
-        ],
+    graphQlOperations: [
+        new QueryCollection(
+            name: 'get',
+            resolver: DummyResolver::class,
+            paginationEnabled: false,
+            args: ['entityType' => ['type' => 'String']])
     ],
-    attributes: [
-        'gally' => [
-            // Allows to add cache tag "/source_fields" in the HTTP response to invalidate proxy cache when a source field is saved.
-            'cache_tag' => ['resource_classes' => [SourceField::class]],
-        ],
-    ],
+    provider: SortingOptionProvider::class,
+    extraProperties: [
+        'gally' =>  ['cache_tag' => ['resource_classes' => [SourceField::class]]]
+    ]
 )]
 class SortingOption
 {

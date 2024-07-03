@@ -14,8 +14,8 @@ declare(strict_types=1);
 
 namespace Gally\RuleEngine\OpenApi;
 
-use ApiPlatform\Core\OpenApi\Factory\OpenApiFactoryInterface;
-use ApiPlatform\Core\OpenApi\OpenApi;
+use ApiPlatform\OpenApi\Factory\OpenApiFactoryInterface;
+use ApiPlatform\OpenApi\OpenApi;
 use Gally\OpenApi\Helper\Documentation as DocumentationHelper;
 
 final class RuleEngineDecorator implements OpenApiFactoryInterface

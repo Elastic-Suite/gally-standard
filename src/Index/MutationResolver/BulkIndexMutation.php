@@ -14,8 +14,8 @@ declare(strict_types=1);
 
 namespace Gally\Index\MutationResolver;
 
-use ApiPlatform\Core\Exception\InvalidArgumentException;
-use ApiPlatform\Core\GraphQl\Resolver\MutationResolverInterface;
+use ApiPlatform\Exception\InvalidArgumentException;
+use ApiPlatform\GraphQl\Resolver\MutationResolverInterface;
 use Gally\Index\Dto\Bulk;
 use Gally\Index\Model\Index;
 use Gally\Index\Repository\Index\IndexRepositoryInterface;
@@ -31,12 +31,11 @@ class BulkIndexMutation implements MutationResolverInterface
      *
      * @return Index
      */
-    public function __invoke($item, array $context)
+    public function __invoke(?object $item, array $context): ?object
     {
         $index = $this->getIndex($context);
         $request = new Bulk\Request();
         $request->addDocuments($index, json_decode($context['args']['input']['data'], true) ?? []);
-
         $this->runBulkQuery($index, $request);
 
         return $index;

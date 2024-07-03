@@ -14,33 +14,42 @@ declare(strict_types=1);
 
 namespace Gally\Metadata\Model;
 
-use ApiPlatform\Core\Annotation\ApiFilter;
-use ApiPlatform\Core\Annotation\ApiResource;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\GraphQl\Mutation;
+use ApiPlatform\Metadata\GraphQl\QueryCollection;
+use ApiPlatform\Metadata\GraphQl\Query;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Put;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\ApiProperty;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
 use Gally\Catalog\Model\LocalizedCatalog;
 use Gally\User\Constant\Role;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ApiResource(
-    collectionOperations: [
-        'get' => ['security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"],
-        'post' => ['security' => "is_granted('" . Role::ROLE_ADMIN . "')"],
+    operations: [
+        new Get(security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
+        new Put(security: "is_granted('" . Role::ROLE_ADMIN . "')"),
+        new Patch(security: "is_granted('" . Role::ROLE_ADMIN . "')"),
+        new Delete(security: "is_granted('" . Role::ROLE_ADMIN . "')"),
+        new GetCollection(security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
+        new Post(security: "is_granted('" . Role::ROLE_ADMIN . "')")
     ],
-    itemOperations: [
-        'get' => ['security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"],
-        'put' => ['security' => "is_granted('" . Role::ROLE_ADMIN . "')"],
-        'patch' => ['security' => "is_granted('" . Role::ROLE_ADMIN . "')"],
-        'delete' => ['security' => "is_granted('" . Role::ROLE_ADMIN . "')"],
-    ],
-    graphql: [
-        'item_query' => ['security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"],
-        'collection_query' => ['security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"],
-        'create' => ['security' => "is_granted('" . Role::ROLE_ADMIN . "')"],
-        'update' => ['security' => "is_granted('" . Role::ROLE_ADMIN . "')"],
-        'delete' => ['security' => "is_granted('" . Role::ROLE_ADMIN . "')"],
-    ],
+    graphQlOperations: [
+        new Query(name: 'item_query', security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
+        new QueryCollection(name: 'collection_query', security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
+        new Mutation(name: 'create', security: "is_granted('" . Role::ROLE_ADMIN . "')"),
+        new Mutation(name: 'update', security: "is_granted('" . Role::ROLE_ADMIN . "')"),
+        new Mutation(name: 'delete', security: "is_granted('" . Role::ROLE_ADMIN . "')")
+    ]
 )]
-#[ApiFilter(SearchFilter::class, properties: ['localizedCatalog' => 'exact', 'sourceField' => 'exact'])]
+
+#[ApiFilter(filterClass: SearchFilter::class, properties: ['localizedCatalog' => 'exact', 'sourceField' => 'exact'])]
 class SourceFieldLabel
 {
     private int $id;

@@ -1,6 +1,6 @@
 services:
-    Gally\Bundle\DataProvider\ExtraBundleDataProvider:
+    Gally\Bundle\State\ExtraBundleProvider:
         arguments:
             - '@Symfony\Component\HttpKernel\KernelInterface'
         tags:
-            - { name: api_platform.collection_data_provider }
+            - { name: api_platform.state_provider }

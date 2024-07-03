@@ -14,68 +14,100 @@ declare(strict_types=1);
 
 namespace Gally\Search\Model\Facet;
 
-use ApiPlatform\Core\Annotation\ApiFilter;
-use ApiPlatform\Core\Annotation\ApiProperty;
-use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\ApiProperty;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\GraphQl\Mutation;
+use ApiPlatform\Metadata\GraphQl\Query;
+use ApiPlatform\Metadata\GraphQl\QueryCollection;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
 use Gally\Category\Model\Category;
-use Gally\Entity\Filter\RangeFilterWithDefault;
-use Gally\Entity\Filter\SearchFilterWithDefault;
-use Gally\Entity\Filter\VirtualSearchFilter;
+use Gally\Doctrine\Filter\RangeFilterWithDefault;
+use Gally\Doctrine\Filter\SearchFilterWithDefault;
+use Gally\Doctrine\Filter\VirtualSearchFilter;
 use Gally\Metadata\Model\SourceField;
 use Gally\Search\Elasticsearch\Request\BucketInterface;
-use Gally\User\Constant\Role;
+use Gally\Search\State\Facet\ConfigurationCollectionProvider;
+use Gally\Search\State\Facet\ConfigurationItemProvider;
+use Gally\Search\State\Facet\ConfigurationProcessor;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Gally\User\Constant\Role;
 
 #[ApiResource(
+    operations: [
+        new Get(
+            security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
+            provider: ConfigurationItemProvider::class,
+        ),
+        new Put(
+            security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
+            normalizationContext: [
+                'groups' => ['facet_configuration:read']
+            ],
+            denormalizationContext: [
+                'groups' => ['facet_configuration:write']
+            ],
+        ),
+        new Patch(
+            security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
+            normalizationContext: [
+                'groups' => ['facet_configuration:read']
+            ],
+            denormalizationContext: [
+                'groups' => ['facet_configuration:write']
+            ]
+        ),
+        new Delete(security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
+        new GetCollection(
+            security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
+            provider:  ConfigurationCollectionProvider::class,
+        )
+    ],
+    graphQlOperations: [
+        new Query(
+            name: 'item_query',
+            security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
+            normalizationContext: [
+                'groups' => ['facet_configuration:read', 'facet_configuration:graphql_read']
+            ],
+            denormalizationContext: [
+                'groups' => ['facet_configuration:read', 'facet_configuration:graphql_read']]
+        ),
+        new QueryCollection(
+            name: 'collection_query',
+            provider:  ConfigurationCollectionProvider::class,
+            security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
+            normalizationContext: ['groups' => ['facet_configuration:read', 'facet_configuration:graphql_read']],
+            denormalizationContext: ['groups' => ['facet_configuration:read', 'facet_configuration:graphql_read']],
+            paginationType: 'page'
+        ),
+        new Mutation(
+            name: 'update',
+            security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
+            normalizationContext: ['groups' => ['facet_configuration:read', 'facet_configuration:graphql_read']],
+            denormalizationContext: ['groups' => ['facet_configuration:write']]),
+        new Mutation(
+            name: 'delete',
+            security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"
+        )
+    ],
+    provider: ConfigurationItemProvider::class,
+    processor: ConfigurationProcessor::class,
     shortName: 'FacetConfiguration',
-    collectionOperations: [
-        'get' => ['security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"],
+    extraProperties : ['gally' => [
+        'cache_tag' => ['resource_classes' => [SourceField::class]]]
     ],
-    itemOperations: [
-        'get' => ['security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"],
-        'put' => [
-            'security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
-            'normalization_context' => ['groups' => ['facet_configuration:read']],
-            'denormalization_context' => ['groups' => ['facet_configuration:write']],
-        ],
-        'patch' => [
-            'security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
-            'normalization_context' => ['groups' => ['facet_configuration:read']],
-            'denormalization_context' => ['groups' => ['facet_configuration:write']],
-        ],
-        'delete' => ['security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"],
-    ],
-    graphql: [
-        'item_query' => [
-            'security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
-            'normalization_context' => ['groups' => ['facet_configuration:read', 'facet_configuration:graphql_read']],
-            'denormalization_context' => ['groups' => ['facet_configuration:read', 'facet_configuration:graphql_read']],
-        ],
-        'collection_query' => [
-            'security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
-            'normalization_context' => ['groups' => ['facet_configuration:read', 'facet_configuration:graphql_read']],
-            'denormalization_context' => ['groups' => ['facet_configuration:read', 'facet_configuration:graphql_read']],
-            'pagination_type' => 'page',
-        ],
-        'update' => [
-            'security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
-            'normalization_context' => ['groups' => ['facet_configuration:read', 'facet_configuration:graphql_read']],
-            'denormalization_context' => ['groups' => ['facet_configuration:write']],
-        ],
-        'delete' => ['security' => "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"],
-    ],
-    normalizationContext: ['groups' => ['facet_configuration:read']],
     denormalizationContext: ['groups' => ['facet_configuration:read']],
-    attributes: [
-        'gally' => [
-            // Allows to add cache tag "/source_fields" in the HTTP response to invalidate proxy cache when a source field is saved.
-            'cache_tag' => ['resource_classes' => [SourceField::class]],
-        ],
-    ],
+    normalizationContext: ['groups' => ['facet_configuration:read']]
 )]
-#[ApiFilter(VirtualSearchFilter::class, properties: ['search' => ['type' => 'string', 'strategy' => 'ipartial']])]
-#[ApiFilter(SearchFilterWithDefault::class, properties: ['sourceField.metadata.entity' => 'exact', 'category' => 'exact', 'displayMode' => 'exact', 'sortOrder' => 'exact'], arguments: ['defaultValues' => self::DEFAULT_VALUES])]
-#[ApiFilter(RangeFilterWithDefault::class, properties: ['coverageRate', 'maxSize', 'position'], arguments: ['defaultValues' => self::DEFAULT_VALUES])]
+#[ApiFilter(filterClass: VirtualSearchFilter::class, properties: ['search' => ['type' => 'string', 'strategy' => 'ipartial']])]
+#[ApiFilter(filterClass: SearchFilterWithDefault::class, properties: ['sourceField.metadata.entity' => 'exact', 'category' => 'exact', 'displayMode' => 'exact', 'sortOrder' => 'exact'], arguments: ['defaultValues' => self::DEFAULT_VALUES])]
+#[ApiFilter(filterClass: RangeFilterWithDefault::class, properties: ['coverageRate', 'maxSize', 'position'], arguments: ['defaultValues' => self::DEFAULT_VALUES])]
 class Configuration
 {
     public const DISPLAY_MODE_AUTO = 'auto';
@@ -102,7 +134,7 @@ class Configuration
     private ?Category $category;
 
     #[ApiProperty(
-        attributes: [
+        extraProperties: [
             'hydra:supportedProperty' => [
                 'hydra:property' => [
                     'rdfs:label' => 'Display',
@@ -127,7 +159,7 @@ class Configuration
     private ?string $displayMode = null;
 
     #[ApiProperty(
-        attributes: [
+        extraProperties: [
             'hydra:supportedProperty' => [
                 'hydra:property' => [
                     'rdfs:label' => 'Coverage',
@@ -149,7 +181,7 @@ class Configuration
     private ?int $coverageRate = null;
 
     #[ApiProperty(
-        attributes: [
+        extraProperties: [
             'hydra:supportedProperty' => [
                 'hydra:property' => [
                     'rdfs:label' => 'Max size',
@@ -169,7 +201,7 @@ class Configuration
     private ?int $maxSize = null;
 
     #[ApiProperty(
-        attributes: [
+        extraProperties: [
             'hydra:supportedProperty' => [
                 'hydra:property' => [
                     'rdfs:label' => 'Sort order',
@@ -195,7 +227,7 @@ class Configuration
     private ?string $sortOrder = null;
 
     #[ApiProperty(
-        attributes: [
+        extraProperties: [
             'hydra:supportedProperty' => [
                 'hydra:property' => [
                     'rdfs:label' => 'Facet recommenders',
@@ -212,7 +244,7 @@ class Configuration
     private ?bool $isRecommendable = null;
 
     #[ApiProperty(
-        attributes: [
+        extraProperties: [
             'hydra:supportedProperty' => [
                 'hydra:property' => [
                     'rdfs:label' => 'Virtual attributes',
@@ -229,7 +261,7 @@ class Configuration
     private ?bool $isVirtual = null;
 
     #[ApiProperty(
-        attributes: [
+        extraProperties: [
             'hydra:supportedProperty' => [
                 'hydra:property' => [
                     'rdfs:label' => 'Position',
@@ -409,7 +441,7 @@ class Configuration
     }
 
     #[ApiProperty(
-        attributes: [
+        extraProperties: [
             'hydra:supportedProperty' => [
                 'hydra:property' => [
                     'rdfs:label' => 'Attribute label',

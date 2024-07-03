@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace Gally\Category\Decoration;
 
-use ApiPlatform\Core\GraphQl\Resolver\MutationResolverInterface;
+use ApiPlatform\GraphQl\Resolver\MutationResolverInterface;
 use Gally\Category\Exception\SyncCategoryException;
 use Gally\Category\Service\CategoryProductPositionManager;
 use Gally\Category\Service\CategorySynchronizer;
@@ -38,7 +38,7 @@ class SyncCategoryDataAfterBulk implements MutationResolverInterface
      *
      * @return Index
      */
-    public function __invoke($item, array $context)
+    public function __invoke(?object $item, array $context): ?object
     {
         /** @var Index $index */
         $index = $this->decorated->__invoke($item, $context);

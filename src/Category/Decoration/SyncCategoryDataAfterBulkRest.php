@@ -15,6 +15,9 @@ declare(strict_types=1);
 namespace Gally\Category\Decoration;
 
 use ApiPlatform\Core\DataPersister\DataPersisterInterface;
+use ApiPlatform\Metadata\DeleteOperationInterface;
+use ApiPlatform\Metadata\Operation;
+use ApiPlatform\State\ProcessorInterface;
 use Gally\Category\Exception\SyncCategoryException;
 use Gally\Category\Service\CategoryProductPositionManager;
 use Gally\Category\Service\CategorySynchronizer;
@@ -22,10 +25,10 @@ use Gally\Index\Api\IndexSettingsInterface;
 use Gally\Index\Model\IndexDocument;
 use Gally\Index\Repository\Index\IndexRepositoryInterface;
 
-class SyncCategoryDataAfterBulkRest implements DataPersisterInterface
+class SyncCategoryDataAfterBulkRest implements ProcessorInterface
 {
     public function __construct(
-        private DataPersisterInterface $decorated,
+        private ProcessorInterface $decorated,
         private CategorySynchronizer $synchronizer,
         private IndexSettingsInterface $indexSettings,
         private IndexRepositoryInterface $indexRepository,
@@ -38,9 +41,13 @@ class SyncCategoryDataAfterBulkRest implements DataPersisterInterface
      *
      * @param IndexDocument $data
      */
-    public function persist($data): IndexDocument
+    public function process($data, Operation $operation, array $uriVariables = [], array $context = []): ?IndexDocument
     {
-        $this->decorated->persist($data);
+        if ($operation instanceof DeleteOperationInterface) {
+            return $this->decorated->process($data, $operation, $uriVariables, $context);
+        }
+
+        $this->decorated->process($data, $operation, $uriVariables, $context);
         $index = $this->indexRepository->findByName($data->getIndexName());
 
         if (null !== $index->getEntityType() && $this->indexSettings->isInstalled($index)) { // Don't synchronize if index is not installed
@@ -70,23 +77,5 @@ class SyncCategoryDataAfterBulkRest implements DataPersisterInterface
         }
 
         return $data;
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * @codeCoverageIgnore
-     */
-    public function remove($data)
-    {
-        return $this->decorated->remove($data);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function supports($data): bool
-    {
-        return $this->decorated->supports($data);
     }
 }

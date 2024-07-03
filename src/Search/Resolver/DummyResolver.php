@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace Gally\Search\Resolver;
 
-use ApiPlatform\Core\GraphQl\Resolver\QueryCollectionResolverInterface;
+use ApiPlatform\GraphQl\Resolver\QueryCollectionResolverInterface;
 
 class DummyResolver implements QueryCollectionResolverInterface
 {

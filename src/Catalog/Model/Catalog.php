@@ -14,36 +14,43 @@ declare(strict_types=1);
 
 namespace Gally\Catalog\Model;
 
-use ApiPlatform\Core\Annotation\ApiFilter;
-use ApiPlatform\Core\Annotation\ApiResource;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\GraphQl\Mutation;
+use ApiPlatform\Metadata\GraphQl\QueryCollection;
+use ApiPlatform\Metadata\GraphQl\Query;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Put;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\ApiProperty;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Gally\User\Constant\Role;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ApiResource(
-    collectionOperations: [
-        'get',
-        'post' => ['security' => "is_granted('" . Role::ROLE_ADMIN . "')"],
+    operations: [
+        new Get(),
+        new Put(security: "is_granted('" . Role::ROLE_ADMIN . "')"),
+        new Patch(security: "is_granted('" . Role::ROLE_ADMIN . "')"),
+        new Delete(security: "is_granted('" . Role::ROLE_ADMIN . "')"),
+        new GetCollection(),
+        new Post(security: "is_granted('" . Role::ROLE_ADMIN . "')")
     ],
-    itemOperations: [
-        'get',
-        'put' => ['security' => "is_granted('" . Role::ROLE_ADMIN . "')"],
-        'patch' => ['security' => "is_granted('" . Role::ROLE_ADMIN . "')"],
-        'delete' => ['security' => "is_granted('" . Role::ROLE_ADMIN . "')"],
-    ],
-    graphql: [
-        'item_query',
-        'collection_query',
-        'create' => ['security' => "is_granted('" . Role::ROLE_ADMIN . "')"],
-        'update' => ['security' => "is_granted('" . Role::ROLE_ADMIN . "')"],
-        'delete' => ['security' => "is_granted('" . Role::ROLE_ADMIN . "')"],
-    ],
-    normalizationContext: ['groups' => 'catalog:read']
+    graphQlOperations: [
+        new Query(name: 'item_query'),
+        new QueryCollection(name: 'collection_query'),
+        new Mutation(name: 'create', security: "is_granted('" . Role::ROLE_ADMIN . "')"),
+        new Mutation(name: 'update', security: "is_granted('" . Role::ROLE_ADMIN . "')"),
+        new Mutation(name: 'delete', security: "is_granted('" . Role::ROLE_ADMIN . "')")],
+    normalizationContext: ['groups' => ['catalog:read']]
 )]
 
-#[ApiFilter(SearchFilter::class, properties: ['code' => 'exact'])]
+#[ApiFilter(filterClass: SearchFilter::class, properties: ['code' => 'exact'])]
 class Catalog
 {
     #[Groups('catalog:read')]

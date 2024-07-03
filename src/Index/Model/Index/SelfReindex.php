@@ -14,57 +14,61 @@ declare(strict_types=1);
 
 namespace Gally\Index\Model\Index;
 
-use ApiPlatform\Core\Action\NotFoundAction;
-use ApiPlatform\Core\Annotation\ApiProperty;
-use ApiPlatform\Core\Annotation\ApiResource;
-use Gally\Index\Dto\SelfReindexInput;
+use ApiPlatform\Metadata\GraphQl\Mutation;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\ApiProperty;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Action\NotFoundAction;
+use Gally\Index\Dto\SelfReindexDto;
 use Gally\Index\Model\Index;
 use Gally\Index\MutationResolver\SelfReindexMutation;
+use Gally\Index\State\SelfReIndexProcessor;
 use Gally\User\Constant\Role;
 use Symfony\Component\Uid\Uuid;
 
-#[
-    ApiResource(
-        collectionOperations: [
-            'post' => [
-                'path' => '/indices/self-reindex',
-                'method' => 'POST',
-                'input' => SelfReindexInput::class,
-                'deserialize' => true,
-                'read' => false,
-                'write' => false,
-                'serialize' => true,
-                'openapi_context' => [
-                    'description' => 'Reindex indices of one or all entities',
-                    'summary' => 'Reindex locally one or more entity indices',
-                ],
-                'security' => "is_granted('" . Role::ROLE_ADMIN . "')",
+#[ApiResource(
+    operations: [
+        new Get(
+            uriTemplate: '/indices/self-reindex',
+            controller: NotFoundAction::class,
+            read: false,
+            output: false,
+        ),
+        new Post(
+            uriTemplate: '/indices/self-reindex',
+            input: SelfReindexDto::class,
+            processor: SelfReIndexProcessor::class,
+            deserialize: true,
+            read: false,
+            write: true,
+            serialize: true,
+            openapiContext: [
+                'description' => 'Reindex indices of one or all entities',
+                'summary' => 'Reindex locally one or more entity indices'
             ],
-        ],
-        graphql: [
-            'perform' => [
-                'mutation' => SelfReindexMutation::class,
-                'args' => [
-                    'entityType' => ['type' => 'String', 'description' => 'Entity type for which to refresh indices'],
-                ],
-                'read' => false,
-                'deserialize' => false,
-                'write' => false,
-                'serialize' => true,
-                'security' => "is_granted('" . Role::ROLE_ADMIN . "')",
+            security: "is_granted('" . Role::ROLE_ADMIN . "')",
+        ),
+    ],
+    graphQlOperations: [
+        new Mutation(
+            name: 'perform',
+            resolver: SelfReindexMutation::class,
+            args: [
+                'entityType' => [
+                    'type' => 'String',
+                    'description' => 'Entity type for which to refresh indices'
+                ]
             ],
-        ],
-        itemOperations: [
-            'get' => [
-                'path' => '/indices/self-reindex',
-                'controller' => NotFoundAction::class,
-                'read' => false,
-                'output' => false,
-                'visible' => false,
-            ],
-        ],
-    )
-]
+            read: false,
+            deserialize: false,
+            write: false,
+            serialize: true,
+            security: "is_granted('" . Role::ROLE_ADMIN . "')",
+        ),
+    ],
+)]
 class SelfReindex
 {
     public const STATUS_ABORTED = 'Aborted';

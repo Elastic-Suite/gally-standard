@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace Gally\Metadata\Validator;
 
-use ApiPlatform\Core\Exception\InvalidArgumentException;
+use ApiPlatform\Exception\InvalidArgumentException;
 use Doctrine\ORM\EntityManagerInterface;
 use Gally\Catalog\Repository\LocalizedCatalogRepository;
 use Gally\Metadata\Model\SourceField;
@@ -79,7 +79,7 @@ class SourceFieldDataValidator
         $metadataId = (int) str_replace('/metadata/', '', $rawData['metadata']);
 
         if (!\array_key_exists($metadataId, $this->getExistingMetadataIds())) {
-            throw new InvalidArgumentException("Item not found for \"${$rawData['metadata']}\".");
+            throw new InvalidArgumentException("Item not found for \"{${$rawData['metadata']}}\".");
         }
 
         // Prevent user to update a system source field, only the value of 'weight' and 'isSpellchecked' can be changed.

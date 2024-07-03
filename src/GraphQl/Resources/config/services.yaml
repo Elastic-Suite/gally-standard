@@ -1,8 +1,7 @@
-services:
+services: 
     Gally\GraphQl\Decoration\Resolver\Stage\ReadStage:
-        decorates: api_platform.graphql.resolver.stage.read
+        decorates: api_platform.graphql.state_provider.read
         arguments:
-            - '@api_platform.metadata.resource.metadata_factory'
             - '@.inner'
 
     Gally\GraphQl\Decoration\Serializer\SerializerContextBuilder:

@@ -14,9 +14,9 @@ declare(strict_types=1);
 
 namespace Gally\Search\Tests\Api\GraphQl;
 
-use Gally\Entity\Service\PriceGroupProvider;
-use Gally\Entity\Service\ReferenceLocationProvider;
 use Gally\Fixture\Service\ElasticsearchFixturesInterface;
+use Gally\Metadata\Service\PriceGroupProvider;
+use Gally\Metadata\Service\ReferenceLocationProvider;
 use Gally\Search\Elasticsearch\Request\SortOrderInterface;
 use Gally\Test\AbstractTest;
 use Gally\Test\ExpectedResponse;

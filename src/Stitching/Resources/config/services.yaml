@@ -3,7 +3,7 @@ services:
         decorates: api_platform.graphql.fields_builder
         arguments:
             - '@Gally\Metadata\Repository\MetadataRepository'
-            - '@ApiPlatform\Core\Metadata\Resource\Factory\ResourceMetadataFactoryInterface'
+            - '@ApiPlatform\Metadata\Resource\Factory\ResourceMetadataCollectionFactoryInterface'
             - '@Gally\ResourceMetadata\Service\ResourceMetadataManager'
             - '@api_platform.graphql.types_container'
             - '@.inner'
@@ -11,7 +11,7 @@ services:
     Gally\Stitching\Serializer\GraphQl\StitchingNormalizer:
         arguments:
             - '@Gally\Metadata\Repository\MetadataRepository'
-            - '@ApiPlatform\Core\Metadata\Resource\Factory\ResourceMetadataFactoryInterface'
+            - '@ApiPlatform\Metadata\Resource\Factory\ResourceMetadataCollectionFactoryInterface'
             - '@Gally\ResourceMetadata\Service\ResourceMetadataManager'
             - '@Gally\Stitching\Service\SerializerService'
         tags:

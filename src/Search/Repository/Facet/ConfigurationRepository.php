@@ -18,7 +18,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\Persistence\ManagerRegistry;
 use Gally\Category\Model\Category;
-use Gally\Entity\Model\Doctrine\QueryBuilder;
+use Gally\Metadata\Model\Doctrine\QueryBuilder;
 use Gally\Metadata\Model\Metadata;
 use Gally\Metadata\Model\SourceField;
 use Gally\Search\Hydrator\FacetConfigurationHydrator;

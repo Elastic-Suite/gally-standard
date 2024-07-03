@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace Gally\Metadata\Validator;
 
-use ApiPlatform\Core\Exception\InvalidArgumentException;
+use ApiPlatform\Exception\InvalidArgumentException;
 use Gally\Catalog\Repository\LocalizedCatalogRepository;
 use Gally\Metadata\Model\SourceField;
 

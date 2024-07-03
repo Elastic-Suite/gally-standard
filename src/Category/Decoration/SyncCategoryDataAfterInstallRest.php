@@ -15,36 +15,48 @@ declare(strict_types=1);
 namespace Gally\Category\Decoration;
 
 use ApiPlatform\Core\DataTransformer\DataTransformerInterface;
-use ApiPlatform\Core\Exception\InvalidArgumentException;
+use ApiPlatform\Exception\InvalidArgumentException;
+use ApiPlatform\Metadata\Operation;
+use ApiPlatform\State\Pagination\PartialPaginatorInterface;
+use ApiPlatform\State\ProcessorInterface;
+use ApiPlatform\State\ProviderInterface;
 use Gally\Category\Exception\SyncCategoryException;
 use Gally\Category\Service\CategoryProductPositionManager;
 use Gally\Category\Service\CategorySynchronizer;
 use Gally\Index\DataTransformer\InstallIndexDataTransformer;
-use Gally\Index\Dto\InstallIndexInput;
+use Gally\Index\Dto\InstallIndexDto;
 use Gally\Index\Model\Index;
+use Gally\Index\State\InstallIndexProcessor;
+use Symfony\Component\Serializer\SerializerInterface;
 
-class SyncCategoryDataAfterInstallRest implements DataTransformerInterface
+class SyncCategoryDataAfterInstallRest implements ProcessorInterface
 {
     public function __construct(
-        private InstallIndexDataTransformer $decorated,
+        private InstallIndexProcessor $decorated,
         private CategorySynchronizer $synchronizer,
         private CategoryProductPositionManager $categoryProductPositionManager,
+        private SerializerInterface $serializer
     ) {
     }
 
     /**
-     * @param InstallIndexInput $object  input object
-     * @param string            $to      target class
-     * @param array<mixed>      $context context
+     * {@inheritdoc}
+     * @param InstallIndexDto $data data
      *
      * @throws InvalidArgumentException
-     *
-     * @return object
      */
-    public function transform($object, string $to, array $context = [])
+    public function process($data, Operation $operation, array $uriVariables = [], array $context = [])
     {
-        /** @var Index $index */
-        $index = $this->decorated->transform($object, $to, $context);
+        /** @var ?string $indexSerialized */
+        $indexSerialized = $this->decorated->process($data, $operation, $uriVariables, $context);
+
+        $request = $context['request'] ??  null;
+        $format = $request?->getRequestFormat() ?? 'jsonld';
+        $index = $this->serializer->deserialize($indexSerialized, Index::class, $format);
+
+        if (!$index instanceof Index) {
+            return null;
+        }
 
         if ('category' === $index->getEntityType()) { // Synchronize sql data for category entity
             try {
@@ -59,11 +71,6 @@ class SyncCategoryDataAfterInstallRest implements DataTransformerInterface
             $this->categoryProductPositionManager->reindexPositionsByIndex($index);
         }
 
-        return $index;
-    }
-
-    public function supportsTransformation($data, string $to, array $context = []): bool
-    {
-        return $this->decorated->supportsTransformation($data, $to, $context);
+        return $this->serializer->serialize($index, $format);
     }
 }

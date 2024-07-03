@@ -14,8 +14,10 @@ declare(strict_types=1);
 
 namespace Gally\Cache\Service;
 
-use ApiPlatform\Core\Api\IriConverterInterface;
-use ApiPlatform\Core\Metadata\Resource\Factory\ResourceMetadataFactoryInterface;
+use ApiPlatform\Api\IriConverterInterface;
+use ApiPlatform\Api\UrlGeneratorInterface;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Resource\Factory\ResourceMetadataCollectionFactoryInterface;
 use Gally\ResourceMetadata\Service\ResourceMetadataManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -25,7 +27,7 @@ class ProxyCacheManager
     public function __construct(
         private RequestStack $requestStack,
         private ResourceMetadataManager $resourceMetadataManager,
-        private ResourceMetadataFactoryInterface $resourceMetadataFactory,
+        private ResourceMetadataCollectionFactoryInterface $resourceMetadataCollectionFactory,
         private IriConverterInterface $iriConverter,
     ) {
     }
@@ -48,13 +50,13 @@ class ProxyCacheManager
      */
     public function addCacheTagResourceCollection(string $resourceClass, ?Request $request = null): void
     {
-        $resourceMetadata = $this->resourceMetadataFactory->create($resourceClass);
-        $resourceClasses = $this->resourceMetadataManager->getCacheTagResourceClasses($resourceMetadata);
+        $resourceMetadataCollection = $this->resourceMetadataCollectionFactory->create($resourceClass);
+        $resourceClasses = $this->resourceMetadataManager->getCacheTagResourceClasses($resourceMetadataCollection);
 
         if (null !== $resourceClasses) {
             $resources = [];
             foreach ($resourceClasses as $class) {
-                $iri = $this->iriConverter->getIriFromResourceClass($class);
+                $iri = $this->iriConverter->getIriFromResource($class, UrlGeneratorInterface::ABS_PATH, new GetCollection());
                 $resources[$iri] = $iri;
             }
 
