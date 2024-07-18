@@ -1542,6 +1542,7 @@ class SearchProductsTest extends AbstractTest
                                 value
                                 count
                               }
+                              date_format
                               hasMore
                             }
                         }
@@ -1644,6 +1645,19 @@ class SearchProductsTest extends AbstractTest
                     ['field' => 'is_eco_friendly', 'label' => 'Is_eco_friendly', 'type' => 'boolean'],
                     ['field' => 'weight', 'label' => 'Weight', 'type' => 'slider'],
                     [
+                        'field' => 'created_at',
+                        'label' => 'Created_at',
+                        'type' => 'date_histogram',
+                        'date_format' => 'yyyy-MM-dd',
+                        'options' => [
+                            [
+                                'label' => '2022-09-01',
+                                'value' => '2022-09-01',
+                                'count' => 1,
+                            ],
+                        ],
+                    ],
+                    [
                         'field' => 'category__id',
                         'label' => 'Category',
                         'type' => 'category',
@@ -1691,6 +1705,19 @@ class SearchProductsTest extends AbstractTest
                     ['field' => 'is_eco_friendly', 'label' => 'Is_eco_friendly', 'type' => 'boolean'],
                     ['field' => 'weight', 'label' => 'Weight', 'type' => 'slider'],
                     ['field' => 'size', 'label' => 'Size', 'type' => 'slider'],
+                    [
+                        'field' => 'created_at',
+                        'label' => 'Created_at',
+                        'type' => 'date_histogram',
+                        'date_format' => 'yyyy-MM-dd',
+                        'options' => [
+                            [
+                                'label' => '2022-09-01',
+                                'value' => '2022-09-01',
+                                'count' => 1,
+                            ],
+                        ],
+                    ],
                     ['field' => 'brand__value', 'label' => 'Brand', 'type' => 'checkbox'],
                     [
                         'field' => 'manufacture_location',
@@ -1809,6 +1836,19 @@ class SearchProductsTest extends AbstractTest
                             ],
                         ],
                     ],
+                    [
+                        'field' => 'created_at',
+                        'label' => 'Created_at',
+                        'type' => 'date_histogram',
+                        'date_format' => 'yyyy-MM-dd',
+                        'options' => [
+                            [
+                                'label' => '2022-09-01',
+                                'value' => '2022-09-01',
+                                'count' => 1,
+                            ],
+                        ],
+                    ],
                     ['field' => 'category__id', 'label' => 'Category', 'type' => 'category'],
                     [
                         'field' => 'manufacture_location',
@@ -1852,6 +1892,19 @@ class SearchProductsTest extends AbstractTest
                             ],
                         ],
                     ],
+                    [
+                        'field' => 'created_at',
+                        'label' => 'Created_at',
+                        'type' => 'date_histogram',
+                        'date_format' => 'yyyy-MM-dd',
+                        'options' => [
+                            [
+                                'label' => '2022-09-01',
+                                'value' => '2022-09-01',
+                                'count' => 1,
+                            ],
+                        ],
+                    ],
                     ['field' => 'category__id', 'label' => 'Category', 'type' => 'category'],
                     [
                         'field' => 'manufacture_location',
@@ -1878,6 +1931,19 @@ class SearchProductsTest extends AbstractTest
                 [       // expected aggregations sample.
                     ['field' => 'is_eco_friendly', 'label' => 'Is_eco_friendly', 'type' => 'boolean'],
                     ['field' => 'weight', 'label' => 'Weight', 'type' => 'slider'],
+                    [
+                        'field' => 'created_at',
+                        'label' => 'Created_at',
+                        'type' => 'date_histogram',
+                        'date_format' => 'yyyy-MM-dd',
+                        'options' => [
+                            [
+                                'label' => '2022-09-01',
+                                'value' => '2022-09-01',
+                                'count' => 1,
+                            ],
+                        ],
+                    ],
                     ['field' => 'category__id', 'label' => 'Category', 'type' => 'category'],
                     [
                         'field' => 'manufacture_location',
@@ -1958,6 +2024,19 @@ class SearchProductsTest extends AbstractTest
                 [       // expected aggregations sample.
                     ['field' => 'is_eco_friendly', 'label' => 'Is_eco_friendly', 'type' => 'boolean'],
                     ['field' => 'weight', 'label' => 'Weight', 'type' => 'slider'],
+                    [
+                        'field' => 'created_at',
+                        'label' => 'Created_at',
+                        'type' => 'date_histogram',
+                        'date_format' => 'yyyy-MM-dd',
+                        'options' => [
+                            [
+                                'label' => '2022-09-01',
+                                'value' => '2022-09-01',
+                                'count' => 1,
+                            ],
+                        ],
+                    ],
                     ['field' => 'category__id', 'label' => 'Category', 'type' => 'category'],
                     [
                         'field' => 'manufacture_location',

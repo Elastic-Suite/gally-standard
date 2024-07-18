@@ -39,8 +39,6 @@ class DateTypeFilterInputType extends AbstractFilter
     {
         return [
             'fields' => [
-                FilterOperator::EQ => Type::string(),
-                FilterOperator::IN => Type::listOf(Type::string()),
                 FilterOperator::GTE => Type::string(),
                 FilterOperator::GT => Type::string(),
                 FilterOperator::LT => Type::string(),
@@ -56,10 +54,8 @@ class DateTypeFilterInputType extends AbstractFilter
 
         if (empty($inputData)) {
             $errors[] = sprintf(
-                "Filter argument %s: At least '%s', '%s', '%s', '%s', '%s', '%s' or '%s' should be filled.",
+                "Filter argument %s: At least '%s', '%s', '%s', '%s' or '%s' should be filled.",
                 $argName,
-                FilterOperator::EQ,
-                FilterOperator::IN,
                 FilterOperator::GTE,
                 FilterOperator::GT,
                 FilterOperator::LT,
