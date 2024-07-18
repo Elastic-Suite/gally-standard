@@ -114,6 +114,7 @@ Gally\Metadata\Model\SourceField:
         metadata: '@product'
         code: 'created_at'
         type: 'date'
+        isFilterable: true
         isUsedForRules: true
         isSortable: true
     product_description:
