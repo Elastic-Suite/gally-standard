@@ -1047,3 +1047,13 @@ Gally\Metadata\Model\SourceField:
         isFilterable: true
         isSortable: true
         isUsedForRules: true
+    product_file:
+        metadata: '@product'
+        code: file
+        type: file
+        weight: 1
+        isSearchable: true
+        isSpellchecked: true
+        isFilterable: false
+        isSortable: false
+        isUsedForRules: false
