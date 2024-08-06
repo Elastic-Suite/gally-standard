@@ -29,6 +29,7 @@ class Type
     public const TYPE_OBJECT = 'object';
     public const TYPE_DATE = 'date';
     public const TYPE_LOCATION = 'location';
+    public const TYPE_FILE = 'file';
 
     public const AVAILABLE_TYPES = [
         self::TYPE_TEXT,
@@ -45,6 +46,7 @@ class Type
         self::TYPE_OBJECT,
         self::TYPE_DATE,
         self::TYPE_LOCATION,
+        self::TYPE_FILE,
     ];
 
     public const COMPLEX_TYPES = [
@@ -69,6 +71,7 @@ class Type
         ['label' => 'Object', 'value' => self::TYPE_OBJECT],
         ['label' => 'Date', 'value' => self::TYPE_DATE],
         ['label' => 'Location', 'value' => self::TYPE_LOCATION],
+        ['label' => 'File', 'value' => self::TYPE_FILE],
     ];
 
     public static function getAvailableTypes(): array

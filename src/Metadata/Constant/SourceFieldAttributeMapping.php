@@ -35,5 +35,6 @@ class SourceFieldAttributeMapping
         SourceFieldType::TYPE_OBJECT => \Gally\Metadata\Entity\Attribute\Type\TextAttribute::class,
         SourceFieldType::TYPE_DATE => \Gally\Metadata\Entity\Attribute\Type\TextAttribute::class,
         SourceFieldType::TYPE_LOCATION => \Gally\Metadata\Entity\Attribute\Type\TextAttribute::class,
+        SourceFieldType::TYPE_FILE => \Gally\Metadata\Entity\Attribute\Type\TextAttribute::class,
     ];
 }

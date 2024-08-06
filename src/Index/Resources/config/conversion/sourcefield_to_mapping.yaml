@@ -38,4 +38,8 @@ services:
     Gally\Index\Converter\SourceField\LocationSourceFieldConverter:
         tags:
             - { name: gally.mapping.source_field_converter }
+
+    Gally\Index\Converter\SourceField\FileSourceFieldConverter:
+        tags:
+            - { name: gally.mapping.source_field_converter }
         

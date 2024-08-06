@@ -142,7 +142,7 @@ class SourceFieldRepository extends ServiceEntityRepository
                     $exprBuilder->like('s.code', "'%.%'"),
                     $exprBuilder->in(
                         's.type',
-                        [Type::TYPE_SELECT, Type::TYPE_PRICE, Type::TYPE_STOCK, Type::TYPE_CATEGORY]
+                        [Type::TYPE_SELECT, Type::TYPE_PRICE, Type::TYPE_STOCK, Type::TYPE_CATEGORY, Type::TYPE_FILE]
                     )
                 )
             )
