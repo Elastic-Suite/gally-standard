@@ -2157,6 +2157,17 @@ class SearchDocumentsTest extends AbstractTestCase
                 0,                  // expected result count.
                 [],
             ],
+
+            // Search with file content (send the file aas base64 string in a sourceFiel of type field, and apache tika in opsensearch should be able to parse its content).
+            [
+                'product_document', // entity type.
+                'b2c_en',           // catalog ID.
+                'Nam sit amet lorem ipsum.', // query.
+                1,                  // expected result count.
+                [
+                    'Overnight Duffle',
+                ],
+            ],
         ];
     }
 

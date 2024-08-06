@@ -145,3 +145,14 @@ Gally\Metadata\Entity\SourceField:
         isSpellchecked: false
         isSortable: true
         weight: 1
+    product_file:
+        metadata: '@product'
+        code: file
+        type: file
+        weight: 1
+        isSearchable: true
+        isSpellchecked: true
+        isFilterable: false
+        isSortable: false
+        isUsedForRules: false
+

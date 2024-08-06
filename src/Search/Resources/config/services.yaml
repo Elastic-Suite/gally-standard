@@ -472,3 +472,9 @@ services:
             - '@OpenSearch\Client'
             - '%gally.pipeline_prefix%'
             - !tagged_iterator { tag: 'gally.search.ingest_pipeline_processors_provider' }
+
+    Gally\Search\Service\FilePipelineProcessorProvider:
+        arguments:
+            - '@Gally\Metadata\Repository\SourceFieldRepository'
+        tags:
+            - { name: gally.search.ingest_pipeline_processors_provider }
