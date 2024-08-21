@@ -8,33 +8,16 @@ api_platform:
         jsonld: [ 'application/ld+json' ]
         jsonopenapi: [ 'application/vnd.openapi+json' ]
         html: [ 'text/html' ]
-    patch_formats:
-        json: ['application/merge-patch+json']
-    swagger:
-        versions: [3]
-        api_keys:
-            apiKey:
-                name: Authorization
-                type: header
-    exception_to_status:
-        # The 4 following handlers are registered by default, keep those lines to prevent unexpected side effects
-        Symfony\Component\Serializer\Exception\ExceptionInterface: 400 # Use a raw status code (recommended)
-        # ApiPlatform\Exception\InvalidArgumentException: !php/const Symfony\Component\HttpFoundation\Response::HTTP_BAD_REQUEST
-        ApiPlatform\Exception\InvalidArgumentException: !php/const Symfony\Component\HttpFoundation\Response::HTTP_BAD_REQUEST
-        ApiPlatform\Exception\FilterValidationException: 400
-        Doctrine\ORM\OptimisticLockException: 409
-        # Validation exception
-        ApiPlatform\Core\Bridge\Symfony\Validator\Exception\ValidationException: !php/const Symfony\Component\HttpFoundation\Response::HTTP_UNPROCESSABLE_ENTITY
-        ApiPlatform\Core\Validator\Exception\ValidationException: !php/const Symfony\Component\HttpFoundation\Response::HTTP_UNPROCESSABLE_ENTITY
-    # Mercure integration, remove if unwanted
-    # mercure: ~
-    # Good cache defaults for REST APIs
+    # Good defaults for REST APIs
     defaults:
         stateless: true
         cache_headers:
-            vary: ['Content-Type', 'Origin']
+            vary: ['Content-Type', 'Authorization', 'Origin']
             max_age: 0
             shared_max_age: 3600
+#        extra_properties: # Todo upgrade: recommended configuration value that are not compatible with our tests
+#            standard_put: true
+#            rfc_7807_compliant_errors: true
         pagination_client_enabled: true # Enabled by default because this value cannot be specified by GraphQL endpoint 
         pagination_client_items_per_page: true # Enabled by default because this value cannot be specified by GraphQL endpoint
         pagination_items_per_page: 20
@@ -44,8 +27,9 @@ api_platform:
         pagination:
             page_parameter_name: currentPage
             items_per_page_parameter_name: pageSize
-    # Mercure integration, remove if unwanted
-    # mercure: ~
+    # change this to true if you use controllers
+    use_symfony_listeners: true 
+    keep_legacy_inflector: true # Todo upgrade : https://api-platform.com/docs/core/upgrade-guide/#inflector
     http_cache:
         invalidation:
             enabled: true
