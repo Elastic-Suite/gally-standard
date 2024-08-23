@@ -14,12 +14,13 @@ declare(strict_types=1);
 
 namespace Gally\Index\Tests\Api\GraphQl;
 
+use Gally\Index\Tests\Api\Rest\IndexDocumentTest as RestIndexDocumentTest;
 use Gally\Test\ExpectedResponse;
 use Gally\Test\RequestGraphQlToTest;
 use Gally\User\Model\User;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
-class IndexDocumentTest extends \Gally\Index\Tests\Api\Rest\IndexDocumentTest
+class IndexDocumentTest extends RestIndexDocumentTest
 {
     /**
      * @dataProvider createDataProvider
@@ -48,7 +49,7 @@ class IndexDocumentTest extends \Gally\Index\Tests\Api\Rest\IndexDocumentTest
 
         $expectedResponse = 201 != $responseCode
             ? new ExpectedResponse(200, function (ResponseInterface $response) use ($message) {
-                $this->assertJsonContains(['errors' => [['debugMessage' => $message]]]);
+                $this->assertGraphQlError($message);
             })
             : new ExpectedResponse(200, function (ResponseInterface $response) use ($data) {
                 $this->assertJsonContains(

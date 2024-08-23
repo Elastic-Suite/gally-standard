@@ -23,7 +23,7 @@ class BoolTypeFilterInputType extends IntegerTypeFilterInputType
 {
     public const NAME = 'EntityBoolTypeFilterInput';
 
-    public $name = self::NAME;
+    public string $name = self::NAME;
 
     public function supports(SourceField $sourceField): bool
     {

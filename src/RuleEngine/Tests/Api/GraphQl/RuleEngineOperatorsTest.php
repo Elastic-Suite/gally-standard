@@ -53,13 +53,7 @@ class RuleEngineOperatorsTest extends \Gally\RuleEngine\Tests\Api\Rest\RuleEngin
             200,
             function (ResponseInterface $response) use ($expectedError) {
                 if (null !== $expectedError) {
-                    $this->assertJsonContains([
-                        'errors' => [
-                            [
-                                'debugMessage' => $expectedError,
-                            ],
-                        ],
-                    ]);
+                    $this->assertGraphQlError($expectedError);
                 } else {
                     $this->assertJsonContains([
                         'data' => [

@@ -14,11 +14,11 @@ declare(strict_types=1);
 
 namespace Gally\User\Tests\Unit\Service\Command;
 
-use Gally\Test\AbstractTest;
+use Gally\Test\AbstractTestCase;
 use Gally\User\Constant\Role;
 use Gally\User\Service\Command\Validation;
 
-class ValidationTest extends AbstractTest
+class ValidationTest extends AbstractTestCase
 {
     private static Validation $cmdValidation;
     private static string $userEmail = 'admin@test.com';

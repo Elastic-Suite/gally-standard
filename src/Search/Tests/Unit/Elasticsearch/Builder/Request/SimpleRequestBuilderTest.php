@@ -34,10 +34,10 @@ use Gally\Search\Elasticsearch\Request\QueryFactory;
 use Gally\Search\Elasticsearch\Request\QueryInterface;
 use Gally\Search\Elasticsearch\RequestFactoryInterface;
 use Gally\Search\Elasticsearch\Spellchecker;
-use Gally\Test\AbstractTest;
+use Gally\Test\AbstractTestCase;
 use Psr\Log\LoggerInterface;
 
-class SimpleRequestBuilderTest extends AbstractTest
+class SimpleRequestBuilderTest extends AbstractTestCase
 {
     private static RequestFactoryInterface $requestFactory;
 

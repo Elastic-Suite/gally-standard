@@ -20,7 +20,7 @@ use Gally\Search\Elasticsearch\Request\Query\Terms as TermsQuery;
 /**
  * Terms search request query test case.
  */
-class TermsTest extends AbstractSimpleQueryAssemblerTest
+class TermsTest extends AbstractSimpleQueryAssemblerTestCase
 {
     /**
      * Test the assembler with mandatory params only.

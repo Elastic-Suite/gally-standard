@@ -17,7 +17,7 @@ namespace Gally\Search\Tests\Unit\Elasticsearch\Adapter\Common\Request\Query\Ass
 use Gally\Search\Elasticsearch\Adapter\Common\Request\Query\Assembler\MoreLikeThis as MoreLikeThisQueryAssembler;
 use Gally\Search\Elasticsearch\Request\Query\MoreLikeThis as MoreLikeThisQuery;
 
-class MoreLikeThisTest extends AbstractSimpleQueryAssemblerTest
+class MoreLikeThisTest extends AbstractSimpleQueryAssemblerTestCase
 {
     /**
      * Test the assembler with mandatory params only.

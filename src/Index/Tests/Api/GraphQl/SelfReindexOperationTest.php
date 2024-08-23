@@ -19,14 +19,14 @@ use Gally\Index\Api\IndexSettingsInterface;
 use Gally\Index\Model\Index;
 use Gally\Index\Model\Index\SelfReindex;
 use Gally\Index\Repository\Index\IndexRepositoryInterface;
-use Gally\Test\AbstractTest;
+use Gally\Test\AbstractTestCase;
 use Gally\Test\ExpectedResponse;
 use Gally\Test\RequestGraphQlToTest;
 use Gally\User\Constant\Role;
 use Gally\User\Model\User;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
-class SelfReindexOperationTest extends AbstractTest
+class SelfReindexOperationTest extends AbstractTestCase
 {
     private static IndexRepositoryInterface $indexRepository;
 
@@ -70,7 +70,7 @@ class SelfReindexOperationTest extends AbstractTest
         User $user,
         ?string $entityType,
         int $expectedIndicesCount,
-        array $expectedErrorData,
+        ?string $expectedError,
         array $expectedEntityTypes,
     ): void {
         $indexRepository = self::$indexRepository;
@@ -102,14 +102,14 @@ class SelfReindexOperationTest extends AbstractTest
                 200,
                 function (ResponseInterface $response) use (
                     $expectedIndicesCount,
-                    $expectedErrorData,
+                    $expectedError,
                     $expectedEntityTypes,
                     $installedEntityIndicesNames,
                     $indexRepository,
                     $indexSettings
                 ) {
-                    if (!empty($expectedErrorData)) {
-                        $this->assertJsonContains($expectedErrorData);
+                    if (!empty($expectedError)) {
+                        $this->assertGraphQlError($expectedError);
                     } else {
                         $this->assertMatchesJsonSchema([
                             'type' => 'object',
@@ -203,7 +203,7 @@ class SelfReindexOperationTest extends AbstractTest
             $this->getUser(Role::ROLE_CONTRIBUTOR),
             'product',
             $initialIndicesCount,
-            ['errors' => [['debugMessage' => 'Access Denied.']]],
+            'Access Denied.',
             [],
         ];
 
@@ -213,7 +213,7 @@ class SelfReindexOperationTest extends AbstractTest
             $admin,
             'product',
             $expectedIndicesCount + $localizedCatalogsCount,
-            [],
+            null,
             ['product'],
         ];
 
@@ -221,12 +221,7 @@ class SelfReindexOperationTest extends AbstractTest
             $admin,
             'missing-entity',
             $expectedIndicesCount + $localizedCatalogsCount,
-            [
-                'errors' => [[
-                    'debugMessage' => 'Entity type [missing-entity] does not exist',
-                    'message' => 'Internal server error',
-                ]],
-            ],
+            'Entity type [missing-entity] does not exist',
             [],
         ];
 
@@ -234,7 +229,7 @@ class SelfReindexOperationTest extends AbstractTest
             $admin,
             'category',
             $expectedIndicesCount + (2 * $localizedCatalogsCount),
-            [],
+            null,
             ['category'],
         ];
 
@@ -242,7 +237,7 @@ class SelfReindexOperationTest extends AbstractTest
             $admin,
             '',
             $expectedIndicesCount + (2 * $localizedCatalogsCount),
-            [],
+            null,
             ['product', 'category'],
         ];
 
@@ -250,7 +245,7 @@ class SelfReindexOperationTest extends AbstractTest
             $admin,
             null,
             $expectedIndicesCount + (2 * $localizedCatalogsCount),
-            [],
+            null,
             ['product', 'category'],
         ];
     }

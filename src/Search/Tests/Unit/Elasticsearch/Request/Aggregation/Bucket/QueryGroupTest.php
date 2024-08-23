@@ -23,7 +23,7 @@ use PHPUnit\Framework\Constraint\IsInstanceOf;
 use PHPUnit\Framework\Constraint\IsType;
 use PHPUnit\Framework\Constraint\LogicalOr;
 
-class QueryGroupTest extends AbstractBucketTest
+class QueryGroupTest extends AbstractBucketTestCase
 {
     public function testFailedCreate(): void
     {

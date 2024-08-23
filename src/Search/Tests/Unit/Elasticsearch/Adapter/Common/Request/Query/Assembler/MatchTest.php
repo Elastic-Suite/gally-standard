@@ -20,7 +20,7 @@ use Gally\Search\Elasticsearch\Request\Query\MatchQuery as MatchQuery;
 /**
  * Match search request query test case.
  */
-class MatchTest extends AbstractSimpleQueryAssemblerTest
+class MatchTest extends AbstractSimpleQueryAssemblerTestCase
 {
     /**
      * Test the assembler with mandatory params only.

@@ -20,9 +20,9 @@ use Gally\Index\Api\IndexSettingsInterface;
 use Gally\Index\Repository\Index\IndexRepositoryInterface;
 use Gally\Metadata\Repository\MetadataRepository;
 use Gally\Metadata\Repository\SourceFieldRepository;
-use Gally\Test\AbstractTest;
+use Gally\Test\AbstractTestCase;
 
-class SpreadSourceFieldDataTest extends AbstractTest
+class SpreadSourceFieldDataTest extends AbstractTestCase
 {
     public static function setUpBeforeClass(): void
     {

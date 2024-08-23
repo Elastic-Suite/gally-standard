@@ -17,10 +17,10 @@ namespace Gally\Search\Tests\Unit\Repository;
 use Gally\Metadata\Repository\MetadataRepository;
 use Gally\Search\Model\IngestPipeline;
 use Gally\Search\Repository\Ingest\PipelineRepository;
-use Gally\Test\AbstractTest;
+use Gally\Test\AbstractTestCase;
 use OpenSearch\Common\Exceptions\BadRequest400Exception;
 
-class IngestPipelineRepositoryTest extends AbstractTest
+class IngestPipelineRepositoryTest extends AbstractTestCase
 {
     public function testCreateInvalid(): void
     {

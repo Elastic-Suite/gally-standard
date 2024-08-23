@@ -14,11 +14,11 @@ declare(strict_types=1);
 
 namespace Gally\Security\Tests\Api\Rest;
 
-use Gally\Test\AbstractTest;
+use Gally\Test\AbstractTestCase;
 use Gally\User\Constant\Role;
 use Gally\User\Tests\LoginTrait;
 
-class AuthenticationTest extends AbstractTest
+class AuthenticationTest extends AbstractTestCase
 {
     use LoginTrait;
 

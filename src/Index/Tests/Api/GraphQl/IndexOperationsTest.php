@@ -18,7 +18,7 @@ use Gally\Catalog\Repository\LocalizedCatalogRepository;
 use Gally\Index\Api\IndexSettingsInterface;
 use Gally\Index\Model\Index;
 use Gally\Index\Repository\Index\IndexRepositoryInterface;
-use Gally\Test\AbstractTest;
+use Gally\Test\AbstractTestCase;
 use Gally\Test\ExpectedResponse;
 use Gally\Test\RequestGraphQlToTest;
 use Gally\User\Constant\Role;
@@ -26,7 +26,7 @@ use Gally\User\Model\User;
 use OpenSearch\Client;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
-class IndexOperationsTest extends AbstractTest
+class IndexOperationsTest extends AbstractTestCase
 {
     private LocalizedCatalogRepository $catalogRepository;
 
@@ -82,8 +82,8 @@ class IndexOperationsTest extends AbstractTest
             new ExpectedResponse(
                 200,
                 function (ResponseInterface $response) use ($expectedData) {
-                    if (isset($expectedData['errors'])) {
-                        $this->assertJsonContains($expectedData);
+                    if (isset($expectedData['error'])) {
+                        $this->assertGraphQlError($expectedData['error']);
                     } else {
                         $this->assertStringContainsString('"id":"\/indices\/' . $expectedData['name'], $response->getContent());
                         $this->assertStringContainsString('"name":"' . $expectedData['name'], $response->getContent());
@@ -110,14 +110,14 @@ class IndexOperationsTest extends AbstractTest
             null,
             'product',
             1,
-            ['errors' => [['debugMessage' => 'Access Denied.']]],
+            ['error' => 'Access Denied.'],
         ];
 
         yield [
             $this->getUser(Role::ROLE_CONTRIBUTOR),
             'product',
             1,
-            ['errors' => [['debugMessage' => 'Access Denied.']]],
+            ['error' => 'Access Denied.'],
         ];
 
         foreach ($this->catalogRepository->findAll() as $catalog) {
@@ -170,8 +170,8 @@ class IndexOperationsTest extends AbstractTest
             new ExpectedResponse(
                 200,
                 function (ResponseInterface $response) use ($index, $expectedData, $installIndexSettings) {
-                    if (isset($expectedData['errors'])) {
-                        $this->assertJsonContains($expectedData);
+                    if (isset($expectedData['error'])) {
+                        $this->assertGraphQlError($expectedData['error']);
                     } else {
                         $responseData = $response->toArray();
 
@@ -201,13 +201,13 @@ class IndexOperationsTest extends AbstractTest
         yield [
             null,
             'gally_test__gally_b2c_fr_product',
-            ['errors' => [['debugMessage' => 'Access Denied.']]],
+            ['error' => 'Access Denied.'],
         ];
 
         yield [
             $this->getUser(Role::ROLE_CONTRIBUTOR),
             'gally_test__gally_b2c_fr_product',
-            ['errors' => [['debugMessage' => 'Access Denied.']]],
+            ['error' => 'Access Denied.'],
         ];
 
         foreach ($this->catalogRepository->findAll() as $catalog) {
@@ -255,8 +255,8 @@ class IndexOperationsTest extends AbstractTest
             new ExpectedResponse(
                 200,
                 function (ResponseInterface $response) use ($index, $expectedData, $initialRefreshCount) {
-                    if (isset($expectedData['errors'])) {
-                        $this->assertJsonContains($expectedData);
+                    if (isset($expectedData['error'])) {
+                        $this->assertGraphQlError($expectedData['error']);
                     } else {
                         // Check that the index still has the install index.
                         // TODO re-instate tests on aliases when the read stage is correctly performed based on name.

@@ -23,7 +23,7 @@ class DateTypeFilterInputType extends AbstractFilter
 {
     public const NAME = 'EntityDateTypeFilterInput';
 
-    public $name = self::NAME;
+    public string $name = self::NAME;
 
     public function supports(SourceField $sourceField): bool
     {

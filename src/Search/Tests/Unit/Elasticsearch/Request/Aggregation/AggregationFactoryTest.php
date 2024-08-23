@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace Gally\Search\Tests\Unit\Elasticsearch\Request\Aggregation;
 
+use Gally\DependencyInjection\GenericFactory;
 use Gally\Search\Elasticsearch\Request\AggregationFactory;
 use Gally\Search\Elasticsearch\Request\AggregationInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -45,10 +46,7 @@ class AggregationFactoryTest extends KernelTestCase
     private function getAggregationFactory(): AggregationFactory
     {
         $aggregationMock = $this->getMockBuilder(AggregationInterface::class)->getMock();
-
-        $factoryName = sprintf('%s%s', AggregationInterface::class, 'Factory');
-        $aggregationFactoryClass = $this->getMockClass($factoryName, ['create']);
-        $aggregationFactoryMock = $this->getMockBuilder($aggregationFactoryClass)
+        $aggregationFactoryMock = $this->getMockBuilder(GenericFactory::class)
             ->onlyMethods(['create'])
             ->getMock();
 

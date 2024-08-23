@@ -20,7 +20,7 @@ use Gally\Search\Elasticsearch\Request\Query\Range as RangeQuery;
 /**
  * Range search request query test case.
  */
-class RangeTest extends AbstractSimpleQueryAssemblerTest
+class RangeTest extends AbstractSimpleQueryAssemblerTestCase
 {
     /**
      * Test the assembler with mandatory params only.

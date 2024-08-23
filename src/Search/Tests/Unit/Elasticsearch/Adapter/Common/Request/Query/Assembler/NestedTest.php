@@ -20,7 +20,7 @@ use Gally\Search\Elasticsearch\Request\Query\Nested as NestedQuery;
 /**
  * Nested search request query test case.
  */
-class NestedTest extends AbstractComplexQueryAssemblerTest
+class NestedTest extends AbstractComplexQueryAssemblerTestCase
 {
     /**
      * Test the assembler with mandatory params only.

@@ -23,7 +23,7 @@ use Gally\Search\Elasticsearch\Request\QueryInterface;
 use PHPUnit\Framework\Constraint\IsType;
 use PHPUnit\Framework\Constraint\LogicalOr;
 
-class MultiTermsTest extends AbstractBucketTest
+class MultiTermsTest extends AbstractBucketTestCase
 {
     public function testFailedCreate(): void
     {

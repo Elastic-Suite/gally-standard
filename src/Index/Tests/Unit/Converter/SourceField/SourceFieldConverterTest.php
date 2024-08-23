@@ -25,10 +25,10 @@ use Gally\Index\Converter\SourceField\StockSourceFieldConverter;
 use Gally\Index\Converter\SourceField\TextSourceFieldConverter;
 use Gally\Index\Model\Index\Mapping;
 use Gally\Metadata\Model\SourceField;
-use Gally\Test\AbstractTest;
+use Gally\Test\AbstractTestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 
-class SourceFieldConverterTest extends AbstractTest
+class SourceFieldConverterTest extends AbstractTestCase
 {
     /** @var SourceFieldConverterInterface[] */
     private static array $sourceFieldConverters;

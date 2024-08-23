@@ -22,7 +22,7 @@ class FloatTypeFilterInputType extends IntegerTypeFilterInputType
 {
     public const NAME = 'EntityFloatTypeFilterInput';
 
-    public $name = self::NAME;
+    public string $name = self::NAME;
 
     public function supports(SourceField $sourceField): bool
     {

@@ -17,9 +17,9 @@ namespace Gally\Metadata\Tests\Unit;
 use Gally\Catalog\Repository\LocalizedCatalogRepository;
 use Gally\Index\Service\IndexSettings;
 use Gally\Metadata\Repository\MetadataRepository;
-use Gally\Test\AbstractTest;
+use Gally\Test\AbstractTestCase;
 
-class IndexSettingsTest extends AbstractTest
+class IndexSettingsTest extends AbstractTestCase
 {
     /**
      * Test dynamic index settings.

@@ -14,13 +14,13 @@ declare(strict_types=1);
 
 namespace Gally\Search\Tests\Api\GraphQl;
 
-use Gally\Test\AbstractTest;
+use Gally\Test\AbstractTestCase;
 use Gally\Test\ExpectedResponse;
 use Gally\Test\RequestGraphQlToTest;
 use Gally\User\Constant\Role;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
-class ViewMoreFacetTest extends AbstractTest
+class ViewMoreFacetTest extends AbstractTestCase
 {
     public static function setUpBeforeClass(): void
     {
@@ -61,7 +61,7 @@ class ViewMoreFacetTest extends AbstractTest
         string $entityType,
         string $catalogId,
         string $aggregation,
-        ?array $expectedError,
+        ?string $expectedError,
         ?int $expectedItemsCount,
         string $filter,
     ): void {
@@ -92,7 +92,7 @@ class ViewMoreFacetTest extends AbstractTest
                 200,
                 function (ResponseInterface $response) use ($expectedError, $expectedItemsCount) {
                     if (!empty($expectedError)) {
-                        $this->assertJsonContains($expectedError);
+                        $this->assertGraphQlError($expectedError);
                         $this->assertJsonContains(['data' => ['viewMoreFacetOptions' => null]]);
                     } else {
                         $responseData = $response->toArray();
@@ -116,7 +116,7 @@ class ViewMoreFacetTest extends AbstractTest
                 'product_document', // entity type.
                 'b2c_en', // catalog ID.
                 'invalid_field', // aggregation.
-                ['errors' => [['message' => 'Internal server error', 'debugMessage' => 'The source field \'invalid_field\' does not exist']]], // expected error.
+                'The source field \'invalid_field\' does not exist', // expected error.
                 null, // expected items count.
                 '', // filter.
             ],
@@ -124,7 +124,7 @@ class ViewMoreFacetTest extends AbstractTest
                 'product_document', // entity type.
                 'b2c_en', // catalog ID.
                 'size', // aggregation.
-                [], // expected error.
+                null, // expected error.
                 9, // expected items count.
                 '', // filter.
             ],
@@ -132,7 +132,7 @@ class ViewMoreFacetTest extends AbstractTest
                 'product_document', // entity type.
                 'b2c_en', // catalog ID.
                 'category__id', // aggregation.
-                [], // expected error.
+                null, // expected error.
                 2, // expected items count.
                 '', // filter.
             ],
@@ -140,7 +140,7 @@ class ViewMoreFacetTest extends AbstractTest
                 'product_document', // entity type.
                 'b2c_en', // catalog ID.
                 'size', // aggregation.
-                [], // expected error.
+                null, // expected error.
                 1, // expected items count.
                 '{equalFilter: {field:"sku", eq: "24-MB01"}}', // filter.
             ],

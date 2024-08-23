@@ -42,10 +42,10 @@ use Gally\Search\Elasticsearch\Adapter;
 use Gally\Search\Elasticsearch\Builder\Request\Query\QueryBuilder;
 use Gally\Search\Elasticsearch\Request\Container\Configuration\ContainerConfigurationProvider;
 use Gally\Search\Elasticsearch\RequestFactoryInterface;
-use Gally\Test\AbstractTest;
+use Gally\Test\AbstractTestCase;
 use Symfony\Component\Serializer\SerializerInterface;
 
-class CategorySynchronizerTest extends AbstractTest
+class CategorySynchronizerTest extends AbstractTestCase
 {
     use IndexActions;
 

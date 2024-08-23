@@ -20,7 +20,7 @@ use Gally\Search\Elasticsearch\Request\Query\Missing as MissingQuery;
 /**
  * Missing search request query test case.
  */
-class MissingTest extends AbstractSimpleQueryAssemblerTest
+class MissingTest extends AbstractSimpleQueryAssemblerTestCase
 {
     /**
      * Test the assembler with mandatory params only.

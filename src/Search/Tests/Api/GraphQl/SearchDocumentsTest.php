@@ -18,13 +18,13 @@ use Gally\Fixture\Service\ElasticsearchFixturesInterface;
 use Gally\Metadata\Service\PriceGroupProvider;
 use Gally\Metadata\Service\ReferenceLocationProvider;
 use Gally\Search\Elasticsearch\Request\SortOrderInterface;
-use Gally\Test\AbstractTest;
+use Gally\Test\AbstractTestCase;
 use Gally\Test\ExpectedResponse;
 use Gally\Test\RequestGraphQlToTest;
 use Gally\User\Constant\Role;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
-class SearchDocumentsTest extends AbstractTest
+class SearchDocumentsTest extends AbstractTestCase
 {
     public static function setUpBeforeClass(): void
     {
@@ -74,7 +74,7 @@ class SearchDocumentsTest extends AbstractTest
         string $catalogId,
         ?int $pageSize,
         ?int $currentPage,
-        ?array $expectedError,
+        ?string $expectedError,
         ?int $expectedItemsCount,
         ?int $expectedTotalCount,
         ?int $expectedItemsPerPage,
@@ -128,7 +128,7 @@ class SearchDocumentsTest extends AbstractTest
                         $expectedScore
                     ) {
                     if (!empty($expectedError)) {
-                        $this->assertJsonContains($expectedError);
+                        $this->assertGraphQlError($expectedError);
                         $this->assertJsonContains([
                             'data' => [
                                 'documents' => null,
@@ -172,7 +172,7 @@ class SearchDocumentsTest extends AbstractTest
                 'b2c_fr',   // catalog ID.
                 null,   // page size.
                 null,   // current page.
-                ['errors' => [['message' => 'Internal server error', 'debugMessage' => 'Entity type [people] does not exist']]], // expected error.
+                'Entity type [people] does not exist', // expected error.
                 null,   // expected items count.
                 null,   // expected total count.
                 null,   // expected items per page.
@@ -185,7 +185,7 @@ class SearchDocumentsTest extends AbstractTest
                 'b2c_uk',   // catalog ID.
                 null,   // page size.
                 null,   // current page.
-                ['errors' => [['message' => 'Internal server error', 'debugMessage' => 'Missing localized catalog [b2c_uk]']]], // expected error.
+                'Missing localized catalog [b2c_uk]', // expected error.
                 null,   // expected items count.
                 null,   // expected total count.
                 null,   // expected items per page.
@@ -198,7 +198,7 @@ class SearchDocumentsTest extends AbstractTest
                 'b2c_fr',   // catalog ID.
                 null,   // page size.
                 null,   // current page.
-                [],     // expected error.
+                null,   // expected error.
                 0,      // expected items count.
                 0,      // expected total count.
                 30,     // expected items per page.
@@ -211,7 +211,7 @@ class SearchDocumentsTest extends AbstractTest
                 '2',    // catalog ID.
                 10,     // page size.
                 1,      // current page.
-                [],     // expected error.
+                null,   // expected error.
                 10,     // expected items count.
                 14,     // expected total count.
                 10,     // expected items per page.
@@ -224,7 +224,7 @@ class SearchDocumentsTest extends AbstractTest
                 'b2c_en',   // catalog ID.
                 10,     // page size.
                 1,      // current page.
-                [],     // expected error.
+                null,   // expected error.
                 10,     // expected items count.
                 14,     // expected total count.
                 10,     // expected items per page.
@@ -237,7 +237,7 @@ class SearchDocumentsTest extends AbstractTest
                 'b2c_en',   // catalog ID.
                 10,     // page size.
                 2,      // current page.
-                [],     // expected error.
+                null,   // expected error.
                 4,      // expected items count.
                 14,     // expected total count.
                 10,     // expected items per page.
@@ -250,7 +250,7 @@ class SearchDocumentsTest extends AbstractTest
                 'b2b_fr',   // catalog ID.
                 null,   // page size.
                 null,   // current page.
-                [],     // expected error.
+                null,   // expected error.
                 12,     // expected items count.
                 12,     // expected total count.
                 30,     // expected items per page.
@@ -263,7 +263,7 @@ class SearchDocumentsTest extends AbstractTest
                 'b2b_fr',   // catalog ID.
                 5,      // page size.
                 2,      // current page.
-                [],     // expected error.
+                null,   // expected error.
                 5,      // expected items count.
                 12,     // expected total count.
                 5,      // expected items per page.
@@ -276,7 +276,7 @@ class SearchDocumentsTest extends AbstractTest
                 'b2b_fr',   // catalog ID.
                 1000,   // page size.
                 null,   // current page.
-                [],     // expected error.
+                null,   // expected error.
                 12,     // expected items count.
                 12,     // expected total count.
                 100,    // expected items per page.
@@ -1318,13 +1318,13 @@ class SearchDocumentsTest extends AbstractTest
      * @param string $entityType   Entity Type
      * @param string $catalogId    Catalog ID or code
      * @param string $filter       Filters to apply
-     * @param string $debugMessage Expected debug message
+     * @param string $errorMessage Expected debug message
      */
     public function testFilteredSearchDocumentsGraphQlValidation(
         string $entityType,
         string $catalogId,
         string $filter,
-        string $debugMessage
+        string $errorMessage
     ): void {
         $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
 
@@ -1351,15 +1351,9 @@ class SearchDocumentsTest extends AbstractTest
             new ExpectedResponse(
                 200,
                 function (ResponseInterface $response) use (
-                    $debugMessage
+                    $errorMessage
                 ) {
-                    $this->assertJsonContains([
-                        'errors' => [
-                            [
-                                'debugMessage' => $debugMessage,
-                            ],
-                        ],
-                    ]);
+                    $this->assertGraphQlError($errorMessage);
                 }
             )
         );

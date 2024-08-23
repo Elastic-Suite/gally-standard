@@ -20,7 +20,7 @@ use Gally\Search\Elasticsearch\Request\Query\Not as NotQuery;
 /**
  * Not search request query test case.
  */
-class NotTest extends AbstractComplexQueryAssemblerTest
+class NotTest extends AbstractComplexQueryAssemblerTestCase
 {
     /**
      * Test the assembler with mandatory params only.

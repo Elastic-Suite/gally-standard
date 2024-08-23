@@ -20,7 +20,7 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
 /**
  * @codeCoverageIgnore
  */
-abstract class AbstractEntityTestWithUpdate extends AbstractEntityTest
+abstract class AbstractEntityTestWithUpdate extends AbstractEntityTestCase
 {
     /**
      * @dataProvider patchUpdateDataProvider

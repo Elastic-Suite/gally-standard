@@ -23,7 +23,9 @@ class CategoryTypeDefaultFilterInputType extends TextTypeFilterInputType
 {
     public const SPECIFIC_NAME = 'CategoryTypeDefaultFilterInputType';
 
-    public $name = self::SPECIFIC_NAME;
+    public string $name = self::SPECIFIC_NAME;
+
+    public array $config;
 
     /**
      * {@inheritDoc}

@@ -29,10 +29,10 @@ use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface;
 use Gally\Search\Elasticsearch\Request\QueryFactory;
 use Gally\Search\Elasticsearch\Request\QueryInterface;
 use Gally\Search\Elasticsearch\Request\SortOrderInterface;
-use Gally\Test\AbstractTest;
+use Gally\Test\AbstractTestCase;
 use Psr\Log\LoggerInterface;
 
-class AssemblerTest extends AbstractTest
+class AssemblerTest extends AbstractTestCase
 {
     private static FilterQueryBuilder $filterQueryBuilder;
 

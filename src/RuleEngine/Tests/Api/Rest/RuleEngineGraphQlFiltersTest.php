@@ -14,13 +14,13 @@ declare(strict_types=1);
 
 namespace Gally\RuleEngine\Tests\Api\Rest;
 
-use Gally\Test\AbstractTest;
+use Gally\Test\AbstractTestCase;
 use Gally\Test\ExpectedResponse;
 use Gally\Test\RequestToTest;
 use Gally\User\Constant\Role;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
-class RuleEngineGraphQlFiltersTest extends AbstractTest
+class RuleEngineGraphQlFiltersTest extends AbstractTestCase
 {
     protected const BASE_DATA_DIR = __DIR__ . '/../Data/';
 

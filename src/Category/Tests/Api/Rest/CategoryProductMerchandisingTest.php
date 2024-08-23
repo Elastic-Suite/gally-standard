@@ -17,7 +17,7 @@ namespace Gally\Category\Tests\Api\Rest;
 use Gally\Category\Service\CategoryProductPositionManager;
 use Gally\Category\Tests\Api\CategoryTestTrait;
 use Gally\Index\Service\IndexSettings;
-use Gally\Test\AbstractTest;
+use Gally\Test\AbstractTestCase;
 use Gally\Test\ExpectedResponse;
 use Gally\Test\RequestToTest;
 use Gally\User\Constant\Role;
@@ -25,7 +25,7 @@ use Gally\User\Model\User;
 use OpenSearch\Client;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
-class CategoryProductMerchandisingTest extends AbstractTest
+class CategoryProductMerchandisingTest extends AbstractTestCase
 {
     use CategoryTestTrait;
 

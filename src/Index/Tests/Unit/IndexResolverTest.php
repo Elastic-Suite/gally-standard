@@ -16,9 +16,9 @@ namespace Gally\Index\Tests\Unit;
 
 use Gally\Catalog\Model\LocalizedCatalog;
 use Gally\Index\Service\IndexSettings;
-use Gally\Test\AbstractTest;
+use Gally\Test\AbstractTestCase;
 
-class IndexResolverTest extends AbstractTest
+class IndexResolverTest extends AbstractTestCase
 {
     protected IndexSettings $indexSettings;
 

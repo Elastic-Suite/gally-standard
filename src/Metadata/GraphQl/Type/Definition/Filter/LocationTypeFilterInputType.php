@@ -27,7 +27,7 @@ class LocationTypeFilterInputType extends FloatTypeFilterInputType
 {
     public const NAME = 'LocationTypeFilterInputType';
 
-    public $name = self::NAME;
+    public string $name = self::NAME;
 
     public function __construct(
         FilterQueryBuilder $filterQueryBuilder,

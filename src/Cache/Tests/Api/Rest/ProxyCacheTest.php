@@ -14,13 +14,13 @@ declare(strict_types=1);
 
 namespace Gally\Cache\Tests\Api\Rest;
 
-use Gally\Test\AbstractTest;
+use Gally\Test\AbstractTestCase;
 use Gally\Test\ExpectedResponse;
 use Gally\Test\RequestToTest;
 use Gally\User\Constant\Role;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
-class ProxyCacheTest extends AbstractTest
+class ProxyCacheTest extends AbstractTestCase
 {
     public static function setUpBeforeClass(): void
     {

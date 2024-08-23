@@ -14,12 +14,12 @@ declare(strict_types=1);
 
 namespace Gally\User\Tests\Unit\Service\Command;
 
-use Gally\Test\AbstractTest;
+use Gally\Test\AbstractTestCase;
 use Gally\User\Constant\Role;
 use Gally\User\Service\Command\QuestionBuilder;
 use Gally\User\Service\Command\Validator;
 
-class ValidatorTest extends AbstractTest
+class ValidatorTest extends AbstractTestCase
 {
     private static QuestionBuilder $cmdQuestionBuilder;
     private static Validator $cmdValidator;

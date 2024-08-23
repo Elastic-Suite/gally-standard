@@ -69,10 +69,7 @@ class CategoryTypeDefaultFilterInputTypeTest extends KernelTestCase
             $categoryTypeDefaultFilterInputType->getName()
         );
         $this->assertEquals(
-            array_merge(
-                ['name' => CategoryTypeDefaultFilterInputType::SPECIFIC_NAME],
-                $categoryTypeDefaultFilterInputType->getConfig()
-            ),
+            $categoryTypeDefaultFilterInputType->getConfig(),
             $configProperty->getValue($categoryTypeDefaultFilterInputType)
         );
     }

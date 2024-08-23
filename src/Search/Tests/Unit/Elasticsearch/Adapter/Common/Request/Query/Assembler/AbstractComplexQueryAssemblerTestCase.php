@@ -20,7 +20,7 @@ use Gally\Search\Elasticsearch\Request\QueryInterface;
 /**
  * Common methods used to test query composed assemblers (bool, not, ...).
  */
-abstract class AbstractComplexQueryAssemblerTest extends AbstractSimpleQueryAssemblerTest
+abstract class AbstractComplexQueryAssemblerTestCase extends AbstractSimpleQueryAssemblerTestCase
 {
     /**
      * Return a mocked parent query assembler used to assemble sub-queries.

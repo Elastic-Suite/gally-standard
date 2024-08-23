@@ -14,12 +14,12 @@ declare(strict_types=1);
 
 namespace Gally\Product\Tests\Api\GraphQl;
 
-use Gally\Test\AbstractTest;
+use Gally\Test\AbstractTestCase;
 use Gally\Test\ExpectedResponse;
 use Gally\Test\RequestGraphQlToTest;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
-class ProductSortingOptionTest extends AbstractTest
+class ProductSortingOptionTest extends AbstractTestCase
 {
     public static function setUpBeforeClass(): void
     {

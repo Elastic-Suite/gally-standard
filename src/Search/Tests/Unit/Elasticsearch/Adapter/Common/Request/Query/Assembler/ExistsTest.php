@@ -20,7 +20,7 @@ use Gally\Search\Elasticsearch\Request\Query\Exists as ExistsQuery;
 /**
  * Exists search request query test case.
  */
-class ExistsTest extends AbstractSimpleQueryAssemblerTest
+class ExistsTest extends AbstractSimpleQueryAssemblerTestCase
 {
     /**
      * Test the assembler with mandatory params only.
