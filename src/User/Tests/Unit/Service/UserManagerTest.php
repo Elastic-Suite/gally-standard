@@ -74,7 +74,7 @@ class UserManagerTest extends AbstractTestCase
     {
         // User not exists.
         $this->expectException(EntityNotFoundException::class);
-        $this->expectExceptionMessage(sprintf("The user with the email 'fake_%s' was not found", self::$userEmail));
+        $this->expectExceptionMessage(\sprintf("The user with the email 'fake_%s' was not found", self::$userEmail));
         self::$userManager->update('fake_' . self::$userEmail, self::$userEmail, null, null);
     }
 

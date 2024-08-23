@@ -40,9 +40,6 @@ class Common extends MatchQuery
         parent::__construct($queryText, $field, $minimumShouldMatch, $name, $boost);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getType(): string
     {
         return QueryInterface::TYPE_COMMON;

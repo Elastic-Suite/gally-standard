@@ -83,25 +83,16 @@ class MultiMatch implements QueryInterface
         $this->matchType = $matchType;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getBoost(): float
     {
         return $this->boost;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getType(): string
     {
         return QueryInterface::TYPE_MULTIMATCH;

@@ -14,11 +14,9 @@ declare(strict_types=1);
 
 namespace Gally\Product\Decoration\CategoryData;
 
-use ApiPlatform\Core\DataPersister\DataPersisterInterface;
 use ApiPlatform\Metadata\DeleteOperationInterface;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
-use Gally\Index\DataPersister\DocumentDataPersister;
 use Gally\Index\Model\IndexDocument;
 use Gally\Index\Repository\Index\IndexRepositoryInterface;
 use Gally\Index\State\DocumentProcessor;
@@ -34,8 +32,6 @@ class SyncCategoryNameAfterBulkRest implements ProcessorInterface
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @param IndexDocument $data
      */
     public function process($data, Operation $operation, array $uriVariables = [], array $context = []): void

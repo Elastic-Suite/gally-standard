@@ -14,14 +14,11 @@ declare(strict_types=1);
 
 namespace Gally\Bundle\State;
 
-use ApiPlatform\Core\DataProvider\ContextAwareCollectionDataProviderInterface;
-use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\Pagination\PartialPaginatorInterface;
+use ApiPlatform\State\ProviderInterface;
 use Gally\Bundle\Model\ExtraBundle;
 use Symfony\Component\HttpKernel\KernelInterface;
-use ApiPlatform\State\ProviderInterface;
-
 
 class ExtraBundleProvider implements ProviderInterface
 {
@@ -30,8 +27,6 @@ class ExtraBundleProvider implements ProviderInterface
     }
 
     /**
-     * {@inheritDoc}
-     *
      * @return T|PartialPaginatorInterface<T>|iterable<T>|null
      */
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null

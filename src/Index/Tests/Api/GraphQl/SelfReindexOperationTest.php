@@ -63,7 +63,6 @@ class SelfReindexOperationTest extends AbstractTestCase
      * @param User    $user                 API user for which to perform the call
      * @param ?string $entityType           Optional entity type for which to rebuild indices (if empty, all entities)
      * @param int     $expectedIndicesCount Expected global indices count after the API call (wether it succeeds or not)
-     * @param array   $expectedErrorData    Expected error data (empty if success)
      * @param array   $expectedEntityTypes  Expected impacted entity types
      */
     public function testPerformSelfReindex(

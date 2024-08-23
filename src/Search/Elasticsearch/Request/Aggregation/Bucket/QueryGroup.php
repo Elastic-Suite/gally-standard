@@ -44,17 +44,11 @@ class QueryGroup extends AbstractBucket
         parent::__construct($name, $name, $childAggregations, $nestedPath, $filter, $nestedFilter);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getField(): string
     {
         throw new \LogicException('getField is not supported on query group aggregations.');
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getType(): string
     {
         return BucketInterface::TYPE_QUERY_GROUP;

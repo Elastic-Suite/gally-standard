@@ -23,9 +23,6 @@ class ScalarSortOrderProvider implements SortOrderProviderInterface
     {
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function supports(SourceField $sourceField): bool
     {
         return \in_array(
@@ -42,25 +39,16 @@ class ScalarSortOrderProvider implements SortOrderProviderInterface
         );
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getSortOrderField(SourceField $sourceField): string
     {
         return str_replace('.', $this->nestingSeparator, $sourceField->getCode());
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getLabel(SourceField $sourceField): string
     {
-        return sprintf('Sorting by %s (%s)', $sourceField->getDefaultLabel(), $sourceField->getCode());
+        return \sprintf('Sorting by %s (%s)', $sourceField->getDefaultLabel(), $sourceField->getCode());
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getSimplifiedLabel(SourceField $sourceField): string
     {
         return $sourceField->getDefaultLabel();

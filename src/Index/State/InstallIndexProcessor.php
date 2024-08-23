@@ -14,18 +14,13 @@ declare(strict_types=1);
 
 namespace Gally\Index\State;
 
-use ApiPlatform\Core\Api\OperationType;
-use ApiPlatform\Core\DataTransformer\DataTransformerInterface;
 use ApiPlatform\Exception\InvalidArgumentException;
 use ApiPlatform\Metadata\Operation;
-use ApiPlatform\State\Pagination\PartialPaginatorInterface;
 use ApiPlatform\State\ProcessorInterface;
-use ApiPlatform\State\ProviderInterface;
 use Gally\Index\Dto\InstallIndexDto;
 use Gally\Index\Model\Index;
 use Gally\Index\Repository\Index\IndexRepositoryInterface;
 use Gally\Index\Service\IndexOperation;
-use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\SerializerInterface;
 
 class InstallIndexProcessor implements ProcessorInterface
@@ -38,8 +33,6 @@ class InstallIndexProcessor implements ProcessorInterface
     }
 
     /**
-     * {@inheritDoc}
-     *
      * @param InstallIndexDto $data data
      *
      * @throws InvalidArgumentException
@@ -51,9 +44,9 @@ class InstallIndexProcessor implements ProcessorInterface
             $this->indexOperation->installIndexByName($index->getName());
 
             // Reload the index to get updated aliases.
-            $indexReloaded =  $this->indexRepository->findByName($index->getName());
+            $indexReloaded = $this->indexRepository->findByName($index->getName());
 
-            $request = $context['request'] ??  null;
+            $request = $context['request'] ?? null;
             $format = $request?->getRequestFormat() ?? 'jsonld';
 
             return $this->serializer->serialize($indexReloaded, $format);

@@ -66,11 +66,11 @@ class CategorySynchronizerTest extends GraphQlVersion
         }
 
         $synchronizer = $this->getMockerSynchronizer(true);
-        $decorator = new $decorator($mutationMock, $synchronizer, ...$constructorParams, );
+        $decorator = new $decorator($mutationMock, $synchronizer, ...$constructorParams);
         $decorator->{$decoratedMethod}(...$decoratedMethodParams);
 
         $synchronizer = $this->getMockerSynchronizer();
-        $decorator = new $decorator($mutationMock, $synchronizer, ...$constructorParams, );
+        $decorator = new $decorator($mutationMock, $synchronizer, ...$constructorParams);
         $this->expectException(SyncCategoryException::class);
         $decorator->{$decoratedMethod}(...$decoratedMethodParams);
     }

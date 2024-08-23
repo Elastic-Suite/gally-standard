@@ -54,7 +54,7 @@ class TextTypeFilterInputType extends AbstractFilter
         $errors = [];
 
         if (\count($inputData) < 1) {
-            $errors[] = sprintf(
+            $errors[] = \sprintf(
                 "Filter argument %s: At least '%s', '%s', '%s' or '%s' should be filled.",
                 $argName,
                 FilterOperator::EQ,
@@ -65,7 +65,7 @@ class TextTypeFilterInputType extends AbstractFilter
         }
 
         if (\count($inputData) > 1) {
-            $errors[] = sprintf(
+            $errors[] = \sprintf(
                 "Filter argument %s: Only '%s', '%s', '%s' or '%s' should be filled.",
                 $argName,
                 FilterOperator::EQ,

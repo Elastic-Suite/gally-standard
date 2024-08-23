@@ -36,7 +36,6 @@ class SyncCategoryDataAfterInstallRest implements ProcessorInterface
     }
 
     /**
-     * {@inheritdoc}
      * @param InstallIndexDto $data data
      *
      * @throws InvalidArgumentException
@@ -46,7 +45,7 @@ class SyncCategoryDataAfterInstallRest implements ProcessorInterface
         /** @var ?string $indexSerialized */
         $indexSerialized = $this->decorated->process($data, $operation, $uriVariables, $context);
 
-        $request = $context['request'] ??  null;
+        $request = $context['request'] ?? null;
         $format = $request?->getRequestFormat() ?? 'jsonld';
         $index = $this->serializer->deserialize($indexSerialized, Index::class, $format);
 

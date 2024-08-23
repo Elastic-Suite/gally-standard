@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace Gally\Search\Decoration\GraphQl;
 
+use ApiPlatform\GraphQl\Type\ContextAwareTypeBuilderInterface;
 use ApiPlatform\GraphQl\Type\TypeNotFoundException;
 use ApiPlatform\GraphQl\Type\TypesContainerInterface;
 use ApiPlatform\Metadata\ApiProperty;
@@ -25,7 +26,6 @@ use GraphQL\Type\Definition\InterfaceType;
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type as GraphQLType;
 use Symfony\Component\PropertyInfo\Type;
-use ApiPlatform\GraphQl\Type\ContextAwareTypeBuilderInterface;
 
 class AddSortInfoType implements ContextAwareTypeBuilderInterface
 {

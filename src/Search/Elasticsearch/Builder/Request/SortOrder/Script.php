@@ -73,41 +73,26 @@ class Script implements SortOrderInterface
         $this->direction = $direction;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getField(): string
     {
         return $this->field;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getDirection(): string
     {
         return $this->direction ?? self::SORT_ASC;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getType(): string
     {
         return SortOrderInterface::TYPE_SCRIPT;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getMissing(): string
     {
         return $this->missing;

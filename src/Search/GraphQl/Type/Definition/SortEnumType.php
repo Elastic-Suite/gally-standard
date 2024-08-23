@@ -36,9 +36,6 @@ class SortEnumType extends EnumType implements TypeInterface
         ];
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getName(): string
     {
         return $this->name;

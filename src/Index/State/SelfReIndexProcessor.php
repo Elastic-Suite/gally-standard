@@ -14,11 +14,9 @@ declare(strict_types=1);
 
 namespace Gally\Index\State;
 
-use ApiPlatform\Core\DataTransformer\DataTransformerInterface;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
 use Gally\Index\Dto\SelfReindexDto;
-use Gally\Index\Model\Index;
 use Gally\Index\Model\Index\SelfReindex;
 use Gally\Index\Service\SelfReindexOperation;
 

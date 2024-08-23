@@ -29,9 +29,6 @@ class IndexRepository implements IndexRepositoryInterface
     ) {
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function findAll(): array
     {
         $collection = [];
@@ -44,7 +41,7 @@ class IndexRepository implements IndexRepositoryInterface
 
         foreach ($indices as $indexData) {
             // @Todo: keep this test to exclude .geoip index or find a way to get _only_ gally indices.
-            if (0 !== strpos($indexData['index'], '.')) {
+            if (!str_starts_with($indexData['index'], '.')) {
                 $collection[] = $this->getIndex($indexData, $this->extractIndexAliases($aliases, $indexData['index']));
             }
         }
@@ -52,16 +49,13 @@ class IndexRepository implements IndexRepositoryInterface
         return $collection;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function findByName(string $indexName): ?Index
     {
         $item = null;
         $index = null;
         try {
             $index = $this->client->cat()->indices(['index' => $indexName]);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             // Todo: log exception.
         }
 
@@ -73,9 +67,6 @@ class IndexRepository implements IndexRepositoryInterface
         return $item;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function create(string $indexName, array $settings = [], array $aliases = []): Index
     {
         // Todo: Add logic to validate params and manage errors.
@@ -1120,9 +1111,6 @@ class IndexRepository implements IndexRepositoryInterface
         return $index;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function bulk(Bulk\Request $request, bool $instantRefresh = false): Bulk\Response
     {
         $data = ['body' => $request->getOperations()];
@@ -1133,9 +1121,6 @@ class IndexRepository implements IndexRepositoryInterface
         return new Bulk\Response($this->client->bulk($data));
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function refresh(array|string $indexName): void
     {
         if (\is_array($indexName)) {
@@ -1144,17 +1129,11 @@ class IndexRepository implements IndexRepositoryInterface
         $this->client->indices()->refresh(['index' => $indexName]);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function delete(string $indexName): void
     {
         $this->client->indices()->delete(['index' => $indexName]);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getIndexAliases(string $indexName, string $alias = '*'): array
     {
         $aliases = $this->client->indices()->getAlias(['name' => $alias, 'index' => $indexName]);
@@ -1166,17 +1145,11 @@ class IndexRepository implements IndexRepositoryInterface
         return $aliases;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function updateAliases(array $aliasActions): void
     {
         $this->client->indices()->updateAliases(['body' => ['actions' => $aliasActions]]);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function putMapping(array|string $indexName, array $mapping): void
     {
         if (\is_array($indexName)) {
@@ -1186,9 +1159,6 @@ class IndexRepository implements IndexRepositoryInterface
         $this->client->indices()->putMapping(['index' => $indexName, 'body' => $mapping]);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getMapping(array|string $indexName): array
     {
         if (\is_array($indexName)) {
@@ -1198,25 +1168,16 @@ class IndexRepository implements IndexRepositoryInterface
         return $this->client->indices()->getMapping(['index' => $indexName]);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function aliasExists(string $alias, string $indexName = null): bool
+    public function aliasExists(string $alias, ?string $indexName = null): bool
     {
         return $this->client->indices()->existsAlias(['name' => $alias, 'index' => $indexName]);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function putSettings(string $indexName, array $indexSettings): void
     {
         $this->client->indices()->putSettings(['index' => $indexName, 'body' => $indexSettings]);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function forceMerge(array|string $indexName): void
     {
         if (\is_array($indexName)) {
@@ -1225,9 +1186,6 @@ class IndexRepository implements IndexRepositoryInterface
         $this->client->indices()->forcemerge(['index' => $indexName]);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function reindex(string $sourceIndexName, string $destIndexName, bool $asynchronous): array
     {
         return $this->client->reindex([
@@ -1286,7 +1244,7 @@ class IndexRepository implements IndexRepositoryInterface
                     $index->setStatus(Index::STATUS_INDEXING);
                 }
             }
-        } catch (Exception) {
+        } catch (\Exception) {
             $index->setStatus(Index::STATUS_INVALID);
         }
 
@@ -1304,7 +1262,7 @@ class IndexRepository implements IndexRepositoryInterface
             $mapping = $mapping[$index->getName()]['mappings'];
             $settings = $this->client->indices()->getSettings(['index' => $index->getName()]);
             $settings = $settings[$index->getName()]['settings'];
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             // Todo: log exception.
         }
 

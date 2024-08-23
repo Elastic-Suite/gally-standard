@@ -54,7 +54,7 @@ class SourceFieldDataValidator
 
             // Prevent user to update a system source field, only the value of 'weight' and 'isSpellchecked' can be changed.
             if (\count($changeSet) > 0 && ($sourceField->getIsSystem() || ($changeSet['isSystem'][0] ?? false) === true)) {
-                throw new InvalidArgumentException(sprintf("The source field '%s' cannot be updated because it is a system source field, only the value of 'weight' and 'isSpellchecked' can be changed.", $sourceField->getCode()));
+                throw new InvalidArgumentException(\sprintf("The source field '%s' cannot be updated because it is a system source field, only the value of 'weight' and 'isSpellchecked' can be changed.", $sourceField->getCode()));
             }
         }
     }
@@ -91,7 +91,7 @@ class SourceFieldDataValidator
                         !\in_array($field, ['code', 'metadata', 'weight', 'isSpellchecked', 'labels'], true)
                         && $value !== $existingSourceFields[$metadataId][$rawData['code']][$field]
                     ) {
-                        throw new InvalidArgumentException(sprintf("The source field '%s' cannot be updated because it is a system source field, only the value of 'weight' and 'isSpellchecked' can be changed.", $rawData['code']));
+                        throw new InvalidArgumentException(\sprintf("The source field '%s' cannot be updated because it is a system source field, only the value of 'weight' and 'isSpellchecked' can be changed.", $rawData['code']));
                     }
                 }
             }

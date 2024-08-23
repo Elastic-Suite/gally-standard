@@ -42,9 +42,6 @@ class DateRange extends Range
         $this->format = $format;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getType(): string
     {
         return QueryInterface::TYPE_DATE_RANGE;

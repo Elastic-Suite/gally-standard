@@ -19,17 +19,11 @@ use Gally\Metadata\Model\SourceField;
 
 class LocationSourceFieldConverter implements SourceFieldConverterInterface
 {
-    /**
-     * {@inheritDoc}
-     */
     public function supports(SourceField $sourceField): bool
     {
         return SourceField\Type::TYPE_LOCATION === $sourceField->getType();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getFields(SourceField $sourceField): array
     {
         return [

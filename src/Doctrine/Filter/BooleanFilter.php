@@ -16,7 +16,6 @@ namespace Gally\Doctrine\Filter;
 
 use ApiPlatform\Doctrine\Common\Filter\BooleanFilterTrait;
 use ApiPlatform\Doctrine\Orm\Filter\AbstractFilter;
-use ApiPlatform\Doctrine\Orm\Filter\BooleanFilter as BaseBooleanFilter;
 use ApiPlatform\Doctrine\Orm\Util\QueryNameGeneratorInterface;
 use ApiPlatform\Metadata\Operation;
 use Doctrine\DBAL\Types\Types;
@@ -40,22 +39,20 @@ class BooleanFilter extends AbstractFilter
 
     public function __construct(
         ManagerRegistry $managerRegistry,
-        LoggerInterface $logger = null,
-        array $properties = null,
-        NameConverterInterface $nameConverter = null,
+        ?LoggerInterface $logger = null,
+        ?array $properties = null,
+        ?NameConverterInterface $nameConverter = null,
         private bool $treatNullAsFalse = false
     ) {
         parent::__construct($managerRegistry, $logger, $properties, $nameConverter);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function filterProperty(string $property, $value, QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, string $resourceClass, Operation $operation = null, array $context = []): void{
+    protected function filterProperty(string $property, $value, QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, string $resourceClass, ?Operation $operation = null, array $context = []): void
+    {
         if (
-            !$this->isPropertyEnabled($property, $resourceClass) ||
-            !$this->isPropertyMapped($property, $resourceClass) ||
-            !$this->isBooleanField($property, $resourceClass)
+            !$this->isPropertyEnabled($property, $resourceClass)
+            || !$this->isPropertyMapped($property, $resourceClass)
+            || !$this->isBooleanField($property, $resourceClass)
         ) {
             return;
         }
@@ -75,9 +72,9 @@ class BooleanFilter extends AbstractFilter
         $valueParameter = $queryNameGenerator->generateParameterName($field);
 
         if (!$value && $this->treatNullAsFalse) {
-            $expr = sprintf('%s.%s = :%s or %s.%s is null', $alias, $field, $valueParameter, $alias, $field);
+            $expr = \sprintf('%s.%s = :%s or %s.%s is null', $alias, $field, $valueParameter, $alias, $field);
         } else {
-            $expr = sprintf('%s.%s = :%s', $alias, $field, $valueParameter);
+            $expr = \sprintf('%s.%s = :%s', $alias, $field, $valueParameter);
         }
 
         $queryBuilder->andWhere($expr)->setParameter($valueParameter, $value);

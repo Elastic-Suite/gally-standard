@@ -15,7 +15,6 @@ declare(strict_types=1);
 namespace Gally\Product\Model;
 
 use ApiPlatform\Action\NotFoundAction;
-use Gally\User\Constant\Role;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GraphQl\QueryCollection;
@@ -23,10 +22,11 @@ use Gally\Metadata\Model\Attribute\AttributeInterface;
 use Gally\Product\State\ProductProvider;
 use Gally\Search\Model\Document;
 use Gally\Search\Resolver\DummyResolver;
+use Gally\User\Constant\Role;
 
 #[ApiResource(
     operations: [
-        new Get(controller: NotFoundAction::class, read: false, output: false)
+        new Get(controller: NotFoundAction::class, read: false, output: false),
     ],
     graphQlOperations: [
         new QueryCollection(
@@ -36,26 +36,26 @@ use Gally\Search\Resolver\DummyResolver;
             args: [
                 'localizedCatalog' => [
                     'type' => 'String!',
-                    'description' => 'Localized Catalog'
+                    'description' => 'Localized Catalog',
                 ],
                 'requestType' => [
                     'type' => 'ProductRequestTypeEnum!',
-                    'description' => 'Product Request Type'
+                    'description' => 'Product Request Type',
                 ],
                 'currentPage' => ['type' => 'Int'],
                 'search' => [
                     'type' => 'String',
-                    'description' => 'Query Text'
+                    'description' => 'Query Text',
                 ],
                 'currentCategoryId' => [
                     'type' => 'String',
-                    'description' => 'Current category ID'
+                    'description' => 'Current category ID',
                 ],
                 'pageSize' => ['type' => 'Int'],
                 'sort' => ['type' => 'ProductSortInput'],
                 'filter' => [
                     'type' => '[ProductFieldFilterInput]',
-                    'is_gally_arg' => true]
+                    'is_gally_arg' => true],
             ],
             read: true,
             deserialize: true,
@@ -69,44 +69,44 @@ use Gally\Search\Resolver\DummyResolver;
             args: [
                 'localizedCatalog' => [
                     'type' => 'String!',
-                    'description' => 'Localized Catalog'
+                    'description' => 'Localized Catalog',
                 ],
                 'requestType' => [
                     'type' => 'ProductRequestTypeEnum!',
-                    'description' => 'Request Type'
+                    'description' => 'Request Type',
                 ],
                 'currentPage' => ['type' => 'Int'],
                 'search' => [
                     'type' => 'String',
-                    'description' => 'Query Text'
+                    'description' => 'Query Text',
                 ],
                 'currentCategoryId' => [
                     'type' => 'String',
-                    'description' => 'Current category ID'
+                    'description' => 'Current category ID',
                 ],
                 'pageSize' => ['type' => 'Int'],
                 'sort' => ['type' => 'ProductSortInput'],
                 'filter' => [
                     'type' => '[ProductFieldFilterInput]',
-                    'is_gally_arg' => true
+                    'is_gally_arg' => true,
                 ],
                 'currentCategoryConfiguration' => [
                     'type' => 'String',
-                    'description' => 'Current category configuration'
-                ]
+                    'description' => 'Current category configuration',
+                ],
             ],
             read: true,
             deserialize: true,
             write: false,
             serialize: true,
-            security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')")
+            security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
     ],
     provider: ProductProvider::class,
     extraProperties: [
-        'gally' =>  [
+        'gally' => [
             'stitching' => ['property' => 'attributes'],
-            'metadata' => ['entity' => 'product']
-        ]
+            'metadata' => ['entity' => 'product'],
+        ],
     ],
     paginationClientEnabled: true,
     paginationClientItemsPerPage: true,

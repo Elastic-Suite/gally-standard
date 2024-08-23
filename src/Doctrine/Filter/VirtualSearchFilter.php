@@ -21,9 +21,6 @@ use Gally\Doctrine\Filter\SearchFilter as GallySearchFilter;
  */
 class VirtualSearchFilter extends GallySearchFilter
 {
-    /**
-     * {@inheritdoc}
-     */
     public function getDescription(string $resourceClass): array
     {
         $description = [];

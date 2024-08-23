@@ -28,9 +28,6 @@ class AddEntityTypeInContext implements ProcessorInterface
     ) {
     }
 
-    /**
-     * @inheritdoc
-     */
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): ?array
     {
         if (Product::class === $operation->getClass()) {

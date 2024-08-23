@@ -153,7 +153,7 @@ class RuleEngineManager
 
     public function getRuleCacheKey(array $rule, LocalizedCatalog $localizedCatalog): string
     {
-        return sprintf(
+        return \sprintf(
             '%s_%s_%s',
             self::CACHE_KEY_PREFIX_RULE,
             $localizedCatalog->getCode(),
@@ -174,7 +174,7 @@ class RuleEngineManager
 
     public function getRuleCacheTagByLocalizedCatalog(LocalizedCatalog $localizedCatalog): string
     {
-        return sprintf(
+        return \sprintf(
             '%s_%s',
             self::CACHE_TAG_RULE,
             $localizedCatalog->getCode(),

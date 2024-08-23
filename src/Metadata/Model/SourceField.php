@@ -34,9 +34,8 @@ use Gally\Metadata\Controller\BulkSourceFields;
 use Gally\Metadata\Model\SourceField\Type;
 use Gally\Metadata\Model\SourceField\Weight;
 use Gally\Metadata\State\SourceFieldProcessor;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Serializer\Annotation\Groups;
 use Gally\User\Constant\Role;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ApiResource(
     operations: [
@@ -61,15 +60,15 @@ use Gally\User\Constant\Role;
                         'application/json' => [
                             'schema' => [
                                 'type' => 'array',
-                                'items' => ['type' => 'string']
+                                'items' => ['type' => 'string'],
                             ],
                             'example' => [
                                 ['sourceField' => '/metadata/1', 'code' => 'brand', 'type' => 'text', 'defaultLabel' => 'Brand'],
-                                ['sourceField' => '/metadata/1', 'code' => 'color', 'type' => 'select', 'defaultLabel' => 'Color']
-                            ]
-                        ]
-                    ]
-                ]
+                                ['sourceField' => '/metadata/1', 'code' => 'color', 'type' => 'select', 'defaultLabel' => 'Color'],
+                            ],
+                        ],
+                    ],
+                ],
             ]
         ),
         new GetCollection(security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
@@ -79,7 +78,7 @@ use Gally\User\Constant\Role;
         new QueryCollection(name: 'collection_query', security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
         new Mutation(name: 'create', security: "is_granted('" . Role::ROLE_ADMIN . "')"),
         new Mutation(name: 'update', security: "is_granted('" . Role::ROLE_ADMIN . "')"),
-        new Mutation(name: 'delete', security: "is_granted('" . Role::ROLE_ADMIN . "')")
+        new Mutation(name: 'delete', security: "is_granted('" . Role::ROLE_ADMIN . "')"),
     ],
     processor: SourceFieldProcessor::class,
     denormalizationContext: ['groups' => ['source_field:write']],

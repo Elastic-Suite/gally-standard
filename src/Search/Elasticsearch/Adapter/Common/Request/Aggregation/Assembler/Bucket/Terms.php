@@ -25,9 +25,6 @@ use Gally\Search\Elasticsearch\Request\SortOrderInterface;
  */
 class Terms implements AssemblerInterface
 {
-    /**
-     * {@inheritDoc}
-     */
     public function assembleAggregation(AggregationInterface $aggregation): array
     {
         if (BucketInterface::TYPE_TERMS !== $aggregation->getType()) {

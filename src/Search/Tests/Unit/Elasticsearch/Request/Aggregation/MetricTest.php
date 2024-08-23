@@ -14,7 +14,6 @@ declare(strict_types=1);
 
 namespace Gally\Search\Tests\Unit\Elasticsearch\Request\Aggregation;
 
-use ArgumentCountError;
 use Gally\Search\Elasticsearch\Request\AggregationFactory;
 use Gally\Search\Elasticsearch\Request\MetricInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -32,7 +31,7 @@ class MetricTest extends KernelTestCase
 
     public function testFailedCreate(): void
     {
-        $this->expectException(ArgumentCountError::class);
+        $this->expectException(\ArgumentCountError::class);
         self::$aggregationFactory->create(MetricInterface::TYPE_SUM);
     }
 

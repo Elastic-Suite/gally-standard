@@ -22,17 +22,11 @@ class StockTypeDefaultFilterInputType extends BoolTypeFilterInputType
 
     public string $name = self::SPECIFIC_NAME;
 
-    /**
-     * {@inheritDoc}
-     */
     public function supports(SourceField $sourceField): bool
     {
         return SourceField\Type::TYPE_STOCK === $sourceField->getType();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getFilterFieldName(string $sourceFieldCode): string
     {
         return $sourceFieldCode . '.status';

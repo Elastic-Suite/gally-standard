@@ -81,9 +81,6 @@ class GeoDistanceTest extends AbstractSimpleQueryAssemblerTestCase
         );
     }
 
-    /**
-     * {@inheritDoc}
-     */
     protected function getQueryAssembler(): GeoDistanceQueryAssembler
     {
         return new GeoDistanceQueryAssembler();

@@ -32,9 +32,6 @@ class Boolean extends AbstractComplexAssembler implements AssemblerInterface
         self::QUERY_CONDITION_SHOULD,
     ];
 
-    /**
-     * {@inheritDoc}
-     */
     public function assembleQuery(QueryInterface $query): array
     {
         if (QueryInterface::TYPE_BOOL !== $query->getType()) {

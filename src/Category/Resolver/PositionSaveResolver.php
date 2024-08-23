@@ -15,7 +15,6 @@ declare(strict_types=1);
 namespace Gally\Category\Resolver;
 
 use ApiPlatform\GraphQl\Resolver\QueryItemResolverInterface;
-use Exception;
 use Gally\Catalog\Repository\CatalogRepository;
 use Gally\Catalog\Repository\LocalizedCatalogRepository;
 use Gally\Category\Model\Category\ProductMerchandising;
@@ -36,28 +35,28 @@ class PositionSaveResolver implements QueryItemResolverInterface
     /**
      * @param mixed $item
      *
-     * @return ProductMerchandising
+     * @throws \Exception
      *
-     * @throws Exception
+     * @return ProductMerchandising
      */
     public function __invoke(?object $item, array $context): object
     {
         $categoryId = $context['args']['input']['categoryId'];
         $category = $this->categoryRepository->find($categoryId);
         if (!$category) {
-            throw new BadRequestHttpException(sprintf('Category with id %s not found.', $categoryId));
+            throw new BadRequestHttpException(\sprintf('Category with id %s not found.', $categoryId));
         }
 
         $catalogId = $context['args']['input']['catalogId'] ?? null;
         $catalog = $catalogId ? $this->catalogRepository->find($catalogId) : null;
         if ($catalogId && !$catalog) {
-            throw new BadRequestHttpException(sprintf('Catalog with id %d not found.', $catalogId));
+            throw new BadRequestHttpException(\sprintf('Catalog with id %d not found.', $catalogId));
         }
 
         $localizedCatalogId = $context['args']['input']['localizedCatalogId'] ?? null;
         $localizedCatalog = $localizedCatalogId ? $this->localizedCatalogRepository->find($localizedCatalogId) : null;
         if ($localizedCatalogId && !$localizedCatalog) {
-            throw new BadRequestHttpException(sprintf('Localized catalog with id %d not found.', $localizedCatalogId));
+            throw new BadRequestHttpException(\sprintf('Localized catalog with id %d not found.', $localizedCatalogId));
         }
 
         $positionsJson = $context['args']['input']['positions'];

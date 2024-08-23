@@ -141,6 +141,7 @@ class FacetConfigurationTest extends AbstractTestCase
 
     /**
      * @dataProvider updateDataProvider
+     *
      * @depends testGetCollectionBefore
      */
     public function testUpdateValue(?User $user, string $id, array $newData, int $expectedStatus, ?string $expectedMessage)
@@ -173,6 +174,7 @@ class FacetConfigurationTest extends AbstractTestCase
 
     /**
      * @dataProvider getCollectionAfterDataProvider
+     *
      * @depends testUpdateValue
      */
     public function testGetCollectionAfter(?User $user, ?string $entityType, ?string $categoryId, array $items, int $responseCode, ?string $expectedMessage = null): void
@@ -293,6 +295,7 @@ class FacetConfigurationTest extends AbstractTestCase
 
     /**
      * @dataProvider getDataProvider
+     *
      * @depends testGetCollectionAfter
      */
     public function testGet(?User $user, int|string $id, array $expectedData, int $responseCode, ?string $expectedMessage = null): void
@@ -344,6 +347,7 @@ class FacetConfigurationTest extends AbstractTestCase
 
     /**
      * @dataProvider deleteDataProvider
+     *
      * @depends testGet
      */
     public function testDelete(?User $user, int|string $id, int $responseCode, ?string $expectedMessage = null): void
@@ -438,7 +442,7 @@ class FacetConfigurationTest extends AbstractTestCase
             'defaultIsRecommendable' => false,
             'defaultIsVirtual' => false,
             'defaultPosition' => null,
-            'position'=> null,
+            'position' => null,
             'category' => $categoryId ? "/categories/$categoryId" : null,
         ];
 

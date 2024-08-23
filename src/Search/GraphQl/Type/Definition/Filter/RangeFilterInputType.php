@@ -62,7 +62,7 @@ class RangeFilterInputType extends InputObjectType implements TypeInterface, Fil
         $errors = $this->validateIsFilterable($inputData['field'], $containerConfig);
 
         if (\count($inputData) < 2) {
-            $errors[] = sprintf(
+            $errors[] = \sprintf(
                 "Filter argument %s: At least '%s', '%s', '%s' or '%s' should be filled.",
                 $argName,
                 FilterOperator::GT,
@@ -73,7 +73,7 @@ class RangeFilterInputType extends InputObjectType implements TypeInterface, Fil
         }
 
         if (isset($inputData[FilterOperator::GT]) && isset($inputData[FilterOperator::GTE])) {
-            $errors[] = sprintf(
+            $errors[] = \sprintf(
                 "Filter argument %s: Do not use '%s' and '%s' in the same filter.",
                 $argName,
                 FilterOperator::GT,
@@ -82,7 +82,7 @@ class RangeFilterInputType extends InputObjectType implements TypeInterface, Fil
         }
 
         if (isset($inputData[FilterOperator::LT]) && isset($inputData[FilterOperator::LTE])) {
-            $errors[] = sprintf(
+            $errors[] = \sprintf(
                 "Filter argument %s: Do not use '%s' and '%s' in the same filter.",
                 $argName,
                 FilterOperator::LT,

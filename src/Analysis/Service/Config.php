@@ -57,7 +57,7 @@ class Config
                     'analyzer' => $this->cleanFilters($configuration['analyzers'], $availableCharFilters, $availableFilters),
                     'normalizer' => $this->cleanFilters($configuration['normalizers'], $availableCharFilters, $availableFilters),
                 ]);
-            // @codeCoverageIgnoreEnd
+                // @codeCoverageIgnoreEnd
             },
             ['config']
         );

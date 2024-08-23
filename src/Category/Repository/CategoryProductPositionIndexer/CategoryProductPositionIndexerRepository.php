@@ -35,9 +35,6 @@ class CategoryProductPositionIndexerRepository implements CategoryProductPositio
     ) {
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function reindex(ProductMerchandising $productMerchandising, array $localizedCatalogs): void
     {
         foreach ($localizedCatalogs as $localizedCatalog) {
@@ -87,7 +84,7 @@ class CategoryProductPositionIndexerRepository implements CategoryProductPositio
 
         // Can be possible during the execution of the fixtures.
         if (!$this->client->indices()->exists(['index' => $indexAlias])) {
-            $this->logger->error(sprintf("The indexation of product positions is not possible because the index '%s' does not exist.", $indexAlias));
+            $this->logger->error(\sprintf("The indexation of product positions is not possible because the index '%s' does not exist.", $indexAlias));
 
             return;
         }

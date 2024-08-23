@@ -14,14 +14,13 @@ declare(strict_types=1);
 
 namespace Gally\Validator;
 
-use DateTime;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 class DateRange
 {
     public static function validate(object $object, ExecutionContextInterface $context, mixed $payload): void
     {
-        if ($object->getFromDate() instanceof DateTime && $object->getToDate() instanceof DateTime) {
+        if ($object->getFromDate() instanceof \DateTime && $object->getToDate() instanceof \DateTime) {
             if ($object->getFromDate() > $object->getToDate()) {
                 $context->buildViolation('gally.validator.error_date_range')
                     ->atPath('fromDate')

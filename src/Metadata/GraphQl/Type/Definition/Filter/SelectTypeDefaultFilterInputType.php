@@ -25,9 +25,6 @@ class SelectTypeDefaultFilterInputType extends TextTypeFilterInputType
 
     public string $name = self::SPECIFIC_NAME;
 
-    /**
-     * {@inheritDoc}
-     */
     public function supports(SourceField $sourceField): bool
     {
         return SourceField\Type::TYPE_SELECT === $sourceField->getType();
@@ -44,9 +41,6 @@ class SelectTypeDefaultFilterInputType extends TextTypeFilterInputType
         ];
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getFilterFieldName(string $sourceFieldCode): string
     {
         return $sourceFieldCode . '.value';
@@ -57,7 +51,7 @@ class SelectTypeDefaultFilterInputType extends TextTypeFilterInputType
         $errors = [];
 
         if (\count($inputData) < 1) {
-            $errors[] = sprintf(
+            $errors[] = \sprintf(
                 "Filter argument %s: At least '%s', '%s' or '%s' should be filled.",
                 $argName,
                 FilterOperator::EQ,
@@ -67,7 +61,7 @@ class SelectTypeDefaultFilterInputType extends TextTypeFilterInputType
         }
 
         if (\count($inputData) > 1) {
-            $errors[] = sprintf(
+            $errors[] = \sprintf(
                 "Filter argument %s: Only '%s', '%s' or '%s' should be filled.",
                 $argName,
                 FilterOperator::EQ,

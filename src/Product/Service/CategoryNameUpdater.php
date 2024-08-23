@@ -135,14 +135,14 @@ class CategoryNameUpdater
         if ($response->hasErrors()) {
             foreach ($response->aggregateErrorsByReason() as $error) {
                 $sampleDocumentIds = implode(', ', \array_slice($error['document_ids'], 0, 10));
-                $this->logger->error(sprintf(
+                $this->logger->error(\sprintf(
                     'Bulk %s operation failed %d times in index %s.',
                     $error['operation'],
                     $error['count'],
                     $error['index']
                 ));
-                $this->logger->error(sprintf('Error (%s) : %s.', $error['error']['type'], $error['error']['reason']));
-                $this->logger->error(sprintf('Failed doc ids sample : %s.', $sampleDocumentIds));
+                $this->logger->error(\sprintf('Error (%s) : %s.', $error['error']['type'], $error['error']['reason']));
+                $this->logger->error(\sprintf('Failed doc ids sample : %s.', $sampleDocumentIds));
             }
         }
     }

@@ -19,10 +19,7 @@ use Symfony\Component\Routing\RouteCollection;
 
 class GallyLoader extends Loader
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function load($resource, string $type = null): RouteCollection
+    public function load($resource, ?string $type = null): RouteCollection
     {
         $routes = new RouteCollection();
 
@@ -36,9 +33,6 @@ class GallyLoader extends Loader
         return $routes;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function supports($resource, $type = null): bool
     {
         return 'gally' === $type;

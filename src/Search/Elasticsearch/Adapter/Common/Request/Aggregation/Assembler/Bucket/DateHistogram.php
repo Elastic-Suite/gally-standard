@@ -24,9 +24,6 @@ use Gally\Search\Elasticsearch\Request\BucketInterface;
  */
 class DateHistogram implements AssemblerInterface
 {
-    /**
-     * {@inheritDoc}
-     */
     public function assembleAggregation(AggregationInterface $aggregation): array
     {
         if (BucketInterface::TYPE_DATE_HISTOGRAM !== $aggregation->getType()) {

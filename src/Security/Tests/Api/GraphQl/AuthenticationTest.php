@@ -76,7 +76,7 @@ class AuthenticationTest extends ApiTestCase
     {
         $client = self::createClient();
         $user = new User();
-        $user->setEmail('fake@test.com', )
+        $user->setEmail('fake@test.com')
             ->setPassword('fakepassword');
         $this->loginGraphQl($client, $user);
 

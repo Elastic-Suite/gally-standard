@@ -33,9 +33,6 @@ class Coverage implements ModifierInterface
     ) {
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function modifyFacetConfigs(
         ContainerConfigurationInterface $containerConfig,
         array $facetConfigs,
@@ -62,9 +59,6 @@ class Coverage implements ModifierInterface
         return $relevantFacets;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function modifyAggregations(
         ContainerConfigurationInterface $containerConfig,
         array $aggregations,

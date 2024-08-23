@@ -37,9 +37,6 @@ class CoverageAggregationProvider implements AggregationProviderInterface
     ) {
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getAggregations(
         ContainerConfigurationInterface $containerConfig,
         QueryInterface|string|null $query = null,
@@ -87,9 +84,6 @@ class CoverageAggregationProvider implements AggregationProviderInterface
         ];
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function useFacetConfiguration(): bool
     {
         return true;

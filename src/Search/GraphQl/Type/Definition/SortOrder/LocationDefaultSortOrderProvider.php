@@ -23,40 +23,28 @@ class LocationDefaultSortOrderProvider implements SortOrderProviderInterface
     {
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function supports(SourceField $sourceField): bool
     {
         return Type::TYPE_LOCATION === $sourceField->getType();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getSortOrderField(SourceField $sourceField): string
     {
         return str_replace('.', $this->nestingSeparator, $sourceField->getCode());
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getLabel(SourceField $sourceField): string
     {
-        return sprintf(
+        return \sprintf(
             "Sorting by %s's distance (%s)",
             $sourceField->getDefaultLabel(),
             $sourceField->getCode()
         );
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getSimplifiedLabel(SourceField $sourceField): string
     {
-        return sprintf(
+        return \sprintf(
             "%s's distance",
             $sourceField->getDefaultLabel()
         );

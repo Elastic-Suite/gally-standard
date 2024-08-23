@@ -36,9 +36,6 @@ class BucketSelector extends AbstractPipeline
         parent::__construct($name, $bucketsPath);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getType(): string
     {
         return self::TYPE_BUCKET_SELECTOR;

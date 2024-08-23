@@ -56,7 +56,7 @@ class Mapping implements MappingInterface
         $this->fields = $this->prepareFields($fields);
 
         if (!isset($this->fields[self::ID_FIELD])) {
-            throw new \InvalidArgumentException(sprintf('Invalid id field %s : field is not declared.', self::ID_FIELD));
+            throw new \InvalidArgumentException(\sprintf('Invalid id field %s : field is not declared.', self::ID_FIELD));
         }
     }
 
@@ -99,9 +99,6 @@ class Mapping implements MappingInterface
         return $this->getField(self::ID_FIELD);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getWeightedSearchProperties(
         ?string $analyzer = null,
         ?string $defaultField = null,
@@ -158,7 +155,7 @@ class Mapping implements MappingInterface
                 throw new \InvalidArgumentException("Unable to find analyzer {$analyzer} for field {$field}.");
             }
 
-            $property = sprintf('%s.%s', $field, $analyzer);
+            $property = \sprintf('%s.%s', $field, $analyzer);
         }
 
         return $property;

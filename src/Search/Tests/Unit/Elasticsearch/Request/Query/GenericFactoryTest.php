@@ -15,7 +15,6 @@ declare(strict_types=1);
 namespace Gally\Search\Tests\Unit\Elasticsearch\Request\Query;
 
 use Gally\DependencyInjection\GenericFactory;
-use InvalidArgumentException;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class GenericFactoryTest extends KernelTestCase
@@ -23,7 +22,7 @@ class GenericFactoryTest extends KernelTestCase
     public function testNullInstanceCreate()
     {
         $genericFactory = new GenericFactory();
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
         $genericFactory->create();
     }
 }

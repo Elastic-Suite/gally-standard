@@ -14,7 +14,6 @@ declare(strict_types=1);
 
 namespace Gally\Metadata\State;
 
-use ApiPlatform\Core\DataPersister\DataPersisterInterface;
 use ApiPlatform\Exception\InvalidArgumentException;
 use ApiPlatform\Metadata\DeleteOperationInterface;
 use ApiPlatform\Metadata\Operation;
@@ -47,8 +46,6 @@ class SourceFieldProcessor implements ProcessorInterface
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @param SourceField $data
      *
      * @throws Exception
@@ -65,7 +62,6 @@ class SourceFieldProcessor implements ProcessorInterface
 
         return $this->persist($data);
     }
-
 
     /**
      * Persist source field.
@@ -218,7 +214,7 @@ class SourceFieldProcessor implements ProcessorInterface
                 $sourceField['search'] = "{$sourceField['code']} $defaultLabel";
                 $this->sourceFieldData[$metadataId][$sourceField['code']] = $sourceField;
             } catch (\Exception $exception) {
-                $this->errors[] = sprintf('Option #%d: %s', $index, $exception->getMessage());
+                $this->errors[] = \sprintf('Option #%d: %s', $index, $exception->getMessage());
             }
         }
     }

@@ -34,9 +34,6 @@ class Metric implements AssemblerInterface
         MetricInterface::TYPE_SUM => 'sum',
     ];
 
-    /**
-     * {@inheritDoc}
-     */
     public function assembleAggregation(AggregationInterface $aggregation): array
     {
         if (!$aggregation instanceof MetricInterface || !\array_key_exists($aggregation->getType(), $this->esTypeMapping)) {

@@ -14,7 +14,6 @@ declare(strict_types=1);
 
 namespace Gally\Index\State;
 
-use ApiPlatform\Core\DataPersister\DataPersisterInterface;
 use ApiPlatform\Metadata\DeleteOperationInterface;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
@@ -28,9 +27,6 @@ class IndexProcessor implements ProcessorInterface
     ) {
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function process($data, Operation $operation, array $uriVariables = [], array $context = []): void
     {
         if ($operation instanceof DeleteOperationInterface) {

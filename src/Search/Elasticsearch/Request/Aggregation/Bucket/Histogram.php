@@ -40,17 +40,14 @@ class Histogram extends AbstractBucket
         string $field,
         array $childAggregations = [],
         ?string $nestedPath = null,
-        QueryInterface $filter = null,
-        QueryInterface $nestedFilter = null,
+        ?QueryInterface $filter = null,
+        ?QueryInterface $nestedFilter = null,
         private int|string $interval = 1,
         private int $minDocCount = 0
     ) {
         parent::__construct($name, $field, $childAggregations, $nestedPath, $filter, $nestedFilter);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getType(): string
     {
         return BucketInterface::TYPE_HISTOGRAM;

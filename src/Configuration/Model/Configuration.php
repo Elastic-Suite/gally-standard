@@ -14,10 +14,10 @@ declare(strict_types=1);
 
 namespace Gally\Configuration\Model;
 
-use ApiPlatform\Metadata\GraphQl\QueryCollection;
-use ApiPlatform\Metadata\GetCollection;
-use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\ApiProperty;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\GraphQl\QueryCollection;
 use Gally\Configuration\State\ConfigurationProvider;
 
 #[ApiResource(

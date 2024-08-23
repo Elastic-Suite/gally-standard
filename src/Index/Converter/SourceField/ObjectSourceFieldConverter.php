@@ -18,17 +18,11 @@ use Gally\Metadata\Model\SourceField;
 
 class ObjectSourceFieldConverter implements SourceFieldConverterInterface
 {
-    /**
-     * {@inheritDoc}
-     */
     public function supports(SourceField $sourceField): bool
     {
         return SourceField\Type::TYPE_OBJECT === $sourceField->getType();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getFields(SourceField $sourceField): array
     {
         // TODO: Implement getFields() method.

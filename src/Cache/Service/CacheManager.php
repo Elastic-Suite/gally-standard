@@ -27,9 +27,6 @@ class CacheManager implements CacheManagerInterface
     {
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function get(string $cacheKey, callable $callback, array $tags, $ttl = null): mixed
     {
         $cacheKey = urlencode($cacheKey);
@@ -49,17 +46,11 @@ class CacheManager implements CacheManagerInterface
         return $this->pool->get($cacheKey, $callback);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function delete(string $cacheKey): bool
     {
         return $this->pool->deleteItem($cacheKey); // @phpstan-ignore-line
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function clearTags(array $tags): bool
     {
         if ($this->pool instanceof TagAwareCacheInterface) {
@@ -73,9 +64,6 @@ class CacheManager implements CacheManagerInterface
         return false;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function clearAll(): bool
     {
         if ($this->pool instanceof CacheItemPoolInterface) {
@@ -85,9 +73,6 @@ class CacheManager implements CacheManagerInterface
         return false;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function prune(): bool
     {
         if ($this->pool instanceof PruneableInterface) {

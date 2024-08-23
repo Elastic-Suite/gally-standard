@@ -49,15 +49,15 @@ class CreateIndexMutation implements MutationResolverInterface
 
         $metadata = $this->metadataRepository->findOneBy(['entity' => $entityType]);
         if (!$metadata) {
-            throw new InvalidArgumentException(sprintf('Entity type [%s] does not exist', $entityType));
+            throw new InvalidArgumentException(\sprintf('Entity type [%s] does not exist', $entityType));
         }
         if (null === $metadata->getEntity()) {
-            throw new LogicException(sprintf('Entity type [%s] is not defined', $entityType));
+            throw new LogicException(\sprintf('Entity type [%s] is not defined', $entityType));
         }
 
         $catalog = $this->localizedCatalogRepository->findByCodeOrId($localizedCatalogCode);
         if (!$catalog) {
-            throw new InvalidArgumentException(sprintf('Localized catalog of ID or code [%s] does not exist', $localizedCatalogCode));
+            throw new InvalidArgumentException(\sprintf('Localized catalog of ID or code [%s] does not exist', $localizedCatalogCode));
         }
 
         try {

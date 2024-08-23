@@ -42,22 +42,20 @@ class SelfReindexOperation
      * @param string|null $entityType Entity type to reindex, if empty all entities indices will be reindexed
      *
      * @throws \Exception
-     *
-     * @return SelfReindex
      */
-    public function performReindex(?string $entityType = null): Index\SelfReindex
+    public function performReindex(?string $entityType = null): SelfReindex
     {
         if (!empty($entityType)) {
             $metadata = $this->metadataRepository->findOneBy(['entity' => $entityType]);
             if (!$metadata) {
-                throw new InvalidArgumentException(sprintf('Entity type [%s] does not exist', $entityType));
+                throw new InvalidArgumentException(\sprintf('Entity type [%s] does not exist', $entityType));
             }
             $metadataToReindex = [$metadata];
         } else {
             $metadataToReindex = $this->metadataRepository->findAll();
         }
 
-        $selfReindex = new Index\SelfReindex();
+        $selfReindex = new SelfReindex();
 
         $selfReindex->setEntityTypes(array_map(function (Metadata $entityMetadata) { return $entityMetadata->getEntity(); }, $metadataToReindex));
         $selfReindex->setStatus(SelfReindex::STATUS_PROCESSING);

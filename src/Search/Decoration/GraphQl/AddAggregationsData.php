@@ -21,7 +21,6 @@ use Gally\Category\Repository\CategoryConfigurationRepository;
 use Gally\Metadata\Model\SourceField;
 use Gally\Metadata\Model\SourceField\Type;
 use Gally\Metadata\Repository\MetadataRepository;
-use Gally\Search\State\Paginator;
 use Gally\Search\Elasticsearch\Adapter\Common\Response\AggregationInterface;
 use Gally\Search\Elasticsearch\Adapter\Common\Response\BucketValueInterface;
 use Gally\Search\Elasticsearch\Builder\Response\AggregationBuilder;
@@ -32,6 +31,7 @@ use Gally\Search\Model\Document;
 use Gally\Search\Repository\Facet\ConfigurationRepository;
 use Gally\Search\Service\ReverseSourceFieldProvider;
 use Gally\Search\Service\SearchContext;
+use Gally\Search\State\Paginator;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
@@ -61,9 +61,6 @@ class AddAggregationsData implements ProcessorInterface
     ) {
     }
 
-    /**
-     * @inheritdoc
-     */
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): ?array
     {
         $result = $this->decorated->process($data, $operation, $uriVariables, $context);
@@ -230,10 +227,10 @@ class AddAggregationsData implements ProcessorInterface
         }
 
         return $this->translator->trans(
-                'search.distance_facet.option_fromto.label',
-                ['%distanceFrom' => $range[0], '%distanceTo' => $range[1], '%unit' => $unit],
-                'gally_search',
-                $containerConfig->getLocalizedCatalog()->getLocale()
-            );
+            'search.distance_facet.option_fromto.label',
+            ['%distanceFrom' => $range[0], '%distanceTo' => $range[1], '%unit' => $unit],
+            'gally_search',
+            $containerConfig->getLocalizedCatalog()->getLocale()
+        );
     }
 }

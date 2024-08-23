@@ -65,15 +65,15 @@ class AttributeRule extends AbstractRuleType implements RuleTypeInterface
     ];
 
     public const RULE_OPERATORS_BY_TYPE = [
-        TYPE::TYPE_TEXT => self::TEXT_OPERATORS,
-        TYPE::TYPE_REFERENCE => self::TEXT_OPERATORS,
-        TYPE::TYPE_KEYWORD => self::TEXT_OPERATORS,
-        TYPE::TYPE_INT => self::NUMERIC_OPERATORS,
-        TYPE::TYPE_FLOAT => self::NUMERIC_OPERATORS,
-        TYPE::TYPE_BOOLEAN => [FilterOperator::EQ],
-        TYPE::TYPE_DATE => [FilterOperator::GT, FilterOperator::GTE, FilterOperator::LT, FilterOperator::LTE],
+        Type::TYPE_TEXT => self::TEXT_OPERATORS,
+        Type::TYPE_REFERENCE => self::TEXT_OPERATORS,
+        Type::TYPE_KEYWORD => self::TEXT_OPERATORS,
+        Type::TYPE_INT => self::NUMERIC_OPERATORS,
+        Type::TYPE_FLOAT => self::NUMERIC_OPERATORS,
+        Type::TYPE_BOOLEAN => [FilterOperator::EQ],
+        Type::TYPE_DATE => [FilterOperator::GT, FilterOperator::GTE, FilterOperator::LT, FilterOperator::LTE],
         TYPE::TYPE_LOCATION => [FilterOperator::GT, FilterOperator::GTE, FilterOperator::LT, FilterOperator::LTE],
-        TYPE::TYPE_SELECT => [FilterOperator::EQ, FilterOperator::NOT_EQ, FilterOperator::IN, FilterOperator::NOT_IN],
+        Type::TYPE_SELECT => [FilterOperator::EQ, FilterOperator::NOT_EQ, FilterOperator::IN, FilterOperator::NOT_IN],
         Type::TYPE_CATEGORY => [FilterOperator::EQ, FilterOperator::NOT_EQ],
         Type::TYPE_PRICE => self::NUMERIC_OPERATORS,
         Type::TYPE_STOCK => [FilterOperator::EQ],

@@ -14,17 +14,12 @@ declare(strict_types=1);
 
 namespace Gally\Search\State\Facet;
 
-use ApiPlatform\Core\DataProvider\DenormalizedIdentifiersAwareItemDataProviderInterface;
-use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
-use ApiPlatform\Metadata\CollectionOperationInterface;
 use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\GraphQl\Mutation;
 use ApiPlatform\Metadata\GraphQl\Query;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Put;
-use ApiPlatform\Metadata\Resource\Factory\ResourceMetadataCollectionFactoryInterface;
 use ApiPlatform\State\Pagination\PartialPaginatorInterface;
 use ApiPlatform\State\ProviderInterface;
 use Doctrine\ORM\EntityManagerInterface;
@@ -47,10 +42,6 @@ final class ConfigurationItemProvider implements ProviderInterface
     }
 
     /**
-     * @param Operation $operation
-     * @param array $uriVariables
-     * @param array $context
-     *
      * @return PartialPaginatorInterface|array|Facet\Configuration|object|object[]|null
      */
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null

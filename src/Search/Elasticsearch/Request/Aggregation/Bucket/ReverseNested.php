@@ -21,9 +21,6 @@ use Gally\Search\Elasticsearch\Request\BucketInterface;
  */
 class ReverseNested extends AbstractBucket
 {
-    /**
-     * {@inheritdoc}
-     */
     public function getType(): string
     {
         return BucketInterface::TYPE_REVERSE_NESTED;

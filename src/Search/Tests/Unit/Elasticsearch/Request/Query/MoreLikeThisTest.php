@@ -14,7 +14,6 @@ declare(strict_types=1);
 
 namespace Gally\Search\Tests\Unit\Elasticsearch\Request\Query;
 
-use ArgumentCountError;
 use Gally\Search\Elasticsearch\Request\Query\MoreLikeThis;
 use Gally\Search\Elasticsearch\Request\QueryFactory;
 use Gally\Search\Elasticsearch\Request\QueryInterface;
@@ -35,7 +34,7 @@ class MoreLikeThisTest extends KernelTestCase
 
     public function testFailedCreate(): void
     {
-        $this->expectException(ArgumentCountError::class);
+        $this->expectException(\ArgumentCountError::class);
         $query = self::$queryFactory->create(QueryInterface::TYPE_MORELIKETHIS);
     }
 

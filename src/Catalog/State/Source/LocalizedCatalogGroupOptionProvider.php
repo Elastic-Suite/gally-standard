@@ -14,12 +14,9 @@ declare(strict_types=1);
 
 namespace Gally\Catalog\State\Source;
 
-use ApiPlatform\Core\DataProvider\ContextAwareCollectionDataProviderInterface;
-use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\Pagination\PartialPaginatorInterface;
 use ApiPlatform\State\ProviderInterface;
-use Gally\Catalog\Model\Source\LocalizedCatalogGroupOption;
 use Gally\Catalog\Repository\CatalogRepository;
 
 class LocalizedCatalogGroupOptionProvider implements ProviderInterface
@@ -30,8 +27,6 @@ class LocalizedCatalogGroupOptionProvider implements ProviderInterface
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return T|PartialPaginatorInterface<T>|iterable<T>|null
      */
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null

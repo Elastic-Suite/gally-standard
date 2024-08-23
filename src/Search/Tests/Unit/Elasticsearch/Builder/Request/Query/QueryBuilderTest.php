@@ -39,7 +39,7 @@ class QueryBuilderTest extends KernelTestCase
             $this->getQueryFactory(),
             $this->getFulltextQueryBuilder(),
             $this->getFilterQueryBuilder(),
-            /*$this->getSearchContext()*/
+            /* $this->getSearchContext() */
         );
 
         $query = $builder->createQuery(

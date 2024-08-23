@@ -15,7 +15,6 @@ declare(strict_types=1);
 namespace Gally\Category\Resolver;
 
 use ApiPlatform\GraphQl\Resolver\QueryItemResolverInterface;
-use Exception;
 use Gally\Catalog\Repository\CatalogRepository;
 use Gally\Catalog\Repository\LocalizedCatalogRepository;
 use Gally\Category\Model\Category\Configuration;
@@ -36,7 +35,7 @@ class ConfigurationResolver implements QueryItemResolverInterface
     /**
      * @param mixed $item
      *
-     * @throws Exception
+     * @throws \Exception
      *
      * @return ?Configuration
      */
@@ -45,19 +44,19 @@ class ConfigurationResolver implements QueryItemResolverInterface
         $categoryId = $context['args']['categoryId'];
         $category = $this->categoryRepository->find($categoryId);
         if (!$category) {
-            throw new NotFoundHttpException(sprintf('Category with id %s not found.', $categoryId));
+            throw new NotFoundHttpException(\sprintf('Category with id %s not found.', $categoryId));
         }
 
         $catalogId = $context['args']['catalogId'] ?? null;
         $catalog = $catalogId ? $this->catalogRepository->find($catalogId) : null;
         if ($catalogId && !$catalog) {
-            throw new NotFoundHttpException(sprintf('Catalog with id %d not found.', $catalogId));
+            throw new NotFoundHttpException(\sprintf('Catalog with id %d not found.', $catalogId));
         }
 
         $localizedCatalogId = $context['args']['localizedCatalogId'] ?? null;
         $localizedCatalog = $localizedCatalogId ? $this->localizedCatalogRepository->find($localizedCatalogId) : null;
         if ($localizedCatalogId && !$localizedCatalog) {
-            throw new NotFoundHttpException(sprintf('Localized catalog with id %d not found.', $localizedCatalogId));
+            throw new NotFoundHttpException(\sprintf('Localized catalog with id %d not found.', $localizedCatalogId));
         }
 
         $config = $this->configurationRepository->findOneMergedByContext($category, $catalog, $localizedCatalog);

@@ -16,7 +16,6 @@ namespace Gally\Migrations\Version;
 
 use Doctrine\Migrations\Version\Comparator;
 use Doctrine\Migrations\Version\Version;
-use function strcmp;
 
 /**
  * Allows to sort migration executions by the date included in the  filename for Gally\* and  DoctrineMigrations\* namespaces.

@@ -23,41 +23,29 @@ class CategoryDefaultSortOrderProvider implements SortOrderProviderInterface
     {
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function supports(SourceField $sourceField): bool
     {
         return Type::TYPE_CATEGORY === $sourceField->getType();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getSortOrderField(SourceField $sourceField): string
     {
         return str_replace(
             '.',
             $this->nestingSeparator,
-            sprintf('%s.%s', $sourceField->getCode(), 'position'),
+            \sprintf('%s.%s', $sourceField->getCode(), 'position'),
         );
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getLabel(SourceField $sourceField): string
     {
-        return sprintf(
+        return \sprintf(
             "Sorting by %s's Position (%s)",
             $sourceField->getDefaultLabel(),
             $sourceField->getCode()
         );
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getSimplifiedLabel(SourceField $sourceField): string
     {
         return 'Position';

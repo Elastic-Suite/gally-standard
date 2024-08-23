@@ -144,6 +144,7 @@ class IndexOperationsTest extends AbstractTestCase
 
     /**
      * @depends testCreateIndex
+     *
      * @dataProvider installIndexDataProvider
      */
     public function testInstallIndex(?User $user, string $indexNamePrefix, array $expectedData): void
@@ -226,6 +227,7 @@ class IndexOperationsTest extends AbstractTestCase
 
     /**
      * @depends testInstallIndex
+     *
      * @dataProvider installIndexDataProvider
      */
     public function testRefreshIndex(?User $user, string $indexNamePrefix, array $expectedData): void

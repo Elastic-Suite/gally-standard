@@ -75,7 +75,7 @@ class CategoryProductMerchandisingTest extends AbstractTestCase
         int $expectedStatus
     ): void {
         $this->modifyPositions(
-            $this->getUser(ROLE::ROLE_ADMIN),
+            $this->getUser(Role::ROLE_ADMIN),
             $categoryId,
             $catalogId,
             $localizedCatalogId,
@@ -130,7 +130,7 @@ class CategoryProductMerchandisingTest extends AbstractTestCase
                 1,
                 1,
                 json_encode(array_fill(0, CategoryProductPositionManager::MAX_POSITION_COUNT + 1, ['productId' => 'p_1', 'position' => 1])),
-                sprintf('Position count exceeds maximum limit %d', CategoryProductPositionManager::MAX_POSITION_COUNT),
+                \sprintf('Position count exceeds maximum limit %d', CategoryProductPositionManager::MAX_POSITION_COUNT),
                 200,
             ],
             [
@@ -819,6 +819,7 @@ class CategoryProductMerchandisingTest extends AbstractTestCase
 
     /**
      * @depends testModifyPositions
+     *
      * @dataProvider getPositionsDataProvider
      */
     public function testGetPositions(

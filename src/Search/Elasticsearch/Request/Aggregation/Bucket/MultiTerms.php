@@ -70,9 +70,6 @@ class MultiTerms extends Terms
         $this->fields = array_merge($additionalFields, [$field]);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getType(): string
     {
         return BucketInterface::TYPE_MULTI_TERMS;

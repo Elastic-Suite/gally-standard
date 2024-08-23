@@ -24,9 +24,6 @@ use Gally\Search\Elasticsearch\Request\BucketInterface;
  */
 class SignificantTerms implements AssemblerInterface
 {
-    /**
-     * {@inheritDoc}
-     */
     public function assembleAggregation(AggregationInterface $aggregation): array
     {
         if (BucketInterface::TYPE_SIGNIFICANT_TERMS !== $aggregation->getType()) {

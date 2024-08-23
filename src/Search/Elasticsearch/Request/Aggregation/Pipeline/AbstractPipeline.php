@@ -31,25 +31,16 @@ abstract class AbstractPipeline implements PipelineInterface
     {
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getBucketsPath(): array|string|null
     {
         return $this->bucketsPath;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function hasBucketsPath(): bool
     {
         return null !== $this->bucketsPath;

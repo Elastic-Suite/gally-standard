@@ -1,12 +1,13 @@
 <?php
-
-/*
- * This file is part of the API Platform project.
+/**
+ * DISCLAIMER
  *
- * (c) Kévin Dunglas <dunglas@gmail.com>
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * @package   Gally
+ * @author    Gally Team <elasticsuite@smile.fr>
+ * @copyright 2022-present Smile
+ * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
@@ -65,9 +66,6 @@ class SearchFilter extends AbstractFilter implements SearchFilterInterface
         return $this->propertyAccessor;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function filterProperty(string $property, $value, QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, string $resourceClass, ?Operation $operation = null, array $context = []): void
     {
         if (
@@ -110,7 +108,7 @@ class SearchFilter extends AbstractFilter implements SearchFilterInterface
 
             if (!$this->hasValidValues($values, $this->getDoctrineFieldType($property, $resourceClass))) {
                 $this->logger->notice('Invalid filter ignored', [
-                    'exception' => new InvalidArgumentException(sprintf('Values for field "%s" are not valid according to the doctrine type.', $field)),
+                    'exception' => new InvalidArgumentException(\sprintf('Values for field "%s" are not valid according to the doctrine type.', $field)),
                 ]);
 
                 return;
@@ -148,7 +146,7 @@ class SearchFilter extends AbstractFilter implements SearchFilterInterface
                  */
                 if (!$this->hasValidValues([$value], $doctrineTypeField)) {
                     $this->logger->notice('Invalid filter ignored', [
-                        'exception' => new InvalidArgumentException(sprintf('Values for field "%s" are not valid according to the doctrine type.', $associationFieldIdentifier)),
+                        'exception' => new InvalidArgumentException(\sprintf('Values for field "%s" are not valid according to the doctrine type.', $associationFieldIdentifier)),
                     ]);
 
                     return null;
@@ -165,7 +163,7 @@ class SearchFilter extends AbstractFilter implements SearchFilterInterface
              * Shouldn't this actually fail harder?
              */
             $this->logger->notice('Invalid filter ignored', [
-                'exception' => new InvalidArgumentException(sprintf('Values for field "%s" are not valid according to the doctrine type.', $field)),
+                'exception' => new InvalidArgumentException(\sprintf('Values for field "%s" are not valid according to the doctrine type.', $field)),
             ]);
 
             return;
@@ -193,8 +191,8 @@ class SearchFilter extends AbstractFilter implements SearchFilterInterface
         }
 
         $wrapCase = $this->createWrapCase($caseSensitive);
-        $valueParameter = ':'.$queryNameGenerator->generateParameterName($field);
-        $aliasedField = sprintf('%s.%s', $alias, $field);
+        $valueParameter = ':' . $queryNameGenerator->generateParameterName($field);
+        $aliasedField = \sprintf('%s.%s', $alias, $field);
 
         if (!$strategy || self::STRATEGY_EXACT === $strategy) {
             if (1 === \count($values)) {
@@ -215,7 +213,7 @@ class SearchFilter extends AbstractFilter implements SearchFilterInterface
         $ors = [];
         $parameters = [];
         foreach ($values as $key => $value) {
-            $keyValueParameter = sprintf('%s_%s', $valueParameter, $key);
+            $keyValueParameter = \sprintf('%s_%s', $valueParameter, $key);
             $parameters[] = [$caseSensitive ? $value : strtolower($value), $keyValueParameter];
 
             $ors[] = match ($strategy) {
@@ -241,7 +239,7 @@ class SearchFilter extends AbstractFilter implements SearchFilterInterface
                         $wrapCase((string) $queryBuilder->expr()->concat("'% '", $keyValueParameter, "'%'"))
                     )
                 ),
-                default => throw new InvalidArgumentException(sprintf('strategy %s does not exist.', $strategy)),
+                default => throw new InvalidArgumentException(\sprintf('strategy %s does not exist.', $strategy)),
             };
         }
 
@@ -265,17 +263,14 @@ class SearchFilter extends AbstractFilter implements SearchFilterInterface
                 return $expr;
             }
 
-            return sprintf('LOWER(%s)', $expr);
+            return \sprintf('LOWER(%s)', $expr);
         };
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getType(string $doctrineType): string
     {
         // Remove this test when doctrine/dbal:3 support is removed
-        if (\defined(Types::class.'::ARRAY') && Types::ARRAY === $doctrineType) {
+        if (\defined(Types::class . '::ARRAY') && Types::ARRAY === $doctrineType) {
             return 'array';
         }
 

@@ -19,17 +19,11 @@ use Gally\Metadata\Model\SourceField;
 
 class TextSourceFieldConverter implements SourceFieldConverterInterface
 {
-    /**
-     * {@inheritDoc}
-     */
     public function supports(SourceField $sourceField): bool
     {
         return SourceField\Type::TYPE_TEXT === $sourceField->getType();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getFields(SourceField $sourceField): array
     {
         $fields = [];
@@ -50,7 +44,7 @@ class TextSourceFieldConverter implements SourceFieldConverterInterface
         $fields[$fieldCode] = new Mapping\Field($fieldCode, $fieldType, $path, $fieldConfig);
 
         if (empty($path)) {
-            $fieldCode = sprintf('children.%s', $sourceField->getCode());
+            $fieldCode = \sprintf('children.%s', $sourceField->getCode());
             // Flag explicitly the field as non-nested.
             $fields[$fieldCode] = new Mapping\Field($fieldCode, $fieldType, null, $fieldConfig);
         }

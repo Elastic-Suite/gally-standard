@@ -22,9 +22,6 @@ use Gally\Search\Elasticsearch\Request\QueryInterface;
  */
 class Not extends AbstractComplexAssembler implements AssemblerInterface
 {
-    /**
-     * {@inheritDoc}
-     */
     public function assembleQuery(QueryInterface $query): array
     {
         if (QueryInterface::TYPE_NOT !== $query->getType()) {

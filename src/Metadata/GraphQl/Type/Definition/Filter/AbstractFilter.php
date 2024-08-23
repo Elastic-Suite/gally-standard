@@ -42,17 +42,11 @@ abstract class AbstractFilter extends InputObjectType implements TypeInterface, 
         return $this->name;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getFilterFieldName(string $sourceFieldCode): string
     {
         return $sourceFieldCode;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getGraphQlFieldName(string $mappingFilterName): string
     {
         return str_replace('.', $this->nestingSeparator, $mappingFilterName);

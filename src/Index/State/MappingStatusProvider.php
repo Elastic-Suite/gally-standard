@@ -14,9 +14,6 @@ declare(strict_types=1);
 
 namespace Gally\Index\State;
 
-use ApiPlatform\Core\DataProvider\ItemDataProviderInterface;
-use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
-use ApiPlatform\GraphQl\Resolver\QueryItemResolverInterface;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\Pagination\PartialPaginatorInterface;
@@ -38,12 +35,10 @@ class MappingStatusProvider implements ProviderInterface
      */
     public function __invoke(mixed $item, array $context): object
     {
-        return $this->provide(new Get(), [ 'id' => $context['args']['entityType']], $context);
+        return $this->provide(new Get(), ['id' => $context['args']['entityType']], $context);
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @return T|PartialPaginatorInterface<T>|iterable<T>|null
      */
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null

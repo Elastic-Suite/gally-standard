@@ -17,9 +17,9 @@ namespace Gally\Search\Decoration\GraphQl;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
 use Gally\Metadata\Repository\MetadataRepository;
-use Gally\Search\State\Paginator;
 use Gally\Search\Model\Document;
 use Gally\Search\Service\ReverseSourceFieldProvider;
+use Gally\Search\State\Paginator;
 
 class AddSortInfoData implements ProcessorInterface
 {
@@ -31,9 +31,6 @@ class AddSortInfoData implements ProcessorInterface
     ) {
     }
 
-    /**
-     * @inheritdoc
-     */
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): ?array
     {
         $result = $this->decorated->process($data, $operation, $uriVariables, $context);

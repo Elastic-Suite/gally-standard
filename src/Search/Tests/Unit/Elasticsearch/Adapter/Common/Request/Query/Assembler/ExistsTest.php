@@ -51,9 +51,6 @@ class ExistsTest extends AbstractSimpleQueryAssemblerTestCase
         $this->assertEquals('queryName', $query['exists']['_name']);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     protected function getQueryAssembler(): ExistsQueryAssembler
     {
         return new ExistsQueryAssembler();

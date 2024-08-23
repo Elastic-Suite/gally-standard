@@ -14,7 +14,6 @@ declare(strict_types=1);
 
 namespace Gally\Search\Tests\Unit\Elasticsearch\Request\Aggregation\Bucket;
 
-use ArgumentCountError;
 use Gally\Search\Elasticsearch\Request\Aggregation\Bucket\Terms;
 use Gally\Search\Elasticsearch\Request\BucketInterface;
 use Gally\Search\Elasticsearch\Request\MetricInterface;
@@ -27,7 +26,7 @@ class TermsTest extends AbstractBucketTestCase
 {
     public function testFailedCreate(): void
     {
-        $this->expectException(ArgumentCountError::class);
+        $this->expectException(\ArgumentCountError::class);
         self::$aggregationFactory->create(BucketInterface::TYPE_TERMS);
     }
 

@@ -26,6 +26,7 @@ class FacetConfigurationTest extends RestFacetConfigurationTest
 {
     /**
      * @dataProvider updateDataProvider
+     *
      * @depends testGetCollectionBefore
      */
     public function testUpdateValue(?User $user, string $id, array $newData, int $expectedStatus, ?string $expectedMessage)
@@ -127,6 +128,7 @@ class FacetConfigurationTest extends RestFacetConfigurationTest
 
     /**
      * @dataProvider getDataProvider
+     *
      * @depends testGetCollectionAfter
      */
     public function testGet(?User $user, int|string $id, array $expectedData, int $responseCode, ?string $expectedMessage = null): void
@@ -163,9 +165,6 @@ class FacetConfigurationTest extends RestFacetConfigurationTest
         );
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getDataProvider(): iterable
     {
         $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
@@ -179,6 +178,7 @@ class FacetConfigurationTest extends RestFacetConfigurationTest
 
     /**
      * @dataProvider deleteDataProvider
+     *
      * @depends testGet
      */
     public function testDelete(?User $user, int|string $id, int $responseCode, ?string $expectedMessage = null): void

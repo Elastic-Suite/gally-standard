@@ -14,7 +14,6 @@ declare(strict_types=1);
 
 namespace Gally\Search\Elasticsearch;
 
-use Exception;
 use Gally\Search\Elasticsearch\Adapter\Common\Request;
 use Gally\Search\Elasticsearch\Adapter\Common\Response;
 use Gally\Search\Elasticsearch\Builder\Response\AggregationBuilder;
@@ -42,11 +41,11 @@ class Adapter
 
             try {
                 $searchResponse = $this->client->search($searchRequest);
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $searchResponse = [];
                 $this->logger->error($e->getMessage());
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $searchRequest = [];
             $searchResponse = [];
             $this->logger->error($e->getMessage());

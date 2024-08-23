@@ -21,9 +21,6 @@ use Gally\Index\Model\Index\Mapping\FieldInterface;
  */
 class FuzzyFieldFilter extends SearchableFieldFilter
 {
-    /**
-     * {@inheritDoc}
-     */
     public function filterField(FieldInterface $field): bool
     {
         return parent::filterField($field) && $field->isUsedInSpellcheck();

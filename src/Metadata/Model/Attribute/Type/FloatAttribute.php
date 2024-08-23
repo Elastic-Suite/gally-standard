@@ -27,17 +27,11 @@ class FloatAttribute extends AbstractAttribute implements GraphQlAttributeInterf
 
     private bool $extraSanitization = false;
 
-    /**
-     * {@inheritDoc}
-     */
     public static function getGraphQlType(): GraphQLType
     {
         return GraphQLType::float();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     protected function getSanitizedData(mixed $value): mixed
     {
         if (null !== $value) {

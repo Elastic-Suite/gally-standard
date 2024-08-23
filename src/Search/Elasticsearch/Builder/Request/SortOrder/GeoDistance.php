@@ -67,17 +67,11 @@ class GeoDistance implements SortOrderInterface
         $this->name = $name;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getField(): string
     {
         return $this->field;
@@ -91,9 +85,6 @@ class GeoDistance implements SortOrderInterface
         return $this->referenceLocation;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getDirection(): string
     {
         return $this->direction ?? self::SORT_ASC;
@@ -131,9 +122,6 @@ class GeoDistance implements SortOrderInterface
         return $this->ignoreUnmapped;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getType(): string
     {
         return SortOrderInterface::TYPE_DISTANCE;

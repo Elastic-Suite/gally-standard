@@ -53,7 +53,7 @@ class DateTypeFilterInputType extends AbstractFilter
         $errors = [];
 
         if (empty($inputData)) {
-            $errors[] = sprintf(
+            $errors[] = \sprintf(
                 "Filter argument %s: At least '%s', '%s', '%s', '%s' or '%s' should be filled.",
                 $argName,
                 FilterOperator::GTE,
@@ -65,7 +65,7 @@ class DateTypeFilterInputType extends AbstractFilter
         }
 
         if (isset($inputData[FilterOperator::GT]) && isset($inputData[FilterOperator::GTE])) {
-            $errors[] = sprintf(
+            $errors[] = \sprintf(
                 "Filter argument %s: Do not use '%s' and '%s' in the same filter.",
                 $argName,
                 FilterOperator::GT,
@@ -74,7 +74,7 @@ class DateTypeFilterInputType extends AbstractFilter
         }
 
         if (isset($inputData[FilterOperator::LT]) && isset($inputData[FilterOperator::LTE])) {
-            $errors[] = sprintf(
+            $errors[] = \sprintf(
                 "Filter argument %s: Do not use '%s' and '%s' in the same filter.",
                 $argName,
                 FilterOperator::LT,

@@ -14,11 +14,10 @@ declare(strict_types=1);
 
 namespace Gally\Catalog\Model\Source;
 
-use ApiPlatform\Metadata\GraphQl\QueryCollection;
-use ApiPlatform\Metadata\GetCollection;
-use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\ApiProperty;
-use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\GraphQl\QueryCollection;
 use Gally\Catalog\Model\Catalog;
 use Gally\Catalog\Model\LocalizedCatalog;
 use Gally\Catalog\State\Source\LocalizedCatalogGroupOptionProvider;
@@ -28,9 +27,8 @@ use Gally\Catalog\State\Source\LocalizedCatalogGroupOptionProvider;
     graphQlOperations: [new QueryCollection(name: 'collection_query', paginationEnabled: false)],
     provider: LocalizedCatalogGroupOptionProvider::class,
     extraProperties: [
-        'gally' => ['cache_tag' => ['resource_classes' => [Catalog::class, LocalizedCatalog::class]]]
+        'gally' => ['cache_tag' => ['resource_classes' => [Catalog::class, LocalizedCatalog::class]]],
     ]
-
 )]
 class LocalizedCatalogGroupOption
 {

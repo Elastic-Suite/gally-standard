@@ -14,7 +14,6 @@ declare(strict_types=1);
 
 namespace Gally\Search\Tests\Unit\Elasticsearch\Request\Query;
 
-use ArgumentCountError;
 use Gally\Search\Elasticsearch\Request\Query\Exists as ExistsQuery;
 use Gally\Search\Elasticsearch\Request\QueryFactory;
 use Gally\Search\Elasticsearch\Request\QueryInterface;
@@ -33,7 +32,7 @@ class ExistsQueryTest extends KernelTestCase
 
     public function testFailedCreate(): void
     {
-        $this->expectException(ArgumentCountError::class);
+        $this->expectException(\ArgumentCountError::class);
         $existsQuery = self::$queryFactory->create(QueryInterface::TYPE_EXISTS);
     }
 

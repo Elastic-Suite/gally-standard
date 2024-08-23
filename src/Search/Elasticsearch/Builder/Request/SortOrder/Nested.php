@@ -55,9 +55,6 @@ class Nested extends Standard
         $this->scoreMode = $scoreMode;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getType(): string
     {
         return SortOrderInterface::TYPE_NESTED;

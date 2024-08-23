@@ -53,7 +53,7 @@ class LocalizedCatalogRepository extends ServiceEntityRepository
                 $localizedCatalog = $this->findOneBy(['code' => $identifier]);
             }
             if (null === $localizedCatalog) {
-                throw new InvalidArgumentException(sprintf('Missing localized catalog [%s]', $identifier));
+                throw new InvalidArgumentException(\sprintf('Missing localized catalog [%s]', $identifier));
             }
             $this->cache[$identifier] = $localizedCatalog;
         }

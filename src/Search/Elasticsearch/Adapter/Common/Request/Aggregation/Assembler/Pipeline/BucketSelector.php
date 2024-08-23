@@ -24,9 +24,6 @@ use Gally\Search\Elasticsearch\Request\PipelineInterface;
  */
 class BucketSelector implements AssemblerInterface
 {
-    /**
-     * {@inheritDoc}
-     */
     public function assembleAggregation(AggregationInterface $aggregation): array
     {
         if (PipelineInterface::TYPE_BUCKET_SELECTOR !== $aggregation->getType()) {

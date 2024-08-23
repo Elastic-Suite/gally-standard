@@ -40,12 +40,12 @@ class LocalizedCatalogLocaleFilter extends GallySearchFilter
         QueryBuilder $queryBuilder,
         QueryNameGeneratorInterface $queryNameGenerator,
         string $resourceClass,
-        Operation $operation = null,
+        ?Operation $operation = null,
         array $context = []
     ): void {
         if (
-            !$this->isPropertyEnabled($property, $resourceClass) ||
-            !$this->isPropertyMapped($property, $resourceClass)
+            !$this->isPropertyEnabled($property, $resourceClass)
+            || !$this->isPropertyMapped($property, $resourceClass)
         ) {
             return;
         }
@@ -89,7 +89,7 @@ class LocalizedCatalogLocaleFilter extends GallySearchFilter
             LocalizedCatalog::class,
             'lcl',
             'WITH',
-            sprintf('lcl.locale = %s.%s', $localeAlias, $localeField)
+            \sprintf('lcl.locale = %s.%s', $localeAlias, $localeField)
         );
 
         $queryBuilder

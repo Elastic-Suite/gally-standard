@@ -47,7 +47,7 @@ class SerializerService
                 // Structured attribute: nested or complex source field.
                 $complexAttributeCodes = array_map(
                     function ($subAttribute) use ($attributeCode) {
-                        return sprintf('%s.%s', $attributeCode, $subAttribute);
+                        return \sprintf('%s.%s', $attributeCode, $subAttribute);
                     },
                     array_keys($subStructure)
                 );

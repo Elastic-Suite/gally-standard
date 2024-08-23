@@ -64,12 +64,12 @@ class Request implements RequestInterface
         string $indexName,
         QueryInterface $query,
         ?QueryInterface $filter = null,
-        array $sortOrders = null,
+        ?array $sortOrders = null,
         ?int $from = null,
         ?int $size = null,
         array $aggregations = [],
-        int $spellingType = null,
-        bool|int $trackTotalHits = null,
+        ?int $spellingType = null,
+        bool|int|null $trackTotalHits = null,
     ) {
         $this->name = $name;
         $this->index = $indexName;
@@ -89,81 +89,51 @@ class Request implements RequestInterface
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getIndex(): string
     {
         return $this->index;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getAggregations(): array
     {
         return $this->aggregations;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getQuery(): QueryInterface
     {
         return $this->query;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function getFrom(): int|null
+    public function getFrom(): ?int
     {
         return $this->from;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function getSize(): int|null
+    public function getSize(): ?int
     {
         return $this->size;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getFilter(): ?QueryInterface
     {
         return $this->filter;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getSortOrders(): array
     {
         return $this->sortOrders;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getTrackTotalHits(): int|bool
     {
         return $this->trackTotalHits;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function isSpellchecked(): bool
     {
         $fuzzySpellingTypes = [

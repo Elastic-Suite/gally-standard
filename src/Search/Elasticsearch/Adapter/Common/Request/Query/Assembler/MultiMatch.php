@@ -22,9 +22,6 @@ use Gally\Search\Elasticsearch\Request\QueryInterface;
  */
 class MultiMatch implements AssemblerInterface
 {
-    /**
-     * {@inheritDoc}
-     */
     public function assembleQuery(QueryInterface $query): array
     {
         if (QueryInterface::TYPE_MULTIMATCH !== $query->getType()) {
@@ -35,7 +32,7 @@ class MultiMatch implements AssemblerInterface
         $fields = [];
 
         foreach ($query->getFields() as $field => $weight) {
-            $fields[] = sprintf('%s^%s', $field, $weight);
+            $fields[] = \sprintf('%s^%s', $field, $weight);
         }
 
         $searchQueryParams = [

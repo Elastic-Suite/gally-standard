@@ -60,9 +60,6 @@ class SignificantTerms extends AbstractBucket
         $this->size = $size > 0 && $size < self::MAX_BUCKET_SIZE ? $size : self::MAX_BUCKET_SIZE;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getType(): string
     {
         return BucketInterface::TYPE_SIGNIFICANT_TERMS;

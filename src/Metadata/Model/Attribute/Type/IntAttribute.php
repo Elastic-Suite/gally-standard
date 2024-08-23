@@ -27,17 +27,11 @@ class IntAttribute extends AbstractAttribute implements GraphQlAttributeInterfac
 
     private bool $extraSanitization = false;
 
-    /**
-     * {@inheritDoc}
-     */
     public static function getGraphQlType(): GraphQLType
     {
         return GraphQLType::int();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     protected function getSanitizedData(mixed $value): mixed
     {
         if (null !== $value) {

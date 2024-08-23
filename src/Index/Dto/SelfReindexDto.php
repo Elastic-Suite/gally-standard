@@ -18,9 +18,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 final class SelfReindexDto
 {
-    /**
-     * @var string
-     */
     #[Groups(['create'])]
     public string $entityType;
 }

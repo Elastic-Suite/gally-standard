@@ -14,25 +14,23 @@ declare(strict_types=1);
 
 namespace Gally\Metadata\Model;
 
-use ApiPlatform\Metadata\GraphQl\Mutation;
-use ApiPlatform\Metadata\GraphQl\QueryCollection;
-use ApiPlatform\Metadata\GraphQl\Query;
-use ApiPlatform\Metadata\GetCollection;
-use ApiPlatform\Metadata\Post;
-use ApiPlatform\Metadata\Delete;
-use ApiPlatform\Metadata\Put;
-use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\GraphQl\Mutation;
+use ApiPlatform\Metadata\GraphQl\Query;
+use ApiPlatform\Metadata\GraphQl\QueryCollection;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Gally\Metadata\Controller\BulkSourceFieldOptions;
 use Gally\Metadata\State\SourceFieldOptionProcessor;
 use Gally\User\Constant\Role;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ApiResource(
@@ -58,22 +56,22 @@ use Symfony\Component\Serializer\Annotation\Groups;
                             'schema' => ['type' => 'array', 'items' => ['type' => 'string']],
                             'example' => [
                                 ['sourceField' => '/source_fields/1', 'code' => 'brand_A', 'defaultLabel' => 'Brand A'],
-                                ['sourceField' => '/source_fields/1', 'code' => 'brand_B', 'defaultLabel' => 'Brand B']
-                            ]
-                        ]
-                    ]
-                ]
+                                ['sourceField' => '/source_fields/1', 'code' => 'brand_B', 'defaultLabel' => 'Brand B'],
+                            ],
+                        ],
+                    ],
+                ],
             ]
         ),
         new GetCollection(security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
-        new Post(security: "is_granted('" . Role::ROLE_ADMIN . "')")
+        new Post(security: "is_granted('" . Role::ROLE_ADMIN . "')"),
     ],
     graphQlOperations: [
         new Query(name: 'item_query', security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
         new QueryCollection(name: 'collection_query', security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
         new Mutation(name: 'create', security: "is_granted('" . Role::ROLE_ADMIN . "')"),
         new Mutation(name: 'update', security: "is_granted('" . Role::ROLE_ADMIN . "')"),
-        new Mutation(name: 'delete', security: "is_granted('" . Role::ROLE_ADMIN . "')")
+        new Mutation(name: 'delete', security: "is_granted('" . Role::ROLE_ADMIN . "')"),
     ],
     processor: SourceFieldOptionProcessor::class,
     denormalizationContext: ['groups' => ['source_field_option:write']],

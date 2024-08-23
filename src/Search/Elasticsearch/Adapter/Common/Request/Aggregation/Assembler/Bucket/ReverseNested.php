@@ -23,15 +23,12 @@ use Gally\Search\Elasticsearch\Request\BucketInterface;
  */
 class ReverseNested implements AssemblerInterface
 {
-    /**
-     * {@inheritDoc}
-     */
     public function assembleAggregation(AggregationInterface $aggregation): array
     {
         if (BucketInterface::TYPE_REVERSE_NESTED !== $aggregation->getType()) {
             throw new \InvalidArgumentException("Aggregation assembler : invalid aggregation type {$aggregation->getType()}.");
         }
 
-        return ['reverse_nested' => new \StdClass()];
+        return ['reverse_nested' => new \stdClass()];
     }
 }

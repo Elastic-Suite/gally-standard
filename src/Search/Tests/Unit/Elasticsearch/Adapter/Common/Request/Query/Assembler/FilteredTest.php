@@ -85,9 +85,6 @@ class FilteredTest extends AbstractComplexQueryAssemblerTestCase
         $this->assertEquals(['match_all' => new \stdClass()], $query['constant_score']['filter']);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     protected function getQueryAssembler(): FilteredQueryAssembler
     {
         return new FilteredQueryAssembler($this->getParentQueryAssembler());

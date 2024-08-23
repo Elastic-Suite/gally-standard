@@ -80,7 +80,7 @@ class RuleEngineGraphQlFiltersTest extends AbstractTestCase
             glob(self::BASE_DATA_DIR . 'Error/*.json'),
         );
 
-        //We remove self::BASE_DATA_DIR from path to see the file name in the error output otherwise it is truncated.
+        // We remove self::BASE_DATA_DIR from path to see the file name in the error output otherwise it is truncated.
         return array_map(fn ($rule) => [str_replace(self::BASE_DATA_DIR, '', $rule)], $rules);
     }
 }

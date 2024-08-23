@@ -14,7 +14,6 @@ declare(strict_types=1);
 
 namespace Gally\ResourceMetadata\Service;
 
-use ApiPlatform\Core\Metadata\Resource\ResourceMetadata;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\Metadata\Resource\Factory\ResourceMetadataCollectionFactoryInterface;
@@ -56,9 +55,9 @@ class ResourceMetadataManager
     /**
      * Get resource metadata value.
      *
-     * @param ResourceMetadataCollection $resourceMetadataCollection  resource metadata collection
-     * @param string                     $path                        path of the metadata value node to get from gally node, key levels separated by a '/'
-     *                                                                (example: stitching/property)
+     * @param ResourceMetadataCollection $resourceMetadataCollection resource metadata collection
+     * @param string                     $path                       path of the metadata value node to get from gally node, key levels separated by a '/'
+     *                                                               (example: stitching/property)
      */
     public function getResourceMetadataValue(ResourceMetadataCollection $resourceMetadataCollection, string $path): mixed
     {

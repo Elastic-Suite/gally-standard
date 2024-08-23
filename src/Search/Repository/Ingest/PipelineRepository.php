@@ -14,7 +14,6 @@ declare(strict_types=1);
 
 namespace Gally\Search\Repository\Ingest;
 
-use Exception;
 use Gally\Metadata\Model\Metadata;
 use Gally\Search\Model\IngestPipeline;
 use Gally\Search\Service\IngestPipelineProcessorProvider;
@@ -33,9 +32,6 @@ class PipelineRepository implements PipelineRepositoryInterface
     ) {
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function create(string $name, string $description, array $processors): ?IngestPipeline
     {
         $query = [
@@ -50,9 +46,6 @@ class PipelineRepository implements PipelineRepositoryInterface
         return new IngestPipeline($name, $description, $processors);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function get(string $name): ?IngestPipeline
     {
         try {
@@ -69,9 +62,7 @@ class PipelineRepository implements PipelineRepositoryInterface
     }
 
     /**
-     * {@inheritDoc}
-     *
-     * @throws Exception
+     * @throws \Exception
      */
     public function createByMetadata(Metadata $metadata): IngestPipeline
     {

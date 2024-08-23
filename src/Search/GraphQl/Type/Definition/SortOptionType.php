@@ -40,9 +40,6 @@ class SortOptionType extends ObjectType implements TypeInterface
         ];
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getName(): string
     {
         return $this->name;

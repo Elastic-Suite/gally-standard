@@ -23,41 +23,29 @@ class PriceDefaultSortOrderProvider implements SortOrderProviderInterface
     {
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function supports(SourceField $sourceField): bool
     {
         return Type::TYPE_PRICE === $sourceField->getType();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getSortOrderField(SourceField $sourceField): string
     {
         return str_replace(
             '.',
             $this->nestingSeparator,
-            sprintf('%s.%s', $sourceField->getCode(), 'price'),
+            \sprintf('%s.%s', $sourceField->getCode(), 'price'),
         );
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getLabel(SourceField $sourceField): string
     {
-        return sprintf(
+        return \sprintf(
             "Sorting by %s's final price (%s)",
             $sourceField->getDefaultLabel(),
             $sourceField->getCode()
         );
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getSimplifiedLabel(SourceField $sourceField): string
     {
         return 'Price';

@@ -14,7 +14,6 @@ declare(strict_types=1);
 
 namespace Gally\Metadata\Tests\Unit\Attribute\Type;
 
-use ArgumentCountError;
 use Gally\Metadata\Model\Attribute\AttributeFactory;
 use Gally\Metadata\Model\Attribute\Type\NestedAttribute;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -23,7 +22,7 @@ class NestedAttributeTest extends KernelTestCase
 {
     public function testInstantiateFailure(): void
     {
-        $this->expectException(ArgumentCountError::class);
+        $this->expectException(\ArgumentCountError::class);
         $nestedAttribute = $this->getMockBuilder(NestedAttribute::class)
             ->getMock();
     }
@@ -51,7 +50,7 @@ class NestedAttributeTest extends KernelTestCase
         $this->assertEquals($attributeCode, $attributeCodeProperty->getValue($nestedAttribute));
         $this->assertEquals($fields, $fieldsProperty->getValue($nestedAttribute));
 
-        if (is_scalar($value)) {
+        if (\is_scalar($value)) {
             $this->assertIsScalar($nestedAttribute->getValue());
         } elseif (null === $value) {
             $this->assertNull($nestedAttribute->getValue());

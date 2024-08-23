@@ -26,8 +26,7 @@ class FieldFilterInputType extends InputObjectType implements TypeInterface, Fil
     public const NAME = 'FieldFilterInput';
 
     /**
-     * @param FilterInterface[]  $availableTypes
-     * @param FilterQueryBuilder $filterQueryBuilder
+     * @param FilterInterface[] $availableTypes
      */
     public function __construct(
         private iterable $availableTypes,

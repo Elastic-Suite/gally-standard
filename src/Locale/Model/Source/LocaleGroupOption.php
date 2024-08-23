@@ -14,32 +14,30 @@ declare(strict_types=1);
 
 namespace Gally\Locale\Model\Source;
 
-use ApiPlatform\Metadata\GraphQl\QueryCollection;
-use ApiPlatform\Metadata\GetCollection;
-use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\ApiProperty;
-use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\GraphQl\QueryCollection;
 use Gally\Catalog\Model\LocalizedCatalog;
 use Gally\Locale\State\Source\LocaleGroupOptionProvider;
 use Gally\User\Constant\Role;
 
 #[ApiResource(
     operations: [
-        new GetCollection(paginationEnabled: false, security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')")
+        new GetCollection(paginationEnabled: false, security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
     ],
     graphQlOperations: [
-        new QueryCollection(name: 'collection_query', paginationEnabled: false, security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')")
+        new QueryCollection(name: 'collection_query', paginationEnabled: false, security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
     ],
     extraProperties: [
         'gally' => [
-            'cache_tag' => ['resource_classes' => [LocalizedCatalog::class]]
-        ]
+            'cache_tag' => ['resource_classes' => [LocalizedCatalog::class]],
+        ],
     ],
     provider: LocaleGroupOptionProvider::class,
 )]
 class LocaleGroupOption
 {
-
     #[ApiProperty(identifier: true)]
     public string $value;
 

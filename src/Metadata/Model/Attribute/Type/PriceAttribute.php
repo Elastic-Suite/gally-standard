@@ -61,9 +61,6 @@ class PriceAttribute extends AbstractStructuredAttribute implements AttributeInt
         return $value;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public static function getFields(): array
     {
         // Will depend from global configuration in the future.

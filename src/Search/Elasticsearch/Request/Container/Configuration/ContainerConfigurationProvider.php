@@ -79,7 +79,7 @@ class ContainerConfigurationProvider
             return $this->containerConfigFactories['generic'][$requestType]->create($requestType, $metadata, $localizedCatalog);
         }
 
-        throw new \LogicException(sprintf('The request type %s is not defined.', $requestType));
+        throw new \LogicException(\sprintf('The request type %s is not defined.', $requestType));
     }
 
     /**

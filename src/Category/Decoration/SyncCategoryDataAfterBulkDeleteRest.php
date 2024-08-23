@@ -33,9 +33,6 @@ class SyncCategoryDataAfterBulkDeleteRest extends RemoveIndexDocument
     ) {
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function __invoke(string $indexName, Request $request)
     {
         $this->decorated->__invoke($indexName, $request);

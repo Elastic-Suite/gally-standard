@@ -17,8 +17,6 @@ namespace Gally\Search\Elasticsearch\Adapter\Common\Response;
 class BucketValue implements BucketValueInterface
 {
     /**
-     * @param mixed                  $key
-     * @param int                    $count
      * @param AggregationInterface[] $childAggregation
      */
     public function __construct(

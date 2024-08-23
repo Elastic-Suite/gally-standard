@@ -23,11 +23,11 @@ class GetContainerConfigurationFactory implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container): void
     {
-        if (!$container->has(ContainerConfigurationProvider::class)) { //@phpstan-ignore-line
+        if (!$container->has(ContainerConfigurationProvider::class)) { // @phpstan-ignore-line
             return;
         }
 
-        $containerConfigProviderDef = $container->findDefinition(ContainerConfigurationProvider::class); //@phpstan-ignore-line
+        $containerConfigProviderDef = $container->findDefinition(ContainerConfigurationProvider::class); // @phpstan-ignore-line
 
         $taggedServices = $container->findTaggedServiceIds('gally.container_configuration.factory');
 

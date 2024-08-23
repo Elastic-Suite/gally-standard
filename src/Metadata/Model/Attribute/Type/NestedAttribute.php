@@ -31,9 +31,6 @@ class NestedAttribute extends AbstractAttribute
         parent::__construct($attributeCode, $value);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     protected function getSanitizedData(mixed $value): mixed
     {
         if (\is_array($value) && !empty($value)) {

@@ -98,6 +98,7 @@ class SyncCategoryProductMerchandisingDataTest extends AbstractTestCase
 
     /**
      * @dataProvider indexDataProvider
+     *
      * @depends testDeleteIndex
      */
     public function testBulkIndex(string $indexName, array $expectedPositions)

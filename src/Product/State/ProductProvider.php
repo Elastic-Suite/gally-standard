@@ -63,11 +63,9 @@ class ProductProvider implements ProviderInterface
     }
 
     /**
-     * {@inheritDoc}
+     * @throws ResourceClassNotFoundException
      *
      * @return T|PartialPaginatorInterface<T>|iterable<T>|null
-     *
-     * @throws ResourceClassNotFoundException
      */
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null
     {

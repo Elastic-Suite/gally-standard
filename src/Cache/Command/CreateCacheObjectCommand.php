@@ -28,14 +28,11 @@ use Symfony\Component\Console\Output\OutputInterface;
 #[AsCommand(name: 'gally:cache:create-cache-object')]
 class CreateCacheObjectCommand extends Command
 {
-    public function __construct(private CacheManagerInterface $cache, string $name = null)
+    public function __construct(private CacheManagerInterface $cache, ?string $name = null)
     {
         parent::__construct($name);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     protected function configure(): void
     {
         $this->setDescription('Create a cache object with a given key, value, tag(s) and ttl in gally cache pool.');
@@ -54,9 +51,6 @@ EOF
             );
     }
 
-    /**
-     * {@inheritDoc}
-     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $cacheKey = $input->getArgument('key');
@@ -81,7 +75,7 @@ EOF
             return $cacheValue;
         }, $cacheTags, $cacheTtl);
 
-        $output->writeln(sprintf('Stored value at key "%s" is "%s"', $cacheKey, $cacheValue));
+        $output->writeln(\sprintf('Stored value at key "%s" is "%s"', $cacheKey, $cacheValue));
 
         return Command::SUCCESS;
     }

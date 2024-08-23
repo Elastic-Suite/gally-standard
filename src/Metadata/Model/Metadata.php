@@ -14,18 +14,16 @@ declare(strict_types=1);
 
 namespace Gally\Metadata\Model;
 
-use ApiPlatform\Metadata\GraphQl\Mutation;
-use ApiPlatform\Metadata\GraphQl\QueryCollection;
-use ApiPlatform\Metadata\GraphQl\Query;
-use ApiPlatform\Metadata\Post;
-use ApiPlatform\Metadata\GetCollection;
-use ApiPlatform\Metadata\Delete;
-use ApiPlatform\Metadata\Patch;
-use ApiPlatform\Metadata\Put;
-use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Metadata\ApiProperty;
-use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\GraphQl\Mutation;
+use ApiPlatform\Metadata\GraphQl\Query;
+use ApiPlatform\Metadata\GraphQl\QueryCollection;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Gally\User\Constant\Role;
@@ -38,14 +36,14 @@ use Symfony\Component\Serializer\Annotation\Groups;
         new Patch(security: "is_granted('" . Role::ROLE_ADMIN . "')"),
         new Delete(security: "is_granted('" . Role::ROLE_ADMIN . "')"),
         new GetCollection(security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
-        new Post(security: "is_granted('" . Role::ROLE_ADMIN . "')")
+        new Post(security: "is_granted('" . Role::ROLE_ADMIN . "')"),
     ],
     graphQlOperations: [
         new Query(name: 'item_query', security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
         new QueryCollection(name: 'collection_query', security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
         new Mutation(name: 'create', security: "is_granted('" . Role::ROLE_ADMIN . "')"),
         new Mutation(name: 'update', security: "is_granted('" . Role::ROLE_ADMIN . "')"),
-        new Mutation(name: 'delete', security: "is_granted('" . Role::ROLE_ADMIN . "')")
+        new Mutation(name: 'delete', security: "is_granted('" . Role::ROLE_ADMIN . "')"),
     ],
     denormalizationContext: ['groups' => ['metadata:write']],
     normalizationContext: ['groups' => ['metadata:read']]

@@ -27,9 +27,6 @@ class CategoryTypeDefaultFilterInputType extends TextTypeFilterInputType
 
     public array $config;
 
-    /**
-     * {@inheritDoc}
-     */
     public function supports(SourceField $sourceField): bool
     {
         return SourceField\Type::TYPE_CATEGORY === $sourceField->getType();
@@ -44,9 +41,6 @@ class CategoryTypeDefaultFilterInputType extends TextTypeFilterInputType
         ];
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getFilterFieldName(string $sourceFieldCode): string
     {
         return $sourceFieldCode . '.id';

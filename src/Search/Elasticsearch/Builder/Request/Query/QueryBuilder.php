@@ -48,7 +48,7 @@ class QueryBuilder
      */
     public function createQuery(
         ContainerConfigurationInterface $containerConfiguration,
-        string|array|null|QueryInterface $query,
+        string|array|QueryInterface|null $query,
         array $filters,
         int $spellingType = SpellcheckerInterface::SPELLING_TYPE_EXACT
     ): QueryInterface {

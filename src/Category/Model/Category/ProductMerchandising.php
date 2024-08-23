@@ -14,15 +14,13 @@ declare(strict_types=1);
 
 namespace Gally\Category\Model\Category;
 
-use ApiPlatform\Metadata\GraphQl\Query;
+use ApiPlatform\Action\NotFoundAction;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GraphQl\Mutation;
+use ApiPlatform\Metadata\GraphQl\Query;
 use ApiPlatform\Metadata\Link;
 use ApiPlatform\Metadata\Post;
-use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Metadata\ApiProperty;
-use ApiPlatform\Metadata\ApiFilter;
-use ApiPlatform\Action\NotFoundAction;
 use Gally\Catalog\Model\Catalog;
 use Gally\Catalog\Model\LocalizedCatalog;
 use Gally\Category\Controller\CategoryProductPositionGet;
@@ -57,8 +55,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
                 'description' => 'Get product positions in a category.',
                 'parameters' => [
                     ['name' => 'categoryId', 'in' => 'path', 'type' => 'string', 'required' => true],
-                    ['name' => 'localizedCatalogId', 'in' => 'path', 'type' => 'int', 'required' => true]
-                ]
+                    ['name' => 'localizedCatalogId', 'in' => 'path', 'type' => 'int', 'required' => true],
+                ],
             ]),
         new Post(
             security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
@@ -67,7 +65,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
                 'categoryId' => new Link(
                     fromClass: Category::class,
                     fromProperty: 'id'
-                )
+                ),
             ],
             controller: CategoryProductPositionSave::class,
             read: false,
@@ -81,7 +79,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
                 'summary' => 'Save product positions in a category.',
                 'description' => 'Save product positions in a category.',
                 'parameters' => [
-                    ['name' => 'categoryId', 'in' => 'path', 'type' => 'Category', 'required' => true]
+                    ['name' => 'categoryId', 'in' => 'path', 'type' => 'Category', 'required' => true],
                 ],
                 'requestBody' => [
                     'content' => [
@@ -91,17 +89,17 @@ use Symfony\Component\Serializer\Annotation\Groups;
                                 'properties' => [
                                     'catalogId' => ['type' => 'string'],
                                     'localizedCatalogId' => ['type' => 'string'],
-                                    'positions' => ['type' => 'string']
-                                ]
+                                    'positions' => ['type' => 'string'],
+                                ],
                             ],
                             'example' => [
                                 'catalogId' => 'string',
                                 'localizedCatalogId' => 'string',
-                                'positions' => '[{"productId": 1, "position": 10}, {"productId": 2, "position": 20}]'
-                            ]
-                        ]
-                    ]
-                ]
+                                'positions' => '[{"productId": 1, "position": 10}, {"productId": 2, "position": 20}]',
+                            ],
+                        ],
+                    ],
+                ],
             ]
         )],
     graphQlOperations: [
@@ -112,7 +110,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
                 'categoryId' => ['type' => 'String!'],
                 'catalogId' => ['type' => 'Int'],
                 'localizedCatalogId' => ['type' => 'Int'],
-                'positions' => ['type' => 'String!']
+                'positions' => ['type' => 'String!'],
             ],
             security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
             read: false,
@@ -126,7 +124,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
             resolver: PositionGetResolver::class,
             args: [
                 'categoryId' => ['type' => 'String!'],
-                'localizedCatalogId' => ['type' => 'Int!']
+                'localizedCatalogId' => ['type' => 'Int!'],
             ],
             security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
             read: false,
@@ -134,7 +132,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
             write: false,
             serialize: true,
             normalizationContext: ['groups' => ['category_product_merchandising_result:read']]
-        )
+        ),
     ],
     shortName: 'CategoryProductMerchandising',
     denormalizationContext: ['groups' => ['category_product_merchandising:write']],

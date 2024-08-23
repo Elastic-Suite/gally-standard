@@ -14,7 +14,6 @@ declare(strict_types=1);
 
 namespace Gally\Test;
 
-use ApiPlatform\Core\Metadata\Resource\ResourceMetadata;
 use ApiPlatform\Metadata\Resource\ResourceMetadataCollection;
 use Gally\Locale\EventSubscriber\LocaleSubscriber;
 use Gally\User\Model\User;
@@ -45,7 +44,7 @@ abstract class AbstractEntityTestCase extends AbstractTestCase
         array $data,
         int $responseCode = 201,
         ?string $message = null,
-        string $validRegex = null
+        ?string $validRegex = null
     ): void {
         $request = new RequestToTest('POST', $this->getApiPath(), $user, $data);
         $expectedResponse = new ExpectedResponse(
@@ -86,6 +85,7 @@ abstract class AbstractEntityTestCase extends AbstractTestCase
 
     /**
      * @dataProvider getDataProvider
+     *
      * @depends testCreate
      */
     public function testGet(?User $user, int|string $id, array $expectedData, int $responseCode, ?string $locale = null): void
@@ -133,6 +133,7 @@ abstract class AbstractEntityTestCase extends AbstractTestCase
 
     /**
      * @dataProvider deleteDataProvider
+     *
      * @depends testGet
      */
     public function testDelete(?User $user, int|string $id, int $responseCode): void
@@ -164,6 +165,7 @@ abstract class AbstractEntityTestCase extends AbstractTestCase
 
     /**
      * @dataProvider getCollectionDataProvider
+     *
      * @depends testDelete
      */
     public function testGetCollection(?User $user, int $expectedItemNumber, int $responseCode): void
@@ -215,7 +217,7 @@ abstract class AbstractEntityTestCase extends AbstractTestCase
             $this->resourceMetadataCollection = $resourceMetadataCollectionFactory->create($this->getEntityClass());
         }
 
-        return $this->resourceMetadataCollection[0]->getShortName()  ?? '';
+        return $this->resourceMetadataCollection[0]->getShortName() ?? '';
     }
 
     protected function getApiPath(): string

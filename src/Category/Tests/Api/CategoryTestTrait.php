@@ -19,7 +19,7 @@ trait CategoryTestTrait
     /**
      * Check if the position data in $expectedPositions are equal to the position data in Elasticsearch.
      */
-    public function checkPositionDataFromEs(array $expectedPositions, string $indexName = null): void
+    public function checkPositionDataFromEs(array $expectedPositions, ?string $indexName = null): void
     {
         foreach ($expectedPositions as $localizedCatalogId => $productData) {
             $indexAlias = $indexName;

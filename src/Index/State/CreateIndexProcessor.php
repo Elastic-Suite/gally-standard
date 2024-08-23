@@ -14,7 +14,6 @@ declare(strict_types=1);
 
 namespace Gally\Index\State;
 
-use ApiPlatform\Core\DataTransformer\DataTransformerInterface;
 use ApiPlatform\Exception\InvalidArgumentException;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
@@ -22,7 +21,6 @@ use Gally\Catalog\Repository\LocalizedCatalogRepository;
 use Gally\Index\Dto\CreateIndexDto;
 use Gally\Index\Model\Index;
 use Gally\Index\Service\IndexOperation;
-use Gally\Index\State\IndexProcessor;
 use Gally\Metadata\Repository\MetadataRepository;
 use Psr\Log\LoggerInterface;
 
@@ -36,9 +34,7 @@ class CreateIndexProcessor implements ProcessorInterface
     ) {
     }
 
-
     /**
-     * {@inheritdoc}
      * @param CreateIndexDto $data
      */
     public function process($data, Operation $operation, array $uriVariables = [], array $context = []): ?Index
@@ -48,15 +44,15 @@ class CreateIndexProcessor implements ProcessorInterface
 
         $metadata = $this->metadataRepository->findOneBy(['entity' => $entityType]);
         if (!$metadata) {
-            throw new InvalidArgumentException(sprintf('Entity type [%s] does not exist', $entityType));
+            throw new InvalidArgumentException(\sprintf('Entity type [%s] does not exist', $entityType));
         }
         if (null === $metadata->getEntity()) {
-            throw new InvalidArgumentException(sprintf('Entity type [%s] is not defined', $entityType));
+            throw new InvalidArgumentException(\sprintf('Entity type [%s] is not defined', $entityType));
         }
 
         $catalog = $this->localizedCatalogRepository->findByCodeOrId($localizedCatalogCode);
         if (null === $catalog) {
-            throw new InvalidArgumentException(sprintf('Localized catalog of ID or code [%s] does not exist', $localizedCatalogCode));
+            throw new InvalidArgumentException(\sprintf('Localized catalog of ID or code [%s] does not exist', $localizedCatalogCode));
         }
 
         try {

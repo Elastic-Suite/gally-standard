@@ -22,7 +22,7 @@ use Gally\Category\Model\Category;
 class SearchContext
 {
     private ?Category $category = null;
-    private ?string  $searchQueryText = null;
+    private ?string $searchQueryText = null;
     private ?string $priceGroup = null;
     private ?string $referenceLocation = null;
     private array $contextData = [];

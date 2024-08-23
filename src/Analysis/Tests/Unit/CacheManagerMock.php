@@ -25,41 +25,26 @@ class CacheManagerMock implements CacheManagerInterface
     {
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function get(string $cacheKey, callable $callback, array $tags, $ttl = null): mixed
     {
         return $callback($tags, $ttl);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function delete(string $cacheKey): bool
     {
         return true;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function clearTags(array $tags): bool
     {
         return true;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function clearAll(): bool
     {
         return true;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function prune(): bool
     {
         return true;

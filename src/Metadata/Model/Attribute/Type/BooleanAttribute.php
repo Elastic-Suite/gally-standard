@@ -27,17 +27,11 @@ class BooleanAttribute extends AbstractAttribute implements GraphQlAttributeInte
 
     private bool $extraSanitization = false;
 
-    /**
-     * {@inheritDoc}
-     */
     public static function getGraphQlType(): GraphQLType
     {
         return GraphQLType::boolean();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     protected function getSanitizedData(mixed $value): mixed
     {
         if (null !== $value) {

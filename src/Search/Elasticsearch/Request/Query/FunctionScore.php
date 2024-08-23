@@ -79,7 +79,7 @@ class FunctionScore implements QueryInterface
         ?string $name = null,
         string $scoreMode = self::SCORE_MODE_SUM,
         string $boostMode = self::BOOST_MODE_SUM,
-        float $minScore = null,
+        ?float $minScore = null,
     ) {
         $this->name = $name;
         $this->query = $query;
@@ -89,25 +89,16 @@ class FunctionScore implements QueryInterface
         $this->functions = $functions;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function getBoost(): float|null
+    public function getBoost(): ?float
     {
         return null;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getType(): string
     {
         return QueryInterface::TYPE_FUNCTIONSCORE;

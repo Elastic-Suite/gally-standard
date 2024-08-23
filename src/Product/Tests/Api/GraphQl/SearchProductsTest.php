@@ -127,15 +127,15 @@ class SearchProductsTest extends AbstractTestCase
     ): void {
         $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
 
-        $arguments = sprintf(
+        $arguments = \sprintf(
             'requestType: product_catalog, localizedCatalog: "%s"',
             $catalogId
         );
         if (null !== $pageSize) {
-            $arguments .= sprintf(', pageSize: %d', $pageSize);
+            $arguments .= \sprintf(', pageSize: %d', $pageSize);
         }
         if (null !== $currentPage) {
-            $arguments .= sprintf(', currentPage: %d', $currentPage);
+            $arguments .= \sprintf(', currentPage: %d', $currentPage);
         }
 
         $this->validateApiCall(
@@ -320,7 +320,7 @@ class SearchProductsTest extends AbstractTestCase
     ): void {
         $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
 
-        $arguments = sprintf(
+        $arguments = \sprintf(
             'requestType: product_catalog, localizedCatalog: "%s", pageSize: %d, currentPage: %d',
             $catalogId,
             $pageSize,
@@ -332,15 +332,15 @@ class SearchProductsTest extends AbstractTestCase
         }
 
         if (null !== $currentCategoryConfiguration) {
-            $arguments .= sprintf(', currentCategoryConfiguration: "%s"', addslashes($currentCategoryConfiguration));
+            $arguments .= \sprintf(', currentCategoryConfiguration: "%s"', addslashes($currentCategoryConfiguration));
         }
 
         if (!empty($sortOrders)) {
             $sortArguments = [];
             foreach ($sortOrders as $field => $direction) {
-                $sortArguments[] = sprintf('%s: %s', $field, $direction);
+                $sortArguments[] = \sprintf('%s: %s', $field, $direction);
             }
-            $arguments .= sprintf(', sort: {%s}', implode(', ', $sortArguments));
+            $arguments .= \sprintf(', sort: {%s}', implode(', ', $sortArguments));
         }
 
         $headers = [PriceGroupProvider::PRICE_GROUP_ID => $priceGroupId];
@@ -589,7 +589,7 @@ class SearchProductsTest extends AbstractTestCase
     ): void {
         $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
 
-        $arguments = sprintf(
+        $arguments = \sprintf(
             'requestType: product_catalog, localizedCatalog: "%s", pageSize: %d, currentPage: %d',
             $catalogId,
             $pageSize,
@@ -599,9 +599,9 @@ class SearchProductsTest extends AbstractTestCase
         if (!empty($sortOrders)) {
             $sortArguments = [];
             foreach ($sortOrders as $field => $direction) {
-                $sortArguments[] = sprintf('%s: %s', $field, $direction);
+                $sortArguments[] = \sprintf('%s: %s', $field, $direction);
             }
-            $arguments .= sprintf(', sort: {%s}', implode(', ', $sortArguments));
+            $arguments .= \sprintf(', sort: {%s}', implode(', ', $sortArguments));
         }
 
         $this->validateApiCall(
@@ -853,7 +853,7 @@ class SearchProductsTest extends AbstractTestCase
     ): void {
         $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
 
-        $arguments = sprintf(
+        $arguments = \sprintf(
             'requestType: product_catalog, localizedCatalog: "%s", pageSize: %d, currentPage: %d, search: "%s"',
             $catalogId,
             $pageSize,
@@ -1018,7 +1018,7 @@ class SearchProductsTest extends AbstractTestCase
         string $errorMessage
     ): void {
         $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
-        $arguments = sprintf('requestType: product_catalog, localizedCatalog: "%s", filter: {%s}', $catalogId, $filter);
+        $arguments = \sprintf('requestType: product_catalog, localizedCatalog: "%s", filter: {%s}', $catalogId, $filter);
         $this->validateApiCall(
             new RequestGraphQlToTest(
                 <<<GQL
@@ -1097,7 +1097,7 @@ class SearchProductsTest extends AbstractTestCase
         ?string $referenceLocation = null,
     ): void {
         $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
-        $arguments = sprintf(
+        $arguments = \sprintf(
             'requestType: product_catalog, localizedCatalog: "%s", pageSize: %d, currentPage: %d, filter: {%s}',
             $catalogId,
             10,
@@ -1398,7 +1398,7 @@ class SearchProductsTest extends AbstractTestCase
         array $expectedOrderedDocIds
     ): void {
         $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
-        $arguments = sprintf(
+        $arguments = \sprintf(
             'requestType: product_catalog, localizedCatalog: "%s", pageSize: %d, currentPage: %d, currentCategoryId: "%s"',
             $catalogId,
             10,
@@ -1473,7 +1473,7 @@ class SearchProductsTest extends AbstractTestCase
     ): void {
         $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
 
-        $arguments = sprintf(
+        $arguments = \sprintf(
             'requestType: %s, localizedCatalog: "%s", pageSize: %d, currentPage: %d',
             $requestType,
             $catalogId,
@@ -1486,7 +1486,7 @@ class SearchProductsTest extends AbstractTestCase
         }
 
         if (null !== $query) {
-            $arguments .= sprintf(', search: "%s"', $query);
+            $arguments .= \sprintf(', search: "%s"', $query);
         }
 
         $headers = [PriceGroupProvider::PRICE_GROUP_ID => $priceGroupId];
@@ -2054,14 +2054,14 @@ class SearchProductsTest extends AbstractTestCase
     ): void {
         $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
 
-        $arguments = sprintf(
+        $arguments = \sprintf(
             'requestType: product_catalog, localizedCatalog: "%s", pageSize: %d, currentPage: %d',
             $catalogId,
             $pageSize,
             $currentPage,
         );
         if ($filter) {
-            $arguments = sprintf(
+            $arguments = \sprintf(
                 'requestType: product_catalog, localizedCatalog: "%s", pageSize: %d, currentPage: %d, filter: [%s]',
                 $catalogId,
                 $pageSize,
@@ -2146,9 +2146,9 @@ class SearchProductsTest extends AbstractTestCase
         if (!empty($sortOrders)) {
             $sortArguments = [];
             foreach ($sortOrders as $field => $direction) {
-                $sortArguments[] = sprintf('%s : %s', $field, $direction);
+                $sortArguments[] = \sprintf('%s : %s', $field, $direction);
             }
-            $arguments .= sprintf(', sort: {%s}', implode(', ', $sortArguments));
+            $arguments .= \sprintf(', sort: {%s}', implode(', ', $sortArguments));
         }
     }
 

@@ -45,10 +45,8 @@ class StitchingFieldsBuilder implements FieldsBuilderEnumInterface
     ) {
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getResourceObjectTypeFields(?string $resourceClass, Operation $operation, bool $input, int $depth = 0, array $ioMetadata = null): array {
+    public function getResourceObjectTypeFields(?string $resourceClass, Operation $operation, bool $input, int $depth = 0, ?array $ioMetadata = null): array
+    {
         $fields = $this->decorated->getResourceObjectTypeFields($resourceClass, $operation, $input, $depth, $ioMetadata);
 
         $resourceMetadata = $this->resourceMetadataCollectionFactory->create($resourceClass);
@@ -70,7 +68,7 @@ class StitchingFieldsBuilder implements FieldsBuilderEnumInterface
 
         $metadata = $this->metadataRepository->findOneBy(['entity' => $metadataEntity]);
         if (null === $metadata) {
-            throw new EntityNotFoundException(sprintf("Entity of type '%s' for entity '%s' was not found. You should probably run migrations or fixtures?", Metadata::class, $metadataEntity));
+            throw new EntityNotFoundException(\sprintf("Entity of type '%s' for entity '%s' was not found. You should probably run migrations or fixtures?", Metadata::class, $metadataEntity));
         }
 
         unset($fields[$stitchingProperty]);
@@ -89,7 +87,7 @@ class StitchingFieldsBuilder implements FieldsBuilderEnumInterface
                         && !is_subclass_of($attributeClassType, StructuredAttributeInterface::class)
                     )
                 ) {
-                    throw new \LogicException(sprintf("The class '%s' doesn't implement neither the interface '%s' nor the interface '%s'", $attributeClassType, GraphQlAttributeInterface::class, StructuredAttributeInterface::class));
+                    throw new \LogicException(\sprintf("The class '%s' doesn't implement neither the interface '%s' nor the interface '%s'", $attributeClassType, GraphQlAttributeInterface::class, StructuredAttributeInterface::class));
                 }
 
                 if (is_subclass_of($attributeClassType, StructuredAttributeInterface::class)) {
@@ -196,47 +194,31 @@ class StitchingFieldsBuilder implements FieldsBuilderEnumInterface
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getNodeQueryFields(): array
     {
         return $this->decorated->getNodeQueryFields();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getItemQueryFields(string $resourceClass, Operation $operation, array $configuration): array {
+    public function getItemQueryFields(string $resourceClass, Operation $operation, array $configuration): array
+    {
         return $this->decorated->getItemQueryFields($resourceClass, $operation, $configuration);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getCollectionQueryFields(string $resourceClass, Operation $operation, array $configuration): array {
+    public function getCollectionQueryFields(string $resourceClass, Operation $operation, array $configuration): array
+    {
         return $this->decorated->getCollectionQueryFields($resourceClass, $operation, $configuration);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getMutationFields(string $resourceClass, Operation $operation): array
     {
         return $this->decorated->getMutationFields($resourceClass, $operation);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getSubscriptionFields(string $resourceClass, Operation $operation): array
     {
         return $this->decorated->getSubscriptionFields($resourceClass, $operation);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function resolveResourceArgs(array $args, Operation $operation): array
     {
         return $this->decorated->resolveResourceArgs($args, $operation);

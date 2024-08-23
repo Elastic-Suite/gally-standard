@@ -44,7 +44,7 @@ class DocumentRepository implements DocumentRepositoryInterface
         $index = $this->indexRepository->findByName($indexName);
 
         if (!$index) {
-            throw new InvalidArgumentException(sprintf('The index %s does not exist.', $indexName));
+            throw new InvalidArgumentException(\sprintf('The index %s does not exist.', $indexName));
         }
 
         $request->deleteDocuments($index, $documentIds);
@@ -63,14 +63,14 @@ class DocumentRepository implements DocumentRepositoryInterface
             $errorMessages = [];
             foreach ($response->aggregateErrorsByReason() as $error) {
                 $sampleDocumentIds = implode(', ', \array_slice($error['document_ids'], 0, 10));
-                $errorMessages[] = sprintf(
+                $errorMessages[] = \sprintf(
                     'Bulk %s operation failed %d times in index %s.',
                     $error['operation'],
                     $error['count'],
                     $error['index']
                 );
-                $errorMessages[] = sprintf('Error (%s) : %s.', $error['error']['type'], $error['error']['reason']);
-                $errorMessages[] = sprintf('Failed doc ids sample : %s.', $sampleDocumentIds);
+                $errorMessages[] = \sprintf('Error (%s) : %s.', $error['error']['type'], $error['error']['reason']);
+                $errorMessages[] = \sprintf('Failed doc ids sample : %s.', $sampleDocumentIds);
             }
             if (!empty($errorMessages)) {
                 throw new InvalidArgumentException(implode(' ', $errorMessages));

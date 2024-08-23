@@ -15,7 +15,6 @@ declare(strict_types=1);
 namespace Gally\Menu\Resolver;
 
 use ApiPlatform\GraphQl\Resolver\QueryItemResolverInterface;
-use Exception;
 use Gally\Menu\Model\Menu;
 use Gally\Menu\Service\MenuBuilder;
 
@@ -28,7 +27,7 @@ class MenuResolver implements QueryItemResolverInterface
     /**
      * @param mixed $item
      *
-     * @throws Exception
+     * @throws \Exception
      *
      * @return ?Menu
      */

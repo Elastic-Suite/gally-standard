@@ -21,7 +21,7 @@ use Gally\Search\Service\ReverseSourceFieldProvider;
 trait FilterableFieldTrait
 {
     /**
-     * @var array<string, boolean>
+     * @var array<string, bool>
      */
     private array $sourceFieldsValidated;
 

@@ -67,9 +67,6 @@ class IndexOperationsTest extends AbstractEntityTestCase
         ];
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function createDataProvider(): iterable
     {
         $adminUser = $this->getUser(Role::ROLE_ADMIN);
@@ -122,9 +119,6 @@ class IndexOperationsTest extends AbstractEntityTestCase
         ];
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getDataProvider(): iterable
     {
         $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
@@ -307,9 +301,6 @@ class IndexOperationsTest extends AbstractEntityTestCase
         return $expectedData;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function deleteDataProvider(): iterable
     {
         $adminUser = $this->getUser(Role::ROLE_ADMIN);
@@ -322,9 +313,6 @@ class IndexOperationsTest extends AbstractEntityTestCase
         ];
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getCollectionDataProvider(): iterable
     {
         return [
@@ -341,6 +329,7 @@ class IndexOperationsTest extends AbstractEntityTestCase
 
     /**
      * @dataProvider installOrRefreshIndexDataProvider
+     *
      * @depends testCreate
      *
      * @param string $indexNamePrefix Index name prefix
@@ -377,6 +366,7 @@ class IndexOperationsTest extends AbstractEntityTestCase
 
     /**
      * @dataProvider installOrRefreshIndexDataProvider
+     *
      * @depends      testCreate
      *
      * @param string $indexNamePrefix Index name prefix

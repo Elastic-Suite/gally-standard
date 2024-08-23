@@ -18,25 +18,16 @@ use Gally\Metadata\Model\Attribute\StructuredAttributeInterface;
 
 abstract class AbstractStructuredAttribute extends AbstractAttribute implements StructuredAttributeInterface
 {
-    /**
-     * {@inheritDoc}
-     */
     public static function getFields(): array
     {
         return [];
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public static function isList(): bool
     {
         return true;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     protected function getSanitizedData(mixed $value): mixed
     {
         if (\is_array($value) && !empty($value)) {

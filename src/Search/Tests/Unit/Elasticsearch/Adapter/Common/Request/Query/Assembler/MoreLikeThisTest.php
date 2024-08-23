@@ -102,9 +102,6 @@ class MoreLikeThisTest extends AbstractSimpleQueryAssemblerTestCase
         $this->assertArrayHasKey('include', $query['more_like_this']);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     protected function getQueryAssembler(): MoreLikeThisQueryAssembler
     {
         return new MoreLikeThisQueryAssembler();

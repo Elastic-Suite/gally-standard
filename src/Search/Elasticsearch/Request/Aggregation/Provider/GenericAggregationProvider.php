@@ -21,9 +21,6 @@ use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface;
  */
 class GenericAggregationProvider implements AggregationProviderInterface
 {
-    /**
-     * {@inheritdoc}
-     */
     public function getAggregations(
         ContainerConfigurationInterface $containerConfig,
         $query = null,
@@ -33,9 +30,6 @@ class GenericAggregationProvider implements AggregationProviderInterface
         return [];
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function useFacetConfiguration(): bool
     {
         return true;

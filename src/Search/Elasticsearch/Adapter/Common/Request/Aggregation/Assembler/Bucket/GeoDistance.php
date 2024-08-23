@@ -24,9 +24,6 @@ use Gally\Search\Elasticsearch\Request\BucketInterface;
  */
 class GeoDistance implements AssemblerInterface
 {
-    /**
-     * {@inheritDoc}
-     */
     public function assembleAggregation(AggregationInterface $aggregation): array
     {
         if (BucketInterface::TYPE_GEO_DISTANCE !== $aggregation->getType()) {

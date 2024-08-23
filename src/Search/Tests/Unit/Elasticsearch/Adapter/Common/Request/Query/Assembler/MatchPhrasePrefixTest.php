@@ -78,9 +78,6 @@ class MatchPhrasePrefixTest extends AbstractSimpleQueryAssemblerTestCase
         $this->assertArrayHasKey('max_expansions', $query['match_phrase_prefix']['searchField']);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     protected function getQueryAssembler(): MatchPhrasePrefixQueryAssembler
     {
         return new MatchPhrasePrefixQueryAssembler();

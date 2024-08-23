@@ -28,10 +28,8 @@ class RenameGraphQlQuery implements FieldsBuilderEnumInterface
     ) {
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getCollectionQueryFields(string $resourceClass, Operation $operation, array $configuration): array {
+    public function getCollectionQueryFields(string $resourceClass, Operation $operation, array $configuration): array
+    {
         $fields = $this->decorated->getCollectionQueryFields($resourceClass, $operation, $configuration);
 
         if (\array_key_exists($resourceClass, $this->graphqlQueryRenamings)) {
@@ -77,7 +75,7 @@ class RenameGraphQlQuery implements FieldsBuilderEnumInterface
         return $this->decorated->getSubscriptionFields($resourceClass, $operation);
     }
 
-    public function getResourceObjectTypeFields(?string $resourceClass, Operation $operation, bool $input, int $depth = 0, array $ioMetadata = null): array
+    public function getResourceObjectTypeFields(?string $resourceClass, Operation $operation, bool $input, int $depth = 0, ?array $ioMetadata = null): array
     {
         return $this->decorated->getResourceObjectTypeFields($resourceClass, $operation, $input, $depth, $ioMetadata);
     }
