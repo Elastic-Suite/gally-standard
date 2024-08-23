@@ -141,6 +141,9 @@ services:
             - '@Gally\Category\Service\CategoryProductPositionManager'
         tags:
             - { name: doctrine.event_subscriber }
+            - { name: doctrine.event_listener, event: postPersist }
+            - { name: doctrine.event_listener, event: postRemove }
+            - { name: doctrine.event_listener, event: postUpdate }
 
     Gally\Category\Controller\CategoryProductPositionSave:
         arguments:

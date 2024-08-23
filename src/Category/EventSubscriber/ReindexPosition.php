@@ -14,46 +14,36 @@ declare(strict_types=1);
 
 namespace Gally\Category\EventSubscriber;
 
-use Doctrine\Bundle\DoctrineBundle\EventSubscriber\EventSubscriberInterface;
-use Doctrine\ORM\Events;
-use Doctrine\Persistence\Event\LifecycleEventArgs;
+use Doctrine\ORM\Event\PostPersistEventArgs;
+use Doctrine\ORM\Event\PostRemoveEventArgs;
+use Doctrine\ORM\Event\PostUpdateEventArgs;
 use Gally\Category\Model\Category\ProductMerchandising;
 use Gally\Category\Service\CategoryProductPositionManager;
 
-class ReindexPosition implements EventSubscriberInterface
+class ReindexPosition
 {
     public function __construct(
         private CategoryProductPositionManager $categoryProductPositionManager,
     ) {
     }
 
-    public function getSubscribedEvents(): array
+    public function postPersist(PostPersistEventArgs $args): void
     {
-        return [
-            Events::postPersist,
-            Events::postRemove,
-            Events::postUpdate,
-        ];
+        $this->reindexPosition($args->getObject());
     }
 
-    public function postPersist(LifecycleEventArgs $args): void
+    public function postUpdate(PostUpdateEventArgs $args): void
     {
-        $this->reindexPosition($args);
+        $this->reindexPosition($args->getObject());
     }
 
-    public function postUpdate(LifecycleEventArgs $args): void
+    public function postRemove(PostRemoveEventArgs $args): void
     {
-        $this->reindexPosition($args);
+        $this->reindexPosition($args->getObject(), true);
     }
 
-    public function postRemove(LifecycleEventArgs $args): void
+    private function reindexPosition(object $entity, bool $deleteMode = false): void
     {
-        $this->reindexPosition($args, true);
-    }
-
-    private function reindexPosition(LifecycleEventArgs $args, bool $deleteMode = false): void
-    {
-        $entity = $args->getObject();
         if (!$entity instanceof ProductMerchandising) {
             return;
         }

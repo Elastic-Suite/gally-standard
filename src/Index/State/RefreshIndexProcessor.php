@@ -37,7 +37,7 @@ class RefreshIndexProcessor implements ProcessorInterface
      *
      * @throws InvalidArgumentException
      */
-    public function process($data, Operation $operation, array $uriVariables = [], array $context = [])
+    public function process($data, Operation $operation, array $uriVariables = [], array $context = []): ?string
     {
         if ($context['previous_data'] ?? null instanceof Index) {
             $index = $context['previous_data'];

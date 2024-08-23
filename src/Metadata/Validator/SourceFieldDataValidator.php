@@ -47,7 +47,7 @@ class SourceFieldDataValidator
             $this->entityManager->getUnitOfWork()->computeChangeSets();
             $changeSet = $this->entityManager->getUnitOfWork()->getEntityChangeSet($sourceField);
             // Prevent computed change set to take labels in account.
-            $this->entityManager->clear(SourceFieldLabel::class);
+            $this->entityManager->clear(SourceFieldLabel::class); // Todo upgrade: not use specific clear
 
             unset($changeSet['isSpellchecked']);
             unset($changeSet['weight']);

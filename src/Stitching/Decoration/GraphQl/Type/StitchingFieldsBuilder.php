@@ -14,8 +14,7 @@ declare(strict_types=1);
 
 namespace Gally\Stitching\Decoration\GraphQl\Type;
 
-use ApiPlatform\Core\Metadata\Resource\ResourceMetadata;
-use ApiPlatform\GraphQl\Type\FieldsBuilderInterface;
+use ApiPlatform\GraphQl\Type\FieldsBuilderEnumInterface;
 use ApiPlatform\GraphQl\Type\TypesContainerInterface;
 use ApiPlatform\Metadata\GraphQl\Operation;
 use ApiPlatform\Metadata\Resource\Factory\ResourceMetadataCollectionFactoryInterface;
@@ -35,14 +34,14 @@ use GraphQL\Type\Definition\Type as GraphQLType;
  *
  * @todo: This is a first version of the stitching, this feature would be finalized when we will know how to manage attributes on entities.
  */
-class StitchingFieldsBuilder implements FieldsBuilderInterface
+class StitchingFieldsBuilder implements FieldsBuilderEnumInterface
 {
     public function __construct(
         private MetadataRepository $metadataRepository,
         private ResourceMetadataCollectionFactoryInterface $resourceMetadataCollectionFactory,
         private ResourceMetadataManager $resourceMetadataManager,
         private TypesContainerInterface $typesContainer,
-        private FieldsBuilderInterface $decorated,
+        private FieldsBuilderEnumInterface $decorated,
     ) {
     }
 
@@ -241,5 +240,10 @@ class StitchingFieldsBuilder implements FieldsBuilderInterface
     public function resolveResourceArgs(array $args, Operation $operation): array
     {
         return $this->decorated->resolveResourceArgs($args, $operation);
+    }
+
+    public function getEnumFields(string $enumClass): array
+    {
+        return $this->decorated->getEnumFields($enumClass);
     }
 }

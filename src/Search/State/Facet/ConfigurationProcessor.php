@@ -14,11 +14,9 @@ declare(strict_types=1);
 
 namespace Gally\Search\State\Facet;
 
-use ApiPlatform\Core\DataPersister\DataPersisterInterface;
 use ApiPlatform\Metadata\DeleteOperationInterface;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
-use Doctrine\ORM\EntityManagerInterface;
 use Gally\Search\Model\Facet;
 
 final class ConfigurationProcessor implements ProcessorInterface
@@ -32,7 +30,7 @@ final class ConfigurationProcessor implements ProcessorInterface
     /**
      * {@inheritDoc}
      */
-    public function process($data, Operation $operation, array $uriVariables = [], array $context = [])
+    public function process($data, Operation $operation, array $uriVariables = [], array $context = []): mixed
     {
         if ($operation instanceof DeleteOperationInterface) {
             return $this->removeProcessor->process($data, $operation, $uriVariables, $context);

@@ -14,9 +14,9 @@ declare(strict_types=1);
 
 namespace Gally\Metadata\EventSubscriber;
 
-use Doctrine\Bundle\DoctrineBundle\EventSubscriber\EventSubscriberInterface;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Events;
+use Doctrine\ORM\Event\PostPersistEventArgs;
+use Doctrine\ORM\Event\PostUpdateEventArgs;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Gally\Catalog\Repository\LocalizedCatalogRepository;
 use Gally\Index\Service\IndexOperation;
@@ -25,7 +25,7 @@ use Gally\Metadata\Model\Metadata;
 use Gally\Metadata\Model\SourceField;
 use Psr\Log\LoggerInterface;
 
-class SpreadSourceFieldData implements EventSubscriberInterface
+class SpreadSourceFieldData
 {
     private array $updateMappingFields = [
         'is_searchable',
@@ -45,27 +45,18 @@ class SpreadSourceFieldData implements EventSubscriberInterface
     ) {
     }
 
-    public function getSubscribedEvents(): array
+    public function postPersist(PostPersistEventArgs $args): void
     {
-        return [
-            Events::postPersist,
-            Events::postUpdate,
-        ];
+        $this->spreadSourceFieldData($args->getObject(), true);
     }
 
-    public function postPersist(LifecycleEventArgs $args): void
+    public function postUpdate(PostUpdateEventArgs $args): void
     {
-        $this->spreadSourceFieldData($args, true);
+        $this->spreadSourceFieldData($args->getObject(), false);
     }
 
-    public function postUpdate(LifecycleEventArgs $args): void
+    private function spreadSourceFieldData(object $entity, bool $isNewSourceField): void
     {
-        $this->spreadSourceFieldData($args, false);
-    }
-
-    private function spreadSourceFieldData(LifecycleEventArgs $args, bool $isNewSourceField): void
-    {
-        $entity = $args->getObject();
         if (!$entity instanceof SourceField) {
             return;
         }

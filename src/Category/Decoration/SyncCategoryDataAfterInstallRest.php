@@ -14,16 +14,12 @@ declare(strict_types=1);
 
 namespace Gally\Category\Decoration;
 
-use ApiPlatform\Core\DataTransformer\DataTransformerInterface;
 use ApiPlatform\Exception\InvalidArgumentException;
 use ApiPlatform\Metadata\Operation;
-use ApiPlatform\State\Pagination\PartialPaginatorInterface;
 use ApiPlatform\State\ProcessorInterface;
-use ApiPlatform\State\ProviderInterface;
 use Gally\Category\Exception\SyncCategoryException;
 use Gally\Category\Service\CategoryProductPositionManager;
 use Gally\Category\Service\CategorySynchronizer;
-use Gally\Index\DataTransformer\InstallIndexDataTransformer;
 use Gally\Index\Dto\InstallIndexDto;
 use Gally\Index\Model\Index;
 use Gally\Index\State\InstallIndexProcessor;
@@ -45,7 +41,7 @@ class SyncCategoryDataAfterInstallRest implements ProcessorInterface
      *
      * @throws InvalidArgumentException
      */
-    public function process($data, Operation $operation, array $uriVariables = [], array $context = [])
+    public function process($data, Operation $operation, array $uriVariables = [], array $context = []): ?string
     {
         /** @var ?string $indexSerialized */
         $indexSerialized = $this->decorated->process($data, $operation, $uriVariables, $context);

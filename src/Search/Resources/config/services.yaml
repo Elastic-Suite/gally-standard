@@ -336,7 +336,7 @@ services:
 
     Gally\Search\EventSubscriber\GenerateFacetConfigurationId:
         tags:
-            - { name: doctrine.event_subscriber }
+            - { name: doctrine.event_listener, event: prePersist, priority: 20 }
                 
     Gally\Search\Service\SearchSettingsProvider:
         arguments:

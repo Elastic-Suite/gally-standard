@@ -15,7 +15,6 @@ declare(strict_types=1);
 namespace Gally\GraphQl\Decoration\Resolver\Stage;
 
 use ApiPlatform\State\ProviderInterface;
-use ApiPlatform\Util\ArrayTrait;
 use ApiPlatform\Metadata\Operation;
 
 /**
@@ -38,8 +37,6 @@ use ApiPlatform\Metadata\Operation;
  */
 class ReadStage implements ProviderInterface
 {
-    use ArrayTrait;
-
     public const IS_GRAPHQL_GALLY_ARG_KEY = 'is_gally_arg';
 
     public const GRAPHQL_GALLY_ARGS_KEY = 'gally_args';

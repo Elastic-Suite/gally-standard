@@ -16,6 +16,7 @@ namespace Gally\Cache\Command;
 
 use Gally\Cache\Service\CacheManagerInterface;
 use Psr\Cache\InvalidArgumentException;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -24,10 +25,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * @codeCoverageIgnore
  */
+#[AsCommand(name: 'gally:cache:clear-tags')]
 class ClearTagsCommand extends Command
 {
-    protected static $defaultName = 'gally:cache:clear-tags';
-
     public function __construct(private CacheManagerInterface $cache, string $name = null)
     {
         parent::__construct($name);

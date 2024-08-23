@@ -14,18 +14,17 @@ declare(strict_types=1);
 
 namespace Gally\GraphQl\Decoration\Type;
 
-use ApiPlatform\GraphQl\Type\FieldsBuilderInterface;
-use ApiPlatform\Core\Metadata\Resource\ResourceMetadata;
+use ApiPlatform\GraphQl\Type\FieldsBuilderEnumInterface;
 use ApiPlatform\Metadata\GraphQl\Operation;
 
 /**
  * Allows to add dynamically rename graphql queries.
  */
-class RenameGraphQlQuery implements FieldsBuilderInterface
+class RenameGraphQlQuery implements FieldsBuilderEnumInterface
 {
     public function __construct(
         private array $graphqlQueryRenamings,
-        private FieldsBuilderInterface $decorated,
+        private FieldsBuilderEnumInterface $decorated,
     ) {
     }
 
@@ -86,5 +85,10 @@ class RenameGraphQlQuery implements FieldsBuilderInterface
     public function resolveResourceArgs(array $args, Operation $operation): array
     {
         return $this->decorated->resolveResourceArgs($args, $operation);
+    }
+
+    public function getEnumFields(string $enumClass): array
+    {
+        return $this->decorated->getEnumFields($enumClass);
     }
 }

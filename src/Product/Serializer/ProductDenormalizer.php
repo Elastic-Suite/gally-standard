@@ -22,15 +22,13 @@ use Gally\Product\Model\Product;
 use Gally\Search\Model\Document;
 use Gally\Search\Service\SearchContext;
 use Gally\Stitching\Service\SerializerService;
-use Symfony\Component\Serializer\Normalizer\ContextAwareDenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
+use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 
-class ProductDenormalizer implements ContextAwareDenormalizerInterface, DenormalizerAwareInterface
+class ProductDenormalizer implements DenormalizerInterface, DenormalizerAwareInterface
 {
     use DenormalizerAwareTrait;
-
-    private const ALREADY_CALLED_DENORMALIZER = 'ProductDenormalizerCalled';
 
     public function __construct(
         protected SerializerService $serializerService,
@@ -44,9 +42,7 @@ class ProductDenormalizer implements ContextAwareDenormalizerInterface, Denormal
      */
     public function supportsDenormalization($data, string $type, string $format = null, array $context = []): bool
     {
-        $alreadyCalled = $context[self::ALREADY_CALLED_DENORMALIZER] ?? false;
-
-        return Product::class === $type && !$alreadyCalled;
+        return Product::class === $type;
     }
 
     /**
@@ -54,10 +50,6 @@ class ProductDenormalizer implements ContextAwareDenormalizerInterface, Denormal
      */
     public function denormalize($data, string $type, string $format = null, array $context = []): mixed
     {
-        $context[self::ALREADY_CALLED_DENORMALIZER] = true;
-
-        $product = null;
-
         if ($data instanceof Product) {
             $product = $data;
         } else {
@@ -115,5 +107,12 @@ class ProductDenormalizer implements ContextAwareDenormalizerInterface, Denormal
         }
 
         return $product;
+    }
+
+    public function getSupportedTypes(?string $format): array
+    {
+        return [
+            Product::class => false,
+        ];
     }
 }

@@ -44,7 +44,7 @@ class InstallIndexProcessor implements ProcessorInterface
      *
      * @throws InvalidArgumentException
      */
-    public function process($data, Operation $operation, array $uriVariables = [], array $context = [])
+    public function process($data, Operation $operation, array $uriVariables = [], array $context = []): ?string
     {
         $index = $context['previous_data'] ?? null;
         if ($index instanceof Index) {

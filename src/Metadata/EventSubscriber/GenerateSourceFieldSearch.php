@@ -14,40 +14,32 @@ declare(strict_types=1);
 
 namespace Gally\Metadata\EventSubscriber;
 
-use Doctrine\Bundle\DoctrineBundle\EventSubscriber\EventSubscriberInterface;
 use Doctrine\ORM\Event\OnFlushEventArgs;
-use Doctrine\ORM\Events;
-use Doctrine\Persistence\Event\LifecycleEventArgs;
+use Doctrine\ORM\Event\PrePersistEventArgs;
+use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Gally\Catalog\Model\LocalizedCatalog;
 use Gally\Metadata\Model\SourceField;
 use Gally\Metadata\Model\SourceFieldLabel;
 use Gally\Metadata\Repository\SourceFieldRepository;
 
-class GenerateSourceFieldSearch implements EventSubscriberInterface
+class GenerateSourceFieldSearch
 {
     public function __construct(
         private SourceFieldRepository $sourceFieldRepository,
     ) {
     }
-
-    public function getSubscribedEvents(): array
+    public function prePersist(PrePersistEventArgs $args): void
     {
-        return [Events::prePersist, Events::preUpdate, Events::onFlush];
+        $this->generateSearchField($args->getObject());
     }
 
-    public function prePersist(LifecycleEventArgs $args): void
+    public function preUpdate(PreUpdateEventArgs $args): void
     {
-        $this->generateSearchField($args);
+        $this->generateSearchField($args->getObject());
     }
 
-    public function preUpdate(LifecycleEventArgs $args): void
+    private function generateSearchField(object $entity): void
     {
-        $this->generateSearchField($args);
-    }
-
-    private function generateSearchField(LifecycleEventArgs $args): void
-    {
-        $entity = $args->getObject();
         if ($entity instanceof SourceField) {
             $this->setSourceFieldSearch($entity);
         } elseif ($entity instanceof SourceFieldLabel && $entity->getLocalizedCatalog()->getIsDefault()) {
@@ -57,7 +49,7 @@ class GenerateSourceFieldSearch implements EventSubscriberInterface
 
     public function onFlush(OnFlushEventArgs $args): void
     {
-        $entityManager = $args->getEntityManager();
+        $entityManager = $args->getObjectManager();
         $unitOfWork = $entityManager->getUnitOfWork();
 
         foreach ($unitOfWork->getScheduledEntityUpdates() as $keyEntity => $entity) {

@@ -153,6 +153,7 @@ class CategorySynchronizerTest extends AbstractTestCase
         $category1 = self::$categoryRepository->find('one');
         $category2 = self::$categoryRepository->find('two');
 
+        // Todo upgrade : how to avoid using merge
         $entityManager->merge($this->createConfiguration($category1, null));
         $entityManager->merge($this->createConfiguration($category1, $catalog1->getCatalog()));
         $entityManager->merge($this->createConfiguration($category1, $catalog3->getCatalog()));
@@ -261,8 +262,7 @@ class CategorySynchronizerTest extends AbstractTestCase
         /** @var EntityManager */
         $entityManager = static::getContainer()->get('doctrine')->getManager();
         // Clear cache and instantiate a new repository to force repository to get a fresh db object.
-        $entityManager->clear(self::$categoryRepository->getClassName());
-        $entityManager->clear(self::$categoryConfigurationRepository->getClassName());
+        $entityManager->clear();
         self::$categoryRepository = static::getContainer()->get(CategoryRepository::class);
         self::$categoryConfigurationRepository = static::getContainer()->get(CategoryConfigurationRepository::class);
     }
