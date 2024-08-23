@@ -34,7 +34,7 @@ class LocalizedCatalogProcessor implements ProcessorInterface
     /**
      * {@inheritdoc}
      */
-    public function process($data, Operation $operation, array $uriVariables = [], array $context = [])
+    public function process($data, Operation $operation, array $uriVariables = [], array $context = []): ?LocalizedCatalog
     {
         if ($operation instanceof DeleteOperationInterface) {
             return $this->removeProcessor->process($data, $operation, $uriVariables, $context);

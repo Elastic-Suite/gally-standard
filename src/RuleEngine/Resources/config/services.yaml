@@ -63,4 +63,5 @@ services:
             - '@Gally\RuleEngine\Service\RuleEngineManager'
             - '@Gally\Cache\Service\CacheManager'
         tags:
-            - { name: doctrine.event_subscriber }
+            - { name: doctrine.event_listener, event: postUpdate }
+            - { name: doctrine.event_listener, event: postRemove }

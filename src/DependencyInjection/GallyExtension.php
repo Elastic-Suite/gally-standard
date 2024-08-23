@@ -31,7 +31,7 @@ class GallyExtension extends Extension
      *
      * {@inheritdoc}
      */
-    public function prepend(ContainerBuilder $container)
+    public function prepend(ContainerBuilder $container): void
     {
         $this->loadGallyStandardConfigFile($container, 'doctrine_migrations.yaml', 'doctrine_migrations');
         $this->loadGallyStandardConfigFile($container, 'doctrine.yaml', 'doctrine');
@@ -80,7 +80,7 @@ class GallyExtension extends Extension
      *
      * {@inheritdoc}
      */
-    public function load(array $configs, ContainerBuilder $container)
+    public function load(array $configs, ContainerBuilder $container): void
     {
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../'));
 

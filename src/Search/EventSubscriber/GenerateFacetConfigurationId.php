@@ -14,19 +14,12 @@ declare(strict_types=1);
 
 namespace Gally\Search\EventSubscriber;
 
-use Doctrine\Bundle\DoctrineBundle\EventSubscriber\EventSubscriberInterface;
-use Doctrine\ORM\Events;
-use Doctrine\Persistence\Event\LifecycleEventArgs;
+use Doctrine\ORM\Event\PrePersistEventArgs;
 use Gally\Search\Model\Facet\Configuration;
 
-class GenerateFacetConfigurationId implements EventSubscriberInterface
+class GenerateFacetConfigurationId
 {
-    public function getSubscribedEvents(): array
-    {
-        return [Events::prePersist];
-    }
-
-    public function prePersist(LifecycleEventArgs $args): void
+    public function prePersist(PrePersistEventArgs $args): void
     {
         $entity = $args->getObject();
         if (!$entity instanceof Configuration) {

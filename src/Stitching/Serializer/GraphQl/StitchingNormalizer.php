@@ -20,14 +20,14 @@ use Doctrine\Common\Util\ClassUtils;
 use Gally\Metadata\Repository\MetadataRepository;
 use Gally\ResourceMetadata\Service\ResourceMetadataManager;
 use Gally\Stitching\Service\SerializerService;
-use Symfony\Component\Serializer\Normalizer\ContextAwareNormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 /**
  * Allows to add in the GraphQL response the value of the attributes added dynamically on GraphQL documentation.
  */
-class StitchingNormalizer implements ContextAwareNormalizerInterface, NormalizerAwareInterface
+class StitchingNormalizer implements NormalizerInterface, NormalizerAwareInterface
 {
     use NormalizerAwareTrait;
 
@@ -99,5 +99,11 @@ class StitchingNormalizer implements ContextAwareNormalizerInterface, Normalizer
         }
 
         return $data;
+    }
+
+    public function getSupportedTypes(?string $format): array
+    {
+        // Todo upgrade : to test !!! and move in product
+        return ['*' => false];
     }
 }

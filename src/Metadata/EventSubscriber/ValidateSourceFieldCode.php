@@ -14,41 +14,31 @@ declare(strict_types=1);
 
 namespace Gally\Metadata\EventSubscriber;
 
-use Doctrine\Bundle\DoctrineBundle\EventSubscriber\EventSubscriberInterface;
-use Doctrine\ORM\Events;
-use Doctrine\Persistence\Event\LifecycleEventArgs;
+use Doctrine\ORM\Event\PrePersistEventArgs;
+use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Gally\Exception\LogicException;
 use Gally\Metadata\Model\SourceField;
 use Gally\Metadata\Repository\SourceFieldRepository;
 
-class ValidateSourceFieldCode implements EventSubscriberInterface
+class ValidateSourceFieldCode
 {
     public function __construct(
         private SourceFieldRepository $sourceFieldRepository,
     ) {
     }
 
-    public function getSubscribedEvents(): array
+    public function prePersist(PrePersistEventArgs $args): void
     {
-        return [
-            Events::prePersist,
-            Events::preUpdate,
-        ];
+        $this->validateSourceFieldCode($args->getObject(), 'create');
     }
 
-    public function prePersist(LifecycleEventArgs $args): void
+    public function preUpdate(PreUpdateEventArgs $args): void
     {
-        $this->validateSourceFieldCode($args, 'create');
+        $this->validateSourceFieldCode($args->getObject(), 'update');
     }
 
-    public function preUpdate(LifecycleEventArgs $args): void
+    private function validateSourceFieldCode(object $entity, string $action): void
     {
-        $this->validateSourceFieldCode($args, 'update');
-    }
-
-    private function validateSourceFieldCode(LifecycleEventArgs $args, string $action): void
-    {
-        $entity = $args->getObject();
         if (!$entity instanceof SourceField) {
             return;
         }

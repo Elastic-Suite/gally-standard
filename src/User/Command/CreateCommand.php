@@ -17,15 +17,15 @@ namespace Gally\User\Command;
 use Gally\User\Service\Command\QuestionBuilder as CmdQuestionBuilder;
 use Gally\User\Service\Command\Validator as CmdValidator;
 use Gally\User\Service\UserManager;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[AsCommand(name: 'gally:user:create')]
 class CreateCommand extends Command
 {
-    protected static $defaultName = 'gally:user:create';
-
     public function __construct(
         private UserManager $userManager,
         private CmdValidator $cmdValidator,

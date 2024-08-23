@@ -60,7 +60,8 @@ services:
         arguments:
             - '@Gally\Metadata\Repository\SourceFieldRepository'
         tags:
-            - { name: doctrine.event_subscriber }
+            - { name: doctrine.event_listener, event: prePersist }
+            - { name: doctrine.event_listener, event: preUpdate }
 
     Gally\Metadata\EventSubscriber\SpreadSourceFieldData:
         arguments:
@@ -70,19 +71,23 @@ services:
             - '@Gally\Catalog\Repository\LocalizedCatalogRepository'
             - '@logger'
         tags:
-            - { name: doctrine.event_subscriber }
+            - { name: doctrine.event_listener, event: postPersist }
+            - { name: doctrine.event_listener, event: postUpdate }
 
     Gally\Metadata\EventSubscriber\GenerateSourceFieldSearch:
         arguments:
             - '@Gally\Metadata\Repository\SourceFieldRepository'
         tags:
-            - { name: doctrine.event_subscriber }
+            - { name: doctrine.event_listener, event: prePersist }
+            - { name: doctrine.event_listener, event: preUpdate }
+            - { name: doctrine.event_listener, event: onFlush }
 
     Gally\Metadata\EventSubscriber\ValidateSourceFieldProperties:
         arguments:
             - '@doctrine.orm.entity_manager'
         tags:
-            - { name: doctrine.event_subscriber }
+            - { name: doctrine.event_listener, event: prePersist }
+            - { name: doctrine.event_listener, event: preUpdate }
 
     Gally\Metadata\Controller\BulkSourceFields:
         arguments:

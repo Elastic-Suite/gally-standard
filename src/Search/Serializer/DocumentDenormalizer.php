@@ -16,24 +16,19 @@ namespace Gally\Search\Serializer;
 
 use Gally\Search\Elasticsearch\DocumentInterface;
 use Gally\Search\Model\Document;
-use Symfony\Component\Serializer\Normalizer\ContextAwareDenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
+use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 
-class DocumentDenormalizer implements ContextAwareDenormalizerInterface, DenormalizerAwareInterface
+class DocumentDenormalizer implements DenormalizerInterface, DenormalizerAwareInterface
 {
     use DenormalizerAwareTrait;
-
-    private const ALREADY_CALLED_DENORMALIZER = 'SearchDenormalizerCalled';
-
     /**
      * {@inheritdoc}
      */
     public function supportsDenormalization($data, string $type, string $format = null, array $context = []): bool
     {
-        $alreadyCalled = $context[self::ALREADY_CALLED_DENORMALIZER] ?? false;
-
-        return Document::class === $type && !$alreadyCalled;
+        return Document::class === $type;
     }
 
     /**
@@ -41,12 +36,17 @@ class DocumentDenormalizer implements ContextAwareDenormalizerInterface, Denorma
      */
     public function denormalize($data, string $type, string $format = null, array $context = []): mixed
     {
-        $context[self::ALREADY_CALLED_DENORMALIZER] = true;
-
         if ($data instanceof DocumentInterface) {
             return $data;
         }
 
         return new Document($data);
+    }
+
+    public function getSupportedTypes(?string $format): array
+    {
+        return [
+            Document::class => true,
+        ];
     }
 }

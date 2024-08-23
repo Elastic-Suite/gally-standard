@@ -14,9 +14,8 @@ declare(strict_types=1);
 
 namespace Gally\RuleEngine\EventSubscriber;
 
-use Doctrine\Bundle\DoctrineBundle\EventSubscriber\EventSubscriberInterface;
-use Doctrine\ORM\Events;
-use Doctrine\Persistence\Event\LifecycleEventArgs;
+use Doctrine\ORM\Event\PostRemoveEventArgs;
+use Doctrine\ORM\Event\PostUpdateEventArgs;
 use Gally\Cache\Service\CacheManagerInterface;
 use Gally\Metadata\Model\SourceField;
 use Gally\Metadata\Model\SourceFieldOption;
@@ -25,7 +24,7 @@ use Gally\RuleEngine\Service\RuleEngineManager;
 /**
  * Clear the rule cache when a source field or source field option is updated or removed.
  */
-class ClearRuleCache implements EventSubscriberInterface
+class ClearRuleCache
 {
     public function __construct(
         private RuleEngineManager $ruleEngineManager,
@@ -33,27 +32,18 @@ class ClearRuleCache implements EventSubscriberInterface
     ) {
     }
 
-    public function getSubscribedEvents(): array
+    public function postUpdate(PostUpdateEventArgs $args): void
     {
-        return [
-            Events::postUpdate,
-            Events::postRemove,
-        ];
+        $this->clearRuleCache($args->getObject());
     }
 
-    public function postUpdate(LifecycleEventArgs $args): void
+    public function postRemove(PostRemoveEventArgs $args): void
     {
-        $this->clearRuleCache($args);
+        $this->clearRuleCache($args->getObject());
     }
 
-    public function postRemove(LifecycleEventArgs $args): void
+    protected function clearRuleCache(object $entity): void
     {
-        $this->clearRuleCache($args);
-    }
-
-    protected function clearRuleCache(LifecycleEventArgs $args): void
-    {
-        $entity = $args->getObject();
         if (($entity instanceof SourceField || $entity instanceof SourceFieldOption)
             && (
                 ($entity instanceof SourceField && 'product' === $entity->getMetadata()->getEntity())

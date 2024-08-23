@@ -58,7 +58,7 @@ class CategorySynchronizer
     public function synchronize(Index $index, array $bulkCategories = []): void
     {
         // In order to avoid memory limit error on batch action, the sql logger has been disabled.
-        $this->entityManager->getConnection()->getConfiguration()->setSQLLogger();
+        $this->entityManager->getConnection()->getConfiguration()->setMiddlewares([]);
 
         $localizedCatalog = $index->getLocalizedCatalog();
         $elasticCategories = $this->getCategoriesInElastic($index);
