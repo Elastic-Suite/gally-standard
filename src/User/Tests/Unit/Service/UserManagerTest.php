@@ -15,13 +15,13 @@ declare(strict_types=1);
 namespace Gally\User\Tests\Unit\Service;
 
 use Doctrine\ORM\EntityNotFoundException;
-use Gally\Test\AbstractTest;
+use Gally\Test\AbstractTestCase;
 use Gally\User\Constant\Role;
 use Gally\User\Model\User;
 use Gally\User\Repository\UserRepository;
 use Gally\User\Service\UserManager;
 
-class UserManagerTest extends AbstractTest
+class UserManagerTest extends AbstractTestCase
 {
     private static UserManager $userManager;
     private static UserRepository $userRepository;

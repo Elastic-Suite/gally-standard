@@ -14,12 +14,12 @@ declare(strict_types=1);
 
 namespace Gally\Bundle\Tests\Api\Rest;
 
-use Gally\Test\AbstractTest;
+use Gally\Test\AbstractTestCase;
 use Gally\Test\ExpectedResponse;
 use Gally\Test\RequestToTest;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
-class ExtraBundleTest extends AbstractTest
+class ExtraBundleTest extends AbstractTestCase
 {
     public function testGetCollection(): void
     {

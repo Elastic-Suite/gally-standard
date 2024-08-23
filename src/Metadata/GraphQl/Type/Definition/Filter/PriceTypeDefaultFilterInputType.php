@@ -28,7 +28,7 @@ class PriceTypeDefaultFilterInputType extends FloatTypeFilterInputType
 {
     public const SPECIFIC_NAME = 'PriceTypeDefaultFilterInputType';
 
-    public $name = self::SPECIFIC_NAME;
+    public string $name = self::SPECIFIC_NAME;
 
     public function __construct(
         FilterQueryBuilder $filterQueryBuilder,

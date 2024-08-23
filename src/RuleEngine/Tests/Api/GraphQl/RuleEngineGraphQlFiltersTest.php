@@ -67,13 +67,7 @@ class RuleEngineGraphQlFiltersTest extends \Gally\RuleEngine\Tests\Api\Rest\Rule
             200,
             function (ResponseInterface $response) use ($expectedFilters, $expectedError) {
                 if (null !== $expectedError) {
-                    $this->assertJsonContains([
-                        'errors' => [
-                            [
-                                'debugMessage' => $expectedError,
-                            ],
-                        ],
-                    ]);
+                    $this->assertGraphQlError($expectedError);
                 } else {
                     $this->assertJsonContains([
                         'data' => [

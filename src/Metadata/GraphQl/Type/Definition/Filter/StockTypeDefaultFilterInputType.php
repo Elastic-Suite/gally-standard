@@ -20,7 +20,7 @@ class StockTypeDefaultFilterInputType extends BoolTypeFilterInputType
 {
     public const SPECIFIC_NAME = 'StockTypeDefaultFilterInputType';
 
-    public $name = self::SPECIFIC_NAME;
+    public string $name = self::SPECIFIC_NAME;
 
     /**
      * {@inheritDoc}

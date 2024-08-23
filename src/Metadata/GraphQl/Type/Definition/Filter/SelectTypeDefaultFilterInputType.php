@@ -23,7 +23,7 @@ class SelectTypeDefaultFilterInputType extends TextTypeFilterInputType
 {
     public const SPECIFIC_NAME = 'SelectTypeDefaultFilterInputType';
 
-    public $name = self::SPECIFIC_NAME;
+    public string $name = self::SPECIFIC_NAME;
 
     /**
      * {@inheritDoc}

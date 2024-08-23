@@ -21,7 +21,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 /**
  * Common method used to test query assemblers.
  */
-abstract class AbstractSimpleQueryAssemblerTest extends KernelTestCase
+abstract class AbstractSimpleQueryAssemblerTestCase extends KernelTestCase
 {
     /**
      * Test using the query assembler with an invalid query type throws an exception.

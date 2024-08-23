@@ -20,7 +20,7 @@ use Gally\Search\Elasticsearch\Request\Query\Filtered as FilteredQuery;
 /**
  * Filtered search request query test case.
  */
-class FilteredTest extends AbstractComplexQueryAssemblerTest
+class FilteredTest extends AbstractComplexQueryAssemblerTestCase
 {
     /**
      * Test the assembler with mandatory params only.

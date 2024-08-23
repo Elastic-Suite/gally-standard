@@ -20,7 +20,7 @@ class BoolFilterInputType extends BaseBoolFilterInputType
 {
     public const NAME = 'EntityBoolFilterInput';
 
-    public $name = self::NAME;
+    public string $name = self::NAME;
 
     public function getGraphQlFilter(array $fields): array
     {

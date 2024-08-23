@@ -16,12 +16,12 @@ namespace Gally\Category\Tests\Api\GraphQl;
 
 use Gally\Catalog\Repository\CatalogRepository;
 use Gally\Catalog\Repository\LocalizedCatalogRepository;
-use Gally\Test\AbstractTest;
+use Gally\Test\AbstractTestCase;
 use Gally\Test\ExpectedResponse;
 use Gally\Test\RequestGraphQlToTest;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
-class CategoryTreeTest extends AbstractTest
+class CategoryTreeTest extends AbstractTestCase
 {
     public static function setUpBeforeClass(): void
     {
@@ -38,7 +38,7 @@ class CategoryTreeTest extends AbstractTest
     {
         $this->assertSame(
             'Catalog with id 999 not found.',
-            $this->getCategoryTree('b2c_it')[0]['debugMessage'],
+            $this->getCategoryTree('b2c_it')[0]['extensions']['debugMessage'],
         );
     }
 

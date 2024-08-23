@@ -23,7 +23,7 @@ class IntegerTypeFilterInputType extends AbstractFilter
 {
     public const NAME = 'EntityIntegerTypeFilterInput';
 
-    public $name = self::NAME;
+    public string $name = self::NAME;
 
     public function supports(SourceField $sourceField): bool
     {

@@ -18,14 +18,14 @@ use Gally\Fixture\Service\ElasticsearchFixturesInterface;
 use Gally\Metadata\Service\PriceGroupProvider;
 use Gally\Metadata\Service\ReferenceLocationProvider;
 use Gally\Search\Elasticsearch\Request\SortOrderInterface;
-use Gally\Test\AbstractTest;
+use Gally\Test\AbstractTestCase;
 use Gally\Test\ExpectedResponse;
 use Gally\Test\RequestGraphQlToTest;
 use Gally\User\Constant\Role;
 use Gally\User\Model\User;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
-class SearchProductsTest extends AbstractTest
+class SearchProductsTest extends AbstractTestCase
 {
     protected string $graphQlQuery = 'products';
 
@@ -75,13 +75,7 @@ class SearchProductsTest extends AbstractTest
                 200,
                 function (ResponseInterface $response) use ($expectedError) {
                     if ($expectedError) {
-                        $this->assertJsonContains([
-                            'errors' => [
-                                [
-                                    'debugMessage' => $expectedError,
-                                ],
-                            ],
-                        ]);
+                        $this->assertGraphQlError($expectedError);
                     } else {
                         $this->assertJsonContains([
                             'data' => [
@@ -111,7 +105,7 @@ class SearchProductsTest extends AbstractTest
      * @param string  $catalogId            Catalog ID or code
      * @param ?int    $pageSize             Pagination size
      * @param ?int    $currentPage          Current page
-     * @param ?array  $expectedError        Expected error
+     * @param ?string $expectedError        Expected error
      * @param ?int    $expectedItemsCount   Expected items count in (paged) response
      * @param ?int    $expectedTotalCount   Expected total items count
      * @param ?int    $expectedItemsPerPage Expected pagination items per page
@@ -123,7 +117,7 @@ class SearchProductsTest extends AbstractTest
         string $catalogId,
         ?int $pageSize,
         ?int $currentPage,
-        ?array $expectedError,
+        ?string $expectedError,
         ?int $expectedItemsCount,
         ?int $expectedTotalCount,
         ?int $expectedItemsPerPage,
@@ -176,7 +170,7 @@ class SearchProductsTest extends AbstractTest
                     $expectedScore
                 ) {
                     if (!empty($expectedError)) {
-                        $this->assertJsonContains($expectedError);
+                        $this->assertGraphQlError($expectedError);
                         $this->assertJsonContains([
                             'data' => [
                                 'products' => null,
@@ -218,7 +212,7 @@ class SearchProductsTest extends AbstractTest
                 'b2c_uk',   // catalog ID.
                 null,   // page size.
                 null,   // current page.
-                ['errors' => [['message' => 'Internal server error', 'debugMessage' => 'Missing localized catalog [b2c_uk]']]], // expected error.
+                'Missing localized catalog [b2c_uk]', // expected error.
                 null,   // expected items count.
                 null,   // expected total count.
                 null,   // expected items per page.
@@ -230,7 +224,7 @@ class SearchProductsTest extends AbstractTest
                 '2',    // catalog ID.
                 10,     // page size.
                 1,      // current page.
-                [],     // expected error.
+                null,   // expected error.
                 10,     // expected items count.
                 14,     // expected total count.
                 10,     // expected items per page.
@@ -242,7 +236,7 @@ class SearchProductsTest extends AbstractTest
                 'b2c_en',   // catalog ID.
                 10,     // page size.
                 1,      // current page.
-                [],     // expected error.
+                null,   // expected error.
                 10,     // expected items count.
                 14,     // expected total count.
                 10,     // expected items per page.
@@ -254,7 +248,7 @@ class SearchProductsTest extends AbstractTest
                 'b2c_en',   // catalog ID.
                 10,     // page size.
                 2,      // current page.
-                [],     // expected error.
+                null,   // expected error.
                 4,      // expected items count.
                 14,     // expected total count.
                 10,     // expected items per page.
@@ -266,7 +260,7 @@ class SearchProductsTest extends AbstractTest
                 'b2c_fr',   // catalog ID.
                 null,   // page size.
                 null,   // current page.
-                [],     // expected error.
+                null,   // expected error.
                 12,     // expected items count.
                 12,     // expected total count.
                 30,     // expected items per page.
@@ -278,7 +272,7 @@ class SearchProductsTest extends AbstractTest
                 'b2c_fr',   // catalog ID.
                 5,      // page size.
                 2,      // current page.
-                [],     // expected error.
+                null,   // expected error.
                 5,      // expected items count.
                 12,     // expected total count.
                 5,      // expected items per page.
@@ -290,7 +284,7 @@ class SearchProductsTest extends AbstractTest
                 'b2c_fr',   // catalog ID.
                 1000,   // page size.
                 null,   // current page.
-                [],     // expected error.
+                null,   // expected error.
                 12,     // expected items count.
                 12,     // expected total count.
                 100,    // expected items per page.
@@ -757,9 +751,7 @@ class SearchProductsTest extends AbstractTest
             new ExpectedResponse(
                 200,
                 function (ResponseInterface $response) {
-                    $this->assertJsonContains([
-                        'errors' => [['message' => 'Field "length" is not defined by type ProductSortInput.']],
-                    ]);
+                    $this->assertGraphQlError('Field "length" is not defined by type "ProductSortInput".');
                 }
             )
         );
@@ -778,9 +770,7 @@ class SearchProductsTest extends AbstractTest
             new ExpectedResponse(
                 200,
                 function (ResponseInterface $response) {
-                    $this->assertJsonContains([
-                        'errors' => [['message' => 'Field "stock__qty" is not defined by type ProductSortInput.']],
-                    ]);
+                    $this->assertGraphQlError('Field "stock__qty" is not defined by type "ProductSortInput".');
                 }
             )
         );
@@ -799,9 +789,7 @@ class SearchProductsTest extends AbstractTest
             new ExpectedResponse(
                 200,
                 function (ResponseInterface $response) {
-                    $this->assertJsonContains([
-                        'errors' => [['message' => 'Field "price__price" is not defined by type ProductSortInput; Did you mean my_price__price?']],
-                    ]);
+                    $this->assertGraphQlError('Field "price__price" is not defined by type "ProductSortInput". Did you mean "my_price__price"?');
                 }
             )
         );
@@ -820,9 +808,7 @@ class SearchProductsTest extends AbstractTest
             new ExpectedResponse(
                 200,
                 function (ResponseInterface $response) {
-                    $this->assertJsonContains([
-                        'errors' => [['message' => 'Field "stock_as_nested__qty" is not defined by type ProductSortInput; Did you mean price_as_nested__price?']],
-                    ]);
+                    $this->assertGraphQlError('Field "stock_as_nested__qty" is not defined by type "ProductSortInput". Did you mean "price_as_nested__price"?');
                 }
             )
         );
@@ -841,9 +827,7 @@ class SearchProductsTest extends AbstractTest
             new ExpectedResponse(
                 200,
                 function (ResponseInterface $response) {
-                    $this->assertJsonContains([
-                        'errors' => [['debugMessage' => 'Sort argument : You can\'t sort on multiple attribute.']],
-                    ]);
+                    $this->assertGraphQlError('Sort argument : You can\'t sort on multiple attribute.');
                 }
             )
         );
@@ -1026,12 +1010,12 @@ class SearchProductsTest extends AbstractTest
      *
      * @param string $catalogId    Catalog ID or code
      * @param string $filter       Filters to apply
-     * @param array  $debugMessage Expected debug message
+     * @param string $errorMessage Expected debug message
      */
     public function testFilteredSearchProductsGraphQlValidation(
         string $catalogId,
         string $filter,
-        array $debugMessage
+        string $errorMessage
     ): void {
         $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
         $arguments = sprintf('requestType: product_catalog, localizedCatalog: "%s", filter: {%s}', $catalogId, $filter);
@@ -1049,9 +1033,9 @@ class SearchProductsTest extends AbstractTest
             new ExpectedResponse(
                 200,
                 function (ResponseInterface $response) use (
-                    $debugMessage
+                    $errorMessage
                 ) {
-                    $this->assertJsonContains(['errors' => [$debugMessage]]);
+                    $this->assertGraphQlError($errorMessage);
                 }
             )
         );
@@ -1063,44 +1047,32 @@ class SearchProductsTest extends AbstractTest
             [
                 'b2c_en', // catalog ID.
                 'fake_source_field_match: { match:"sacs" }', // Filters.
-                [ // debug message
-                    'message' => 'Field "fake_source_field_match" is not defined by type ProductFieldFilterInput.',
-                ],
+                'Field "fake_source_field_match" is not defined by type "ProductFieldFilterInput".', // debug message
             ],
             [
                 'b2c_en', // catalog ID.
                 'size: { match: "id" }', // Filters.
-                [ // debug message
-                    'message' => 'Field "match" is not defined by type EntityIntegerTypeFilterInput.',
-                ],
+                'Field "match" is not defined by type "EntityIntegerTypeFilterInput".', // debug message
             ],
             [
                 'b2c_en', // catalog ID.
                 'name: { in: ["Test"], eq: "Test" }', // Filters.
-                [ // debug message
-                    'debugMessage' => 'Filter argument name: Only \'eq\', \'in\', \'match\' or \'exist\' should be filled.',
-                ],
+                'Filter argument name: Only \'eq\', \'in\', \'match\' or \'exist\' should be filled.', // debug message
             ],
             [
                 'b2c_en', // catalog ID.
                 'created_at: { gt: "2022-09-23", gte: "2022-09-23" }', // Filters.
-                [ // debug message
-                    'debugMessage' => 'Filter argument created_at: Do not use \'gt\' and \'gte\' in the same filter.',
-                ],
+                'Filter argument created_at: Do not use \'gt\' and \'gte\' in the same filter.', // debug message
             ],
             [
                 'b2c_en', // catalog ID.
                 'is_eco_friendly: {}', // Filters.
-                [ // debug message
-                    'debugMessage' => 'Filter argument is_eco_friendly: At least \'eq\' or \'exist\' should be filled.',
-                ],
+                'Filter argument is_eco_friendly: At least \'eq\' or \'exist\' should be filled.', // debug message
             ],
             [
                 'b2c_en', // catalog ID.
                 'is_eco_friendly: { exist: true, eq: true }', // Filters.
-                [ // debug message
-                    'debugMessage' => 'Filter argument is_eco_friendly: Only \'eq\' or \'exist\' should be filled.',
-                ],
+                'Filter argument is_eco_friendly: Only \'eq\' or \'exist\' should be filled.', // debug message
             ],
         ];
     }

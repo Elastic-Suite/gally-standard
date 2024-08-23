@@ -37,7 +37,7 @@ class FacetConfigurationTest extends RestFacetConfigurationTest
 
         $expectedResponse = 200 != $expectedStatus
             ? new ExpectedResponse(200, function (ResponseInterface $response) use ($expectedMessage) {
-                $this->assertJsonContains(['errors' => [['debugMessage' => $expectedMessage]]]);
+                $this->assertJsonContains(['errors' => [['message' => $expectedMessage]]]);
             })
             : new ExpectedResponse(200);
 
@@ -62,7 +62,7 @@ class FacetConfigurationTest extends RestFacetConfigurationTest
     {
         $expectedResponse = 200 != $responseCode
             ? new ExpectedResponse(200, function (ResponseInterface $response) use ($expectedMessage) {
-                $this->assertJsonContains(['errors' => [['debugMessage' => $expectedMessage]]]);
+                $this->assertJsonContains(['errors' => [['message' => $expectedMessage]]]);
             })
             : new ExpectedResponse(
                 200,
@@ -133,7 +133,7 @@ class FacetConfigurationTest extends RestFacetConfigurationTest
     {
         $expectedResponse = 200 != $responseCode
             ? new ExpectedResponse(200, function (ResponseInterface $response) use ($expectedMessage) {
-                $this->assertJsonContains(['errors' => [['debugMessage' => $expectedMessage]]]);
+                $this->assertJsonContains(['errors' => [['message' => $expectedMessage]]]);
             })
             : new ExpectedResponse(
                 200,
@@ -185,7 +185,7 @@ class FacetConfigurationTest extends RestFacetConfigurationTest
     {
         $expectedResponse = 204 != $responseCode
             ? new ExpectedResponse(200, function (ResponseInterface $response) use ($expectedMessage) {
-                $this->assertJsonContains(['errors' => [['debugMessage' => $expectedMessage]]]);
+                $this->assertJsonContains(['errors' => [['message' => $expectedMessage]]]);
             })
             : new ExpectedResponse(
                 200,

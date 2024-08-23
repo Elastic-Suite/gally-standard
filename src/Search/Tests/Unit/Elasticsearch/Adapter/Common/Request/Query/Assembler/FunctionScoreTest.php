@@ -20,7 +20,7 @@ use Gally\Search\Elasticsearch\Request\Query\FunctionScore as FunctionScoreQuery
 /**
  * FunctionScore search request query test case.
  */
-class FunctionScoreTest extends AbstractComplexQueryAssemblerTest
+class FunctionScoreTest extends AbstractComplexQueryAssemblerTestCase
 {
     /**
      * Test the assembler with mandatory params only.

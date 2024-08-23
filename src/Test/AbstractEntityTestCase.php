@@ -23,7 +23,7 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
 /**
  * @codeCoverageIgnore
  */
-abstract class AbstractEntityTest extends AbstractTest
+abstract class AbstractEntityTestCase extends AbstractTestCase
 {
     private ?ResourceMetadataCollection $resourceMetadataCollection = null;
 

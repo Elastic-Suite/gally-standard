@@ -20,7 +20,7 @@ use Gally\Search\Elasticsearch\Request\Query\GeoDistance as GeoDistanceQuery;
 /**
  * Range search request query test case.
  */
-class GeoDistanceTest extends AbstractSimpleQueryAssemblerTest
+class GeoDistanceTest extends AbstractSimpleQueryAssemblerTestCase
 {
     /**
      * Test the assembler with mandatory params only.

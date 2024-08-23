@@ -16,9 +16,9 @@ namespace Gally\Catalog\Tests\Unit;
 
 use Gally\Catalog\Exception\NoCatalogException;
 use Gally\Catalog\Service\DefaultCatalogProvider;
-use Gally\Test\AbstractTest;
+use Gally\Test\AbstractTestCase;
 
-class DefaultCatalogProviderTest extends AbstractTest
+class DefaultCatalogProviderTest extends AbstractTestCase
 {
     protected DefaultCatalogProvider $defaultCatalogProvider;
 

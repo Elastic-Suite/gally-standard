@@ -22,7 +22,7 @@ use PHPUnit\Framework\Constraint\IsType;
 use PHPUnit\Framework\Constraint\LogicalOr;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
-abstract class AbstractBucketTest extends KernelTestCase
+abstract class AbstractBucketTestCase extends KernelTestCase
 {
     protected static AggregationFactory $aggregationFactory;
 

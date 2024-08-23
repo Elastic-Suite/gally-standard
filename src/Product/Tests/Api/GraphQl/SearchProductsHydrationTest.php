@@ -16,12 +16,12 @@ namespace Gally\Product\Tests\Api\GraphQl;
 
 use Gally\Fixture\Service\ElasticsearchFixturesInterface;
 use Gally\Metadata\Service\PriceGroupProvider;
-use Gally\Test\AbstractTest;
+use Gally\Test\AbstractTestCase;
 use Gally\Test\ExpectedResponse;
 use Gally\Test\RequestGraphQlToTest;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
-class SearchProductsHydrationTest extends AbstractTest
+class SearchProductsHydrationTest extends AbstractTestCase
 {
     public static function setUpBeforeClass(): void
     {
@@ -61,7 +61,7 @@ class SearchProductsHydrationTest extends AbstractTest
         ?string $attributes,
         ?int $pageSize,
         ?int $currentPage,
-        ?array $expectedError,
+        ?string $expectedError,
         ?int $expectedItemsCount,
         ?int $expectedTotalCount,
         ?int $expectedItemsPerPage,
@@ -121,7 +121,7 @@ class SearchProductsHydrationTest extends AbstractTest
                     $expectedAttributes
                 ) {
                     if (!empty($expectedError)) {
-                        $this->assertJsonContains($expectedError);
+                        $this->assertGraphQlError($expectedError);
                         $this->assertJsonContains([
                             'data' => [
                                 'products' => null,
@@ -2011,7 +2011,7 @@ class SearchProductsHydrationTest extends AbstractTest
                 $attributes,
                 null,   // page size.
                 null,   // current page.
-                ['errors' => [['message' => 'Internal server error', 'debugMessage' => 'Missing localized catalog [b2c_uk]']]], // expected error.
+                'Missing localized catalog [b2c_uk]', // expected error.
                 null,   // expected items count.
                 null,   // expected total count.
                 null,   // expected items per page.
@@ -2025,7 +2025,7 @@ class SearchProductsHydrationTest extends AbstractTest
                 $attributes,
                 10,     // page size.
                 1,      // current page.
-                [],     // expected error.
+                null,   // expected error.
                 10,     // expected items count.
                 14,     // expected total count.
                 10,     // expected items per page.
@@ -2039,7 +2039,7 @@ class SearchProductsHydrationTest extends AbstractTest
                 $attributes,
                 10,     // page size.
                 1,      // current page.
-                [],     // expected error.
+                null,   // expected error.
                 10,     // expected items count.
                 14,     // expected total count.
                 10,     // expected items per page.
@@ -2053,7 +2053,7 @@ class SearchProductsHydrationTest extends AbstractTest
                 $attributes,
                 10,     // page size.
                 2,      // current page.
-                [],     // expected error.
+                null,   // expected error.
                 4,      // expected items count.
                 14,     // expected total count.
                 10,     // expected items per page.
@@ -2067,7 +2067,7 @@ class SearchProductsHydrationTest extends AbstractTest
                 $attributes,
                 null,   // page size.
                 null,   // current page.
-                [],     // expected error.
+                null,   // expected error.
                 12,     // expected items count.
                 12,     // expected total count.
                 30,     // expected items per page.
@@ -2081,7 +2081,7 @@ class SearchProductsHydrationTest extends AbstractTest
                 $attributes,
                 5,      // page size.
                 2,      // current page.
-                [],     // expected error.
+                null,   // expected error.
                 5,      // expected items count.
                 12,     // expected total count.
                 5,      // expected items per page.
@@ -2095,7 +2095,7 @@ class SearchProductsHydrationTest extends AbstractTest
                 $attributes,
                 5,      // page size.
                 1,      // current page.
-                [],     // expected error.
+                null,   // expected error.
                 5,      // expected items count.
                 12,     // expected total count.
                 5,      // expected items per page.
@@ -2110,7 +2110,7 @@ class SearchProductsHydrationTest extends AbstractTest
                 $attributes,
                 5,      // page size.
                 1,      // current page.
-                [],     // expected error.
+                null,   // expected error.
                 5,      // expected items count.
                 12,     // expected total count.
                 5,      // expected items per page.
@@ -2125,7 +2125,7 @@ class SearchProductsHydrationTest extends AbstractTest
                 $attributes,
                 5,      // page size.
                 1,      // current page.
-                [],     // expected error.
+                null,   // expected error.
                 5,      // expected items count.
                 12,     // expected total count.
                 5,      // expected items per page.
@@ -2140,7 +2140,7 @@ class SearchProductsHydrationTest extends AbstractTest
                 $attributes,
                 1000,   // page size.
                 null,   // current page.
-                [],     // expected error.
+                null,   // expected error.
                 12,     // expected items count.
                 12,     // expected total count.
                 100,    // expected items per page.

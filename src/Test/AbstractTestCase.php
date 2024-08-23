@@ -19,12 +19,13 @@ use Gally\Fixture\Service\ElasticsearchFixtures;
 use Gally\Fixture\Service\EntityIndicesFixturesInterface;
 use Gally\User\Tests\LoginTrait;
 use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
+use PHPUnit\Framework\ExpectationFailedException;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
 /**
  * @codeCoverageIgnore
  */
-abstract class AbstractTest extends ApiTestCase
+abstract class AbstractTestCase extends ApiTestCase
 {
     use LoginTrait;
 
@@ -131,5 +132,27 @@ abstract class AbstractTest extends ApiTestCase
         }
 
         return $response;
+    }
+
+    protected function assertGraphQlError(string $message): void
+    {
+        try {
+            $this->assertJsonContains(['errors' => [['message' => $message]]]);
+        } catch (ExpectationFailedException $e) {
+            if (!str_contains( $e->getComparisonFailure()->getActualAsString(), '\'debugMessage\'')) {
+                throw $e;
+            }
+
+            $this->assertJsonContains(['errors' => [['extensions' => ['debugMessage' => $message]]]]);
+        }
+    }
+
+    protected function assertNoGraphQlError(array $responseData): void
+    {
+        $this->assertArrayNotHasKey(
+            'errors',
+            $responseData,
+            \array_key_exists('errors', $responseData) ? $responseData['errors'][0]['debugMessage'] : ''
+        );
     }
 }

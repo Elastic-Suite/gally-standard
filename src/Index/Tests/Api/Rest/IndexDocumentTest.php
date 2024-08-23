@@ -14,13 +14,13 @@ declare(strict_types=1);
 
 namespace Gally\Index\Tests\Api\Rest;
 
-use Gally\Test\AbstractTest;
+use Gally\Test\AbstractTestCase;
 use Gally\Test\ExpectedResponse;
 use Gally\Test\RequestToTest;
 use Gally\User\Constant\Role;
 use Gally\User\Model\User;
 
-class IndexDocumentTest extends AbstractTest
+class IndexDocumentTest extends AbstractTestCase
 {
     public static function setUpBeforeClass(): void
     {

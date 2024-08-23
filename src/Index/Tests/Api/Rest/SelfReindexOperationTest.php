@@ -19,14 +19,14 @@ use Gally\Index\Api\IndexSettingsInterface;
 use Gally\Index\Model\Index;
 use Gally\Index\Model\Index\SelfReindex;
 use Gally\Index\Repository\Index\IndexRepositoryInterface;
-use Gally\Test\AbstractTest;
+use Gally\Test\AbstractTestCase;
 use Gally\Test\ExpectedResponse;
 use Gally\Test\RequestToTest;
 use Gally\User\Constant\Role;
 use Gally\User\Model\User;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
-class SelfReindexOperationTest extends AbstractTest
+class SelfReindexOperationTest extends AbstractTestCase
 {
     private static IndexRepositoryInterface $indexRepository;
 

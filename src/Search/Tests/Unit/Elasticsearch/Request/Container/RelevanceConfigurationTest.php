@@ -19,9 +19,9 @@ use Gally\Metadata\Repository\MetadataRepository;
 use Gally\Search\Elasticsearch\Request\Container\Configuration\GenericContainerConfigurationFactory;
 use Gally\Search\Elasticsearch\Request\Container\RelevanceConfiguration\FuzzinessConfig;
 use Gally\Search\Elasticsearch\Request\Container\RelevanceConfiguration\RelevanceConfigurationInterface;
-use Gally\Test\AbstractTest;
+use Gally\Test\AbstractTestCase;
 
-class RelevanceConfigurationTest extends AbstractTest
+class RelevanceConfigurationTest extends AbstractTestCase
 {
     public static function setUpBeforeClass(): void
     {

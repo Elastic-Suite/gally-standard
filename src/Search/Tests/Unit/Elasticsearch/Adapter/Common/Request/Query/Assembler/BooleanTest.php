@@ -20,7 +20,7 @@ use Gally\Search\Elasticsearch\Request\Query\Boolean as BooleanQuery;
 /**
  * Boolean search request query test case.
  */
-class BooleanTest extends AbstractComplexQueryAssemblerTest
+class BooleanTest extends AbstractComplexQueryAssemblerTestCase
 {
     /**
      * Test the assembler with mandatory params only.

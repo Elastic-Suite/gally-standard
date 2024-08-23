@@ -83,10 +83,7 @@ class PriceTypeDefaultFilterInputTypeTest extends KernelTestCase
             $priceTypeDefaultFilterInputType->getName()
         );
         $this->assertEquals(
-            array_merge(
-                ['name' => PriceTypeDefaultFilterInputType::SPECIFIC_NAME],
-                $priceTypeDefaultFilterInputType->getConfig()
-            ),
+            $priceTypeDefaultFilterInputType->getConfig(),
             $configProperty->getValue($priceTypeDefaultFilterInputType)
         );
     }

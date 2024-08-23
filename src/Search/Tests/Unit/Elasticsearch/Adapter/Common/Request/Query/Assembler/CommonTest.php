@@ -20,7 +20,7 @@ use Gally\Search\Elasticsearch\Request\Query\Common as CommonQuery;
 /**
  * Common search request query test case.
  */
-class CommonTest extends AbstractSimpleQueryAssemblerTest
+class CommonTest extends AbstractSimpleQueryAssemblerTestCase
 {
     /**
      * Test the assembler with mandatory params only.

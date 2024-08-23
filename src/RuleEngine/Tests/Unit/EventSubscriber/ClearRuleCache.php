@@ -27,9 +27,9 @@ use Gally\RuleEngine\Service\RuleEngineManager;
 use Gally\Search\Elasticsearch\Request\Container\Configuration\ContainerConfigurationProvider;
 use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface;
 use Gally\Search\Elasticsearch\Request\QueryInterface;
-use Gally\Test\AbstractTest;
+use Gally\Test\AbstractTestCase;
 
-class ClearRuleCache extends AbstractTest
+class ClearRuleCache extends AbstractTestCase
 {
     protected const DEFAULT_CACHE_VALUE = 'cache_empty';
 

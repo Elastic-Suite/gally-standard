@@ -29,7 +29,7 @@ class ExistFilterInputType extends InputObjectType implements TypeInterface, Fil
 
     public const NAME = 'ExistFilterInput';
 
-    public $name = self::NAME;
+    public string $name = self::NAME;
 
     public function __construct(
         private ReverseSourceFieldProvider $reverseSourceFieldProvider,

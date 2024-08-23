@@ -19,10 +19,10 @@ use Gally\Category\Repository\CategoryProductMerchandisingRepository;
 use Gally\Category\Tests\Api\CategoryTestTrait;
 use Gally\Fixture\Service\ElasticsearchFixturesInterface;
 use Gally\Index\Service\IndexSettings;
-use Gally\Test\AbstractTest;
+use Gally\Test\AbstractTestCase;
 use OpenSearch\Client;
 
-class SyncCategoryProductMerchandisingDataTest extends AbstractTest
+class SyncCategoryProductMerchandisingDataTest extends AbstractTestCase
 {
     use CategoryTestTrait;
     use IndexActions;

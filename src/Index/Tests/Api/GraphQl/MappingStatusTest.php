@@ -14,14 +14,14 @@ declare(strict_types=1);
 
 namespace Gally\Index\Tests\Api\GraphQl;
 
-use Gally\Test\AbstractTest;
+use Gally\Test\AbstractTestCase;
 use Gally\Test\ExpectedResponse;
 use Gally\Test\RequestGraphQlToTest;
 use Gally\User\Constant\Role;
 use Gally\User\Model\User;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
-class MappingStatusTest extends AbstractTest
+class MappingStatusTest extends AbstractTestCase
 {
     /**
      * @dataProvider mappingStatusDataProvider
@@ -42,7 +42,11 @@ class MappingStatusTest extends AbstractTest
             new ExpectedResponse(
                 200,
                 function (ResponseInterface $response) use ($expectedData) {
-                    $this->assertJsonContains($expectedData);
+                    if (\array_key_exists('error', $expectedData)) {
+                        $this->assertGraphQlError($expectedData['error']);
+                    } else {
+                        $this->assertJsonContains($expectedData);
+                    }
                 }
             )
         );
@@ -53,7 +57,7 @@ class MappingStatusTest extends AbstractTest
         $admin = $this->getUser(Role::ROLE_ADMIN);
 
         return [
-            [null, 'product', ['errors' => [['debugMessage' => 'Access Denied.']]]],
+            [null, 'product', ['error' => 'Access Denied.']],
             [$this->getUser(Role::ROLE_CONTRIBUTOR), 'product', ['data' => ['getMappingStatus' => ['status' => 'green']]]],
             [$admin, 'category', ['data' => ['getMappingStatus' => ['status' => 'red']]]],
             [$admin, 'cms', ['data' => ['getMappingStatus' => null]]],

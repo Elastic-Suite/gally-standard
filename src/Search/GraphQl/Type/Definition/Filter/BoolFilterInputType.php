@@ -27,7 +27,7 @@ class BoolFilterInputType extends InputObjectType implements TypeInterface, Filt
 {
     public const NAME = 'BoolFilterInput';
 
-    public $name = self::NAME;
+    public string $name = self::NAME;
 
     private array $mappedBooleanConditions = [
         '_must' => 'must',

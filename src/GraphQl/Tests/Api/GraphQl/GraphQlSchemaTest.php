@@ -14,12 +14,12 @@ declare(strict_types=1);
 
 namespace Gally\GraphQl\Tests\Api\GraphQl;
 
-use Gally\Test\AbstractTest;
+use Gally\Test\AbstractTestCase;
 use Gally\Test\ExpectedResponse;
 use Gally\Test\RequestGraphQlToTest;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
-class GraphQlSchemaTest extends AbstractTest
+class GraphQlSchemaTest extends AbstractTestCase
 {
     public function testSchemaGeneratedWithErrors(): void
     {

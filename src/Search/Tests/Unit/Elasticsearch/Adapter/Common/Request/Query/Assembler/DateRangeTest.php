@@ -21,7 +21,7 @@ use Gally\Search\Elasticsearch\Request\QueryInterface;
 /**
  * Range search request query test case.
  */
-class DateRangeTest extends AbstractSimpleQueryAssemblerTest
+class DateRangeTest extends AbstractSimpleQueryAssemblerTestCase
 {
     /**
      * Test the assembler with mandatory params only.

@@ -70,10 +70,7 @@ class StockTypeDefaultFilterInputTest extends KernelTestCase
             $stockTypeDefaultFilterInputType->getName()
         );
         $this->assertEquals(
-            array_merge(
-                ['name' => StockTypeDefaultFilterInputType::SPECIFIC_NAME],
-                $stockTypeDefaultFilterInputType->getConfig()
-            ),
+            $stockTypeDefaultFilterInputType->getConfig(),
             $configProperty->getValue($stockTypeDefaultFilterInputType)
         );
     }

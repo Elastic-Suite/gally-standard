@@ -17,14 +17,14 @@ namespace Gally\Index\Tests\Api\Rest;
 use Gally\Fixture\Service\ElasticsearchFixturesInterface;
 use Gally\Index\Model\Index;
 use Gally\Index\Repository\Index\IndexRepositoryInterface;
-use Gally\Test\AbstractEntityTest;
+use Gally\Test\AbstractEntityTestCase;
 use Gally\Test\ExpectedResponse;
 use Gally\Test\RequestToTest;
 use Gally\User\Constant\Role;
 use OpenSearch\Client;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
-class IndexOperationsTest extends AbstractEntityTest
+class IndexOperationsTest extends AbstractEntityTestCase
 {
     private static IndexRepositoryInterface $indexRepository;
 

@@ -15,13 +15,13 @@ declare(strict_types=1);
 namespace Gally\Menu\Tests\Api\Rest;
 
 use Gally\Locale\EventSubscriber\LocaleSubscriber;
-use Gally\Menu\Tests\Api\AbstractMenuTest;
+use Gally\Menu\Tests\Api\AbstractMenuTestCase;
 use Gally\Test\ExpectedResponse;
 use Gally\Test\RequestToTest;
 use Gally\User\Model\User;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
-class GetMenuTest extends AbstractMenuTest
+class GetMenuTest extends AbstractMenuTestCase
 {
     public function testSecurity(): void
     {

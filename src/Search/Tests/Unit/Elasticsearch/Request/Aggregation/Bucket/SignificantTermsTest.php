@@ -20,7 +20,7 @@ use Gally\Search\Elasticsearch\Request\BucketInterface;
 use Gally\Search\Elasticsearch\Request\QueryFactory;
 use Gally\Search\Elasticsearch\Request\QueryInterface;
 
-class SignificantTermsTest extends AbstractBucketTest
+class SignificantTermsTest extends AbstractBucketTestCase
 {
     public function testFailedCreate(): void
     {

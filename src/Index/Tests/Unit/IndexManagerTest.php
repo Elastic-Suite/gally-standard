@@ -17,9 +17,9 @@ namespace Gally\Index\Tests\Unit;
 use Doctrine\Persistence\ObjectManager;
 use Gally\Index\Service\MetadataManager;
 use Gally\Metadata\Repository\MetadataRepository;
-use Gally\Test\AbstractTest;
+use Gally\Test\AbstractTestCase;
 
-class IndexManagerTest extends AbstractTest
+class IndexManagerTest extends AbstractTestCase
 {
     protected MetadataManager $metadataManager;
     protected MetadataRepository $metadataRepository;

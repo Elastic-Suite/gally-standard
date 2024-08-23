@@ -18,7 +18,7 @@ use Gally\Search\Elasticsearch\Adapter\Common\Request\Query\Assembler\MatchPhras
 use Gally\Search\Elasticsearch\Request\Query\MatchPhrasePrefix as MatchPhrasePrefixQuery;
 use Gally\Search\Elasticsearch\Request\QueryInterface;
 
-class MatchPhrasePrefixTest extends AbstractSimpleQueryAssemblerTest
+class MatchPhrasePrefixTest extends AbstractSimpleQueryAssemblerTestCase
 {
     /**
      * Test the assembler with mandatory params only.

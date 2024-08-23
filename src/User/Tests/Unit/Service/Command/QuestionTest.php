@@ -14,10 +14,10 @@ declare(strict_types=1);
 
 namespace Gally\User\Tests\Unit\Service\Command;
 
-use Gally\Test\AbstractTest;
+use Gally\Test\AbstractTestCase;
 use Gally\User\Service\Command\QuestionBuilder;
 
-class QuestionTest extends AbstractTest
+class QuestionTest extends AbstractTestCase
 {
     public function testGetQuestion(): void
     {

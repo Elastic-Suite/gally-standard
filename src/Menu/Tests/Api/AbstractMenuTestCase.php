@@ -14,10 +14,10 @@ declare(strict_types=1);
 
 namespace Gally\Menu\Tests\Api;
 
-use Gally\Test\AbstractTest;
+use Gally\Test\AbstractTestCase;
 use Gally\User\Constant\Role;
 
-abstract class AbstractMenuTest extends AbstractTest
+abstract class AbstractMenuTestCase extends AbstractTestCase
 {
     protected function menuDataProvider(): array
     {

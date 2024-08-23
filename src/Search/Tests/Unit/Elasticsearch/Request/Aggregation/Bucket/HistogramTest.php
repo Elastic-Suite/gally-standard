@@ -22,7 +22,7 @@ use Gally\Search\Elasticsearch\Request\QueryInterface;
 use PHPUnit\Framework\Constraint\IsType;
 use PHPUnit\Framework\Constraint\LogicalOr;
 
-class HistogramTest extends AbstractBucketTest
+class HistogramTest extends AbstractBucketTestCase
 {
     public function testFailedCreate(): void
     {

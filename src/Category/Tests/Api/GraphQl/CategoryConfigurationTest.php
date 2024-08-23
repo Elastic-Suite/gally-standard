@@ -16,14 +16,14 @@ namespace Gally\Category\Tests\Api\GraphQl;
 
 use Gally\Catalog\Repository\CatalogRepository;
 use Gally\Catalog\Repository\LocalizedCatalogRepository;
-use Gally\Test\AbstractTest;
+use Gally\Test\AbstractTestCase;
 use Gally\Test\ExpectedResponse;
 use Gally\Test\RequestGraphQlToTest;
 use Gally\User\Constant\Role;
 use Gally\User\Model\User;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
-class CategoryConfigurationTest extends AbstractTest
+class CategoryConfigurationTest extends AbstractTestCase
 {
     public static function setUpBeforeClass(): void
     {
@@ -76,7 +76,11 @@ class CategoryConfigurationTest extends AbstractTest
             new ExpectedResponse(
                 200,
                 function (ResponseInterface $response) use ($expectedData) {
-                    $this->assertJsonContains($expectedData);
+                    if (array_key_exists('error', $expectedData)) {
+                        $this->assertGraphQlError($expectedData['error']);
+                    } else {
+                        $this->assertJsonContains($expectedData);
+                    }
                 }
             )
         );
@@ -89,28 +93,28 @@ class CategoryConfigurationTest extends AbstractTest
             'fake_category',
             'fake_catalog',
             'fake_localized_catalog',
-            ['errors' => [['debugMessage' => 'Category with id fake_category not found.']]],
+            ['error' => 'Category with id fake_category not found.'],
             $user,
         ];
         yield [
             'one',
             'fake_catalog',
             'fake_localized_catalog',
-            ['errors' => [['debugMessage' => 'Catalog with id 123456 not found.']]],
+            ['error' => 'Catalog with id 123456 not found.'],
             $user,
         ];
         yield [
             'one',
             'b2c',
             'fake_localized_catalog',
-            ['errors' => [['debugMessage' => 'Localized catalog with id 123456 not found.']]],
+            ['error' => 'Localized catalog with id 123456 not found.'],
             $user,
         ];
         yield [
             'one',
             'b2c',
             'b2c_fr',
-            ['errors' => [['debugMessage' => 'Access Denied.']]],
+            ['error' =>'Access Denied.'],
             null,
         ];
         yield [

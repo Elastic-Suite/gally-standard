@@ -16,14 +16,14 @@ namespace Gally\Analysis\Tests\Unit;
 
 use Gally\Analysis\Service\Config;
 use Gally\DependencyInjection\Configuration;
-use Gally\Test\AbstractTest;
+use Gally\Test\AbstractTestCase;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\Yaml\Parser as YamlParser;
 
 /**
  * Analysis configuration file converter test case.
  */
-class ConfigTest extends AbstractTest
+class ConfigTest extends AbstractTestCase
 {
     private static Config $config;
 

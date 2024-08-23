@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace Gally\Search\Tests\Unit\Elasticsearch\Request;
 
+use Gally\DependencyInjection\GenericFactory;
 use Gally\Search\Elasticsearch\Request\QueryFactory;
 use Gally\Search\Elasticsearch\Request\QueryInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -45,10 +46,7 @@ class QueryFactoryTest extends KernelTestCase
     private function getQueryFactory(): QueryFactory
     {
         $queryMock = $this->getMockBuilder(QueryInterface::class)->getMock();
-
-        $factoryName = sprintf('%s%s', QueryInterface::class, 'Factory');
-        $queryFactoryClass = $this->getMockClass($factoryName, ['create']);
-        $queryFactoryMock = $this->getMockBuilder($queryFactoryClass)
+        $queryFactoryMock = $this->getMockBuilder(GenericFactory::class)
             ->onlyMethods(['create'])
             ->getMock();
 

@@ -71,10 +71,7 @@ class SelectTypeDefaultFilterInputTypeTest extends KernelTestCase
             $selectTypeDefaultFilterInputType->getName()
         );
         $this->assertEquals(
-            array_merge(
-                ['name' => SelectTypeDefaultFilterInputType::SPECIFIC_NAME],
-                $selectTypeDefaultFilterInputType->getConfig()
-            ),
+            $selectTypeDefaultFilterInputType->getConfig(),
             $configProperty->getValue($selectTypeDefaultFilterInputType)
         );
     }

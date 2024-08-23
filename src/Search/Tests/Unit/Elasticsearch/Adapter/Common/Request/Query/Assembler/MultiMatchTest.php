@@ -21,7 +21,7 @@ use Gally\Search\Elasticsearch\Request\Query\MultiMatch as MultiMatchQuery;
 /**
  * MultiMatch search request query test case.
  */
-class MultiMatchTest extends AbstractSimpleQueryAssemblerTest
+class MultiMatchTest extends AbstractSimpleQueryAssemblerTestCase
 {
     /**
      * Test the assembler with mandatory params only.

@@ -17,9 +17,9 @@ namespace Gally\Search\Tests\Unit\Elasticsearch\Builder\Response;
 use Gally\Search\Elasticsearch\Adapter\Common\Response\Aggregation;
 use Gally\Search\Elasticsearch\Adapter\Common\Response\BucketValue;
 use Gally\Search\Elasticsearch\Builder\Response\AggregationBuilder;
-use Gally\Test\AbstractTest;
+use Gally\Test\AbstractTestCase;
 
-class AggregationBuilderTest extends AbstractTest
+class AggregationBuilderTest extends AbstractTestCase
 {
     private static AggregationBuilder $aggregationBuilder;
 

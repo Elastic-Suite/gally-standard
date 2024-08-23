@@ -23,12 +23,12 @@ use Gally\Search\Model\Facet\Configuration;
 use Gally\Search\Repository\Facet\ConfigurationRepository;
 use Gally\Search\Service\SearchSettingsProvider;
 use Gally\Search\Tests\Service\SearchSettingsProvider as TestSearchSettingsProvider;
-use Gally\Test\AbstractTest;
+use Gally\Test\AbstractTestCase;
 
 /**
  * Catalog Product Search Request coverage provider.
  */
-class CoverageTest extends AbstractTest
+class CoverageTest extends AbstractTestCase
 {
     public static function setUpBeforeClass(): void
     {
