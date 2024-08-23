@@ -42,10 +42,7 @@ class StitchingNormalizer implements NormalizerInterface, NormalizerAwareInterfa
     ) {
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function supportsNormalization(mixed $data, string $format = null, array $context = []): bool
+    public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
     {
         $alreadyCalled = $context[self::ALREADY_CALLED_NORMALIZER] ?? false;
         if (ItemNormalizer::FORMAT !== $format || $alreadyCalled) {
@@ -63,10 +60,7 @@ class StitchingNormalizer implements NormalizerInterface, NormalizerAwareInterfa
         return null !== $stitchingProperty;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function normalize(mixed $object, string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
+    public function normalize(mixed $object, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
     {
         $context[self::ALREADY_CALLED_NORMALIZER] = true;
         $data = $this->normalizer->normalize($object, $format, $context);

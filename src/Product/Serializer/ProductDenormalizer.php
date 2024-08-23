@@ -37,18 +37,12 @@ class ProductDenormalizer implements DenormalizerInterface, DenormalizerAwareInt
     ) {
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function supportsDenormalization($data, string $type, string $format = null, array $context = []): bool
+    public function supportsDenormalization($data, string $type, ?string $format = null, array $context = []): bool
     {
         return Product::class === $type;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function denormalize($data, string $type, string $format = null, array $context = []): mixed
+    public function denormalize($data, string $type, ?string $format = null, array $context = []): mixed
     {
         if ($data instanceof Product) {
             $product = $data;

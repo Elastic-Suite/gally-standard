@@ -80,7 +80,7 @@ interface IndexRepositoryInterface
      * @param string      $alias     Index alias
      * @param string|null $indexName Index name
      */
-    public function aliasExists(string $alias, string $indexName = null): bool;
+    public function aliasExists(string $alias, ?string $indexName = null): bool;
 
     /**
      * Update alias definitions.

@@ -24,6 +24,7 @@ abstract class AbstractEntityTestWithUpdate extends AbstractEntityTestCase
 {
     /**
      * @dataProvider patchUpdateDataProvider
+     *
      * @depends testGet
      */
     public function testPatchUpdate(
@@ -32,13 +33,14 @@ abstract class AbstractEntityTestWithUpdate extends AbstractEntityTestCase
         array $data,
         int $responseCode,
         ?string $message = null,
-        string $validRegex = null
+        ?string $validRegex = null
     ): ResponseInterface {
         return $this->update('PATCH', $user, $id, $data, $responseCode, ['Content-Type' => 'application/merge-patch+json'], $message, $validRegex);
     }
 
     /**
      * @dataProvider putUpdateDataProvider
+     *
      * @depends testPatchUpdate
      */
     public function testPutUpdate(
@@ -47,7 +49,7 @@ abstract class AbstractEntityTestWithUpdate extends AbstractEntityTestCase
         array $data,
         int $responseCode,
         ?string $message = null,
-        string $validRegex = null
+        ?string $validRegex = null
     ): ResponseInterface {
         return $this->update('PUT', $user, $id, $data, $responseCode, ['Content-Type' => 'application/ld+json'], $message, $validRegex);
     }
@@ -87,7 +89,7 @@ abstract class AbstractEntityTestWithUpdate extends AbstractEntityTestCase
         int $responseCode,
         array $headers = [],
         ?string $message = null,
-        string $validRegex = null
+        ?string $validRegex = null
     ): ResponseInterface {
         $request = new RequestToTest($method, "{$this->getApiPath()}/{$id}", $user, $data, $headers);
         $expectedResponse = new ExpectedResponse(
@@ -140,6 +142,7 @@ abstract class AbstractEntityTestWithUpdate extends AbstractEntityTestCase
 
     /**
      * @dataProvider deleteDataProvider
+     *
      * @depends testPutUpdate
      */
     public function testDelete(?User $user, int|string $id, int $responseCode): void

@@ -45,7 +45,7 @@ class AssemblerTest extends KernelTestCase
         $this->assertCount(3, $aggregationsEs);
 
         for ($i = 1; $i <= 3; ++$i) {
-            $aggregationName = sprintf('aggregation%s', $i);
+            $aggregationName = \sprintf('aggregation%s', $i);
             $this->processSimpleAggregationAssertions($aggregationName, $aggregationsEs);
         }
     }
@@ -178,7 +178,7 @@ class AssemblerTest extends KernelTestCase
     /**
      * Create a simple metric.
      */
-    private function createMetric(string $name, string $type, ): MockObject|MetricInterface
+    private function createMetric(string $name, string $type): MockObject|MetricInterface
     {
         $bucket = $this->getMockBuilder(MetricInterface::class)->getMock();
 

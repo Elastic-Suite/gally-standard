@@ -39,9 +39,6 @@ class Spellchecker implements SpellcheckerInterface
     ) {
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getSpellingType(Spellchecker\RequestInterface $request): int
     {
         return $this->cacheManager->get(
@@ -137,7 +134,7 @@ class Spellchecker implements SpellcheckerInterface
 
         // Compute the mTermVector query on all shards to ensure exhaustive results.
         foreach (range(0, $shards - 1) as $shard) {
-            $doc['routing'] = sprintf('[%s][%s]', $request->getIndexName(), $shard);
+            $doc['routing'] = \sprintf('[%s][%s]', $request->getIndexName(), $shard);
             $docs[] = $doc;
         }
 

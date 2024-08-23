@@ -28,6 +28,7 @@ class GenerateSourceFieldSearch
         private SourceFieldRepository $sourceFieldRepository,
     ) {
     }
+
     public function prePersist(PrePersistEventArgs $args): void
     {
         $this->generateSearchField($args->getObject());

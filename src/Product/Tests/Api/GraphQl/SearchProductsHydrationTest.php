@@ -73,15 +73,15 @@ class SearchProductsHydrationTest extends AbstractTestCase
     ): void {
         $user = null;
 
-        $arguments = sprintf(
+        $arguments = \sprintf(
             'requestType: product_catalog, localizedCatalog: "%s"',
             $catalogId
         );
         if (null !== $pageSize) {
-            $arguments .= sprintf(', pageSize: %d', $pageSize);
+            $arguments .= \sprintf(', pageSize: %d', $pageSize);
         }
         if (null !== $currentPage) {
-            $arguments .= sprintf(', currentPage: %d', $currentPage);
+            $arguments .= \sprintf(', currentPage: %d', $currentPage);
         }
 
         $this->validateApiCall(

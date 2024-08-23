@@ -21,9 +21,6 @@ class CategoryAttribute extends AbstractStructuredAttribute implements Attribute
 {
     public const ATTRIBUTE_TYPE = 'category';
 
-    /**
-     * {@inheritDoc}
-     */
     public static function getFields(): array
     {
         return [

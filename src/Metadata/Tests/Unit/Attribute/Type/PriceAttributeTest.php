@@ -14,7 +14,6 @@ declare(strict_types=1);
 
 namespace Gally\Metadata\Tests\Unit\Attribute\Type;
 
-use ArgumentCountError;
 use Gally\Metadata\Model\Attribute\AttributeFactory;
 use Gally\Metadata\Model\Attribute\Type\PriceAttribute;
 use Gally\Search\Service\SearchContext;
@@ -24,7 +23,7 @@ class PriceAttributeTest extends KernelTestCase
 {
     public function testInstantiateFailure(): void
     {
-        $this->expectException(ArgumentCountError::class);
+        $this->expectException(\ArgumentCountError::class);
         $priceAttribute = $this->getMockBuilder(PriceAttribute::class)
             ->getMock();
     }

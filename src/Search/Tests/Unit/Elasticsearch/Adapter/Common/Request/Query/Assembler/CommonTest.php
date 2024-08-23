@@ -62,9 +62,6 @@ class CommonTest extends AbstractSimpleQueryAssemblerTestCase
         $this->assertEquals('queryName', $query['common']['_name']);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     protected function getQueryAssembler(): CommonQueryAssembler
     {
         return new CommonQueryAssembler();

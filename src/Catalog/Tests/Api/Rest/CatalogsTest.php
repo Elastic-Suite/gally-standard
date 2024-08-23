@@ -33,9 +33,6 @@ class CatalogsTest extends AbstractEntityTestWithUpdate
         return Catalog::class;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function createDataProvider(): iterable
     {
         $adminUser = $this->getUser(Role::ROLE_ADMIN);
@@ -52,9 +49,6 @@ class CatalogsTest extends AbstractEntityTestWithUpdate
         ];
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getDataProvider(): iterable
     {
         $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
@@ -118,9 +112,6 @@ class CatalogsTest extends AbstractEntityTestWithUpdate
         ];
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function deleteDataProvider(): iterable
     {
         $adminUser = $this->getUser(Role::ROLE_ADMIN);
@@ -134,9 +125,6 @@ class CatalogsTest extends AbstractEntityTestWithUpdate
         ];
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getCollectionDataProvider(): iterable
     {
         return [
@@ -146,9 +134,6 @@ class CatalogsTest extends AbstractEntityTestWithUpdate
         ];
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function patchUpdateDataProvider(): iterable
     {
         return [

@@ -64,7 +64,7 @@ class SourceFieldOptionRepository extends ServiceEntityRepository
     public function massInsertOrUpdate(array $optionsToUpdate): void
     {
         $optionsToUpdate = array_map(
-            fn ($data) => sprintf(
+            fn ($data) => \sprintf(
                 '(%s, %d, %s, %s, %s)',
                 $data['id'],
                 $data['source_field_id'],
@@ -75,7 +75,7 @@ class SourceFieldOptionRepository extends ServiceEntityRepository
         $this->getEntityManager()
             ->getConnection()
             ->executeQuery(
-                sprintf(
+                \sprintf(
                     'INSERT INTO source_field_option (id, source_field_id, %s) ' .
                     'VALUES %s ON CONFLICT (source_field_id, code) ' .
                     'DO UPDATE SET %s',

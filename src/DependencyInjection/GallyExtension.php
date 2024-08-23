@@ -112,15 +112,15 @@ class GallyExtension extends Extension
         $container->setParameter('gally.request_types', $config['request_types'] ?? []);
         $container->setParameter('gally.pipeline_prefix', $config['pipeline_prefix'] ?? '');
 
-        //@Todo : Use this feature https://symfony.com/doc/current/bundles/extension.html ?
-//        $this->addAnnotatedClassesToCompile([
-//            // you can define the fully qualified class names...
-//            'App\\Controller\\DefaultController',
-//            // ... but glob patterns are also supported:
-//            '**Bundle\\Controller\\',
-//
-//            // ...
-//        ]);
+        // @Todo : Use this feature https://symfony.com/doc/current/bundles/extension.html ?
+        //        $this->addAnnotatedClassesToCompile([
+        //            // you can define the fully qualified class names...
+        //            'App\\Controller\\DefaultController',
+        //            // ... but glob patterns are also supported:
+        //            '**Bundle\\Controller\\',
+        //
+        //            // ...
+        //        ]);
     }
 
     protected function loadGallyConfig(ContainerBuilder $container): void

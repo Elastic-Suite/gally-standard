@@ -27,9 +27,6 @@ final class ConfigurationProcessor implements ProcessorInterface
     ) {
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function process($data, Operation $operation, array $uriVariables = [], array $context = []): mixed
     {
         if ($operation instanceof DeleteOperationInterface) {
@@ -57,7 +54,6 @@ final class ConfigurationProcessor implements ProcessorInterface
 
         return $this->persistProcessor->process($data, $operation, $uriVariables, $context);
     }
-
 
     public function supports($data): bool
     {

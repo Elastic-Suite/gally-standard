@@ -42,7 +42,7 @@ class MenuBuilder
             );
             $parentItem = $menuItems[$parentCode] ?? null;
             if (!$parentItem) {
-                throw new InvalidArgumentException(sprintf('The menu item with code %s should de declared before used as a parent', $parentCode));
+                throw new InvalidArgumentException(\sprintf('The menu item with code %s should de declared before used as a parent', $parentCode));
             }
 
             $parentItem->addChild($item);

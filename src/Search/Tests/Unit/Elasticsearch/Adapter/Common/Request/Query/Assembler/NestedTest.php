@@ -55,9 +55,6 @@ class NestedTest extends AbstractComplexQueryAssemblerTestCase
         $this->assertEquals('queryName', $query['nested']['_name']);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     protected function getQueryAssembler(): NestedQueryAssembler
     {
         return new NestedQueryAssembler($this->getParentQueryAssembler());

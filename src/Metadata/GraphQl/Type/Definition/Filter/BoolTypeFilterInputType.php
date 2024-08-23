@@ -45,7 +45,7 @@ class BoolTypeFilterInputType extends IntegerTypeFilterInputType
         $errors = [];
 
         if (\count($inputData) < 1) {
-            $errors[] = sprintf(
+            $errors[] = \sprintf(
                 "Filter argument %s: At least '%s' or '%s' should be filled.",
                 $argName,
                 FilterOperator::EQ,
@@ -54,7 +54,7 @@ class BoolTypeFilterInputType extends IntegerTypeFilterInputType
         }
 
         if (\count($inputData) > 1) {
-            $errors[] = sprintf(
+            $errors[] = \sprintf(
                 "Filter argument %s: Only '%s' or '%s' should be filled.",
                 $argName,
                 FilterOperator::EQ,

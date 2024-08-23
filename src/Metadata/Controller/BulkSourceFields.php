@@ -14,7 +14,6 @@ declare(strict_types=1);
 
 namespace Gally\Metadata\Controller;
 
-use Gally\Metadata\DataPersister\SourceFieldDataPersister;
 use Gally\Metadata\State\SourceFieldProcessor;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

@@ -37,9 +37,6 @@ class AutocompleteSourceFields implements AggregationProviderInterface
     ) {
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getAggregations(
         ContainerConfigurationInterface $containerConfig,
         $query = null,
@@ -51,9 +48,6 @@ class AutocompleteSourceFields implements AggregationProviderInterface
         return $this->getAggregationsConfig($containerConfig, $sourceFields);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function useFacetConfiguration(): bool
     {
         return false;

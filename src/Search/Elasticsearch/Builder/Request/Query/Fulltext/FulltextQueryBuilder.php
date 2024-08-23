@@ -231,7 +231,7 @@ class FulltextQueryBuilder
                 $phraseAnalyzer,
                 $this->fuzzyFieldFilter,
                 $defaultSearchField,
-                ($phraseMatchBoost ?: 1)
+                $phraseMatchBoost ?: 1
             )
         );
 

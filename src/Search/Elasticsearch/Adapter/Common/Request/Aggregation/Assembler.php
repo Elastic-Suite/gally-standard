@@ -89,9 +89,6 @@ class Assembler implements AssemblerInterface
         return $esAggregations;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function assembleAggregation(AggregationInterface $aggregation): array
     {
         $assembler = $this->getAssembler($aggregation);

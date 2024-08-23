@@ -14,16 +14,12 @@ declare(strict_types=1);
 
 namespace Gally\Search\State\Facet;
 
-use ApiPlatform\Core\DataProvider\ContextAwareCollectionDataProviderInterface;
-use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
-use ApiPlatform\Metadata\CollectionOperationInterface;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\Pagination\PartialPaginatorInterface;
 use ApiPlatform\State\ProviderInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Gally\Metadata\Repository\MetadataRepository;
-use Gally\Search\Model\Facet;
 use Gally\Search\Repository\Facet\ConfigurationRepository;
 
 final class ConfigurationCollectionProvider implements ProviderInterface
@@ -36,8 +32,6 @@ final class ConfigurationCollectionProvider implements ProviderInterface
     }
 
     /**
-     * {@inheritDoc}
-     *
      * @return T|PartialPaginatorInterface<T>|iterable<T>|null
      */
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null

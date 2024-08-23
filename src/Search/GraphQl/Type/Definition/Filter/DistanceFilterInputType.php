@@ -63,7 +63,7 @@ class DistanceFilterInputType extends RangeFilterInputType implements TypeInterf
             $containerConfig->getMetadata()
         );
         if ($field && SourceFieldType::TYPE_LOCATION !== $field->getType()) {
-            $errors[] = sprintf(
+            $errors[] = \sprintf(
                 'Filter argument %s: The field %s should be of type %s.',
                 $argName,
                 $field->getCode(),

@@ -14,7 +14,6 @@ declare(strict_types=1);
 
 namespace Gally\Search\Tests\Unit\Elasticsearch\Request\Query;
 
-use ArgumentCountError;
 use Gally\Search\Elasticsearch\Request\Container\RelevanceConfiguration\FuzzinessConfigurationInterface;
 use Gally\Search\Elasticsearch\Request\Query\MultiMatch;
 use Gally\Search\Elasticsearch\Request\QueryFactory;
@@ -34,7 +33,7 @@ class MultiMatchTest extends KernelTestCase
 
     public function testFailedCreate(): void
     {
-        $this->expectException(ArgumentCountError::class);
+        $this->expectException(\ArgumentCountError::class);
         $query = self::$queryFactory->create(QueryInterface::TYPE_MULTIMATCH);
     }
 

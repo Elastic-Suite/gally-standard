@@ -23,7 +23,7 @@ class AbstractRuleType
     public function getRuleType(): string
     {
         if (self::RULE_TYPE === $this::RULE_TYPE) {
-            throw new LogicException(sprintf('The constant RULE_TYPE is not defined in the class %s', static::class));
+            throw new LogicException(\sprintf('The constant RULE_TYPE is not defined in the class %s', static::class));
         }
 
         return $this::RULE_TYPE;

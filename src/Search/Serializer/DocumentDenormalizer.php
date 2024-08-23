@@ -23,18 +23,13 @@ use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 class DocumentDenormalizer implements DenormalizerInterface, DenormalizerAwareInterface
 {
     use DenormalizerAwareTrait;
-    /**
-     * {@inheritdoc}
-     */
-    public function supportsDenormalization($data, string $type, string $format = null, array $context = []): bool
+
+    public function supportsDenormalization($data, string $type, ?string $format = null, array $context = []): bool
     {
         return Document::class === $type;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function denormalize($data, string $type, string $format = null, array $context = []): mixed
+    public function denormalize($data, string $type, ?string $format = null, array $context = []): mixed
     {
         if ($data instanceof DocumentInterface) {
             return $data;

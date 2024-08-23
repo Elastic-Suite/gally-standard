@@ -17,7 +17,6 @@ namespace Gally\Metadata\EventSubscriber;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Event\PostPersistEventArgs;
 use Doctrine\ORM\Event\PostUpdateEventArgs;
-use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Gally\Catalog\Repository\LocalizedCatalogRepository;
 use Gally\Index\Service\IndexOperation;
 use Gally\Index\Service\MetadataManager;

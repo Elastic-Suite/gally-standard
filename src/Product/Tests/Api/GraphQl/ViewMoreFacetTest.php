@@ -65,7 +65,7 @@ class ViewMoreFacetTest extends AbstractTestCase
     ): void {
         $user = null;
 
-        $arguments = sprintf(
+        $arguments = \sprintf(
             'localizedCatalog: "%s", aggregation: "%s", filter: {%s}',
             $catalogId,
             $aggregation,
@@ -73,7 +73,7 @@ class ViewMoreFacetTest extends AbstractTestCase
         );
 
         if ($currentCategoryId) {
-            $arguments .= sprintf(', currentCategoryId: "%s"', $currentCategoryId);
+            $arguments .= \sprintf(', currentCategoryId: "%s"', $currentCategoryId);
         }
 
         $this->validateApiCall(

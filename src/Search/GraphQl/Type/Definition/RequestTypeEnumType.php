@@ -34,9 +34,6 @@ class RequestTypeEnumType extends EnumType implements TypeInterface
         return ['values' => $this->configurationProvider->getAllAvailableRequestTypes()];
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getName(): string
     {
         return $this->name;

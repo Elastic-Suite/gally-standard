@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace Gally\Search\State;
 
-//use ApiPlatform\Core\Bridge\Elasticsearch\Serializer\ItemNormalizer;
+// use ApiPlatform\Core\Bridge\Elasticsearch\Serializer\ItemNormalizer;
 use ApiPlatform\Elasticsearch\Serializer\ItemNormalizer;
 use ApiPlatform\State\Pagination\PaginatorInterface;
 use Gally\Search\Elasticsearch\Adapter\Common\Response\AggregationInterface;
@@ -40,17 +40,11 @@ class Paginator implements \IteratorAggregate, PaginatorInterface
     ) {
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function count(): int
     {
         return $this->response->count();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getLastPage(): float
     {
         if (0 >= $this->limit) {
@@ -60,17 +54,11 @@ class Paginator implements \IteratorAggregate, PaginatorInterface
         return ceil($this->getTotalItems() / $this->limit) ?: 1.;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getTotalItems(): float
     {
         return (float) $this->response->getTotalItems();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getCurrentPage(): float
     {
         if (0 >= $this->limit) {
@@ -80,17 +68,11 @@ class Paginator implements \IteratorAggregate, PaginatorInterface
         return floor($this->offset / $this->limit) + 1.;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getItemsPerPage(): float
     {
         return (float) $this->limit;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getIterator(): \Traversable
     {
         $denormalizationContext = array_merge([AbstractNormalizer::ALLOW_EXTRA_ATTRIBUTES => true], $this->denormalizationContext);
@@ -99,7 +81,7 @@ class Paginator implements \IteratorAggregate, PaginatorInterface
         foreach ($this->response->getIterator() as $document) {
             $cacheKey = null;
             if (!empty($document->getIndex()) && !empty($document->getInternalId())) {
-                $cacheKey = md5(sprintf('%s_%s', $document->getIndex(), $document->getInternalId()));
+                $cacheKey = md5(\sprintf('%s_%s', $document->getIndex(), $document->getInternalId()));
             }
 
             if ($cacheKey && \array_key_exists($cacheKey, $this->cachedDenormalizedDocuments)) {

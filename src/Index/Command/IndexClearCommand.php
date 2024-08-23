@@ -26,27 +26,19 @@ class IndexClearCommand extends Command
 {
     /**
      * IndexClearCommand constructor.
-     *
-     * @param IndexRepositoryInterface $indexRepository
      */
     public function __construct(
         private IndexRepositoryInterface $indexRepository,
-        string $name = null
+        ?string $name = null
     ) {
         parent::__construct($name);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function configure(): void
     {
         $this->setDescription('Delete all elasticsearch indices');
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $ui = new SymfonyStyle($input, $output);

@@ -20,9 +20,6 @@ use Gally\Catalog\Repository\LocalizedCatalogRepository;
 
 class DefaultCatalogProvider
 {
-    /**
-     * @param LocalizedCatalogRepository $localizedCatalogRepository
-     */
     public function __construct(
         private LocalizedCatalogRepository $localizedCatalogRepository
     ) {

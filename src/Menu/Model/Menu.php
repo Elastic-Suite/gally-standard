@@ -14,11 +14,10 @@ declare(strict_types=1);
 
 namespace Gally\Menu\Model;
 
-use ApiPlatform\Metadata\GraphQl\Query;
-use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\ApiProperty;
-use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GraphQl\Query;
 use Gally\Menu\Controller\MenuController;
 use Gally\Menu\Resolver\MenuResolver;
 use Gally\User\Constant\Role;
@@ -31,7 +30,7 @@ use Gally\User\Constant\Role;
             read: false,
             deserialize: false,
             controller: MenuController::class
-        )
+        ),
     ],
     graphQlOperations: [
         new Query(
@@ -41,7 +40,7 @@ use Gally\User\Constant\Role;
             read: false,
             deserialize: false,
             args: []
-        )
+        ),
     ],
     paginationEnabled: false)
 ]

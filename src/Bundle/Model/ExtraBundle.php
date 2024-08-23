@@ -14,18 +14,16 @@ declare(strict_types=1);
 
 namespace Gally\Bundle\Model;
 
-use ApiPlatform\Metadata\GraphQl\QueryCollection;
-use ApiPlatform\Metadata\GetCollection;
-use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\ApiProperty;
-use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\GraphQl\QueryCollection;
 use Gally\Bundle\State\ExtraBundleProvider;
 
 #[ApiResource(
     operations: [new GetCollection(paginationEnabled: false)],
     graphQlOperations: [new QueryCollection(name: 'collection_query', paginationEnabled: false)],
     provider: ExtraBundleProvider::class,
-
 )]
 
 class ExtraBundle

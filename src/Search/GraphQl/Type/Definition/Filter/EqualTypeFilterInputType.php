@@ -31,8 +31,8 @@ class EqualTypeFilterInputType extends InputObjectType implements TypeInterface,
     public const NAME = 'EqualTypeFilterInput';
 
     public function __construct(
-      private FilterQueryBuilder $filterQueryBuilder,
-      private ReverseSourceFieldProvider $reverseSourceFieldProvider,
+        private FilterQueryBuilder $filterQueryBuilder,
+        private ReverseSourceFieldProvider $reverseSourceFieldProvider,
     ) {
         $this->name = self::NAME;
 
@@ -61,7 +61,7 @@ class EqualTypeFilterInputType extends InputObjectType implements TypeInterface,
 
         $errors = array_merge($errors, $this->validateIsFilterable($inputData['field'], $containerConfig));
         if (!isset($inputData[FilterOperator::EQ]) && !isset($inputData[FilterOperator::IN])) {
-            $errors[] = sprintf(
+            $errors[] = \sprintf(
                 "Filter argument %s: At least '%s' or '%s' should be filled.",
                 $argName,
                 FilterOperator::EQ,
@@ -70,7 +70,7 @@ class EqualTypeFilterInputType extends InputObjectType implements TypeInterface,
         }
 
         if (isset($inputData[FilterOperator::EQ]) && isset($inputData[FilterOperator::IN])) {
-            $errors[] = sprintf(
+            $errors[] = \sprintf(
                 "Filter argument %s: Only '%s' or only '%s' should be filled, not both.",
                 $argName,
                 FilterOperator::EQ,

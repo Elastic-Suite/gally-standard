@@ -22,9 +22,6 @@ use Gally\Search\Elasticsearch\Request\QueryInterface;
  */
 class Terms implements AssemblerInterface
 {
-    /**
-     * {@inheritDoc}
-     */
     public function assembleQuery(QueryInterface $query): array
     {
         if (QueryInterface::TYPE_TERMS !== $query->getType()) {

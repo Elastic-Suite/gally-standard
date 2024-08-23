@@ -14,23 +14,17 @@ declare(strict_types=1);
 
 namespace Gally\Search\Model;
 
-use ApiPlatform\Metadata\GraphQl\QueryCollection;
-use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Metadata\ApiProperty;
-use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Action\NotFoundAction;
-use Gally\GraphQl\Decoration\Resolver\Stage\ReadStage;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GraphQl\QueryCollection;
 use Gally\Search\Elasticsearch\DocumentInterface;
-use Gally\Search\GraphQl\Type\Definition\FieldFilterInputType;
-use Gally\Search\GraphQl\Type\Definition\RequestTypeEnumType;
-use Gally\Search\GraphQl\Type\Definition\SortInputType;
 use Gally\Search\Resolver\DummyResolver;
 use Gally\Search\State\DocumentProvider;
 
 #[ApiResource(
     operations: [
-        new Get(controller: NotFoundAction::class, read: false, output: false)
+        new Get(controller: NotFoundAction::class, read: false, output: false),
     ],
     graphQlOperations: [
         new QueryCollection(
@@ -40,30 +34,30 @@ use Gally\Search\State\DocumentProvider;
             args: [
                 'entityType' => [
                     'type' => 'String!',
-                    'description' => 'Entity Type'
+                    'description' => 'Entity Type',
                 ],
                 'requestType' => [
                     'type' => 'RequestTypeEnum',
-                    'description' => 'Request Type'
+                    'description' => 'Request Type',
                 ],
                 'localizedCatalog' => [
                     'type' => 'String!',
-                    'description' => 'Localized Catalog'
+                    'description' => 'Localized Catalog',
                 ],
                 'search' => [
                     'type' => 'String',
-                    'description' => 'Query Text'
+                    'description' => 'Query Text',
                 ],
                 'currentPage' => ['type' => 'Int'],
                 'pageSize' => ['type' => 'Int'],
                 'sort' => ['type' => 'SortInput'],
-                'filter' => ['type' => '[FieldFilterInput]', 'is_gally_arg' => true]
+                'filter' => ['type' => '[FieldFilterInput]', 'is_gally_arg' => true],
             ],
             read: true,
             deserialize: true,
             write: false,
             serialize: true
-        )
+        ),
     ],
     provider: DocumentProvider::class,
     paginationClientEnabled: true,

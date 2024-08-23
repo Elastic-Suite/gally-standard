@@ -14,8 +14,8 @@ declare(strict_types=1);
 
 namespace Gally\GraphQl\Decoration\Resolver\Stage;
 
-use ApiPlatform\State\ProviderInterface;
 use ApiPlatform\Metadata\Operation;
+use ApiPlatform\State\ProviderInterface;
 
 /**
  * Some gally args do not fit with the way where API Platform manage graphql args.
@@ -27,7 +27,7 @@ use ApiPlatform\Metadata\Operation;
  *   {...}
  * }
  * It will be transformed in one filter on the context operation, $context[...]['filters'] = ['matchFilter' => ['field' => 'content_heading', match: 'article' ]] instead of
- * $context[...]['filters'] = [['matchFilter' => ['field' => 'content', match: 'article' ]], ['matchFilter' => ['field' => 'content_heading', match: 'article' ]]]
+ * $context[...]['filters'] = [['matchFilter' => ['field' => 'content', match: 'article' ]], ['matchFilter' => ['field' => 'content_heading', match: 'article' ]]].
  *
  * As we need this syntax for some args in our GraphQL queries, we added a mechanism to split args in two categories:
  * - API Platform args: They are managed natively by API Platform, nothing changes (they stay in the array key 'args').
@@ -46,9 +46,6 @@ class ReadStage implements ProviderInterface
     ) {
     }
 
-    /**
-     * @inheritdoc
-     */
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null
     {
         /**

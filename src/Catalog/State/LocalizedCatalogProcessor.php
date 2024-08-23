@@ -31,9 +31,6 @@ class LocalizedCatalogProcessor implements ProcessorInterface
     ) {
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function process($data, Operation $operation, array $uriVariables = [], array $context = []): ?LocalizedCatalog
     {
         if ($operation instanceof DeleteOperationInterface) {

@@ -36,9 +36,6 @@ class SourceFieldOptionLabelTest extends AbstractEntityTestWithUpdate
         return SourceFieldOptionLabel::class;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function createDataProvider(): iterable
     {
         $adminUser = $this->getUser(Role::ROLE_ADMIN);
@@ -98,9 +95,6 @@ class SourceFieldOptionLabelTest extends AbstractEntityTestWithUpdate
         return $expectedData;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getDataProvider(): iterable
     {
         $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
@@ -114,9 +108,6 @@ class SourceFieldOptionLabelTest extends AbstractEntityTestWithUpdate
         ];
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function deleteDataProvider(): iterable
     {
         $adminUser = $this->getUser(Role::ROLE_ADMIN);
@@ -130,9 +121,6 @@ class SourceFieldOptionLabelTest extends AbstractEntityTestWithUpdate
         ];
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getCollectionDataProvider(): iterable
     {
         return [

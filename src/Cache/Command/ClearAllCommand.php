@@ -26,14 +26,11 @@ use Symfony\Component\Console\Output\OutputInterface;
 #[AsCommand(name: 'gally:cache:clear-all')]
 class ClearAllCommand extends Command
 {
-    public function __construct(private CacheManagerInterface $cache, string $name = null)
+    public function __construct(private CacheManagerInterface $cache, ?string $name = null)
     {
         parent::__construct($name);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     protected function configure(): void
     {
         $this->setDescription('Clear everything in the gally specific cache pool.');
@@ -42,12 +39,9 @@ The <info>%command.name%</info> clears the gally cache pool, removing all cache 
 
     %command.full_name%
 EOF
-            );
+        );
     }
 
-    /**
-     * {@inheritDoc}
-     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         if (!$this->cache->clearAll()) {

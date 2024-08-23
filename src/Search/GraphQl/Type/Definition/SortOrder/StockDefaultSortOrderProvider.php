@@ -23,41 +23,29 @@ class StockDefaultSortOrderProvider implements SortOrderProviderInterface
     {
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function supports(SourceField $sourceField): bool
     {
         return Type::TYPE_STOCK === $sourceField->getType();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getSortOrderField(SourceField $sourceField): string
     {
         return str_replace(
             '.',
             $this->nestingSeparator,
-            sprintf('%s.%s', $sourceField->getCode(), 'status'),
+            \sprintf('%s.%s', $sourceField->getCode(), 'status'),
         );
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getLabel(SourceField $sourceField): string
     {
-        return sprintf(
+        return \sprintf(
             "Sorting by %s's status (%s)",
             $sourceField->getDefaultLabel(),
             $sourceField->getCode()
         );
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getSimplifiedLabel(SourceField $sourceField): string
     {
         return 'Stock status';

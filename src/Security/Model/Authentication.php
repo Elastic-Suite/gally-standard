@@ -14,17 +14,16 @@ declare(strict_types=1);
 
 namespace Gally\Security\Model;
 
-use ApiPlatform\Metadata\GraphQl\Mutation;
-use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Metadata\ApiProperty;
-use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Action\NotFoundAction;
+use ApiPlatform\Metadata\ApiProperty;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GraphQl\Mutation;
 use Gally\Security\Resolver\AuthenticationMutationResolver;
 
 #[ApiResource(
     operations: [
-        new Get(controller: NotFoundAction::class, read: false, output: false)
+        new Get(controller: NotFoundAction::class, read: false, output: false),
     ],
     graphQlOperations: [
         new Mutation(
@@ -37,9 +36,9 @@ use Gally\Security\Resolver\AuthenticationMutationResolver;
             serialize: true,
             args: [
                 'email' => ['type' => 'String!', 'description' => 'Email of the user'],
-                'password' => ['type' => 'String!', 'description' => 'Password of the user']
+                'password' => ['type' => 'String!', 'description' => 'Password of the user'],
             ]
-        )
+        ),
     ]
 )]
 class Authentication

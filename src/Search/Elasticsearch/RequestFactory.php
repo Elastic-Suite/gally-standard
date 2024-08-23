@@ -16,9 +16,6 @@ namespace Gally\Search\Elasticsearch;
 
 class RequestFactory implements RequestFactoryInterface
 {
-    /**
-     * {@inheritDoc}
-     */
     public function create(array $data = []): RequestInterface
     {
         return new Request(...$data);

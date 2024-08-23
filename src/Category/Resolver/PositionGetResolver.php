@@ -15,7 +15,6 @@ declare(strict_types=1);
 namespace Gally\Category\Resolver;
 
 use ApiPlatform\GraphQl\Resolver\QueryItemResolverInterface;
-use Exception;
 use Gally\Catalog\Repository\LocalizedCatalogRepository;
 use Gally\Category\Model\Category\ProductMerchandising;
 use Gally\Category\Repository\CategoryRepository;
@@ -34,22 +33,22 @@ class PositionGetResolver implements QueryItemResolverInterface
     /**
      * @param mixed $item
      *
-     * @return ProductMerchandising
+     * @throws \Exception
      *
-     * @throws Exception
+     * @return ProductMerchandising
      */
     public function __invoke(?object $item, array $context): object
     {
         $categoryId = $context['args']['categoryId'];
         $category = $this->categoryRepository->find($categoryId);
         if (!$category) {
-            throw new BadRequestHttpException(sprintf('Category with id %s not found.', $categoryId));
+            throw new BadRequestHttpException(\sprintf('Category with id %s not found.', $categoryId));
         }
 
         $localizedCatalogId = $context['args']['localizedCatalogId'];
         $localizedCatalog = $this->localizedCatalogRepository->find($localizedCatalogId);
         if (!$localizedCatalog) {
-            throw new BadRequestHttpException(sprintf('Localized catalog with id %d not found.', $localizedCatalogId));
+            throw new BadRequestHttpException(\sprintf('Localized catalog with id %d not found.', $localizedCatalogId));
         }
 
         $productPositions = $this->categoryProductPositionManager->getProductPositions(

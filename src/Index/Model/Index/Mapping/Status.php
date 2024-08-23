@@ -14,17 +14,16 @@ declare(strict_types=1);
 
 namespace Gally\Index\Model\Index\Mapping;
 
-use ApiPlatform\Metadata\GraphQl\Query;
-use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\ApiProperty;
-use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GraphQl\Query;
 use Gally\Index\State\MappingStatusProvider;
 use Gally\User\Constant\Role;
 
 #[ApiResource(
     operations: [
-        new Get(security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')")
+        new Get(security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
     ],
     graphQlOperations: [
         new Query(
@@ -32,7 +31,7 @@ use Gally\User\Constant\Role;
             resolver: MappingStatusProvider::class,
             args: ['entityType' => ['type' => 'String!']],
             security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"
-        )
+        ),
     ],
     provider: MappingStatusProvider::class,
     shortName: 'MappingStatus'

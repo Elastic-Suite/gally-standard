@@ -58,17 +58,11 @@ class QueryResponse implements ResponseInterface
         $this->prepareAggregations($searchRequest, $searchResponse, $aggregationBuilder);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getIterator(): \Traversable
     {
         return new \ArrayIterator($this->documents);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function count(): int
     {
         return $this->count;
@@ -79,9 +73,6 @@ class QueryResponse implements ResponseInterface
         return $this->totalItems;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getAggregations(): array
     {
         return $this->aggregations;

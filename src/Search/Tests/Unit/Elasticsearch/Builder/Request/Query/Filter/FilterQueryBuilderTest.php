@@ -208,7 +208,7 @@ class FilterQueryBuilderTest extends KernelTestCase
      * @param array   $conditions conditions
      * @param ?string $nestedPath nested path or null
      */
-    private function buildQuery(array $conditions, string $nestedPath = null): QueryInterface
+    private function buildQuery(array $conditions, ?string $nestedPath = null): QueryInterface
     {
         $builder = new FilterQueryBuilder(
             $this->getQueryFactory($this->mockedQueryTypes),

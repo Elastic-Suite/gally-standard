@@ -41,9 +41,6 @@ class FilterableSourceFields implements AggregationProviderInterface
     ) {
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getAggregations(
         ContainerConfigurationInterface $containerConfig,
         $query = null,

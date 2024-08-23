@@ -54,9 +54,6 @@ class NotTest extends AbstractComplexQueryAssemblerTestCase
         $this->assertEquals('queryName', $query['bool']['_name']);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     protected function getQueryAssembler(): NotQueryAssembler
     {
         return new NotQueryAssembler($this->getParentQueryAssembler());

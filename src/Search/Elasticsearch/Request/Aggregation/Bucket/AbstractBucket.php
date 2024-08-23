@@ -64,57 +64,36 @@ abstract class AbstractBucket implements BucketInterface
         $this->nestedFilter = $nestedFilter;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getField(): string
     {
         return $this->field;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function isNested(): bool
     {
         return null !== $this->nestedPath;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getNestedPath(): ?string
     {
         return $this->nestedPath;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getNestedFilter(): ?QueryInterface
     {
         return $this->nestedFilter;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getFilter(): ?QueryInterface
     {
         return $this->filter;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getChildAggregations(): array
     {
         return $this->childAggregations;

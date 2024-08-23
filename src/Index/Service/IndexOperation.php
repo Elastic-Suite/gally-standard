@@ -187,7 +187,7 @@ class IndexOperation
      *
      * @param string $indexName Index name
      */
-    protected function getInstalledIndexAlias(string $indexName): string|null
+    protected function getInstalledIndexAlias(string $indexName): ?string
     {
         $installIndexAlias = null;
 

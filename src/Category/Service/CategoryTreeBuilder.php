@@ -40,14 +40,14 @@ class CategoryTreeBuilder
     {
         $localizedCatalog = $localizedCatalogId ? $this->localizedCatalogRepository->find($localizedCatalogId) : null;
         if ($localizedCatalogId && !$localizedCatalog) {
-            throw new NotFoundHttpException(sprintf('Localized catalog with id %d not found.', $localizedCatalogId));
+            throw new NotFoundHttpException(\sprintf('Localized catalog with id %d not found.', $localizedCatalogId));
         }
 
         $catalog = $catalogId
             ? $this->catalogRepository->find($catalogId)
             : $localizedCatalog?->getCatalog();
         if ($catalogId && !$catalog) {
-            throw new NotFoundHttpException(sprintf('Catalog with id %d not found.', $catalogId));
+            throw new NotFoundHttpException(\sprintf('Catalog with id %d not found.', $catalogId));
         }
 
         $sortedCategories = $this->getSortedCategories($catalog, $localizedCatalog);

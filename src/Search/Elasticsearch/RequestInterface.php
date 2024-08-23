@@ -53,12 +53,12 @@ interface RequestInterface
     /**
      * Get from/pagination offset.
      */
-    public function getFrom(): int|null;
+    public function getFrom(): ?int;
 
     /**
      * Get pagination size.
      */
-    public function getSize(): int|null;
+    public function getSize(): ?int;
 
     /**
      * Hits filter (does not apply to aggregations).

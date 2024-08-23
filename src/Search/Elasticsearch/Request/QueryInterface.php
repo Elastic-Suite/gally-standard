@@ -55,5 +55,5 @@ interface QueryInterface
     /**
      * Get boost.
      */
-    public function getBoost(): float|null;
+    public function getBoost(): ?float;
 }

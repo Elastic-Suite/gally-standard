@@ -39,19 +39,19 @@ class CategoryConfigurationGet extends AbstractController
     {
         $category = $this->categoryRepository->find($categoryId);
         if (!$category) {
-            throw new NotFoundHttpException(sprintf('Category with id %s not found.', $categoryId));
+            throw new NotFoundHttpException(\sprintf('Category with id %s not found.', $categoryId));
         }
 
         $catalogId = $request->query->get('catalogId');
         $catalog = $catalogId ? $this->catalogRepository->find($catalogId) : null;
         if ($catalogId && !$catalog) {
-            throw new NotFoundHttpException(sprintf('Catalog with id %d not found.', $catalogId));
+            throw new NotFoundHttpException(\sprintf('Catalog with id %d not found.', $catalogId));
         }
 
         $localizedCatalogId = $request->query->get('localizedCatalogId');
         $localizedCatalog = $localizedCatalogId ? $this->localizedCatalogRepository->find($localizedCatalogId) : null;
         if ($localizedCatalogId && !$localizedCatalog) {
-            throw new NotFoundHttpException(sprintf('Localized catalog with id %d not found.', $localizedCatalogId));
+            throw new NotFoundHttpException(\sprintf('Localized catalog with id %d not found.', $localizedCatalogId));
         }
 
         $config = $this->configurationRepository->findOneMergedByContext($category, $catalog, $localizedCatalog);

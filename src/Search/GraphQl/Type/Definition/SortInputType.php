@@ -48,9 +48,6 @@ class SortInputType extends InputObjectType implements TypeInterface
         ];
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getName(): string
     {
         return $this->name;

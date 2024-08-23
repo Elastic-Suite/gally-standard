@@ -53,9 +53,6 @@ class MissingTest extends AbstractSimpleQueryAssemblerTestCase
         $this->assertEquals('queryName', $query['bool']['_name']);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     protected function getQueryAssembler(): MissingQueryAssembler
     {
         return new MissingQueryAssembler();

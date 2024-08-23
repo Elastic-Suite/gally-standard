@@ -44,7 +44,7 @@ class CategoryTest extends AbstractEntityTestWithUpdate
         array $data,
         int $responseCode = 201,
         ?string $message = null,
-        string $validRegex = null
+        ?string $validRegex = null
     ): void {
         // Category can't be created via api.
         $this->assertTrue(true);
@@ -59,9 +59,6 @@ class CategoryTest extends AbstractEntityTestWithUpdate
         ];
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getDataProvider(): iterable
     {
         $user = $this->getUser(Role::ROLE_ADMIN);
@@ -75,9 +72,6 @@ class CategoryTest extends AbstractEntityTestWithUpdate
         ];
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function deleteDataProvider(): iterable
     {
         $adminUser = $this->getUser(Role::ROLE_ADMIN);
@@ -90,9 +84,6 @@ class CategoryTest extends AbstractEntityTestWithUpdate
         ];
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getCollectionDataProvider(): iterable
     {
         return [
@@ -102,9 +93,6 @@ class CategoryTest extends AbstractEntityTestWithUpdate
         ];
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function patchUpdateDataProvider(): iterable
     {
         $validRegex = '~^' . $this->getApiPath() . '/\S+$~';

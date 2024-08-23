@@ -28,17 +28,11 @@ class BasicSourceFieldConverter implements SourceFieldConverterInterface
         // SourceField\Type::TYPE_OBJECT => Mapping\FieldInterface::FIELD_TYPE_OBJECT,
     ];
 
-    /**
-     * {@inheritDoc}
-     */
     public function supports(SourceField $sourceField): bool
     {
         return \in_array($sourceField->getType(), array_keys($this->typeMapping), true);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getFields(SourceField $sourceField): array
     {
         $fields = [];

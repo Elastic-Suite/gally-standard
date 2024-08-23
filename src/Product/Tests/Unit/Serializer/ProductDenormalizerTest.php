@@ -43,7 +43,7 @@ class ProductDenormalizerTest extends KernelTestCase
     public function testDenormalize(
         mixed $data,
         string $type,
-        string $format = null,
+        ?string $format = null,
         array $context = [],
     ): void {
         $denormalizedData = self::$productDenormalizer->denormalize($data, $type, $format, $context);

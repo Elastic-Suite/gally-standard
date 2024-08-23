@@ -74,9 +74,6 @@ class DateRangeTest extends AbstractSimpleQueryAssemblerTestCase
         $this->assertEquals('yyyy-MM', $query['range']['field']['format']);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     protected function getQueryAssembler(): DateRangeQueryAssembler
     {
         return new DateRangeQueryAssembler();

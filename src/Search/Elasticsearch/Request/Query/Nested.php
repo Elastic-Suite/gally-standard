@@ -50,7 +50,7 @@ class Nested implements QueryInterface
         string $path,
         ?QueryInterface $query = null,
         string $scoreMode = self::SCORE_MODE_NONE,
-        string $name = null,
+        ?string $name = null,
         float $boost = QueryInterface::DEFAULT_BOOST_VALUE
     ) {
         $this->name = $name;
@@ -60,25 +60,16 @@ class Nested implements QueryInterface
         $this->query = $query;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getBoost(): float
     {
         return $this->boost;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getType(): string
     {
         return QueryInterface::TYPE_NESTED;

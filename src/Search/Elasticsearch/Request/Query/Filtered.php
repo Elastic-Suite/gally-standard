@@ -49,25 +49,16 @@ class Filtered implements QueryInterface
         $this->query = $query;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getBoost(): float
     {
         return $this->boost;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getType(): string
     {
         return QueryInterface::TYPE_FILTER;

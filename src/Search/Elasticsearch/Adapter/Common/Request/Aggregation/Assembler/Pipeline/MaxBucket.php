@@ -26,9 +26,6 @@ use Gally\Search\Elasticsearch\Request\PipelineInterface;
  */
 class MaxBucket implements AssemblerInterface
 {
-    /**
-     * {@inheritDoc}
-     */
     public function assembleAggregation(AggregationInterface $aggregation): array
     {
         if (PipelineInterface::TYPE_MAX_BUCKET !== $aggregation->getType()) {

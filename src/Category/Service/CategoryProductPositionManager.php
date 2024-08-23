@@ -70,7 +70,7 @@ class CategoryProductPositionManager
                     $this->reindexPosition($positionToReindex);
                 }
             }
-            // Catalog  scope.
+        // Catalog  scope.
         } elseif (null !== $productMerchandising->getCatalog() && null === $productMerchandising->getLocalizedCatalog()) {
             $localizedCatalogsToReindex = $this->categoryProductMerchandisingRepository->findLocalizedCatalogsToReindexForCatalogScope($productMerchandising);
             $this->reindexPositionByLocalizedCatalogs($productMerchandising, $localizedCatalogsToReindex);
@@ -86,7 +86,7 @@ class CategoryProductPositionManager
                     $this->reindexPosition($positionToReindex);
                 }
             }
-            // Global scope.
+        // Global scope.
         } else {
             $localizedCatalogsToReindex = $this->categoryProductMerchandisingRepository->findLocalizedCatalogsToReindexForGlobalScope($productMerchandising);
 
@@ -155,7 +155,7 @@ class CategoryProductPositionManager
             $this->entityManager->flush();
 
             foreach ($positionsData as $positionData) {
-                $newProductMerchandising = new Category\ProductMerchandising();
+                $newProductMerchandising = new ProductMerchandising();
                 $newProductMerchandising->setCatalog($catalog);
                 $newProductMerchandising->setLocalizedCatalog($localizedCatalog);
                 $newProductMerchandising->setCategory($category);
@@ -178,7 +178,7 @@ class CategoryProductPositionManager
     private function validatePosition(array $positions): void
     {
         if (\count($positions) > self::MAX_POSITION_COUNT) {
-            throw new InvalidArgumentException(sprintf('Position count exceeds maximum limit %d', self::MAX_POSITION_COUNT, ));
+            throw new InvalidArgumentException(\sprintf('Position count exceeds maximum limit %d', self::MAX_POSITION_COUNT));
         }
 
         $productIds = [];
@@ -188,10 +188,10 @@ class CategoryProductPositionManager
                 || !\is_string($position['productId'])
                 || !is_numeric($position['position'])
             ) {
-                throw new InvalidArgumentException(sprintf("In positions array, position #%d is wrong: 'productId or position is missing, empty, productId is not a string or position is not a numeric'", $index));
+                throw new InvalidArgumentException(\sprintf("In positions array, position #%d is wrong: 'productId or position is missing, empty, productId is not a string or position is not a numeric'", $index));
             }
             if (isset($productIds[$position['productId']])) {
-                throw new InvalidArgumentException(sprintf("In positions array, the product id '%s' appears twice.", $position['productId']));
+                throw new InvalidArgumentException(\sprintf("In positions array, the product id '%s' appears twice.", $position['productId']));
             }
             $productIds[$position['productId']] = true;
         }

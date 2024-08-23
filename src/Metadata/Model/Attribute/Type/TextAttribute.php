@@ -27,9 +27,6 @@ class TextAttribute extends AbstractAttribute implements GraphQlAttributeInterfa
 
     private bool $extraSanitization = false;
 
-    /**
-     * {@inheritDoc}
-     */
     public static function getGraphQlType(): GraphQLType
     {
         return GraphQLType::string();
@@ -47,7 +44,7 @@ class TextAttribute extends AbstractAttribute implements GraphQlAttributeInterfa
             }
 
             if ($this->extraSanitization && !\is_string($value)) {
-                $value = (string) ($value);
+                $value = (string) $value;
             }
         }
 

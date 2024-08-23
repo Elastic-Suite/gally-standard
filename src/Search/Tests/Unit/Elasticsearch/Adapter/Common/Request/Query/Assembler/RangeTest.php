@@ -54,9 +54,6 @@ class RangeTest extends AbstractSimpleQueryAssemblerTestCase
         $this->assertEquals('queryName', $query['range']['_name']);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     protected function getQueryAssembler(): RangeQueryAssembler
     {
         return new RangeQueryAssembler();

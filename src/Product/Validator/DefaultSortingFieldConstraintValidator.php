@@ -14,11 +14,8 @@ declare(strict_types=1);
 
 namespace Gally\Product\Validator;
 
-use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
-use Gally\Product\DataProvider\ProductSortingOptionDataProvider;
 use Gally\Product\State\ProductSortingOptionProvider;
-use Gally\Search\Model\Source\SortingOption;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;

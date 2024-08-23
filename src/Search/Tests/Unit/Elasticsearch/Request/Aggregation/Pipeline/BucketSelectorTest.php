@@ -14,7 +14,6 @@ declare(strict_types=1);
 
 namespace Gally\Search\Tests\Unit\Elasticsearch\Request\Aggregation\Pipeline;
 
-use ArgumentCountError;
 use Gally\Search\Elasticsearch\Request\Aggregation\Pipeline\BucketSelector;
 use Gally\Search\Elasticsearch\Request\AggregationFactory;
 use Gally\Search\Elasticsearch\Request\PipelineInterface;
@@ -35,7 +34,7 @@ class BucketSelectorTest extends KernelTestCase
 
     public function testFailedCreate(): void
     {
-        $this->expectException(ArgumentCountError::class);
+        $this->expectException(\ArgumentCountError::class);
         self::$aggregationFactory->create(PipelineInterface::TYPE_BUCKET_SELECTOR);
     }
 

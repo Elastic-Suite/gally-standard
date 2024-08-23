@@ -113,7 +113,7 @@ class CategoryConfigurationRepository extends ServiceEntityRepository
      * If a parameter is not defined in this context, we get the value from the parent context
      * (ex: if isVirtual is null for this localized catalog, we get the value for this category on the catalog).
      */
-    public function findMergedByContextAndCategoryPath(Catalog $catalog, LocalizedCatalog $localizedCatalog, Category $rootCategory = null): array
+    public function findMergedByContextAndCategoryPath(Catalog $catalog, LocalizedCatalog $localizedCatalog, ?Category $rootCategory = null): array
     {
         $exprBuilder = $this->getEntityManager()->getExpressionBuilder();
         $queryBuilder = $this->getFindMergedByContextQueryBuilder($catalog, $localizedCatalog);
@@ -265,10 +265,10 @@ class CategoryConfigurationRepository extends ServiceEntityRepository
             ->select(
                 [
                     'MAX(IDENTITY(lc.category)) as category_id',
-                    'MAX(CASE WHEN ' . sprintf($mergeExpr, 'isVirtual') . ' = TRUE THEN 1 ELSE 0 END) as isVirtual',
-                    'MAX(' . sprintf($mergeExpr, 'virtualRule') . ') as virtualRule',
-                    'MAX(CASE WHEN ' . sprintf($mergeExpr, 'useNameInProductSearch') . ' = FALSE THEN 0 ELSE 1 END) as useNameInProductSearch',
-                    'MAX(' . sprintf($mergeExpr, 'defaultSorting') . ') as defaultSorting',
+                    'MAX(CASE WHEN ' . \sprintf($mergeExpr, 'isVirtual') . ' = TRUE THEN 1 ELSE 0 END) as isVirtual',
+                    'MAX(' . \sprintf($mergeExpr, 'virtualRule') . ') as virtualRule',
+                    'MAX(CASE WHEN ' . \sprintf($mergeExpr, 'useNameInProductSearch') . ' = FALSE THEN 0 ELSE 1 END) as useNameInProductSearch',
+                    'MAX(' . \sprintf($mergeExpr, 'defaultSorting') . ') as defaultSorting',
                     'MAX(CASE WHEN lc.isActive = TRUE THEN 1 ELSE 0 END) as isActive',
                 ]
             )

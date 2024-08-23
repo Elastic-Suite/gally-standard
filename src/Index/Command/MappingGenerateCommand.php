@@ -32,9 +32,6 @@ class MappingGenerateCommand extends Command
         parent::__construct($name);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function configure(): void
     {
         $this
@@ -42,9 +39,6 @@ class MappingGenerateCommand extends Command
             ->setDescription('Debug command to generate entity mapping');
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $ui = new SymfonyStyle($input, $output);

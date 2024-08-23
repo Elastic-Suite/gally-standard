@@ -22,9 +22,6 @@ use Gally\Search\Elasticsearch\Request\QueryInterface;
  */
 class FunctionScore extends AbstractComplexAssembler implements AssemblerInterface
 {
-    /**
-     * {@inheritDoc}
-     */
     public function assembleQuery(QueryInterface $query): array
     {
         if (QueryInterface::TYPE_FUNCTIONSCORE !== $query->getType()) {

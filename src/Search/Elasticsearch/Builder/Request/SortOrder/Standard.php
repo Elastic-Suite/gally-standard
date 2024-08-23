@@ -45,41 +45,26 @@ class Standard implements SortOrderInterface
         $this->missing = $missing ?? (self::SORT_ASC === $direction ? self::MISSING_LAST : self::MISSING_FIRST);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getField(): string
     {
         return $this->field;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getDirection(): string
     {
         return $this->direction ?? self::SORT_ASC;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getType(): string
     {
         return SortOrderInterface::TYPE_STANDARD;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getMissing(): string
     {
         return $this->missing;

@@ -40,19 +40,19 @@ class CategoryProductPositionSave extends AbstractController
         $body = json_decode($request->getContent(), true);
         $category = $this->categoryRepository->find($categoryId);
         if (!$category) {
-            throw new BadRequestHttpException(sprintf('Category with id %s not found.', $categoryId));
+            throw new BadRequestHttpException(\sprintf('Category with id %s not found.', $categoryId));
         }
 
         $catalogId = $body['catalogId'] ?? null;
         $catalog = $catalogId ? $this->catalogRepository->find($catalogId) : null;
         if ($catalogId && !$catalog) {
-            throw new BadRequestHttpException(sprintf('Catalog with id %d not found.', $catalogId));
+            throw new BadRequestHttpException(\sprintf('Catalog with id %d not found.', $catalogId));
         }
 
         $localizedCatalogId = $body['localizedCatalogId'] ?? null;
         $localizedCatalog = $localizedCatalogId ? $this->localizedCatalogRepository->find($localizedCatalogId) : null;
         if ($localizedCatalogId && !$localizedCatalog) {
-            throw new BadRequestHttpException(sprintf('Localized catalog with id %d not found.', $localizedCatalogId));
+            throw new BadRequestHttpException(\sprintf('Localized catalog with id %d not found.', $localizedCatalogId));
         }
 
         $positionsJson = $body['positions'] ?? null;

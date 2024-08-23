@@ -37,12 +37,12 @@ class CategoryProductPositionGet extends AbstractController
     {
         $category = $this->categoryRepository->find($categoryId);
         if (!$category) {
-            throw new BadRequestHttpException(sprintf('Category with id %s not found.', $categoryId));
+            throw new BadRequestHttpException(\sprintf('Category with id %s not found.', $categoryId));
         }
 
         $localizedCatalog = $this->localizedCatalogRepository->find($localizedCatalogId);
         if (!$localizedCatalog) {
-            throw new BadRequestHttpException(sprintf('Localized catalog with id %d not found.', $localizedCatalogId));
+            throw new BadRequestHttpException(\sprintf('Localized catalog with id %d not found.', $localizedCatalogId));
         }
 
         $productPositions = $this->categoryProductPositionManager->getProductPositions(

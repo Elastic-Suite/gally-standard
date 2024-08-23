@@ -24,9 +24,6 @@ use Gally\Search\Elasticsearch\Request\PipelineInterface;
  */
 class MovingFunction implements AssemblerInterface
 {
-    /**
-     * {@inheritDoc}
-     */
     public function assembleAggregation(AggregationInterface $aggregation): array
     {
         if (PipelineInterface::TYPE_MOVING_FUNCTION !== $aggregation->getType()) {

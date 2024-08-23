@@ -49,7 +49,7 @@ class CategoryConfigurationTest extends AbstractEntityTestWithUpdate
         array $data,
         int $responseCode = 201,
         ?string $message = null,
-        string $validRegex = null
+        ?string $validRegex = null
     ): void {
         if (isset($data['catalog'])) {
             $catalogRepository = static::getContainer()->get(CatalogRepository::class);
@@ -65,9 +65,6 @@ class CategoryConfigurationTest extends AbstractEntityTestWithUpdate
         parent::testCreate($user, $data, $responseCode, $message, $validRegex);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function createDataProvider(): iterable
     {
         $adminUser = $this->getUser(Role::ROLE_ADMIN);
@@ -103,9 +100,6 @@ class CategoryConfigurationTest extends AbstractEntityTestWithUpdate
         ];
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getDataProvider(): iterable
     {
         $user = $this->getUser(Role::ROLE_ADMIN);
@@ -118,9 +112,6 @@ class CategoryConfigurationTest extends AbstractEntityTestWithUpdate
         ];
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function deleteDataProvider(): iterable
     {
         $adminUser = $this->getUser(Role::ROLE_ADMIN);
@@ -133,9 +124,6 @@ class CategoryConfigurationTest extends AbstractEntityTestWithUpdate
         ];
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getCollectionDataProvider(): iterable
     {
         return [

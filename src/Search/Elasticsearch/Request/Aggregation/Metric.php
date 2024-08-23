@@ -40,25 +40,16 @@ class Metric implements MetricInterface
         return $this->name;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getField(): string
     {
         return $this->field;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getType(): string
     {
         return $this->type;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getConfig(): array
     {
         return $this->config;

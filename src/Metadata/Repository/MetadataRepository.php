@@ -45,10 +45,10 @@ class MetadataRepository extends ServiceEntityRepository
         if (!$withCache || !isset($this->cache[$entityType])) {
             $metadata = $this->findOneBy(['entity' => $entityType]);
             if (!$metadata) {
-                throw new InvalidArgumentException(sprintf('Entity type [%s] does not exist', $entityType));
+                throw new InvalidArgumentException(\sprintf('Entity type [%s] does not exist', $entityType));
             }
             if (null === $metadata->getEntity()) {
-                throw new InvalidArgumentException(sprintf('Entity type [%s] is not defined', $entityType));
+                throw new InvalidArgumentException(\sprintf('Entity type [%s] is not defined', $entityType));
             }
             $this->cache[$entityType] = $metadata;
         }
@@ -61,7 +61,7 @@ class MetadataRepository extends ServiceEntityRepository
         $resourceMetadata = $this->resourceMetadataCollectionFactory->create($resourceClass);
         $entityType = $this->resourceMetadataManager->getMetadataEntity($resourceMetadata);
         if (null === $entityType) {
-            throw new ResourceClassNotFoundException(sprintf('Resource "%s" has no declared metadata entity.', $resourceClass));
+            throw new ResourceClassNotFoundException(\sprintf('Resource "%s" has no declared metadata entity.', $resourceClass));
         }
 
         return $this->findByEntity($entityType);

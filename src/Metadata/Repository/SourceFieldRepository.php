@@ -184,7 +184,7 @@ class SourceFieldRepository extends ServiceEntityRepository
     public function massInsertOrUpdate(array $sourceFieldData): void
     {
         $sourceFieldData = array_map(
-            fn ($data) => sprintf(
+            fn ($data) => \sprintf(
                 '(%s, %s' . str_repeat(',%s', \count($this->entityFields)) . ')',
                 $data['id'],
                 $data['metadata_id'],
@@ -196,7 +196,7 @@ class SourceFieldRepository extends ServiceEntityRepository
         $this->getEntityManager()
             ->getConnection()
             ->executeQuery(
-                sprintf(
+                \sprintf(
                     'INSERT INTO source_field (id, metadata_id, %s) ' .
                     'VALUES %s ON CONFLICT (metadata_id, code) ' .
                     'DO UPDATE SET %s',

@@ -19,16 +19,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 final class CreateIndexDto
 {
-    /**
-     * @var string
-     */
     #[Assert\NotBlank]
     #[Groups(['create'])]
     public string $entityType;
 
-    /**
-     * @var string
-     */
     #[Assert\NotBlank]
     #[Groups(['create'])]
     public string $localizedCatalog;

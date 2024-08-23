@@ -29,9 +29,6 @@ class QueryGroup implements AssemblerInterface
     {
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function assembleAggregation(AggregationInterface $aggregation): array
     {
         if (BucketInterface::TYPE_QUERY_GROUP !== $aggregation->getType()) {

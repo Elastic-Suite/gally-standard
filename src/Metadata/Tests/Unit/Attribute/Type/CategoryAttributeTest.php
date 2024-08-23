@@ -14,7 +14,6 @@ declare(strict_types=1);
 
 namespace Gally\Metadata\Tests\Unit\Attribute\Type;
 
-use ArgumentCountError;
 use Gally\Metadata\Model\Attribute\AttributeFactory;
 use Gally\Metadata\Model\Attribute\Type\CategoryAttribute;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -23,7 +22,7 @@ class CategoryAttributeTest extends KernelTestCase
 {
     public function testInstantiateFailure(): void
     {
-        $this->expectException(ArgumentCountError::class);
+        $this->expectException(\ArgumentCountError::class);
         $categoryAttribute = $this->getMockBuilder(CategoryAttribute::class)
             ->getMock();
     }

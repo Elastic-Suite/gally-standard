@@ -24,9 +24,6 @@ class SelectAttribute extends AbstractStructuredAttribute implements AttributeIn
 {
     public const ATTRIBUTE_TYPE = 'select';
 
-    /**
-     * {@inheritDoc}
-     */
     public static function getFields(): array
     {
         return [

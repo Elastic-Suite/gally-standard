@@ -31,15 +31,13 @@ class InstallIndexMutation implements MutationResolverInterface
     /**
      * @param object|null  $item    The item to be mutated
      * @param array<mixed> $context Context
-     *
-     * @return object|null
      */
     public function __invoke(?object $item, array $context): ?object
     {
         /** @var Index $item */
         $index = $this->indexRepository->findByName($item->getName());
         if (null === $index) {
-            throw new InvalidArgumentException(sprintf('Index [%s] does not exist', $item->getName()));
+            throw new InvalidArgumentException(\sprintf('Index [%s] does not exist', $item->getName()));
         }
 
         $this->indexOperation->installIndexByName($index->getName());

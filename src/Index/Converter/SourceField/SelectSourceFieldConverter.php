@@ -19,22 +19,16 @@ use Gally\Metadata\Model\SourceField;
 
 class SelectSourceFieldConverter implements SourceFieldConverterInterface
 {
-    /**
-     * {@inheritDoc}
-     */
     public function supports(SourceField $sourceField): bool
     {
         return SourceField\Type::TYPE_SELECT === $sourceField->getType();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getFields(SourceField $sourceField): array
     {
         $fields = [];
 
-        $fieldCode = sprintf('%s.value', $sourceField->getCode());
+        $fieldCode = \sprintf('%s.value', $sourceField->getCode());
         $path = $sourceField->getCode();
         /*
          * Do NOT support nested select fields for the moment, ie super.brand
@@ -48,7 +42,7 @@ class SelectSourceFieldConverter implements SourceFieldConverterInterface
 
         $fields[$fieldCode] = new Mapping\Field($fieldCode, $fieldType, $path);
 
-        $fieldCode = sprintf('%s.label', $sourceField->getCode());
+        $fieldCode = \sprintf('%s.label', $sourceField->getCode());
         $fieldConfig = [
             'is_searchable' => $sourceField->getIsSearchable(),
             'is_used_in_spellcheck' => $sourceField->getIsSpellchecked(),

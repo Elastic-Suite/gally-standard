@@ -14,20 +14,17 @@ declare(strict_types=1);
 
 namespace Gally\Search\Model\Facet;
 
-use ApiPlatform\Metadata\GraphQl\QueryCollection;
-use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Metadata\ApiProperty;
-use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Action\NotFoundAction;
-use Gally\GraphQl\Decoration\Resolver\Stage\ReadStage;
-use Gally\Search\GraphQl\Type\Definition\FieldFilterInputType;
+use ApiPlatform\Metadata\ApiProperty;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GraphQl\QueryCollection;
 use Gally\Search\Resolver\DummyResolver;
 use Gally\Search\State\Facet\OptionProvider;
 
 #[ApiResource(
     operations: [
-        new Get(controller: NotFoundAction::class, read: false, output: false)
+        new Get(controller: NotFoundAction::class, read: false, output: false),
     ],
     graphQlOperations: [
         new QueryCollection(
@@ -38,22 +35,22 @@ use Gally\Search\State\Facet\OptionProvider;
             args: [
                 'entityType' => [
                     'type' => 'String!',
-                    'description' => 'Entity Type'
+                    'description' => 'Entity Type',
                 ],
                 'localizedCatalog' => [
-                    'type' => 'String!', 'description' => 'Localized Catalog'
+                    'type' => 'String!', 'description' => 'Localized Catalog',
                 ],
                 'aggregation' => [
-                    'type' => 'String!', 'description' => 'Source field to get complete aggregation'
+                    'type' => 'String!', 'description' => 'Source field to get complete aggregation',
                 ],
                 'search' => [
-                    'type' => 'String', 'description' => 'Query Text'
+                    'type' => 'String', 'description' => 'Query Text',
                 ],
                 'filter' => [
-                    'type' => '[FieldFilterInput]', 'is_gally_arg' => true
-                ]
+                    'type' => '[FieldFilterInput]', 'is_gally_arg' => true,
+                ],
             ]
-        )
+        ),
     ],
     provider: OptionProvider::class,
     shortName: 'FacetOption',

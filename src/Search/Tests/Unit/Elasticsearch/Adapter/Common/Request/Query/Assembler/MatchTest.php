@@ -15,7 +15,7 @@ declare(strict_types=1);
 namespace Gally\Search\Tests\Unit\Elasticsearch\Adapter\Common\Request\Query\Assembler;
 
 use Gally\Search\Elasticsearch\Adapter\Common\Request\Query\Assembler\MatchQuery as MatchQueryAssembler;
-use Gally\Search\Elasticsearch\Request\Query\MatchQuery as MatchQuery;
+use Gally\Search\Elasticsearch\Request\Query\MatchQuery;
 
 /**
  * Match search request query test case.
@@ -61,9 +61,6 @@ class MatchTest extends AbstractSimpleQueryAssemblerTestCase
         $this->assertEquals('queryName', $query['match']['_name']);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     protected function getQueryAssembler(): MatchQueryAssembler
     {
         return new MatchQueryAssembler();

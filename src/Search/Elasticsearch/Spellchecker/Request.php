@@ -45,25 +45,16 @@ class Request implements RequestInterface
     ) {
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getIndexName(): string
     {
         return $this->indexName;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getQueryText(): string
     {
         return $this->queryText;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getCutoffFrequency(): float
     {
         return $this->cutoffFrequency;

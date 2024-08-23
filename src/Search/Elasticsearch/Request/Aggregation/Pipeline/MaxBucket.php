@@ -36,9 +36,6 @@ class MaxBucket extends AbstractPipeline
         parent::__construct($name, $bucketsPath);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getType(): string
     {
         return self::TYPE_MAX_BUCKET;

@@ -14,11 +14,9 @@ declare(strict_types=1);
 
 namespace Gally\Index\State;
 
-use ApiPlatform\Core\DataPersister\DataPersisterInterface;
 use ApiPlatform\Metadata\DeleteOperationInterface;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
-use Gally\Index\Model\Index;
 use Gally\Index\Model\IndexDocument;
 use Gally\Index\Repository\Document\DocumentRepositoryInterface;
 
@@ -30,8 +28,6 @@ class DocumentProcessor implements ProcessorInterface
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @param IndexDocument $data
      */
     public function process($data, Operation $operation, array $uriVariables = [], array $context = []): ?IndexDocument

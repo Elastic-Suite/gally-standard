@@ -84,16 +84,16 @@ class SearchDocumentsTest extends AbstractTestCase
     ): void {
         $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
 
-        $arguments = sprintf(
+        $arguments = \sprintf(
             'entityType: "%s", localizedCatalog: "%s"',
             $entityType,
             $catalogId
         );
         if (null !== $pageSize) {
-            $arguments .= sprintf(', pageSize: %d', $pageSize);
+            $arguments .= \sprintf(', pageSize: %d', $pageSize);
         }
         if (null !== $currentPage) {
-            $arguments .= sprintf(', currentPage: %d', $currentPage);
+            $arguments .= \sprintf(', currentPage: %d', $currentPage);
         }
 
         $this->validateApiCall(
@@ -119,14 +119,14 @@ class SearchDocumentsTest extends AbstractTestCase
             new ExpectedResponse(
                 200,
                 function (ResponseInterface $response) use (
-                        $expectedError,
-                        $expectedItemsCount,
-                        $expectedTotalCount,
-                        $expectedItemsPerPage,
-                        $expectedLastPage,
-                        $expectedIndexAlias,
-                        $expectedScore
-                    ) {
+                    $expectedError,
+                    $expectedItemsCount,
+                    $expectedTotalCount,
+                    $expectedItemsPerPage,
+                    $expectedLastPage,
+                    $expectedIndexAlias,
+                    $expectedScore
+                ) {
                     if (!empty($expectedError)) {
                         $this->assertGraphQlError($expectedError);
                         $this->assertJsonContains([
@@ -312,7 +312,7 @@ class SearchDocumentsTest extends AbstractTestCase
     ): void {
         $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
 
-        $arguments = sprintf(
+        $arguments = \sprintf(
             'entityType: "%s", localizedCatalog: "%s", pageSize: %d, currentPage: %d',
             $entityType,
             $catalogId,
@@ -582,7 +582,7 @@ class SearchDocumentsTest extends AbstractTestCase
     ): void {
         $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
 
-        $arguments = sprintf(
+        $arguments = \sprintf(
             'entityType: "%s", localizedCatalog: "%s", pageSize: %d, currentPage: %d',
             $entityType,
             $catalogId,
@@ -748,7 +748,7 @@ class SearchDocumentsTest extends AbstractTestCase
     ): void {
         $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
 
-        $arguments = sprintf(
+        $arguments = \sprintf(
             'entityType: "%s", localizedCatalog: "%s", pageSize: %d, currentPage: %d',
             $entityType,
             $catalogId,
@@ -757,11 +757,11 @@ class SearchDocumentsTest extends AbstractTestCase
         );
 
         if (null !== $query) {
-            $arguments .= sprintf(', search: "%s"', $query);
+            $arguments .= \sprintf(', search: "%s"', $query);
         }
 
         if (null !== $requestType) {
-            $arguments .= sprintf(', requestType: %s', $requestType);
+            $arguments .= \sprintf(', requestType: %s', $requestType);
         }
 
         $this->validateApiCall(
@@ -1328,7 +1328,7 @@ class SearchDocumentsTest extends AbstractTestCase
     ): void {
         $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
 
-        $arguments = sprintf(
+        $arguments = \sprintf(
             'entityType: "%s", localizedCatalog: "%s", filter: [%s]',
             $entityType,
             $catalogId,
@@ -1444,7 +1444,7 @@ class SearchDocumentsTest extends AbstractTestCase
     ): void {
         $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
 
-        $arguments = sprintf(
+        $arguments = \sprintf(
             'entityType: "%s", localizedCatalog: "%s", pageSize: %d, currentPage: %d, filter: [%s]',
             $entityType,
             $catalogId,
@@ -1799,7 +1799,7 @@ class SearchDocumentsTest extends AbstractTestCase
     ): void {
         $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
 
-        $arguments = sprintf(
+        $arguments = \sprintf(
             'entityType: "%s", localizedCatalog: "%s", pageSize: %d, currentPage: %d, search: "%s"',
             $entityType,
             $catalogId,
@@ -2054,7 +2054,7 @@ class SearchDocumentsTest extends AbstractTestCase
     ): void {
         $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
 
-        $arguments = sprintf(
+        $arguments = \sprintf(
             'entityType: "%s", localizedCatalog: "%s", pageSize: %d, currentPage: %d',
             $entityType,
             $catalogId,
@@ -2062,7 +2062,7 @@ class SearchDocumentsTest extends AbstractTestCase
             $currentPage,
         );
         if ($filter) {
-            $arguments = sprintf(
+            $arguments = \sprintf(
                 'entityType: "%s", localizedCatalog: "%s", pageSize: %d, currentPage: %d, filter: [%s]',
                 $entityType,
                 $catalogId,
@@ -2169,7 +2169,7 @@ class SearchDocumentsTest extends AbstractTestCase
     ): void {
         $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
 
-        $arguments = sprintf(
+        $arguments = \sprintf(
             'entityType: "%s", localizedCatalog: "%s", pageSize: %d, currentPage: %d',
             $entityType,
             $catalogId,
@@ -2177,7 +2177,7 @@ class SearchDocumentsTest extends AbstractTestCase
             $currentPage,
         );
         if ($filter) {
-            $arguments = sprintf(
+            $arguments = \sprintf(
                 'entityType: "%s", localizedCatalog: "%s", pageSize: %d, currentPage: %d, filter: [%s]',
                 $entityType,
                 $catalogId,
@@ -2224,9 +2224,9 @@ class SearchDocumentsTest extends AbstractTestCase
         if (!empty($sortOrders)) {
             $sortArguments = [];
             foreach ($sortOrders as $field => $direction) {
-                $sortArguments[] = sprintf('field: "%s", direction: %s', $field, $direction);
+                $sortArguments[] = \sprintf('field: "%s", direction: %s', $field, $direction);
             }
-            $arguments .= sprintf(', sort: {%s}', implode(', ', $sortArguments));
+            $arguments .= \sprintf(', sort: {%s}', implode(', ', $sortArguments));
         }
     }
 }

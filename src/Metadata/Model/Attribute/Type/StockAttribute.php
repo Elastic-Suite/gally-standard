@@ -21,9 +21,6 @@ class StockAttribute extends AbstractStructuredAttribute implements AttributeInt
 {
     public const ATTRIBUTE_TYPE = 'stock';
 
-    /**
-     * {@inheritDoc}
-     */
     public static function getFields(): array
     {
         // Possible additional fields in the future.
@@ -33,9 +30,6 @@ class StockAttribute extends AbstractStructuredAttribute implements AttributeInt
         ];
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public static function isList(): bool
     {
         return false;

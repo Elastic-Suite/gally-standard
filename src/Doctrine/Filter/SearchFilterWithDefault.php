@@ -14,11 +14,10 @@ declare(strict_types=1);
 
 namespace Gally\Doctrine\Filter;
 
-
 use ApiPlatform\Api\IriConverterInterface;
-use ApiPlatform\Exception\InvalidArgumentException;
 use ApiPlatform\Doctrine\Common\Filter\SearchFilterTrait;
 use ApiPlatform\Doctrine\Orm\Util\QueryNameGeneratorInterface;
+use ApiPlatform\Exception\InvalidArgumentException;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Gally\Doctrine\Filter\SearchFilter as GallySearchFilter;
@@ -30,22 +29,20 @@ use Symfony\Component\Serializer\NameConverter\NameConverterInterface;
 class SearchFilterWithDefault extends GallySearchFilter
 {
     use SearchFilterTrait;
+
     public function __construct(
         ManagerRegistry $managerRegistry,
         IriConverterInterface $iriConverter,
-        PropertyAccessorInterface $propertyAccessor = null,
-        LoggerInterface $logger = null,
-        array $properties = null,
-        NameConverterInterface $nameConverter = null,
+        ?PropertyAccessorInterface $propertyAccessor = null,
+        ?LoggerInterface $logger = null,
+        ?array $properties = null,
+        ?NameConverterInterface $nameConverter = null,
         private string $defaultAlias = 'default',
         private array $defaultValues = [],
     ) {
         parent::__construct($managerRegistry, $iriConverter, $propertyAccessor, $logger, $properties, $nameConverter);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     protected function addWhereByStrategy(string $strategy, QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, string $alias, string $field, $values, bool $caseSensitive): void
     {
         if (!\is_array($values)) {
@@ -78,7 +75,7 @@ class SearchFilterWithDefault extends GallySearchFilter
         $ors = [];
         $parameters = [];
         foreach ($values as $key => $value) {
-            $keyValueParameter = sprintf('%s_%s', $valueParameter, $key);
+            $keyValueParameter = \sprintf('%s_%s', $valueParameter, $key);
             $parameters[$caseSensitive ? $value : strtolower($value)] = $keyValueParameter;
 
             switch ($strategy) {
@@ -107,7 +104,7 @@ class SearchFilterWithDefault extends GallySearchFilter
                     );
                     break;
                 default:
-                    throw new InvalidArgumentException(sprintf('strategy %s does not exist.', $strategy));
+                    throw new InvalidArgumentException(\sprintf('strategy %s does not exist.', $strategy));
             }
         }
 

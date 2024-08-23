@@ -14,8 +14,6 @@ declare(strict_types=1);
 
 namespace Gally\Search\State\Facet;
 
-use ApiPlatform\Core\DataProvider\ContextAwareCollectionDataProviderInterface;
-use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
 use ApiPlatform\Metadata\CollectionOperationInterface;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\Pagination\PartialPaginatorInterface;
@@ -58,8 +56,6 @@ class OptionProvider implements ProviderInterface
     }
 
     /**
-     * {@inheritDoc}
-     *
      * @return T|PartialPaginatorInterface<T>|iterable<T>|null
      */
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null

@@ -76,7 +76,7 @@ class CategoryConfigurationTest extends AbstractTestCase
             new ExpectedResponse(
                 200,
                 function (ResponseInterface $response) use ($expectedData) {
-                    if (array_key_exists('error', $expectedData)) {
+                    if (\array_key_exists('error', $expectedData)) {
                         $this->assertGraphQlError($expectedData['error']);
                     } else {
                         $this->assertJsonContains($expectedData);
@@ -114,7 +114,7 @@ class CategoryConfigurationTest extends AbstractTestCase
             'one',
             'b2c',
             'b2c_fr',
-            ['error' =>'Access Denied.'],
+            ['error' => 'Access Denied.'],
             null,
         ];
         yield [

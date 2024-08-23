@@ -41,7 +41,7 @@ class ClearRuleCache extends AbstractTestCase
 
     protected static MetadataRepository $metadataRepository;
 
-    protected static Metadata  $productMetaData;
+    protected static Metadata $productMetaData;
 
     protected static LocalizedCatalogRepository $localizedCatalogRepository;
 

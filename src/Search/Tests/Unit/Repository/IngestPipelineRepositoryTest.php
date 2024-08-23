@@ -95,7 +95,7 @@ class IngestPipelineRepositoryTest extends AbstractTestCase
                     'append' => [
                         'field' => 'new_field',
                         'if' => "(ctx['name'] instanceof String)",
-                        'value' => sprintf('Le produit se nomme : %s', '{{{name}}}'),
+                        'value' => \sprintf('Le produit se nomme : %s', '{{{name}}}'),
                     ],
                 ],
                 [
@@ -110,6 +110,7 @@ class IngestPipelineRepositoryTest extends AbstractTestCase
 
     /**
      * @depends testCreate
+     *
      * @dataProvider getDataProvider
      */
     public function testGet(
@@ -165,7 +166,7 @@ class IngestPipelineRepositoryTest extends AbstractTestCase
                     'append' => [
                         'field' => 'new_field',
                         'if' => "(ctx['name'] instanceof String)",
-                        'value' => sprintf('Le produit se nomme : %s', '{{{name}}}'),
+                        'value' => \sprintf('Le produit se nomme : %s', '{{{name}}}'),
                     ],
                 ],
                 [

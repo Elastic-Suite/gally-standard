@@ -67,7 +67,7 @@ class ViewMoreFacetTest extends AbstractTestCase
     ): void {
         $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
 
-        $arguments = sprintf(
+        $arguments = \sprintf(
             'entityType: "%s", localizedCatalog: "%s", aggregation: "%s", filter: [%s]',
             $entityType,
             $catalogId,

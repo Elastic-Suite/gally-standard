@@ -54,9 +54,6 @@ class TermTest extends AbstractSimpleQueryAssemblerTestCase
         $this->assertEquals('queryName', $query['term']['_name']);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     protected function getQueryAssembler(): TermQueryAssembler
     {
         return new TermQueryAssembler();

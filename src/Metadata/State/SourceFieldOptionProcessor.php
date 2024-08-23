@@ -14,7 +14,6 @@ declare(strict_types=1);
 
 namespace Gally\Metadata\State;
 
-use ApiPlatform\Core\DataPersister\DataPersisterInterface;
 use ApiPlatform\Exception\InvalidArgumentException;
 use ApiPlatform\Metadata\DeleteOperationInterface;
 use ApiPlatform\Metadata\Operation;
@@ -48,13 +47,9 @@ class SourceFieldOptionProcessor implements ProcessorInterface
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @param SourceFieldOption $data
      *
      * @throws Exception
-     *
-     * @return SourceFieldOption
      */
     public function process($data, Operation $operation, array $uriVariables = [], array $context = []): ?SourceFieldOption
     {
@@ -65,15 +60,12 @@ class SourceFieldOptionProcessor implements ProcessorInterface
         return $this->persist($data);
     }
 
-
     /**
      * Persist source fields options.
      *
      * @param SourceFieldOption $data
      *
      * @throws Exception
-     *
-     * @return SourceFieldOption
      */
     public function persist($data): SourceFieldOption
     {
@@ -200,7 +192,7 @@ class SourceFieldOptionProcessor implements ProcessorInterface
                 $this->optionsData[$sourceFieldId][$option['code']] = $option;
                 $this->optionCodes[$option['code']] = $option['code'];
             } catch (\Exception $exception) {
-                $this->errors[] = sprintf('Option #%d: %s', $index, $exception->getMessage());
+                $this->errors[] = \sprintf('Option #%d: %s', $index, $exception->getMessage());
             }
         }
     }

@@ -58,9 +58,6 @@ class DateHistogram extends Histogram
         );
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getType(): string
     {
         return BucketInterface::TYPE_DATE_HISTOGRAM;

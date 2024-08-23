@@ -55,9 +55,6 @@ class DateRange extends AbstractBucket
         );
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getType(): string
     {
         return BucketInterface::TYPE_DATE_RANGE;

@@ -19,17 +19,11 @@ use Gally\Metadata\Model\SourceField;
 
 class PriceSourceFieldConverter implements SourceFieldConverterInterface
 {
-    /**
-     * {@inheritDoc}
-     */
     public function supports(SourceField $sourceField): bool
     {
         return SourceField\Type::TYPE_PRICE === $sourceField->getType();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getFields(SourceField $sourceField): array
     {
         $fields = [];
@@ -52,7 +46,7 @@ class PriceSourceFieldConverter implements SourceFieldConverterInterface
         ];
 
         foreach ($innerFields as $fieldName => $fieldType) {
-            $finalFieldName = sprintf('%s.%s', $path, $fieldName);
+            $finalFieldName = \sprintf('%s.%s', $path, $fieldName);
             $fields[$finalFieldName] = new Mapping\Field(
                 $finalFieldName,
                 $fieldType,

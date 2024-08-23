@@ -44,8 +44,6 @@ class QueryBuilder extends BaseQueryBuilder
     }
 
     /**
-     * {@inheritDoc}
-     *
      * @return Query
      */
     public function getQuery()

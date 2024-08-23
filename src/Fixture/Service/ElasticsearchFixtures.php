@@ -24,12 +24,6 @@ class ElasticsearchFixtures implements ElasticsearchFixturesInterface
 {
     /**
      * ElasticsearchFixtures constructor.
-     *
-     * @param ValidatorInterface          $validator
-     * @param IndexRepositoryInterface    $indexRepository
-     * @param DocumentRepositoryInterface $documentRepository
-     * @param string                      $env
-     * @param bool                        $testMode
      */
     public function __construct(
         private ValidatorInterface $validator,

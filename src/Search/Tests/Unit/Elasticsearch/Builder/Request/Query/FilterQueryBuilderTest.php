@@ -23,7 +23,6 @@ use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface;
 use Gally\Search\Elasticsearch\Request\QueryFactory;
 use Gally\Search\Elasticsearch\Request\QueryInterface;
 use Gally\Search\Service\SearchContext;
-use LogicException;
 use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
@@ -161,7 +160,7 @@ class FilterQueryBuilderTest extends KernelTestCase
      */
     public function testNestedErrorFieldFilter(): void
     {
-        $this->expectException(LogicException::class);
+        $this->expectException(\LogicException::class);
         $this->expectExceptionMessage('Can not filter nested field nested.child with nested path invalidCustomPath');
         $this->buildQuery(['nested.child' => 'filterValue'], 'invalidCustomPath');
     }
@@ -171,7 +170,7 @@ class FilterQueryBuilderTest extends KernelTestCase
      */
     public function testNestedError2FieldFilter(): void
     {
-        $this->expectException(LogicException::class);
+        $this->expectException(\LogicException::class);
         $this->expectExceptionMessage('Can not filter non nested field simpleTextField in nested context (nested)');
         $this->buildQuery(['simpleTextField' => 'filterValue'], 'nested');
     }
@@ -182,7 +181,7 @@ class FilterQueryBuilderTest extends KernelTestCase
     public function testUnsupportedCondition(): void
     {
         $this->expectExceptionMessage('Condition regexp is not supported.');
-        $this->expectException(LogicException::class);
+        $this->expectException(\LogicException::class);
         $this->buildQuery(['simpleTextField' => ['regexp' => 'filterValue']]);
     }
 

@@ -28,14 +28,11 @@ use Symfony\Component\Console\Output\OutputInterface;
 #[AsCommand(name: 'gally:cache:clear-tags')]
 class ClearTagsCommand extends Command
 {
-    public function __construct(private CacheManagerInterface $cache, string $name = null)
+    public function __construct(private CacheManagerInterface $cache, ?string $name = null)
     {
         parent::__construct($name);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     protected function configure(): void
     {
         $this->setDescription('Clear tag(s) from gally specific cache pool.');
@@ -51,9 +48,6 @@ EOF
             );
     }
 
-    /**
-     * {@inheritDoc}
-     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $tags = $input->getArgument('tags');

@@ -14,14 +14,13 @@ declare(strict_types=1);
 
 namespace Gally\Index\Model;
 
-use ApiPlatform\Metadata\GraphQl\Mutation;
-use ApiPlatform\Metadata\Post;
+use ApiPlatform\Action\NotFoundAction;
+use ApiPlatform\Metadata\ApiProperty;
+use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Metadata\ApiProperty;
-use ApiPlatform\Metadata\ApiFilter;
-use ApiPlatform\Action\NotFoundAction;
+use ApiPlatform\Metadata\GraphQl\Mutation;
+use ApiPlatform\Metadata\Post;
 use Gally\Index\Controller\RemoveIndexDocument;
 use Gally\Index\State\DocumentProcessor;
 use Gally\User\Constant\Role;
@@ -42,7 +41,7 @@ use Gally\User\Constant\Role;
                     [
                         'name' => 'indexName',
                         'in' => 'path', 'type' => 'string',
-                        'required' => true
+                        'required' => true,
                     ],
                 ],
                 'requestBody' => [
@@ -52,7 +51,7 @@ use Gally\User\Constant\Role;
                                 'type' => 'object',
                                 'properties' => [
                                     'document_ids' => [
-                                        'type' => 'array'
+                                        'type' => 'array',
                                     ],
                                 ],
                             ],

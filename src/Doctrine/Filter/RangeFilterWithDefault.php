@@ -14,11 +14,9 @@ declare(strict_types=1);
 
 namespace Gally\Doctrine\Filter;
 
-
 use ApiPlatform\Doctrine\Common\Filter\RangeFilterInterface;
 use ApiPlatform\Doctrine\Common\Filter\RangeFilterTrait;
 use ApiPlatform\Doctrine\Orm\Filter\AbstractFilter;
-use ApiPlatform\Doctrine\Orm\Filter\RangeFilter as BaseRangeFilter;
 use ApiPlatform\Doctrine\Orm\Util\QueryNameGeneratorInterface;
 use ApiPlatform\Metadata\Operation;
 use Doctrine\ORM\Query\Expr\Join;
@@ -30,20 +28,18 @@ use Symfony\Component\Serializer\NameConverter\NameConverterInterface;
 class RangeFilterWithDefault extends AbstractFilter implements RangeFilterInterface
 {
     use RangeFilterTrait;
+
     public function __construct(
         ManagerRegistry $managerRegistry,
-        LoggerInterface $logger = null,
-        array $properties = null,
-        NameConverterInterface $nameConverter = null,
+        ?LoggerInterface $logger = null,
+        ?array $properties = null,
+        ?NameConverterInterface $nameConverter = null,
         private string $defaultAlias = 'default',
         private array $defaultValues = [],
     ) {
         parent::__construct($managerRegistry, $logger, $properties, $nameConverter);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function filterProperty(string $property, $values, QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, string $resourceClass, ?Operation $operation = null, array $context = []): void
     {
         if (
@@ -105,16 +101,16 @@ class RangeFilterWithDefault extends AbstractFilter implements RangeFilterInterf
 
                 if ($rangeValue[0] === $rangeValue[1]) {
                     $queryBuilder
-                        ->andWhere(sprintf('%s = :%s', $fieldWithDefault, $valueParameter))
+                        ->andWhere(\sprintf('%s = :%s', $fieldWithDefault, $valueParameter))
                         ->setParameter($valueParameter, $rangeValue[0]);
 
                     return;
                 }
 
                 $queryBuilder
-                    ->andWhere(sprintf('%1$s >= :%2$s_1 AND %1$s <= :%2$s_2', $fieldWithDefault, $valueParameter))
-                    ->setParameter(sprintf('%s_1', $valueParameter), $rangeValue[0])
-                    ->setParameter(sprintf('%s_2', $valueParameter), $rangeValue[1]);
+                    ->andWhere(\sprintf('%1$s >= :%2$s_1 AND %1$s <= :%2$s_2', $fieldWithDefault, $valueParameter))
+                    ->setParameter(\sprintf('%s_1', $valueParameter), $rangeValue[0])
+                    ->setParameter(\sprintf('%s_2', $valueParameter), $rangeValue[1]);
 
                 break;
             case self::PARAMETER_GREATER_THAN:
@@ -124,7 +120,7 @@ class RangeFilterWithDefault extends AbstractFilter implements RangeFilterInterf
                 }
 
                 $queryBuilder
-                    ->andWhere(sprintf('%s > :%s', $fieldWithDefault, $valueParameter))
+                    ->andWhere(\sprintf('%s > :%s', $fieldWithDefault, $valueParameter))
                     ->setParameter($valueParameter, $value);
 
                 break;
@@ -135,7 +131,7 @@ class RangeFilterWithDefault extends AbstractFilter implements RangeFilterInterf
                 }
 
                 $queryBuilder
-                    ->andWhere(sprintf('%s >= :%s', $fieldWithDefault, $valueParameter))
+                    ->andWhere(\sprintf('%s >= :%s', $fieldWithDefault, $valueParameter))
                     ->setParameter($valueParameter, $value);
 
                 break;
@@ -146,7 +142,7 @@ class RangeFilterWithDefault extends AbstractFilter implements RangeFilterInterf
                 }
 
                 $queryBuilder
-                    ->andWhere(sprintf('%s < :%s', $fieldWithDefault, $valueParameter))
+                    ->andWhere(\sprintf('%s < :%s', $fieldWithDefault, $valueParameter))
                     ->setParameter($valueParameter, $value);
 
                 break;
@@ -157,7 +153,7 @@ class RangeFilterWithDefault extends AbstractFilter implements RangeFilterInterf
                 }
 
                 $queryBuilder
-                    ->andWhere(sprintf('%s <= :%s', $fieldWithDefault, $valueParameter))
+                    ->andWhere(\sprintf('%s <= :%s', $fieldWithDefault, $valueParameter))
                     ->setParameter($valueParameter, $value);
 
                 break;

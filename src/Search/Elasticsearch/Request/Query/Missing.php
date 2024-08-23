@@ -44,25 +44,16 @@ class Missing implements QueryInterface
         $this->field = $field;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getBoost(): float
     {
         return $this->boost;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getType(): string
     {
         return QueryInterface::TYPE_MISSING;

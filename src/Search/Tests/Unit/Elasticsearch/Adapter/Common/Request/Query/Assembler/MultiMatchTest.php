@@ -102,9 +102,6 @@ class MultiMatchTest extends AbstractSimpleQueryAssemblerTestCase
         $this->assertEquals(10, $query['multi_match']['max_expansions']);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     protected function getQueryAssembler(): MultiMatchQueryAssembler
     {
         return new MultiMatchQueryAssembler();

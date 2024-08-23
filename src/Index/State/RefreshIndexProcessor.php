@@ -31,8 +31,6 @@ class RefreshIndexProcessor implements ProcessorInterface
     }
 
     /**
-     * {@inheritDoc}
-     *
      * @param RefreshIndexDto $data data
      *
      * @throws InvalidArgumentException
@@ -43,7 +41,7 @@ class RefreshIndexProcessor implements ProcessorInterface
             $index = $context['previous_data'];
             $this->indexRepository->refresh($index->getName());
 
-            $request = $context['request'] ??  null;
+            $request = $context['request'] ?? null;
             $format = $request?->getRequestFormat() ?? 'jsonld';
 
             return $this->serializer->serialize($index, $format);

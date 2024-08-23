@@ -20,7 +20,6 @@ use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use Gally\Doctrine\Filter\SearchFilter as GallySearchFilter;
 
-
 /**
  * Filters the collection on several columns.
  * The columns must be defined in filter's properties.
@@ -33,12 +32,12 @@ class SearchColumnsFilter extends GallySearchFilter
         QueryBuilder $queryBuilder,
         QueryNameGeneratorInterface $queryNameGenerator,
         string $resourceClass,
-        Operation $operation = null,
+        ?Operation $operation = null,
         array $context = []
     ): void {
         if (
-            !$this->isPropertyEnabled($property, $resourceClass) ||
-            !$this->isPropertyMapped($property, $resourceClass)
+            !$this->isPropertyEnabled($property, $resourceClass)
+            || !$this->isPropertyMapped($property, $resourceClass)
         ) {
             return;
         }
@@ -67,10 +66,10 @@ class SearchColumnsFilter extends GallySearchFilter
                     Join::LEFT_JOIN
                 );
                 $parameterName = $queryNameGenerator->generateParameterName($propertyToFilter);
-                $aliasedField = sprintf('%s.%s', $associationAlias, $field);
+                $aliasedField = \sprintf('%s.%s', $associationAlias, $field);
             } else {
                 $parameterName = $queryNameGenerator->generateParameterName($propertyToFilter);
-                $aliasedField = sprintf('%s.%s', $alias, $propertyToFilter);
+                $aliasedField = \sprintf('%s.%s', $alias, $propertyToFilter);
             }
 
             $where[] = $queryBuilder->expr()->like(

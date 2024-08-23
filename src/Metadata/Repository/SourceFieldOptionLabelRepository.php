@@ -66,7 +66,7 @@ class SourceFieldOptionLabelRepository extends ServiceEntityRepository
     public function massInsertOrUpdate(array $labelData): void
     {
         $labelData = array_map(
-            fn ($data) => sprintf(
+            fn ($data) => \sprintf(
                 '(%s, %d, %d, %s)',
                 $data['id'],
                 $data['localized_catalog_id'],
@@ -78,7 +78,7 @@ class SourceFieldOptionLabelRepository extends ServiceEntityRepository
         $this->getEntityManager()
             ->getConnection()
             ->executeQuery(
-                sprintf(
+                \sprintf(
                     'INSERT INTO source_field_option_label (id, localized_catalog_id, source_field_option_id, label) ' .
                     'VALUES %s ON CONFLICT (localized_catalog_id, source_field_option_id) ' .
                     'DO UPDATE SET label = excluded.label',

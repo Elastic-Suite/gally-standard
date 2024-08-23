@@ -33,9 +33,6 @@ class MappingStatusCommand extends Command
         parent::__construct($name);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function configure(): void
     {
         $this
@@ -43,9 +40,6 @@ class MappingStatusCommand extends Command
             ->setDescription('Debug command to generate entity mapping');
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $ui = new SymfonyStyle($input, $output);

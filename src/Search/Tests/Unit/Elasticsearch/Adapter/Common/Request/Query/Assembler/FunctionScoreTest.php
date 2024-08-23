@@ -79,9 +79,6 @@ class FunctionScoreTest extends AbstractComplexQueryAssemblerTestCase
         $this->assertEquals('queryName', $query['function_score']['_name']);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     protected function getQueryAssembler(): FunctionScoreQueryAssembler
     {
         return new FunctionScoreQueryAssembler($this->getParentQueryAssembler());

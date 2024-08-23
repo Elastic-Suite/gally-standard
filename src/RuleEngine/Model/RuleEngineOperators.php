@@ -14,11 +14,9 @@ declare(strict_types=1);
 
 namespace Gally\RuleEngine\Model;
 
-use ApiPlatform\Metadata\GraphQl\Query;
-use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Metadata\ApiProperty;
-use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GraphQl\Query;
 use Gally\RuleEngine\Controller\RuleEngineOperatorsController;
 use Gally\RuleEngine\Resolver\RuleEngineOperatorsResolver;
 use Gally\User\Constant\Role;
@@ -32,7 +30,7 @@ use Gally\User\Constant\Role;
             deserialize: false,
             serialize: true,
             controller: RuleEngineOperatorsController::class
-        )
+        ),
     ],
     graphQlOperations: [
         new Query(
@@ -42,7 +40,7 @@ use Gally\User\Constant\Role;
             deserialize: false,
             args: [],
             security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"
-        )
+        ),
     ],
     paginationEnabled: false
 )]

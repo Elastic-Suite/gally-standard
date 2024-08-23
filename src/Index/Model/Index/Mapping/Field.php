@@ -158,7 +158,7 @@ class Field implements FieldInterface
 
             if (isset($property['fields'][$analyzer])) {
                 $property = $property['fields'][$analyzer];
-                $propertyName = sprintf('%s.%s', $fieldName, $analyzer);
+                $propertyName = \sprintf('%s.%s', $fieldName, $analyzer);
             }
         }
 

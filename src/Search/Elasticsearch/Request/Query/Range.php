@@ -50,25 +50,16 @@ class Range implements QueryInterface
         $this->bounds = $bounds;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getBoost(): float
     {
         return $this->boost;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getType(): string
     {
         return QueryInterface::TYPE_RANGE;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getName(): ?string
     {
         return $this->name;

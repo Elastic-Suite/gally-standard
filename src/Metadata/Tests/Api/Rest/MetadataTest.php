@@ -30,9 +30,6 @@ class MetadataTest extends AbstractEntityTestWithUpdate
         return Metadata::class;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function createDataProvider(): iterable
     {
         $adminUser = $this->getUser(Role::ROLE_ADMIN);
@@ -48,9 +45,6 @@ class MetadataTest extends AbstractEntityTestWithUpdate
         ];
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getDataProvider(): iterable
     {
         $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
@@ -64,9 +58,6 @@ class MetadataTest extends AbstractEntityTestWithUpdate
         ];
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function deleteDataProvider(): iterable
     {
         $adminUser = $this->getUser(Role::ROLE_ADMIN);
@@ -80,9 +71,6 @@ class MetadataTest extends AbstractEntityTestWithUpdate
         ];
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getCollectionDataProvider(): iterable
     {
         return [

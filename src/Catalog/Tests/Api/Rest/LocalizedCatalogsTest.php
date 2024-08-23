@@ -34,9 +34,6 @@ class LocalizedCatalogsTest extends AbstractEntityTestWithUpdate
         return LocalizedCatalog::class;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function createDataProvider(): iterable
     {
         $adminUser = $this->getUser(Role::ROLE_ADMIN);
@@ -63,9 +60,6 @@ class LocalizedCatalogsTest extends AbstractEntityTestWithUpdate
         ];
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getDataProvider(): iterable
     {
         $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
@@ -81,9 +75,6 @@ class LocalizedCatalogsTest extends AbstractEntityTestWithUpdate
         ];
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function deleteDataProvider(): iterable
     {
         $adminUser = $this->getUser(Role::ROLE_ADMIN);
@@ -97,9 +88,6 @@ class LocalizedCatalogsTest extends AbstractEntityTestWithUpdate
         ];
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getCollectionDataProvider(): iterable
     {
         return [

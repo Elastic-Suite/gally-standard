@@ -28,17 +28,11 @@ abstract class AbstractAttribute implements AttributeInterface
         $this->value = $this->getSanitizedData($value);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getAttributeCode(): string
     {
         return $this->attributeCode;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getValue(): mixed
     {
         return $this->value;

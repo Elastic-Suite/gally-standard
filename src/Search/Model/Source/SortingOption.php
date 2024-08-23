@@ -14,11 +14,10 @@ declare(strict_types=1);
 
 namespace Gally\Search\Model\Source;
 
-use ApiPlatform\Metadata\GraphQl\QueryCollection;
-use ApiPlatform\Metadata\GetCollection;
-use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\ApiProperty;
-use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\GraphQl\QueryCollection;
 use Gally\Metadata\Model\SourceField;
 use Gally\Search\Resolver\DummyResolver;
 use Gally\Search\State\SortingOptionProvider;
@@ -29,21 +28,21 @@ use Gally\Search\State\SortingOptionProvider;
             paginationEnabled: false,
             openapiContext: [
                 'parameters' => [
-                    ['name' => 'entityType', 'in' => 'query', 'type' => 'string', 'required' => true]
-                ]
+                    ['name' => 'entityType', 'in' => 'query', 'type' => 'string', 'required' => true],
+                ],
             ]
-        )
+        ),
     ],
     graphQlOperations: [
         new QueryCollection(
             name: 'get',
             resolver: DummyResolver::class,
             paginationEnabled: false,
-            args: ['entityType' => ['type' => 'String']])
+            args: ['entityType' => ['type' => 'String']]),
     ],
     provider: SortingOptionProvider::class,
     extraProperties: [
-        'gally' =>  ['cache_tag' => ['resource_classes' => [SourceField::class]]]
+        'gally' => ['cache_tag' => ['resource_classes' => [SourceField::class]]],
     ]
 )]
 class SortingOption

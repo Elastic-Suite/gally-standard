@@ -30,7 +30,7 @@ class CurrentCategoryProvider
     {
         $this->currentCategory = $this->categoryRepository->find($categoryId);
         if (null === $this->currentCategory) {
-            throw new NotFoundHttpException(sprintf('Category with id %s not found.', $categoryId));
+            throw new NotFoundHttpException(\sprintf('Category with id %s not found.', $categoryId));
         }
     }
 

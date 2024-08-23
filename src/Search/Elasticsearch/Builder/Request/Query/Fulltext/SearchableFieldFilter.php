@@ -22,9 +22,6 @@ use Gally\Index\Model\Index\Mapping\FieldInterface;
  */
 class SearchableFieldFilter implements FieldFilterInterface
 {
-    /**
-     * {@inheritDoc}
-     */
     public function filterField(FieldInterface $field): bool
     {
         return FieldInterface::FIELD_TYPE_TEXT == $field->getType() && $field->isSearchable();

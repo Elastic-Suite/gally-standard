@@ -43,25 +43,16 @@ class FuzzinessConfig implements FuzzinessConfigurationInterface
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getValue(): string|int
     {
         return $this->value;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getPrefixLength(): int
     {
         return $this->prefixLength;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getMaxExpansion(): int
     {
         return $this->maxExpansion;

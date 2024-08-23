@@ -26,9 +26,6 @@ final class FacetConfigurationHydrator extends ObjectHydrator
     /** @var mixed[] */
     protected array $idTemplate = [];
 
-    /**
-     * {@inheritdoc}
-     */
     protected function prepare(): void
     {
         parent::prepare();
@@ -47,9 +44,6 @@ final class FacetConfigurationHydrator extends ObjectHydrator
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function hydrateAllData(): array
     {
         $result = [];

@@ -74,9 +74,6 @@ class GeoDistance extends AbstractBucket
         $this->ranges = $ranges;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getType(): string
     {
         return BucketInterface::TYPE_GEO_DISTANCE;

@@ -65,7 +65,7 @@ class FilterQueryBuilder
      * @param array                           $filters         Filters to be built
      * @param string|null                     $currentPath     Current nested path or null
      */
-    public function create(ContainerConfigurationInterface $containerConfig, array $filters, string $currentPath = null): QueryInterface
+    public function create(ContainerConfigurationInterface $containerConfig, array $filters, ?string $currentPath = null): QueryInterface
     {
         $queries = [];
 
@@ -134,7 +134,7 @@ class FilterQueryBuilder
         }
 
         if (null === $condition['field']) {
-            throw new LogicException(sprintf('Unable to identify the field property to use for filtering on "%s", possible invalid mapping', $field->getName()));
+            throw new LogicException(\sprintf('Unable to identify the field property to use for filtering on "%s", possible invalid mapping', $field->getName()));
         }
 
         if ((QueryInterface::TYPE_TERMS === $queryType)

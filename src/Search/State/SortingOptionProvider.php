@@ -14,13 +14,10 @@ declare(strict_types=1);
 
 namespace Gally\Search\State;
 
-use ApiPlatform\Core\DataProvider\ContextAwareCollectionDataProviderInterface;
-use ApiPlatform\Core\DataProvider\RestrictedDataProviderInterface;
 use ApiPlatform\Metadata\CollectionOperationInterface;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\Pagination\PartialPaginatorInterface;
 use ApiPlatform\State\ProviderInterface;
-use Gally\Search\Model\Source\SortingOption;
 use Gally\Search\Service\SortingOptionsProvider;
 
 class SortingOptionProvider implements ProviderInterface
@@ -32,8 +29,6 @@ class SortingOptionProvider implements ProviderInterface
     }
 
     /**
-     * {@inheritDoc}
-     *
      * @return T|PartialPaginatorInterface<T>|iterable<T>|null
      */
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null

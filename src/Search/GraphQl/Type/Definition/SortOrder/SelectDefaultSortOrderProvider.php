@@ -23,37 +23,25 @@ class SelectDefaultSortOrderProvider implements SortOrderProviderInterface
     {
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function supports(SourceField $sourceField): bool
     {
         return Type::TYPE_SELECT === $sourceField->getType();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getSortOrderField(SourceField $sourceField): string
     {
         return str_replace(
             '.',
             $this->nestingSeparator,
-            sprintf('%s.%s', $sourceField->getCode(), 'label'),
+            \sprintf('%s.%s', $sourceField->getCode(), 'label'),
         );
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getLabel(SourceField $sourceField): string
     {
-        return sprintf("Sorting by %s's label (%s)", $sourceField->getDefaultLabel(), $sourceField->getCode());
+        return \sprintf("Sorting by %s's label (%s)", $sourceField->getDefaultLabel(), $sourceField->getCode());
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getSimplifiedLabel(SourceField $sourceField): string
     {
         return $sourceField->getDefaultLabel();

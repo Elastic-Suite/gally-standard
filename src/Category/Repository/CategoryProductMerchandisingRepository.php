@@ -178,7 +178,7 @@ class CategoryProductMerchandisingRepository extends ServiceEntityRepository
                 [
                     'MAX(IDENTITY(cpm.category)) as category_id',
                     'cpm.productId as product_id',
-                    'MAX(' . sprintf($mergeExpr, 'position') . ') as position',
+                    'MAX(' . \sprintf($mergeExpr, 'position') . ') as position',
                 ]
             )
             ->leftJoin(

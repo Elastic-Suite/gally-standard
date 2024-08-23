@@ -54,17 +54,11 @@ class PriceTypeDefaultFilterInputType extends FloatTypeFilterInputType
         ];
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function supports(SourceField $sourceField): bool
     {
         return SourceField\Type::TYPE_PRICE === $sourceField->getType();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getFilterFieldName(string $sourceFieldCode): string
     {
         return $sourceFieldCode . '.price';

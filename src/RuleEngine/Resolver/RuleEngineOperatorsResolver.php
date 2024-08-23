@@ -24,9 +24,6 @@ class RuleEngineOperatorsResolver
     ) {
     }
 
-    /**
-     * @param mixed $item
-     */
     public function __invoke($item, array $context): RuleEngineOperators
     {
         return $this->ruleEngineManager->getRuleEngineOperators();

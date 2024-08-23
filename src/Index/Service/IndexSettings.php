@@ -14,7 +14,6 @@ declare(strict_types=1);
 
 namespace Gally\Index\Service;
 
-use Exception;
 use Gally\Analysis\Service\Config;
 use Gally\Catalog\Model\LocalizedCatalog;
 use Gally\Catalog\Repository\LocalizedCatalogRepository;
@@ -114,7 +113,7 @@ class IndexSettings implements IndexSettingsInterface
     {
         $indexNameSuffix = $this->getIndexNameSuffix(new \DateTime());
 
-        return sprintf('%s_%s', $this->getIndexAliasFromIdentifier($indexIdentifier, $localizedCatalog), $indexNameSuffix);
+        return \sprintf('%s_%s', $this->getIndexAliasFromIdentifier($indexIdentifier, $localizedCatalog), $indexNameSuffix);
     }
 
     /**
@@ -127,7 +126,7 @@ class IndexSettings implements IndexSettingsInterface
     {
         $catalogCode = strtolower((string) $this->getCatalogCode($localizedCatalog));
 
-        return sprintf('%s_%s_%s', $this->getIndexNamePrefix(), $catalogCode, $indexIdentifier);
+        return \sprintf('%s_%s_%s', $this->getIndexNamePrefix(), $catalogCode, $indexIdentifier);
     }
 
     /**
@@ -143,8 +142,8 @@ class IndexSettings implements IndexSettingsInterface
         $catalog = $this->getLocalizedCatalog($localizedCatalog);
 
         return [
-            sprintf('.entity_%s', $indexIdentifier),
-            sprintf('.catalog_%d', $catalog->getId()),
+            \sprintf('.entity_%s', $indexIdentifier),
+            \sprintf('.catalog_%d', $catalog->getId()),
         ];
     }
 
@@ -244,7 +243,7 @@ class IndexSettings implements IndexSettingsInterface
     {
         $maxNgramDiff = false;
         foreach ($analysisSettings['filter'] ?? [] as $filter) {
-            if (\in_array(($filter['type'] ?? null), ['ngram', 'edge_ngram'], true)) {
+            if (\in_array($filter['type'] ?? null, ['ngram', 'edge_ngram'], true)) {
                 $filterDiff = (int) ($filter['max_gram'] ?? self::MAX_NGRAM_SIZE_DEFAULT)
                     - (int) ($filter['min_gram'] ?? self::MIN_NGRAM_SIZE_DEFAULT);
 
@@ -258,7 +257,7 @@ class IndexSettings implements IndexSettingsInterface
     /**
      * Extract original entity from index metadata aliases.
      */
-    public function extractEntityFromAliases(Index $index): string|null
+    public function extractEntityFromAliases(Index $index): ?string
     {
         $entityType = preg_filter('#^\.entity_(.+)$#', '$1', $index->getAliases(), 1);
         if (!empty($entityType)) {
@@ -275,9 +274,9 @@ class IndexSettings implements IndexSettingsInterface
     /**
      * Extract original catalog id from index metadata aliases.
      *
-     * @throws Exception
+     * @throws \Exception
      */
-    public function extractCatalogFromAliases(Index $index): LocalizedCatalog|null
+    public function extractCatalogFromAliases(Index $index): ?LocalizedCatalog
     {
         $localizedCatalogId = preg_filter('#^\.catalog_(.+)$#', '$1', $index->getAliases(), 1);
         if (!empty($localizedCatalogId)) {
@@ -377,7 +376,7 @@ class IndexSettings implements IndexSettingsInterface
      *
      * @param int|string|LocalizedCatalog $localizedCatalog The localized catalog or its id or its code
      *
-     * @throws Exception
+     * @throws \Exception
      */
     private function getCatalogCode(int|string|LocalizedCatalog $localizedCatalog): ?string
     {
@@ -389,7 +388,7 @@ class IndexSettings implements IndexSettingsInterface
      *
      * @param int|string|LocalizedCatalog $localizedCatalog The catalog or its id or its code
      *
-     * @throws Exception
+     * @throws \Exception
      */
     private function getLocalizedCatalog(LocalizedCatalog|int|string $localizedCatalog): LocalizedCatalog
     {
@@ -400,9 +399,6 @@ class IndexSettings implements IndexSettingsInterface
         return $localizedCatalog;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getAnalysisSettings(LocalizedCatalog|int|string $localizedCatalog): array
     {
         $language = explode('_', $this->getLocalizedCatalog($localizedCatalog)->getLocale())[0];
@@ -410,27 +406,18 @@ class IndexSettings implements IndexSettingsInterface
         return $this->analysisConfig->get($language);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getIndicesConfig(): array
     {
         // TODO: Implement getIndicesConfig() method.
         return [];
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getIndexConfig(string $indexIdentifier): array
     {
         // TODO: Implement getIndexConfig() method.
         return [];
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getDynamicIndexSettings(Metadata $metadata, LocalizedCatalog|int|string $localizedCatalog): array
     {
         $settings = [];

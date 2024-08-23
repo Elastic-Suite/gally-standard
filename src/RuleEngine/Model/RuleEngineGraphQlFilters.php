@@ -14,17 +14,14 @@ declare(strict_types=1);
 
 namespace Gally\RuleEngine\Model;
 
+use ApiPlatform\Action\NotFoundAction;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GraphQl\Query;
 use ApiPlatform\Metadata\Post;
-use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Metadata\ApiProperty;
-use ApiPlatform\Metadata\ApiFilter;
-use ApiPlatform\Action\NotFoundAction;
 use Gally\RuleEngine\Controller\RuleEngineGraphQlFiltersController;
 use Gally\RuleEngine\Resolver\RuleEngineGraphQlFiltersResolver;
 use Gally\User\Constant\Role;
-use Symfony\Component\HttpFoundation\Response;
 
 #[ApiResource(
     operations: [
@@ -47,11 +44,11 @@ use Symfony\Component\HttpFoundation\Response;
                             'schema' => [
                                 'type' => 'object',
                                 'properties' => [
-                                    'rule' => ['type' => 'string']
+                                    'rule' => ['type' => 'string'],
                                 ],
                             ],
                             'example' => [
-                                'rule' => '{"type": "combination", "operator": "all", "value": "true", "children": [{"type": "attribute", "field": "id", "operator": "eq", "attribute_type": "int", "value": 1}]}'
+                                'rule' => '{"type": "combination", "operator": "all", "value": "true", "children": [{"type": "attribute", "field": "id", "operator": "eq", "attribute_type": "int", "value": 1}]}',
                             ],
                         ],
                     ],

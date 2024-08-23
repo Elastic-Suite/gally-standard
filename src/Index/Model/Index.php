@@ -14,16 +14,16 @@ declare(strict_types=1);
 
 namespace Gally\Index\Model;
 
-use ApiPlatform\Metadata\GraphQl\Mutation;
-use ApiPlatform\Metadata\GraphQl\QueryCollection;
-use ApiPlatform\Metadata\GraphQl\Query;
-use ApiPlatform\Metadata\Post;
-use ApiPlatform\Metadata\GetCollection;
-use ApiPlatform\Metadata\Put;
+use ApiPlatform\Metadata\ApiProperty;
+use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Metadata\ApiProperty;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\GraphQl\Mutation;
+use ApiPlatform\Metadata\GraphQl\Query;
+use ApiPlatform\Metadata\GraphQl\QueryCollection;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
 use Gally\Catalog\Model\LocalizedCatalog;
 use Gally\Index\Dto\CreateIndexDto;
 use Gally\Index\Dto\InstallIndexDto;
@@ -38,8 +38,8 @@ use Gally\Index\State\IndexProcessor;
 use Gally\Index\State\IndexProvider;
 use Gally\Index\State\InstallIndexProcessor;
 use Gally\Index\State\RefreshIndexProcessor;
-use Symfony\Component\Serializer\Annotation\Groups;
 use Gally\User\Constant\Role;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ApiResource(
     operations: [
@@ -54,7 +54,7 @@ use Gally\User\Constant\Role;
         new Put(
             openapiContext: [
                 'description' => 'Installs an Index resource',
-                'summary' => 'Installs an Index resource'
+                'summary' => 'Installs an Index resource',
             ],
             serialize: false,
             uriTemplate: '/indices/install/{name}',
@@ -65,7 +65,7 @@ use Gally\User\Constant\Role;
         new Put(
             openapiContext: [
                 'description' => 'Refreshes an Index resource',
-                'summary' => 'Refreshes an Index resource'
+                'summary' => 'Refreshes an Index resource',
             ],
             uriTemplate: '/indices/refresh/{name}',
             serialize: false,
@@ -84,7 +84,7 @@ use Gally\User\Constant\Role;
             security: "is_granted('" . Role::ROLE_ADMIN . "')",
             normalizationContext: ['groups' => ['create']],
             denormalizationContext: ['groups' => ['create']],
-        )
+        ),
     ],
     graphQlOperations: [
         new Query(
@@ -103,12 +103,12 @@ use Gally\User\Constant\Role;
             args: [
                 'entityType' => [
                     'type' => 'String!',
-                    'description' => 'Entity type for which to create an index'
+                    'description' => 'Entity type for which to create an index',
                 ],
                 'localizedCatalog' => [
                     'type' => 'String!',
-                    'description' => 'Catalog scope for which to create an index'
-                ]
+                    'description' => 'Catalog scope for which to create an index',
+                ],
             ],
             read: false,
             deserialize: false,
@@ -158,7 +158,7 @@ use Gally\User\Constant\Role;
                 'name' => [
                     'type' => 'String!',
                     'description' => 'Full index name',
-                ]
+                ],
             ],
             read: true,
             deserialize: true,
@@ -173,14 +173,14 @@ use Gally\User\Constant\Role;
                 'name' => [
                     'type' => 'String!',
                     'description' => 'Full index name',
-                ]
+                ],
             ],
             read: true,
             deserialize: true,
             write: false,
             serialize: true,
             security: "is_granted('" . Role::ROLE_ADMIN . "')",
-        )
+        ),
     ],
     provider: IndexProvider::class,
     processor: IndexProcessor::class,

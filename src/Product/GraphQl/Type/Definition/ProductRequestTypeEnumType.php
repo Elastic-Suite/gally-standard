@@ -34,9 +34,6 @@ class ProductRequestTypeEnumType extends EnumType implements TypeInterface
         return ['values' => $this->configurationProvider->getAvailableRequestType('product')];
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getName(): string
     {
         return $this->name;

@@ -19,17 +19,11 @@ use Gally\Metadata\Model\SourceField;
 
 class CategorySourceFieldConverter implements SourceFieldConverterInterface
 {
-    /**
-     * {@inheritDoc}
-     */
     public function supports(SourceField $sourceField): bool
     {
         return SourceField\Type::TYPE_CATEGORY === $sourceField->getType();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getFields(SourceField $sourceField): array
     {
         $fields = [];
@@ -64,7 +58,7 @@ class CategorySourceFieldConverter implements SourceFieldConverterInterface
                     $fieldConfig += $explicitConfig;
                 }
             }
-            $finalFieldName = sprintf('%s.%s', $path, $fieldName);
+            $finalFieldName = \sprintf('%s.%s', $path, $fieldName);
             $fields[$finalFieldName] = new Mapping\Field(
                 $finalFieldName,
                 $fieldType,

@@ -24,7 +24,6 @@ use ApiPlatform\Metadata\GraphQl\Mutation;
 use ApiPlatform\Metadata\GraphQl\Query;
 use ApiPlatform\Metadata\GraphQl\QueryCollection;
 use ApiPlatform\Metadata\Patch;
-use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
 use Gally\Category\Model\Category;
 use Gally\Doctrine\Filter\RangeFilterWithDefault;
@@ -35,8 +34,8 @@ use Gally\Search\Elasticsearch\Request\BucketInterface;
 use Gally\Search\State\Facet\ConfigurationCollectionProvider;
 use Gally\Search\State\Facet\ConfigurationItemProvider;
 use Gally\Search\State\Facet\ConfigurationProcessor;
-use Symfony\Component\Serializer\Annotation\Groups;
 use Gally\User\Constant\Role;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ApiResource(
     operations: [
@@ -47,40 +46,40 @@ use Gally\User\Constant\Role;
         new Put(
             security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
             normalizationContext: [
-                'groups' => ['facet_configuration:read']
+                'groups' => ['facet_configuration:read'],
             ],
             denormalizationContext: [
-                'groups' => ['facet_configuration:write']
+                'groups' => ['facet_configuration:write'],
             ],
         ),
         new Patch(
             security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
             normalizationContext: [
-                'groups' => ['facet_configuration:read']
+                'groups' => ['facet_configuration:read'],
             ],
             denormalizationContext: [
-                'groups' => ['facet_configuration:write']
+                'groups' => ['facet_configuration:write'],
             ]
         ),
         new Delete(security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
         new GetCollection(
             security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
-            provider:  ConfigurationCollectionProvider::class,
-        )
+            provider: ConfigurationCollectionProvider::class,
+        ),
     ],
     graphQlOperations: [
         new Query(
             name: 'item_query',
             security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
             normalizationContext: [
-                'groups' => ['facet_configuration:read', 'facet_configuration:graphql_read']
+                'groups' => ['facet_configuration:read', 'facet_configuration:graphql_read'],
             ],
             denormalizationContext: [
                 'groups' => ['facet_configuration:read', 'facet_configuration:graphql_read']]
         ),
         new QueryCollection(
             name: 'collection_query',
-            provider:  ConfigurationCollectionProvider::class,
+            provider: ConfigurationCollectionProvider::class,
             security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
             normalizationContext: ['groups' => ['facet_configuration:read', 'facet_configuration:graphql_read']],
             denormalizationContext: ['groups' => ['facet_configuration:read', 'facet_configuration:graphql_read']],
@@ -94,13 +93,13 @@ use Gally\User\Constant\Role;
         new Mutation(
             name: 'delete',
             security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"
-        )
+        ),
     ],
     provider: ConfigurationItemProvider::class,
     processor: ConfigurationProcessor::class,
     shortName: 'FacetConfiguration',
     extraProperties : ['gally' => [
-        'cache_tag' => ['resource_classes' => [SourceField::class]]]
+        'cache_tag' => ['resource_classes' => [SourceField::class]]],
     ],
     denormalizationContext: ['groups' => ['facet_configuration:read']],
     normalizationContext: ['groups' => ['facet_configuration:read']]

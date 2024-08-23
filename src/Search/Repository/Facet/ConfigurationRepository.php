@@ -129,11 +129,11 @@ class ConfigurationRepository extends ServiceEntityRepository
 
         if ($category) {
             $queryBuilder->leftJoin(
-                    $this->_entityName,
-                    $alias,
-                    Join::WITH,
-                    "sf.id = {$alias}.sourceField and {$alias}.category = :category"
-                )
+                $this->_entityName,
+                $alias,
+                Join::WITH,
+                "sf.id = {$alias}.sourceField and {$alias}.category = :category"
+            )
                 ->leftJoin(Category::class, 'category', Join::WITH, "{$alias}.category = category.id")
                 ->addSelect("CONCAT('', :category) as category_id");
         } else {

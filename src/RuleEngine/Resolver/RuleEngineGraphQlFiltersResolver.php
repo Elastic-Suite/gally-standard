@@ -25,9 +25,6 @@ class RuleEngineGraphQlFiltersResolver
     ) {
     }
 
-    /**
-     * @param mixed $item
-     */
     public function __invoke($item, array $context): RuleEngineGraphQlFilters
     {
         $ruleJson = $context['args']['rule'];

@@ -37,97 +37,61 @@ class GenericContainerConfiguration implements ContainerConfigurationInterface
     ) {
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getName(): string
     {
         return $this->requestType;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getIndexName(): string
     {
         return $this->indexName;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getLabel(): string
     {
         return $this->getName();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getMapping(): MappingInterface
     {
         return $this->mapping;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getRelevanceConfig(): RelevanceConfigurationInterface
     {
         return $this->relevanceConfiguration;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getLocalizedCatalog(): LocalizedCatalog
     {
         return $this->localizedCatalog;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getMetadata(): Metadata
     {
         return $this->metadata;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getFilters(): array
     {
         return [];
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getAggregations(QueryInterface|string|null $query = null, array $filters = [], array $queryFilters = []): array
     {
         return $this->aggregationProvider->getAggregations($this, $query, $filters, $queryFilters);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getTrackTotalHits(): int|bool
     {
         return true;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getDefaultSortingOption(): array
     {
         return $this->defaultSortingOptionProvider?->getSortingOption($this) ?: [];
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function getAggregationProvider(): AggregationProviderInterface
     {
         return $this->aggregationProvider;

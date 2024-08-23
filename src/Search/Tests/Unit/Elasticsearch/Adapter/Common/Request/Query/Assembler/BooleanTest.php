@@ -121,9 +121,6 @@ class BooleanTest extends AbstractComplexQueryAssemblerTestCase
         $this->assertTrue($query['bool']['_cache']);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     protected function getQueryAssembler(): BooleanQueryAssembler
     {
         return new BooleanQueryAssembler($this->getParentQueryAssembler());
