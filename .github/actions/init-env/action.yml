@@ -24,6 +24,11 @@ inputs:
 runs:
     using: "composite"
     steps:
+         - name: Setup PHP
+           uses: shivammathur/setup-php@v2
+           with:
+               php-version: 8.3
+                
          # Checkout gally "template" from the same branch. This is the dev environment with docker files.
          - name: Checkout Gally template
            uses: actions/checkout@v3

@@ -23,11 +23,11 @@ jobs:
         runs-on: ubuntu-latest
 
         env:
-            ref: "master" # ${{ github.base_ref }} cannot work on pushes.
+            ref: "2.0.x" # ${{ github.base_ref }} cannot work on pushes.
             gally-directory: ${{ github.workspace }}/gally
             package-name: ${{ github.event.repository.name }} # PHP package name is equal to the repository name.
 
-        steps:
+        steps:                
             - name: Get event
               run: echo "event name is:" ${{ github.event_name }}
 
@@ -53,11 +53,11 @@ jobs:
 
             - name: Pull images
               working-directory: ${{ env.gally-directory }}
-              run: docker compose -f docker-compose.yml -f docker-compose.ci.yml pull --ignore-pull-failures || true
+              run: docker compose -f compose.yml -f compose.ci.yml pull --ignore-pull-failures || true
 
             - name: Start services
               working-directory: ${{ env.gally-directory }}
-              run: docker compose -f docker-compose.yml -f docker-compose.ci.yml up --build -d --wait
+              run: docker compose -f compose.yml -f compose.ci.yml up --build -d --wait
 
             - name: Check container status
               working-directory: ${{ env.gally-directory }}
@@ -70,7 +70,7 @@ jobs:
             - name: HTTP Failure
               if: ${{ failure() && steps.tests.http_reachability == 'failure' }}
               working-directory: ${{ env.gally-directory }}
-              run: docker compose -f docker-compose.yml -f docker-compose.ci.yml logs
+              run: docker compose -f compose.yml -f compose.ci.yml logs
 
             - name: Check HTTPS reachability
               id: https_reachability
@@ -78,32 +78,32 @@ jobs:
 
             - name: HTTPS Failure
               if: ${{ failure() && steps.tests.https_reachability == 'failure' }}
-              run: docker compose -f docker-compose.yml -f docker-compose.ci.yml logs
+              run: docker compose -f compose.yml -f compose.ci.yml logs
 
             - name: Create test database
               working-directory: ${{ env.gally-directory }}
               run: |
-                  docker compose -f docker-compose.yml -f docker-compose.ci.yml exec -e XDEBUG_MODE=off -T php bin/console -e test doctrine:database:create
-                  docker compose -f docker-compose.yml -f docker-compose.ci.yml exec -e XDEBUG_MODE=off -T php bin/console -e test doctrine:migrations:migrate --no-interaction
+                  docker compose -f compose.yml -f compose.ci.yml exec -T php bin/console -e test doctrine:database:create
+                  docker compose -f compose.yml -f compose.ci.yml exec -T php bin/console -e test doctrine:migrations:migrate --no-interaction
 
             - name: Doctrine Schema Validator
               working-directory: ${{ env.gally-directory }}
-              run: docker compose -f docker-compose.yml -f docker-compose.ci.yml exec -e XDEBUG_MODE=off -T php bin/console doctrine:schema:validate --skip-sync
+              run: docker compose -f compose.yml -f compose.ci.yml exec -T php bin/console doctrine:schema:validate --skip-sync
 
             - name: Fixtures load
               working-directory: ${{ env.gally-directory }}
               run: |
-                  docker compose -f docker-compose.yml -f docker-compose.ci.yml exec -e XDEBUG_MODE=off -T php bin/console gally:index:clear --no-interaction
-                  docker compose -f docker-compose.yml -f docker-compose.ci.yml exec -e XDEBUG_MODE=off -T php bin/console hautelook:fixtures:load --no-interaction -vv
-                  docker compose -f docker-compose.yml -f docker-compose.ci.yml exec -e XDEBUG_MODE=off -T php bin/console doctrine:fixtures:load --append --no-interaction
+                  docker compose -f compose.yml -f compose.ci.yml exec -T php bin/console gally:index:clear --no-interaction
+                  docker compose -f compose.yml -f compose.ci.yml exec -T php bin/console hautelook:fixtures:load --no-interaction -vv
+                  docker compose -f compose.yml -f compose.ci.yml exec -T php bin/console doctrine:fixtures:load --append --no-interaction
 
             - name: Coverage
               working-directory: ${{ env.gally-directory }}
-              run: docker compose -f docker-compose.yml -f docker-compose.ci.yml exec -e XDEBUG_MODE=coverage -T php bin/phpunit --coverage-clover=coverage/coverage.xml vendor/gally/${{ env.package-name }}
+              run: docker compose -f compose.yml -f compose.ci.yml exec -e XDEBUG_MODE=coverage -T php bin/phpunit --coverage-clover=coverage/coverage.xml vendor/gally/${{ env.package-name }}
 
             - name: Cleanup coverage file
               working-directory: ${{ env.gally-directory }}
-              run: docker compose -f docker-compose.yml -f docker-compose.ci.yml exec -T php sed -i 's:<file name="/srv/:<file name="/:' coverage/coverage.xml
+              run: docker compose -f compose.yml -f compose.ci.yml exec -T php sed -i 's:<file name="/srv/:<file name="/:' coverage/coverage.xml
 
             - if: ${{ github.event_name == 'pull_request' }}
               name: Download artifact
@@ -146,4 +146,4 @@ jobs:
             - name: "[End] Job failed, gathering logs"
               working-directory: ${{ env.gally-directory }}
               if: ${{ failure() }}
-              run: docker compose -f docker-compose.yml -f docker-compose.ci.yml logs
+              run: docker compose -f compose.yml -f compose.ci.yml logs
