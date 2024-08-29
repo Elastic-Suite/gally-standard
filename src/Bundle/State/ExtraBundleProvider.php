@@ -15,7 +15,6 @@ declare(strict_types=1);
 namespace Gally\Bundle\State;
 
 use ApiPlatform\Metadata\Operation;
-use ApiPlatform\State\Pagination\PartialPaginatorInterface;
 use ApiPlatform\State\ProviderInterface;
 use Gally\Bundle\Model\ExtraBundle;
 use Symfony\Component\HttpKernel\KernelInterface;
@@ -26,10 +25,7 @@ class ExtraBundleProvider implements ProviderInterface
     {
     }
 
-    /**
-     * @return T|PartialPaginatorInterface<T>|iterable<T>|null
-     */
-    public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null
+    public function provide(Operation $operation, array $uriVariables = [], array $context = []): ?array
     {
         $extraBundles = [];
         foreach ($this->kernel->getBundles() as $bundle) {

@@ -20,6 +20,7 @@ use ApiPlatform\State\ProviderInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Gally\Metadata\Repository\MetadataRepository;
+use Gally\Search\Model\Facet\Configuration;
 use Gally\Search\Repository\Facet\ConfigurationRepository;
 
 final class ConfigurationCollectionProvider implements ProviderInterface
@@ -32,7 +33,7 @@ final class ConfigurationCollectionProvider implements ProviderInterface
     }
 
     /**
-     * @return T|PartialPaginatorInterface<T>|iterable<T>|null
+     * @return PartialPaginatorInterface<Configuration>|iterable<Configuration>|null
      */
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null
     {

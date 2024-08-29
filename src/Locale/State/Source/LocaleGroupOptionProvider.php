@@ -15,7 +15,6 @@ declare(strict_types=1);
 namespace Gally\Locale\State\Source;
 
 use ApiPlatform\Metadata\Operation;
-use ApiPlatform\State\Pagination\PartialPaginatorInterface;
 use ApiPlatform\State\ProviderInterface;
 use Gally\Catalog\Repository\LocalizedCatalogRepository;
 use Symfony\Component\Intl\Exception\MissingResourceException;
@@ -30,10 +29,7 @@ class LocaleGroupOptionProvider implements ProviderInterface
     ) {
     }
 
-    /**
-     * @return T|PartialPaginatorInterface<T>|iterable<T>|null
-     */
-    public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null
+    public function provide(Operation $operation, array $uriVariables = [], array $context = []): ?array
     {
         $usedLocales = array_column($this->localizedCatalogRepository->findUsedLocales(), 'locale');
 

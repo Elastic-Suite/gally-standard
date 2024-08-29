@@ -244,7 +244,7 @@ class SourceFieldOptionTest extends AbstractEntityTestWithUpdate
         $this->validateApiCall($request, $expectedResponse);
     }
 
-    private function bulkDataProvider(): iterable
+    protected function bulkDataProvider(): iterable
     {
         $adminUser = $this->getUser(Role::ROLE_ADMIN);
 

@@ -24,12 +24,7 @@ class CategoryTreeResolver implements QueryItemResolverInterface
     {
     }
 
-    /**
-     * @param mixed $item
-     *
-     * @return CategoryTree
-     */
-    public function __invoke(?object $item, array $context): object
+    public function __invoke(?object $item, array $context): CategoryTree
     {
         $catalogId = isset($context['args']['catalogId']) ? (int) $context['args']['catalogId'] : null;
         $localizedCatalogId = isset($context['args']['localizedCatalogId']) ? (int) $context['args']['localizedCatalogId'] : null;

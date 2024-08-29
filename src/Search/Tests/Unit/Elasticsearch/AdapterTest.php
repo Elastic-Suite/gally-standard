@@ -30,6 +30,7 @@ class AdapterTest extends KernelTestCase
     {
         $mapper = $this->getMockMapper();
         $client = $this->getMockClient();
+
         $aggregationBuilder = $this->getMockAggregationBuilder();
         $logger = $this->getMockLogger();
         $request = $this->getMockRequest();
@@ -60,6 +61,7 @@ class AdapterTest extends KernelTestCase
 
         $logger->expects($this->never())->method('error');
 
+        /** @var Client $client */
         $adapter = new Adapter($mapper, $client, $aggregationBuilder, $logger);
         $response = $adapter->search($request);
 
@@ -80,6 +82,7 @@ class AdapterTest extends KernelTestCase
         $client->method('search')->willThrowException(new \Exception($fakeExceptionMessage));
         $logger->expects($this->once())->method('error')->with($fakeExceptionMessage);
 
+        /** @var Client $client */
         $adapter = new Adapter($mapper, $client, $aggregationBuilder, $logger);
         $response = $adapter->search($request);
 
@@ -87,7 +90,7 @@ class AdapterTest extends KernelTestCase
         $this->assertCount(0, $response);
     }
 
-    private function getMockClient(): Client|MockObject
+    private function getMockClient(): MockObject
     {
         return $this->getMockBuilder(Client::class)
             ->disableOriginalConstructor()

@@ -7,7 +7,7 @@
             table="source_field_option"
             repository-class="Gally\Metadata\Repository\SourceFieldOptionRepository">
         <id name="id" type="integer">
-            <generator strategy="AUTO"/>
+            <generator strategy="SEQUENCE"/>
         </id>
         <field name="code" type="string" nullable="false" />
         <field name="position" type="integer" nullable="true" />

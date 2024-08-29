@@ -97,7 +97,7 @@ class CoverageTest extends AbstractTestCase
         );
     }
 
-    private function modifySourceFieldsDataProvider(): array
+    protected function modifySourceFieldsDataProvider(): array
     {
         return [
             [

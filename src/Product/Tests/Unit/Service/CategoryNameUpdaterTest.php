@@ -37,6 +37,7 @@ class CategoryNameUpdaterTest extends KernelTestCase
         $localizedCatalog->method('getId')->willReturn(1);
 
         $index = new Index('my_product_index');
+        /** @var LocalizedCatalog $localizedCatalog */
         $index->setLocalizedCatalog($localizedCatalog);
 
         $categoryConfigRepository = $this->getMockCategoryConfigurationRepository();
@@ -78,6 +79,9 @@ class CategoryNameUpdaterTest extends KernelTestCase
 
         $indexRepository->expects($this->once())->method('bulk')->with($expectedUpdateBulkRequest);
 
+        /** @var CategoryConfigurationRepository $categoryConfigRepository */
+        /** @var IndexRepositoryInterface $indexRepository */
+        /** @var LoggerInterface $logger */
         $categoryNameUpdater = new CategoryNameUpdater($categoryConfigRepository, $indexRepository, $logger);
         $categoryNameUpdater->updateCategoryNames($index, $productDataBulk);
     }
@@ -89,6 +93,7 @@ class CategoryNameUpdaterTest extends KernelTestCase
         $localizedCatalog->method('getId')->willReturn(1);
 
         $index = new Index('my_product_index');
+        /** @var LocalizedCatalog $localizedCatalog */
         $index->setLocalizedCatalog($localizedCatalog);
 
         $categoryConfigRepository = $this->getMockCategoryConfigurationRepository();
@@ -136,30 +141,33 @@ class CategoryNameUpdaterTest extends KernelTestCase
             ['Failed doc ids sample : 5.', []],
         );
 
+        /** @var CategoryConfigurationRepository $categoryConfigRepository */
+        /** @var IndexRepositoryInterface $indexRepository */
+        /** @var LoggerInterface $logger */
         $categoryNameUpdater = new CategoryNameUpdater($categoryConfigRepository, $indexRepository, $logger);
         $categoryNameUpdater->updateCategoryNames($index, $productDataBulk);
     }
 
-    private function getMockLocalizedCatalog(): LocalizedCatalog|MockObject
+    private function getMockLocalizedCatalog(): MockObject
     {
         return $this->getMockBuilder(LocalizedCatalog::class)->getMock();
     }
 
-    private function getMockCategoryConfigurationRepository(): CategoryConfigurationRepository|MockObject
+    private function getMockCategoryConfigurationRepository(): MockObject
     {
         return $this->getMockBuilder(CategoryConfigurationRepository::class)
             ->disableOriginalConstructor()
             ->getMock();
     }
 
-    private function getMockIndexRepository(): IndexRepositoryInterface|MockObject
+    private function getMockIndexRepository(): MockObject
     {
         return $this->getMockBuilder(IndexRepositoryInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
     }
 
-    private function getMockLogger(): LoggerInterface|MockObject
+    private function getMockLogger(): MockObject
     {
         return $this->getMockBuilder(LoggerInterface::class)
             ->disableOriginalConstructor()

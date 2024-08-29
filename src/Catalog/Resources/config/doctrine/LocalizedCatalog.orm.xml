@@ -6,7 +6,7 @@
 
     <entity name="Gally\Catalog\Model\LocalizedCatalog" table="localized_catalog" repository-class="Gally\Catalog\Repository\LocalizedCatalogRepository">
         <id name="id" type="integer">
-            <generator strategy="AUTO"/>
+            <generator strategy="SEQUENCE"/>
         </id>
         <field name="name" type="string" length="255" nullable="true" unique="false" />
         <field name="code" type="string" length="255" nullable="false" unique="true" />

@@ -31,13 +31,9 @@ class PositionGetResolver implements QueryItemResolverInterface
     }
 
     /**
-     * @param mixed $item
-     *
      * @throws \Exception
-     *
-     * @return ProductMerchandising
      */
-    public function __invoke(?object $item, array $context): object
+    public function __invoke(?object $item, array $context): ProductMerchandising
     {
         $categoryId = $context['args']['categoryId'];
         $category = $this->categoryRepository->find($categoryId);

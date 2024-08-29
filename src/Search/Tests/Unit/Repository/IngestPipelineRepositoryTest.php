@@ -50,7 +50,7 @@ class IngestPipelineRepositoryTest extends AbstractTestCase
         $this->assertEquals($processors, $pipeline->getProcessors());
     }
 
-    private function createDataProvider(): iterable
+    protected function createDataProvider(): iterable
     {
         yield [
             'test-ingest-pipeline-1',
@@ -123,7 +123,7 @@ class IngestPipelineRepositoryTest extends AbstractTestCase
         $this->assertEquals($expectedProcessors, $pipeline->getProcessors());
     }
 
-    private function getDataProvider(): iterable
+    protected function getDataProvider(): iterable
     {
         yield [
             'test-ingest-pipeline-1',

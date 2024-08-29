@@ -15,7 +15,6 @@ declare(strict_types=1);
 namespace Gally\Configuration\State;
 
 use ApiPlatform\Metadata\Operation;
-use ApiPlatform\State\Pagination\PartialPaginatorInterface;
 use ApiPlatform\State\ProviderInterface;
 
 class ConfigurationProvider implements ProviderInterface
@@ -24,10 +23,7 @@ class ConfigurationProvider implements ProviderInterface
     {
     }
 
-    /**
-     * @return T|PartialPaginatorInterface<T>|iterable<T>|null
-     */
-    public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null
+    public function provide(Operation $operation, array $uriVariables = [], array $context = []): array
     {
         return [['id' => 'base_url/media', 'value' => $this->baseUrl['media']]];
     }

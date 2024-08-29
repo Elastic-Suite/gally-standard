@@ -24,14 +24,7 @@ class MenuResolver implements QueryItemResolverInterface
     {
     }
 
-    /**
-     * @param mixed $item
-     *
-     * @throws \Exception
-     *
-     * @return ?Menu
-     */
-    public function __invoke(?object $item, array $context): object
+    public function __invoke(?object $item, array $context): Menu
     {
         return $this->builder->build();
     }

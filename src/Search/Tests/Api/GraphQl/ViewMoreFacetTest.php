@@ -50,12 +50,12 @@ class ViewMoreFacetTest extends AbstractTestCase
     /**
      * @dataProvider viewMoreOptionDataProvider
      *
-     * @param string $entityType         Entity Type
-     * @param string $catalogId          Catalog ID or code
-     * @param string $aggregation        Aggregation
-     * @param ?array $expectedError      Expected error
-     * @param ?int   $expectedItemsCount Expected items count in (paged) response
-     * @param string $filter             Filters to apply
+     * @param string  $entityType         Entity Type
+     * @param string  $catalogId          Catalog ID or code
+     * @param string  $aggregation        Aggregation
+     * @param ?string $expectedError      Expected error
+     * @param ?int    $expectedItemsCount Expected items count in (paged) response
+     * @param string  $filter             Filters to apply
      */
     public function testViewMoreFacetOptions(
         string $entityType,

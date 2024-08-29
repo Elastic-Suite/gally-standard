@@ -30,6 +30,7 @@ use Gally\Metadata\Repository\MetadataRepository;
 use Gally\Metadata\Service\PriceGroupProvider;
 use Gally\Metadata\Service\ReferenceLocationProvider;
 use Gally\Product\GraphQl\Type\Definition\SortInputType;
+use Gally\Product\Model\Product;
 use Gally\Product\Service\GraphQl\FilterManager;
 use Gally\Search\Elasticsearch\Adapter;
 use Gally\Search\Elasticsearch\Builder\Request\SimpleRequestBuilder as RequestBuilder;
@@ -65,7 +66,7 @@ class ProductProvider implements ProviderInterface
     /**
      * @throws ResourceClassNotFoundException
      *
-     * @return T|PartialPaginatorInterface<T>|iterable<T>|null
+     * @return Product|PartialPaginatorInterface<Product>|iterable<Product>|null
      */
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null
     {

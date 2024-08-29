@@ -6,7 +6,7 @@
 
     <entity name="Gally\Metadata\Model\Metadata" table="metadata" repository-class="Gally\Metadata\Repository\MetadataRepository">
         <id name="id" type="integer">
-            <generator strategy="AUTO"/>
+            <generator strategy="SEQUENCE"/>
         </id>
         <field name="entity" type="string" length="255" nullable="false" unique="true" />
 

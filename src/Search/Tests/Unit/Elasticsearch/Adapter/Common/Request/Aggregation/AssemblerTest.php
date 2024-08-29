@@ -163,7 +163,7 @@ class AssemblerTest extends KernelTestCase
     /**
      * Create a simple bucket.
      */
-    private function createBucket(string $name, string $type, array $subAggregations = []): MockObject|BucketInterface
+    private function createBucket(string $name, string $type, array $subAggregations = []): MockObject
     {
         $bucket = $this->getMockBuilder(BucketInterface::class)->getMock();
 

@@ -56,7 +56,7 @@ class OptionProvider implements ProviderInterface
     }
 
     /**
-     * @return T|PartialPaginatorInterface<T>|iterable<T>|null
+     * @return PartialPaginatorInterface<Option>|iterable<Option>|Option|null
      */
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null
     {
