@@ -8,7 +8,7 @@
             table="source_field_option_label"
             repository-class="Gally\Metadata\Repository\SourceFieldOptionLabelRepository">
         <id name="id" type="integer">
-            <generator strategy="AUTO"/>
+            <generator strategy="SEQUENCE"/>
         </id>
 
         <field name="label" type="string" nullable="false" />

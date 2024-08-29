@@ -20,7 +20,6 @@ use ApiPlatform\Metadata\GraphQl\Query;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Put;
-use ApiPlatform\State\Pagination\PartialPaginatorInterface;
 use ApiPlatform\State\ProviderInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
@@ -42,7 +41,7 @@ final class ConfigurationItemProvider implements ProviderInterface
     }
 
     /**
-     * @return PartialPaginatorInterface|array|Facet\Configuration|object|object[]|null
+     * @return Facet\Configuration|object|null
      */
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null
     {
@@ -78,6 +77,7 @@ final class ConfigurationItemProvider implements ProviderInterface
             )
         ) {
             $repository->setCategoryId(null);
+            /** @var ?Facet\Configuration $defaultFacetConfiguration */
             $defaultFacetConfiguration = $this->itemProviderNoEagerLoading->provide(
                 $this->resourceMetadataManager->getOperation(Facet\Configuration::class),
                 ['id' => implode('-', [$sourceFieldId, 0])],
@@ -93,6 +93,7 @@ final class ConfigurationItemProvider implements ProviderInterface
 
         $repository->setCategoryId($categoryId);
 
+        /** @var ?Facet\Configuration $facetConfiguration */
         $facetConfiguration = $this->itemProviderNoEagerLoading->provide(
             $this->resourceMetadataManager->getOperation(Facet\Configuration::class),
             $uriVariables,

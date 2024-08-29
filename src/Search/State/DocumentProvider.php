@@ -28,6 +28,7 @@ use Gally\Search\Elasticsearch\Adapter;
 use Gally\Search\Elasticsearch\Builder\Request\SimpleRequestBuilder as RequestBuilder;
 use Gally\Search\Elasticsearch\Request\Container\Configuration\ContainerConfigurationProvider;
 use Gally\Search\GraphQl\Type\Definition\SortInputType;
+use Gally\Search\Model\Document;
 use Gally\Search\Service\GraphQl\FilterManager;
 use Gally\Search\Service\SearchContext;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -53,7 +54,7 @@ class DocumentProvider implements ProviderInterface
     }
 
     /**
-     * @return T|PartialPaginatorInterface<T>|iterable<T>|null
+     * @return PartialPaginatorInterface<Document>|iterable<Document>|null
      */
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null
     {

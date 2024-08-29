@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace Gally\GraphQl\Decoration\Resolver\Stage;
 
+use ApiPlatform\Metadata\GraphQl\Operation as GraphQlOperation;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProviderInterface;
 
@@ -50,6 +51,8 @@ class ReadStage implements ProviderInterface
     {
         /**
          * Move gally args in a dedicated array key.
+         *
+         * @var GraphQlOperation $operation
          */
         $args = $operation->getArgs() ?? [];
         foreach ($args as $argName => $arg) {

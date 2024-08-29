@@ -51,7 +51,7 @@ class ViewMoreFacetTest extends AbstractTestCase
      * @param string  $catalogId          Catalog ID or code
      * @param string  $aggregation        Aggregation
      * @param ?string $currentCategoryId  Current category id
-     * @param ?array  $expectedError      Expected error
+     * @param ?string $expectedError      Expected error
      * @param ?int    $expectedItemsCount Expected items count in (paged) response
      * @param string  $filter             Filters to apply
      */

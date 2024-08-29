@@ -32,6 +32,7 @@ use Gally\Search\Repository\Facet\ConfigurationRepository;
 use Gally\Search\Service\ReverseSourceFieldProvider;
 use Gally\Search\Service\SearchContext;
 use Gally\Search\State\Paginator;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
@@ -61,6 +62,9 @@ class AddAggregationsData implements ProcessorInterface
     ) {
     }
 
+    /**
+     * @param array<string, mixed>&array{request?: Request, previous_data?: mixed, resource_class?: string, original_data?: mixed, args?: array} $context
+     */
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): ?array
     {
         $result = $this->decorated->process($data, $operation, $uriVariables, $context);

@@ -8,7 +8,7 @@
             table="source_field"
             repository-class="Gally\Metadata\Repository\SourceFieldRepository">
         <id name="id" type="integer">
-            <generator strategy="AUTO"/>
+            <generator strategy="SEQUENCE"/>
         </id>
 
         <field name="code" type="string" nullable="false"/>

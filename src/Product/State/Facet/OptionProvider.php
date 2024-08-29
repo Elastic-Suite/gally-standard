@@ -17,11 +17,12 @@ namespace Gally\Product\State\Facet;
 use ApiPlatform\Metadata\CollectionOperationInterface;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\Pagination\PartialPaginatorInterface;
+use Gally\Search\Model\Facet\Option;
 
 class OptionProvider extends \Gally\Search\State\Facet\OptionProvider
 {
     /**
-     * @return T|PartialPaginatorInterface<T>|iterable<T>|null
+     * @return PartialPaginatorInterface<Option>|iterable<Option>|Option|null
      */
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null
     {

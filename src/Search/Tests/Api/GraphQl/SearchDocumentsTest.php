@@ -61,7 +61,7 @@ class SearchDocumentsTest extends AbstractTestCase
      * @param string  $catalogId            Catalog ID or code
      * @param ?int    $pageSize             Pagination size
      * @param ?int    $currentPage          Current page
-     * @param ?array  $expectedError        Expected error
+     * @param ?string $expectedError        Expected error
      * @param ?int    $expectedItemsCount   Expected items count in (paged) response
      * @param ?int    $expectedTotalCount   Expected total items count
      * @param ?int    $expectedItemsPerPage Expected pagination items per page

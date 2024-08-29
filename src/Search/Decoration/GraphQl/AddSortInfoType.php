@@ -40,17 +40,19 @@ class AddSortInfoType implements ContextAwareTypeBuilderInterface
     {
         $type = $this->decorated->getPaginatedCollectionType($resourceType, $operation);
         if (Document::class === $operation->getClass() || is_subclass_of($operation->getClass(), Document::class)) {
-            $fields = $type->getFields(); // @phpstan-ignore-line
-            if (!\array_key_exists('sortInfo', $fields)) {
-                $fields['sortInfo'] = $this->getSortingInfoType($resourceType);
-                $configuration = [
-                    'name' => $type->name,
-                    'description' => "Connection for {$type->name}.",
-                    'fields' => $fields,
-                ];
+            if ($type instanceof ObjectType) {
+                $fields = $type->getFields();
+                if (!\array_key_exists('sortInfo', $fields)) {
+                    $fields['sortInfo'] = $this->getSortingInfoType($resourceType);
+                    $configuration = [
+                        'name' => $type->name,
+                        'description' => "Connection for {$type->name}.",
+                        'fields' => $fields,
+                    ];
 
-                $type = new ObjectType($configuration);
-                $this->typesContainer->set($type->name, $type);
+                    $type = new ObjectType($configuration);
+                    $this->typesContainer->set($type->name, $type);
+                }
             }
         }
 

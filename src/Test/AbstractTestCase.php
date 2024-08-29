@@ -138,7 +138,7 @@ abstract class AbstractTestCase extends ApiTestCase
     {
         try {
             $this->assertJsonContains(['errors' => [['message' => $message]]]);
-        } catch (ExpectationFailedException $e) {
+        } catch (ExpectationFailedException $e) {  // @phpstan-ignore-line
             if (!str_contains($e->getComparisonFailure()->getActualAsString(), '\'debugMessage\'')) {
                 throw $e;
             }

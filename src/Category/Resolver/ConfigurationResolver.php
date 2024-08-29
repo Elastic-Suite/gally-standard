@@ -33,13 +33,9 @@ class ConfigurationResolver implements QueryItemResolverInterface
     }
 
     /**
-     * @param mixed $item
-     *
      * @throws \Exception
-     *
-     * @return ?Configuration
      */
-    public function __invoke(?object $item, array $context): object
+    public function __invoke(?object $item, array $context): Configuration
     {
         $categoryId = $context['args']['categoryId'];
         $category = $this->categoryRepository->find($categoryId);

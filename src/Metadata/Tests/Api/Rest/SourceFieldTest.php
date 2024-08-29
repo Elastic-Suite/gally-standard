@@ -361,7 +361,7 @@ class SourceFieldTest extends AbstractEntityTestWithUpdate
         $this->validateApiCall($request, $expectedResponse);
     }
 
-    private function searchColumnsFilterDataProvider(): iterable
+    protected function searchColumnsFilterDataProvider(): iterable
     {
         yield ['sku', 1];
         yield ['Name', 2];
@@ -412,7 +412,7 @@ class SourceFieldTest extends AbstractEntityTestWithUpdate
         $this->validateApiCall($request, $expectedResponse);
     }
 
-    private function bulkDataProvider(): iterable
+    protected function bulkDataProvider(): iterable
     {
         $adminUser = $this->getUser(Role::ROLE_ADMIN);
 

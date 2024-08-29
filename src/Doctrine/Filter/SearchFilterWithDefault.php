@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace Gally\Doctrine\Filter;
 
+use ApiPlatform\Api\IdentifiersExtractorInterface;
 use ApiPlatform\Api\IriConverterInterface;
 use ApiPlatform\Doctrine\Common\Filter\SearchFilterTrait;
 use ApiPlatform\Doctrine\Orm\Util\QueryNameGeneratorInterface;
@@ -36,11 +37,20 @@ class SearchFilterWithDefault extends GallySearchFilter
         ?PropertyAccessorInterface $propertyAccessor = null,
         ?LoggerInterface $logger = null,
         ?array $properties = null,
+        ?IdentifiersExtractorInterface $identifiersExtractor = null,
         ?NameConverterInterface $nameConverter = null,
         private string $defaultAlias = 'default',
         private array $defaultValues = [],
     ) {
-        parent::__construct($managerRegistry, $iriConverter, $propertyAccessor, $logger, $properties, $nameConverter);
+        parent::__construct(
+            $managerRegistry,
+            $iriConverter,
+            $propertyAccessor,
+            $logger,
+            $properties,
+            $identifiersExtractor,
+            $nameConverter
+        );
     }
 
     protected function addWhereByStrategy(string $strategy, QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, string $alias, string $field, $values, bool $caseSensitive): void

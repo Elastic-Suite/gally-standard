@@ -16,8 +16,8 @@ namespace Gally\Index\State;
 
 use ApiPlatform\Metadata\CollectionOperationInterface;
 use ApiPlatform\Metadata\Operation;
-use ApiPlatform\State\Pagination\PartialPaginatorInterface;
 use ApiPlatform\State\ProviderInterface;
+use Gally\Index\Model\Index;
 use Gally\Index\Repository\Index\IndexRepositoryInterface;
 
 class IndexProvider implements ProviderInterface
@@ -28,7 +28,7 @@ class IndexProvider implements ProviderInterface
     }
 
     /**
-     * @return T|PartialPaginatorInterface<T>|iterable<T>|null
+     * @return Index|null
      */
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null
     {

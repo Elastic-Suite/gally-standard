@@ -18,6 +18,7 @@ use ApiPlatform\Metadata\CollectionOperationInterface;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\Pagination\PartialPaginatorInterface;
 use ApiPlatform\State\ProviderInterface;
+use Gally\Product\Model\Source\ProductSortingOption;
 use Gally\Product\Service\ProductsSortingOptionsProvider;
 
 class ProductSortingOptionProvider implements ProviderInterface
@@ -29,7 +30,7 @@ class ProductSortingOptionProvider implements ProviderInterface
     }
 
     /**
-     * @return T|PartialPaginatorInterface<T>|iterable<T>|null
+     * @return ProductSortingOption|PartialPaginatorInterface<ProductSortingOption>|iterable<ProductSortingOption>|null
      */
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null
     {
