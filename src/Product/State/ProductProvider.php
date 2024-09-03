@@ -1,10 +1,9 @@
 <?php
 /**
- * DISCLAIMER
+ * DISCLAIMER.
  *
  * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
  *
- * @package   Gally
  * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
  * @license   Open Software License v. 3.0 (OSL-3.0)
@@ -38,7 +37,6 @@ use Gally\Search\Elasticsearch\Request\Container\Configuration\ContainerConfigur
 use Gally\Search\Service\SearchContext;
 use Gally\Search\State\Paginator;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
-use Symfony\Component\Serializer\Serializer;
 
 class ProductProvider implements ProviderInterface
 {
@@ -57,7 +55,7 @@ class ProductProvider implements ProviderInterface
         private ReferenceLocationProvider $referenceLocationProvider,
         private SearchContext $searchContext,
         private EntityManagerInterface $entityManager,
-        private Serializer $serializer,
+        private DenormalizerInterface $serializer,
         private CategoryConfigurationRepository $categoryConfigurationRepository,
         private ProviderInterface $itemProvider,
     ) {

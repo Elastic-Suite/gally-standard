@@ -55,6 +55,10 @@ jobs:
               working-directory: ${{ env.gally-directory }}
               run: docker compose -f compose.yml -f compose.ci.yml pull --ignore-pull-failures || true
 
+            - name: Generate certificates
+              working-directory: ${{ env.gally-directory }}
+              run: bash ./docker/generate-certs.sh
+
             - name: Start services
               working-directory: ${{ env.gally-directory }}
               run: docker compose -f compose.yml -f compose.ci.yml up --build -d --wait
@@ -62,15 +66,6 @@ jobs:
             - name: Check container status
               working-directory: ${{ env.gally-directory }}
               run: docker ps --format "table {{.Image}}\t{{.Status}}"
-
-            - name: Check HTTP reachability
-              id: http_reachability
-              run: curl -v -o /dev/null http://localhost
-
-            - name: HTTP Failure
-              if: ${{ failure() && steps.tests.http_reachability == 'failure' }}
-              working-directory: ${{ env.gally-directory }}
-              run: docker compose -f compose.yml -f compose.ci.yml logs
 
             - name: Check HTTPS reachability
               id: https_reachability
