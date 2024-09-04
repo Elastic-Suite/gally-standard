@@ -23,6 +23,7 @@ use Gally\Search\Elasticsearch\Builder\Request\Query\Filter\FilterQueryBuilder;
 use Gally\Search\Elasticsearch\Builder\Request\Query\Fulltext\FulltextQueryBuilder;
 use Gally\Search\Elasticsearch\Builder\Request\Query\Fulltext\FuzzyFieldFilter;
 use Gally\Search\Elasticsearch\Builder\Request\Query\Fulltext\SearchableFieldFilter;
+use Gally\Search\Elasticsearch\Builder\Request\Query\Fulltext\SpannableFieldFilter;
 use Gally\Search\Elasticsearch\Builder\Request\Query\QueryBuilder;
 use Gally\Search\Elasticsearch\Builder\Request\SimpleRequestBuilder;
 use Gally\Search\Elasticsearch\Builder\Request\SortOrder\SortOrderBuilder;
@@ -35,6 +36,7 @@ use Gally\Search\Elasticsearch\Request\QueryInterface;
 use Gally\Search\Elasticsearch\RequestFactoryInterface;
 use Gally\Search\Elasticsearch\Spellchecker;
 use Gally\Test\AbstractTest;
+use OpenSearch\Client;
 use Psr\Log\LoggerInterface;
 
 class SimpleRequestBuilderTest extends AbstractTest
@@ -48,6 +50,8 @@ class SimpleRequestBuilderTest extends AbstractTest
     private static SearchableFieldFilter $searchableFieldFilter;
 
     private static FuzzyFieldFilter $fuzzyFieldFilter;
+
+    private static SpannableFieldFilter $spannableFieldFilter;
 
     private static FulltextQueryBuilder $fulltextQueryBuilder;
 
@@ -85,7 +89,15 @@ class SimpleRequestBuilderTest extends AbstractTest
         self::$searchableFieldFilter = static::getContainer()->get(SearchableFieldFilter::class);
         \assert(static::getContainer()->get(FuzzyFieldFilter::class) instanceof FuzzyFieldFilter);
         self::$fuzzyFieldFilter = static::getContainer()->get(FuzzyFieldFilter::class);
-        self::$fulltextQueryBuilder = new FulltextQueryBuilder(self::$queryFactory, self::$searchableFieldFilter, self::$fuzzyFieldFilter);
+        \assert(static::getContainer()->get(SpannableFieldFilter::class) instanceof SpannableFieldFilter);
+        self::$spannableFieldFilter = static::getContainer()->get(SpannableFieldFilter::class);
+        self::$fulltextQueryBuilder = new FulltextQueryBuilder(
+            static::getContainer()->get(Client::class),
+            self::$queryFactory,
+            self::$searchableFieldFilter,
+            self::$fuzzyFieldFilter,
+            self::$spannableFieldFilter,
+        );
         self::$filterQueryBuilder = static::getContainer()->get(FilterQueryBuilder::class);
         self::$logger = static::getContainer()->get(LoggerInterface::class);
         self::$queryBuilder = new QueryBuilder(self::$queryFactory, self::$fulltextQueryBuilder, self::$filterQueryBuilder);

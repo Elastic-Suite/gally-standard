@@ -118,6 +118,20 @@ services:
         tags:
             - { name: 'gally.search.request.query.factory', queryType: 'geoDistanceQuery' }
 
+    gally.search.request.query.spanTerm.factory:
+        parent: Gally\DependencyInjection\GenericFactory
+        arguments:
+            - 'Gally\Search\Elasticsearch\Request\Query\SpanTerm'
+        tags:
+            - { name: 'gally.search.request.query.factory', queryType: 'spanTermQuery' }
+
+    gally.search.request.query.spanNear.factory:
+        parent: Gally\DependencyInjection\GenericFactory
+        arguments:
+            - 'Gally\Search\Elasticsearch\Request\Query\SpanNear'
+        tags:
+            - { name: 'gally.search.request.query.factory', queryType: 'spanNearQuery' }
+
     Gally\Search\Elasticsearch\Request\QueryFactory:
         public: true
         arguments: [!tagged_iterator { tag: 'gally.search.request.query.factory', index_by: 'queryType' }]
