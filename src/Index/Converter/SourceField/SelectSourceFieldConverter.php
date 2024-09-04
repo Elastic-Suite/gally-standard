@@ -55,6 +55,7 @@ class SelectSourceFieldConverter implements SourceFieldConverterInterface
             'is_filterable' => $sourceField->getIsFilterable() || $sourceField->getIsUsedForRules() || $sourceField->getIsUsedInAutocomplete(),
             'search_weight' => $sourceField->getWeight(),
             'is_used_for_sort_by' => $sourceField->getIsSortable(),
+            'is_spannable' => false,
         ];
 
         $fields[$fieldCode] = new Mapping\Field($fieldCode, Mapping\FieldInterface::FIELD_TYPE_TEXT, $path, $fieldConfig);

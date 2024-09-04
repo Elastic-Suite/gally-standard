@@ -56,4 +56,19 @@ class RelevanceConfiguration implements RelevanceConfigurationInterface
     {
         return $this->relevanceConfig['phonetic']['enabled'];
     }
+
+    public function getSpanNearBoost(): int|false
+    {
+        return $this->relevanceConfig['span']['boost'];
+    }
+
+    public function getSpanNearSlop(): int
+    {
+        return $this->relevanceConfig['span']['slop'];
+    }
+
+    public function isSpanNearInOrder(): bool
+    {
+        return $this->relevanceConfig['span']['in_order'];
+    }
 }

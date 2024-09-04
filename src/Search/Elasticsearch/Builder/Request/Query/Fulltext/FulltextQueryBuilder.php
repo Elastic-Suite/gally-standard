@@ -20,7 +20,9 @@ use Gally\Index\Model\Index\MappingInterface;
 use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface as ContainerConfigInterface;
 use Gally\Search\Elasticsearch\Request\QueryFactory;
 use Gally\Search\Elasticsearch\Request\QueryInterface;
+use Gally\Search\Elasticsearch\Request\SpanQueryInterface;
 use Gally\Search\Elasticsearch\SpellcheckerInterface;
+use OpenSearch\Client;
 
 /**
  * Prepare a fulltext search query.
@@ -33,9 +35,11 @@ class FulltextQueryBuilder
      * @param FuzzyFieldFilter      $fuzzyFieldFilter      Fuzzy field filters models
      */
     public function __construct(
+        private Client $client,
         private QueryFactory $queryFactory,
         private SearchableFieldFilter $searchableFieldFilter,
         private FuzzyFieldFilter $fuzzyFieldFilter,
+        private SpannableFieldFilter $spannableFieldFilter,
     ) {
     }
 
@@ -76,6 +80,14 @@ class FulltextQueryBuilder
                 'boost' => $boost,
             ];
             $query = $this->queryFactory->create(QueryInterface::TYPE_FILTER, $queryParams);
+
+            if ($containerConfig->getRelevanceConfig()->getSpanNearBoost()) {
+                $spanQuery = $this->getSpanQuery($containerConfig, $queryText);
+                if (null !== $spanQuery) {
+                    $queryParams['should'] = [$query, $spanQuery];
+                    $query = $this->queryFactory->create(QueryInterface::TYPE_BOOL, $queryParams);
+                }
+            }
         }
 
         return $query;
@@ -289,5 +301,61 @@ class FulltextQueryBuilder
         $mapping = $containerConfig->getMapping();
 
         return $mapping->getWeightedSearchProperties($analyzer, $defaultField, $boost, $fieldFilter);
+    }
+
+    /**
+     * Build a span query to raise score of fields beginning by the query text.
+     *
+     * @param ContainerConfigInterface $containerConfig The container configuration
+     * @param string                   $queryText       The query text
+     */
+    private function getSpanQuery(
+        ContainerConfigInterface $containerConfig,
+        string $queryText,
+    ): ?QueryInterface {
+        $query = null;
+        $spanFields = $containerConfig->getMapping()->getFields();
+        $spanFields = array_filter($spanFields, [$this->spannableFieldFilter, 'filterField']);
+        $relevanceConfig = $containerConfig->getRelevanceConfig();
+
+        if (\count($spanFields) > 0) {
+            $analysis = $this->client->indices()->analyze([
+                'index' => $containerConfig->getIndexName(),
+                'body' => ['text' => $queryText, 'analyzer' => FieldInterface::ANALYZER_STANDARD]
+            ]);
+
+            $queries = [];
+            foreach ($spanFields as $field) {
+                $clauses = [];
+                $fieldName = $field->getMappingProperty(FieldInterface::ANALYZER_STANDARD) ?? $field->getName();
+                foreach ($analysis['tokens'] as $token) {
+                    $clauses[] = $this->queryFactory->create(
+                        SpanQueryInterface::TYPE_SPAN_TERM,
+                        [
+                            'field' => $fieldName,
+                            'value' => $token['token'],
+                        ]
+                    );
+                }
+
+                $queries[] = $this->queryFactory->create(
+                    SpanQueryInterface::TYPE_SPAN_NEAR,
+                    [
+                        'clauses' => $clauses,
+                        'slop' => $relevanceConfig->getSpanNearSlop(),
+                        'inOrder' => $relevanceConfig->isSpanNearInOrder(),
+                        'boost' => $relevanceConfig->getSpanNearBoost(),
+                        'name' => "$fieldName span query",
+                    ]
+                );
+            }
+
+            $query = current($queries);
+            if (\count($queries) > 1) {
+                $query = $this->queryFactory->create(QueryInterface::TYPE_BOOL, ['should' => $queries]);
+            }
+        }
+
+        return $query;
     }
 }

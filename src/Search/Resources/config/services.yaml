@@ -98,12 +98,15 @@ services:
         
     Gally\Search\Elasticsearch\Builder\Request\Query\Fulltext\SearchableFieldFilter: ~
     Gally\Search\Elasticsearch\Builder\Request\Query\Fulltext\FuzzyFieldFilter: ~
+    Gally\Search\Elasticsearch\Builder\Request\Query\Fulltext\SpannableFieldFilter: ~
     
     Gally\Search\Elasticsearch\Builder\Request\Query\Fulltext\FulltextQueryBuilder:
         arguments:
+            - '@OpenSearch\Client'
             - '@Gally\Search\Elasticsearch\Request\QueryFactory'
             - '@Gally\Search\Elasticsearch\Builder\Request\Query\Fulltext\SearchableFieldFilter'
             - '@Gally\Search\Elasticsearch\Builder\Request\Query\Fulltext\FuzzyFieldFilter'
+            - '@Gally\Search\Elasticsearch\Builder\Request\Query\Fulltext\SpannableFieldFilter'
 
     Gally\Search\Elasticsearch\Builder\Request\Query\QueryBuilder:
         arguments:

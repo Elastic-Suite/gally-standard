@@ -18,3 +18,7 @@ gally:
                         maxExpansions: 10
                     phonetic:  
                         enabled: true
+                    span:
+                        boost: 10
+                        slop: 10
+                        in_order: false
