@@ -315,7 +315,7 @@ class SourceField
                     'rdfs:label' => 'Use for span queries',
                 ],
                 'gally' => [
-                    'visible' => true,
+                    'visible' => false,
                     'editable' => true,
                     'position' => 110,
                     'context' => [

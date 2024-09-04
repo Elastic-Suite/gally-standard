@@ -27,8 +27,7 @@ class SpannableFieldFilter implements FieldFilterInterface
      */
     public function filterField(FieldInterface $field): bool
     {
-        return FieldInterface::FIELD_TYPE_TEXT == $field->getType()
-            && $field->isSearchable()
+        return $field->isSearchable()
             && false === $field->isNested()
             && $field->isSpannable();
     }

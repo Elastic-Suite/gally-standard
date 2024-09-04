@@ -36,6 +36,7 @@ use Gally\Search\Elasticsearch\Request\QueryInterface;
 use Gally\Search\Elasticsearch\RequestFactoryInterface;
 use Gally\Search\Elasticsearch\Spellchecker;
 use Gally\Test\AbstractTest;
+use OpenSearch\Client;
 use Psr\Log\LoggerInterface;
 
 class SimpleRequestBuilderTest extends AbstractTest
@@ -91,6 +92,7 @@ class SimpleRequestBuilderTest extends AbstractTest
         \assert(static::getContainer()->get(SpannableFieldFilter::class) instanceof SpannableFieldFilter);
         self::$spannableFieldFilter = static::getContainer()->get(SpannableFieldFilter::class);
         self::$fulltextQueryBuilder = new FulltextQueryBuilder(
+            static::getContainer()->get(Client::class),
             self::$queryFactory,
             self::$searchableFieldFilter,
             self::$fuzzyFieldFilter,

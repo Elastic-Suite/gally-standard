@@ -321,38 +321,40 @@ class FulltextQueryBuilder
         if (\count($spanFields) > 0) {
             $analysis = $this->client->indices()->analyze([
                 'index' => $containerConfig->getIndexName(),
-                'body' => ['text' => $queryText, 'analyzer' => FieldInterface::ANALYZER_STANDARD]
+                'body' => ['text' => $queryText, 'analyzer' => FieldInterface::ANALYZER_STANDARD],
             ]);
 
-            $queries = [];
-            foreach ($spanFields as $field) {
-                $clauses = [];
-                $fieldName = $field->getMappingProperty(FieldInterface::ANALYZER_STANDARD) ?? $field->getName();
-                foreach ($analysis['tokens'] as $token) {
-                    $clauses[] = $this->queryFactory->create(
-                        SpanQueryInterface::TYPE_SPAN_TERM,
+            if (\count($analysis['tokens']) > 1) {
+                $queries = [];
+                foreach ($spanFields as $field) {
+                    $clauses = [];
+                    $fieldName = $field->getMappingProperty(FieldInterface::ANALYZER_STANDARD) ?? $field->getName();
+                    foreach ($analysis['tokens'] as $token) {
+                        $clauses[] = $this->queryFactory->create(
+                            SpanQueryInterface::TYPE_SPAN_TERM,
+                            [
+                                'field' => $fieldName,
+                                'value' => $token['token'],
+                            ]
+                        );
+                    }
+
+                    $queries[] = $this->queryFactory->create(
+                        SpanQueryInterface::TYPE_SPAN_NEAR,
                         [
-                            'field' => $fieldName,
-                            'value' => $token['token'],
+                            'clauses' => $clauses,
+                            'slop' => $relevanceConfig->getSpanNearSlop(),
+                            'inOrder' => $relevanceConfig->isSpanNearInOrder(),
+                            'boost' => $relevanceConfig->getSpanNearBoost(),
+                            'name' => "$fieldName span query",
                         ]
                     );
                 }
 
-                $queries[] = $this->queryFactory->create(
-                    SpanQueryInterface::TYPE_SPAN_NEAR,
-                    [
-                        'clauses' => $clauses,
-                        'slop' => $relevanceConfig->getSpanNearSlop(),
-                        'inOrder' => $relevanceConfig->isSpanNearInOrder(),
-                        'boost' => $relevanceConfig->getSpanNearBoost(),
-                        'name' => "$fieldName span query",
-                    ]
-                );
-            }
-
-            $query = current($queries);
-            if (\count($queries) > 1) {
-                $query = $this->queryFactory->create(QueryInterface::TYPE_BOOL, ['should' => $queries]);
+                $query = current($queries);
+                if (\count($queries) > 1) {
+                    $query = $this->queryFactory->create(QueryInterface::TYPE_BOOL, ['should' => $queries]);
+                }
             }
         }
 

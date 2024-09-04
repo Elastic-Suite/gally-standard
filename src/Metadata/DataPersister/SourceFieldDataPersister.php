@@ -295,6 +295,7 @@ class SourceFieldDataPersister implements DataPersisterInterface
                         'is_spellchecked' => null === $sourceFieldData['isSpellchecked'] ? 'NULL' : ($sourceFieldData['isSpellchecked'] ? 'True' : 'False'),
                         'is_used_for_rules' => null === $sourceFieldData['isUsedForRules'] ? 'NULL' : ($sourceFieldData['isUsedForRules'] ? 'True' : 'False'),
                         'is_used_in_autocomplete' => null === $sourceFieldData['isUsedInAutocomplete'] ? 'NULL' : ($sourceFieldData['isUsedInAutocomplete'] ? 'True' : 'False'),
+                        'is_spannable' => null === $sourceFieldData['isSpannable'] ? 'NULL' : ($sourceFieldData['isSpannable'] ? 'True' : 'False'),
                         'is_system' => ($sourceFieldData['isSystem'] ?? false) ? 'True' : 'False',
                         'search' => $expBuilder->literal($sourceFieldData['search']),
                     ];
@@ -313,6 +314,7 @@ class SourceFieldDataPersister implements DataPersisterInterface
                         'is_spellchecked' => isset($sourceFieldData['isSpellchecked']) ? ($sourceFieldData['isSpellchecked'] ? 'True' : 'False') : 'NULL',
                         'is_used_for_rules' => isset($sourceFieldData['isUsedForRules']) ? ($sourceFieldData['isUsedForRules'] ? 'True' : 'False') : 'NULL',
                         'is_used_in_autocomplete' => isset($sourceFieldData['isUsedInAutocomplete']) ? ($sourceFieldData['isUsedInAutocomplete'] ? 'True' : 'False') : 'NULL',
+                        'is_spannable' => isset($sourceFieldData['isSpannable']) ? ($sourceFieldData['isSpannable'] ? 'True' : 'False') : 'NULL',
                         'is_system' => ($sourceFieldData['isSystem'] ?? false) ? 'True' : 'False',
                         'search' => $expBuilder->literal($sourceFieldData['search']),
                     ];

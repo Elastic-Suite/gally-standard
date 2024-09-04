@@ -920,7 +920,7 @@ class SearchProductsTest extends AbstractTest
                 1,          // current page.
                 'bag',      // query.
                 'id',       // document data identifier.
-                [4, 1, 8, 14, 5, 2, 3],  // expected ordered document IDs
+                [1, 4, 8, 14, 5, 2, 3],  // expected ordered document IDs
             ],
             [
                 'b2c_fr',   // catalog ID.
@@ -950,17 +950,17 @@ class SearchProductsTest extends AbstractTest
                 'b2c_en',   // catalog ID.
                 10,         // page size.
                 1,          // current page.
-                'bag autumn', // query: search with multiple words.
+                'bag spring', // query: search with multiple words.
                 'id',       // document data identifier.
-                [4],  // expected ordered document IDs
+                [2],  // expected ordered document IDs
             ],
             [
                 'b2c_en',   // catalog ID.
                 10,         // page size.
                 1,          // current page.
-                'bag automn', // query: search with misspelled word.
+                'bag sprong', // query: search with misspelled word.
                 'id',       // document data identifier.
-                [4],  // expected ordered document IDs
+                [2],  // expected ordered document IDs
             ],
             [
                 'b2c_en',   // catalog ID.
@@ -1017,6 +1017,14 @@ class SearchProductsTest extends AbstractTest
                 "£¨µùµ㈀㌫\xc3\xb1", // query: various utf8 char.
                 'id',       // document data identifier.
                 [],  // expected ordered document IDs
+            ],
+            [
+                'b2c_en',   // catalog ID.
+                10,         // page size.
+                1,          // current page.
+                'bag autumn', // query: Verify that documents with "bag" and "autumn" close together in the description have a higher score than those with "bag" and "autumn" farther apart in the description.
+                'id',       // document data identifier.
+                [4, 1],  // expected ordered document IDs
             ],
         ];
     }
