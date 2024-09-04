@@ -34,6 +34,7 @@ class Field implements FieldInterface
         'is_filterable' => true,
         'is_used_for_sort_by' => false,
         'is_used_in_spellcheck' => false,
+        'is_spannable' => false,
         'search_weight' => 1,
         'default_search_analyzer' => self::ANALYZER_STANDARD,
         'filter_logical_operator' => self::FILTER_LOGICAL_OPERATOR_OR,
@@ -101,6 +102,11 @@ class Field implements FieldInterface
     public function isUsedInSpellcheck(): bool
     {
         return $this->config['is_used_in_spellcheck'] && $this->config['is_searchable'];
+    }
+
+    public function isSpannable(): bool
+    {
+        return (bool) $this->config['is_spannable'];
     }
 
     public function getSearchWeight(): int
@@ -262,6 +268,9 @@ class Field implements FieldInterface
         if ($this->isSearchable() && $this->getSearchWeight() > 1) {
             $analyzers[] = self::ANALYZER_WHITESPACE;
             $analyzers[] = self::ANALYZER_SHINGLE;
+        }
+        if ($this->isSpannable()) {
+            $analyzers[] = self::ANALYZER_WHITESPACE;
         }
 
         if (empty($analyzers) || $this->isFilterable()) {

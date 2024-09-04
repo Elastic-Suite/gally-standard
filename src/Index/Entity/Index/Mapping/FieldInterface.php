@@ -65,6 +65,8 @@ interface FieldInterface
 
     public function isUsedInSpellcheck(): bool;
 
+    public function isSpannable(): bool;
+
     public function getSearchWeight(): int;
 
     public function normsDisabled(): bool;
