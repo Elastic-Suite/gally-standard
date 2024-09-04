@@ -381,7 +381,7 @@ class SourceFieldTest extends AbstractEntityTestWithUpdate
                 $this->assertJsonContains(['hydra:member' => $expectedResponseData]);
                 $sourceFieldRepository = static::getContainer()->get(SourceFieldRepository::class);
                 $existingSourceFields = $sourceFieldRepository->findAll();
-                $this->assertCount($expectedSourceFieldNumber, $sourceFieldRepository->findAll());
+                $this->assertCount($expectedSourceFieldNumber, $existingSourceFields);
                 $this->assertCount(
                     7 /* base properties */ + \count($sourceFieldRepository->getManagedSourceFieldProperty()),
                     (array) reset($existingSourceFields),

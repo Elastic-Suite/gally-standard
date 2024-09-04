@@ -310,6 +310,28 @@ class SourceField
     #[Groups(['source_field:read', 'source_field:write', 'facet_configuration:graphql_read'])]
     private ?bool $isUsedInAutocomplete = null;
 
+    #[ApiProperty(
+        extraProperties: [
+            'hydra:supportedProperty' => [
+                'hydra:property' => [
+                    'rdfs:label' => 'Use for span queries',
+                ],
+                'gally' => [
+                    'visible' => false,
+                    'editable' => true,
+                    'position' => 110,
+                    'context' => [
+                        'search_configuration_attributes' => [
+                            'visible' => true,
+                        ],
+                    ],
+                ],
+            ],
+        ],
+    )]
+    #[Groups(['source_field:read', 'source_field:write', 'facet_configuration:graphql_read'])]
+    private ?bool $isSpannable = null;
+
     #[Groups(['source_field:read', 'source_field:write', 'facet_configuration:graphql_read'])]
     private bool $isSystem = false;
 
@@ -472,6 +494,18 @@ class SourceField
     public function setIsUsedInAutocomplete(?bool $isUsedInAutocomplete): self
     {
         $this->isUsedInAutocomplete = $isUsedInAutocomplete;
+
+        return $this;
+    }
+
+    public function getIsSpannable(): ?bool
+    {
+        return $this->isSpannable;
+    }
+
+    public function setIsSpannable(?bool $isSpannable): self
+    {
+        $this->isSpannable = $isSpannable;
 
         return $this;
     }

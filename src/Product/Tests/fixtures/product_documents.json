@@ -6,7 +6,7 @@
         "entity_id": "1",
         "sku": "24-MB01",
         "name": "Joust Duffle Bag",
-        "description": "A super bag for winter.",
+        "description": "A super bag for winter. It may be used in autumn too !",
         "seller_reference": "dufflebag",
         "size" : 12,
         "weight" : 1.200,
@@ -149,7 +149,7 @@
         "entity_id": "4",
         "sku": "24-MB05",
         "name": "Wayfarer Messenger Bag",
-        "description": "A super bag for autumn.",
+        "description": "A super bag for autumn. It may be used in any other season too !",
         "size" : 7,
         "color": [
           {

@@ -127,6 +127,7 @@ Gally\Metadata\Entity\SourceField:
         isSortable: false
         isSpellchecked: true
         isUsedForRules: false
+        isSpannable: true
     product_seller_reference:
         metadata: '@product'
         code: 'seller_reference'
