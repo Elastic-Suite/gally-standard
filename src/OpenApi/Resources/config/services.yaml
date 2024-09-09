@@ -1,2 +1,4 @@
 services:
-    Gally\OpenApi\Helper\Documentation: ~
+    Gally\OpenApi\Helper\Documentation:
+        arguments:
+            - '%route_prefix%'

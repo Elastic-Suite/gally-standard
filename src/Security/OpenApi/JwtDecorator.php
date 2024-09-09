@@ -85,10 +85,7 @@ final class JwtDecorator implements OpenApiFactoryInterface
                 ),
             ),
         );
-        $openApi->getPaths()->addPath('/authentication_token', $pathItem);
-
-        // Remove documentation on swagger for GraphQl authentication endpoint.
-        unset($schemas['Authentication']);
+        $this->documentationHelper->addEndpoint($openApi, '/authentication_token', $pathItem);
         $this->documentationHelper->removeEndpoint($openApi, '/authentications/{id}');
 
         return $openApi;
