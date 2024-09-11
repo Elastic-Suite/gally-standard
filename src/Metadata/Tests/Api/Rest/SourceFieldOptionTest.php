@@ -109,17 +109,10 @@ class SourceFieldOptionTest extends AbstractEntityTestWithUpdate
     public function getCollectionDataProvider(): iterable
     {
         return [
-            [null, 5, 401],
-            [$this->getUser(Role::ROLE_CONTRIBUTOR), 5, 200],
-            [$this->getUser(Role::ROLE_ADMIN), 5, 200],
+            [null, 11, 401],
+            [$this->getUser(Role::ROLE_CONTRIBUTOR), 11, 200],
+            [$this->getUser(Role::ROLE_ADMIN), 11, 200],
         ];
-
-        //        todo upgrade: uncomment
-        //        return [
-        //            [null, 11, 401],
-        //            [$this->getUser(Role::ROLE_CONTRIBUTOR), 11, 200],
-        //            [$this->getUser(Role::ROLE_ADMIN), 11, 200],
-        //        ];
     }
 
     public function patchUpdateDataProvider(): iterable
@@ -247,198 +240,193 @@ class SourceFieldOptionTest extends AbstractEntityTestWithUpdate
     {
         $adminUser = $this->getUser(Role::ROLE_ADMIN);
 
-        return [
-            [null, [], [], [], 401],
-            [$this->getUser(Role::ROLE_CONTRIBUTOR), [], [], [], 403],
-        ];
-        // todo upgrade: uncomment
         // Test ACL
-        //        yield [null, [], [], [], 401];
-        //        yield [$this->getUser(Role::ROLE_CONTRIBUTOR), [], [], [], 403];
-        //
-        //        // Invalid source field
-        //        yield [
-        //            $adminUser,
-        //            [
-        //                ['sourceField' => '/source_fields/105', 'code' => 'new_brand_code', 'defaultLabel' => 'New brand'],
-        //            ],
-        //            [105 => 5],
-        //            [],
-        //            400,
-        //            'Option #0: Item not found for "/source_fields/105".',
-        //        ];
-        //
-        //        // Incomplete/Invalid data
-        //        yield [
-        //            $adminUser,
-        //            [
-        //                ['position' => 4],
-        //                ['sourceField' => '/source_fields/9', 'position' => 4],
-        //                ['sourceField' => '/source_fields/9', 'code' => 'new_option_code'],
-        //                ['sourceField' => '/source_fields/5', 'code' => 'new_brand_code', 'defaultLabel' => 'New brand'],
-        //                [
-        //                    'sourceField' => '/source_fields/9',
-        //                    'code' => 'new_brand_code',
-        //                    'defaultLabel' => 'New brand',
-        //                    'labels' => [
-        //                        ['localizedCatalog' => '/localized_catalogs/1000', 'label' => 'Label brand on fake localized catalog'],
-        //                    ],
-        //                ],
-        //            ],
-        //            [],
-        //            [],
-        //            400,
-        //            'Option #0: A sourceField value is required for source field option. ' .
-        //            'Option #1: A code value is required for source field option. ' .
-        //            'Option #2: A defaultLabel value is required for source field option. ' .
-        //            'Option #3: You can only add options to a source field of type "select". ' .
-        //            'Option #4: Item not found for "/localized_catalogs/1000".',
-        //        ];
-        //
-        //        // With one option
-        //        yield [
-        //            $adminUser,
-        //            [
-        //                ['sourceField' => '/source_fields/9', 'code' => 'new_brand_code', 'defaultLabel' => 'New brand'],
-        //            ],
-        //            [9 => 5],
-        //            [
-        //                0 => ['defaultLabel' => 'New brand'],
-        //            ],
-        //            200,
-        //        ];
-        //        // With multiple valid options and one invalid option
-        //        yield [
-        //            $adminUser,
-        //            [
-        //                ['sourceField' => '/source_fields/9', 'code' => 'new_brand_code_2', 'defaultLabel' => 'New brand 2'],
-        //                ['sourceField' => '/source_fields/9', 'code' => 'new_brand_code_3', 'defaultLabel' => 'New brand 3'],
-        //                ['sourceField' => '/source_fields/12', 'defaultLabel' => 'New material 0'],
-        //                ['sourceField' => '/source_fields/12', 'code' => 'new_material_code_1', 'defaultLabel' => 'New material 1'],
-        //            ],
-        //            [
-        //                9 => 7,
-        //                12 => 1,
-        //            ],
-        //            [
-        //                2 => ['code' => 'new_material_code_1'],
-        //            ],
-        //            400,
-        //            'Option #2: A code value is required for source field option.',
-        //        ];
-        //        // With new & updated options
-        //        yield [
-        //            $adminUser,
-        //            [
-        //                ['sourceField' => '/source_fields/9', 'code' => 'new_brand_code', 'defaultLabel' => 'New brand Updated'],
-        //                ['sourceField' => '/source_fields/9', 'code' => 'new_brand_code_4', 'defaultLabel' => 'New brand 4'],
-        //            ],
-        //            [9 => 8],
-        //            [
-        //                0 => ['defaultLabel' => 'New brand Updated'],
-        //            ],
-        //            200,
-        //        ];
-        //        // With labels on new option and existing option
-        //        yield [
-        //            $adminUser,
-        //            [
-        //                [
-        //                    'sourceField' => '/source_fields/9',
-        //                    'code' => 'new_brand_code_4',
-        //                    'defaultLabel' => 'New brand 4',
-        //                    'labels' => [
-        //                        ['localizedCatalog' => '/localized_catalogs/1', 'label' => 'Localized label brand 4'],
-        //                    ],
-        //                ],
-        //                [
-        //                    'sourceField' => '/source_fields/9',
-        //                    'code' => 'new_brand_code_5',
-        //                    'defaultLabel' => 'New brand 5',
-        //                    'labels' => [
-        //                        ['localizedCatalog' => '/localized_catalogs/1', 'label' => 'Localized label1 brand 5'],
-        //                    ],
-        //                ],
-        //            ],
-        //            [9 => 9],
-        //            [
-        //                0 => [
-        //                    'labels' => [
-        //                        0 => ['label' => 'Localized label brand 4'],
-        //                    ],
-        //                ],
-        //                1 => [
-        //                    'labels' => [
-        //                        0 => ['label' => 'Localized label1 brand 5'],
-        //                    ],
-        //                ],
-        //            ],
-        //            200,
-        //        ];
-        //        // With updated & new labels
-        //        yield [
-        //            $adminUser,
-        //            [
-        //                [
-        //                    'sourceField' => '/source_fields/9',
-        //                    'code' => 'new_brand_code_4',
-        //                    'defaultLabel' => 'New brand 4',
-        //                    'labels' => [
-        //                        [
-        //                            'localizedCatalog' => '/localized_catalogs/1',
-        //                            'label' => 'Localized label1 brand 4 update',
-        //                        ],
-        //                        [
-        //                            'localizedCatalog' => '/localized_catalogs/2',
-        //                            'label' => 'Localized label2 brand 4',
-        //                        ],
-        //                    ],
-        //                ],
-        //                [
-        //                    'sourceField' => '/source_fields/9',
-        //                    'code' => 'new_brand_code_5',
-        //                    'defaultLabel' => 'New brand 5',
-        //                    'labels' => [
-        //                        [
-        //                            'localizedCatalog' => '/localized_catalogs/2',
-        //                            'label' => 'Localized label2 brand 5',
-        //                        ],
-        //                    ],
-        //                ],
-        //                [
-        //                    'sourceField' => '/source_fields/12',
-        //                    'code' => 'new_material_code_1',
-        //                    'defaultLabel' => 'New Material 1',
-        //                    'labels' => [
-        //                        [
-        //                            'localizedCatalog' => '/localized_catalogs/1',
-        //                            'label' => 'Localized label1 material 1',
-        //                        ],
-        //                    ],
-        //                ],
-        //            ],
-        //            [
-        //                9 => 9,
-        //                12 => 1,
-        //            ],
-        //            [
-        //                0 => [
-        //                    'labels' => [
-        //                        1 => ['label' => 'Localized label2 brand 4'],
-        //                    ],
-        //                ],
-        //                1 => [
-        //                    'labels' => [
-        //                        0 => ['label' => 'Localized label2 brand 5'],
-        //                    ],
-        //                ],
-        //                2 => [
-        //                    'labels' => [
-        //                        0 => ['label' => 'Localized label1 material 1'],
-        //                    ],
-        //                ],
-        //            ],
-        //            200,
-        //        ];
+        yield [null, [], [], [], 401];
+        yield [$this->getUser(Role::ROLE_CONTRIBUTOR), [], [], [], 403];
+
+        // Invalid source field
+        yield [
+            $adminUser,
+            [
+                ['sourceField' => '/source_fields/105', 'code' => 'new_brand_code', 'defaultLabel' => 'New brand'],
+            ],
+            [105 => 5],
+            [],
+            400,
+            'Option #0: Item not found for "/source_fields/105".',
+        ];
+
+        // Incomplete/Invalid data
+        yield [
+            $adminUser,
+            [
+                ['position' => 4],
+                ['sourceField' => '/source_fields/9', 'position' => 4],
+                ['sourceField' => '/source_fields/9', 'code' => 'new_option_code'],
+                ['sourceField' => '/source_fields/5', 'code' => 'new_brand_code', 'defaultLabel' => 'New brand'],
+                [
+                    'sourceField' => '/source_fields/9',
+                    'code' => 'new_brand_code',
+                    'defaultLabel' => 'New brand',
+                    'labels' => [
+                        ['localizedCatalog' => '/localized_catalogs/1000', 'label' => 'Label brand on fake localized catalog'],
+                    ],
+                ],
+            ],
+            [],
+            [],
+            400,
+            'Option #0: A sourceField value is required for source field option. ' .
+            'Option #1: A code value is required for source field option. ' .
+            'Option #2: A defaultLabel value is required for source field option. ' .
+            'Option #3: You can only add options to a source field of type "select". ' .
+            'Option #4: Item not found for "/localized_catalogs/1000".',
+        ];
+
+        // With one option
+        yield [
+            $adminUser,
+            [
+                ['sourceField' => '/source_fields/9', 'code' => 'new_brand_code', 'defaultLabel' => 'New brand'],
+            ],
+            [9 => 5],
+            [
+                0 => ['defaultLabel' => 'New brand'],
+            ],
+            200,
+        ];
+        // With multiple valid options and one invalid option
+        yield [
+            $adminUser,
+            [
+                ['sourceField' => '/source_fields/9', 'code' => 'new_brand_code_2', 'defaultLabel' => 'New brand 2'],
+                ['sourceField' => '/source_fields/9', 'code' => 'new_brand_code_3', 'defaultLabel' => 'New brand 3'],
+                ['sourceField' => '/source_fields/12', 'defaultLabel' => 'New material 0'],
+                ['sourceField' => '/source_fields/12', 'code' => 'new_material_code_1', 'defaultLabel' => 'New material 1'],
+            ],
+            [
+                9 => 7,
+                12 => 1,
+            ],
+            [
+                2 => ['code' => 'new_material_code_1'],
+            ],
+            400,
+            'Option #2: A code value is required for source field option.',
+        ];
+        // With new & updated options
+        yield [
+            $adminUser,
+            [
+                ['sourceField' => '/source_fields/9', 'code' => 'new_brand_code', 'defaultLabel' => 'New brand Updated'],
+                ['sourceField' => '/source_fields/9', 'code' => 'new_brand_code_4', 'defaultLabel' => 'New brand 4'],
+            ],
+            [9 => 8],
+            [
+                0 => ['defaultLabel' => 'New brand Updated'],
+            ],
+            200,
+        ];
+        // With labels on new option and existing option
+        yield [
+            $adminUser,
+            [
+                [
+                    'sourceField' => '/source_fields/9',
+                    'code' => 'new_brand_code_4',
+                    'defaultLabel' => 'New brand 4',
+                    'labels' => [
+                        ['localizedCatalog' => '/localized_catalogs/1', 'label' => 'Localized label brand 4'],
+                    ],
+                ],
+                [
+                    'sourceField' => '/source_fields/9',
+                    'code' => 'new_brand_code_5',
+                    'defaultLabel' => 'New brand 5',
+                    'labels' => [
+                        ['localizedCatalog' => '/localized_catalogs/1', 'label' => 'Localized label1 brand 5'],
+                    ],
+                ],
+            ],
+            [9 => 9],
+            [
+                0 => [
+                    'labels' => [
+                        0 => ['label' => 'Localized label brand 4'],
+                    ],
+                ],
+                1 => [
+                    'labels' => [
+                        0 => ['label' => 'Localized label1 brand 5'],
+                    ],
+                ],
+            ],
+            200,
+        ];
+        // With updated & new labels
+        yield [
+            $adminUser,
+            [
+                [
+                    'sourceField' => '/source_fields/9',
+                    'code' => 'new_brand_code_4',
+                    'defaultLabel' => 'New brand 4',
+                    'labels' => [
+                        [
+                            'localizedCatalog' => '/localized_catalogs/1',
+                            'label' => 'Localized label1 brand 4 update',
+                        ],
+                        [
+                            'localizedCatalog' => '/localized_catalogs/2',
+                            'label' => 'Localized label2 brand 4',
+                        ],
+                    ],
+                ],
+                [
+                    'sourceField' => '/source_fields/9',
+                    'code' => 'new_brand_code_5',
+                    'defaultLabel' => 'New brand 5',
+                    'labels' => [
+                        [
+                            'localizedCatalog' => '/localized_catalogs/2',
+                            'label' => 'Localized label2 brand 5',
+                        ],
+                    ],
+                ],
+                [
+                    'sourceField' => '/source_fields/12',
+                    'code' => 'new_material_code_1',
+                    'defaultLabel' => 'New Material 1',
+                    'labels' => [
+                        [
+                            'localizedCatalog' => '/localized_catalogs/1',
+                            'label' => 'Localized label1 material 1',
+                        ],
+                    ],
+                ],
+            ],
+            [
+                9 => 9,
+                12 => 1,
+            ],
+            [
+                0 => [
+                    'labels' => [
+                        1 => ['label' => 'Localized label2 brand 4'],
+                    ],
+                ],
+                1 => [
+                    'labels' => [
+                        0 => ['label' => 'Localized label2 brand 5'],
+                    ],
+                ],
+                2 => [
+                    'labels' => [
+                        0 => ['label' => 'Localized label1 material 1'],
+                    ],
+                ],
+            ],
+            200,
+        ];
     }
 }

@@ -32,6 +32,7 @@ use Gally\Doctrine\Filter\SearchColumnsFilter;
 use Gally\Metadata\Controller\BulkSourceFields;
 use Gally\Metadata\Model\SourceField\Type;
 use Gally\Metadata\Model\SourceField\Weight;
+use Gally\Metadata\Operation\Bulk;
 use Gally\Metadata\State\SourceFieldProcessor;
 use Gally\User\Constant\Role;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -41,7 +42,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
         new Get(security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
         new Put(security: "is_granted('" . Role::ROLE_ADMIN . "')"),
         new Delete(security: "is_granted('" . Role::ROLE_ADMIN . "')"),
-        new Post(
+        new Bulk(
             security: "is_granted('" . Role::ROLE_ADMIN . "')",
             controller: BulkSourceFields::class,
             uriTemplate: '/source_fields/bulk',

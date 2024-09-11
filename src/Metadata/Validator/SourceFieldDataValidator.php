@@ -17,7 +17,6 @@ use ApiPlatform\Exception\InvalidArgumentException;
 use Doctrine\ORM\EntityManagerInterface;
 use Gally\Catalog\Repository\LocalizedCatalogRepository;
 use Gally\Metadata\Model\SourceField;
-use Gally\Metadata\Model\SourceFieldLabel;
 use Gally\Metadata\Repository\MetadataRepository;
 
 class SourceFieldDataValidator
@@ -47,8 +46,9 @@ class SourceFieldDataValidator
             $changeSet = $this->entityManager->getUnitOfWork()->getEntityChangeSet($sourceField);
             // Prevent computed change set to take labels in account.
 
-            // Todo upgrade: not use specific clear
-            $this->entityManager->clear(SourceFieldLabel::class); // @phpstan-ignore-line
+            foreach ($sourceField->getLabels() as $label) {
+                $this->entityManager->getUnitOfWork()->detach($label);
+            }
 
             unset($changeSet['isSpellchecked']);
             unset($changeSet['weight']);
