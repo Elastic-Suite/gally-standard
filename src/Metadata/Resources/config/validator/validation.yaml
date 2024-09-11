@@ -1,26 +1,26 @@
-Gally\Metadata\Model\Metadata:
+Gally\Metadata\Entity\Metadata:
     properties:
         entity:
             - NotBlank: ~
     constraints:
         - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity: entity
             
-Gally\Metadata\Model\SourceField:
+Gally\Metadata\Entity\SourceField:
     properties:
         code:
             - NotBlank: ~
         metadata:
             - NotBlank: ~
         type:
-            - Choice: { callback: [Gally\Metadata\Model\SourceField\Type, getAvailableTypes] }
+            - Choice: { callback: [Gally\Metadata\Entity\SourceField\Type, getAvailableTypes] }
         weight:
-            - Choice: { callback: [Gally\Metadata\Model\SourceField\Weight, getValidWeight] }
+            - Choice: { callback: [Gally\Metadata\Entity\SourceField\Weight, getValidWeight] }
     constraints:
         - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
               fields: [ code, metadata ]
               message: 'A field with this code already exist for this entity.'
             
-Gally\Metadata\Model\SourceFieldLabel:
+Gally\Metadata\Entity\SourceFieldLabel:
     properties:
         label:
             - NotBlank: ~
@@ -33,7 +33,7 @@ Gally\Metadata\Model\SourceFieldLabel:
               fields: [ sourceField, localizedCatalog ]
               message: 'A label is already defined for this field and this localized catalog.'
             
-Gally\Metadata\Model\SourceFieldOption:
+Gally\Metadata\Entity\SourceFieldOption:
     properties:
         sourceField:
             - NotBlank: ~
@@ -46,7 +46,7 @@ Gally\Metadata\Model\SourceFieldOption:
               fields: [ sourceField, code ]
               message: 'An option with this code is already defined for this sourceField.'
 
-Gally\Metadata\Model\SourceFieldOptionLabel:
+Gally\Metadata\Entity\SourceFieldOptionLabel:
     properties:
         label:
             - NotBlank: ~

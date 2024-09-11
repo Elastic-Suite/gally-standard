@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Gally\Search\Service;
 
-use Gally\Catalog\Model\LocalizedCatalog;
+use Gally\Catalog\Entity\LocalizedCatalog;
 
 abstract class ScopableRequestTypeConfiguration
 {

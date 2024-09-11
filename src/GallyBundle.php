@@ -26,11 +26,11 @@ class GallyBundle extends Bundle
     public function build(ContainerBuilder $container): void
     {
         $mappings = [
-            realpath(__DIR__ . '/Catalog/Resources/config/doctrine') => 'Gally\Catalog\Model',
-            realpath(__DIR__ . '/Category/Resources/config/doctrine') => 'Gally\Category\Model',
-            realpath(__DIR__ . '/Metadata/Resources/config/doctrine') => 'Gally\Metadata\Model',
-            realpath(__DIR__ . '/User/Resources/config/doctrine') => 'Gally\User\Model',
-            realpath(__DIR__ . '/Search/Resources/config/doctrine') => 'Gally\Search\Model',
+            realpath(__DIR__ . '/Catalog/Resources/config/doctrine') => 'Gally\Catalog\Entity',
+            realpath(__DIR__ . '/Category/Resources/config/doctrine') => 'Gally\Category\Entity',
+            realpath(__DIR__ . '/Metadata/Resources/config/doctrine') => 'Gally\Metadata\Entity',
+            realpath(__DIR__ . '/User/Resources/config/doctrine') => 'Gally\User\Entity',
+            realpath(__DIR__ . '/Search/Resources/config/doctrine') => 'Gally\Search\Entity',
         ];
 
         $container->addCompilerPass(

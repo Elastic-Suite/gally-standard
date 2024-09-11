@@ -1,4 +1,4 @@
-Gally\Metadata\Model\Metadata:
+Gally\Metadata\Entity\Metadata:
     product:
         entity: product_document
     category:

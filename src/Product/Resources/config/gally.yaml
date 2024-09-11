@@ -1,6 +1,6 @@
 gally:
     graphql_query_renaming:
-        Gally\Product\Model\Product:
+        Gally\Product\Entity\Product:
             renamings:
                 searchProducts: products
                 searchPreviewProducts: previewProducts

@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Gally\Category\OpenApi;
 
 use ApiPlatform\OpenApi\Factory\OpenApiFactoryInterface;
-use ApiPlatform\OpenApi\Model\Parameter;
 use ApiPlatform\OpenApi\OpenApi;
 use Gally\OpenApi\Helper\Documentation as DocumentationHelper;
 

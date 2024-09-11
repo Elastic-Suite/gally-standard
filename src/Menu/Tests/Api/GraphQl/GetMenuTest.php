@@ -17,7 +17,7 @@ use Gally\Locale\EventSubscriber\LocaleSubscriber;
 use Gally\Menu\Tests\Api\AbstractMenuTestCase;
 use Gally\Test\ExpectedResponse;
 use Gally\Test\RequestGraphQlToTest;
-use Gally\User\Model\User;
+use Gally\User\Entity\User;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
 class GetMenuTest extends AbstractMenuTestCase

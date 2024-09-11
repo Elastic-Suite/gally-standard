@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Gally\Search\Service;
 
-use Gally\Metadata\Model\Metadata;
+use Gally\Metadata\Entity\Metadata;
 
 interface IngestPipelineProcessorProvider
 {

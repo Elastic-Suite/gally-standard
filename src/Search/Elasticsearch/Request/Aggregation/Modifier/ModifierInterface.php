@@ -15,7 +15,7 @@ namespace Gally\Search\Elasticsearch\Request\Aggregation\Modifier;
 
 use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface;
 use Gally\Search\Elasticsearch\Request\QueryInterface;
-use Gally\Search\Model\Facet\Configuration as FacetConfiguration;
+use Gally\Search\Entity\Facet\Configuration as FacetConfiguration;
 
 /**
  * Modifier Interface for attributes aggregations provider.

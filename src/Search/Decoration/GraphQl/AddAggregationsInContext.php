@@ -15,7 +15,7 @@ namespace Gally\Search\Decoration\GraphQl;
 
 use ApiPlatform\GraphQl\Serializer\SerializerContextBuilderInterface;
 use ApiPlatform\Metadata\GraphQl\Operation;
-use Gally\Search\Model\Document;
+use Gally\Search\Entity\Document;
 
 /**
  * Add aggregations info in serializer context.

@@ -19,8 +19,8 @@ use Doctrine\ORM\Event\PostUpdateEventArgs;
 use Gally\Catalog\Repository\LocalizedCatalogRepository;
 use Gally\Index\Service\IndexOperation;
 use Gally\Index\Service\MetadataManager;
-use Gally\Metadata\Model\Metadata;
-use Gally\Metadata\Model\SourceField;
+use Gally\Metadata\Entity\Metadata;
+use Gally\Metadata\Entity\SourceField;
 use Psr\Log\LoggerInterface;
 
 class SpreadSourceFieldData

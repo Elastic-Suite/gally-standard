@@ -1,7 +1,7 @@
 include:
     - ./source_field.yaml
 
-Gally\Metadata\Model\SourceFieldOption:
+Gally\Metadata\Entity\SourceFieldOption:
     cms_page_tags_option_fashion:
         code: 'fashion'
         source_field: '@cms_page_tags'

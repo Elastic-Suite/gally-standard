@@ -1,7 +1,7 @@
 include:
     - ./metadata.yaml
 
-Gally\Metadata\Model\SourceField:        
+Gally\Metadata\Entity\SourceField:        
     cms_page_id:
         metadata: '@cms_page'
         code: 'id'

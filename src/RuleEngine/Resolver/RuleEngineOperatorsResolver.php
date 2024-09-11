@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Gally\RuleEngine\Resolver;
 
-use Gally\RuleEngine\Model\RuleEngineOperators;
+use Gally\RuleEngine\Entity\RuleEngineOperators;
 use Gally\RuleEngine\Service\RuleEngineManager;
 
 class RuleEngineOperatorsResolver

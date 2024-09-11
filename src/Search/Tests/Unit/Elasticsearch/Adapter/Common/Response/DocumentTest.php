@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Gally\Search\Tests\Unit\Elasticsearch\Adapter\Common\Response;
 
-use Gally\Search\Model\Document;
+use Gally\Search\Entity\Document;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class DocumentTest extends KernelTestCase

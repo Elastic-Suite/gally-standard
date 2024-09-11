@@ -15,7 +15,7 @@ namespace Gally\Product\Decoration\GraphQl;
 
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
-use Gally\Product\Model\Product;
+use Gally\Product\Entity\Product;
 
 /**
  * Add aggregations data in graphql search document response.

@@ -18,10 +18,10 @@ use Doctrine\DBAL\Connection;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\Persistence\ManagerRegistry;
-use Gally\Catalog\Model\LocalizedCatalog;
-use Gally\Metadata\Model\SourceField;
-use Gally\Metadata\Model\SourceFieldOption;
-use Gally\Metadata\Model\SourceFieldOptionLabel;
+use Gally\Catalog\Entity\LocalizedCatalog;
+use Gally\Metadata\Entity\SourceField;
+use Gally\Metadata\Entity\SourceFieldOption;
+use Gally\Metadata\Entity\SourceFieldOptionLabel;
 
 /**
  * @method SourceFieldOptionLabel|null find($id, $lockMode = null, $lockVersion = null)

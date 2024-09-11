@@ -20,7 +20,7 @@ use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\GraphQl\Operation;
 use ApiPlatform\Metadata\Resource\ResourceMetadataCollection;
 use Gally\Search\GraphQl\Type\Definition\SortOptionType;
-use Gally\Search\Model\Document;
+use Gally\Search\Entity\Document;
 use GraphQL\Type\Definition\InterfaceType;
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type as GraphQLType;

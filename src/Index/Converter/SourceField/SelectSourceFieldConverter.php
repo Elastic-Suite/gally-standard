@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace Gally\Index\Converter\SourceField;
 
-use Gally\Index\Model\Index\Mapping;
-use Gally\Metadata\Model\SourceField;
+use Gally\Index\Entity\Index\Mapping;
+use Gally\Metadata\Entity\SourceField;
 
 class SelectSourceFieldConverter implements SourceFieldConverterInterface
 {

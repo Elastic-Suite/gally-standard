@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Gally\Metadata\GraphQl\Type\Definition\Filter;
 
 use Gally\GraphQl\Type\Definition\FilterInterface as SearchFilterInterface;
-use Gally\Metadata\Model\SourceField;
+use Gally\Metadata\Entity\SourceField;
 
 interface EntityFilterInterface extends SearchFilterInterface
 {

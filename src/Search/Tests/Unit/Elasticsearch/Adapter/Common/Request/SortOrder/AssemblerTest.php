@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace Gally\Search\Tests\Unit\Elasticsearch\Adapter\Common\Request\SortOrder;
 
-use Gally\Index\Model\Index\Mapping\FieldInterface;
-use Gally\Index\Model\Index\MappingInterface;
+use Gally\Index\Entity\Index\Mapping\FieldInterface;
+use Gally\Index\Entity\Index\MappingInterface;
 use Gally\Index\Service\MetadataManager;
 use Gally\Metadata\Repository\MetadataRepository;
 use Gally\Search\Elasticsearch\Adapter\Common\Request\Query\Assembler as QueryAssembler;

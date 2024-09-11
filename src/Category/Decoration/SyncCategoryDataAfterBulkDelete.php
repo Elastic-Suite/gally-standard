@@ -18,7 +18,7 @@ use Gally\Category\Exception\SyncCategoryException;
 use Gally\Category\Repository\CategoryProductMerchandisingRepository;
 use Gally\Category\Service\CategorySynchronizer;
 use Gally\Index\Api\IndexSettingsInterface;
-use Gally\Index\Model\Index;
+use Gally\Index\Entity\Index;
 use Gally\Index\Repository\Index\IndexRepositoryInterface;
 
 class SyncCategoryDataAfterBulkDelete implements MutationResolverInterface

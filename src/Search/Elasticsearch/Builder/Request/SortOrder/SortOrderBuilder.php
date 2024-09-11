@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace Gally\Search\Elasticsearch\Builder\Request\SortOrder;
 
-use Gally\Index\Model\Index\Mapping\FieldInterface;
-use Gally\Index\Model\Index\MappingInterface;
+use Gally\Index\Entity\Index\Mapping\FieldInterface;
+use Gally\Index\Entity\Index\MappingInterface;
 use Gally\Search\Elasticsearch\Builder\Request\Query\Filter\FilterQueryBuilder;
 use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface;
 use Gally\Search\Elasticsearch\Request\SortOrderInterface;

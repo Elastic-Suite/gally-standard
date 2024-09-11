@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Gally\Index\Tests\Api\Rest;
 
 use Gally\Fixture\Service\ElasticsearchFixturesInterface;
-use Gally\Index\Model\Index;
+use Gally\Index\Entity\Index;
 use Gally\Index\Repository\Index\IndexRepositoryInterface;
 use Gally\Test\AbstractEntityTestCase;
 use Gally\Test\ExpectedResponse;

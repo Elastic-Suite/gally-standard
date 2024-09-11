@@ -4,14 +4,14 @@
                   xsi:schemaLocation="https://doctrine-project.org/schemas/orm/doctrine-mapping
                           https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
 
-    <entity name="Gally\Catalog\Model\Catalog" table="catalog" repository-class="Gally\Catalog\Repository\CatalogRepository">
+    <entity name="Gally\Catalog\Entity\Catalog" table="catalog" repository-class="Gally\Catalog\Repository\CatalogRepository">
         <id name="id" type="integer">
             <generator strategy="SEQUENCE"/>
         </id>
         <field name="code" type="string" length="255" nullable="false" unique="true" />
         <field name="name" type="string" length="255" nullable="true" unique="false" />
 
-        <one-to-many field="localizedCatalogs" target-entity="Gally\Catalog\Model\LocalizedCatalog" mapped-by="catalog" fetch="EAGER">
+        <one-to-many field="localizedCatalogs" target-entity="Gally\Catalog\Entity\LocalizedCatalog" mapped-by="catalog" fetch="EAGER">
             <order-by>
                 <order-by-field name="id" direction="ASC" />
             </order-by>

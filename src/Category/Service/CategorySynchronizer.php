@@ -19,16 +19,16 @@ use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\Persistence\Mapping\MappingException;
 use Gally\Category\Exception\SyncCategoryException;
-use Gally\Category\Model\Category;
+use Gally\Category\Entity\Category;
 use Gally\Category\Repository\CategoryConfigurationRepository;
 use Gally\Category\Repository\CategoryRepository;
-use Gally\Index\Model\Index;
+use Gally\Index\Entity\Index;
 use Gally\Metadata\Repository\MetadataRepository;
 use Gally\Search\Elasticsearch\Adapter;
 use Gally\Search\Elasticsearch\Builder\Request\Query\QueryBuilder;
 use Gally\Search\Elasticsearch\Request\Container\Configuration\ContainerConfigurationProvider;
 use Gally\Search\Elasticsearch\RequestFactoryInterface;
-use Gally\Search\Model\Document;
+use Gally\Search\Entity\Document;
 
 class CategorySynchronizer
 {

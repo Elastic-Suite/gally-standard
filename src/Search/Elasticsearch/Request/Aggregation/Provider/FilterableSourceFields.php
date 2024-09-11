@@ -17,7 +17,7 @@ use Gally\Search\Elasticsearch\Request\Aggregation\ConfigResolver\FieldAggregati
 use Gally\Search\Elasticsearch\Request\Aggregation\Modifier\ModifierInterface;
 use Gally\Search\Elasticsearch\Request\BucketInterface;
 use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface;
-use Gally\Search\Model\Facet\Configuration;
+use Gally\Search\Entity\Facet\Configuration;
 use Gally\Search\Repository\Facet\ConfigurationRepository;
 use Gally\Search\Service\SearchContext;
 

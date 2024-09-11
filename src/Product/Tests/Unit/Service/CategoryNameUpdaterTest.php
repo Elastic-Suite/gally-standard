@@ -13,11 +13,11 @@ declare(strict_types=1);
 
 namespace Gally\Product\Tests\Unit\Service;
 
-use Gally\Catalog\Model\Catalog;
-use Gally\Catalog\Model\LocalizedCatalog;
+use Gally\Catalog\Entity\Catalog;
+use Gally\Catalog\Entity\LocalizedCatalog;
 use Gally\Category\Repository\CategoryConfigurationRepository;
 use Gally\Index\Dto\Bulk;
-use Gally\Index\Model\Index;
+use Gally\Index\Entity\Index;
 use Gally\Index\Repository\Index\IndexRepositoryInterface;
 use Gally\Product\Service\CategoryNameUpdater;
 use PHPUnit\Framework\MockObject\MockObject;

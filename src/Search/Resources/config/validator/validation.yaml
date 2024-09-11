@@ -1,11 +1,11 @@
-Gally\Search\Model\Facet\Configuration:
+Gally\Search\Entity\Facet\Configuration:
     properties:
         sourceField:
             - NotNull: ~
             - Gally\Search\Validator\ProductFieldConstraint: ~
             - Gally\Search\Validator\FilterableFieldConstraint: ~
         displayMode:
-            - Choice: { callback: [ Gally\Search\Model\Facet\Configuration, getAvailableDisplayModes ] }
+            - Choice: { callback: [ Gally\Search\Entity\Facet\Configuration, getAvailableDisplayModes ] }
         coverageRate:
             - Range:
                 min: 0
@@ -14,7 +14,7 @@ Gally\Search\Model\Facet\Configuration:
         maxSize:
             - Positive: ~
         sortOrder:
-            - Choice: { callback: [ Gally\Search\Model\Facet\Configuration, getAvailableSortOrder ] }
+            - Choice: { callback: [ Gally\Search\Entity\Facet\Configuration, getAvailableSortOrder ] }
 
     constraints:   
         - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:

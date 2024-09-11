@@ -13,12 +13,12 @@ declare(strict_types=1);
 
 namespace Gally\Product\Serializer;
 
-use Gally\Metadata\Model\Attribute\AttributeFactory;
-use Gally\Metadata\Model\Attribute\StructuredAttributeInterface;
-use Gally\Metadata\Model\Attribute\Type\NestedAttribute;
-use Gally\Metadata\Model\Attribute\Type\PriceAttribute;
-use Gally\Product\Model\Product;
-use Gally\Search\Model\Document;
+use Gally\Metadata\Entity\Attribute\AttributeFactory;
+use Gally\Metadata\Entity\Attribute\StructuredAttributeInterface;
+use Gally\Metadata\Entity\Attribute\Type\NestedAttribute;
+use Gally\Metadata\Entity\Attribute\Type\PriceAttribute;
+use Gally\Product\Entity\Product;
+use Gally\Search\Entity\Document;
 use Gally\Search\Service\SearchContext;
 use Gally\Stitching\Service\SerializerService;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;

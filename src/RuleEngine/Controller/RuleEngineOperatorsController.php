@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Gally\RuleEngine\Controller;
 
-use Gally\RuleEngine\Model\RuleEngineOperators;
+use Gally\RuleEngine\Entity\RuleEngineOperators;
 use Gally\RuleEngine\Service\RuleEngineManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 

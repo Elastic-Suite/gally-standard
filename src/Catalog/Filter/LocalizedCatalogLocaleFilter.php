@@ -17,7 +17,7 @@ use ApiPlatform\Doctrine\Orm\Util\QueryNameGeneratorInterface;
 use ApiPlatform\Metadata\Operation;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
-use Gally\Catalog\Model\LocalizedCatalog;
+use Gally\Catalog\Entity\LocalizedCatalog;
 use Gally\Doctrine\Filter\SearchFilter as GallySearchFilter;
 use Gally\Exception\LogicException;
 use Symfony\Component\PropertyInfo\Type;

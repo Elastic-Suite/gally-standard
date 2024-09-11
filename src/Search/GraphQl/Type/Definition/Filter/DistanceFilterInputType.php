@@ -15,8 +15,8 @@ namespace Gally\Search\GraphQl\Type\Definition\Filter;
 
 use ApiPlatform\GraphQl\Type\Definition\TypeInterface;
 use Gally\GraphQl\Type\Definition\FilterInterface;
-use Gally\Index\Model\Index\Mapping\FieldInterface;
-use Gally\Metadata\Model\SourceField\Type as SourceFieldType;
+use Gally\Index\Entity\Index\Mapping\FieldInterface;
+use Gally\Metadata\Entity\SourceField\Type as SourceFieldType;
 use Gally\Search\Constant\FilterOperator;
 use Gally\Search\Elasticsearch\Builder\Request\Query\Filter\FilterQueryBuilder;
 use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface;

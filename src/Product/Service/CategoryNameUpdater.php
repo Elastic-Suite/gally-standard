@@ -13,11 +13,11 @@ declare(strict_types=1);
 
 namespace Gally\Product\Service;
 
-use Gally\Catalog\Model\LocalizedCatalog;
-use Gally\Category\Model\Category\Configuration as CategoryConfiguration;
+use Gally\Catalog\Entity\LocalizedCatalog;
+use Gally\Category\Entity\Category\Configuration as CategoryConfiguration;
 use Gally\Category\Repository\CategoryConfigurationRepository;
 use Gally\Index\Dto\Bulk;
-use Gally\Index\Model\Index;
+use Gally\Index\Entity\Index;
 use Gally\Index\Repository\Index\IndexRepositoryInterface;
 use Psr\Log\LoggerInterface;
 

@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Gally\Metadata\Tests\Api\Rest;
 
-use Gally\Metadata\Model\Metadata;
+use Gally\Metadata\Entity\Metadata;
 use Gally\Test\AbstractEntityTestWithUpdate;
 use Gally\User\Constant\Role;
 

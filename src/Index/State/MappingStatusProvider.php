@@ -16,7 +16,7 @@ namespace Gally\Index\State;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProviderInterface;
-use Gally\Index\Model\Index\Mapping\Status;
+use Gally\Index\Entity\Index\Mapping\Status;
 use Gally\Index\Service\MetadataManager;
 use Gally\Metadata\Repository\MetadataRepository;
 

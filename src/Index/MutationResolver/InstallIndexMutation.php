@@ -15,7 +15,7 @@ namespace Gally\Index\MutationResolver;
 
 use ApiPlatform\Exception\InvalidArgumentException;
 use ApiPlatform\GraphQl\Resolver\MutationResolverInterface;
-use Gally\Index\Model\Index;
+use Gally\Index\Entity\Index;
 use Gally\Index\Repository\Index\IndexRepositoryInterface;
 use Gally\Index\Service\IndexOperation;
 

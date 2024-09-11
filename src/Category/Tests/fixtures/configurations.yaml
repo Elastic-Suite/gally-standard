@@ -1,4 +1,4 @@
-Gally\Category\Model\Category\Configuration:
+Gally\Category\Entity\Category\Configuration:
     conf1:
         category: '@categ1'
         catalog: '@catalog1'

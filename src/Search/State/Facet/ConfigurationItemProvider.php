@@ -22,11 +22,11 @@ use ApiPlatform\Metadata\Put;
 use ApiPlatform\State\ProviderInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
-use Gally\Category\Model\Category;
+use Gally\Category\Entity\Category;
 use Gally\Exception\LogicException;
-use Gally\Metadata\Model\SourceField;
+use Gally\Metadata\Entity\SourceField;
 use Gally\ResourceMetadata\Service\ResourceMetadataManager;
-use Gally\Search\Model\Facet;
+use Gally\Search\Entity\Facet;
 use Gally\Search\Repository\Facet\ConfigurationRepository;
 
 final class ConfigurationItemProvider implements ProviderInterface
@@ -65,16 +65,7 @@ final class ConfigurationItemProvider implements ProviderInterface
         $repository->setMetadata($sourceField->getMetadata());
         $defaultFacetConfiguration = null;
 
-        // todo upgrade @Pigau see if the conditions on operation types are still necessary ?
-        if ($categoryId
-            && (
-                ($operation instanceof Get)
-                || ($operation instanceof Patch)
-                || ($operation instanceof Put)
-                || ($operation instanceof Query)
-                || ($operation instanceof Mutation)
-            )
-        ) {
+        if ($categoryId) {
             $repository->setCategoryId(null);
             /** @var ?Facet\Configuration $defaultFacetConfiguration */
             $defaultFacetConfiguration = $this->itemProviderNoEagerLoading->provide(

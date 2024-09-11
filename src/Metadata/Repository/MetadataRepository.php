@@ -18,7 +18,7 @@ use ApiPlatform\Exception\ResourceClassNotFoundException;
 use ApiPlatform\Metadata\Resource\Factory\ResourceMetadataCollectionFactoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use Gally\Metadata\Model\Metadata;
+use Gally\Metadata\Entity\Metadata;
 use Gally\ResourceMetadata\Service\ResourceMetadataManager;
 
 /**

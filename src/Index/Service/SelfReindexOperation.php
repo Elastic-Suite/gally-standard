@@ -15,10 +15,10 @@ namespace Gally\Index\Service;
 
 use ApiPlatform\Exception\InvalidArgumentException;
 use Gally\Catalog\Repository\LocalizedCatalogRepository;
-use Gally\Index\Model\Index;
-use Gally\Index\Model\Index\SelfReindex;
+use Gally\Index\Entity\Index;
+use Gally\Index\Entity\Index\SelfReindex;
 use Gally\Index\Repository\Index\IndexRepositoryInterface;
-use Gally\Metadata\Model\Metadata;
+use Gally\Metadata\Entity\Metadata;
 use Gally\Metadata\Repository\MetadataRepository;
 use Gally\Search\Elasticsearch\Request\Container\Configuration\ContainerConfigurationProvider;
 use Psr\Log\LoggerInterface;

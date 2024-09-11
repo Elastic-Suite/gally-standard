@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace Gally\Search\Repository\Ingest;
 
-use Gally\Metadata\Model\Metadata;
-use Gally\Search\Model\IngestPipeline;
+use Gally\Metadata\Entity\Metadata;
+use Gally\Search\Entity\IngestPipeline;
 use Gally\Search\Service\IngestPipelineProcessorProvider;
 use OpenSearch\Client;
 use OpenSearch\Common\Exceptions\Missing404Exception;

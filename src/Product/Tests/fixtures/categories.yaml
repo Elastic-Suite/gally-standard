@@ -1,4 +1,4 @@
-Gally\Category\Model\Category:
+Gally\Category\Entity\Category:
     categ1:
         id: cat_1
         level: 1

@@ -15,12 +15,12 @@ namespace Gally\Category\Tests\Api\Rest;
 
 use Gally\Catalog\Repository\CatalogRepository;
 use Gally\Catalog\Repository\LocalizedCatalogRepository;
-use Gally\Category\Model\Category;
+use Gally\Category\Entity\Category;
 use Gally\Test\AbstractEntityTestWithUpdate;
 use Gally\Test\ExpectedResponse;
 use Gally\Test\RequestToTest;
 use Gally\User\Constant\Role;
-use Gally\User\Model\User;
+use Gally\User\Entity\User;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
 class CategoryConfigurationTest extends AbstractEntityTestWithUpdate

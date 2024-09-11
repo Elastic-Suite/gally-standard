@@ -34,7 +34,7 @@ services:
         arguments:
             - '@Gally\Stitching\Service\SerializerService'
             - '@Gally\Search\Service\SearchContext'
-            - '@Gally\Metadata\Model\Attribute\AttributeFactory'
+            - '@Gally\Metadata\Entity\Attribute\AttributeFactory'
         tags:
             - { name: serializer.normalizer }
 

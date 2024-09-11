@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Gally\Search\Serializer;
 
 use Gally\Search\Elasticsearch\DocumentInterface;
-use Gally\Search\Model\Document;
+use Gally\Search\Entity\Document;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;

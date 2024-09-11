@@ -13,9 +13,9 @@ declare(strict_types=1);
 
 namespace Gally\Product\Tests\Unit\Serializer;
 
-use Gally\Product\Model\Product;
+use Gally\Product\Entity\Product;
 use Gally\Product\Serializer\ProductDenormalizer;
-use Gally\Search\Model\Document;
+use Gally\Search\Entity\Document;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class ProductDenormalizerTest extends KernelTestCase

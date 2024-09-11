@@ -16,7 +16,7 @@ namespace Gally\RuleEngine\Tests\Api\GraphQl;
 use Gally\Test\ExpectedResponse;
 use Gally\Test\RequestGraphQlToTest;
 use Gally\User\Constant\Role;
-use Gally\User\Model\User;
+use Gally\User\Entity\User;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
 class RuleEngineOperatorsTest extends \Gally\RuleEngine\Tests\Api\Rest\RuleEngineOperatorsTest

@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Gally\Index\Dto\Bulk;
 
-use Gally\Index\Model\Index;
+use Gally\Index\Entity\Index;
 
 /**
  * Implementation for ES bulk request.

@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace Gally\Search\Repository\Ingest;
 
-use Gally\Metadata\Model\Metadata;
-use Gally\Search\Model\IngestPipeline;
+use Gally\Metadata\Entity\Metadata;
+use Gally\Search\Entity\IngestPipeline;
 
 interface PipelineRepositoryInterface
 {

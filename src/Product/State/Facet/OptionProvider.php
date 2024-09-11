@@ -16,7 +16,7 @@ namespace Gally\Product\State\Facet;
 use ApiPlatform\Metadata\CollectionOperationInterface;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\Pagination\PartialPaginatorInterface;
-use Gally\Search\Model\Facet\Option;
+use Gally\Search\Entity\Facet\Option;
 
 class OptionProvider extends \Gally\Search\State\Facet\OptionProvider
 {

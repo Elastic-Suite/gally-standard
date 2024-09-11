@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Gally\Metadata\Tests\Api\Rest;
 
-use Gally\Metadata\Model\SourceFieldOption;
+use Gally\Metadata\Entity\SourceFieldOption;
 use Gally\Metadata\Repository\SourceFieldOptionLabelRepository;
 use Gally\Metadata\Repository\SourceFieldOptionRepository;
 use Gally\Metadata\Repository\SourceFieldRepository;
@@ -21,7 +21,7 @@ use Gally\Test\AbstractEntityTestWithUpdate;
 use Gally\Test\ExpectedResponse;
 use Gally\Test\RequestToTest;
 use Gally\User\Constant\Role;
-use Gally\User\Model\User;
+use Gally\User\Entity\User;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
 class SourceFieldOptionTest extends AbstractEntityTestWithUpdate

@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Gally\User\DataFixtures\Providers;
 
-use Gally\User\Model\User;
+use Gally\User\Entity\User;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class HashPasswordProvider

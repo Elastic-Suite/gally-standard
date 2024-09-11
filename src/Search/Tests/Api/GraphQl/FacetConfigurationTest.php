@@ -18,7 +18,7 @@ use Gally\Search\Tests\Api\Rest\FacetConfigurationTest as RestFacetConfiguration
 use Gally\Test\ExpectedResponse;
 use Gally\Test\RequestGraphQlToTest;
 use Gally\User\Constant\Role;
-use Gally\User\Model\User;
+use Gally\User\Entity\User;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
 class FacetConfigurationTest extends RestFacetConfigurationTest

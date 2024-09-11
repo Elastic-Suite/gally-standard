@@ -14,10 +14,10 @@ declare(strict_types=1);
 namespace Gally\RuleEngine\Service;
 
 use Gally\Cache\Service\CacheManagerInterface;
-use Gally\Catalog\Model\LocalizedCatalog;
+use Gally\Catalog\Entity\LocalizedCatalog;
 use Gally\Exception\LogicException;
-use Gally\RuleEngine\Model\RuleEngineGraphQlFilters;
-use Gally\RuleEngine\Model\RuleEngineOperators;
+use Gally\RuleEngine\Entity\RuleEngineGraphQlFilters;
+use Gally\RuleEngine\Entity\RuleEngineOperators;
 use Gally\RuleEngine\Service\RuleType\AttributeRule;
 use Gally\RuleEngine\Service\RuleType\CombinationRule;
 use Gally\RuleEngine\Service\RuleType\RuleTypeInterface;

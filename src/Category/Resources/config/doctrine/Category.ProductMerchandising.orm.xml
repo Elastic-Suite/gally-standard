@@ -4,7 +4,7 @@
                   xsi:schemaLocation="https://doctrine-project.org/schemas/orm/doctrine-mapping
                           https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
 
-   <entity name="Gally\Category\Model\Category\ProductMerchandising"
+   <entity name="Gally\Category\Entity\Category\ProductMerchandising"
            repository-class="Gally\Category\Repository\CategoryProductMerchandisingRepository"
            table="category_product_merchandising">
 
@@ -12,16 +12,16 @@
             <generator strategy="SEQUENCE"/>
         </id>
 
-        <many-to-one field="category" target-entity="Gally\Category\Model\Category">
+        <many-to-one field="category" target-entity="Gally\Category\Entity\Category">
             <join-column name="category_id" referenced-column-name="id" nullable="false" on-delete="CASCADE" on-update="CASCADE"/>
             <cascade>
                 <cascade-persist/>
             </cascade>
         </many-to-one>
-        <many-to-one field="catalog" target-entity="Gally\Catalog\Model\Catalog">
+        <many-to-one field="catalog" target-entity="Gally\Catalog\Entity\Catalog">
             <join-column name="catalog_id" referenced-column-name="id" nullable="true" on-delete="CASCADE" on-update="CASCADE"/>
         </many-to-one>
-        <many-to-one field="localizedCatalog" target-entity="Gally\Catalog\Model\LocalizedCatalog">
+        <many-to-one field="localizedCatalog" target-entity="Gally\Catalog\Entity\LocalizedCatalog">
             <join-column name="localized_catalog_id" referenced-column-name="id" nullable="true" on-delete="CASCADE" on-update="CASCADE"/>
         </many-to-one>
 

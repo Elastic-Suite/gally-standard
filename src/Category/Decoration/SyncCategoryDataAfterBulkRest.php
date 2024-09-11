@@ -20,7 +20,7 @@ use Gally\Category\Exception\SyncCategoryException;
 use Gally\Category\Service\CategoryProductPositionManager;
 use Gally\Category\Service\CategorySynchronizer;
 use Gally\Index\Api\IndexSettingsInterface;
-use Gally\Index\Model\IndexDocument;
+use Gally\Index\Entity\IndexDocument;
 use Gally\Index\Repository\Index\IndexRepositoryInterface;
 
 class SyncCategoryDataAfterBulkRest implements ProcessorInterface

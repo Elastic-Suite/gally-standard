@@ -1,7 +1,7 @@
 include:
     - ./source_field.yaml
 
-Gally\Metadata\Model\SourceFieldOption:
+Gally\Metadata\Entity\SourceFieldOption:
     categories_custom_apply_to_products_option_1:
         source_field: '@categories_custom_apply_to_products'
         code: "1"

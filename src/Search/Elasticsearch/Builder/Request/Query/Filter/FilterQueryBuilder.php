@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Gally\Search\Elasticsearch\Builder\Request\Query\Filter;
 
 use Gally\Exception\LogicException;
-use Gally\Index\Model\Index\Mapping\FieldInterface;
+use Gally\Index\Entity\Index\Mapping\FieldInterface;
 use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface;
 use Gally\Search\Elasticsearch\Request\QueryFactory;
 use Gally\Search\Elasticsearch\Request\QueryInterface;

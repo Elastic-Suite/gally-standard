@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Gally\Security\Resolver;
 
 use ApiPlatform\GraphQl\Resolver\MutationResolverInterface;
-use Gally\Security\Model\Authentication;
+use Gally\Security\Entity\Authentication;
 use Gally\User\Repository\UserRepository;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Symfony\Component\HttpFoundation\Response;

@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Gally\Index\Converter\SourceField;
 
-use Gally\Metadata\Model\SourceField;
+use Gally\Metadata\Entity\SourceField;
 
 class ObjectSourceFieldConverter implements SourceFieldConverterInterface
 {

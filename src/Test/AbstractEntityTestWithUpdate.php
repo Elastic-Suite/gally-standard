@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Gally\Test;
 
-use Gally\User\Model\User;
+use Gally\User\Entity\User;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
 /**

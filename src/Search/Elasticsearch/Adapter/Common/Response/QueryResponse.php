@@ -15,7 +15,7 @@ namespace Gally\Search\Elasticsearch\Adapter\Common\Response;
 
 use Gally\Search\Elasticsearch\Builder\Response\AggregationBuilder;
 use Gally\Search\Elasticsearch\ResponseInterface;
-use Gally\Search\Model\Document;
+use Gally\Search\Entity\Document;
 
 class QueryResponse implements ResponseInterface
 {

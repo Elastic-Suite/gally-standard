@@ -15,7 +15,7 @@ namespace Gally\Category\Controller;
 
 use Gally\Catalog\Repository\CatalogRepository;
 use Gally\Catalog\Repository\LocalizedCatalogRepository;
-use Gally\Category\Model\Category\Configuration;
+use Gally\Category\Entity\Category\Configuration;
 use Gally\Category\Repository\CategoryConfigurationRepository;
 use Gally\Category\Repository\CategoryRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

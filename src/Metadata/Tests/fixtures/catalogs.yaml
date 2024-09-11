@@ -1,4 +1,4 @@
-Gally\Catalog\Model\Catalog:
+Gally\Catalog\Entity\Catalog:
     catalog1:
         code: b2c
         name: B2C Catalog
@@ -6,7 +6,7 @@ Gally\Catalog\Model\Catalog:
         code: b2b
         name: B2B Catalog
 
-Gally\Catalog\Model\LocalizedCatalog:
+Gally\Catalog\Entity\LocalizedCatalog:
     catalog1_fr:
         catalog: '@catalog1'
         code: b2c_fr

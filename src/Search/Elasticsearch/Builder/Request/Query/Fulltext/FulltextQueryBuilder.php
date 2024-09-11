@@ -13,9 +13,9 @@ declare(strict_types=1);
 
 namespace Gally\Search\Elasticsearch\Builder\Request\Query\Fulltext;
 
-use Gally\Index\Model\Index\Mapping\FieldFilterInterface;
-use Gally\Index\Model\Index\Mapping\FieldInterface;
-use Gally\Index\Model\Index\MappingInterface;
+use Gally\Index\Entity\Index\Mapping\FieldFilterInterface;
+use Gally\Index\Entity\Index\Mapping\FieldInterface;
+use Gally\Index\Entity\Index\MappingInterface;
 use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface as ContainerConfigInterface;
 use Gally\Search\Elasticsearch\Request\QueryFactory;
 use Gally\Search\Elasticsearch\Request\QueryInterface;

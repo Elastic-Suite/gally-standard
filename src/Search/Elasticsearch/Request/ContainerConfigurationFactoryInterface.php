@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace Gally\Search\Elasticsearch\Request;
 
-use Gally\Catalog\Model\LocalizedCatalog;
-use Gally\Metadata\Model\Metadata;
+use Gally\Catalog\Entity\LocalizedCatalog;
+use Gally\Metadata\Entity\Metadata;
 
 interface ContainerConfigurationFactoryInterface
 {

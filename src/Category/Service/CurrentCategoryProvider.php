@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Gally\Category\Service;
 
-use Gally\Category\Model\Category;
+use Gally\Category\Entity\Category;
 use Gally\Category\Repository\CategoryRepository;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 

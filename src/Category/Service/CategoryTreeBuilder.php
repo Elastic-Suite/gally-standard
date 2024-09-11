@@ -13,13 +13,13 @@ declare(strict_types=1);
 
 namespace Gally\Category\Service;
 
-use Gally\Catalog\Model\Catalog;
-use Gally\Catalog\Model\LocalizedCatalog;
+use Gally\Catalog\Entity\Catalog;
+use Gally\Catalog\Entity\LocalizedCatalog;
 use Gally\Catalog\Repository\CatalogRepository;
 use Gally\Catalog\Repository\LocalizedCatalogRepository;
 use Gally\Catalog\Service\DefaultCatalogProvider;
-use Gally\Category\Model\Category;
-use Gally\Category\Model\CategoryTree;
+use Gally\Category\Entity\Category;
+use Gally\Category\Entity\CategoryTree;
 use Gally\Category\Repository\CategoryConfigurationRepository;
 use Gally\Category\Repository\CategoryRepository;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;

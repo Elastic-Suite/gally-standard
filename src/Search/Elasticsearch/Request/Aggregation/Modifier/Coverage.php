@@ -18,7 +18,7 @@ use Gally\Search\Elasticsearch\Request\Aggregation\CoverageProvider;
 use Gally\Search\Elasticsearch\Request\Container\Configuration\ContainerConfigurationProvider;
 use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface;
 use Gally\Search\Elasticsearch\Request\QueryInterface;
-use Gally\Search\Model\Facet\Configuration as FacetConfiguration;
+use Gally\Search\Entity\Facet\Configuration as FacetConfiguration;
 
 /**
  * Coverage Modifier for filterable product source field provider.

@@ -16,7 +16,7 @@ namespace Gally\Catalog\Repository;
 use ApiPlatform\Exception\InvalidArgumentException;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use Gally\Catalog\Model\LocalizedCatalog;
+use Gally\Catalog\Entity\LocalizedCatalog;
 
 /**
  * @method LocalizedCatalog|null find($id, $lockMode = null, $lockVersion = null)

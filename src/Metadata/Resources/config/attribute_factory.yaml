@@ -2,67 +2,67 @@ services:
     gally.entity.attribute.boolean.factory:
         parent: Gally\DependencyInjection\GenericFactory
         arguments:
-            - 'Gally\Metadata\Model\Attribute\Type\BooleanAttribute'
+            - 'Gally\Metadata\Entity\Attribute\Type\BooleanAttribute'
         tags:
-            - { name: 'gally.entity.attribute.factory', attributeType: !php/const Gally\Metadata\Model\Attribute\Type\BooleanAttribute::ATTRIBUTE_TYPE }
+            - { name: 'gally.entity.attribute.factory', attributeType: !php/const Gally\Metadata\Entity\Attribute\Type\BooleanAttribute::ATTRIBUTE_TYPE }
 
     gally.entity.attribute.category.factory:
         parent: Gally\DependencyInjection\GenericFactory
         arguments:
-            - 'Gally\Metadata\Model\Attribute\Type\CategoryAttribute'
+            - 'Gally\Metadata\Entity\Attribute\Type\CategoryAttribute'
         tags:
-            - { name: 'gally.entity.attribute.factory', attributeType: !php/const Gally\Metadata\Model\Attribute\Type\CategoryAttribute::ATTRIBUTE_TYPE }
+            - { name: 'gally.entity.attribute.factory', attributeType: !php/const Gally\Metadata\Entity\Attribute\Type\CategoryAttribute::ATTRIBUTE_TYPE }
 
     gally.entity.attribute.float.factory:
         parent: Gally\DependencyInjection\GenericFactory
         arguments:
-            - 'Gally\Metadata\Model\Attribute\Type\FloatAttribute'
+            - 'Gally\Metadata\Entity\Attribute\Type\FloatAttribute'
         tags:
-            - { name: 'gally.entity.attribute.factory', attributeType: !php/const Gally\Metadata\Model\Attribute\Type\FloatAttribute::ATTRIBUTE_TYPE }
+            - { name: 'gally.entity.attribute.factory', attributeType: !php/const Gally\Metadata\Entity\Attribute\Type\FloatAttribute::ATTRIBUTE_TYPE }
 
     gally.entity.attribute.int.factory:
         parent: Gally\DependencyInjection\GenericFactory
         arguments:
-            - 'Gally\Metadata\Model\Attribute\Type\IntAttribute'
+            - 'Gally\Metadata\Entity\Attribute\Type\IntAttribute'
         tags:
-            - { name: 'gally.entity.attribute.factory', attributeType: !php/const Gally\Metadata\Model\Attribute\Type\IntAttribute::ATTRIBUTE_TYPE }
+            - { name: 'gally.entity.attribute.factory', attributeType: !php/const Gally\Metadata\Entity\Attribute\Type\IntAttribute::ATTRIBUTE_TYPE }
 
     gally.entity.attribute.nested.factory:
         parent: Gally\DependencyInjection\GenericFactory
         arguments:
-            - 'Gally\Metadata\Model\Attribute\Type\NestedAttribute'
+            - 'Gally\Metadata\Entity\Attribute\Type\NestedAttribute'
         tags:
-            - { name: 'gally.entity.attribute.factory', attributeType: !php/const Gally\Metadata\Model\Attribute\Type\NestedAttribute::ATTRIBUTE_TYPE }
+            - { name: 'gally.entity.attribute.factory', attributeType: !php/const Gally\Metadata\Entity\Attribute\Type\NestedAttribute::ATTRIBUTE_TYPE }
                 
     gally.entity.attribute.price.factory:
         parent: Gally\DependencyInjection\GenericFactory
         arguments:
-            - 'Gally\Metadata\Model\Attribute\Type\PriceAttribute'
+            - 'Gally\Metadata\Entity\Attribute\Type\PriceAttribute'
         tags:
-            - { name: 'gally.entity.attribute.factory', attributeType: !php/const Gally\Metadata\Model\Attribute\Type\PriceAttribute::ATTRIBUTE_TYPE }
+            - { name: 'gally.entity.attribute.factory', attributeType: !php/const Gally\Metadata\Entity\Attribute\Type\PriceAttribute::ATTRIBUTE_TYPE }
                 
     gally.entity.attribute.select.factory:
         parent: Gally\DependencyInjection\GenericFactory
         arguments:
-            - 'Gally\Metadata\Model\Attribute\Type\SelectAttribute'
+            - 'Gally\Metadata\Entity\Attribute\Type\SelectAttribute'
         tags:
-            - { name: 'gally.entity.attribute.factory', attributeType: !php/const Gally\Metadata\Model\Attribute\Type\SelectAttribute::ATTRIBUTE_TYPE }
+            - { name: 'gally.entity.attribute.factory', attributeType: !php/const Gally\Metadata\Entity\Attribute\Type\SelectAttribute::ATTRIBUTE_TYPE }
                 
     gally.entity.attribute.stock.factory:
         parent: Gally\DependencyInjection\GenericFactory
         arguments:
-            - 'Gally\Metadata\Model\Attribute\Type\StockAttribute'
+            - 'Gally\Metadata\Entity\Attribute\Type\StockAttribute'
         tags:
-            - { name: 'gally.entity.attribute.factory',attributeType: !php/const Gally\Metadata\Model\Attribute\Type\StockAttribute::ATTRIBUTE_TYPE }    
+            - { name: 'gally.entity.attribute.factory',attributeType: !php/const Gally\Metadata\Entity\Attribute\Type\StockAttribute::ATTRIBUTE_TYPE }    
                 
     gally.entity.attribute.text.factory:
         parent: Gally\DependencyInjection\GenericFactory
         arguments:
-            - 'Gally\Metadata\Model\Attribute\Type\TextAttribute'
+            - 'Gally\Metadata\Entity\Attribute\Type\TextAttribute'
         tags:
-            - { name: 'gally.entity.attribute.factory', attributeType: !php/const Gally\Metadata\Model\Attribute\Type\TextAttribute::ATTRIBUTE_TYPE }
+            - { name: 'gally.entity.attribute.factory', attributeType: !php/const Gally\Metadata\Entity\Attribute\Type\TextAttribute::ATTRIBUTE_TYPE }
 
 
-    Gally\Metadata\Model\Attribute\AttributeFactory:
+    Gally\Metadata\Entity\Attribute\AttributeFactory:
         public: true
         arguments: [!tagged_iterator { tag: 'gally.entity.attribute.factory', index_by: 'attributeType' }]

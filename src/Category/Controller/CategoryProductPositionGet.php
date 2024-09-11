@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Gally\Category\Controller;
 
 use Gally\Catalog\Repository\LocalizedCatalogRepository;
-use Gally\Category\Model\Category\ProductMerchandising;
+use Gally\Category\Entity\Category\ProductMerchandising;
 use Gally\Category\Repository\CategoryRepository;
 use Gally\Category\Service\CategoryProductPositionManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Gally\Index\Tests\Unit;
 
-use Gally\Catalog\Model\LocalizedCatalog;
+use Gally\Catalog\Entity\LocalizedCatalog;
 use Gally\Index\Service\IndexSettings;
 use Gally\Test\AbstractTestCase;
 

@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Gally\Metadata\Tests\Api\Rest;
 
-use Gally\Metadata\Model\SourceFieldLabel;
+use Gally\Metadata\Entity\SourceFieldLabel;
 use Gally\Test\AbstractEntityTestWithUpdate;
 use Gally\User\Constant\Role;
 

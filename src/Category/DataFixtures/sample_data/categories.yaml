@@ -1,4 +1,4 @@
-Gally\Category\Model\Category:
+Gally\Category\Entity\Category:
     cat_2:
         id: cat_2
         level: 1
@@ -288,7 +288,7 @@ Gally\Category\Model\Category:
         level: 2
         path: cat_l_2/cat_l_41
 
-Gally\Category\Model\Category\Configuration:
+Gally\Category\Entity\Category\Configuration:
     config_cat_2_com_en:
         category: '@cat_2'
         catalog: '@com'
@@ -870,7 +870,7 @@ Gally\Category\Model\Category\Configuration:
         localizedCatalog: '@fr_fr'
         name: 'Cartes cadeaux'
         
-Gally\Category\Model\Category\ProductMerchandising:
+Gally\Category\Entity\Category\ProductMerchandising:
     position1:
         category: '@cat_3'
         productId: 1

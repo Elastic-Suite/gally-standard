@@ -23,7 +23,7 @@ use Gally\Category\Repository\CategoryProductMerchandisingRepository;
 use Gally\Category\Service\CategoryProductPositionManager;
 use Gally\Category\Tests\Api\GraphQl\CategorySynchronizerTest as GraphQlVersion;
 use Gally\Index\Controller\RemoveIndexDocument;
-use Gally\Index\Model\IndexDocument;
+use Gally\Index\Entity\IndexDocument;
 use Gally\Index\Repository\Index\IndexRepository;
 use Gally\Index\Service\IndexSettings;
 use Gally\Index\State\DocumentProcessor;

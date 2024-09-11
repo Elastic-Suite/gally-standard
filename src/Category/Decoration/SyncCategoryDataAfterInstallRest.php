@@ -20,7 +20,7 @@ use Gally\Category\Exception\SyncCategoryException;
 use Gally\Category\Service\CategoryProductPositionManager;
 use Gally\Category\Service\CategorySynchronizer;
 use Gally\Index\Dto\InstallIndexDto;
-use Gally\Index\Model\Index;
+use Gally\Index\Entity\Index;
 use Gally\Index\State\InstallIndexProcessor;
 use Symfony\Component\Serializer\SerializerInterface;
 

@@ -18,7 +18,7 @@ use Gally\Search\Elasticsearch\Adapter\Common\Response\Aggregation;
 use Gally\Search\Elasticsearch\Adapter\Common\Response\BucketValue;
 use Gally\Search\Elasticsearch\Builder\Response\AggregationBuilder;
 use Gally\Search\Elasticsearch\DocumentInterface;
-use Gally\Search\Model\Document;
+use Gally\Search\Entity\Document;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class QueryResponseTest extends KernelTestCase

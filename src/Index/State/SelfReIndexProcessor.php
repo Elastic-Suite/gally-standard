@@ -16,7 +16,7 @@ namespace Gally\Index\State;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
 use Gally\Index\Dto\SelfReindexDto;
-use Gally\Index\Model\Index\SelfReindex;
+use Gally\Index\Entity\Index\SelfReindex;
 use Gally\Index\Service\SelfReindexOperation;
 
 class SelfReIndexProcessor implements ProcessorInterface

@@ -15,7 +15,7 @@ namespace Gally\Catalog\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use Gally\Catalog\Model\Catalog;
+use Gally\Catalog\Entity\Catalog;
 
 /**
  * @method Catalog|null find($id, $lockMode = null, $lockVersion = null)

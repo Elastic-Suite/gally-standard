@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Gally\Search\Elasticsearch\Request\Aggregation\ConfigResolver;
 
-use Gally\Metadata\Model\SourceField;
+use Gally\Metadata\Entity\SourceField;
 use Gally\Search\Elasticsearch\Request\BucketInterface;
 use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface;
 use Gally\Search\Service\SearchContext;

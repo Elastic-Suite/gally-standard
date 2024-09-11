@@ -1,4 +1,4 @@
-Gally\Catalog\Model\LocalizedCatalog:
+Gally\Catalog\Entity\LocalizedCatalog:
     com_fr:
         catalog: '@com'
         code: com_fr

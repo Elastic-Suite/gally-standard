@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Gally\Search\Validator;
 
-use Gally\Metadata\Model\SourceField;
+use Gally\Metadata\Entity\SourceField;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;

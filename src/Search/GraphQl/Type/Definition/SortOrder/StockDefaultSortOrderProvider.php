@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace Gally\Search\GraphQl\Type\Definition\SortOrder;
 
-use Gally\Metadata\Model\SourceField;
-use Gally\Metadata\Model\SourceField\Type;
+use Gally\Metadata\Entity\SourceField;
+use Gally\Metadata\Entity\SourceField\Type;
 
 class StockDefaultSortOrderProvider implements SortOrderProviderInterface
 {

@@ -15,11 +15,11 @@ namespace Gally\RuleEngine\Tests\Unit\EventSubscriber;
 
 use Doctrine\ORM\EntityManager;
 use Gally\Cache\Service\CacheManagerInterface;
-use Gally\Catalog\Model\LocalizedCatalog;
+use Gally\Catalog\Entity\LocalizedCatalog;
 use Gally\Catalog\Repository\LocalizedCatalogRepository;
-use Gally\Metadata\Model\Metadata;
-use Gally\Metadata\Model\SourceField;
-use Gally\Metadata\Model\SourceFieldOption;
+use Gally\Metadata\Entity\Metadata;
+use Gally\Metadata\Entity\SourceField;
+use Gally\Metadata\Entity\SourceFieldOption;
 use Gally\Metadata\Repository\MetadataRepository;
 use Gally\Metadata\Repository\SourceFieldRepository;
 use Gally\RuleEngine\Service\RuleEngineManager;

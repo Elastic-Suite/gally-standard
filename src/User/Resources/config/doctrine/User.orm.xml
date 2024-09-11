@@ -4,7 +4,7 @@
                   xsi:schemaLocation="https://doctrine-project.org/schemas/orm/doctrine-mapping
                           https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
 
-    <entity name="Gally\User\Model\User" table="`user`" repository-class="Gally\User\Repository\UserRepository">
+    <entity name="Gally\User\Entity\User" table="`user`" repository-class="Gally\User\Repository\UserRepository">
         <id name="id" type="integer">
             <generator strategy="SEQUENCE"/>
         </id>

@@ -17,7 +17,7 @@ use ApiPlatform\GraphQl\Resolver\MutationResolverInterface;
 use Gally\Category\Exception\SyncCategoryException;
 use Gally\Category\Service\CategoryProductPositionManager;
 use Gally\Category\Service\CategorySynchronizer;
-use Gally\Index\Model\Index;
+use Gally\Index\Entity\Index;
 
 class SyncCategoryDataAfterInstall implements MutationResolverInterface
 {

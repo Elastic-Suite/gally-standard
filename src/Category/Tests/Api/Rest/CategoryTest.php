@@ -13,10 +13,10 @@ declare(strict_types=1);
 
 namespace Gally\Category\Tests\Api\Rest;
 
-use Gally\Category\Model\Category;
+use Gally\Category\Entity\Category;
 use Gally\Test\AbstractEntityTestWithUpdate;
 use Gally\User\Constant\Role;
-use Gally\User\Model\User;
+use Gally\User\Entity\User;
 
 class CategoryTest extends AbstractEntityTestWithUpdate
 {

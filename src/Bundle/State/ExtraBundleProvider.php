@@ -15,7 +15,7 @@ namespace Gally\Bundle\State;
 
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProviderInterface;
-use Gally\Bundle\Model\ExtraBundle;
+use Gally\Bundle\Entity\ExtraBundle;
 use Symfony\Component\HttpKernel\KernelInterface;
 
 class ExtraBundleProvider implements ProviderInterface

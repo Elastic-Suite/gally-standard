@@ -1,4 +1,4 @@
-Gally\User\Model\User:
+Gally\User\Entity\User:
     admin:
         email: admin@test.com
         password: <hashPassword('apassword')>

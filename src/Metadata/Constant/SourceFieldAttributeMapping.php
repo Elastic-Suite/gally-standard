@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Gally\Metadata\Constant;
 
-use Gally\Metadata\Model\SourceField\Type as SourceFieldType;
+use Gally\Metadata\Entity\SourceField\Type as SourceFieldType;
 
 class SourceFieldAttributeMapping
 {
@@ -21,19 +21,19 @@ class SourceFieldAttributeMapping
      * @Todo: Move TYPES to config.
      */
     public const TYPES = [
-        SourceFieldType::TYPE_TEXT => \Gally\Metadata\Model\Attribute\Type\TextAttribute::class,
-        SourceFieldType::TYPE_KEYWORD => \Gally\Metadata\Model\Attribute\Type\TextAttribute::class,
-        SourceFieldType::TYPE_SELECT => \Gally\Metadata\Model\Attribute\Type\SelectAttribute::class,
-        SourceFieldType::TYPE_INT => \Gally\Metadata\Model\Attribute\Type\IntAttribute::class,
-        SourceFieldType::TYPE_BOOLEAN => \Gally\Metadata\Model\Attribute\Type\BooleanAttribute::class,
-        SourceFieldType::TYPE_FLOAT => \Gally\Metadata\Model\Attribute\Type\FloatAttribute::class,
-        SourceFieldType::TYPE_PRICE => \Gally\Metadata\Model\Attribute\Type\PriceAttribute::class,
-        SourceFieldType::TYPE_STOCK => \Gally\Metadata\Model\Attribute\Type\StockAttribute::class,
-        SourceFieldType::TYPE_CATEGORY => \Gally\Metadata\Model\Attribute\Type\CategoryAttribute::class,
-        SourceFieldType::TYPE_REFERENCE => \Gally\Metadata\Model\Attribute\Type\TextAttribute::class,
-        SourceFieldType::TYPE_IMAGE => \Gally\Metadata\Model\Attribute\Type\TextAttribute::class,
-        SourceFieldType::TYPE_OBJECT => \Gally\Metadata\Model\Attribute\Type\TextAttribute::class,
-        SourceFieldType::TYPE_DATE => \Gally\Metadata\Model\Attribute\Type\TextAttribute::class,
-        SourceFieldType::TYPE_LOCATION => \Gally\Metadata\Model\Attribute\Type\TextAttribute::class,
+        SourceFieldType::TYPE_TEXT => \Gally\Metadata\Entity\Attribute\Type\TextAttribute::class,
+        SourceFieldType::TYPE_KEYWORD => \Gally\Metadata\Entity\Attribute\Type\TextAttribute::class,
+        SourceFieldType::TYPE_SELECT => \Gally\Metadata\Entity\Attribute\Type\SelectAttribute::class,
+        SourceFieldType::TYPE_INT => \Gally\Metadata\Entity\Attribute\Type\IntAttribute::class,
+        SourceFieldType::TYPE_BOOLEAN => \Gally\Metadata\Entity\Attribute\Type\BooleanAttribute::class,
+        SourceFieldType::TYPE_FLOAT => \Gally\Metadata\Entity\Attribute\Type\FloatAttribute::class,
+        SourceFieldType::TYPE_PRICE => \Gally\Metadata\Entity\Attribute\Type\PriceAttribute::class,
+        SourceFieldType::TYPE_STOCK => \Gally\Metadata\Entity\Attribute\Type\StockAttribute::class,
+        SourceFieldType::TYPE_CATEGORY => \Gally\Metadata\Entity\Attribute\Type\CategoryAttribute::class,
+        SourceFieldType::TYPE_REFERENCE => \Gally\Metadata\Entity\Attribute\Type\TextAttribute::class,
+        SourceFieldType::TYPE_IMAGE => \Gally\Metadata\Entity\Attribute\Type\TextAttribute::class,
+        SourceFieldType::TYPE_OBJECT => \Gally\Metadata\Entity\Attribute\Type\TextAttribute::class,
+        SourceFieldType::TYPE_DATE => \Gally\Metadata\Entity\Attribute\Type\TextAttribute::class,
+        SourceFieldType::TYPE_LOCATION => \Gally\Metadata\Entity\Attribute\Type\TextAttribute::class,
     ];
 }

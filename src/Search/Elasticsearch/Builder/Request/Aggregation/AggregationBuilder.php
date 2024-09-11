@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Gally\Search\Elasticsearch\Builder\Request\Aggregation;
 
-use Gally\Index\Model\Index\Mapping\FieldInterface;
+use Gally\Index\Entity\Index\Mapping\FieldInterface;
 use Gally\Search\Elasticsearch\Builder\Request\Query\Filter\FilterQueryBuilder;
 use Gally\Search\Elasticsearch\Request\AggregationFactory;
 use Gally\Search\Elasticsearch\Request\AggregationInterface;

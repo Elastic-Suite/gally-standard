@@ -17,7 +17,7 @@ use Exception;
 use Gally\Exception\LogicException;
 use Gally\Index\Api\IndexSettingsInterface;
 use Gally\Index\Dto\Bulk;
-use Gally\Index\Model\Index;
+use Gally\Index\Entity\Index;
 use OpenSearch\Client;
 
 class IndexRepository implements IndexRepositoryInterface

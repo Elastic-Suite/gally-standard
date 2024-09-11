@@ -16,7 +16,7 @@ namespace Gally\Index\Tests\Api\GraphQl;
 use Gally\Index\Tests\Api\Rest\IndexDocumentTest as RestIndexDocumentTest;
 use Gally\Test\ExpectedResponse;
 use Gally\Test\RequestGraphQlToTest;
-use Gally\User\Model\User;
+use Gally\User\Entity\User;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
 class IndexDocumentTest extends RestIndexDocumentTest

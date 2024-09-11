@@ -16,7 +16,7 @@ namespace Gally\Category\EventSubscriber;
 use Doctrine\ORM\Event\PostPersistEventArgs;
 use Doctrine\ORM\Event\PostRemoveEventArgs;
 use Doctrine\ORM\Event\PostUpdateEventArgs;
-use Gally\Category\Model\Category\ProductMerchandising;
+use Gally\Category\Entity\Category\ProductMerchandising;
 use Gally\Category\Service\CategoryProductPositionManager;
 
 class ReindexPosition

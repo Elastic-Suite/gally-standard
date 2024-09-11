@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace Gally\Search\Elasticsearch\Builder\Request\Query\Fulltext;
 
-use Gally\Index\Model\Index\Mapping\FieldFilterInterface;
-use Gally\Index\Model\Index\Mapping\FieldInterface;
+use Gally\Index\Entity\Index\Mapping\FieldFilterInterface;
+use Gally\Index\Entity\Index\Mapping\FieldInterface;
 
 /**
  * Indicates if a field is used in fulltext search.

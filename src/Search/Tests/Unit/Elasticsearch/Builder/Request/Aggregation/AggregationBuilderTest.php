@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace Gally\Search\Tests\Unit\Elasticsearch\Builder\Request\Aggregation;
 
-use Gally\Index\Model\Index\Mapping;
-use Gally\Index\Model\Index\MappingInterface;
+use Gally\Index\Entity\Index\Mapping;
+use Gally\Index\Entity\Index\MappingInterface;
 use Gally\Search\Elasticsearch\Builder\Request\Aggregation\AggregationBuilder;
 use Gally\Search\Elasticsearch\Builder\Request\Query\Filter\FilterQueryBuilder;
 use Gally\Search\Elasticsearch\Request\Aggregation\Bucket\Terms;

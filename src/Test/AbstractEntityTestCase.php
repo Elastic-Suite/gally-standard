@@ -15,7 +15,7 @@ namespace Gally\Test;
 
 use ApiPlatform\Metadata\Resource\ResourceMetadataCollection;
 use Gally\Locale\EventSubscriber\LocaleSubscriber;
-use Gally\User\Model\User;
+use Gally\User\Entity\User;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
 /**

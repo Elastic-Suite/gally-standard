@@ -1,4 +1,4 @@
-Gally\Metadata\Model\SourceFieldOption:
+Gally\Metadata\Entity\SourceFieldOption:
     product_color_option_black:
         code: 'black'
         source_field: '@product_color'

@@ -14,8 +14,8 @@ declare(strict_types=1);
 namespace Gally\Search\GraphQl\Type\Definition;
 
 use ApiPlatform\GraphQl\Type\Definition\TypeInterface;
-use Gally\Metadata\Model\Metadata;
-use Gally\Metadata\Model\SourceField\Type;
+use Gally\Metadata\Entity\Metadata;
+use Gally\Metadata\Entity\SourceField\Type;
 use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface;
 use Gally\Search\Elasticsearch\Request\SortOrderInterface;
 use Gally\Search\Service\ReverseSourceFieldProvider;

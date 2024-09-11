@@ -1,9 +1,9 @@
-Gally\Catalog\Model\Catalog:
+Gally\Catalog\Entity\Catalog:
     properties:
         code:
             - NotBlank: ~
 
-Gally\Catalog\Model\LocalizedCatalog:
+Gally\Catalog\Entity\LocalizedCatalog:
     properties:
         code:
             - NotBlank: ~

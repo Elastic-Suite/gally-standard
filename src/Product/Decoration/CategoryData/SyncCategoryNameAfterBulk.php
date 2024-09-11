@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Gally\Product\Decoration\CategoryData;
 
 use ApiPlatform\GraphQl\Resolver\MutationResolverInterface;
-use Gally\Index\Model\Index;
+use Gally\Index\Entity\Index;
 use Gally\Product\Service\CategoryNameUpdater;
 
 class SyncCategoryNameAfterBulk implements MutationResolverInterface

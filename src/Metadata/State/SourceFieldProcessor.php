@@ -21,7 +21,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\DBAL\Exception;
 use Doctrine\ORM\EntityManagerInterface;
 use Gally\Catalog\Service\DefaultCatalogProvider;
-use Gally\Metadata\Model\SourceField;
+use Gally\Metadata\Entity\SourceField;
 use Gally\Metadata\Repository\SourceFieldLabelRepository;
 use Gally\Metadata\Repository\SourceFieldRepository;
 use Gally\Metadata\Validator\SourceFieldDataValidator;

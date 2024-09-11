@@ -14,9 +14,9 @@ declare(strict_types=1);
 namespace Gally\Search\Tests\Unit\Elasticsearch\Builder\Request\Query;
 
 use Gally\DependencyInjection\GenericFactory;
-use Gally\Index\Model\Index\Mapping;
-use Gally\Index\Model\Index\Mapping\Field;
-use Gally\Index\Model\Index\Mapping\FieldInterface;
+use Gally\Index\Entity\Index\Mapping;
+use Gally\Index\Entity\Index\Mapping\Field;
+use Gally\Index\Entity\Index\Mapping\FieldInterface;
 use Gally\Search\Elasticsearch\Builder\Request\Query\Filter\FilterQueryBuilder;
 use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface;
 use Gally\Search\Elasticsearch\Request\QueryFactory;

@@ -14,10 +14,10 @@ declare(strict_types=1);
 namespace Gally\Index\Service;
 
 use Gally\Index\Converter\SourceField\SourceFieldConverterInterface;
-use Gally\Index\Model\Index\Mapping;
-use Gally\Index\Model\Index\Mapping\FieldInterface;
-use Gally\Metadata\Model\Metadata;
-use Gally\Metadata\Model\SourceField;
+use Gally\Index\Entity\Index\Mapping;
+use Gally\Index\Entity\Index\Mapping\FieldInterface;
+use Gally\Metadata\Entity\Metadata;
+use Gally\Metadata\Entity\SourceField;
 
 class MetadataManager
 {

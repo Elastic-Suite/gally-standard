@@ -1,4 +1,4 @@
-Gally\Metadata\Model\SourceField:
+Gally\Metadata\Entity\SourceField:
     product_my_price:
         metadata: '@product'
         code: 'my_price'

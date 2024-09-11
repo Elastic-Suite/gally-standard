@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Gally\Search\EventSubscriber;
 
 use Doctrine\ORM\Event\PrePersistEventArgs;
-use Gally\Search\Model\Facet\Configuration;
+use Gally\Search\Entity\Facet\Configuration;
 
 class GenerateFacetConfigurationId
 {

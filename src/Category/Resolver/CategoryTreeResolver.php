@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Gally\Category\Resolver;
 
 use ApiPlatform\GraphQl\Resolver\QueryItemResolverInterface;
-use Gally\Category\Model\CategoryTree;
+use Gally\Category\Entity\CategoryTree;
 use Gally\Category\Service\CategoryTreeBuilder;
 
 class CategoryTreeResolver implements QueryItemResolverInterface

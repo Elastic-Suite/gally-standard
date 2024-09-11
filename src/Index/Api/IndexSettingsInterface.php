@@ -13,9 +13,9 @@ declare(strict_types=1);
 
 namespace Gally\Index\Api;
 
-use Gally\Catalog\Model\LocalizedCatalog;
-use Gally\Index\Model\Index;
-use Gally\Metadata\Model\Metadata;
+use Gally\Catalog\Entity\LocalizedCatalog;
+use Gally\Index\Entity\Index;
+use Gally\Metadata\Entity\Metadata;
 
 interface IndexSettingsInterface
 {

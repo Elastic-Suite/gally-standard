@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Gally\Metadata\GraphQl\Type\Definition\Filter;
 
-use Gally\Metadata\Model\SourceField;
+use Gally\Metadata\Entity\SourceField;
 use Gally\Search\Constant\FilterOperator;
 use GraphQL\Type\Definition\Type;
 

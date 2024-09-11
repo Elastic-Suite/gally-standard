@@ -16,7 +16,7 @@ namespace Gally\Search\State\Facet;
 use ApiPlatform\Metadata\DeleteOperationInterface;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
-use Gally\Search\Model\Facet;
+use Gally\Search\Entity\Facet;
 
 final class ConfigurationProcessor implements ProcessorInterface
 {

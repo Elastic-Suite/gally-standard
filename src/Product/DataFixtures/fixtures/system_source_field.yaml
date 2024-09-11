@@ -1,7 +1,7 @@
 include:
     - metadata.yaml
 
-Gally\Metadata\Model\SourceField:
+Gally\Metadata\Entity\SourceField:
     product_id:
         id: '<sequence("source_field_id_seq")>'
         metadata: '@product'

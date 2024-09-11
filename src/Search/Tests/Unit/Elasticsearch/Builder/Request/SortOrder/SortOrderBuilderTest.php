@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Gally\Search\Tests\Unit\Elasticsearch\Builder\Request\SortOrder;
 
-use Gally\Index\Model\Index\MappingInterface;
+use Gally\Index\Entity\Index\MappingInterface;
 use Gally\Index\Service\MetadataManager;
 use Gally\Metadata\Repository\MetadataRepository;
 use Gally\Search\Elasticsearch\Builder\Request\Query\Filter\FilterQueryBuilder;

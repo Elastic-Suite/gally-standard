@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Gally\Catalog\Tests\Api\Rest;
 
-use Gally\Catalog\Model\LocalizedCatalog;
+use Gally\Catalog\Entity\LocalizedCatalog;
 use Gally\Catalog\Repository\LocalizedCatalogRepository;
 use Gally\Test\AbstractEntityTestWithUpdate;
 use Gally\User\Constant\Role;

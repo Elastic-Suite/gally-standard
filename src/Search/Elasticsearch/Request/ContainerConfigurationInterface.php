@@ -13,9 +13,9 @@ declare(strict_types=1);
 
 namespace Gally\Search\Elasticsearch\Request;
 
-use Gally\Catalog\Model\LocalizedCatalog;
-use Gally\Index\Model\Index\MappingInterface;
-use Gally\Metadata\Model\Metadata;
+use Gally\Catalog\Entity\LocalizedCatalog;
+use Gally\Index\Entity\Index\MappingInterface;
+use Gally\Metadata\Entity\Metadata;
 use Gally\Search\Elasticsearch\Request\Aggregation\Provider\AggregationProviderInterface;
 use Gally\Search\Elasticsearch\Request\Container\RelevanceConfiguration\RelevanceConfigurationInterface;
 

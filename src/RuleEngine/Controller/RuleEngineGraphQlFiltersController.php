@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Gally\RuleEngine\Controller;
 
-use Gally\RuleEngine\Model\RuleEngineGraphQlFilters;
+use Gally\RuleEngine\Entity\RuleEngineGraphQlFilters;
 use Gally\RuleEngine\Service\RuleEngineManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Gally\Index\Command;
 
-use Gally\Index\Model\Index\Mapping\Status;
+use Gally\Index\Entity\Index\Mapping\Status;
 use Gally\Index\Service\MetadataManager;
 use Gally\Metadata\Repository\MetadataRepository;
 use Symfony\Component\Console\Command\Command;

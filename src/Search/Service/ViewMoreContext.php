@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Gally\Search\Service;
 
-use Gally\Metadata\Model\SourceField;
+use Gally\Metadata\Entity\SourceField;
 
 /**
  * ViewMore context. Used as a singleton to pass filter name to the aggregation modifier.

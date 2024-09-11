@@ -16,7 +16,7 @@ namespace Gally\Index\State;
 use ApiPlatform\Metadata\DeleteOperationInterface;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
-use Gally\Index\Model\IndexDocument;
+use Gally\Index\Entity\IndexDocument;
 use Gally\Index\Repository\Document\DocumentRepositoryInterface;
 
 class DocumentProcessor implements ProcessorInterface

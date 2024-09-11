@@ -16,8 +16,8 @@ namespace Gally\RuleEngine\EventSubscriber;
 use Doctrine\ORM\Event\PostRemoveEventArgs;
 use Doctrine\ORM\Event\PostUpdateEventArgs;
 use Gally\Cache\Service\CacheManagerInterface;
-use Gally\Metadata\Model\SourceField;
-use Gally\Metadata\Model\SourceFieldOption;
+use Gally\Metadata\Entity\SourceField;
+use Gally\Metadata\Entity\SourceFieldOption;
 use Gally\RuleEngine\Service\RuleEngineManager;
 
 /**

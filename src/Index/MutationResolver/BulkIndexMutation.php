@@ -16,7 +16,7 @@ namespace Gally\Index\MutationResolver;
 use ApiPlatform\Exception\InvalidArgumentException;
 use ApiPlatform\GraphQl\Resolver\MutationResolverInterface;
 use Gally\Index\Dto\Bulk;
-use Gally\Index\Model\Index;
+use Gally\Index\Entity\Index;
 use Gally\Index\Repository\Index\IndexRepositoryInterface;
 
 class BulkIndexMutation implements MutationResolverInterface

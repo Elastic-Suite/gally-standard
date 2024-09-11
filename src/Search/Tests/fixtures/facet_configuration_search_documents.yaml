@@ -1,4 +1,4 @@
-Gally\Search\Model\Facet\Configuration:
+Gally\Search\Entity\Facet\Configuration:
     product_my_price_facet:
         __construct:
             sourceField: '@product_my_price'

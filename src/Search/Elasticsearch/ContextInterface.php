@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Gally\Search\Elasticsearch;
 
 // use Gally\Catalog\Api\Data\CategoryInterface;
-// use Gally\Search\Model\QueryTextInterface;
+// use Gally\Search\Entity\QueryTextInterface;
 
 /**
  * Search Context Interface.

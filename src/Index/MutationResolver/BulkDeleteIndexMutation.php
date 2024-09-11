@@ -15,7 +15,7 @@ namespace Gally\Index\MutationResolver;
 
 use ApiPlatform\GraphQl\Resolver\MutationResolverInterface;
 use Gally\Index\Dto\Bulk;
-use Gally\Index\Model\Index;
+use Gally\Index\Entity\Index;
 
 class BulkDeleteIndexMutation extends BulkIndexMutation implements MutationResolverInterface
 {

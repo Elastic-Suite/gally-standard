@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Gally\Search\Elasticsearch\Adapter\Common\Request\SortOrder;
 
-use Gally\Index\Model\Index\Mapping\FieldInterface;
+use Gally\Index\Entity\Index\Mapping\FieldInterface;
 use Gally\Search\Elasticsearch\Adapter\Common\Request\Query\Assembler as QueryAssembler;
 use Gally\Search\Elasticsearch\Builder\Request\SortOrder\GeoDistance;
 use Gally\Search\Elasticsearch\Builder\Request\SortOrder\Nested;

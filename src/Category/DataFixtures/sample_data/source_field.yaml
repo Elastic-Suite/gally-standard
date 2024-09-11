@@ -1,7 +1,7 @@
 include:
     - ../fixtures/metadata.yaml
 
-Gally\Metadata\Model\SourceField:
+Gally\Metadata\Entity\SourceField:
     categories_all_children:
         metadata: '@category'
         code: all_children

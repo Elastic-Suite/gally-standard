@@ -1,4 +1,4 @@
-Gally\Metadata\Model\SourceField:
+Gally\Metadata\Entity\SourceField:
     product_id:
         metadata: '@product'
         code: 'id'

@@ -42,7 +42,7 @@ class GallyExtension extends Extension
             'api_platform',
             [
                 'mapping' => [
-                    'paths' => $this->getPaths(__DIR__ . '/../*/Model/'),
+                    'paths' => $this->getPaths(__DIR__ . '/../*/Entity/'),
                 ],
             ]
         );

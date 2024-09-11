@@ -16,7 +16,7 @@ namespace Gally\Metadata\EventSubscriber;
 use Doctrine\ORM\Event\PrePersistEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Gally\Exception\LogicException;
-use Gally\Metadata\Model\SourceField;
+use Gally\Metadata\Entity\SourceField;
 use Gally\Metadata\Repository\SourceFieldRepository;
 
 class ValidateSourceFieldCode

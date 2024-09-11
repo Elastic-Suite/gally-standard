@@ -1,4 +1,4 @@
-Gally\Metadata\Model\SourceFieldLabel:
+Gally\Metadata\Entity\SourceFieldLabel:
     product_name_fr:
         source_field: '@product_name'
         localized_catalog: '@catalog1_fr'

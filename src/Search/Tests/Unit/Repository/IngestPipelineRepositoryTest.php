@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Gally\Search\Tests\Unit\Repository;
 
 use Gally\Metadata\Repository\MetadataRepository;
-use Gally\Search\Model\IngestPipeline;
+use Gally\Search\Entity\IngestPipeline;
 use Gally\Search\Repository\Ingest\PipelineRepository;
 use Gally\Test\AbstractTestCase;
 use OpenSearch\Common\Exceptions\BadRequest400Exception;

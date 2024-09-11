@@ -15,14 +15,14 @@ namespace Gally\Index\Tests\Api\GraphQl;
 
 use Gally\Catalog\Repository\LocalizedCatalogRepository;
 use Gally\Index\Api\IndexSettingsInterface;
-use Gally\Index\Model\Index;
-use Gally\Index\Model\Index\SelfReindex;
+use Gally\Index\Entity\Index;
+use Gally\Index\Entity\Index\SelfReindex;
 use Gally\Index\Repository\Index\IndexRepositoryInterface;
 use Gally\Test\AbstractTestCase;
 use Gally\Test\ExpectedResponse;
 use Gally\Test\RequestGraphQlToTest;
 use Gally\User\Constant\Role;
-use Gally\User\Model\User;
+use Gally\User\Entity\User;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
 class SelfReindexOperationTest extends AbstractTestCase

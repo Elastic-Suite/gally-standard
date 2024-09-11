@@ -13,9 +13,9 @@ declare(strict_types=1);
 
 namespace Gally\Metadata\Tests\Unit\Attribute;
 
-use Gally\Metadata\Model\Attribute\AttributeFactory;
-use Gally\Metadata\Model\Attribute\AttributeInterface;
-use Gally\Metadata\Model\Attribute\Type\BooleanAttribute;
+use Gally\Metadata\Entity\Attribute\AttributeFactory;
+use Gally\Metadata\Entity\Attribute\AttributeInterface;
+use Gally\Metadata\Entity\Attribute\Type\BooleanAttribute;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class AttributeFactoryTest extends KernelTestCase

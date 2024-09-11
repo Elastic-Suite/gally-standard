@@ -15,7 +15,7 @@ namespace Gally\Security\Tests\Api\GraphQl;
 
 use ApiPlatform\Symfony\Bundle\Test\ApiTestCase;
 use Gally\User\Constant\Role;
-use Gally\User\Model\User;
+use Gally\User\Entity\User;
 use Gally\User\Tests\LoginTrait;
 
 class AuthenticationTest extends ApiTestCase

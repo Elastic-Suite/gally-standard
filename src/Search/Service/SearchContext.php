@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Gally\Search\Service;
 
-use Gally\Category\Model\Category;
+use Gally\Category\Entity\Category;
 
 /**
  * ViewMore context. Used as a singleton to pass filter name to the aggregation modifier.

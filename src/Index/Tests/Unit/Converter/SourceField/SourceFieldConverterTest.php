@@ -22,8 +22,8 @@ use Gally\Index\Converter\SourceField\SelectSourceFieldConverter;
 use Gally\Index\Converter\SourceField\SourceFieldConverterInterface;
 use Gally\Index\Converter\SourceField\StockSourceFieldConverter;
 use Gally\Index\Converter\SourceField\TextSourceFieldConverter;
-use Gally\Index\Model\Index\Mapping;
-use Gally\Metadata\Model\SourceField;
+use Gally\Index\Entity\Index\Mapping;
+use Gally\Metadata\Entity\SourceField;
 use Gally\Test\AbstractTestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 

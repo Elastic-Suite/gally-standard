@@ -1,9 +1,9 @@
 gally:
     graphql_query_renaming:
-        Gally\Search\Model\Document:
+        Gally\Search\Entity\Document:
             renamings:
                 searchDocuments: documents
-        Gally\Search\Model\Source\SortingOption:
+        Gally\Search\Entity\Source\SortingOption:
             renamings:
                 getSortingOptions: sortingOptions
     autocomplete_settings:

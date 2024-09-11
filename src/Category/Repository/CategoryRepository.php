@@ -16,7 +16,7 @@ namespace Gally\Category\Repository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\Persistence\ManagerRegistry;
-use Gally\Category\Model\Category;
+use Gally\Category\Entity\Category;
 
 /**
  * @method Category|null find($id, $lockMode = null, $lockVersion = null)

@@ -15,20 +15,20 @@ namespace Gally\Category\Service;
 
 use ApiPlatform\Exception\InvalidArgumentException;
 use Doctrine\ORM\EntityManagerInterface;
-use Gally\Catalog\Model\Catalog;
-use Gally\Catalog\Model\LocalizedCatalog;
-use Gally\Category\Model\Category;
-use Gally\Category\Model\Category\ProductMerchandising;
+use Gally\Catalog\Entity\Catalog;
+use Gally\Catalog\Entity\LocalizedCatalog;
+use Gally\Category\Entity\Category;
+use Gally\Category\Entity\Category\ProductMerchandising;
 use Gally\Category\Repository\CategoryProductMerchandisingRepository;
 use Gally\Category\Repository\CategoryProductPositionIndexer\CategoryProductPositionIndexerRepositoryInterface;
-use Gally\Index\Model\Index;
+use Gally\Index\Entity\Index;
 use Gally\Metadata\Repository\MetadataRepository;
 use Gally\Search\Elasticsearch\Adapter;
 use Gally\Search\Elasticsearch\Builder\Request\SimpleRequestBuilder as RequestBuilder;
 use Gally\Search\Elasticsearch\Request\Container\Configuration\ContainerConfigurationProvider;
 use Gally\Search\Elasticsearch\Request\QueryFactory;
 use Gally\Search\Elasticsearch\Request\QueryInterface;
-use Gally\Search\Model\Document;
+use Gally\Search\Entity\Document;
 
 class CategoryProductPositionManager
 {

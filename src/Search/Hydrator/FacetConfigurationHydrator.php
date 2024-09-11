@@ -16,7 +16,7 @@ namespace Gally\Search\Hydrator;
 use Doctrine\ORM\Internal\Hydration\ObjectHydrator;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Doctrine\ORM\UnitOfWork;
-use Gally\Search\Model\Facet\Configuration;
+use Gally\Search\Entity\Facet\Configuration;
 
 final class FacetConfigurationHydrator extends ObjectHydrator
 {

@@ -16,7 +16,7 @@ namespace Gally\User\Tests\Unit\Service;
 use Doctrine\ORM\EntityNotFoundException;
 use Gally\Test\AbstractTestCase;
 use Gally\User\Constant\Role;
-use Gally\User\Model\User;
+use Gally\User\Entity\User;
 use Gally\User\Repository\UserRepository;
 use Gally\User\Service\UserManager;
 

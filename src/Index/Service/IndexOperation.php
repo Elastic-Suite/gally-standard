@@ -13,13 +13,13 @@ declare(strict_types=1);
 
 namespace Gally\Index\Service;
 
-use Gally\Catalog\Model\LocalizedCatalog;
+use Gally\Catalog\Entity\LocalizedCatalog;
 use Gally\Exception\LogicException;
 use Gally\Index\Api\IndexSettingsInterface;
-use Gally\Index\Model\Index;
-use Gally\Index\Model\Index\Mapping\FieldInterface;
+use Gally\Index\Entity\Index;
+use Gally\Index\Entity\Index\Mapping\FieldInterface;
 use Gally\Index\Repository\Index\IndexRepositoryInterface;
-use Gally\Metadata\Model\Metadata;
+use Gally\Metadata\Entity\Metadata;
 use OpenSearch\Common\Exceptions\Missing404Exception;
 
 class IndexOperation

@@ -1,4 +1,4 @@
-Gally\Category\Model\Category\ProductMerchandising:
+Gally\Category\Entity\Category\ProductMerchandising:
     position1:
         category: '@categ1'
         productId: "p_1"

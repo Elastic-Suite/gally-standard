@@ -15,7 +15,7 @@ namespace Gally\Metadata\GraphQl\Type\Definition\Filter;
 
 use ApiPlatform\GraphQl\Type\Definition\TypeInterface;
 use Gally\Exception\LogicException;
-use Gally\Metadata\Model\SourceField;
+use Gally\Metadata\Entity\SourceField;
 use Gally\RuleEngine\GraphQl\Type\Definition\RuleFilterInterface;
 use Gally\Search\Constant\FilterOperator;
 use Gally\Search\Elasticsearch\Builder\Request\Query\Filter\FilterQueryBuilder;

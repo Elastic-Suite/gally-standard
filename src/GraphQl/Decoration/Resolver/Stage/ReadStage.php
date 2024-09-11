@@ -33,7 +33,7 @@ use ApiPlatform\State\ProviderInterface;
  * - API Platform args: They are managed natively by API Platform, nothing changes (they stay in the array key 'args').
  * - Gally args: They are moved to the array key 'gally_args', and are treated by the gally code.
  *
- * To make an 'arg' as an "Gally arg", you have to set is_gally_arg to true in the ApiResource attribute, @see \Gally\Search\Model\Document.
+ * To make an 'arg' as an "Gally arg", you have to set is_gally_arg to true in the ApiResource attribute, @see \Gally\Search\Entity\Document.
  */
 class ReadStage implements ProviderInterface
 {

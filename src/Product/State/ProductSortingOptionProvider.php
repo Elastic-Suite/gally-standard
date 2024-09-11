@@ -17,7 +17,7 @@ use ApiPlatform\Metadata\CollectionOperationInterface;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\Pagination\PartialPaginatorInterface;
 use ApiPlatform\State\ProviderInterface;
-use Gally\Product\Model\Source\ProductSortingOption;
+use Gally\Product\Entity\Source\ProductSortingOption;
 use Gally\Product\Service\ProductsSortingOptionsProvider;
 
 class ProductSortingOptionProvider implements ProviderInterface

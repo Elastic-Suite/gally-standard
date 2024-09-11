@@ -1,4 +1,4 @@
-Gally\Catalog\Model\Catalog:
+Gally\Catalog\Entity\Catalog:
     com:
         code: com
         name: COM Catalog

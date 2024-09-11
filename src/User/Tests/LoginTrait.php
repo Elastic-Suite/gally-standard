@@ -15,7 +15,7 @@ namespace Gally\User\Tests;
 
 use ApiPlatform\Symfony\Bundle\Test\Client;
 use Gally\User\Constant\Role;
-use Gally\User\Model\User;
+use Gally\User\Entity\User;
 
 /**
  * Trait LoginTrait.

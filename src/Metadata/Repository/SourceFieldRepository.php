@@ -18,9 +18,9 @@ use Doctrine\DBAL\Connection;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\Persistence\ManagerRegistry;
-use Gally\Metadata\Model\Metadata;
-use Gally\Metadata\Model\SourceField;
-use Gally\Metadata\Model\SourceField\Type;
+use Gally\Metadata\Entity\Metadata;
+use Gally\Metadata\Entity\SourceField;
+use Gally\Metadata\Entity\SourceField\Type;
 
 /**
  * @method SourceField|null find($id, $lockMode = null, $lockVersion = null)

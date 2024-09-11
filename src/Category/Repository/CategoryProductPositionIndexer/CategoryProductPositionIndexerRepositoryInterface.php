@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace Gally\Category\Repository\CategoryProductPositionIndexer;
 
-use Gally\Catalog\Model\LocalizedCatalog;
-use Gally\Category\Model\Category\ProductMerchandising;
+use Gally\Catalog\Entity\LocalizedCatalog;
+use Gally\Category\Entity\Category\ProductMerchandising;
 
 interface CategoryProductPositionIndexerRepositoryInterface
 {

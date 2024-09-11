@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Gally\Search\Elasticsearch\Request\Container\RelevanceConfiguration;
 
-use Gally\Catalog\Model\LocalizedCatalog;
+use Gally\Catalog\Entity\LocalizedCatalog;
 use Gally\Search\Service\ScopableRequestTypeConfiguration;
 
 class RelevanceConfigurationFactory extends ScopableRequestTypeConfiguration implements RelevanceConfigurationFactoryInterface

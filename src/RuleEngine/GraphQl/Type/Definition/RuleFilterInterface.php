@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Gally\RuleEngine\GraphQl\Type\Definition;
 
-use Gally\Metadata\Model\SourceField;
+use Gally\Metadata\Entity\SourceField;
 
 interface RuleFilterInterface
 {

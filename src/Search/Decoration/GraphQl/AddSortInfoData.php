@@ -16,7 +16,7 @@ namespace Gally\Search\Decoration\GraphQl;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
 use Gally\Metadata\Repository\MetadataRepository;
-use Gally\Search\Model\Document;
+use Gally\Search\Entity\Document;
 use Gally\Search\Service\ReverseSourceFieldProvider;
 use Gally\Search\State\Paginator;
 use Symfony\Component\HttpFoundation\Request;

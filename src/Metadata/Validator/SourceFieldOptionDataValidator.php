@@ -15,7 +15,7 @@ namespace Gally\Metadata\Validator;
 
 use ApiPlatform\Exception\InvalidArgumentException;
 use Gally\Catalog\Repository\LocalizedCatalogRepository;
-use Gally\Metadata\Model\SourceField;
+use Gally\Metadata\Entity\SourceField;
 
 class SourceFieldOptionDataValidator
 {

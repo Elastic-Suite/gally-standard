@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace Gally\Metadata\Tests\Unit\Attribute\Type;
 
-use Gally\Metadata\Model\Attribute\AttributeFactory;
-use Gally\Metadata\Model\Attribute\Type\IntAttribute;
+use Gally\Metadata\Entity\Attribute\AttributeFactory;
+use Gally\Metadata\Entity\Attribute\Type\IntAttribute;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class IntAttributeTest extends KernelTestCase

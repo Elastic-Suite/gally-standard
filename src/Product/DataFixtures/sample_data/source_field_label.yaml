@@ -1,7 +1,7 @@
 include:
     - source_field.yaml
 
-Gally\Metadata\Model\SourceFieldLabel:
+Gally\Metadata\Entity\SourceFieldLabel:
     product_accessory_announcement_date_com_en:
         source_field: '@product_accessory_announcement_date'
         localized_catalog: '@com_en'

@@ -14,8 +14,8 @@ declare(strict_types=1);
 namespace Gally\Search\Elasticsearch;
 
 use Gally\Cache\Service\CacheManagerInterface;
-use Gally\Index\Model\Index\Mapping\FieldInterface;
-use Gally\Index\Model\Index\MappingInterface;
+use Gally\Index\Entity\Index\Mapping\FieldInterface;
+use Gally\Index\Entity\Index\MappingInterface;
 use OpenSearch\Client;
 
 /**

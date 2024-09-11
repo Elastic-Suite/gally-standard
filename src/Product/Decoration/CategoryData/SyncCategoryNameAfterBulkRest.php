@@ -16,7 +16,7 @@ namespace Gally\Product\Decoration\CategoryData;
 use ApiPlatform\Metadata\DeleteOperationInterface;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
-use Gally\Index\Model\IndexDocument;
+use Gally\Index\Entity\IndexDocument;
 use Gally\Index\Repository\Index\IndexRepositoryInterface;
 use Gally\Index\State\DocumentProcessor;
 use Gally\Product\Service\CategoryNameUpdater;

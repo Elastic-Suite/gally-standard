@@ -13,10 +13,10 @@ declare(strict_types=1);
 
 namespace Gally\Search\Elasticsearch\Request\Container\Configuration;
 
-use Gally\Catalog\Model\LocalizedCatalog;
+use Gally\Catalog\Entity\LocalizedCatalog;
 use Gally\Index\Api\IndexSettingsInterface;
 use Gally\Index\Service\MetadataManager;
-use Gally\Metadata\Model\Metadata;
+use Gally\Metadata\Entity\Metadata;
 use Gally\Search\Elasticsearch\Request\Aggregation\Provider\AggregationProviderInterface;
 use Gally\Search\Elasticsearch\Request\Container\DefaultSortingOptionProviderInterface;
 use Gally\Search\Elasticsearch\Request\Container\RelevanceConfiguration\RelevanceConfigurationFactoryInterface;

@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace Gally\Metadata\Tests\Unit\Attribute\Type;
 
-use Gally\Metadata\Model\Attribute\AttributeFactory;
-use Gally\Metadata\Model\Attribute\Type\CategoryAttribute;
+use Gally\Metadata\Entity\Attribute\AttributeFactory;
+use Gally\Metadata\Entity\Attribute\Type\CategoryAttribute;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class CategoryAttributeTest extends KernelTestCase

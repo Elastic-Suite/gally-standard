@@ -16,12 +16,12 @@ namespace Gally\Search\Repository\Facet;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\Persistence\ManagerRegistry;
-use Gally\Category\Model\Category;
-use Gally\Metadata\Model\Doctrine\QueryBuilder;
-use Gally\Metadata\Model\Metadata;
-use Gally\Metadata\Model\SourceField;
+use Gally\Category\Entity\Category;
+use Gally\Metadata\Entity\Doctrine\QueryBuilder;
+use Gally\Metadata\Entity\Metadata;
+use Gally\Metadata\Entity\SourceField;
 use Gally\Search\Hydrator\FacetConfigurationHydrator;
-use Gally\Search\Model\Facet;
+use Gally\Search\Entity\Facet;
 
 /*
  * @method Facet\Configuration|null find($id, $lockMode = null, $lockVersion = null)

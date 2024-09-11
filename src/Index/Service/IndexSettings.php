@@ -14,11 +14,11 @@ declare(strict_types=1);
 namespace Gally\Index\Service;
 
 use Gally\Analysis\Service\Config;
-use Gally\Catalog\Model\LocalizedCatalog;
+use Gally\Catalog\Entity\LocalizedCatalog;
 use Gally\Catalog\Repository\LocalizedCatalogRepository;
 use Gally\Index\Api\IndexSettingsInterface;
-use Gally\Index\Model\Index;
-use Gally\Metadata\Model\Metadata;
+use Gally\Index\Entity\Index;
+use Gally\Metadata\Entity\Metadata;
 use Gally\Metadata\Repository\SourceFieldRepository;
 use Gally\Search\Repository\Ingest\PipelineRepositoryInterface;
 

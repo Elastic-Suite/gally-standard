@@ -1,7 +1,7 @@
 include:
     - ../fixtures/metadata.yaml
 
-Gally\Metadata\Model\SourceField:
+Gally\Metadata\Entity\SourceField:
     product_accessory_announcement_date:
         metadata: '@product'
         code: accessory_announcement_date

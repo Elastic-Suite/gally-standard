@@ -18,7 +18,7 @@ use Gally\Category\Service\CurrentCategoryProvider;
 use Gally\Metadata\Repository\MetadataRepository;
 use Gally\Search\Elasticsearch\Request\Aggregation\Modifier\Coverage;
 use Gally\Search\Elasticsearch\Request\Container\Configuration\ContainerConfigurationProvider;
-use Gally\Search\Model\Facet\Configuration;
+use Gally\Search\Entity\Facet\Configuration;
 use Gally\Search\Repository\Facet\ConfigurationRepository;
 use Gally\Search\Service\SearchSettingsProvider;
 use Gally\Search\Tests\Service\SearchSettingsProvider as TestSearchSettingsProvider;

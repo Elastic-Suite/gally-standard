@@ -15,7 +15,7 @@ namespace Gally\Search\Tests\Unit\Elasticsearch\Builder\Request;
 
 use Gally\Catalog\Repository\LocalizedCatalogRepository;
 use Gally\Index\Api\IndexSettingsInterface;
-use Gally\Metadata\Model\Metadata;
+use Gally\Metadata\Entity\Metadata;
 use Gally\Metadata\Repository\MetadataRepository;
 use Gally\Search\Elasticsearch\Builder\Request\Aggregation\AggregationBuilder;
 use Gally\Search\Elasticsearch\Builder\Request\Query\Filter\FilterQueryBuilder;

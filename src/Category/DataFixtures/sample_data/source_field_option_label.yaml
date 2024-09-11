@@ -1,7 +1,7 @@
 include:
     - ./source_field_option.yaml
 
-Gally\Metadata\Model\SourceFieldOptionLabel:
+Gally\Metadata\Entity\SourceFieldOptionLabel:
     categories_custom_apply_to_products_option_1_com_fr:
         source_field_option: '@categories_custom_apply_to_products_option_1'
         localized_catalog: '@com_fr'

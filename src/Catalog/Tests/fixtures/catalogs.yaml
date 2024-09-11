@@ -1,4 +1,4 @@
-Gally\Catalog\Model\Catalog:
+Gally\Catalog\Entity\Catalog:
     catalog1:
         code: b2c_test
         name: B2C Test Catalog

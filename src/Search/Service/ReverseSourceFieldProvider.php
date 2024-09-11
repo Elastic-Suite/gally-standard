@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace Gally\Search\Service;
 
-use Gally\Metadata\Model\Metadata;
-use Gally\Metadata\Model\SourceField;
+use Gally\Metadata\Entity\Metadata;
+use Gally\Metadata\Entity\SourceField;
 use Gally\Metadata\Repository\SourceFieldRepository;
 
 class ReverseSourceFieldProvider

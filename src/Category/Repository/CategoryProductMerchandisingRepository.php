@@ -18,9 +18,9 @@ use Doctrine\ORM\Query;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
-use Gally\Catalog\Model\Catalog;
-use Gally\Catalog\Model\LocalizedCatalog;
-use Gally\Category\Model\Category;
+use Gally\Catalog\Entity\Catalog;
+use Gally\Catalog\Entity\LocalizedCatalog;
+use Gally\Category\Entity\Category;
 
 /**
  * @method Category\ProductMerchandising|null find($id, $lockMode = null, $lockVersion = null)

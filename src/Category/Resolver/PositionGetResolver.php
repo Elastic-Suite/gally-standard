@@ -15,7 +15,7 @@ namespace Gally\Category\Resolver;
 
 use ApiPlatform\GraphQl\Resolver\QueryItemResolverInterface;
 use Gally\Catalog\Repository\LocalizedCatalogRepository;
-use Gally\Category\Model\Category\ProductMerchandising;
+use Gally\Category\Entity\Category\ProductMerchandising;
 use Gally\Category\Repository\CategoryRepository;
 use Gally\Category\Service\CategoryProductPositionManager;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;

@@ -16,9 +16,9 @@ namespace Gally\Metadata\EventSubscriber;
 use Doctrine\ORM\Event\OnFlushEventArgs;
 use Doctrine\ORM\Event\PrePersistEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
-use Gally\Catalog\Model\LocalizedCatalog;
-use Gally\Metadata\Model\SourceField;
-use Gally\Metadata\Model\SourceFieldLabel;
+use Gally\Catalog\Entity\LocalizedCatalog;
+use Gally\Metadata\Entity\SourceField;
+use Gally\Metadata\Entity\SourceFieldLabel;
 use Gally\Metadata\Repository\SourceFieldRepository;
 
 class GenerateSourceFieldSearch
