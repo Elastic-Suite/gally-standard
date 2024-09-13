@@ -28,8 +28,6 @@ use Symfony\Component\PropertyInfo\Type;
  * For example:
  * #[ApiFilter(LocalizedCatalogLocaleFilter::class, properties: ['localizedCatalogs.id' => ['locale_property' => 'locales.locale']])]
  * Here locales.locale is the property where locales are stored.
- *
- * todo upgrade: add test on this filter
  */
 class LocalizedCatalogLocaleFilter extends GallySearchFilter
 {

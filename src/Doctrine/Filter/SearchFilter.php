@@ -37,8 +37,6 @@ use Symfony\Component\Serializer\NameConverter\NameConverterInterface;
  * Class copied from ApiPlatform\Doctrine\Odm\Filter\SearchFilter as it is a final class we can't extend it.
  * To avoid to have to many duplicate code on Gally we prefer to copy this class and remove the final "tag".
  * On unit tests, we added  a test to detect changes in the in future versions of api-platform.
- *
- * todo upgrade : add test with a sha1 of the native file to know if the file changed after an upgrade of api-platform.
  */
 class SearchFilter extends AbstractFilter implements SearchFilterInterface
 {

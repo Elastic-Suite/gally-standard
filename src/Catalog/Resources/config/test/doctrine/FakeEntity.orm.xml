@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="https://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="https://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="https://doctrine-project.org/schemas/orm/doctrine-mapping
+                          https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <entity name="Gally\Catalog\Tests\Entity\FakeEntity" table="test_fake_entity">
+        <id name="id" type="integer">
+            <generator strategy="SEQUENCE"/>
+        </id>
+
+        <many-to-many field="localizedCatalogs" target-entity="Gally\Catalog\Entity\LocalizedCatalog">
+            <join-column name="localized_catalog_id" referenced-column-name="id" nullable="false" on-delete="CASCADE" on-update="CASCADE"/>
+        </many-to-many>
+        <one-to-many field="locales" target-entity="Gally\Catalog\Tests\Entity\FakeLocale" mapped-by="locales" orphan-removal="true">
+            <order-by>
+                <order-by-field name="id" direction="ASC" />
+            </order-by>
+            <cascade>
+                <cascade-persist/>
+            </cascade>
+        </one-to-many>
+    </entity>
+
+</doctrine-mapping>

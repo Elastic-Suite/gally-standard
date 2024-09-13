@@ -33,6 +33,11 @@ class GallyBundle extends Bundle
             realpath(__DIR__ . '/Search/Resources/config/doctrine') => 'Gally\Search\Entity',
         ];
 
+        if ('test' === $container->getParameter('kernel.environment')) {
+            $mappings[realpath(__DIR__ . '/Catalog/Resources/config/test/doctrine')] = 'Gally\Catalog\Tests\Entity';
+            $mappings[realpath(__DIR__ . '/Doctrine/Resources/config/test/doctrine')] = 'Gally\Doctrine\Tests\Entity';
+        }
+
         $container->addCompilerPass(
             DoctrineOrmMappingsPass::createXmlMappingDriver(
                 $mappings,

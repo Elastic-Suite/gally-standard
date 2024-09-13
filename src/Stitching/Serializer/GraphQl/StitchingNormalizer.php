@@ -18,6 +18,7 @@ use ApiPlatform\Metadata\Resource\Factory\ResourceMetadataCollectionFactoryInter
 use Doctrine\Common\Util\ClassUtils;
 use Gally\Metadata\Repository\MetadataRepository;
 use Gally\ResourceMetadata\Service\ResourceMetadataManager;
+use Gally\Search\Entity\Document;
 use Gally\Stitching\Service\SerializerService;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
@@ -30,8 +31,7 @@ class StitchingNormalizer implements NormalizerInterface, NormalizerAwareInterfa
 {
     use NormalizerAwareTrait;
 
-    // TODO rename 'GraphQlEntityAttributesNormalizerCalled' ?
-    private const ALREADY_CALLED_NORMALIZER = 'GraphQlProductAttributesNormalizerCalled';
+    private const ALREADY_CALLED_NORMALIZER = 'StitchingNormalizerCalled';
 
     public function __construct(
         private MetadataRepository $metadataRepository,
@@ -43,6 +43,9 @@ class StitchingNormalizer implements NormalizerInterface, NormalizerAwareInterfa
 
     public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
     {
+        // Todo: the context will disappear from this method signature in future version,
+        // we'll need to find another way to check if this normalizer has already been applied on this data.
+        // but the doc still recommend this solution : https://api-platform.com/docs/core/serialization/#changing-the-serialization-context-on-a-per-item-basis
         $alreadyCalled = $context[self::ALREADY_CALLED_NORMALIZER] ?? false;
         if (ItemNormalizer::FORMAT !== $format || $alreadyCalled) {
             return false;
@@ -96,7 +99,6 @@ class StitchingNormalizer implements NormalizerInterface, NormalizerAwareInterfa
 
     public function getSupportedTypes(?string $format): array
     {
-        // Todo upgrade : to test !!! and move in product
-        return ['*' => false];
+        return [Document::class => false];
     }
 }

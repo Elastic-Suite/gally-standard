@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace Gally\Catalog\Service;
 
-use Gally\Catalog\Exception\NoCatalogException;
 use Gally\Catalog\Entity\LocalizedCatalog;
+use Gally\Catalog\Exception\NoCatalogException;
 use Gally\Catalog\Repository\LocalizedCatalogRepository;
 
 class DefaultCatalogProvider

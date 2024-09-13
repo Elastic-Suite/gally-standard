@@ -55,10 +55,6 @@ jobs:
               working-directory: ${{ env.gally-directory }}
               run: docker compose -f compose.yml -f compose.ci.yml pull --ignore-pull-failures || true
 
-            - name: Generate certificates
-              working-directory: ${{ env.gally-directory }}
-              run: bash ./docker/generate-certs.sh
-
             - name: Start services
               working-directory: ${{ env.gally-directory }}
               run: docker compose -f compose.yml -f compose.ci.yml up --build -d --wait

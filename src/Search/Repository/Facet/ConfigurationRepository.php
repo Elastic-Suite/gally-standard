@@ -20,8 +20,8 @@ use Gally\Category\Entity\Category;
 use Gally\Metadata\Entity\Doctrine\QueryBuilder;
 use Gally\Metadata\Entity\Metadata;
 use Gally\Metadata\Entity\SourceField;
-use Gally\Search\Hydrator\FacetConfigurationHydrator;
 use Gally\Search\Entity\Facet;
+use Gally\Search\Hydrator\FacetConfigurationHydrator;
 
 /*
  * @method Facet\Configuration|null find($id, $lockMode = null, $lockVersion = null)

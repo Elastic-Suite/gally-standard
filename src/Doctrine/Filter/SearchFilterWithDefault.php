@@ -62,7 +62,7 @@ class SearchFilterWithDefault extends GallySearchFilter
         $valueParameter = ':' . $queryNameGenerator->generateParameterName($field);
 
         // Rewrite start : Manage default value.
-        $defaultValue = $this->defaultValues[$field];
+        $defaultValue = $this->defaultValues[$field] ?? null;
         $aliasedField = "(CASE WHEN $alias.$field IS NULL THEN " .
             "(CASE WHEN $this->defaultAlias.$field IS NOT NULL THEN $this->defaultAlias.$field ELSE '$defaultValue' END) " .
             "ELSE $alias.$field END)";

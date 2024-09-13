@@ -13,12 +13,7 @@ declare(strict_types=1);
 
 namespace Gally\Search\State\Facet;
 
-use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\GraphQl\Mutation;
-use ApiPlatform\Metadata\GraphQl\Query;
 use ApiPlatform\Metadata\Operation;
-use ApiPlatform\Metadata\Patch;
-use ApiPlatform\Metadata\Put;
 use ApiPlatform\State\ProviderInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;

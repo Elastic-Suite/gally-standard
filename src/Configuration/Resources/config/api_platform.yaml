@@ -8,6 +8,11 @@ api_platform:
         jsonld: [ 'application/ld+json' ]
         jsonopenapi: [ 'application/vnd.openapi+json' ]
         html: [ 'text/html' ]
+    swagger:
+        api_keys:
+            JWT:
+                name: Authorization
+                type: header
     # Good defaults for REST APIs
     defaults:
         stateless: true
@@ -28,10 +33,11 @@ api_platform:
             page_parameter_name: currentPage
             items_per_page_parameter_name: pageSize
     # change this to true if you use controllers
-    use_symfony_listeners: true 
-    keep_legacy_inflector: true # Todo upgrade : https://api-platform.com/docs/core/upgrade-guide/#inflector
+    use_symfony_listeners: true
+    # We need to keep legacy inflector because symfony one will pluralize thesaurus as thesauri and index as indexes
+    keep_legacy_inflector: true 
     http_cache:
-        invalidation:
+        invalidation:   
             enabled: true
             varnish_urls: ['%env(VARNISH_URL)%']
         public: true
