@@ -1,8 +1,0 @@
-services:
-    # Declare DataFixtures
-    Gally\Cms\DataFixtures\ElasticsearchCmsPageFixtures:
-        arguments:
-            - '@Gally\Fixture\Service\ElasticsearchFixtures'
-            - '@Gally\Fixture\Service\EntityIndicesFixturesInterface'
-        tags:
-            - { name: doctrine.fixture.orm }

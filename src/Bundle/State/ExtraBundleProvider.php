@@ -24,7 +24,7 @@ class ExtraBundleProvider implements ProviderInterface
     {
     }
 
-    public function provide(Operation $operation, array $uriVariables = [], array $context = []): ?array
+    public function get(): array
     {
         $extraBundles = [];
         foreach ($this->kernel->getBundles() as $bundle) {
@@ -34,5 +34,10 @@ class ExtraBundleProvider implements ProviderInterface
         }
 
         return $extraBundles;
+    }
+
+    public function provide(Operation $operation, array $uriVariables = [], array $context = []): ?array
+    {
+        return $this->get();
     }
 }

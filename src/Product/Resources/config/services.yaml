@@ -38,14 +38,6 @@ services:
         tags:
             - { name: serializer.normalizer }
 
-    # Declare DataFixtures
-    Gally\Product\DataFixtures\ElasticsearchProductFixtures:
-        arguments:
-            - '@Gally\Fixture\Service\ElasticsearchFixtures'
-            - '@Gally\Fixture\Service\EntityIndicesFixturesInterface'
-        tags:
-            - { name: doctrine.fixture.orm }
-
     Gally\Product\Decoration\CategoryData\SyncCategoryNameAfterBulk:
         decorates: Gally\Index\MutationResolver\BulkIndexMutation
         arguments:

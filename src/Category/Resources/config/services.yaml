@@ -12,14 +12,6 @@ services:
         tags:
             - { name: doctrine.repository_service }
 
-    # Declare DataFixtures
-    Gally\Category\DataFixtures\ElasticsearchCategoryFixtures:
-        arguments:
-            - '@Gally\Fixture\Service\ElasticsearchFixtures'
-            - '@Gally\Fixture\Service\EntityIndicesFixturesInterface'
-        tags:
-            - { name: doctrine.fixture.orm }
-
     Gally\Category\Service\CategorySynchronizer:
         arguments:
             - '@Gally\Category\Repository\CategoryRepository'
