@@ -10,7 +10,7 @@
         </id>
         <field name="code" type="string" length="255" nullable="false" unique="true" />
         <field name="name" type="string" length="255" nullable="true" unique="false" />
-        <field name="weight" type="int" nullable="true" unique="false" />
+        <field name="weight" type="integer" nullable="true" unique="false" />
     </entity>
 
 </doctrine-mapping>
