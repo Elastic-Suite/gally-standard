@@ -17,7 +17,7 @@ use ApiPlatform\Api\IdentifiersExtractorInterface;
 use ApiPlatform\Api\IriConverterInterface;
 use ApiPlatform\Doctrine\Common\Filter\SearchFilterTrait;
 use ApiPlatform\Doctrine\Orm\Util\QueryNameGeneratorInterface;
-use ApiPlatform\Exception\InvalidArgumentException;
+use ApiPlatform\Metadata\Exception\InvalidArgumentException;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Gally\Doctrine\Filter\SearchFilter as GallySearchFilter;

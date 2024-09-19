@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Gally\Category\Decoration;
 
-use ApiPlatform\Exception\InvalidArgumentException;
+use ApiPlatform\Metadata\Exception\InvalidArgumentException;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
 use Gally\Category\Exception\SyncCategoryException;

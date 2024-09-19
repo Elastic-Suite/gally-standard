@@ -20,9 +20,9 @@ class SearchFilterTest extends AbstractTestCase
     public function testOriginalFileHasChanged(): void
     {
         $this->assertEquals(
-            '82d4d86b6bec37d045f2cd602af9f3d4dfff325d',
-            sha1_file('vendor/api-platform/core/src/Doctrine/Odm/Filter/SearchFilter.php'),
-            'The original \ApiPlatform\Doctrine\Odm\Filter\SearchFilter file has been updated, please backport this changes in \Gally\Doctrine\Filter\SearchFilter'
+            'd59474c1ebd88634a8e77781c32ea30271094675',
+            sha1_file('vendor/api-platform/core/src/Doctrine/Orm/Filter/SearchFilter.php'),
+            'The original \ApiPlatform\Doctrine\Orm\Filter\SearchFilter file has been updated, please backport this changes in \Gally\Doctrine\Filter\SearchFilter'
         );
     }
 }

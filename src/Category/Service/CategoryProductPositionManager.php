@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Gally\Category\Service;
 
-use ApiPlatform\Exception\InvalidArgumentException;
+use ApiPlatform\Metadata\Exception\InvalidArgumentException;
 use Doctrine\ORM\EntityManagerInterface;
 use Gally\Catalog\Entity\Catalog;
 use Gally\Catalog\Entity\LocalizedCatalog;

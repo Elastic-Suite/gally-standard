@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace Gally\Index\MutationResolver;
 
-use ApiPlatform\Exception\InvalidArgumentException;
 use ApiPlatform\GraphQl\Resolver\MutationResolverInterface;
+use ApiPlatform\Metadata\Exception\InvalidArgumentException;
 use Gally\Index\Dto\Bulk;
 use Gally\Index\Entity\Index;
 use Gally\Index\Repository\Index\IndexRepositoryInterface;

@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace Gally\Metadata\State;
 
-use ApiPlatform\Exception\InvalidArgumentException;
 use ApiPlatform\Metadata\DeleteOperationInterface;
+use ApiPlatform\Metadata\Exception\InvalidArgumentException;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
 use Doctrine\Common\Collections\ArrayCollection;

@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Gally\Menu\Service;
 
-use ApiPlatform\Exception\InvalidArgumentException;
+use ApiPlatform\Metadata\Exception\InvalidArgumentException;
 use Gally\Menu\Entity\Menu;
 use Gally\Menu\Entity\MenuItem;
 use Symfony\Contracts\Translation\TranslatorInterface;

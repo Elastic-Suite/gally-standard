@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Gally\Index\Service;
 
-use ApiPlatform\Exception\InvalidArgumentException;
+use ApiPlatform\Metadata\Exception\InvalidArgumentException;
 use Gally\Catalog\Repository\LocalizedCatalogRepository;
 use Gally\Index\Entity\Index;
 use Gally\Index\Entity\Index\SelfReindex;
