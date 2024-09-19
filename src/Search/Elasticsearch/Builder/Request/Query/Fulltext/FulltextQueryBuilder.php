@@ -324,6 +324,7 @@ class FulltextQueryBuilder
                 'body' => ['text' => $queryText, 'analyzer' => FieldInterface::ANALYZER_STANDARD],
             ]);
 
+            // Don't run span query if only one term
             if (\count($analysis['tokens']) > 1) {
                 $queries = [];
                 foreach ($spanFields as $field) {
