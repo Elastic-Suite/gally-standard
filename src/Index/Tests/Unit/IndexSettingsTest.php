@@ -25,7 +25,7 @@ class IndexSettingsTest extends AbstractTestCase
      *
      * @dataProvider dynamicAttributeDataProvider
      */
-    public function testDynamicIndexSettings(string $fieldName, int $expectedNestedFieldsLimit, string $expectedDefaultPipeline)
+    public function testDynamicIndexSettings(string $fieldName, int $expectedNestedFieldsLimit)
     {
         static::loadFixture(
             [
@@ -43,15 +43,14 @@ class IndexSettingsTest extends AbstractTestCase
         $settings = $indexSettings->getDynamicIndexSettings($metadata, $localizedCatalogs);
 
         $this->assertEquals($expectedNestedFieldsLimit, $settings['mapping.nested_fields.limit']);
-        $this->assertEquals($expectedDefaultPipeline, $settings['default_pipeline']);
     }
 
     protected function dynamicAttributeDataProvider(): array
     {
         return [
-            ['source_field_1.yaml', 0, 'test-gally-llm-pipeline-product'],
-            ['source_field_2.yaml', 2, 'test-gally-llm-pipeline-product'],
-            ['source_field_3.yaml', 4, 'test-gally-llm-pipeline-product'],
+            ['source_field_1.yaml', 0],
+            ['source_field_2.yaml', 2],
+            ['source_field_3.yaml', 4],
         ];
     }
 }

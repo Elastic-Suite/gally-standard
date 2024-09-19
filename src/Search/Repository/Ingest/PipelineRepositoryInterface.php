@@ -37,5 +37,5 @@ interface PipelineRepositoryInterface
      *
      * @param Metadata $metadata metadata
      */
-    public function createByMetadata(Metadata $metadata): IngestPipeline;
+    public function createByMetadata(Metadata $metadata): ?IngestPipeline;
 }

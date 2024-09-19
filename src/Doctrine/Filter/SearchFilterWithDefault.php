@@ -25,7 +25,6 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 use Symfony\Component\Serializer\NameConverter\NameConverterInterface;
 
-// todo upgrade @Pigau ajouter des tests concerant ce filtre ?
 class SearchFilterWithDefault extends GallySearchFilter
 {
     use SearchFilterTrait;

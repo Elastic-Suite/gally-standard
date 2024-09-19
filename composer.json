@@ -13,7 +13,7 @@
     ],
     "require": {
         "php": ">=8.2",
-        "api-platform/core": "^3.2",
+        "api-platform/core": "~3.3.0",
         "cweagans/composer-patches": "^1.7",
         "opensearch-project/opensearch-php": "^2.1",
         "lexik/jwt-authentication-bundle": "^2.14",

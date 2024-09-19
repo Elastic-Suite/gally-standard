@@ -3,3 +3,7 @@ services:
         class: Gally\Search\Tests\Service\SearchSettingsProvider
         arguments:
             - '%gally.search_settings%'
+    
+    Gally\Search\Tests\Mock\DummyProcessorProvider:
+        tags:
+            - { name: gally.search.ingest_pipeline_processors_provider }

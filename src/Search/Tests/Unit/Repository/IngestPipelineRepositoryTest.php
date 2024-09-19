@@ -199,9 +199,15 @@ class IngestPipelineRepositoryTest extends AbstractTestCase
         $expectedPipeline = new IngestPipeline(
             'test-gally-llm-pipeline-category',
             'test-gally-llm-pipeline-category',
-            []
+            [
+                'set' => [
+                    'field' => 'dummy',
+                    'value' => ['test'],
+                ],
+            ]
         );
         $actualPipeline = $ingestPipelineRepository->createByMetadata($metadataRepository->findByEntity('category'));
+
         $this->assertEquals($expectedPipeline->getName(), $actualPipeline->getName());
         $this->assertEquals($expectedPipeline->getDescription(), $actualPipeline->getDescription());
         $this->assertGreaterThanOrEqual(\count($expectedPipeline->getProcessors()), \count($actualPipeline->getProcessors()));
@@ -212,8 +218,11 @@ class IngestPipelineRepositoryTest extends AbstractTestCase
             []
         );
         $actualPipeline = $ingestPipelineRepository->createByMetadata($metadataRepository->findByEntity('product_document'));
-        $this->assertEquals($expectedPipeline->getName(), $actualPipeline->getName());
-        $this->assertEquals($expectedPipeline->getDescription(), $actualPipeline->getDescription());
-        $this->assertGreaterThanOrEqual(\count($expectedPipeline->getProcessors()), \count($actualPipeline->getProcessors()));
+        // If pipeline doesn't have any processor it will be not created.
+        if ($actualPipeline) {
+            $this->assertEquals($expectedPipeline->getName(), $actualPipeline->getName());
+            $this->assertEquals($expectedPipeline->getDescription(), $actualPipeline->getDescription());
+            $this->assertGreaterThanOrEqual(\count($expectedPipeline->getProcessors()), \count($actualPipeline->getProcessors()));
+        }
     }
 }

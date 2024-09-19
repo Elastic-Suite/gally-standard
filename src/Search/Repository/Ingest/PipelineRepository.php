@@ -63,7 +63,7 @@ class PipelineRepository implements PipelineRepositoryInterface
     /**
      * @throws \Exception
      */
-    public function createByMetadata(Metadata $metadata): IngestPipeline
+    public function createByMetadata(Metadata $metadata): ?IngestPipeline
     {
         $pipelineName = $this->pipelinePrefix . $metadata->getEntity();
         $processors = [];
@@ -72,6 +72,8 @@ class PipelineRepository implements PipelineRepositoryInterface
             $processors = array_merge($processors, $processorsProvider->getProcessors($metadata));
         }
 
-        return $this->create($pipelineName, $pipelineName, $processors);
+        return empty($processors)
+            ? null
+            : $this->create($pipelineName, $pipelineName, $processors);
     }
 }

@@ -433,9 +433,11 @@ class IndexSettings implements IndexSettingsInterface
         $complexeSourceField = $this->sourceFieldRepository->getComplexeFields($metadata);
         $settings += ['mapping.nested_fields.limit' => \count($complexeSourceField)];
 
-        // Add default pipeline
+        // Add default pipeline if any processor are defined.
         $pipeline = $this->pipelineRepository->createByMetadata($metadata);
-        $settings['default_pipeline'] = $pipeline->getName();
+        if ($pipeline) {
+            $settings['default_pipeline'] = $pipeline->getName();
+        }
 
         return $settings;
     }
