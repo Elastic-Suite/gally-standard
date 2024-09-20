@@ -26,6 +26,7 @@ class ClientBuilder extends \OpenSearch\ClientBuilder
     public function __construct(array $esConfig, iterable $namespaceBuilders)
     {
         $this->setHosts($esConfig['hosts']);
+        $this->setSSLVerification($esConfig['ssl_verification']);
         foreach ($namespaceBuilders as $namespaceBuilder) {
             $this->registerNamespace($namespaceBuilder);
         }

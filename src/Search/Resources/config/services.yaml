@@ -8,7 +8,8 @@ imports:
         
 parameters:
     es_config:
-        hosts: ['%env(ELASTICSEARCH_URL)%']}
+        hosts: ['%env(ELASTICSEARCH_URL)%']
+        ssl_verification: '%env(bool:ELASTICSEARCH_SSL_VERIFICATION)%'
 
 services:
     Gally\Search\Repository\Facet\ConfigurationRepository:
