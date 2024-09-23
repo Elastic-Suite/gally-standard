@@ -211,9 +211,11 @@ services:
             - { name: api_platform.graphql.type }
 
     Gally\Search\GraphQl\Type\Definition\Filter\EqualTypeFilterInputType:
+        lazy: true
         arguments:
             - '@Gally\Search\Elasticsearch\Builder\Request\Query\Filter\FilterQueryBuilder'
             - '@Gally\Search\Service\ReverseSourceFieldProvider'
+            - '@Gally\Search\GraphQl\Type\Definition\FieldFilterInputType'
         tags:
             - { name: api_platform.graphql.type }
 

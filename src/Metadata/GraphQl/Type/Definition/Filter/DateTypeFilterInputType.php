@@ -16,6 +16,7 @@ namespace Gally\Metadata\GraphQl\Type\Definition\Filter;
 use Gally\Metadata\Entity\SourceField;
 use Gally\Search\Constant\FilterOperator;
 use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface;
+use Gally\Search\Elasticsearch\Request\QueryInterface;
 use GraphQL\Type\Definition\Type;
 
 class DateTypeFilterInputType extends AbstractFilter
@@ -38,6 +39,8 @@ class DateTypeFilterInputType extends AbstractFilter
     {
         return [
             'fields' => [
+                FilterOperator::EQ => Type::string(),
+                FilterOperator::IN => Type::listOf(Type::string()),
                 FilterOperator::GTE => Type::string(),
                 FilterOperator::GT => Type::string(),
                 FilterOperator::LT => Type::string(),
@@ -53,8 +56,10 @@ class DateTypeFilterInputType extends AbstractFilter
 
         if (empty($inputData)) {
             $errors[] = \sprintf(
-                "Filter argument %s: At least '%s', '%s', '%s', '%s' or '%s' should be filled.",
+                "Filter argument %s: At least '%s', '%s', '%s', '%s', '%s', '%s' or '%s' should be filled.",
                 $argName,
+                FilterOperator::EQ,
+                FilterOperator::IN,
                 FilterOperator::GTE,
                 FilterOperator::GT,
                 FilterOperator::LT,
@@ -82,5 +87,33 @@ class DateTypeFilterInputType extends AbstractFilter
         }
 
         return $errors;
+    }
+
+    public function transformToGallyFilter(array $inputFilter, ContainerConfigurationInterface $containerConfig, array $filterContext = []): QueryInterface
+    {
+        if (isset($inputFilter[FilterOperator::IN])) {
+            $queries = [];
+            foreach ($inputFilter[FilterOperator::IN] as $value) {
+                $queries[] = parent::transformToGallyFilter(
+                    [
+                        'field' => $inputFilter['field'],
+                        FilterOperator::LTE => $value,
+                        FilterOperator::GTE => $value,
+                    ],
+                    $containerConfig,
+                    $filterContext
+                );
+            }
+
+            return $this->queryFactory->create(QueryInterface::TYPE_BOOL, ['should' => $queries]);
+        }
+
+        if (isset($inputFilter[FilterOperator::EQ])) {
+            $inputFilter[FilterOperator::LTE] = $inputFilter[FilterOperator::EQ];
+            $inputFilter[FilterOperator::GTE] = $inputFilter[FilterOperator::EQ];
+            unset($inputFilter[FilterOperator::EQ]);
+        }
+
+        return parent::transformToGallyFilter($inputFilter, $containerConfig, $filterContext);
     }
 }

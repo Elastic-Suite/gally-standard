@@ -851,19 +851,34 @@ class SearchDocumentsTest extends AbstractTestCase
                         'field' => 'created_at',
                         'label' => 'Created_at',
                         'type' => 'date_histogram',
-                        'date_format' => 'yyyy-MM-dd',
-                        'date_range_interval' => '1d',
+                        'date_format' => 'yyyy-MM',
+                        'date_range_interval' => '1M',
                         'hasMore' => false,
                         'options' => [
                             [
-                                'label' => '2022-09-01',
-                                'value' => '2022-09-01',
-                                'count' => 8,
+                                'label' => '2022-08',
+                                'value' => '2022-08',
+                                'count' => 2,
                             ],
                             [
-                                'label' => '2022-09-05',
-                                'value' => '2022-09-05',
-                                'count' => 3,
+                                'label' => '2022-09',
+                                'value' => '2022-09',
+                                'count' => 6,
+                            ],
+                            [
+                                'label' => '2022-10',
+                                'value' => '2022-10',
+                                'count' => 1,
+                            ],
+                            [
+                                'label' => '2022-11',
+                                'value' => '2022-11',
+                                'count' => 1,
+                            ],
+                            [
+                                'label' => '2023-01',
+                                'value' => '2023-01',
+                                'count' => 2,
                             ],
                         ],
                     ],
@@ -954,19 +969,14 @@ class SearchDocumentsTest extends AbstractTestCase
                         'field' => 'created_at',
                         'label' => 'Created_at',
                         'type' => 'date_histogram',
-                        'date_format' => 'yyyy-MM-dd',
-                        'date_range_interval' => '1d',
+                        'date_format' => 'yyyy-MM',
+                        'date_range_interval' => '1M',
                         'hasMore' => false,
                         'options' => [
                             [
-                                'label' => '2022-09-01',
-                                'value' => '2022-09-01',
-                                'count' => 6,
-                            ],
-                            [
-                                'label' => '2022-09-05',
-                                'value' => '2022-09-05',
-                                'count' => 3,
+                                'label' => '2022-09',
+                                'value' => '2022-09',
+                                'count' => 10,
                             ],
                         ],
                     ],
@@ -1075,19 +1085,14 @@ class SearchDocumentsTest extends AbstractTestCase
                         'field' => 'created_at',
                         'label' => 'Created_at',
                         'type' => 'date_histogram',
-                        'date_format' => 'yyyy-MM-dd',
-                        'date_range_interval' => '1d',
+                        'date_format' => 'yyyy-MM',
+                        'date_range_interval' => '1M',
                         'hasMore' => false,
                         'options' => [
                             [
-                                'label' => '2022-09-01',
-                                'value' => '2022-09-01',
-                                'count' => 6,
-                            ],
-                            [
-                                'label' => '2022-09-05',
-                                'value' => '2022-09-05',
-                                'count' => 3,
+                                'label' => '2022-09',
+                                'value' => '2022-09',
+                                'count' => 10,
                             ],
                         ],
                     ],
@@ -1196,19 +1201,14 @@ class SearchDocumentsTest extends AbstractTestCase
                         'field' => 'created_at',
                         'label' => 'Created_at',
                         'type' => 'date_histogram',
-                        'date_format' => 'yyyy-MM-dd',
-                        'date_range_interval' => '1d',
+                        'date_format' => 'yyyy-MM',
+                        'date_range_interval' => '1M',
                         'hasMore' => false,
                         'options' => [
                             [
-                                'label' => '2022-09-01',
-                                'value' => '2022-09-01',
-                                'count' => 6,
-                            ],
-                            [
-                                'label' => '2022-09-05',
-                                'value' => '2022-09-05',
-                                'count' => 3,
+                                'label' => '2022-09',
+                                'value' => '2022-09',
+                                'count' => 10,
                             ],
                         ],
                     ],
@@ -1742,9 +1742,59 @@ class SearchDocumentsTest extends AbstractTestCase
                 10, // page size.
                 1,  // current page.
                 [], // sort order specifications.
-                '{rangeFilter: {field: "created_at", lte: "2022-09-04"}}',
+                '{rangeFilter: {field: "created_at", lt: "2022-09"}}',
                 'entity_id', // document data identifier.
-                [1, 6, 7, 8, 9, 11, 12, 13], // expected ordered document IDs
+                [8, 9], // expected ordered document IDs
+            ],
+            [
+                'product_document', // entity type.
+                'b2c_en', // catalog ID.
+                10, // page size.
+                1,  // current page.
+                [], // sort order specifications.
+                '{rangeFilter: {field: "created_at", lte: "2022-09"}}',
+                'entity_id', // document data identifier.
+                [1, 2, 3, 8, 9, 11, 12, 13], // expected ordered document IDs
+            ],
+            [
+                'product_document', // entity type.
+                'b2c_en', // catalog ID.
+                10, // page size.
+                1,  // current page.
+                [], // sort order specifications.
+                '{rangeFilter: {field: "created_at", gte: "2023-01"}}',
+                'entity_id', // document data identifier.
+                [6, 7], // expected ordered document IDs
+            ],
+            [
+                'product_document', // entity type.
+                'b2c_en', // catalog ID.
+                10, // page size.
+                1,  // current page.
+                [], // sort order specifications.
+                '{rangeFilter: {field: "created_at", gt: "2023-01"}}',
+                'entity_id', // document data identifier.
+                [], // expected ordered document IDs
+            ],
+            [
+                'product_document', // entity type.
+                'b2c_en', // catalog ID.
+                10, // page size.
+                1,  // current page.
+                [], // sort order specifications.
+                '{equalFilter: {field: "created_at", eq: "2022-08"}}',
+                'entity_id', // document data identifier.
+                [8, 9], // expected ordered document IDs
+            ],
+            [
+                'product_document', // entity type.
+                'b2c_en', // catalog ID.
+                10, // page size.
+                1,  // current page.
+                [], // sort order specifications.
+                '{equalFilter: {field: "created_at", in: ["2022-08", "2022-11"]}}',
+                'entity_id', // document data identifier.
+                [5, 8, 9], // expected ordered document IDs
             ],
             [
                 'product_document', // entity type.

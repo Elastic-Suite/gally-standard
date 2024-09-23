@@ -1,6 +1,6 @@
 gally:
     pipeline_prefix: 'test-gally-llm-pipeline-'
     search_settings:
-        default_date_field_format: 'yyyy-MM-dd'
+        default_date_field_format: 'yyyy-MM'
         aggregations:
-            default_date_range_interval: '1d'
+            default_date_range_interval: '1M'
