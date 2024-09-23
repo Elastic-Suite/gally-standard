@@ -158,7 +158,7 @@
           }
         ],
         "is_eco_friendly": true,
-        "created_at": "2022-09-05",
+        "created_at": "2022-10-05",
         "manufacture_location": "43.607413, 3.871533",
         "indexed_fields": [
           "entity_id",
@@ -185,7 +185,7 @@
           }
         ],
         "is_eco_friendly": true,
-        "created_at": "2022-09-06",
+        "created_at": "2022-11-23",
         "manufacture_location": "45.777119, 4.859665",
         "indexed_fields": [
           "entity_id",
@@ -219,7 +219,7 @@
           }
         ],
         "is_eco_friendly": true,
-        "created_at": "2022-09-01",
+        "created_at": "2023-01-02",
         "manufacture_location": "47.2030827,-1.5532463",
         "indexed_fields": [
           "entity_id",
@@ -244,7 +244,7 @@
           }
         ],
         "is_eco_friendly": false,
-        "created_at": "2022-09-01",
+        "created_at": "2023-01-10",
         "manufacture_location": "47.2030827,-1.5532463",
         "indexed_fields": [
           "entity_id",
@@ -273,7 +273,7 @@
           }
         ],
         "is_eco_friendly": false,
-        "created_at": "2022-09-01",
+        "created_at": "2022-08-30",
         "manufacture_location": "47.2030827,-1.5532463",
         "indexed_fields": [
           "entity_id",
@@ -301,7 +301,7 @@
           }
         ],
         "is_eco_friendly": false,
-        "created_at": "2022-09-01",
+        "created_at": "2022-08-31",
         "manufacture_location": "47.2030827,-1.5532463",
         "indexed_fields": [
           "entity_id",
@@ -405,7 +405,7 @@
             "label": "Brown"
           }
         ],
-        "created_at": "2022-09-01",
+        "created_at": "2022-09-30",
         "manufacture_location": "47.2030827,-1.5532463",
         "indexed_fields": [
           "entity_id",
