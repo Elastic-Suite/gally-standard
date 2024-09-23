@@ -18,6 +18,7 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Exception\ORMException;
 use Gally\Catalog\Entity\Catalog;
+use Gally\Catalog\Repository\CatalogRepository;
 use Gally\Catalog\Repository\LocalizedCatalogRepository;
 use Gally\Category\Decoration\SyncCategoryDataAfterBulk;
 use Gally\Category\Decoration\SyncCategoryDataAfterBulkDelete;
@@ -60,7 +61,6 @@ class CategorySynchronizerTest extends AbstractTestCase
         parent::setUp();
         \assert(static::getContainer()->get(IndexRepositoryInterface::class) instanceof IndexRepositoryInterface);
         self::$indexRepository = static::getContainer()->get(IndexRepositoryInterface::class);
-        self::$categoryRepository = static::getContainer()->get(CategoryRepository::class);
         self::$categoryConfigurationRepository = static::getContainer()->get(CategoryConfigurationRepository::class);
         self::$serializer = static::getContainer()->get('api_platform.serializer');
         self::loadFixture([
@@ -78,13 +78,11 @@ class CategorySynchronizerTest extends AbstractTestCase
 
     public function testSynchronize(): void
     {
-        /** @var EntityManager $entityManager */
-        $entityManager = static::getContainer()->get('doctrine')->getManager();
-        $catalogRepository = static::getContainer()->get(LocalizedCatalogRepository::class);
+        $localizedCatalogRepository = static::getContainer()->get(LocalizedCatalogRepository::class);
 
-        $catalog1 = $catalogRepository->findOneBy(['code' => 'b2c_fr']);
-        $catalog2 = $catalogRepository->findOneBy(['code' => 'b2c_en']);
-        $catalog3 = $catalogRepository->findOneBy(['code' => 'b2b_fr']);
+        $localizedCatalog1 = $localizedCatalogRepository->findOneBy(['code' => 'b2c_fr']);
+        $localizedCatalog2 = $localizedCatalogRepository->findOneBy(['code' => 'b2c_en']);
+        $localizedCatalog3 = $localizedCatalogRepository->findOneBy(['code' => 'b2b_fr']);
         $category1Data = ['id' => 'one', 'parentId' => null, 'level' => 1, 'name' => 'One'];
         $category2Data = ['id' => 'two', 'parentId' => null, 'level' => 1, 'name' => 'Two'];
         $category3Data = ['id' => 'three', 'parentId' => 'one', 'level' => 2, 'name' => 'Three'];
@@ -93,12 +91,12 @@ class CategorySynchronizerTest extends AbstractTestCase
         $this->validateCategoryCount(0, 0);
 
         // Create a non category index.
-        $indexName = $this->createIndex('cms', $catalog1->getId());
+        $indexName = $this->createIndex('cms', $localizedCatalog1->getId());
         $this->installIndex($indexName);
         $this->validateCategoryCount(0, 0);
 
         // Create a non installed category index.
-        $indexName = $this->createIndex('category', $catalog1->getId());
+        $indexName = $this->createIndex('category', $localizedCatalog1->getId());
         $this->bulkIndex($indexName, ['one' => $category1Data, 'two' => $category2Data]);
         $this->validateCategoryCount(0, 0);
 
@@ -106,13 +104,13 @@ class CategorySynchronizerTest extends AbstractTestCase
         $this->installIndex($indexName);
         $this->validateCategoryCount(2, 2);
 
-        // Add new documents.
+        // Add new documents in installed index.
         $this->bulkIndex($indexName, ['three' => $category3Data, 'four' => $category4Data]);
         $this->validateCategoryCount(4, 4);
 
         // Create an index for other catalogs.
-        $this->prepareIndex($catalog2->getId(), ['one' => $category1Data, 'three' => $category3Data]);
-        $this->prepareIndex($catalog3->getId(), ['one' => $category1Data, 'three' => $category3Data]);
+        $this->prepareIndex($localizedCatalog2->getId(), ['one' => $category1Data, 'three' => $category3Data]);
+        $this->prepareIndex($localizedCatalog3->getId(), ['one' => $category1Data, 'three' => $category3Data]);
         $this->validateCategoryCount(4, 8);
 
         // Remove documents.
@@ -120,9 +118,12 @@ class CategorySynchronizerTest extends AbstractTestCase
         $this->validateCategoryCount(3, 7);
 
         // Update documents.
-        $category3 = self::$categoryRepository->find('three');
-        $categoryConfigCatalog1 = self::$categoryConfigurationRepository->findOneBy(
-            ['category' => $category3, 'localizedCatalog' => $catalog1]
+        $entityManager = static::getContainer()->get('doctrine')->getManager();
+        $categoryRepository = static::getContainer()->get(CategoryRepository::class);
+        $categoryConfigurationRepository = static::getContainer()->get(CategoryConfigurationRepository::class);
+        $category3 = $categoryRepository->find('three');
+        $categoryConfigCatalog1 = $categoryConfigurationRepository->findOneBy(
+            ['category' => $category3, 'localizedCatalog' => $localizedCatalog1]
         );
         $categoryConfigCatalog1->setIsVirtual(true);
         $entityManager->persist($category3);
@@ -135,38 +136,42 @@ class CategorySynchronizerTest extends AbstractTestCase
         $this->bulkIndex($indexName, ['three' => $category3Data]);
 
         $this->validateCategoryCount(3, 7);
-        $category3 = self::$categoryRepository->find('three');
+        $category3 = $categoryRepository->find('three');
         $this->assertSame(1, $category3->getLevel());
-        $categoryConfigCatalog1 = self::$categoryConfigurationRepository->findOneBy(
-            ['category' => $category3, 'localizedCatalog' => $catalog1]
+        $categoryConfigCatalog1 = $categoryConfigurationRepository->findOneBy(
+            ['category' => $category3, 'localizedCatalog' => $localizedCatalog1]
         );
         $this->assertSame('ThreeUpdated', $categoryConfigCatalog1->getName());
         $this->assertTrue($categoryConfigCatalog1->getIsVirtual());
-        $categoryConfigCatalog2 = self::$categoryConfigurationRepository->findOneBy(
-            ['category' => $category3, 'localizedCatalog' => $catalog2]
+        $categoryConfigCatalog2 = $categoryConfigurationRepository->findOneBy(
+            ['category' => $category3, 'localizedCatalog' => $localizedCatalog2]
         );
         $this->assertSame('Three', $categoryConfigCatalog2->getName());
         $this->assertFalse($categoryConfigCatalog2->getIsVirtual());
 
         // Add new specific configuration on catalog scope
-        $category1 = self::$categoryRepository->find('one');
-        $category2 = self::$categoryRepository->find('two');
-
-        // Todo upgrade : how to avoid using merge
-        $entityManager->merge($this->createConfiguration($category1, null));
-        $entityManager->merge($this->createConfiguration($category1, $catalog1->getCatalog()));
-        $entityManager->merge($this->createConfiguration($category1, $catalog3->getCatalog()));
-        $entityManager->merge($this->createConfiguration($category2, null));
-        $entityManager->merge($this->createConfiguration($category2, $catalog1->getCatalog()));
-        $entityManager->merge($this->createConfiguration($category3, null));
+        $entityManager = static::getContainer()->get('doctrine')->getManager();
+        $catalogRepository = static::getContainer()->get(CatalogRepository::class);
+        $categoryRepository = static::getContainer()->get(CategoryRepository::class);
+        $category1 = $categoryRepository->find('one');
+        $category2 = $categoryRepository->find('two');
+        $category3 = $categoryRepository->find('three');
+        $catalog1 = $catalogRepository->findOneBy(['code' => 'b2c']);
+        $catalog2 = $catalogRepository->findOneBy(['code' => 'b2b']);
+        $entityManager->persist($this->createConfiguration($category1, null));
+        $entityManager->persist($this->createConfiguration($category1, $catalog1));
+        $entityManager->persist($this->createConfiguration($category1, $catalog2));
+        $entityManager->persist($this->createConfiguration($category2, null));
+        $entityManager->persist($this->createConfiguration($category2, $catalog1));
+        $entityManager->persist($this->createConfiguration($category3, null));
 
         $entityManager->flush();
         $this->validateCategoryCount(3, 13);
 
         // Create new index for catalog1 without category three
-        $this->prepareIndex($catalog1->getId(), ['one' => $category1Data]);
-        $this->prepareIndex($catalog2->getId(), ['three' => $category3Data]);
-        $this->prepareIndex($catalog3->getId(), ['three' => $category3Data, 'four' => $category4Data]);
+        $this->prepareIndex($localizedCatalog1->getId(), ['one' => $category1Data]);
+        $this->prepareIndex($localizedCatalog2->getId(), ['three' => $category3Data]);
+        $this->prepareIndex($localizedCatalog3->getId(), ['three' => $category3Data, 'four' => $category4Data]);
         $this->validateCategoryCount(3, 7);
     }
 
@@ -242,8 +247,10 @@ class CategorySynchronizerTest extends AbstractTestCase
 
     protected function validateCategoryCount(int $categoryCount, int $categoryConfigCount): void
     {
-        $this->assertCount($categoryCount, self::$categoryRepository->findAll());
-        $this->assertCount($categoryConfigCount, self::$categoryConfigurationRepository->findAll());
+        $categoryRepository = static::getContainer()->get(CategoryRepository::class);
+        $categoryConfigurationRepository = static::getContainer()->get(CategoryConfigurationRepository::class);
+        $this->assertCount($categoryCount, $categoryRepository->findAll());
+        $this->assertCount($categoryConfigCount, $categoryConfigurationRepository->findAll());
     }
 
     protected function createConfiguration(Category $category, ?Catalog $catalog): Configuration
