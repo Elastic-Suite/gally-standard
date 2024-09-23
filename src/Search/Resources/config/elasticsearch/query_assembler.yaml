@@ -111,6 +111,20 @@ services:
         tags:
             - { name: 'gally.search.request.query.assembler', queryType: 'geoDistanceQuery' }
 
+    Gally\Search\Elasticsearch\Adapter\Common\Request\Query\Assembler\SpanTerm:
+        abstract: false
+        lazy: true
+        tags:
+            - { name: 'gally.search.request.query.assembler', queryType: 'spanTermQuery' }
+
+    Gally\Search\Elasticsearch\Adapter\Common\Request\Query\Assembler\SpanNear:
+        abstract: false
+        lazy: true
+        arguments:
+            - '@Gally\Search\Elasticsearch\Adapter\Common\Request\Query\Assembler'
+        tags:
+            - { name: 'gally.search.request.query.assembler', queryType: 'spanNearQuery' }
+
     Gally\Search\Elasticsearch\Adapter\Common\Request\Query\Assembler:
         public: true
         lazy: true

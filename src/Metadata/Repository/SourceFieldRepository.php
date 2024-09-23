@@ -42,6 +42,7 @@ class SourceFieldRepository extends ServiceEntityRepository
         'isSpellchecked' => 'is_spellchecked',
         'isUsedForRules' => 'is_used_for_rules',
         'isUsedInAutocomplete' => 'is_used_in_autocomplete',
+        'isSpannable' => 'is_spannable',
         'isSystem' => 'is_system',
         'search' => 'search',
     ];

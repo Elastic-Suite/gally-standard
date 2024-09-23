@@ -54,4 +54,19 @@ interface RelevanceConfigurationInterface
      * Retrieve Fuzziness configuration.
      */
     public function getFuzzinessConfiguration(): ?FuzzinessConfigurationInterface;
+
+    /**
+     * Retrieve span near boost value if enabled.
+     */
+    public function getSpanNearBoost(): int|false;
+
+    /**
+     * Retrieve span near slop value.
+     */
+    public function getSpanNearSlop(): int;
+
+    /**
+     * Retrieve span near in_order value.
+     */
+    public function isSpanNearInOrder(): bool;
 }
