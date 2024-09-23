@@ -1150,11 +1150,46 @@ class SearchProductsTest extends AbstractTestCase
                 ['1', 'p_02'], // expected ordered document IDs
             ],
             [
-                'b2c_fr', // catalog ID.
+                'b2c_en', // catalog ID.
                 [], // sort order specifications.
-                'created_at: { gte: "2022-09-01", lte: "2022-09-05" }',
+                'created_at: { lt: "2022-09" }',
                 'entity_id', // document data identifier.
-                ['1', 'p_12', 'p_11', 'p_08', 'p_07', 'p_06', 'p_04', 'p_03', 'p_02'], // expected ordered document IDs
+                ['8', '9'], // expected ordered document IDs
+            ],
+            [
+                'b2c_en', // catalog ID.
+                [], // sort order specifications.
+                'created_at: { lte: "2022-09" }',
+                'entity_id', // document data identifier.
+                ['1', '2', '3', '8', '9', '11', '12', '13'], // expected ordered document IDs
+            ],
+            [
+                'b2c_en', // catalog ID.
+                [], // sort order specifications.
+                'created_at: { gte: "2023-01" }',
+                'entity_id', // document data identifier.
+                ['6', '7'], // expected ordered document IDs
+            ],
+            [
+                'b2c_en', // catalog ID.
+                [], // sort order specifications.
+                'created_at: { gt: "2023-01" }',
+                'entity_id', // document data identifier.
+                [], // expected ordered document IDs
+            ],
+            [
+                'b2c_en', // catalog ID.
+                [], // sort order specifications.
+                'created_at: { eq: "2022-08" }',
+                'entity_id', // document data identifier.
+                ['8', '9'], // expected ordered document IDs
+            ],
+            [
+                'b2c_en', // catalog ID.
+                [], // sort order specifications.
+                'created_at: { in: ["2022-08", "2022-11"] }',
+                'entity_id', // document data identifier.
+                ['5', '8', '9'], // expected ordered document IDs
             ],
             [
                 'b2c_fr', // catalog ID.
@@ -1619,12 +1654,12 @@ class SearchProductsTest extends AbstractTestCase
                         'field' => 'created_at',
                         'label' => 'Created_at',
                         'type' => 'date_histogram',
-                        'date_format' => 'yyyy-MM-dd',
+                        'date_format' => 'yyyy-MM',
                         'options' => [
                             [
-                                'label' => '2022-09-01',
-                                'value' => '2022-09-01',
-                                'count' => 1,
+                                'label' => '2022-09',
+                                'value' => '2022-09',
+                                'count' => 2,
                             ],
                         ],
                     ],
@@ -1680,11 +1715,11 @@ class SearchProductsTest extends AbstractTestCase
                         'field' => 'created_at',
                         'label' => 'Created_at',
                         'type' => 'date_histogram',
-                        'date_format' => 'yyyy-MM-dd',
+                        'date_format' => 'yyyy-MM',
                         'options' => [
                             [
-                                'label' => '2022-09-01',
-                                'value' => '2022-09-01',
+                                'label' => '2022-09',
+                                'value' => '2022-09',
                                 'count' => 1,
                             ],
                         ],
@@ -1811,12 +1846,12 @@ class SearchProductsTest extends AbstractTestCase
                         'field' => 'created_at',
                         'label' => 'Created_at',
                         'type' => 'date_histogram',
-                        'date_format' => 'yyyy-MM-dd',
+                        'date_format' => 'yyyy-MM',
                         'options' => [
                             [
-                                'label' => '2022-09-01',
-                                'value' => '2022-09-01',
-                                'count' => 1,
+                                'label' => '2022-09',
+                                'value' => '2022-09',
+                                'count' => 2,
                             ],
                         ],
                     ],
@@ -1867,12 +1902,12 @@ class SearchProductsTest extends AbstractTestCase
                         'field' => 'created_at',
                         'label' => 'Created_at',
                         'type' => 'date_histogram',
-                        'date_format' => 'yyyy-MM-dd',
+                        'date_format' => 'yyyy-MM',
                         'options' => [
                             [
-                                'label' => '2022-09-01',
-                                'value' => '2022-09-01',
-                                'count' => 1,
+                                'label' => '2022-09',
+                                'value' => '2022-09',
+                                'count' => 2,
                             ],
                         ],
                     ],
@@ -1906,12 +1941,12 @@ class SearchProductsTest extends AbstractTestCase
                         'field' => 'created_at',
                         'label' => 'Created_at',
                         'type' => 'date_histogram',
-                        'date_format' => 'yyyy-MM-dd',
+                        'date_format' => 'yyyy-MM',
                         'options' => [
                             [
-                                'label' => '2022-09-01',
-                                'value' => '2022-09-01',
-                                'count' => 1,
+                                'label' => '2022-09',
+                                'value' => '2022-09',
+                                'count' => 2,
                             ],
                         ],
                     ],
@@ -1999,12 +2034,12 @@ class SearchProductsTest extends AbstractTestCase
                         'field' => 'created_at',
                         'label' => 'Created_at',
                         'type' => 'date_histogram',
-                        'date_format' => 'yyyy-MM-dd',
+                        'date_format' => 'yyyy-MM',
                         'options' => [
                             [
-                                'label' => '2022-09-01',
-                                'value' => '2022-09-01',
-                                'count' => 1,
+                                'label' => '2022-09',
+                                'value' => '2022-09',
+                                'count' => 2,
                             ],
                         ],
                     ],

@@ -15,10 +15,12 @@ namespace Gally\Search\GraphQl\Type\Definition\Filter;
 
 use ApiPlatform\GraphQl\Type\Definition\TypeInterface;
 use Gally\GraphQl\Type\Definition\FilterInterface;
+use Gally\Index\Model\Index\Mapping\FieldInterface;
 use Gally\Search\Constant\FilterOperator;
 use Gally\Search\Elasticsearch\Builder\Request\Query\Filter\FilterQueryBuilder;
 use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface;
 use Gally\Search\Elasticsearch\Request\QueryInterface;
+use Gally\Search\GraphQl\Type\Definition\FieldFilterInputType;
 use Gally\Search\Service\ReverseSourceFieldProvider;
 use GraphQL\Type\Definition\InputObjectType;
 use GraphQL\Type\Definition\Type;
@@ -32,6 +34,7 @@ class EqualTypeFilterInputType extends InputObjectType implements TypeInterface,
     public function __construct(
         private FilterQueryBuilder $filterQueryBuilder,
         private ReverseSourceFieldProvider $reverseSourceFieldProvider,
+        private FieldFilterInputType $fieldFilterInputType,
     ) {
         $this->name = self::NAME;
 
@@ -88,8 +91,36 @@ class EqualTypeFilterInputType extends InputObjectType implements TypeInterface,
                 $conditions = array_merge($conditions, [$condition => $inputFilter[$condition]]);
             }
         }
+
+        $mapping = $containerConfig->getMapping();
+        $mappingField = $mapping->getField($inputFilter['field']);
+
+        if (FieldInterface::FIELD_TYPE_DATE === $mappingField->getType()) {
+            if (\array_key_exists(FilterOperator::EQ, $conditions)) {
+                return $this->fieldFilterInputType->transformToGallyFilter(
+                    $this->buildRangerFilter($inputFilter['field'], $conditions[FilterOperator::EQ]),
+                    $containerConfig,
+                    $filterContext
+                );
+            }
+            $queries = [];
+            foreach ($conditions[FilterOperator::IN] as $value) {
+                $queries[] = $this->buildRangerFilter($inputFilter['field'], $value);
+            }
+
+            return $this->fieldFilterInputType->transformToGallyFilter(
+                    ['boolFilter' => ['_should' => $queries]],
+                    $containerConfig,
+                    $filterContext
+                );
+        }
         $filterData = [$inputFilter['field'] => $conditions];
 
         return $this->filterQueryBuilder->create($containerConfig, $filterData);
+    }
+
+    private function buildRangerFilter(string $field, string $value): array
+    {
+        return ['rangeFilter' => ['field' => $field, 'lte' => $value, 'gte' => $value]];
     }
 }

@@ -28,10 +28,13 @@ class DateRange implements AssemblerInterface
         }
         /** @var \Gally\Search\Elasticsearch\Request\Query\DateRange $query */
         $queryParams = $query->getBounds();
+
+        // In order to make gte & lte work, we need to "round" the date in order to prevent search fill the missing part of the date.
+        $roundingInterval = '||/' . mb_substr($query->getFormat(), -1);
+        array_walk($queryParams, function (&$value) use ($roundingInterval) { $value .= $roundingInterval; });
+
+        $queryParams['format'] = $query->getFormat();
         $queryParams['boost'] = $query->getBoost();
-        if ($query->getFormat()) {
-            $queryParams['format'] = $query->getFormat();
-        }
 
         $searchQuery = ['range' => [$query->getField() => $queryParams]];
 

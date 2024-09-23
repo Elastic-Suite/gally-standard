@@ -100,18 +100,17 @@ class FilterQueryBuilder
         $queryType = QueryInterface::TYPE_TERMS;
         $condition = $this->prepareCondition($condition);
 
-        if (\count(array_intersect($this->rangeConditions, array_keys($condition))) >= 1) {
+        if (FieldInterface::FIELD_TYPE_DATE === $field->getType()) {
+            $queryType = QueryInterface::TYPE_DATE_RANGE;
+            $condition = ['bounds' => $condition];
+            $condition['format'] = $this->searchSettings['default_date_field_format'];
+        } elseif (FieldInterface::FIELD_TYPE_GEOPOINT === $field->getType()) {
+            $queryType = QueryInterface::TYPE_GEO_DISTANCE;
+            $condition['distance'] = "{$condition['lte']}{$this->searchSettings['default_distance_unit']}";
+            $condition['referenceLocation'] = $this->searchContext->getReferenceLocation();
+        } elseif (\count(array_intersect($this->rangeConditions, array_keys($condition))) >= 1) {
             $queryType = QueryInterface::TYPE_RANGE;
             $condition = ['bounds' => $condition];
-            if (FieldInterface::FIELD_TYPE_DATE === $field->getType()) {
-                $queryType = QueryInterface::TYPE_DATE_RANGE;
-                $condition['format'] = $this->searchSettings['default_date_field_format'];
-            } elseif (FieldInterface::FIELD_TYPE_GEOPOINT === $field->getType()) {
-                $queryType = QueryInterface::TYPE_GEO_DISTANCE;
-                $condition = $condition['bounds'];
-                $condition['distance'] = "{$condition['lte']}{$this->searchSettings['default_distance_unit']}";
-                $condition['referenceLocation'] = $this->searchContext->getReferenceLocation();
-            }
         }
 
         $condition['field'] = $field->getMappingProperty(FieldInterface::ANALYZER_UNTOUCHED);
