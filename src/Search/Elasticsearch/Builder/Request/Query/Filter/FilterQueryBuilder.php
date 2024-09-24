@@ -106,7 +106,8 @@ class FilterQueryBuilder
             $condition['format'] = $this->searchSettings['default_date_field_format'];
         } elseif (FieldInterface::FIELD_TYPE_GEOPOINT === $field->getType()) {
             $queryType = QueryInterface::TYPE_GEO_DISTANCE;
-            $condition['distance'] = "{$condition['lte']}{$this->searchSettings['default_distance_unit']}";
+            $condition['distance'] = $condition['lte'];
+            $condition['unit'] = $this->searchSettings['default_distance_unit'];
             $condition['referenceLocation'] = $this->searchContext->getReferenceLocation();
         } elseif (\count(array_intersect($this->rangeConditions, array_keys($condition))) >= 1) {
             $queryType = QueryInterface::TYPE_RANGE;

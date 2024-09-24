@@ -45,6 +45,8 @@ class DistanceFilterInputType extends RangeFilterInputType implements TypeInterf
         return [
             'fields' => [
                 'field' => ['type' => Type::nonNull(Type::string())],
+                FilterOperator::EQ => Type::string(),
+                FilterOperator::IN => Type::listOf(Type::string()),
                 FilterOperator::GTE => Type::float(),
                 FilterOperator::LTE => Type::float(),
                 FilterOperator::GT => Type::float(),
@@ -70,6 +72,36 @@ class DistanceFilterInputType extends RangeFilterInputType implements TypeInterf
             );
         }
 
+        if (isset($inputData[FilterOperator::EQ]) && !str_contains($inputData[FilterOperator::EQ], '-')) {
+            $errors[] = \sprintf(
+                'Filter argument %s: The value must be a range and contain a hyphen (\'-\').',
+                $argName
+            );
+            if (\count($inputData) > 2) {
+                $errors[] = \sprintf(
+                    'Filter argument %s: The \'in\' operator cannot be combined with other operators.',
+                    $argName
+                );
+            }
+        }
+
+        if (isset($inputData[FilterOperator::IN])) {
+            foreach ($inputData[FilterOperator::IN] as $value) {
+                if (!str_contains($value, '-')) {
+                    $errors[] = \sprintf(
+                        'Filter argument %s: The value must be a range and contain a hyphen (\'-\').',
+                        $argName
+                    );
+                }
+            }
+            if (\count($inputData) > 2) {
+                $errors[] = \sprintf(
+                    'Filter argument %s: The \'in\' operator cannot be combined with other operators.',
+                    $argName
+                );
+            }
+        }
+
         return $errors;
     }
 
@@ -77,6 +109,25 @@ class DistanceFilterInputType extends RangeFilterInputType implements TypeInterf
     {
         $queryParams = [];
 
+        if (isset($inputFilter[FilterOperator::EQ])) {
+            $range = explode('-', $inputFilter[FilterOperator::EQ]);
+            if ('*' != $range[0]) {
+                $inputFilter[FilterOperator::GTE] = (float) $range[0];
+            }
+            if ('*' != $range[1]) {
+                $inputFilter[FilterOperator::LTE] = (float) $range[1];
+            }
+            unset($inputFilter[FilterOperator::EQ]);
+        }
+        if (isset($inputFilter[FilterOperator::IN])) {
+            $queries = [];
+            $inputFilterEq = ['field' => $inputFilter['field']];
+            foreach ($inputFilter[FilterOperator::IN] as $value) {
+                $inputFilterEq[FilterOperator::EQ] = $value;
+                $queries[] = $this->transformToGallyFilter($inputFilterEq, $containerConfig, $filterContext);
+            }
+            $queryParams['should'] = $queries;
+        }
         if (isset($inputFilter[FilterOperator::GT])) {
             $queryParams['mustNot'][] = $this->filterQueryBuilder->create(
                 $containerConfig,
