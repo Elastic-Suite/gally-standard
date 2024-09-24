@@ -39,15 +39,17 @@ class GeoDistanceTest extends KernelTestCase
      * @dataProvider geoDistanceDataProvider
      *
      * @param string      $field             Query field
-     * @param string      $distance          Maximum distance
      * @param string      $referenceLocation Reference location
+     * @param float       $distance          Maximum distance
+     * @param string      $unit              Distance unit
      * @param string|null $name              Query name
      * @param float|null  $boost             Query boost
      */
     public function testCreateComplexParams(
         string $field,
-        string $distance,
         string $referenceLocation,
+        float $distance,
+        string $unit,
         ?string $name = null,
         ?float $boost = null,
     ): void {
@@ -55,6 +57,7 @@ class GeoDistanceTest extends KernelTestCase
         $queryParams = array_filter([
             'field' => $field,
             'distance' => $distance,
+            'unit' => $unit,
             'referenceLocation' => $referenceLocation,
             'name' => $name,
             'boost' => $boost,
@@ -68,7 +71,7 @@ class GeoDistanceTest extends KernelTestCase
 
         // Testing provided values.
         $this->assertEquals($field, $query->getField());
-        $this->assertEquals($distance, $query->getDistance());
+        $this->assertEquals($distance . $unit, $query->getDistance());
         $this->assertEquals($referenceLocation, $query->getReferenceLocation());
         if ($name) {
             $this->assertEquals($name, $query->getName());
@@ -84,26 +87,30 @@ class GeoDistanceTest extends KernelTestCase
             [
                 'manufacture_location',
                 '12.456 -12.456',
-                '5km',
+                5,
+                'km',
             ],
             [
                 'manufacture_location',
                 '12.456 -12.456',
-                '10km',
+                10,
+                'km',
                 null,
                 null,
             ],
             [
                 'manufacture_location',
                 '12.456 -43.21',
-                '10km',
+                10,
+                'km',
                 null,
                 10,
             ],
             [
                 'manufacture_location',
                 '12.456 -43.21',
-                '10km',
+                10,
+                'km',
                 'test query name',
                 10,
             ],

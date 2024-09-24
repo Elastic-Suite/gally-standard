@@ -15,7 +15,7 @@ namespace Gally\Search\GraphQl\Type\Definition\Filter;
 
 use ApiPlatform\GraphQl\Type\Definition\TypeInterface;
 use Gally\GraphQl\Type\Definition\FilterInterface;
-use Gally\Index\Model\Index\Mapping\FieldInterface;
+use Gally\Index\Entity\Index\Mapping\FieldInterface;
 use Gally\Search\Constant\FilterOperator;
 use Gally\Search\Elasticsearch\Builder\Request\Query\Filter\FilterQueryBuilder;
 use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface;
@@ -109,10 +109,10 @@ class EqualTypeFilterInputType extends InputObjectType implements TypeInterface,
             }
 
             return $this->fieldFilterInputType->transformToGallyFilter(
-                    ['boolFilter' => ['_should' => $queries]],
-                    $containerConfig,
-                    $filterContext
-                );
+                ['boolFilter' => ['_should' => $queries]],
+                $containerConfig,
+                $filterContext
+            );
         }
         $filterData = [$inputFilter['field'] => $conditions];
 
