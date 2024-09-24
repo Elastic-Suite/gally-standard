@@ -30,7 +30,8 @@ class GeoDistance implements QueryInterface
     private ?string $name;
     private string $field;
     private float $boost;
-    private string $distance;
+    private float $distance;
+    private string $unit;
     private string $referenceLocation;
     private string $distanceType;
     private string $validationMethod;
@@ -39,14 +40,16 @@ class GeoDistance implements QueryInterface
      * Constructor.
      *
      * @param string      $field             Query field
-     * @param string      $distance          Query distance
+     * @param float       $distance          Query distance
+     * @param string      $unit              Query distance unit
      * @param string      $referenceLocation Query reference location
      * @param string|null $name              Query name
      * @param float       $boost             Query boost
      */
     public function __construct(
         string $field,
-        string $distance,
+        float $distance,
+        string $unit,
         string $referenceLocation,
         string $distanceType = self::DISTANCE_TYPE_ARC,
         string $validationMethod = self::VALIDATION_METHOD_STRICT,
@@ -55,6 +58,7 @@ class GeoDistance implements QueryInterface
     ) {
         $this->field = $field;
         $this->distance = $distance;
+        $this->unit = $unit;
         $this->referenceLocation = $referenceLocation;
         $this->distanceType = $distanceType;
         $this->validationMethod = $validationMethod;
@@ -99,7 +103,7 @@ class GeoDistance implements QueryInterface
      */
     public function getDistance(): string
     {
-        return $this->distance;
+        return $this->distance . $this->unit;
     }
 
     /**

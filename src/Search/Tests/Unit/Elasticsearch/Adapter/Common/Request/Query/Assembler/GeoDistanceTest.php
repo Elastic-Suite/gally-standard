@@ -29,7 +29,7 @@ class GeoDistanceTest extends AbstractSimpleQueryAssemblerTest
     {
         $assembler = $this->getQueryAssembler();
 
-        $geoDistanceQuery = new GeoDistanceQuery('location_field', '42km', '12.123 -12.132');
+        $geoDistanceQuery = new GeoDistanceQuery('location_field', 42, 'km', '12.123 -12.132');
         $query = $assembler->assembleQuery($geoDistanceQuery);
 
         $this->assertArrayHasKey('geo_distance', $query);
@@ -56,7 +56,8 @@ class GeoDistanceTest extends AbstractSimpleQueryAssemblerTest
 
         $geoDistanceQuery = new GeoDistanceQuery(
             'location_field',
-            '42km',
+            42,
+            'km',
             '12.123 -12.132',
             GeoDistanceQuery::DISTANCE_TYPE_PLANE,
             GeoDistanceQuery::VALIDATION_METHOD_IGNORE_MALFORMED,

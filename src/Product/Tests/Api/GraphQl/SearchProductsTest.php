@@ -1441,6 +1441,38 @@ class SearchProductsTest extends AbstractTest
                 'fake_price_group_id',
                 '44.832196, -0.554729',
             ],
+            [
+                'b2c_en', // catalog ID.
+                ['manufacture_location' => SortOrderInterface::SORT_ASC], // sort order specifications.
+                'manufacture_location: {lte: 350 gte: 150}', // filter.
+                'entity_id', // document data identifier.
+                ['1', '6', '7', '8', '9', '11', '12', '13'], // expected ordered document IDs
+                'fake_price_group_id',
+            ],
+            [
+                'b2c_en', // catalog ID.
+                ['manufacture_location' => SortOrderInterface::SORT_ASC], // sort order specifications.
+                'manufacture_location: {eq: "150-350"}', // filter.
+                'entity_id', // document data identifier.
+                ['1', '6', '7', '8', '9', '11', '12', '13'], // expected ordered document IDs
+                'fake_price_group_id',
+            ],
+            [
+                'b2c_en', // catalog ID.
+                ['manufacture_location' => SortOrderInterface::SORT_ASC], // sort order specifications.
+                'manufacture_location: {in: ["150-350"]}', // filter.
+                'entity_id', // document data identifier.
+                ['1', '6', '7', '8', '9', '11', '12', '13'], // expected ordered document IDs
+                'fake_price_group_id',
+            ],
+            [
+                'b2c_en', // catalog ID.
+                ['manufacture_location' => SortOrderInterface::SORT_ASC], // sort order specifications.
+                'manufacture_location: {in: ["*-200", "800-*"]}', // filter.
+                'entity_id', // document data identifier.
+                ['10', '14'], // expected ordered document IDs
+                'fake_price_group_id',
+            ],
         ];
     }
 
@@ -2224,6 +2256,13 @@ class SearchProductsTest extends AbstractTest
      */
     private function validateExpectedResults(ResponseInterface $response, string $documentIdentifier, array $expectedOrderedDocIds): void
     {
+        $responseData = $response->toArray();
+        $this->assertArrayNotHasKey(
+            'errors',
+            $responseData,
+            isset($responseData['errors']) ? $responseData['errors'][0]['message'] : ''
+        );
+
         // Extra test on response structure because all exceptions might not throw an HTTP error code.
         $this->assertJsonContains([
             'data' => [
@@ -2233,7 +2272,6 @@ class SearchProductsTest extends AbstractTest
             ],
         ]);
 
-        $responseData = $response->toArray();
         $this->assertIsArray($responseData['data']['products']['collection']);
         $this->assertCount(\count($expectedOrderedDocIds), $responseData['data']['products']['collection']);
         foreach ($responseData['data']['products']['collection'] as $index => $document) {

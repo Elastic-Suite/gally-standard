@@ -47,6 +47,8 @@ class LocationTypeFilterInputType extends FloatTypeFilterInputType
     {
         return [
             'fields' => [
+                FilterOperator::EQ => Type::string(),
+                FilterOperator::IN => Type::listOf(Type::string()),
                 FilterOperator::GTE => Type::float(),
                 FilterOperator::GT => Type::float(),
                 FilterOperator::LT => Type::float(),
