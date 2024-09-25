@@ -1179,11 +1179,46 @@ class SearchProductsTest extends AbstractTest
                 ['1', 'p_02'], // expected ordered document IDs
             ],
             [
-                'b2c_fr', // catalog ID.
+                'b2c_en', // catalog ID.
                 [], // sort order specifications.
-                'created_at: { gte: "2022-09-01", lte: "2022-09-05" }',
+                'created_at: { lt: "2022-09" }',
                 'entity_id', // document data identifier.
-                ['1', 'p_12', 'p_11', 'p_08', 'p_07', 'p_06', 'p_04', 'p_03', 'p_02'], // expected ordered document IDs
+                ['8', '9'], // expected ordered document IDs
+            ],
+            [
+                'b2c_en', // catalog ID.
+                [], // sort order specifications.
+                'created_at: { lte: "2022-09" }',
+                'entity_id', // document data identifier.
+                ['1', '2', '3', '8', '9', '11', '12', '13'], // expected ordered document IDs
+            ],
+            [
+                'b2c_en', // catalog ID.
+                [], // sort order specifications.
+                'created_at: { gte: "2023-01" }',
+                'entity_id', // document data identifier.
+                ['6', '7'], // expected ordered document IDs
+            ],
+            [
+                'b2c_en', // catalog ID.
+                [], // sort order specifications.
+                'created_at: { gt: "2023-01" }',
+                'entity_id', // document data identifier.
+                [], // expected ordered document IDs
+            ],
+            [
+                'b2c_en', // catalog ID.
+                [], // sort order specifications.
+                'created_at: { eq: "2022-08" }',
+                'entity_id', // document data identifier.
+                ['8', '9'], // expected ordered document IDs
+            ],
+            [
+                'b2c_en', // catalog ID.
+                [], // sort order specifications.
+                'created_at: { in: ["2022-08", "2022-11"] }',
+                'entity_id', // document data identifier.
+                ['5', '8', '9'], // expected ordered document IDs
             ],
             [
                 'b2c_fr', // catalog ID.
@@ -1405,6 +1440,38 @@ class SearchProductsTest extends AbstractTest
                 ['1', '6', '7', '8', '9', '11', '12', '13', '2', '3'], // expected ordered document IDs
                 'fake_price_group_id',
                 '44.832196, -0.554729',
+            ],
+            [
+                'b2c_en', // catalog ID.
+                ['manufacture_location' => SortOrderInterface::SORT_ASC], // sort order specifications.
+                'manufacture_location: {lte: 350 gte: 150}', // filter.
+                'entity_id', // document data identifier.
+                ['1', '6', '7', '8', '9', '11', '12', '13'], // expected ordered document IDs
+                'fake_price_group_id',
+            ],
+            [
+                'b2c_en', // catalog ID.
+                ['manufacture_location' => SortOrderInterface::SORT_ASC], // sort order specifications.
+                'manufacture_location: {eq: "150-350"}', // filter.
+                'entity_id', // document data identifier.
+                ['1', '6', '7', '8', '9', '11', '12', '13'], // expected ordered document IDs
+                'fake_price_group_id',
+            ],
+            [
+                'b2c_en', // catalog ID.
+                ['manufacture_location' => SortOrderInterface::SORT_ASC], // sort order specifications.
+                'manufacture_location: {in: ["150-350"]}', // filter.
+                'entity_id', // document data identifier.
+                ['1', '6', '7', '8', '9', '11', '12', '13'], // expected ordered document IDs
+                'fake_price_group_id',
+            ],
+            [
+                'b2c_en', // catalog ID.
+                ['manufacture_location' => SortOrderInterface::SORT_ASC], // sort order specifications.
+                'manufacture_location: {in: ["*-200", "800-*"]}', // filter.
+                'entity_id', // document data identifier.
+                ['10', '14'], // expected ordered document IDs
+                'fake_price_group_id',
             ],
         ];
     }
@@ -1648,12 +1715,12 @@ class SearchProductsTest extends AbstractTest
                         'field' => 'created_at',
                         'label' => 'Created_at',
                         'type' => 'date_histogram',
-                        'date_format' => 'yyyy-MM-dd',
+                        'date_format' => 'yyyy-MM',
                         'options' => [
                             [
-                                'label' => '2022-09-01',
-                                'value' => '2022-09-01',
-                                'count' => 1,
+                                'label' => '2022-09',
+                                'value' => '2022-09',
+                                'count' => 2,
                             ],
                         ],
                     ],
@@ -1709,11 +1776,11 @@ class SearchProductsTest extends AbstractTest
                         'field' => 'created_at',
                         'label' => 'Created_at',
                         'type' => 'date_histogram',
-                        'date_format' => 'yyyy-MM-dd',
+                        'date_format' => 'yyyy-MM',
                         'options' => [
                             [
-                                'label' => '2022-09-01',
-                                'value' => '2022-09-01',
+                                'label' => '2022-09',
+                                'value' => '2022-09',
                                 'count' => 1,
                             ],
                         ],
@@ -1840,12 +1907,12 @@ class SearchProductsTest extends AbstractTest
                         'field' => 'created_at',
                         'label' => 'Created_at',
                         'type' => 'date_histogram',
-                        'date_format' => 'yyyy-MM-dd',
+                        'date_format' => 'yyyy-MM',
                         'options' => [
                             [
-                                'label' => '2022-09-01',
-                                'value' => '2022-09-01',
-                                'count' => 1,
+                                'label' => '2022-09',
+                                'value' => '2022-09',
+                                'count' => 2,
                             ],
                         ],
                     ],
@@ -1896,12 +1963,12 @@ class SearchProductsTest extends AbstractTest
                         'field' => 'created_at',
                         'label' => 'Created_at',
                         'type' => 'date_histogram',
-                        'date_format' => 'yyyy-MM-dd',
+                        'date_format' => 'yyyy-MM',
                         'options' => [
                             [
-                                'label' => '2022-09-01',
-                                'value' => '2022-09-01',
-                                'count' => 1,
+                                'label' => '2022-09',
+                                'value' => '2022-09',
+                                'count' => 2,
                             ],
                         ],
                     ],
@@ -1935,12 +2002,12 @@ class SearchProductsTest extends AbstractTest
                         'field' => 'created_at',
                         'label' => 'Created_at',
                         'type' => 'date_histogram',
-                        'date_format' => 'yyyy-MM-dd',
+                        'date_format' => 'yyyy-MM',
                         'options' => [
                             [
-                                'label' => '2022-09-01',
-                                'value' => '2022-09-01',
-                                'count' => 1,
+                                'label' => '2022-09',
+                                'value' => '2022-09',
+                                'count' => 2,
                             ],
                         ],
                     ],
@@ -2028,12 +2095,12 @@ class SearchProductsTest extends AbstractTest
                         'field' => 'created_at',
                         'label' => 'Created_at',
                         'type' => 'date_histogram',
-                        'date_format' => 'yyyy-MM-dd',
+                        'date_format' => 'yyyy-MM',
                         'options' => [
                             [
-                                'label' => '2022-09-01',
-                                'value' => '2022-09-01',
-                                'count' => 1,
+                                'label' => '2022-09',
+                                'value' => '2022-09',
+                                'count' => 2,
                             ],
                         ],
                     ],
@@ -2189,6 +2256,13 @@ class SearchProductsTest extends AbstractTest
      */
     private function validateExpectedResults(ResponseInterface $response, string $documentIdentifier, array $expectedOrderedDocIds): void
     {
+        $responseData = $response->toArray();
+        $this->assertArrayNotHasKey(
+            'errors',
+            $responseData,
+            isset($responseData['errors']) ? $responseData['errors'][0]['message'] : ''
+        );
+
         // Extra test on response structure because all exceptions might not throw an HTTP error code.
         $this->assertJsonContains([
             'data' => [
@@ -2198,7 +2272,6 @@ class SearchProductsTest extends AbstractTest
             ],
         ]);
 
-        $responseData = $response->toArray();
         $this->assertIsArray($responseData['data']['products']['collection']);
         $this->assertCount(\count($expectedOrderedDocIds), $responseData['data']['products']['collection']);
         foreach ($responseData['data']['products']['collection'] as $index => $document) {
