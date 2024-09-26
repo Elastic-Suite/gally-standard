@@ -31,10 +31,10 @@ api_platform:
             vary: ['Content-Type', 'Authorization', 'Origin']
             max_age: 0
             shared_max_age: 3600
-        extra_properties: # Todo upgrade: recommended configuration value that are not compatible with our tests
+        extra_properties:
 #            standard_put: true # The make all properties required, we can't update entities with partial data like 
 #               api/packages/gally-standard/src/Catalog/Tests/Api/Rest/LocalizedCatalogsTest.php:116
-#            rfc_7807_compliant_errors: true # Can't keep this value : This make 405 error in html even with Accept header in json. 
+            rfc_7807_compliant_errors: true 
         pagination_client_enabled: true # Enabled by default because this value cannot be specified by GraphQL endpoint 
         pagination_client_items_per_page: true # Enabled by default because this value cannot be specified by GraphQL endpoint
         pagination_items_per_page: 20

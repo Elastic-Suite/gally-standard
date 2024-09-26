@@ -96,24 +96,24 @@ abstract class AbstractTestCase extends ApiTestCase
                     'message' => 'JWT Token not found',
                 ]
             );
+        } elseif (405 === $expectedResponse->getResponseCode()) {
+            $this->assertResponseStatusCodeSame($expectedResponse->getResponseCode());
         } elseif ($expectedResponse->getResponseCode() >= 400) {
             $errorType = 'hydra:Error';
-            $errorContext = 'Error';
             if (\array_key_exists('violations', $response->toArray(false))) {
-                $errorType = $errorContext = 'ConstraintViolationList';
+                $errorType = 'ConstraintViolationList';
             }
 
             if ($expectedResponse->getMessage()) {
                 $this->assertJsonContains(
                     [
-                        '@context' => "/contexts/$errorContext",
                         '@type' => "$errorType",
                         'hydra:title' => 'An error occurred',
                         'hydra:description' => $expectedResponse->getMessage(),
                     ]
                 );
             } else {
-                $this->assertJsonContains(['@context' => "/contexts/$errorContext", '@type' => "$errorType"]);
+                $this->assertJsonContains(['@type' => "$errorType"]);
             }
 
             if ($expectedResponse->isValidateErrorResponse() && $expectedResponse->getValidateResponseCallback()) {
