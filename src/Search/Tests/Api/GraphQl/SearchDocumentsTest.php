@@ -779,6 +779,8 @@ class SearchDocumentsTest extends AbstractTest
                               count
                               label
                               type
+                              date_format
+                              date_range_interval
                               hasMore
                               options {
                                 label
@@ -849,7 +851,9 @@ class SearchDocumentsTest extends AbstractTest
                     [
                         'field' => 'created_at',
                         'label' => 'Created_at',
-                        'type' => 'histogram',
+                        'type' => 'date_histogram',
+                        'date_format' => 'yyyy-MM-dd',
+                        'date_range_interval' => '1d',
                         'hasMore' => false,
                         'options' => [
                             [
@@ -950,7 +954,9 @@ class SearchDocumentsTest extends AbstractTest
                     [
                         'field' => 'created_at',
                         'label' => 'Created_at',
-                        'type' => 'histogram',
+                        'type' => 'date_histogram',
+                        'date_format' => 'yyyy-MM-dd',
+                        'date_range_interval' => '1d',
                         'hasMore' => false,
                         'options' => [
                             [
@@ -1069,7 +1075,9 @@ class SearchDocumentsTest extends AbstractTest
                     [
                         'field' => 'created_at',
                         'label' => 'Created_at',
-                        'type' => 'histogram',
+                        'type' => 'date_histogram',
+                        'date_format' => 'yyyy-MM-dd',
+                        'date_range_interval' => '1d',
                         'hasMore' => false,
                         'options' => [
                             [
@@ -1188,7 +1196,9 @@ class SearchDocumentsTest extends AbstractTest
                     [
                         'field' => 'created_at',
                         'label' => 'Created_at',
-                        'type' => 'histogram',
+                        'type' => 'date_histogram',
+                        'date_format' => 'yyyy-MM-dd',
+                        'date_range_interval' => '1d',
                         'hasMore' => false,
                         'options' => [
                             [

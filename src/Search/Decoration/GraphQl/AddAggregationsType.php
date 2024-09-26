@@ -100,6 +100,8 @@ class AddAggregationsType implements TypeBuilderInterface
                         'count' => GraphQLType::int(),
                         'label' => GraphQLType::string(),
                         'type' => GraphQLType::string(),
+                        'date_format' => GraphQLType::string(),
+                        'date_range_interval' => GraphQLType::string(),
                         'options' => GraphQLType::listOf($aggregationOptionType),
                         'hasMore' => GraphQLType::boolean(),
                     ],

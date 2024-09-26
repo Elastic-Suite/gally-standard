@@ -42,6 +42,7 @@ class AddAggregationsData implements SerializeStageInterface
     public const AGGREGATION_TYPE_BOOLEAN = 'boolean';
     public const AGGREGATION_TYPE_SLIDER = 'slider';
     public const AGGREGATION_TYPE_CATEGORY = 'category';
+    public const AGGREGATION_TYPE_DATE_HISTOGRAM = 'date_histogram';
     public const AGGREGATION_TYPE_HISTOGRAM = 'histogram';
 
     public function __construct(
@@ -108,12 +109,18 @@ class AddAggregationsData implements SerializeStageInterface
                 Type::TYPE_PRICE, Type::TYPE_FLOAT, Type::TYPE_INT => self::AGGREGATION_TYPE_SLIDER,
                 Type::TYPE_CATEGORY => self::AGGREGATION_TYPE_CATEGORY,
                 Type::TYPE_STOCK, Type::TYPE_BOOLEAN => self::AGGREGATION_TYPE_BOOLEAN,
-                Type::TYPE_DATE, Type::TYPE_LOCATION => self::AGGREGATION_TYPE_HISTOGRAM,
+                Type::TYPE_DATE => self::AGGREGATION_TYPE_DATE_HISTOGRAM,
+                Type::TYPE_LOCATION => self::AGGREGATION_TYPE_HISTOGRAM,
                 default => self::AGGREGATION_TYPE_CHECKBOX,
             },
             'count' => $aggregation->getCount(),
             'options' => null,
         ];
+
+        if (Type::TYPE_DATE === $sourceField?->getType()) {
+            $data['date_format'] = $this->searchSettings['default_date_field_format'];
+            $data['date_range_interval'] = $this->searchSettings['aggregations']['default_date_range_interval'];
+        }
 
         $this->formatOptions($aggregation, $sourceField, $containerConfig, $data);
 
