@@ -75,7 +75,7 @@ class CategorySynchronizer
         );
 
         $categoriesToAdd = array_diff($elasticCategoryIds, $sqlCategoryIds);
-        $categoriesToUpdate = array_diff($bulkCategoryIds, $categoriesToAdd);
+        $categoriesToUpdate = array_diff($bulkCategoryIds ?: $elasticCategoryIds, $categoriesToAdd);
         $categoryConfigToRemove = array_diff($sqlCategoryIds, $elasticCategoryIds);
 
         try {
