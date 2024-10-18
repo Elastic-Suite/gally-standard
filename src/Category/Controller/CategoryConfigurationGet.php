@@ -13,15 +13,17 @@ declare(strict_types=1);
 
 namespace Gally\Category\Controller;
 
+use ApiPlatform\Api\IriConverterInterface;
+use ApiPlatform\Api\UrlGeneratorInterface;
 use Gally\Catalog\Repository\CatalogRepository;
 use Gally\Catalog\Repository\LocalizedCatalogRepository;
-use Gally\Category\Entity\Category\Configuration;
 use Gally\Category\Repository\CategoryConfigurationRepository;
 use Gally\Category\Repository\CategoryRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Serializer\SerializerInterface;
 
 #[AsController]
 class CategoryConfigurationGet extends AbstractController
@@ -31,10 +33,12 @@ class CategoryConfigurationGet extends AbstractController
         private CatalogRepository $catalogRepository,
         private LocalizedCatalogRepository $localizedCatalogRepository,
         private CategoryRepository $categoryRepository,
+        private SerializerInterface $serializer,
+        private IriConverterInterface $iriConverter,
     ) {
     }
 
-    public function __invoke(string $categoryId, Request $request): Configuration
+    public function __invoke(string $categoryId, Request $request): string
     {
         $category = $this->categoryRepository->find($categoryId);
         if (!$category) {
@@ -59,6 +63,14 @@ class CategoryConfigurationGet extends AbstractController
             throw new NotFoundHttpException('Not found');
         }
 
-        return $config;
+        $resources = [
+            $this->iriConverter->getIriFromResource($config, UrlGeneratorInterface::ABS_PATH),
+            $this->iriConverter->getIriFromResource($config->getCategory(), UrlGeneratorInterface::ABS_PATH),
+        ];
+        $request->attributes->set('_resources', $request->attributes->get('_resources', []) + $resources);
+
+        $format = $request->getRequestFormat() ?? 'jsonld';
+
+        return $this->serializer->serialize($config, $format);
     }
 }
