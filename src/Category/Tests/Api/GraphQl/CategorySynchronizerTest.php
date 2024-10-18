@@ -117,7 +117,7 @@ class CategorySynchronizerTest extends AbstractTestCase
         $this->bulkDeleteIndex($indexName, ['four']);
         $this->validateCategoryCount(3, 7);
 
-        // Update documents.
+        // Update documents on live index.
         $entityManager = static::getContainer()->get('doctrine')->getManager();
         $categoryRepository = static::getContainer()->get(CategoryRepository::class);
         $categoryConfigurationRepository = static::getContainer()->get(CategoryConfigurationRepository::class);
@@ -138,16 +138,29 @@ class CategorySynchronizerTest extends AbstractTestCase
         $this->validateCategoryCount(3, 7);
         $category3 = $categoryRepository->find('three');
         $this->assertSame(1, $category3->getLevel());
-        $categoryConfigCatalog1 = $categoryConfigurationRepository->findOneBy(
+        $category3ConfigCatalog1 = $categoryConfigurationRepository->findOneBy(
             ['category' => $category3, 'localizedCatalog' => $localizedCatalog1]
         );
-        $this->assertSame('ThreeUpdated', $categoryConfigCatalog1->getName());
-        $this->assertTrue($categoryConfigCatalog1->getIsVirtual());
+        $this->assertSame('ThreeUpdated', $category3ConfigCatalog1->getName());
+        $this->assertTrue($category3ConfigCatalog1->getIsVirtual());
         $categoryConfigCatalog2 = $categoryConfigurationRepository->findOneBy(
             ['category' => $category3, 'localizedCatalog' => $localizedCatalog2]
         );
         $this->assertSame('Three', $categoryConfigCatalog2->getName());
         $this->assertFalse($categoryConfigCatalog2->getIsVirtual());
+
+        // Update category on new index.
+        $category2 = $categoryRepository->find('two');
+        $category2Data['name'] = 'TwoUpdated';
+        $newIndexName = $this->createIndex('category', $localizedCatalog1->getId());
+        $this->bulkIndex($newIndexName, ['one' => $category1Data, 'two' => $category2Data, 'three' => $category3Data]);
+        $this->installIndex($newIndexName);
+
+        $this->validateCategoryCount(3, 7);
+        $category2ConfigCatalog1 = $categoryConfigurationRepository->findOneBy(
+            ['category' => $category2, 'localizedCatalog' => $localizedCatalog1]
+        );
+        $this->assertSame('TwoUpdated', $category2ConfigCatalog1->getName());
 
         // Add new specific configuration on catalog scope
         $entityManager = static::getContainer()->get('doctrine')->getManager();
