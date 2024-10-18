@@ -47,6 +47,7 @@ use Gally\User\Constant\Role;
             ],
             controller: CategoryConfigurationGet::class,
             read: false,
+            serialize: false,
             openapiContext: [
                 'parameters' => [
                     ['name' => 'categoryId', 'in' => 'path', 'type' => 'Category', 'required' => true],
