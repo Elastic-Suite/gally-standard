@@ -86,6 +86,8 @@ services:
             - '@Gally\Catalog\Repository\CatalogRepository'
             - '@Gally\Catalog\Repository\LocalizedCatalogRepository'
             - '@Gally\Category\Repository\CategoryRepository'
+            - '@api_platform.serializer'
+            - '@api_platform.iri_converter'
         calls:
             - [ setContainer, [ '@service_container' ] ]
         tags:
