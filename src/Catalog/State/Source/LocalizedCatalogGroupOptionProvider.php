@@ -13,14 +13,17 @@ declare(strict_types=1);
 
 namespace Gally\Catalog\State\Source;
 
+use ApiPlatform\Api\IriConverterInterface;
 use ApiPlatform\Metadata\Operation;
+use ApiPlatform\Metadata\UrlGeneratorInterface;
 use ApiPlatform\State\ProviderInterface;
 use Gally\Catalog\Repository\CatalogRepository;
 
 class LocalizedCatalogGroupOptionProvider implements ProviderInterface
 {
     public function __construct(
-        private CatalogRepository $catalogRepository
+        private CatalogRepository $catalogRepository,
+        private IriConverterInterface $iriConverter,
     ) {
     }
 
@@ -35,7 +38,7 @@ class LocalizedCatalogGroupOptionProvider implements ProviderInterface
             $groupOption['label'] = $catalog->getName();
             $options = [];
             foreach ($catalog->getLocalizedCatalogs() as $localizedCatalog) {
-                $option['value'] = "/localized_catalogs/{$localizedCatalog->getId()}";
+                $option['value'] = $this->iriConverter->getIriFromResource($localizedCatalog, UrlGeneratorInterface::ABS_PATH);
                 $option['label'] = $localizedCatalog->getName();
                 $options[] = $option;
             }

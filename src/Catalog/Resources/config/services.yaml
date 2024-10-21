@@ -31,5 +31,6 @@ services:
     Gally\Catalog\State\Source\LocalizedCatalogGroupOptionProvider:
         arguments:
             - '@Gally\Catalog\Repository\CatalogRepository'
+            - '@api_platform.iri_converter'
         tags:
             - { name: api_platform.state_provider }
