@@ -46,12 +46,53 @@ class LocationTypeFilterInputType extends FloatTypeFilterInputType
     {
         return [
             'fields' => [
+                FilterOperator::EQ => Type::string(),
+                FilterOperator::IN => Type::listOf(Type::string()),
                 FilterOperator::GTE => Type::float(),
                 FilterOperator::GT => Type::float(),
                 FilterOperator::LT => Type::float(),
                 FilterOperator::LTE => Type::float(),
             ],
         ];
+    }
+
+    public function validate(string $argName, mixed $inputData, ContainerConfigurationInterface $containerConfig): array
+    {
+        $errors = [];
+
+        if (empty($inputData)) {
+            $errors[] = \sprintf(
+                "Filter argument %s: At least '%s', '%s', '%s', '%s', '%s', '%s' or '%s' should be filled.",
+                $argName,
+                FilterOperator::EQ,
+                FilterOperator::IN,
+                FilterOperator::GTE,
+                FilterOperator::GT,
+                FilterOperator::LT,
+                FilterOperator::LTE,
+                FilterOperator::EXIST,
+            );
+        }
+
+        if (isset($inputData[FilterOperator::GT]) && isset($inputData[FilterOperator::GTE])) {
+            $errors[] = \sprintf(
+                "Filter argument %s: Do not use '%s' and '%s' in the same filter.",
+                $argName,
+                FilterOperator::GT,
+                FilterOperator::GTE,
+            );
+        }
+
+        if (isset($inputData[FilterOperator::LT]) && isset($inputData[FilterOperator::LTE])) {
+            $errors[] = \sprintf(
+                "Filter argument %s: Do not use '%s' and '%s' in the same filter.",
+                $argName,
+                FilterOperator::LT,
+                FilterOperator::LTE,
+            );
+        }
+
+        return $errors;
     }
 
     public function transformToGallyFilter(array $inputFilter, ContainerConfigurationInterface $containerConfig, array $filterContext = []): QueryInterface

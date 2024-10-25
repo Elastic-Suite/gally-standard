@@ -104,7 +104,7 @@ class FilterQueryBuilder
             $queryType = QueryInterface::TYPE_DATE_RANGE;
             $condition = ['bounds' => $condition];
             $condition['format'] = $this->searchSettings['default_date_field_format'];
-        } elseif (FieldInterface::FIELD_TYPE_GEOPOINT === $field->getType()) {
+        } elseif (FieldInterface::FIELD_TYPE_GEOPOINT === $field->getType() && isset($condition['lte'])) {
             $queryType = QueryInterface::TYPE_GEO_DISTANCE;
             $condition['distance'] = $condition['lte'];
             $condition['unit'] = $this->searchSettings['default_distance_unit'];
