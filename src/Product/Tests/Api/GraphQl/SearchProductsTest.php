@@ -1414,9 +1414,53 @@ class SearchProductsTest extends AbstractTestCase
             [
                 'b2c_en', // catalog ID.
                 ['manufacture_location' => SortOrderInterface::SORT_ASC], // sort order specifications.
+                'manufacture_location: {eq: "350-*"}', // filter.
+                'entity_id', // document data identifier.
+                ['5', '2', '3', '4', '10', '14'], // expected ordered document IDs
+                'fake_price_group_id',
+            ],
+            [
+                'b2c_en', // catalog ID.
+                ['manufacture_location' => SortOrderInterface::SORT_ASC], // sort order specifications.
                 'manufacture_location: {lte: 400}', // filter.
                 'entity_id', // document data identifier.
                 ['1', '6', '7', '8', '9', '11', '12', '13', '2', '3'], // expected ordered document IDs
+                'fake_price_group_id',
+                '44.832196, -0.554729',
+            ],
+            [
+                'b2c_en', // catalog ID.
+                ['manufacture_location' => SortOrderInterface::SORT_ASC], // sort order specifications.
+                'manufacture_location: {eq: "*-400"}', // filter.
+                'entity_id', // document data identifier.
+                ['1', '6', '7', '8', '9', '11', '12', '13', '2', '3'], // expected ordered document IDs
+                'fake_price_group_id',
+                '44.832196, -0.554729',
+            ],
+            [
+                'b2c_en', // catalog ID.
+                ['manufacture_location' => SortOrderInterface::SORT_ASC], // sort order specifications.
+                'manufacture_location: {eq: "350-400"}', // filter.
+                'entity_id', // document data identifier.
+                ['2', '3', '4'], // expected ordered document IDs
+                'fake_price_group_id',
+                '44.832196, -0.554729',
+            ],
+            [
+                'b2c_en', // catalog ID.
+                ['manufacture_location' => SortOrderInterface::SORT_ASC], // sort order specifications.
+                'manufacture_location: {in: ["350-400"]}', // filter.
+                'entity_id', // document data identifier.
+                ['2', '3', '4'], // expected ordered document IDs
+                'fake_price_group_id',
+                '44.832196, -0.554729',
+            ],
+            [
+                'b2c_en', // catalog ID.
+                ['manufacture_location' => SortOrderInterface::SORT_ASC], // sort order specifications.
+                'manufacture_location: {in: ["350-500", "600-*"]}', // filter.
+                'entity_id', // document data identifier.
+                ['2', '3', '4', '5', '10', '14'], // expected ordered document IDs
                 'fake_price_group_id',
                 '44.832196, -0.554729',
             ],
