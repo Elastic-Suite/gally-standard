@@ -70,8 +70,6 @@ class AttributeRule extends AbstractRuleType implements RuleTypeInterface
         Type::TYPE_INT => self::NUMERIC_OPERATORS,
         Type::TYPE_FLOAT => self::NUMERIC_OPERATORS,
         Type::TYPE_BOOLEAN => [FilterOperator::EQ],
-        Type::TYPE_DATE => [FilterOperator::GT, FilterOperator::GTE, FilterOperator::LT, FilterOperator::LTE],
-        Type::TYPE_LOCATION => [FilterOperator::GT, FilterOperator::GTE, FilterOperator::LT, FilterOperator::LTE],
         Type::TYPE_SELECT => [FilterOperator::EQ, FilterOperator::NOT_EQ, FilterOperator::IN, FilterOperator::NOT_IN],
         Type::TYPE_CATEGORY => [FilterOperator::EQ, FilterOperator::NOT_EQ],
         Type::TYPE_PRICE => self::NUMERIC_OPERATORS,

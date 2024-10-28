@@ -20,13 +20,6 @@
                 "operator": "gt",
                 "attribute_type": "float",
                 "value": 100.50
-              },
-              {
-                "type": "attribute",
-                "field": "created_at",
-                "operator": "lte",
-                "attribute_type": "date",
-                "value": "2020-10-14"
               }
             ]
           },
@@ -77,11 +70,6 @@
                           {
                             "weight": {
                               "gt": 100.50
-                            }
-                          },
-                          {
-                            "created_at": {
-                              "lte": "2020-10-14"
                             }
                           }
                         ]

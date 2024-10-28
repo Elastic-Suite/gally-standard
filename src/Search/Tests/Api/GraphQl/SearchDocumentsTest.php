@@ -1825,7 +1825,7 @@ class SearchDocumentsTest extends AbstractTestCase
                 ['manufacture_location' => SortOrderInterface::SORT_ASC], // sort order specifications.
                 '{distanceFilter: {field: "manufacture_location", gte: 350}}',
                 'entity_id', // document data identifier.
-                [5, 2, 3, 4, 10, 14], // expected ordered document IDs
+                [5, 2, 3, 4], // expected ordered document IDs
             ],
             [
                 'product_document', // entity type.
@@ -1839,6 +1839,7 @@ class SearchDocumentsTest extends AbstractTestCase
                 '44.832196, -0.554729', // reference location
             ],
             [
+                // Test with a distance of 404km
                 'product_document', // entity type.
                 'b2c_en', // catalog ID.
                 10, // page size.
@@ -1849,6 +1850,18 @@ class SearchDocumentsTest extends AbstractTestCase
                 [5], // expected ordered document IDs
             ],
             [
+                // Test with a distance of 350.1km
+                'product_document', // entity type.
+                'b2c_en', // catalog ID.
+                10, // page size.
+                1,  // current page.
+                ['manufacture_location' => SortOrderInterface::SORT_ASC], // sort order specifications.
+                '{distanceFilter: {field: "manufacture_location", eq: "350-500"}}',
+                'entity_id', // document data identifier.
+                [5], // expected ordered document IDs
+                '48.403299, 2.309959', // a distance of 350.1km
+            ],
+            [
                 'product_document', // entity type.
                 'b2c_en', // catalog ID.
                 10, // page size.
@@ -1856,7 +1869,7 @@ class SearchDocumentsTest extends AbstractTestCase
                 ['manufacture_location' => SortOrderInterface::SORT_ASC], // sort order specifications.
                 '{distanceFilter: {field: "manufacture_location", in: ["350-500", "600-*"]}}',
                 'entity_id', // document data identifier.
-                [5, 2, 3, 4, 10, 14], // expected ordered document IDs
+                [5, 2, 3, 4], // expected ordered document IDs
             ],
         ];
     }
