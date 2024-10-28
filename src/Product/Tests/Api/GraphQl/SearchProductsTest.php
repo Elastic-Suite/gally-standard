@@ -1408,7 +1408,7 @@ class SearchProductsTest extends AbstractTestCase
                 ['manufacture_location' => SortOrderInterface::SORT_ASC], // sort order specifications.
                 'manufacture_location: {gte: 350}', // filter.
                 'entity_id', // document data identifier.
-                ['5', '2', '3', '4', '10', '14'], // expected ordered document IDs
+                ['5', '2', '3', '4'], // expected ordered document IDs
                 'fake_price_group_id',
             ],
             [
@@ -1416,7 +1416,7 @@ class SearchProductsTest extends AbstractTestCase
                 ['manufacture_location' => SortOrderInterface::SORT_ASC], // sort order specifications.
                 'manufacture_location: {eq: "350-*"}', // filter.
                 'entity_id', // document data identifier.
-                ['5', '2', '3', '4', '10', '14'], // expected ordered document IDs
+                ['5', '2', '3', '4'], // expected ordered document IDs
                 'fake_price_group_id',
             ],
             [
@@ -1460,7 +1460,7 @@ class SearchProductsTest extends AbstractTestCase
                 ['manufacture_location' => SortOrderInterface::SORT_ASC], // sort order specifications.
                 'manufacture_location: {in: ["350-500", "600-*"]}', // filter.
                 'entity_id', // document data identifier.
-                ['2', '3', '4', '5', '10', '14'], // expected ordered document IDs
+                ['2', '3', '4', '5'], // expected ordered document IDs
                 'fake_price_group_id',
                 '44.832196, -0.554729',
             ],

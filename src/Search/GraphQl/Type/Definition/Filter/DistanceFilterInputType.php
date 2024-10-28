@@ -107,7 +107,9 @@ class DistanceFilterInputType extends RangeFilterInputType implements TypeInterf
 
     public function transformToGallyFilter(array $inputFilter, ContainerConfigurationInterface $containerConfig, array $filterContext = []): QueryInterface
     {
-        $queryParams = [];
+        $queryParams = [
+            'must' => [$this->queryFactory->create(QueryInterface::TYPE_EXISTS, ['field' => $inputFilter['field']])],
+        ];
 
         if (isset($inputFilter[FilterOperator::EQ])) {
             $range = explode('-', $inputFilter[FilterOperator::EQ]);
@@ -137,7 +139,7 @@ class DistanceFilterInputType extends RangeFilterInputType implements TypeInterf
         if (isset($inputFilter[FilterOperator::GTE])) {
             $queryParams['mustNot'][] = $this->filterQueryBuilder->create(
                 $containerConfig,
-                [$inputFilter['field'] => [FilterOperator::LTE => $inputFilter[FilterOperator::GTE] + 1]]
+                [$inputFilter['field'] => [FilterOperator::LTE => $inputFilter[FilterOperator::GTE] + 0.0001]]
             );
         }
         if (isset($inputFilter[FilterOperator::LTE])) {
@@ -149,7 +151,7 @@ class DistanceFilterInputType extends RangeFilterInputType implements TypeInterf
         if (isset($inputFilter[FilterOperator::LT])) {
             $queryParams['must'][] = $this->filterQueryBuilder->create(
                 $containerConfig,
-                [$inputFilter['field'] => [FilterOperator::LTE => $inputFilter[FilterOperator::LT] - 1]]
+                [$inputFilter['field'] => [FilterOperator::LTE => $inputFilter[FilterOperator::LT] - 0.0001]]
             );
         }
 
