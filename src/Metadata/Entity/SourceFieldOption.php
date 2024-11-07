@@ -55,8 +55,24 @@ use Symfony\Component\Serializer\Annotation\Groups;
                         'application/json' => [
                             'schema' => ['type' => 'array', 'items' => ['type' => 'string']],
                             'example' => [
-                                ['sourceField' => '/source_fields/1', 'code' => 'brand_A', 'defaultLabel' => 'Brand A'],
-                                ['sourceField' => '/source_fields/1', 'code' => 'brand_B', 'defaultLabel' => 'Brand B'],
+                                [
+                                    'sourceField' => '/source_fields/1',
+                                    'code' => 'brand_A',
+                                    'defaultLabel' => 'Brand A',
+                                    'labels' => [
+                                        ['localizedCatalog' => '/localized_catalogs/1', 'label' => 'Marque A'],
+                                        ['localizedCatalog' => '/localized_catalogs/7', 'label' => 'Marca A'],
+                                    ],
+                                ],
+                                [
+                                    'sourceField' => '/source_fields/1',
+                                    'code' => 'brand_B',
+                                    'defaultLabel' => 'Brand B',
+                                    'labels' => [
+                                        ['localizedCatalog' => '/localized_catalogs/1', 'label' => 'Marque B'],
+                                        ['localizedCatalog' => '/localized_catalogs/7', 'label' => 'Marca B'],
+                                    ],
+                                ],
                             ],
                         ],
                     ],

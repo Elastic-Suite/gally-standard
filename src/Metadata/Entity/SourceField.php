@@ -63,8 +63,26 @@ use Symfony\Component\Serializer\Annotation\Groups;
                                 'items' => ['type' => 'string'],
                             ],
                             'example' => [
-                                ['sourceField' => '/metadata/1', 'code' => 'brand', 'type' => 'text', 'defaultLabel' => 'Brand'],
-                                ['sourceField' => '/metadata/1', 'code' => 'color', 'type' => 'select', 'defaultLabel' => 'Color'],
+                                [
+                                    'metadata' => '/metadata/1',
+                                    'code' => 'brand',
+                                    'type' => 'text',
+                                    'defaultLabel' => 'Brand',
+                                    'labels' => [
+                                        ['localizedCatalog' => '/localized_catalogs/1', 'label' => 'Marque'],
+                                        ['localizedCatalog' => '/localized_catalogs/7', 'label' => 'Marca'],
+                                    ],
+                                ],
+                                [
+                                    'metadata' => '/metadata/1',
+                                    'code' => 'color',
+                                    'type' => 'select',
+                                    'defaultLabel' => 'Color',
+                                    'labels' => [
+                                        ['localizedCatalog' => '/localized_catalogs/1', 'label' => 'Couleur'],
+                                        ['localizedCatalog' => '/localized_catalogs/7', 'label' => 'Color'],
+                                    ],
+                                ],
                             ],
                         ],
                     ],
