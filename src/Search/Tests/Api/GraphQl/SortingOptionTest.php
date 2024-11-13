@@ -38,6 +38,7 @@ class SortingOptionTest extends AbstractTestCase
                       sortingOptions (entityType: "product_document"){
                         code
                         label
+                        type
                       }
                     }
                 GQL,
@@ -49,13 +50,13 @@ class SortingOptionTest extends AbstractTestCase
                     $responseData = $response->toArray();
                     $this->assertSame(
                         [
-                            ['code' => 'name', 'label' => 'Name'],
-                            ['code' => 'category__position', 'label' => 'Category.position'],
-                            ['code' => 'real_category__position', 'label' => 'Position'],
-                            ['code' => 'price__price', 'label' => 'Price'],
-                            ['code' => 'stock__status', 'label' => 'Stock status'],
-                            ['code' => 'manufacture_location', 'label' => 'Manufacture_location\'s distance'],
-                            ['code' => '_score', 'label' => 'Relevance'],
+                            ['code' => 'name', 'label' => 'Name', 'type' => 'text'],
+                            ['code' => 'category__position', 'label' => 'Category.position', 'type' => 'int'],
+                            ['code' => 'real_category__position', 'label' => 'Position', 'type' => 'category'],
+                            ['code' => 'price__price', 'label' => 'Price', 'type' => 'price'],
+                            ['code' => 'stock__status', 'label' => 'Stock status', 'type' => 'stock'],
+                            ['code' => 'manufacture_location', 'label' => 'Manufacture_location\'s distance', 'type' => 'location'],
+                            ['code' => '_score', 'label' => 'Relevance', 'type' => 'float'],
                         ],
                         $responseData['data']['sortingOptions']
                     );

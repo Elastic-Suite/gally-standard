@@ -38,6 +38,7 @@ class ProductSortingOptionTest extends AbstractTestCase
                       productSortingOptions {
                         code
                         label
+                        type
                       }
                     }
                 GQL,
@@ -49,16 +50,16 @@ class ProductSortingOptionTest extends AbstractTestCase
                     $responseData = $response->toArray();
                     $this->assertSame(
                         [
-                            ['code' => 'my_stock__status', 'label' => 'Stock status'],
-                            ['code' => 'name', 'label' => 'Name'],
-                            ['code' => 'brand__label', 'label' => 'Brand'],
-                            ['code' => 'size', 'label' => 'Size'],
-                            ['code' => 'my_price__price', 'label' => 'Price'],
-                            ['code' => 'price_as_nested__price', 'label' => 'Price_as_nested.price'],
-                            ['code' => 'created_at', 'label' => 'Created_at'],
-                            ['code' => 'category__position', 'label' => 'Position'],
-                            ['code' => 'manufacture_location', 'label' => 'Manufacture_location\'s distance'],
-                            ['code' => '_score', 'label' => 'Relevance'],
+                            ['code' => 'my_stock__status', 'label' => 'Stock status', 'type' => 'stock'],
+                            ['code' => 'name', 'label' => 'Name', 'type' => 'text'],
+                            ['code' => 'brand__label', 'label' => 'Brand', 'type' => 'select'],
+                            ['code' => 'size', 'label' => 'Size', 'type' => 'int'],
+                            ['code' => 'my_price__price', 'label' => 'Price', 'type' => 'price'],
+                            ['code' => 'price_as_nested__price', 'label' => 'Price_as_nested.price', 'type' => 'float'],
+                            ['code' => 'created_at', 'label' => 'Created_at', 'type' => 'date'],
+                            ['code' => 'category__position', 'label' => 'Position', 'type' => 'category'],
+                            ['code' => 'manufacture_location', 'label' => 'Manufacture_location\'s distance', 'type' => 'location'],
+                            ['code' => '_score', 'label' => 'Relevance', 'type' => 'float'],
                         ],
                         $responseData['data']['productSortingOptions']
                     );
