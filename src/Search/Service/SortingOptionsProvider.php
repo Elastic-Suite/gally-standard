@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Gally\Search\Service;
 
+use Gally\Metadata\Entity\SourceField;
 use Gally\Metadata\Repository\MetadataRepository;
 use Gally\Metadata\Repository\SourceFieldRepository;
 use Gally\Search\Elasticsearch\Request\SortOrderInterface;
@@ -51,6 +52,7 @@ class SortingOptionsProvider
                         $sortOptions[] = [
                             'code' => $sortOrderProvider->getSortOrderField($sourceField),
                             'label' => $sortOrderProvider->getSimplifiedLabel($sourceField),
+                            'type' => $sourceField->getType(),
                         ];
                     }
                 }
@@ -59,6 +61,7 @@ class SortingOptionsProvider
             $sortOptions[] = [
                 'code' => SortOrderInterface::DEFAULT_SORT_FIELD,
                 'label' => 'Relevance',
+                'type' => SourceField\Type::TYPE_FLOAT,
             ];
 
             $this->sortingOptions = $sortOptions;

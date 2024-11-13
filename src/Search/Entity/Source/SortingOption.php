@@ -50,4 +50,6 @@ class SortingOption
     public string $code;
 
     public string $label;
+
+    public string $type;
 }
