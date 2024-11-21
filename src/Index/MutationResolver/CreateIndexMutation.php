@@ -63,7 +63,7 @@ class CreateIndexMutation implements MutationResolverInterface
             $item = $this->indexOperation->createEntityIndex($metadata, $catalog);
         } catch (\Exception $exception) {
             $this->logger->error($exception);
-            throw new \Exception('An error occurred when creating the index');
+            throw new \Exception('An error occurred when creating the index: ' . $exception->getMessage());
         }
 
         return $item;

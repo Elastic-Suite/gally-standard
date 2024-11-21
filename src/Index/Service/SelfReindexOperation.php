@@ -64,7 +64,7 @@ class SelfReindexOperation
         } catch (\Exception $exception) {
             $this->logger->error($exception);
             $selfReindex->setStatus(SelfReindex::STATUS_FAILURE);
-            throw new \Exception('An error occurred when creating the index');
+            throw new \Exception('An error occurred when creating the index: ' . $exception->getMessage());
         }
 
         $selfReindex->setIndexNames(array_map(function (Index $index) { return $index->getName(); }, $indices));
