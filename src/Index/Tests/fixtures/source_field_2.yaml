@@ -18,6 +18,7 @@ Gally\Metadata\Entity\SourceField:
         metadata: '@product'
         code: 'sku'
         type: 'reference'
+        defaultSearchAnalyzer: 'reference'
         isSystem: true
     product_price:
         metadata: '@product'

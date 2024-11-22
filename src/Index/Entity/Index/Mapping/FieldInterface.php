@@ -44,6 +44,8 @@ interface FieldInterface
     public const ANALYZER_PHONETIC = 'phonetic';
     public const ANALYZER_UNTOUCHED = 'untouched';
     public const ANALYZER_KEYWORD = 'keyword';
+    public const ANALYZER_REFERENCE = 'reference';
+    public const ANALYZER_EDGE_NGRAM = 'standard_edge_ngram';
 
     /**
      * Field filter logical operators.
@@ -58,6 +60,10 @@ interface FieldInterface
     public function getConfig(): array;
 
     public function isSearchable(): bool;
+
+    public function isSearchableReference(): bool;
+
+    public function isSearchableEdgeNgram(): bool;
 
     public function isFilterable(): bool;
 

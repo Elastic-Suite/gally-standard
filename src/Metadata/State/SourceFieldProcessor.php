@@ -21,6 +21,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\DBAL\Exception;
 use Doctrine\ORM\EntityManagerInterface;
 use Gally\Catalog\Service\DefaultCatalogProvider;
+use Gally\Index\Entity\Index\Mapping\FieldInterface;
 use Gally\Metadata\Entity\Metadata;
 use Gally\Metadata\Entity\SourceField;
 use Gally\Metadata\Repository\SourceFieldLabelRepository;
@@ -294,6 +295,7 @@ class SourceFieldProcessor implements ProcessorInterface
                         'is_used_for_rules' => null === $sourceFieldData['isUsedForRules'] ? 'NULL' : ($sourceFieldData['isUsedForRules'] ? 'True' : 'False'),
                         'is_used_in_autocomplete' => null === $sourceFieldData['isUsedInAutocomplete'] ? 'NULL' : ($sourceFieldData['isUsedInAutocomplete'] ? 'True' : 'False'),
                         'is_spannable' => null === $sourceFieldData['isSpannable'] ? 'NULL' : ($sourceFieldData['isSpannable'] ? 'True' : 'False'),
+                        'default_search_analyzer' => $expBuilder->literal($sourceFieldData['defaultSearchAnalyzer']),
                         'is_system' => ($sourceFieldData['isSystem'] ?? false) ? 'True' : 'False',
                         'search' => $expBuilder->literal($sourceFieldData['search']),
                     ];
@@ -313,6 +315,7 @@ class SourceFieldProcessor implements ProcessorInterface
                         'is_used_for_rules' => isset($sourceFieldData['isUsedForRules']) ? ($sourceFieldData['isUsedForRules'] ? 'True' : 'False') : 'NULL',
                         'is_used_in_autocomplete' => isset($sourceFieldData['isUsedInAutocomplete']) ? ($sourceFieldData['isUsedInAutocomplete'] ? 'True' : 'False') : 'NULL',
                         'is_spannable' => isset($sourceFieldData['isSpannable']) ? ($sourceFieldData['isSpannable'] ? 'True' : 'False') : 'NULL',
+                        'default_search_analyzer' => $expBuilder->literal(isset($sourceFieldData['defaultSearchAnalyzer']) ? (string) $sourceFieldData['defaultSearchAnalyzer'] : FieldInterface::ANALYZER_STANDARD),
                         'is_system' => ($sourceFieldData['isSystem'] ?? false) ? 'True' : 'False',
                         'search' => $expBuilder->literal($sourceFieldData['search']),
                     ];

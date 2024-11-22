@@ -39,6 +39,8 @@ class FulltextQueryBuilder
         private SearchableFieldFilter $searchableFieldFilter,
         private FuzzyFieldFilter $fuzzyFieldFilter,
         private SpannableFieldFilter $spannableFieldFilter,
+        private NonStandardSearchableFieldFilter $nonStandardSearchableFieldFilter,
+        private NonStandardFuzzyFieldFilter $nonStandardFuzzyFieldFilter,
     ) {
     }
 
@@ -101,9 +103,22 @@ class FulltextQueryBuilder
     private function getMinimumShouldMatchQuery(ContainerConfigInterface $containerConfig, string $queryText): QueryInterface
     {
         $relevanceConfig = $containerConfig->getRelevanceConfig();
+        $fields = array_fill_keys([MappingInterface::DEFAULT_SEARCH_FIELD], 1);
+
+        $fields += $this->getWeightedFields(
+            $containerConfig,
+            null,
+            $this->nonStandardSearchableFieldFilter,
+            MappingInterface::DEFAULT_SEARCH_FIELD
+        );
+
+        $fields += array_fill_keys(
+            [MappingInterface::DEFAULT_SEARCH_FIELD, MappingInterface::DEFAULT_REFERENCE_FIELD . '.' . FieldInterface::ANALYZER_REFERENCE],
+            1
+        );
 
         $queryParams = [
-            'fields' => array_fill_keys([MappingInterface::DEFAULT_SEARCH_FIELD, 'sku'], 1),
+            'fields' => array_fill_keys(array_keys($fields), 1),
             'queryText' => $queryText,
             'minimumShouldMatch' => $relevanceConfig->getMinimumShouldMatch(),
         ];
@@ -243,7 +258,11 @@ class FulltextQueryBuilder
                 $this->fuzzyFieldFilter,
                 $defaultSearchField,
                 $phraseMatchBoost ?: 1
-            )
+            ),
+            // Allow fuzzy query to contain fields using for fuzzy search with their default analyzer.
+            // Same logic as defined in getWeightedSearchQuery().
+            // This will automatically include sku.reference and any other fields having a defaultSearchAnalyzer != standard.
+            $this->getWeightedFields($containerConfig, null, $this->nonStandardFuzzyFieldFilter, $defaultSearchField),
         );
 
         $queryParams = [

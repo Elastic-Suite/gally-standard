@@ -89,6 +89,16 @@ class Field implements FieldInterface
         return (bool) $this->config['is_searchable'];
     }
 
+    public function isSearchableReference(): bool
+    {
+        return $this->isSearchable() && (FieldInterface::ANALYZER_REFERENCE === $this->config['default_search_analyzer']);
+    }
+
+    public function isSearchableEdgeNgram(): bool
+    {
+        return $this->isSearchable() && (FieldInterface::ANALYZER_EDGE_NGRAM === $this->config['default_search_analyzer']);
+    }
+
     public function isFilterable(): bool
     {
         return (bool) $this->config['is_filterable'];
@@ -306,6 +316,10 @@ class Field implements FieldInterface
                 }
                 if (self::ANALYZER_UNTOUCHED !== $analyzer) {
                     $fieldMapping['analyzer'] = $analyzer;
+                    if (self::ANALYZER_EDGE_NGRAM === $analyzer) {
+                        $fieldMapping['search_analyzer'] = self::ANALYZER_STANDARD;
+                    }
+
                     if ($this->normsDisabled() || (self::ANALYZER_KEYWORD === $analyzer)) {
                         $fieldMapping['norms'] = false;
                     }

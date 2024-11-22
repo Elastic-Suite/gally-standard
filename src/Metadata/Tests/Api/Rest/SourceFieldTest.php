@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Gally\Metadata\Tests\Api\Rest;
 
+use Gally\Index\Entity\Index\Mapping\FieldInterface;
 use Gally\Metadata\Entity\SourceField;
 use Gally\Metadata\Repository\SourceFieldLabelRepository;
 use Gally\Metadata\Repository\SourceFieldRepository;
@@ -135,6 +136,7 @@ class SourceFieldTest extends AbstractEntityTestWithUpdate
                 ],
                 201,
             ],
+            [$adminUser, ['code' => 'reference_source_field', 'metadata' => $this->getUri('metadata', '1'), 'type' => SourceField\Type::TYPE_REFERENCE], 201],
         ];
     }
 
@@ -163,7 +165,9 @@ class SourceFieldTest extends AbstractEntityTestWithUpdate
             [$user, 1, ['id' => 1, 'code' => 'name', 'weight' => 10], 200],
             [$user, 13, ['id' => 13, 'code' => 'description', 'weight' => 1], 200],
             [$user, 16, ['id' => 16, 'code' => 'length', 'weight' => 2], 200],
-            [$user, 23, [], 404],
+            // Check if default search analyzer is set to 'reference' when the source fields type is 'reference'.
+            [$user, 23, ['id' => 23, 'code' => 'reference_source_field', 'defaultSearchAnalyzer' => FieldInterface::ANALYZER_REFERENCE], 200],
+            [$user, 24, [], 404],
         ];
     }
 
@@ -184,9 +188,9 @@ class SourceFieldTest extends AbstractEntityTestWithUpdate
     public function getCollectionDataProvider(): iterable
     {
         return [
-            [null, 25, 401],
-            [$this->getUser(Role::ROLE_CONTRIBUTOR), 25, 200],
-            [$this->getUser(Role::ROLE_ADMIN), 25, 200],
+            [null, 26, 401],
+            [$this->getUser(Role::ROLE_CONTRIBUTOR), 26, 200],
+            [$this->getUser(Role::ROLE_ADMIN), 26, 200],
         ];
     }
 
@@ -233,14 +237,14 @@ class SourceFieldTest extends AbstractEntityTestWithUpdate
                 5,
                 ['isFilterable' => true],
                 400,
-                "The source field 'sku' cannot be updated because it is a system source field, only the value of 'weight' and 'isSpellchecked' can be changed.",
+                "The source field 'sku' cannot be updated because it is a system source field, only the value of 'weight', 'isSpellchecked', 'defaultSearchAnalyzer', 'isSpannable' can be changed.",
             ],
             [
                 $adminUser,
                 5,
                 ['isSystem' => false],
                 400,
-                "The source field 'sku' cannot be updated because it is a system source field, only the value of 'weight' and 'isSpellchecked' can be changed.",
+                "The source field 'sku' cannot be updated because it is a system source field, only the value of 'weight', 'isSpellchecked', 'defaultSearchAnalyzer', 'isSpannable' can be changed.",
             ],
             [
                 $adminUser,
@@ -436,7 +440,7 @@ class SourceFieldTest extends AbstractEntityTestWithUpdate
             [ // Source field post data
                 ['code' => 'new_source_field_1', 'metadata' => $this->getUri('metadata', '1'), 'weight' => 1],
             ],
-            23, // Expected source field number
+            24, // Expected source field number
             [], // Expected data in response
             [ // Expected search values
                 'new_source_field_1' => 'new_source_field_1 New_source_field_1',
@@ -451,7 +455,7 @@ class SourceFieldTest extends AbstractEntityTestWithUpdate
                 ['code' => 'new_source_field_3', 'metadata' => $this->getUri('metadata', '1'), 'weight' => 1],
                 ['code' => 'sku', 'metadata' => $this->getUri('metadata', '1'), 'weight' => 2, 'isSpellchecked' => true],
             ],
-            25, // Expected source field number
+            26, // Expected source field number
             [], // Expected data in response
             [ // Expected search values
                 'new_source_field_2' => 'new_source_field_2 New_source_field_2',
@@ -467,7 +471,7 @@ class SourceFieldTest extends AbstractEntityTestWithUpdate
                 ['code' => 'new_source_field_2', 'metadata' => $this->getUri('metadata', '1'), 'defaultLabel' => 'New source field 2', 'isFilterable' => true],
                 ['code' => 'new_source_field_4', 'metadata' => $this->getUri('metadata', '1'), 'weight' => 5],
             ],
-            26, // Expected source field number
+            27, // Expected source field number
             [ // Expected data in response
                 0 => ['isFilterable' => true, 'weight' => 1, 'isSystem' => false],
                 1 => ['isFilterable' => null, 'weight' => 5, 'isSystem' => false],
@@ -507,7 +511,7 @@ class SourceFieldTest extends AbstractEntityTestWithUpdate
                     ],
                 ],
             ],
-            27, // Expected source field number
+            28, // Expected source field number
             [ // Expected data in response
                 1 => ['labels' => [0 => ['label' => 'Localized label source field 2']]],
                 2 => ['labels' => [1 => ['label' => 'Localized label 2 source field 5']]],
@@ -540,7 +544,7 @@ class SourceFieldTest extends AbstractEntityTestWithUpdate
                     ],
                 ],
             ],
-            27, // Expected source field number
+            28, // Expected source field number
             [ // Expected data in response
                 0 => ['labels' => [0 => ['label' => 'Localized label 2 source field 2']]],
                 1 => ['labels' => [0 => ['label' => 'Localized label 2 source field 5']]],
