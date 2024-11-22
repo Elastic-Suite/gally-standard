@@ -26,6 +26,7 @@
         <field name="isUsedForRules" type="boolean" nullable="true" />
         <field name="isUsedInAutocomplete" type="boolean" nullable="true" />
         <field name="isSpannable" type="boolean" nullable="true" />
+        <field name="defaultSearchAnalyzer" type="string" nullable="true" />
         <field name="isSystem" type="boolean" nullable="false">
             <options>
                 <option name="default">0</option>

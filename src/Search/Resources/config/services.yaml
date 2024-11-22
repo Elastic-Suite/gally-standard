@@ -100,7 +100,9 @@ services:
         alias: gally.search.request.factory
         
     Gally\Search\Elasticsearch\Builder\Request\Query\Fulltext\SearchableFieldFilter: ~
+    Gally\Search\Elasticsearch\Builder\Request\Query\Fulltext\NonStandardSearchableFieldFilter: ~
     Gally\Search\Elasticsearch\Builder\Request\Query\Fulltext\FuzzyFieldFilter: ~
+    Gally\Search\Elasticsearch\Builder\Request\Query\Fulltext\NonStandardFuzzyFieldFilter: ~
     Gally\Search\Elasticsearch\Builder\Request\Query\Fulltext\SpannableFieldFilter: ~
     
     Gally\Search\Elasticsearch\Builder\Request\Query\Fulltext\FulltextQueryBuilder:
@@ -110,6 +112,8 @@ services:
             - '@Gally\Search\Elasticsearch\Builder\Request\Query\Fulltext\SearchableFieldFilter'
             - '@Gally\Search\Elasticsearch\Builder\Request\Query\Fulltext\FuzzyFieldFilter'
             - '@Gally\Search\Elasticsearch\Builder\Request\Query\Fulltext\SpannableFieldFilter'
+            - '@Gally\Search\Elasticsearch\Builder\Request\Query\Fulltext\NonStandardSearchableFieldFilter'
+            - '@Gally\Search\Elasticsearch\Builder\Request\Query\Fulltext\NonStandardFuzzyFieldFilter'
 
     Gally\Search\Elasticsearch\Builder\Request\Query\QueryBuilder:
         arguments:

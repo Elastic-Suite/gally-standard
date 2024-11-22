@@ -25,6 +25,8 @@ interface MappingInterface
 
     public const DEFAULT_SEARCH_FIELD = 'search';
     public const DEFAULT_SPELLING_FIELD = 'spelling';
+    public const DEFAULT_REFERENCE_FIELD = 'reference';
+    public const DEFAULT_EDGE_NGRAM_FIELD = 'edge_ngram';
 
     /**
      * List of the properties of the mapping.

@@ -33,6 +33,7 @@ class SpreadSourceFieldData
         'is_used_in_spellcheck',
         'is_used_in_autocomplete',
         'is_spannable',
+        'default_search_analyzer',
     ];
 
     public function __construct(
@@ -84,12 +85,17 @@ class SpreadSourceFieldData
         $fields = array_unique(array_merge(array_keys($origOptions), array_keys($options)));
         foreach ($fields as $field) {
             foreach ($this->updateMappingFields as $mappingField) {
-                $origValue = (int) ($origOptions[$field][$mappingField] ?? false);
-                $value = (int) ($options[$field][$mappingField] ?? false);
+                $origValue = $origOptions[$field][$mappingField] ?? false;
+                $value = $options[$field][$mappingField] ?? false;
 
                 if ($origValue !== $value) {
+                    if ('default_search_analyzer' === $field) {
+                        $updateMapping = true;
+                        continue;
+                    }
+
                     if ('search_weight' === $mappingField) {
-                        if ((1 === $origValue) && ($value > $origValue)) {
+                        if ((1 === (int) $origValue) && ((int) $value > (int) $origValue)) {
                             // Search weight moved from 1 to more. Mapping will change, so data need to be reindexed.
                             $updateMapping = true;
                             break 2;

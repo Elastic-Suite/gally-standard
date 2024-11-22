@@ -2055,6 +2055,39 @@ class SearchDocumentsTest extends AbstractTestCase
                 ],
             ],
 
+            // Search with first letters of a "product_name", to test search analyzer 'standard_edge_ngram', find because of exact term
+            [
+                'product_document', // entity type.
+                'b2c_en',           // catalog ID.
+                'Jou',              // query.
+                1,                  // expected result count.
+                [                   // expected result name.
+                    'Joust Duffle Bag',
+                ],
+            ],
+
+            // Search with first letters of a "product_name", to test search analyzer 'standard_edge_ngram', find because of phonetic
+            [
+                'product_document', // entity type.
+                'b2c_en',           // catalog ID.
+                'Joo',              // query.
+                1,                  // expected result count.
+                [                   // expected result name.
+                    'Joust Duffle Bag',
+                ],
+            ],
+
+            // Search with first letters of a "product_name", to test search analyzer 'standard_edge_ngram', find because of fuzziness
+            [
+                'product_document', // entity type.
+                'b2c_en',           // catalog ID.
+                'Juo',              // query.
+                1,                  // expected result count.
+                [                   // expected result name.
+                    'Joust Duffle Bag',
+                ],
+            ],
+
             // Search with words from name and select attribute not spellchecked
             [
                 'product_document', // entity type.

@@ -100,6 +100,7 @@ class CategorySynchronizerTest extends AbstractTestCase
         $this->validateCategoryCount(0, 0);
 
         // Create a non installed category index.
+        sleep(1); // Avoid creating two indexes at the same second (on reset version the testSynchronizeRetry is executed before this test that's why we can have same b2c_fr_category indexes in the same second), to delete after the ticket #1321031 will be done
         $indexName = $this->createIndex('category', $localizedCatalog1->getId());
         $this->bulkIndex($indexName, ['one' => $category1Data, 'two' => $category2Data]);
         $this->validateCategoryCount(0, 0);
@@ -215,6 +216,7 @@ class CategorySynchronizerTest extends AbstractTestCase
         $localizedCatalogRepository = static::getContainer()->get(LocalizedCatalogRepository::class);
         $localizedCatalog1 = $localizedCatalogRepository->findOneBy(['code' => 'b2c_fr']);
 
+        sleep(1); // Avoid creating two indexes at the same second, to delete after the ticket #1321031 will be done
         $indexName = $this->createIndex('category', $localizedCatalog1->getId());
         $this->bulkIndex($indexName, ['five' => ['id' => 'four', 'parentId' => 'three', 'level' => 3]]);
         $this->validateApiCall(

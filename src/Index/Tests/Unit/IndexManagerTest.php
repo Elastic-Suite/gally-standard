@@ -106,13 +106,14 @@ class IndexManagerTest extends AbstractTestCase
                                     'type' => 'text',
                                     'analyzer' => 'shingle',
                                 ],
-                                'standard' => [
+                                'standard_edge_ngram' => [
                                     'type' => 'text',
-                                    'analyzer' => 'standard',
+                                    'analyzer' => 'standard_edge_ngram',
+                                    'search_analyzer' => 'standard',
                                 ],
                             ],
                             'analyzer' => 'keyword',
-                            'copy_to' => ['search'],
+                            'copy_to' => ['search', 'edge_ngram'],
                             'norms' => false,
                         ],
                         'brand' => [
@@ -179,13 +180,14 @@ class IndexManagerTest extends AbstractTestCase
                                             'type' => 'text',
                                             'analyzer' => 'shingle',
                                         ],
-                                        'standard' => [
+                                        'standard_edge_ngram' => [
                                             'type' => 'text',
-                                            'analyzer' => 'standard',
+                                            'analyzer' => 'standard_edge_ngram',
+                                            'search_analyzer' => 'standard',
                                         ],
                                     ],
                                     'analyzer' => 'keyword',
-                                    'copy_to' => ['search'],
+                                    'copy_to' => ['search', 'edge_ngram'],
                                     'norms' => false,
                                 ],
                                 'id' => [

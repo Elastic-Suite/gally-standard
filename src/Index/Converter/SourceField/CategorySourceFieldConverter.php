@@ -43,6 +43,7 @@ class CategorySourceFieldConverter implements SourceFieldConverterInterface
             'search_weight' => $sourceField->getWeight(),
             'is_used_for_sort_by' => $sourceField->getIsSortable(),
             'is_spannable' => false,
+            'default_search_analyzer' => $sourceField->getDefaultSearchAnalyzer(),
         ];
 
         foreach ($innerFields as $fieldName => $innerFieldConfig) {

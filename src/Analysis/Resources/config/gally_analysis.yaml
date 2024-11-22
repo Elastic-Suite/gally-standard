@@ -56,6 +56,11 @@ gally:
                     type: phonetic
                     params:
                         encoder: metaphone
+                edge_ngram_filter:
+                    type: edge_ngram
+                    params:
+                        min_gram: 3
+                        max_gram: 20
             analyzers:
                 keyword:
                     char_filter: ~
@@ -127,7 +132,19 @@ gally:
                         - word_delimiter
                         - lowercase
                         - phonetic
-
+                standard_edge_ngram:
+                    char_filter:
+                        - html_strip
+                    tokenizer: standard
+                    filter:
+                        - ascii_folding
+                        - trim
+                        - word_delimiter
+                        - lowercase
+                        - elision
+                        - stemmer_override
+                        - stemmer
+                        - edge_ngram_filter
         ar:
             filters:
                 stemmer:

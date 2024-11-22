@@ -3,6 +3,7 @@ Gally\Metadata\Entity\SourceField:
         metadata: '@product'
         code: 'id'
         type: 'reference'
+        defaultSearchAnalyzer: 'reference'
         isSystem: true
         isSortable: true
         isFilterable: true
@@ -10,6 +11,7 @@ Gally\Metadata\Entity\SourceField:
         metadata: '@product'
         code: 'sku'
         type: 'reference'
+        defaultSearchAnalyzer: 'reference'
         isSystem: true
         isFilterable: true
     product_name:

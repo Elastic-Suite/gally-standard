@@ -197,10 +197,12 @@ class SourceFieldConverterTest extends AbstractTestCase
             'isSortable' => $sourceFieldReflector->getProperty('isSortable'),
             'weight' => $sourceFieldReflector->getProperty('weight'),
             'isSpannable' => $sourceFieldReflector->getProperty('isSpannable'),
+            'defaultSearchAnalyzer' => $sourceFieldReflector->getProperty('defaultSearchAnalyzer'),
         ];
 
         $sourceField = new SourceField();
         $sourceField->setCode($sourceFieldCode)
+            ->setDefaultSearchAnalyzer(Mapping\FieldInterface::ANALYZER_STANDARD)
             ->setType($sourceFieldType);
 
         $sourceFieldConfigs = self::getSourceFieldConfigs();
@@ -233,6 +235,7 @@ class SourceFieldConverterTest extends AbstractTestCase
             $this->assertEquals($sourceFieldProperties['isSortable']->getValue($sourceField), $fieldConfig['is_used_for_sort_by']);
             $this->assertEquals($sourceFieldProperties['weight']->getValue($sourceField), $fieldConfig['search_weight']);
             $this->assertEquals($sourceFieldProperties['isSpannable']->getValue($sourceField), $fieldConfig['is_spannable']);
+            $this->assertEquals($sourceFieldProperties['defaultSearchAnalyzer']->getValue($sourceField), $fieldConfig['default_search_analyzer']);
         }
     }
 
@@ -324,6 +327,7 @@ class SourceFieldConverterTest extends AbstractTestCase
             'isSortable' => $sourceFieldReflector->getProperty('isSortable'),
             'weight' => $sourceFieldReflector->getProperty('weight'),
             'isSpannable' => $sourceFieldReflector->getProperty('isSpannable'),
+            'defaultSearchAnalyzer' => $sourceFieldReflector->getProperty('defaultSearchAnalyzer'),
         ];
 
         $sourceField = new SourceField();
@@ -358,6 +362,7 @@ class SourceFieldConverterTest extends AbstractTestCase
             $this->assertFalse($fieldConfig['is_used_for_sort_by']);
             $this->assertEquals(1, $fieldConfig['search_weight']);
             $this->assertEquals($sourceFieldProperties['isSpannable']->getValue($sourceField), $fieldConfig['is_spannable']);
+            $this->assertEquals($sourceFieldProperties['defaultSearchAnalyzer']->getValue($sourceField), $fieldConfig['default_search_analyzer']);
         }
     }
 
@@ -405,6 +410,7 @@ class SourceFieldConverterTest extends AbstractTestCase
             'isSortable' => $sourceFieldReflector->getProperty('isSortable'),
             'weight' => $sourceFieldReflector->getProperty('weight'),
             'isSpannable' => $sourceFieldReflector->getProperty('isSpannable'),
+            'defaultSearchAnalyzer' => $sourceFieldReflector->getProperty('defaultSearchAnalyzer'),
         ];
 
         $sourceField = new SourceField();
@@ -443,6 +449,7 @@ class SourceFieldConverterTest extends AbstractTestCase
                 $this->assertEquals($sourceFieldProperties['isSortable']->getValue($sourceField), $fieldConfig['is_used_for_sort_by']);
                 $this->assertEquals($sourceFieldProperties['weight']->getValue($sourceField), $fieldConfig['search_weight']);
                 $this->assertEquals($sourceFieldProperties['isSpannable']->getValue($sourceField), $fieldConfig['is_spannable']);
+                $this->assertEquals($sourceFieldProperties['defaultSearchAnalyzer']->getValue($sourceField), $fieldConfig['default_search_analyzer']);
             }
         }
     }
@@ -529,10 +536,12 @@ class SourceFieldConverterTest extends AbstractTestCase
             'isSortable' => $sourceFieldReflector->getProperty('isSortable'),
             'weight' => $sourceFieldReflector->getProperty('weight'),
             'isSpannable' => $sourceFieldReflector->getProperty('isSpannable'),
+            'defaultSearchAnalyzer' => $sourceFieldReflector->getProperty('defaultSearchAnalyzer'),
         ];
 
         $sourceField = new SourceField();
         $sourceField->setCode($sourceFieldCode)
+            ->setDefaultSearchAnalyzer(Mapping\FieldInterface::ANALYZER_REFERENCE)
             ->setType($sourceFieldType);
 
         $sourceFieldConfigs = self::getSourceFieldConfigs();
@@ -567,8 +576,8 @@ class SourceFieldConverterTest extends AbstractTestCase
                 $this->assertEquals($sourceFieldProperties['isSortable']->getValue($sourceField), $fieldConfig['is_used_for_sort_by']);
                 $this->assertEquals($sourceFieldProperties['weight']->getValue($sourceField), $fieldConfig['search_weight']);
                 $this->assertEquals($sourceFieldProperties['isSpannable']->getValue($sourceField), $fieldConfig['is_spannable']);
-
-                $this->assertEquals('reference', $fieldConfig['default_search_analyzer']);
+                $this->assertEquals($sourceFieldProperties['defaultSearchAnalyzer']->getValue($sourceField), $fieldConfig['default_search_analyzer']);
+                $this->assertEquals(Mapping\FieldInterface::ANALYZER_REFERENCE, $fieldConfig['default_search_analyzer']);
             }
         }
     }
@@ -630,6 +639,7 @@ class SourceFieldConverterTest extends AbstractTestCase
             'isSortable' => $sourceFieldReflector->getProperty('isSortable'),
             'weight' => $sourceFieldReflector->getProperty('weight'),
             'isSpannable' => $sourceFieldReflector->getProperty('isSpannable'),
+            'defaultSearchAnalyzer' => $sourceFieldReflector->getProperty('defaultSearchAnalyzer'),
         ];
 
         $sourceField = new SourceField();
@@ -671,6 +681,7 @@ class SourceFieldConverterTest extends AbstractTestCase
                     $this->assertEquals($sourceFieldProperties['isSortable']->getValue($sourceField), $fieldConfig['is_used_for_sort_by']);
                     $this->assertEquals($sourceFieldProperties['weight']->getValue($sourceField), $fieldConfig['search_weight']);
                     $this->assertEquals($sourceFieldProperties['isSpannable']->getValue($sourceField), $fieldConfig['is_spannable']);
+                    $this->assertEquals($sourceFieldProperties['defaultSearchAnalyzer']->getValue($sourceField), $fieldConfig['default_search_analyzer']);
                 } elseif (\is_array($expectedField['config'])) {
                     foreach ($expectedField['config'] as $fieldConfigPropertyName => $fieldConfigPropertyValue) {
                         $this->assertEquals($fieldConfigPropertyValue, $fieldConfig[$fieldConfigPropertyName]);
@@ -764,6 +775,7 @@ class SourceFieldConverterTest extends AbstractTestCase
             'isSortable' => $sourceFieldReflector->getProperty('isSortable'),
             'weight' => $sourceFieldReflector->getProperty('weight'),
             'isSpannable' => $sourceFieldReflector->getProperty('isSpannable'),
+            'defaultSearchAnalyzer' => $sourceFieldReflector->getProperty('defaultSearchAnalyzer'),
         ];
 
         $sourceField = new SourceField();
@@ -802,6 +814,7 @@ class SourceFieldConverterTest extends AbstractTestCase
                 $this->assertEquals($sourceFieldProperties['isSortable']->getValue($sourceField), $fieldConfig['is_used_for_sort_by']);
                 $this->assertEquals($sourceFieldProperties['weight']->getValue($sourceField), $fieldConfig['search_weight']);
                 $this->assertEquals($sourceFieldProperties['isSpannable']->getValue($sourceField), $fieldConfig['is_spannable']);
+                $this->assertEquals($sourceFieldProperties['defaultSearchAnalyzer']->getValue($sourceField), $fieldConfig['default_search_analyzer']);
             }
         }
     }
@@ -868,6 +881,7 @@ class SourceFieldConverterTest extends AbstractTestCase
             'isSortable' => $sourceFieldReflector->getProperty('isSortable'),
             'weight' => $sourceFieldReflector->getProperty('weight'),
             'isSpannable' => $sourceFieldReflector->getProperty('isSpannable'),
+            'defaultSearchAnalyzer' => $sourceFieldReflector->getProperty('defaultSearchAnalyzer'),
         ];
 
         $sourceField = new SourceField();
@@ -906,6 +920,7 @@ class SourceFieldConverterTest extends AbstractTestCase
                 $this->assertEquals($sourceFieldProperties['isSortable']->getValue($sourceField), $fieldConfig['is_used_for_sort_by']);
                 $this->assertEquals($sourceFieldProperties['weight']->getValue($sourceField), $fieldConfig['search_weight']);
                 $this->assertEquals($sourceFieldProperties['isSpannable']->getValue($sourceField), $fieldConfig['is_spannable']);
+                $this->assertEquals($sourceFieldProperties['defaultSearchAnalyzer']->getValue($sourceField), $fieldConfig['default_search_analyzer']);
             }
         }
     }
@@ -967,6 +982,7 @@ class SourceFieldConverterTest extends AbstractTestCase
             'isSortable' => $sourceFieldReflector->getProperty('isSortable'),
             'weight' => $sourceFieldReflector->getProperty('weight'),
             'isSpannable' => $sourceFieldReflector->getProperty('isSpannable'),
+            'defaultSearchAnalyzer' => $sourceFieldReflector->getProperty('defaultSearchAnalyzer'),
         ];
 
         $sourceField = new SourceField();
@@ -1005,6 +1021,7 @@ class SourceFieldConverterTest extends AbstractTestCase
                 $this->assertEquals($sourceFieldProperties['isSortable']->getValue($sourceField), $fieldConfig['is_used_for_sort_by']);
                 $this->assertEquals($sourceFieldProperties['weight']->getValue($sourceField), $fieldConfig['search_weight']);
                 $this->assertEquals($sourceFieldProperties['isSpannable']->getValue($sourceField), $fieldConfig['is_spannable']);
+                $this->assertEquals($sourceFieldProperties['defaultSearchAnalyzer']->getValue($sourceField), $fieldConfig['default_search_analyzer']);
             }
         }
     }
