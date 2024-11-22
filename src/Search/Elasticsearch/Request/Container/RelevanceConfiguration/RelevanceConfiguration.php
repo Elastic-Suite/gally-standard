@@ -70,4 +70,14 @@ class RelevanceConfiguration implements RelevanceConfigurationInterface
     {
         return $this->relevanceConfig['span']['in_order'];
     }
+
+    public function isUsingReferenceAnalyzer(): bool
+    {
+        return $this->relevanceConfig['term_vectors']['use_reference_analyzer'];
+    }
+
+    public function isUsingEdgeNgramAnalyzer(): bool
+    {
+        return $this->relevanceConfig['term_vectors']['use_edge_ngram_analyzer'];
+    }
 }

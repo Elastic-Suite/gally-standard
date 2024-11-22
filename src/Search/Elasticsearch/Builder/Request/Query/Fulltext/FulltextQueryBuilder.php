@@ -101,6 +101,9 @@ class FulltextQueryBuilder
     private function getMinimumShouldMatchQuery(ContainerConfigInterface $containerConfig, string $queryText): QueryInterface
     {
         $relevanceConfig = $containerConfig->getRelevanceConfig();
+        $fields          = array_fill_keys([MappingInterface::DEFAULT_SEARCH_FIELD], 1);
+
+        //todo reprendre le code delasticsuite  ? src/module-elasticsuite-core/Search/Request/Query/Fulltext/QueryBuilder.php:128
 
         $queryParams = [
             'fields' => array_fill_keys([MappingInterface::DEFAULT_SEARCH_FIELD, 'sku'], 1),
@@ -235,6 +238,9 @@ class FulltextQueryBuilder
             $phraseAnalyzer = FieldInterface::ANALYZER_SHINGLE;
         }
 
+        //todo not used in the last version replaced by nonStandardFuzzyFieldFilter ? src/module-elasticsuite-core/Search/Request/Query/Fulltext/QueryBuilder.php:297
+        $referenceAnalyzer  = FieldInterface::ANALYZER_REFERENCE;
+
         $searchFields = array_merge(
             $this->getWeightedFields($containerConfig, $standardAnalyzer, $this->fuzzyFieldFilter, $defaultSearchField),
             $this->getWeightedFields(
@@ -243,7 +249,8 @@ class FulltextQueryBuilder
                 $this->fuzzyFieldFilter,
                 $defaultSearchField,
                 $phraseMatchBoost ?: 1
-            )
+            ),
+            $this->getWeightedFields($containerConfig, $referenceAnalyzer, $this->fuzzyFieldFilter),
         );
 
         $queryParams = [

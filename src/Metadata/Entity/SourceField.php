@@ -29,7 +29,9 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Gally\Doctrine\Filter\BooleanFilter;
 use Gally\Doctrine\Filter\SearchColumnsFilter;
+use Gally\Index\Entity\Index\Mapping\FieldInterface;
 use Gally\Metadata\Controller\BulkSourceFields;
+use Gally\Metadata\Entity\SourceField\SearchAnalyzer;
 use Gally\Metadata\Entity\SourceField\Type;
 use Gally\Metadata\Entity\SourceField\Weight;
 use Gally\Metadata\Operation\Bulk;
@@ -350,6 +352,32 @@ class SourceField
     #[Groups(['source_field:read', 'source_field:write', 'facet_configuration:graphql_read'])]
     private ?bool $isSpannable = null;
 
+    #[ApiProperty(
+        extraProperties: [
+            'hydra:supportedProperty' => [
+                'hydra:property' => [
+                    'rdfs:label' => 'Analyzer',
+                ],
+                'gally' => [
+                    'visible' => false,
+                    'editable' => true,
+                    'position' => 120,
+                    'input' => 'select',
+                    'options' => [
+                        'values' => SearchAnalyzer::SEARCH_ANALYZERS_OPTIONS,
+                    ],
+                    'context' => [
+                        'search_configuration_attributes' => [
+                            'visible' => true,
+                        ],
+                    ],
+                ],
+            ],
+        ],
+    )]
+    #[Groups(['source_field:read', 'source_field:write', 'facet_configuration:graphql_read'])]
+    private ?string $defaultSearchAnalyzer = FieldInterface::ANALYZER_STANDARD;
+
     #[Groups(['source_field:read', 'source_field:write', 'facet_configuration:graphql_read'])]
     private bool $isSystem = false;
 
@@ -524,6 +552,18 @@ class SourceField
     public function setIsSpannable(?bool $isSpannable): self
     {
         $this->isSpannable = $isSpannable;
+
+        return $this;
+    }
+
+    public function getDefaultSearchAnalyzer(): ?string
+    {
+        return $this->defaultSearchAnalyzer;
+    }
+
+    public function setDefaultSearchAnalyzer(?bool $defaultSearchAnalyzer): self
+    {
+        $this->defaultSearchAnalyzer = $defaultSearchAnalyzer;
 
         return $this;
     }

@@ -40,7 +40,9 @@ class Request implements RequestInterface
     public function __construct(
         private string $indexName,
         private string $queryText,
-        private float $cutoffFrequency
+        private float $cutoffFrequency,
+        private bool $isUsingReference,
+        private bool $isUsingEdgeNgram,
     ) {
     }
 
@@ -57,5 +59,15 @@ class Request implements RequestInterface
     public function getCutoffFrequency(): float
     {
         return $this->cutoffFrequency;
+    }
+
+    public function isUsingReference():bool
+    {
+        return $this->isUsingReference;
+    }
+
+    public function isUsingEdgeNgram():bool
+    {
+        return $this->isUsingEdgeNgram;
     }
 }

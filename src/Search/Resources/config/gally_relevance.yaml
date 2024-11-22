@@ -22,3 +22,6 @@ gally:
                         boost: 10
                         slop: 10
                         in_order: false
+                    term_vectors:
+                        use_reference_analyzer: false
+                        use_edge_ngram_analyzer: false

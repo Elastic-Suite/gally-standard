@@ -68,4 +68,14 @@ interface RelevanceConfigurationInterface
      * Retrieve span near in_order value.
      */
     public function isSpanNearInOrder(): bool;
+
+    /**
+     * Check if the term vectors request should also include the reference analyzer collector field.
+     */
+    public function isUsingReferenceAnalyzer(): bool;
+
+    /**
+     * Check if the term vectors request should also include the edge ngram analyzer(s) collector field.
+     */
+    public function isUsingEdgeNgramAnalyzer(): bool;
 }

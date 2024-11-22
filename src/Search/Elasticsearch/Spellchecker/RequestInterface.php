@@ -32,4 +32,14 @@ interface RequestInterface
      * Spellcheck cutoff frequency (used to detect stop-words).
      */
     public function getCutoffFrequency(): float;
+
+    /**
+     * Should the spellcheck request target the 'reference' collector field.
+     */
+    public function isUsingReference(): bool;
+
+    /**
+     * Should the spellcheck request target the 'edge_ngram' collector field.
+     */
+    public function isUsingEdgeNgram(): bool;
 }

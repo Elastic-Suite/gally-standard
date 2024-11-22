@@ -16,20 +16,20 @@ namespace Gally\Migrations;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
-final class Version20240904155711_Add_Spannable_Column extends AbstractMigration
+final class Version20241114221434_Add_Default_Search_Analyzer_Column extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return "Add 'is_spannable' column in 'source_field' table";
+        return "Add 'default_search_analyzer' column in 'source_field' table";
     }
 
     public function up(Schema $schema): void
     {
-        $this->addSql('ALTER TABLE source_field ADD is_spannable BOOLEAN DEFAULT NULL');
+        $this->addSql('ALTER TABLE source_field ADD default_search_analyzer VARCHAR(255) DEFAULT NULL');
     }
 
     public function down(Schema $schema): void
     {
-        $this->addSql('ALTER TABLE source_field DROP is_spannable');
+        $this->addSql('ALTER TABLE source_field DROP default_search_analyzer');
     }
 }

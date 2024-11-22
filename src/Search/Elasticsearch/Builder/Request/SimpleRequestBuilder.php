@@ -110,6 +110,8 @@ class SimpleRequestBuilder
             'indexName' => $containerConfig->getIndexName(),
             'queryText' => $queryText,
             'cutoffFrequency' => $containerConfig->getRelevanceConfig()->getCutOffFrequency(),
+            'isUsingReference'  => $containerConfig->getRelevanceConfig()->isUsingReferenceAnalyzer(),
+            'isUsingEdgeNgram'  => $containerConfig->getRelevanceConfig()->isUsingEdgeNgramAnalyzer(),
         ];
 
         $spellcheckRequest = $this->spellcheckRequestFactory->create($spellcheckRequestParams);
