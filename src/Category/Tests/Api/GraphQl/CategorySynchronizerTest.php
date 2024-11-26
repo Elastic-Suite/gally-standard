@@ -54,11 +54,11 @@ class CategorySynchronizerTest extends AbstractTestCase
     protected static CategoryConfigurationRepository $categoryConfigurationRepository;
     protected static SerializerInterface $serializer;
 
-    protected function setUp(): void
+    public static function setUpBeforeClass(): void
     {
         // Use setUp instead of setupBeforeClass in order to
         // reset test data between testSynchronizeRetry and testSynchronize
-        parent::setUp();
+        parent::setUpBeforeClass();
         \assert(static::getContainer()->get(IndexRepositoryInterface::class) instanceof IndexRepositoryInterface);
         self::$indexRepository = static::getContainer()->get(IndexRepositoryInterface::class);
         self::$categoryConfigurationRepository = static::getContainer()->get(CategoryConfigurationRepository::class);
@@ -70,9 +70,9 @@ class CategorySynchronizerTest extends AbstractTestCase
         ]);
     }
 
-    protected function tearDown(): void
+    public static function tearDownAfterClass(): void
     {
-        parent::tearDown();
+        parent::tearDownAfterClass();
         self::deleteElasticsearchFixtures();
     }
 
@@ -152,6 +152,7 @@ class CategorySynchronizerTest extends AbstractTestCase
         // Update category on new index.
         $category2 = $categoryRepository->find('two');
         $category2Data['name'] = 'TwoUpdated';
+        sleep(1); // Avoid creating two indexes at the same second, to delete after the ticket #1321031 will be done
         $newIndexName = $this->createIndex('category', $localizedCatalog1->getId());
         $this->bulkIndex($newIndexName, ['one' => $category1Data, 'two' => $category2Data, 'three' => $category3Data]);
         $this->installIndex($newIndexName);
@@ -181,6 +182,7 @@ class CategorySynchronizerTest extends AbstractTestCase
         $entityManager->flush();
         $this->validateCategoryCount(3, 13);
 
+        sleep(1); // Avoid creating two indexes at the same second, to delete after the ticket #1321031 will be done
         // Create new index for catalog1 without category three
         $this->prepareIndex($localizedCatalog1->getId(), ['one' => $category1Data]);
         $this->prepareIndex($localizedCatalog2->getId(), ['three' => $category3Data]);
