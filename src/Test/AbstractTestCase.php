@@ -81,7 +81,7 @@ abstract class AbstractTestCase extends ApiTestCase
             $data['auth_bearer'] = $this->loginRest($client, $request->getUser());
         }
 
-        return $client->request($request->getMethod(), $request->getPath(), $data);
+        return $client->request($request->getMethod(), $this->getRoute($request->getPath()), $data);
     }
 
     protected function validateApiCall(RequestToTest $request, ExpectedResponse $expectedResponse): ResponseInterface
@@ -126,7 +126,13 @@ abstract class AbstractTestCase extends ApiTestCase
             $this->assertArrayNotHasKey(
                 'errors',
                 $data,
-                isset($data['errors']) ? $data['errors'][0]['debugMessage'] : ''
+                \array_key_exists('errors', $data)
+                    ? (
+                        \array_key_exists('debugMessage', $data['errors'][0])
+                            ? $data['errors'][0]['debugMessage']
+                            : $data['errors'][0]['message']
+                    )
+                    : ''
             );
         }
 
@@ -151,7 +157,30 @@ abstract class AbstractTestCase extends ApiTestCase
         $this->assertArrayNotHasKey(
             'errors',
             $responseData,
-            \array_key_exists('errors', $responseData) ? $responseData['errors'][0]['debugMessage'] : ''
+            \array_key_exists('errors', $responseData)
+                ? (
+                    \array_key_exists('debugMessage', $responseData['errors'][0])
+                        ? $responseData['errors'][0]['debugMessage']
+                        : $responseData['errors'][0]['message']
+                )
+                : ''
         );
+    }
+
+    protected function getApiRoutePrefix(): string
+    {
+        $routePrefix = trim(static::getContainer()->getParameter('route_prefix'), '/');
+
+        return '/' . ($routePrefix ? $routePrefix . '/' : '');
+    }
+
+    protected function getRoute(string $route): string
+    {
+        return $this->getApiRoutePrefix() . trim($route, '/');
+    }
+
+    protected function getUri(string $shortName, string|int $id): string
+    {
+        return $this->getRoute(trim($shortName, '/') . '/' . $id);
     }
 }

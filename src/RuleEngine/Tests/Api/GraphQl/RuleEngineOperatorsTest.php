@@ -57,7 +57,7 @@ class RuleEngineOperatorsTest extends \Gally\RuleEngine\Tests\Api\Rest\RuleEngin
                     $this->assertJsonContains([
                         'data' => [
                             'getRuleEngineOperators' => [
-                                'id' => '/rule_engine_operators',
+                                'id' => $this->getRoute('rule_engine_operators'),
                                 'operators' => [],
                                 'operatorsBySourceFieldType' => [],
                                 'operatorsValueType' => [],

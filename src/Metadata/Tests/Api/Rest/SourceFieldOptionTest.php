@@ -46,26 +46,26 @@ class SourceFieldOptionTest extends AbstractEntityTestWithUpdate
         $adminUser = $this->getUser(Role::ROLE_ADMIN);
 
         return [
-            [null, ['sourceField' => '/source_fields/4', 'code' => 'A', 'position' => 10, 'defaultLabel' => 'label'], 401],
-            [$this->getUser(Role::ROLE_CONTRIBUTOR), ['sourceField' => '/source_fields/4', 'code' => 'A', 'position' => 10, 'defaultLabel' => 'label'], 403],
-            [$adminUser, ['sourceField' => '/source_fields/4', 'code' => 'A', 'position' => 10, 'defaultLabel' => 'label'], 201],
-            [$adminUser, ['sourceField' => '/source_fields/4', 'code' => 'B', 'defaultLabel' => 'label'], 201],
+            [null, ['sourceField' => $this->getUri('source_fields', '4'), 'code' => 'A', 'position' => 10, 'defaultLabel' => 'label'], 401],
+            [$this->getUser(Role::ROLE_CONTRIBUTOR), ['sourceField' => $this->getUri('source_fields', '4'), 'code' => 'A', 'position' => 10, 'defaultLabel' => 'label'], 403],
+            [$adminUser, ['sourceField' => $this->getUri('source_fields', '4'), 'code' => 'A', 'position' => 10, 'defaultLabel' => 'label'], 201],
+            [$adminUser, ['sourceField' => $this->getUri('source_fields', '4'), 'code' => 'B', 'defaultLabel' => 'label'], 201],
             [$adminUser,
                 [
-                    'sourceField' => '/source_fields/4',
+                    'sourceField' => $this->getUri('source_fields', '4'),
                     'code' => 'C',
                     'defaultLabel' => 'label',
                     'labels' => [
-                        ['localizedCatalog' => '/localized_catalogs/1', 'label' => 'L\'option C'],
-                        ['localizedCatalog' => '/localized_catalogs/2', 'label' => 'C option'],
+                        ['localizedCatalog' => $this->getUri('localized_catalogs', '1'), 'label' => 'L\'option C'],
+                        ['localizedCatalog' => $this->getUri('localized_catalogs', '2'), 'label' => 'C option'],
                     ],
                 ],
                 201,
             ],
             [$adminUser, ['position' => 3, 'code' => 'A', 'defaultLabel' => 'label'], 422, 'sourceField: This value should not be blank.'],
-            [$adminUser, ['sourceField' => '/source_fields/4', 'position' => 3, 'defaultLabel' => 'label'], 422, 'code: This value should not be blank.'],
-            [$adminUser, ['sourceField' => '/source_fields/4', 'position' => 3, 'code' => 'D'], 422, 'defaultLabel: This value should not be blank.'],
-            [$adminUser, ['sourceField' => '/source_fields/4', 'code' => 'A', 'position' => 3, 'defaultLabel' => 'label'], 422, 'sourceField: An option with this code is already defined for this sourceField.'],
+            [$adminUser, ['sourceField' => $this->getUri('source_fields', '4'), 'position' => 3, 'defaultLabel' => 'label'], 422, 'code: This value should not be blank.'],
+            [$adminUser, ['sourceField' => $this->getUri('source_fields', '4'), 'position' => 3, 'code' => 'D'], 422, 'defaultLabel: This value should not be blank.'],
+            [$adminUser, ['sourceField' => $this->getUri('source_fields', '4'), 'code' => 'A', 'position' => 3, 'defaultLabel' => 'label'], 422, 'sourceField: An option with this code is already defined for this sourceField.'],
         ];
     }
 
@@ -156,7 +156,7 @@ class SourceFieldOptionTest extends AbstractEntityTestWithUpdate
                 5,
                 [
                     'labels' => [
-                        ['localizedCatalog' => '/localized_catalogs/1', 'label' => 'L\'option A'],
+                        ['localizedCatalog' => $this->getUri('localized_catalogs', '1'), 'label' => 'L\'option A'],
                     ],
                 ],
                 200,
@@ -166,8 +166,8 @@ class SourceFieldOptionTest extends AbstractEntityTestWithUpdate
                 6,
                 [ // Add multiple labels
                     'labels' => [
-                        ['localizedCatalog' => '/localized_catalogs/1', 'label' => 'L\'option B'],
-                        ['localizedCatalog' => '/localized_catalogs/2', 'label' => 'B Option'],
+                        ['localizedCatalog' => $this->getUri('localized_catalogs', '1'), 'label' => 'L\'option B'],
+                        ['localizedCatalog' => $this->getUri('localized_catalogs', '2'), 'label' => 'B Option'],
                     ],
                 ],
                 200,
@@ -177,8 +177,8 @@ class SourceFieldOptionTest extends AbstractEntityTestWithUpdate
                 5,
                 [
                     'labels' => [
-                        ['localizedCatalog' => '/localized_catalogs/1', 'label' => 'L\'option A Updated'],
-                        ['localizedCatalog' => '/localized_catalogs/2', 'label' => 'A option'],
+                        ['localizedCatalog' => $this->getUri('localized_catalogs', '1'), 'label' => 'L\'option A Updated'],
+                        ['localizedCatalog' => $this->getUri('localized_catalogs', '2'), 'label' => 'A option'],
                     ],
                 ],
                 200,
@@ -221,7 +221,7 @@ class SourceFieldOptionTest extends AbstractEntityTestWithUpdate
                 $sourceFieldRepository = static::getContainer()->get(SourceFieldRepository::class);
                 $optionRepository = static::getContainer()->get(SourceFieldOptionRepository::class);
                 foreach ($options as $optionData) {
-                    $sourceFieldId = (int) str_replace('/source_fields/', '', $optionData['sourceField']);
+                    $sourceFieldId = (int) str_replace($this->getRoute('source_fields') . '/', '', $optionData['sourceField']);
                     $sourceField = $sourceFieldRepository->find($sourceFieldId);
                     $this->assertCount($expectedOptionCountBySourceField[$sourceField->getId()], $sourceField->getOptions());
 
@@ -248,12 +248,12 @@ class SourceFieldOptionTest extends AbstractEntityTestWithUpdate
         yield [
             $adminUser,
             [
-                ['sourceField' => '/source_fields/105', 'code' => 'new_brand_code', 'defaultLabel' => 'New brand'],
+                ['sourceField' => $this->getUri('source_fields', '105'), 'code' => 'new_brand_code', 'defaultLabel' => 'New brand'],
             ],
             [105 => 5],
             [],
             400,
-            'Option #0: Item not found for "/source_fields/105".',
+            'Option #0: Item not found for "' . $this->getUri('source_fields', '105') . '".',
         ];
 
         // Incomplete/Invalid data
@@ -261,15 +261,15 @@ class SourceFieldOptionTest extends AbstractEntityTestWithUpdate
             $adminUser,
             [
                 ['position' => 4],
-                ['sourceField' => '/source_fields/9', 'position' => 4],
-                ['sourceField' => '/source_fields/9', 'code' => 'new_option_code'],
-                ['sourceField' => '/source_fields/5', 'code' => 'new_brand_code', 'defaultLabel' => 'New brand'],
+                ['sourceField' => $this->getUri('source_fields', '9'), 'position' => 4],
+                ['sourceField' => $this->getUri('source_fields', '9'), 'code' => 'new_option_code'],
+                ['sourceField' => $this->getUri('source_fields', '5'), 'code' => 'new_brand_code', 'defaultLabel' => 'New brand'],
                 [
-                    'sourceField' => '/source_fields/9',
+                    'sourceField' => $this->getUri('source_fields', '9'),
                     'code' => 'new_brand_code',
                     'defaultLabel' => 'New brand',
                     'labels' => [
-                        ['localizedCatalog' => '/localized_catalogs/1000', 'label' => 'Label brand on fake localized catalog'],
+                        ['localizedCatalog' => $this->getUri('localized_catalogs', '1000'), 'label' => 'Label brand on fake localized catalog'],
                     ],
                 ],
             ],
@@ -280,14 +280,14 @@ class SourceFieldOptionTest extends AbstractEntityTestWithUpdate
             'Option #1: A code value is required for source field option. ' .
             'Option #2: A defaultLabel value is required for source field option. ' .
             'Option #3: You can only add options to a source field of type "select". ' .
-            'Option #4: Item not found for "/localized_catalogs/1000".',
+            'Option #4: Item not found for "' . $this->getUri('localized_catalogs', '1000') . '".',
         ];
 
         // With one option
         yield [
             $adminUser,
             [
-                ['sourceField' => '/source_fields/9', 'code' => 'new_brand_code', 'defaultLabel' => 'New brand'],
+                ['sourceField' => $this->getUri('source_fields', '9'), 'code' => 'new_brand_code', 'defaultLabel' => 'New brand'],
             ],
             [9 => 5],
             [
@@ -299,10 +299,10 @@ class SourceFieldOptionTest extends AbstractEntityTestWithUpdate
         yield [
             $adminUser,
             [
-                ['sourceField' => '/source_fields/9', 'code' => 'new_brand_code_2', 'defaultLabel' => 'New brand 2'],
-                ['sourceField' => '/source_fields/9', 'code' => 'new_brand_code_3', 'defaultLabel' => 'New brand 3'],
-                ['sourceField' => '/source_fields/12', 'defaultLabel' => 'New material 0'],
-                ['sourceField' => '/source_fields/12', 'code' => 'new_material_code_1', 'defaultLabel' => 'New material 1'],
+                ['sourceField' => $this->getUri('source_fields', '9'), 'code' => 'new_brand_code_2', 'defaultLabel' => 'New brand 2'],
+                ['sourceField' => $this->getUri('source_fields', '9'), 'code' => 'new_brand_code_3', 'defaultLabel' => 'New brand 3'],
+                ['sourceField' => $this->getUri('source_fields', '12'), 'defaultLabel' => 'New material 0'],
+                ['sourceField' => $this->getUri('source_fields', '12'), 'code' => 'new_material_code_1', 'defaultLabel' => 'New material 1'],
             ],
             [
                 9 => 7,
@@ -318,8 +318,8 @@ class SourceFieldOptionTest extends AbstractEntityTestWithUpdate
         yield [
             $adminUser,
             [
-                ['sourceField' => '/source_fields/9', 'code' => 'new_brand_code', 'defaultLabel' => 'New brand Updated'],
-                ['sourceField' => '/source_fields/9', 'code' => 'new_brand_code_4', 'defaultLabel' => 'New brand 4'],
+                ['sourceField' => $this->getUri('source_fields', '9'), 'code' => 'new_brand_code', 'defaultLabel' => 'New brand Updated'],
+                ['sourceField' => $this->getUri('source_fields', '9'), 'code' => 'new_brand_code_4', 'defaultLabel' => 'New brand 4'],
             ],
             [9 => 8],
             [
@@ -332,19 +332,19 @@ class SourceFieldOptionTest extends AbstractEntityTestWithUpdate
             $adminUser,
             [
                 [
-                    'sourceField' => '/source_fields/9',
+                    'sourceField' => $this->getUri('source_fields', '9'),
                     'code' => 'new_brand_code_4',
                     'defaultLabel' => 'New brand 4',
                     'labels' => [
-                        ['localizedCatalog' => '/localized_catalogs/1', 'label' => 'Localized label brand 4'],
+                        ['localizedCatalog' => $this->getUri('localized_catalogs', '1'), 'label' => 'Localized label brand 4'],
                     ],
                 ],
                 [
-                    'sourceField' => '/source_fields/9',
+                    'sourceField' => $this->getUri('source_fields', '9'),
                     'code' => 'new_brand_code_5',
                     'defaultLabel' => 'New brand 5',
                     'labels' => [
-                        ['localizedCatalog' => '/localized_catalogs/1', 'label' => 'Localized label1 brand 5'],
+                        ['localizedCatalog' => $this->getUri('localized_catalogs', '1'), 'label' => 'Localized label1 brand 5'],
                     ],
                 ],
             ],
@@ -368,38 +368,38 @@ class SourceFieldOptionTest extends AbstractEntityTestWithUpdate
             $adminUser,
             [
                 [
-                    'sourceField' => '/source_fields/9',
+                    'sourceField' => $this->getUri('source_fields', '9'),
                     'code' => 'new_brand_code_4',
                     'defaultLabel' => 'New brand 4',
                     'labels' => [
                         [
-                            'localizedCatalog' => '/localized_catalogs/1',
+                            'localizedCatalog' => $this->getUri('localized_catalogs', '1'),
                             'label' => 'Localized label1 brand 4 update',
                         ],
                         [
-                            'localizedCatalog' => '/localized_catalogs/2',
+                            'localizedCatalog' => $this->getUri('localized_catalogs', '2'),
                             'label' => 'Localized label2 brand 4',
                         ],
                     ],
                 ],
                 [
-                    'sourceField' => '/source_fields/9',
+                    'sourceField' => $this->getUri('source_fields', '9'),
                     'code' => 'new_brand_code_5',
                     'defaultLabel' => 'New brand 5',
                     'labels' => [
                         [
-                            'localizedCatalog' => '/localized_catalogs/2',
+                            'localizedCatalog' => $this->getUri('localized_catalogs', '2'),
                             'label' => 'Localized label2 brand 5',
                         ],
                     ],
                 ],
                 [
-                    'sourceField' => '/source_fields/12',
+                    'sourceField' => $this->getUri('source_fields', '12'),
                     'code' => 'new_material_code_1',
                     'defaultLabel' => 'New Material 1',
                     'labels' => [
                         [
-                            'localizedCatalog' => '/localized_catalogs/1',
+                            'localizedCatalog' => $this->getUri('localized_catalogs', '1'),
                             'label' => 'Localized label1 material 1',
                         ],
                     ],

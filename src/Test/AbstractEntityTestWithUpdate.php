@@ -97,11 +97,11 @@ abstract class AbstractEntityTestWithUpdate extends AbstractEntityTestCase
                 $shortName = $this->getShortName();
                 $this->assertJsonContains(
                     array_merge(
-                        ['@context' => "/contexts/$shortName", '@type' => $shortName],
+                        ['@context' => $this->getRoute("contexts/$shortName"), '@type' => $shortName],
                         $this->getJsonUpdateValidation($data)
                     )
                 );
-                $this->assertMatchesRegularExpression($validRegex ?? '~^' . $this->getApiPath() . '/\d+$~', $response->toArray()['@id']);
+                $this->assertMatchesRegularExpression($validRegex ?? '~^.*/?' . $this->getApiPath() . '/\d+$~', $response->toArray()['@id']);
                 $this->assertMatchesResourceItemJsonSchema($this->getEntityClass());
             },
             $message

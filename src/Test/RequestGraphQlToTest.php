@@ -28,7 +28,7 @@ class RequestGraphQlToTest extends RequestToTest
     ) {
         parent::__construct(
             'POST',
-            '/graphql',
+            'graphql',
             $user,
             ['operationName' => null, 'query' => $query, 'variables' => $variables],
             $headers

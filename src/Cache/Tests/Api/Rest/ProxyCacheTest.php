@@ -37,7 +37,7 @@ class ProxyCacheTest extends AbstractTestCase
                 200,
                 function (ResponseInterface $response) {
                     $headerExpectedValues = [
-                        'cache-tags' => '/categories,/category_configurations',
+                        'cache-tags' => "{$this->getRoute('categories')},{$this->getRoute('category_configurations')}",
                         'cache-control' => 'must-revalidate',
                     ];
                     $this->validateHeaders($response, $headerExpectedValues);

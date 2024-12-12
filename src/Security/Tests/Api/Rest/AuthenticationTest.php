@@ -29,9 +29,9 @@ class AuthenticationTest extends AbstractTestCase
         $catalog = ['code' => 'login_rest_catalog', 'name' => 'Login Rest catalog'];
 
         // Test before login
-        $client->request('GET', '/catalogs');
+        $client->request('GET', $this->getRoute('catalogs'));
         $this->assertResponseStatusCodeSame(200);
-        $client->request('POST', '/catalogs', ['json' => $catalog]);
+        $client->request('POST', $this->getRoute('catalogs'), ['json' => $catalog]);
         $this->assertResponseStatusCodeSame(401);
 
         // Log contributor
@@ -40,9 +40,9 @@ class AuthenticationTest extends AbstractTestCase
         $this->assertNotEmpty($token);
 
         // Test not authorized.
-        $client->request('GET', '/catalogs');
+        $client->request('GET', $this->getRoute('catalogs'));
         $this->assertResponseStatusCodeSame(200);
-        $client->request('POST', '/catalogs', ['auth_bearer' => $token, 'json' => $catalog]);
+        $client->request('POST', $this->getRoute('catalogs'), ['auth_bearer' => $token, 'json' => $catalog]);
         $this->assertResponseStatusCodeSame(403);
 
         // Log admin
@@ -51,9 +51,9 @@ class AuthenticationTest extends AbstractTestCase
         $this->assertNotEmpty($token);
 
         // Test authorized.
-        $client->request('GET', '/catalogs');
+        $client->request('GET', $this->getRoute('catalogs'));
         $this->assertResponseStatusCodeSame(200);
-        $client->request('POST', '/catalogs', ['auth_bearer' => $token, 'json' => $catalog]);
+        $client->request('POST', $this->getRoute('catalogs'), ['auth_bearer' => $token, 'json' => $catalog]);
         $this->assertResponseStatusCodeSame(201);
 
         $this->logout();

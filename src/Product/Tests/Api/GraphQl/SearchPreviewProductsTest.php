@@ -42,9 +42,9 @@ class SearchPreviewProductsTest extends SearchProductsTest
                 'cat_1', // Current category id
                 // test products are sorted by 'created_at' because defaultSorting in current category configuration is 'created_at' (defaultSorting for cat_1 in fixtures is 'name').
                 json_encode([
-                    '@context' => '/contexts/CategoryConfiguration',
+                    '@context' => $this->getRoute('contexts/CategoryConfiguration'),
                     '@type' => 'CategoryConfiguration',
-                    'category' => '/categories/cat_1',
+                    'category' => $this->getUri('categories', 'cat_1'),
                     'name' => 'Un',
                     'useNameInProductSearch' => false,
                     'defaultSorting' => 'created_at',

@@ -46,7 +46,7 @@ class FacetConfigurationTest extends RestFacetConfigurationTest
                 <<<GQL
                     mutation {
                       updateFacetConfiguration(input: {
-                        id: "{$this->getApiPath()}/$id" $query
+                        id: "{$this->getUri('facet_configurations', $id)}" $query
                       }) {
                         facetConfiguration { id coverageRate sortOrder }
                       }
@@ -153,7 +153,7 @@ class FacetConfigurationTest extends RestFacetConfigurationTest
             new RequestGraphQlToTest(
                 <<<GQL
                     {
-                      facetConfiguration (id: "/facet_configurations/{$id}") {
+                      facetConfiguration (id: "{$this->getUri('facet_configurations', $id)}") {
                         id
                       }
                     }
@@ -169,9 +169,9 @@ class FacetConfigurationTest extends RestFacetConfigurationTest
         $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
 
         return [
-            [null, '3-0', ['id' => '/facet_configurations/3-0'], 401, 'Access Denied.'],
-            [$user, '3-0', ['id' => '/facet_configurations/3-0'], 200],
-            [$this->getUser(Role::ROLE_ADMIN), '3-0', ['id' => '/facet_configurations/3-0'], 200],
+            [null, '3-0', ['id' => $this->getUri('facet_configurations', '3-0')], 401, 'Access Denied.'],
+            [$user, '3-0', ['id' => $this->getUri('facet_configurations', '3-0')], 200],
+            [$this->getUser(Role::ROLE_ADMIN), '3-0', ['id' => $this->getUri('facet_configurations', '3-0')], 200],
         ];
     }
 
@@ -193,7 +193,7 @@ class FacetConfigurationTest extends RestFacetConfigurationTest
                         [
                             'data' => [
                                 'deleteFacetConfiguration' => [
-                                    'facetConfiguration' => ['id' => "/facet_configurations/{$id}"],
+                                    'facetConfiguration' => ['id' => $this->getUri('facet_configurations', $id)],
                                 ],
                             ],
                         ]
@@ -205,7 +205,7 @@ class FacetConfigurationTest extends RestFacetConfigurationTest
             new RequestGraphQlToTest(
                 <<<GQL
                     mutation {
-                      deleteFacetConfiguration(input: {id: "/facet_configurations/{$id}"}) {
+                      deleteFacetConfiguration(input: {id: "{$this->getUri('facet_configurations', $id)}"}) {
                         facetConfiguration {
                           id
                         }
@@ -228,9 +228,9 @@ class FacetConfigurationTest extends RestFacetConfigurationTest
         $id = implode('-', [$sourceFieldId, $categoryId]);
 
         $baseData = [
-            'id' => "/facet_configurations/$id",
+            'id' => $this->getUri('facet_configurations', $id),
             'sourceField' => [
-                'id' => "/source_fields/$sourceFieldId",
+                'id' => $this->getUri('source_fields', $sourceFieldId),
                 'defaultLabel' => $sourceFieldLabel,
             ],
             'category' => null,
@@ -249,7 +249,7 @@ class FacetConfigurationTest extends RestFacetConfigurationTest
 
         if ($categoryId) {
             $baseData['category'] = [
-                'id' => "/categories/$categoryId",
+                'id' => $this->getUri('categories', $categoryId),
             ];
         }
 

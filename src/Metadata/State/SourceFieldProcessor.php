@@ -21,6 +21,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\DBAL\Exception;
 use Doctrine\ORM\EntityManagerInterface;
 use Gally\Catalog\Service\DefaultCatalogProvider;
+use Gally\Metadata\Entity\Metadata;
 use Gally\Metadata\Entity\SourceField;
 use Gally\Metadata\Repository\SourceFieldLabelRepository;
 use Gally\Metadata\Repository\SourceFieldRepository;
@@ -33,6 +34,7 @@ class SourceFieldProcessor implements ProcessorInterface
     private array $metadataIds = [];
     private array $sourceFieldCodes = [];
     private array $errors = [];
+    private string $routePrefix;
 
     public function __construct(
         private EntityManagerInterface $entityManager,
@@ -41,7 +43,9 @@ class SourceFieldProcessor implements ProcessorInterface
         private SourceFieldLabelRepository $sourceFieldLabelRepository,
         private SourceFieldDataValidator $validator,
         private ProcessorInterface $removeProcessor,
+        string $routePrefix,
     ) {
+        $this->routePrefix = $routePrefix ? '/' . $routePrefix : '';
     }
 
     /**
@@ -177,7 +181,7 @@ class SourceFieldProcessor implements ProcessorInterface
         $this->metadataIds = array_unique(array_filter(
             array_map(
                 fn ($item) => \array_key_exists('metadata', $item)
-                    ? (int) str_replace('/metadata/', '', $item['metadata'])
+                    ? (int) str_replace($this->routePrefix . '/metadata/', '', $item['metadata'])
                     : null,
                 $rawData
             )
@@ -197,12 +201,12 @@ class SourceFieldProcessor implements ProcessorInterface
         foreach ($rawData as $index => $sourceField) {
             try {
                 $this->validator->validateRawData($sourceField, $existingSourceFields);
-                $metadataId = (int) str_replace('/metadata/', '', $sourceField['metadata']);
+                $metadataId = (int) str_replace($this->routePrefix . '/metadata/', '', $sourceField['metadata']);
                 $defaultLabel = $sourceField['defaultLabel'] ?? ucfirst($sourceField['code']);
 
                 // Manage labels data
                 foreach ($sourceField['labels'] ?? [] as $label) {
-                    $localizedCatalogId = (int) str_replace('/localized_catalogs/', '', $label['localizedCatalog']);
+                    $localizedCatalogId = (int) str_replace($this->routePrefix . '/localized_catalogs/', '', $label['localizedCatalog']);
                     $this->labelsData[$metadataId][$sourceField['code']][$localizedCatalogId] = $label;
 
                     if ($localizedCatalogId === $defaultLocalizedCatalog->getId()) {

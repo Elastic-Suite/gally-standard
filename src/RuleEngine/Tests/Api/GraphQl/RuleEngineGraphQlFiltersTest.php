@@ -71,7 +71,7 @@ class RuleEngineGraphQlFiltersTest extends \Gally\RuleEngine\Tests\Api\Rest\Rule
                     $this->assertJsonContains([
                         'data' => [
                             'getRuleEngineGraphQlFilters' => [
-                                'id' => '/rule_engine_graph_ql_filters/rule_engine_graphql_filters',
+                                'id' => $this->getUri('rule_engine_graph_ql_filters', 'rule_engine_graphql_filters'),
                                 'graphQlFilters' => $expectedFilters,
                             ],
                         ],

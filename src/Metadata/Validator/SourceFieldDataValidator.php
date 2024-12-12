@@ -24,12 +24,15 @@ class SourceFieldDataValidator
     private array $requiredFields = ['code', 'metadata'];
     private array $existingMetadataIds;
     private array $existingLocalizedCatalogIds;
+    private string $routePrefix;
 
     public function __construct(
         private EntityManagerInterface $entityManager,
         private MetadataRepository $metadataRepository,
         private LocalizedCatalogRepository $localizedCatalogRepository,
+        string $routePrefix,
     ) {
+        $this->routePrefix = $routePrefix ? '/' . $routePrefix : '';
     }
 
     /**
@@ -77,7 +80,7 @@ class SourceFieldDataValidator
             }
         }
 
-        $metadataId = (int) str_replace('/metadata/', '', $rawData['metadata']);
+        $metadataId = (int) str_replace($this->routePrefix . '/metadata/', '', $rawData['metadata']);
 
         if (!\array_key_exists($metadataId, $this->getExistingMetadataIds())) {
             throw new InvalidArgumentException("Item not found for \"{${$rawData['metadata']}}\".");
@@ -100,7 +103,7 @@ class SourceFieldDataValidator
 
         // validate labels data
         foreach ($rawData['labels'] ?? [] as $label) {
-            $localizedCatalogId = (int) str_replace('/localized_catalogs/', '', $label['localizedCatalog']);
+            $localizedCatalogId = (int) str_replace($this->routePrefix . '/localized_catalogs/', '', $label['localizedCatalog']);
 
             if (!\array_key_exists($localizedCatalogId, $this->getExistingLocalizedCatalog())) {
                 throw new InvalidArgumentException("Item not found for \"{$label['localizedCatalog']}\".");
