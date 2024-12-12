@@ -27,7 +27,7 @@ class LocaleGroupOptionTest extends GraphQlLocaleGroupOptionTest
     public function testGetCollection(?User $user, array $expectedData, int $responseCode = 200, ?string $expectedMessage = null): void
     {
         $this->validateApiCall(
-            new RequestToTest('GET', '/locale_group_options', $user),
+            new RequestToTest('GET', 'locale_group_options', $user),
             new ExpectedResponse(
                 $responseCode,
                 function (ResponseInterface $response) use ($expectedData) {
@@ -37,7 +37,7 @@ class LocaleGroupOptionTest extends GraphQlLocaleGroupOptionTest
                         $this->assertCount(self::USED_LOCALE_COUNT, $responseData['hydra:member'][0]['options']);
                         $this->assertCount(self::UNUSED_LOCALE_COUNT, $responseData['hydra:member'][1]['options']);
                     } else {
-                        $this->assertJsonContains(['@context' => '/contexts/LocaleGroupOption', '@type' => 'hydra:Collection']);
+                        $this->assertJsonContains(['@context' => $this->getRoute('contexts/LocaleGroupOption'), '@type' => 'hydra:Collection']);
                     }
                 }
             )

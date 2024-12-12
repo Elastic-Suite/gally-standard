@@ -48,7 +48,7 @@ class IndexDocumentTest extends AbstractTestCase
         int $responseCode = 201,
         ?string $message = null,
     ): void {
-        $request = new RequestToTest('POST', '/index_documents', $user, $data);
+        $request = new RequestToTest('POST', 'index_documents', $user, $data);
         $expectedResponse = new ExpectedResponse($responseCode, null, $message);
 
         $this->validateApiCall($request, $expectedResponse);
@@ -86,7 +86,7 @@ class IndexDocumentTest extends AbstractTestCase
         ?string $message = null,
     ): void {
         $this->validateApiCall(
-            new RequestToTest('DELETE', "/index_documents/$indexName", $user, ['document_ids' => $ids]),
+            new RequestToTest('DELETE', "index_documents/$indexName", $user, ['document_ids' => $ids]),
             new ExpectedResponse($responseCode, null, $message)
         );
     }

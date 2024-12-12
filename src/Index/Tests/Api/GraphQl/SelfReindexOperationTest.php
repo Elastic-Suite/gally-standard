@@ -124,7 +124,7 @@ class SelfReindexOperationTest extends AbstractTestCase
                                                         'id' => [
                                                             'type' => 'string',
                                                             'format' => 'uri-reference',
-                                                            'enum' => ['/indices/self-reindex'],
+                                                            'enum' => [$this->getRoute('indices/self-reindex')],
                                                         ],
                                                         '_id' => [
                                                             'type' => 'string',

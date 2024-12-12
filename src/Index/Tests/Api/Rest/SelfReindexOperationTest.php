@@ -84,7 +84,7 @@ class SelfReindexOperationTest extends AbstractTestCase
         $this->validateApiCall(
             new RequestToTest(
                 'POST',
-                '/indices/self-reindex',
+                'indices/self-reindex',
                 $user,
                 ['entityType' => "{$entityType}"]
             ),
@@ -105,12 +105,12 @@ class SelfReindexOperationTest extends AbstractTestCase
                                 '@context' => [
                                     'type' => 'string',
                                     'format' => 'uri-reference',
-                                    'enum' => ['/contexts/SelfReindex'],
+                                    'enum' => [$this->getRoute('contexts/SelfReindex')],
                                 ],
                                 '@id' => [
                                     'type' => 'string',
                                     'format' => 'uri-reference',
-                                    'enum' => ['/indices/self-reindex'],
+                                    'enum' => [$this->getRoute('indices/self-reindex')],
                                 ],
                                 '@type' => [
                                     'type' => 'string',

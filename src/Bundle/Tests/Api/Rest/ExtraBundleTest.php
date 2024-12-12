@@ -22,13 +22,13 @@ class ExtraBundleTest extends AbstractTestCase
 {
     public function testGetCollection(): void
     {
-        $request = new RequestToTest('GET', '/extra_bundles', null);
+        $request = new RequestToTest('GET', 'extra_bundles', null);
         $expectedResponse = new ExpectedResponse(
             200,
             function (ResponseInterface $response) {
                 $this->assertJsonContains([
-                    '@context' => '/contexts/ExtraBundle',
-                    '@id' => '/extra_bundles',
+                    '@context' => $this->getRoute('contexts/ExtraBundle'),
+                    '@id' => $this->getRoute('extra_bundles'),
                     '@type' => 'hydra:Collection',
                     'hydra:member' => [],
                 ]);

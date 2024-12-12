@@ -39,47 +39,47 @@ class SourceFieldLabelTest extends AbstractEntityTestWithUpdate
         $adminUser = $this->getUser(Role::ROLE_ADMIN);
 
         return [
-            [null, ['localizedCatalog' => '/localized_catalogs/1', 'sourceField' => '/source_fields/3', 'label' => 'Prix'], 401],
-            [$this->getUser(Role::ROLE_CONTRIBUTOR), ['localizedCatalog' => '/localized_catalogs/1', 'sourceField' => '/source_fields/3', 'label' => 'Prix'], 403],
-            [$adminUser, ['localizedCatalog' => '/localized_catalogs/1', 'sourceField' => '/source_fields/3', 'label' => 'Prix'], 201],
-            [$adminUser, ['localizedCatalog' => '/localized_catalogs/2', 'sourceField' => '/source_fields/3', 'label' => 'Price'], 201],
-            [$adminUser, ['localizedCatalog' => '/localized_catalogs/1', 'sourceField' => '/source_fields/2', 'label' => 'Nom'], 201],
-            [$adminUser, ['localizedCatalog' => '/localized_catalogs/2', 'sourceField' => '/source_fields/2', 'label' => 'Name'], 201],
+            [null, ['localizedCatalog' => $this->getUri('localized_catalogs', '1'), 'sourceField' => $this->getUri('source_fields', '3'), 'label' => 'Prix'], 401],
+            [$this->getUser(Role::ROLE_CONTRIBUTOR), ['localizedCatalog' => $this->getUri('localized_catalogs', '1'), 'sourceField' => $this->getUri('source_fields', '3'), 'label' => 'Prix'], 403],
+            [$adminUser, ['localizedCatalog' => $this->getUri('localized_catalogs', '1'), 'sourceField' => $this->getUri('source_fields', '3'), 'label' => 'Prix'], 201],
+            [$adminUser, ['localizedCatalog' => $this->getUri('localized_catalogs', '2'), 'sourceField' => $this->getUri('source_fields', '3'), 'label' => 'Price'], 201],
+            [$adminUser, ['localizedCatalog' => $this->getUri('localized_catalogs', '1'), 'sourceField' => $this->getUri('source_fields', '2'), 'label' => 'Nom'], 201],
+            [$adminUser, ['localizedCatalog' => $this->getUri('localized_catalogs', '2'), 'sourceField' => $this->getUri('source_fields', '2'), 'label' => 'Name'], 201],
             [
                 $adminUser,
-                ['localizedCatalog' => '/localized_catalogs/1', 'sourceField' => '/source_fields/4'],
+                ['localizedCatalog' => $this->getUri('localized_catalogs', '1'), 'sourceField' => $this->getUri('source_fields', '4')],
                 422,
                 'label: This value should not be blank.',
             ],
             [
                 $adminUser,
-                ['localizedCatalog' => '/localized_catalogs/1', 'sourceField' => '/source_fields/1', 'label' => 'Titre'],
+                ['localizedCatalog' => $this->getUri('localized_catalogs', '1'), 'sourceField' => $this->getUri('source_fields', '1'), 'label' => 'Titre'],
                 422,
                 'sourceField: A label is already defined for this field and this localized catalog.',
             ],
             [
                 $adminUser,
-                ['sourceField' => '/source_fields/4', 'label' => 'Marque'],
+                ['sourceField' => $this->getUri('source_fields', '4'), 'label' => 'Marque'],
                 422,
                 'localizedCatalog: This value should not be blank.',
             ],
             [
                 $adminUser,
-                ['localizedCatalog' => '/localized_catalogs/1', 'label' => 'Marque'],
+                ['localizedCatalog' => $this->getUri('localized_catalogs', '1'), 'label' => 'Marque'],
                 422,
                 'sourceField: This value should not be blank.',
             ],
             [
                 $adminUser,
-                ['localizedCatalog' => '/localized_catalogs/NotExist', 'sourceField' => '/source_fields/4', 'label' => 'Marque'],
+                ['localizedCatalog' => $this->getUri('localized_catalogs', 'NotExist'), 'sourceField' => $this->getUri('source_fields', '4'), 'label' => 'Marque'],
                 400,
-                'Item not found for "/localized_catalogs/NotExist".',
+                'Item not found for "' . $this->getUri('localized_catalogs', 'NotExist') . '".',
             ],
             [
                 $adminUser,
-                ['localizedCatalog' => '/localized_catalogs/1', 'sourceField' => '/source_fields/NotExist', 'label' => 'Marque'],
+                ['localizedCatalog' => $this->getUri('localized_catalogs', '1'), 'sourceField' => $this->getUri('source_fields', 'NotExist'), 'label' => 'Marque'],
                 400,
-                'Item not found for "/source_fields/NotExist".',
+                'Item not found for "' . $this->getUri('source_fields', 'NotExist') . '".',
             ],
         ];
     }

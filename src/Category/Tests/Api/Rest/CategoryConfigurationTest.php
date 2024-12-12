@@ -53,14 +53,14 @@ class CategoryConfigurationTest extends AbstractEntityTestWithUpdate
         if (isset($data['catalog'])) {
             $catalogRepository = static::getContainer()->get(CatalogRepository::class);
             $catalog = $catalogRepository->findOneBy(['code' => $data['catalog']]);
-            $data['catalog'] = "/catalogs/{$catalog->getId()}";
+            $data['catalog'] = $this->getUri('catalogs', $catalog->getId());
         }
         if (isset($data['localizedCatalog'])) {
             $localizedCatalogRepository = static::getContainer()->get(LocalizedCatalogRepository::class);
             $localizedCatalog = $localizedCatalogRepository->findOneBy(['code' => $data['localizedCatalog']]);
-            $data['localizedCatalog'] = "/localized_catalogs/{$localizedCatalog->getId()}";
+            $data['localizedCatalog'] = $this->getUri('localized_catalogs', $localizedCatalog->getId());
         }
-        $data['category'] = "/categories/{$data['category']}";
+        $data['category'] = $this->getUri('categories', $data['category']);
         parent::testCreate($user, $data, $responseCode, $message, $validRegex);
     }
 
