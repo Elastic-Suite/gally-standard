@@ -58,7 +58,7 @@ class CategoryProductMerchandisingTest extends AbstractTestCase
 
     protected function getApiPath(): string
     {
-        return '/category_product_merchandisings';
+        return 'category_product_merchandisings';
     }
 
     public function testSecurity(): void

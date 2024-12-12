@@ -44,9 +44,10 @@ trait LoginTrait
 
     public function loginRest(Client $client, User $user): string
     {
+        $routePrefix = static::getContainer()->getParameter('route_prefix');
         $role = $user->getRoles()[0];
         if (!isset(self::$tokens[$role])) {
-            $response = $client->request('POST', '/authentication_token', [
+            $response = $client->request('POST', $routePrefix . '/authentication_token', [
                 'headers' => ['Content-Type' => 'application/json'],
                 'json' => [
                     'email' => $user->getEmail(),
@@ -63,10 +64,11 @@ trait LoginTrait
     public function loginGraphQl(Client $client, User $user): string
     {
         $role = $user->getRoles()[0];
+        $routePrefix = static::getContainer()->getParameter('route_prefix');
         if (!isset(self::$tokens[$role])) {
             $response = $client->request(
                 'POST',
-                '/graphql',
+                $routePrefix . '/graphql',
                 [
                     'json' => [
                         'operationName' => null,

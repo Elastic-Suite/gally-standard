@@ -63,7 +63,7 @@ class CatalogsTest extends AbstractEntityTestWithUpdate
                     'name' => 'B2C Test Catalog',
                     'localizedCatalogs' => [
                         [
-                            '@id' => '/localized_catalogs/1',
+                            '@id' => $this->getUri('localized_catalogs', '1'),
                             '@type' => 'LocalizedCatalog',
                             'id' => 1,
                             'name' => 'B2C French Store View',
@@ -73,7 +73,7 @@ class CatalogsTest extends AbstractEntityTestWithUpdate
                             'localName' => 'French (France)',
                         ],
                         [
-                            '@id' => '/localized_catalogs/2',
+                            '@id' => $this->getUri('localized_catalogs', '2'),
                             '@type' => 'LocalizedCatalog',
                             'id' => 2,
                             'name' => 'B2C English Store View',

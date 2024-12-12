@@ -370,7 +370,7 @@ class SearchDocumentsTest extends AbstractTestCase
                         $this->assertEquals($expectedScore, $document['score']);
                         */
                         $this->assertArrayHasKey('id', $document);
-                        $this->assertEquals("/documents/{$expectedOrderedDocIds[$index]}", $document['id']);
+                        $this->assertEquals($this->getUri('documents', $expectedOrderedDocIds[$index]), $document['id']);
 
                         $this->assertArrayHasKey('source', $document);
                         if (\array_key_exists($documentIdentifier, $document['source'])) {
@@ -1504,7 +1504,7 @@ class SearchDocumentsTest extends AbstractTestCase
                     $this->assertCount(\count($expectedOrderedDocIds), $responseData['data']['documents']['collection']);
                     foreach ($responseData['data']['documents']['collection'] as $index => $document) {
                         $this->assertArrayHasKey('id', $document);
-                        $this->assertEquals("/documents/{$expectedOrderedDocIds[$index]}", $document['id']);
+                        $this->assertEquals($this->getUri('documents', $expectedOrderedDocIds[$index]), $document['id']);
 
                         $this->assertArrayHasKey('source', $document);
                         if (\array_key_exists($documentIdentifier, $document['source'])) {
