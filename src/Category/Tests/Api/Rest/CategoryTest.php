@@ -94,7 +94,7 @@ class CategoryTest extends AbstractEntityTestWithUpdate
 
     public function patchUpdateDataProvider(): iterable
     {
-        $validRegex = '~^' . $this->getApiPath() . '/\S+$~';
+        $validRegex = '~^.*/' . $this->getApiPath() . '/\S+$~';
 
         return [
             [null, 'one', ['level' => 2], 401],

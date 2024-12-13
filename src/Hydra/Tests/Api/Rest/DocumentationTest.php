@@ -13,13 +13,13 @@ declare(strict_types=1);
 
 namespace Gally\Hydra\Tests\Api\Rest;
 
-use ApiPlatform\Symfony\Bundle\Test\ApiTestCase;
+use Gally\Test\AbstractTestCase;
 
-class DocumentationTest extends ApiTestCase
+class DocumentationTest extends AbstractTestCase
 {
     public function testAdditionalHydraDocumentation(): void
     {
-        $response = static::createClient()->request('GET', '/docs.jsonld');
+        $response = static::createClient()->request('GET', $this->getApiRoutePrefix() . 'docs.jsonld');
         $this->assertResponseIsSuccessful();
 
         $response = json_decode($response->getContent(), true);

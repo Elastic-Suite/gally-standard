@@ -26,7 +26,7 @@ trait IndexActions
         $this->validateApiCall(
             new RequestToTest(
                 'POST',
-                '/indices',
+                'indices',
                 $this->getUser(Role::ROLE_ADMIN),
                 ['entityType' => $entityType, 'localizedCatalog' => "$catalogId"]
             ),
@@ -45,7 +45,7 @@ trait IndexActions
     protected function installIndex(string $indexName): void
     {
         $this->validateApiCall(
-            new RequestToTest('PUT', "/indices/install/{$indexName}", $this->getUser(Role::ROLE_ADMIN)),
+            new RequestToTest('PUT', "indices/install/{$indexName}", $this->getUser(Role::ROLE_ADMIN)),
             new ExpectedResponse(200)
         );
     }
@@ -56,7 +56,7 @@ trait IndexActions
         $this->validateApiCall(
             new RequestToTest(
                 'POST',
-                '/index_documents',
+                'index_documents',
                 $this->getUser(Role::ROLE_ADMIN),
                 [
                     'indexName' => $indexName,
@@ -72,7 +72,7 @@ trait IndexActions
         $this->validateApiCall(
             new RequestToTest(
                 'DELETE',
-                "/index_documents/$indexName",
+                "index_documents/$indexName",
                 $this->getUser(Role::ROLE_ADMIN),
                 ['document_ids' => $ids]
             ),

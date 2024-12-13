@@ -22,13 +22,13 @@ class ConfigurationTest extends AbstractTestCase
 {
     public function testGetCollection(): void
     {
-        $request = new RequestToTest('GET', '/configurations', null);
+        $request = new RequestToTest('GET', 'configurations', null);
         $expectedResponse = new ExpectedResponse(
             200,
             function (ResponseInterface $response) {
                 $this->assertJsonContains([
-                    '@context' => '/contexts/Configuration',
-                    '@id' => '/configurations',
+                    '@context' => $this->getApiRoutePrefix() . 'contexts/Configuration',
+                    '@id' => $this->getApiRoutePrefix() . 'configurations',
                     '@type' => 'hydra:Collection',
                     'hydra:member' => [['id' => 'base_url/media']],
                 ]);

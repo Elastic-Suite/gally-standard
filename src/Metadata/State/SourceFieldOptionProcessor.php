@@ -34,6 +34,7 @@ class SourceFieldOptionProcessor implements ProcessorInterface
     private array $sourceFieldIds = [];
     private array $optionCodes = [];
     private array $errors = [];
+    private string $routePrefix;
 
     public function __construct(
         private EntityManagerInterface $entityManager,
@@ -42,7 +43,9 @@ class SourceFieldOptionProcessor implements ProcessorInterface
         private SourceFieldOptionLabelRepository $sourceFieldOptionLabelRepository,
         private SourceFieldOptionDataValidator $validator,
         private ProcessorInterface $removeProcessor,
+        string $routePrefix,
     ) {
+        $this->routePrefix = $routePrefix ? '/' . $routePrefix : '';
     }
 
     /**
@@ -167,7 +170,7 @@ class SourceFieldOptionProcessor implements ProcessorInterface
         $this->sourceFieldIds = array_unique(array_filter(
             array_map(
                 fn ($item) => \array_key_exists('sourceField', $item)
-                    ? (int) str_replace('/source_fields/', '', $item['sourceField'])
+                    ? (int) str_replace($this->routePrefix . '/source_fields/', '', $item['sourceField'])
                     : null,
                 $rawData
             )
@@ -180,11 +183,11 @@ class SourceFieldOptionProcessor implements ProcessorInterface
         foreach ($rawData as $index => $option) {
             try {
                 $this->validator->validateRawData($option, $existingSourceFieldIds);
-                $sourceFieldId = (int) str_replace('/source_fields/', '', $option['sourceField']);
+                $sourceFieldId = (int) str_replace($this->routePrefix . '/source_fields/', '', $option['sourceField']);
 
                 // Manage labels data
                 foreach ($option['labels'] ?? [] as $label) {
-                    $localizedCatalogId = (int) str_replace('/localized_catalogs/', '', $label['localizedCatalog']);
+                    $localizedCatalogId = (int) str_replace($this->routePrefix . '/localized_catalogs/', '', $label['localizedCatalog']);
                     $this->labelsData[$sourceFieldId][$option['code']][$localizedCatalogId] = $label;
                 }
 

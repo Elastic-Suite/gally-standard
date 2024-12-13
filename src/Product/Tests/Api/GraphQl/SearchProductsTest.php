@@ -392,7 +392,7 @@ class SearchProductsTest extends AbstractTestCase
                         $this->assertEquals($expectedScore, $document['score']);
                         */
                         $this->assertArrayHasKey('id', $document);
-                        $this->assertEquals("/products/{$expectedOrderedDocIds[$index]}", $document['id']);
+                        $this->assertEquals($this->getUri('products', $expectedOrderedDocIds[$index]), $document['id']);
 
                         $this->assertArrayHasKey('source', $document);
                         if (\array_key_exists($documentIdentifier, $document['source'])) {
@@ -2261,7 +2261,7 @@ class SearchProductsTest extends AbstractTestCase
         $this->assertCount(\count($expectedOrderedDocIds), $responseData['data']['products']['collection']);
         foreach ($responseData['data']['products']['collection'] as $index => $document) {
             $this->assertArrayHasKey('id', $document);
-            $this->assertEquals("/products/{$expectedOrderedDocIds[$index]}", $document['id']);
+            $this->assertEquals($this->getUri('products', $expectedOrderedDocIds[$index]), $document['id']);
 
             $this->assertArrayHasKey('source', $document);
             if (\array_key_exists($documentIdentifier, $document['source'])) {
