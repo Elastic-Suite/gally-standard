@@ -16,6 +16,7 @@ namespace Gally\Metadata\Validator;
 use ApiPlatform\Metadata\Exception\InvalidArgumentException;
 use Gally\Catalog\Repository\LocalizedCatalogRepository;
 use Gally\Metadata\Entity\SourceField;
+use Gally\Metadata\Entity\SourceFieldOption;
 
 class SourceFieldOptionDataValidator
 {
@@ -25,6 +26,20 @@ class SourceFieldOptionDataValidator
     public function __construct(
         private LocalizedCatalogRepository $localizedCatalogRepository,
     ) {
+    }
+
+    /**
+     * Validate if the given object are valid to be insert in db as a source field option.
+     *
+     * @param SourceFieldOption $sourceFieldOption  source field option
+     *
+     * @return void
+     */
+    public function validateObject(SourceFieldOption $sourceFieldOption)
+    {
+        if (SourceField\Type::TYPE_SELECT != $sourceFieldOption->getSourceField()->getType()) {
+            throw new InvalidArgumentException('You can only add options to a source field of type "select".');
+        }
     }
 
     /**

@@ -46,26 +46,27 @@ class SourceFieldOptionTest extends AbstractEntityTestWithUpdate
         $adminUser = $this->getUser(Role::ROLE_ADMIN);
 
         return [
-            [null, ['sourceField' => '/source_fields/4', 'code' => 'A', 'position' => 10, 'defaultLabel' => 'label'], 401],
+            [null, ['sourceField' => '/source_fields/9', 'code' => 'A', 'position' => 10, 'defaultLabel' => 'label'], 401],
             [$this->getUser(Role::ROLE_CONTRIBUTOR), ['sourceField' => '/source_fields/4', 'code' => 'A', 'position' => 10, 'defaultLabel' => 'label'], 403],
-            [$adminUser, ['sourceField' => '/source_fields/4', 'code' => 'A', 'position' => 10, 'defaultLabel' => 'label'], 201],
-            [$adminUser, ['sourceField' => '/source_fields/4', 'code' => 'B', 'defaultLabel' => 'label'], 201],
+            [$adminUser, ['sourceField' => '/source_fields/9', 'code' => 'A', 'position' => 10, 'defaultLabel' => 'label'], 201],
+            [$adminUser, ['sourceField' => '/source_fields/9', 'code' => 'B', 'defaultLabel' => 'label'], 201],
+            [$adminUser, ['sourceField' => '/source_fields/9', 'code' => 'C', 'position' => null, 'defaultLabel' => 'label'], 201],
             [$adminUser,
                 [
-                    'sourceField' => '/source_fields/4',
-                    'code' => 'C',
+                    'sourceField' => '/source_fields/9',
+                    'code' => 'D',
                     'defaultLabel' => 'label',
                     'labels' => [
-                        ['localizedCatalog' => '/localized_catalogs/1', 'label' => 'L\'option C'],
-                        ['localizedCatalog' => '/localized_catalogs/2', 'label' => 'C option'],
+                        ['localizedCatalog' => '/localized_catalogs/1', 'label' => 'L\'option D'],
+                        ['localizedCatalog' => '/localized_catalogs/2', 'label' => 'D option'],
                     ],
                 ],
                 201,
             ],
             [$adminUser, ['position' => 3, 'code' => 'A', 'defaultLabel' => 'label'], 422, 'sourceField: This value should not be blank.'],
-            [$adminUser, ['sourceField' => '/source_fields/4', 'position' => 3, 'defaultLabel' => 'label'], 422, 'code: This value should not be blank.'],
-            [$adminUser, ['sourceField' => '/source_fields/4', 'position' => 3, 'code' => 'D'], 422, 'defaultLabel: This value should not be blank.'],
-            [$adminUser, ['sourceField' => '/source_fields/4', 'code' => 'A', 'position' => 3, 'defaultLabel' => 'label'], 422, 'sourceField: An option with this code is already defined for this sourceField.'],
+            [$adminUser, ['sourceField' => '/source_fields/9', 'position' => 3, 'defaultLabel' => 'label'], 422, 'code: This value should not be blank.'],
+            [$adminUser, ['sourceField' => '/source_fields/9', 'position' => 3, 'code' => 'E'], 422, 'defaultLabel: This value should not be blank.'],
+            [$adminUser, ['sourceField' => '/source_fields/9', 'code' => 'A', 'position' => 3, 'defaultLabel' => 'label'], 422, 'sourceField: An option with this code is already defined for this sourceField.'],
         ];
     }
 
@@ -283,15 +284,51 @@ class SourceFieldOptionTest extends AbstractEntityTestWithUpdate
             'Option #4: Item not found for "/localized_catalogs/1000".',
         ];
 
-        // With one option
+        // With one updated option (that have been created without position)
         yield [
             $adminUser,
             [
                 ['sourceField' => '/source_fields/9', 'code' => 'new_brand_code', 'defaultLabel' => 'New brand'],
             ],
-            [9 => 5],
+            [9 => 9],
             [
                 0 => ['defaultLabel' => 'New brand'],
+            ],
+            200,
+        ];
+        // With one option that have been created without position
+        yield [
+            $adminUser,
+            [
+                ['sourceField' => '/source_fields/9', 'code' => 'B', 'defaultLabel' => 'label update'],
+            ],
+            [9 => 9],
+            [
+                0 => ['defaultLabel' => 'label update'],
+            ],
+            200,
+        ];
+        // With one option that have been created with a null position
+        yield [
+            $adminUser,
+            [
+                ['sourceField' => '/source_fields/9', 'code' => 'C', 'defaultLabel' => 'label update'],
+            ],
+            [9 => 9],
+            [
+                0 => ['defaultLabel' => 'label update'],
+            ],
+            200,
+        ];
+        // With one option that have been created with a null position and update with null
+        yield [
+            $adminUser,
+            [
+                ['sourceField' => '/source_fields/9', 'code' => 'C', 'position' => null, 'defaultLabel' => 'label update'],
+            ],
+            [9 => 9],
+            [
+                0 => ['defaultLabel' => 'label update'],
             ],
             200,
         ];

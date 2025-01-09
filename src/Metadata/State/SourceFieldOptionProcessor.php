@@ -72,6 +72,7 @@ class SourceFieldOptionProcessor implements ProcessorInterface
 
         try {
             $this->entityManager->beginTransaction();
+            $this->validator->validateObject($sourceFieldOption);
             $this->replaceLabels($sourceFieldOption);
             $this->entityManager->persist($sourceFieldOption);
             $this->entityManager->flush();
@@ -257,6 +258,7 @@ class SourceFieldOptionProcessor implements ProcessorInterface
                         'code' => $expBuilder->literal($optionData['code']),
                         'default_label' => $expBuilder->literal($optionData['defaultLabel']),
                         'position' => $optionData['position'] ? (int) $optionData['position'] : 'NULL',
+//                        'position' => isset($optionData['position']) ? (int) $optionData['position'] : 'NULL',
                     ];
                 } else {
                     // Create new
