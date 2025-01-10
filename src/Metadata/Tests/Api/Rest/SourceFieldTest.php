@@ -237,14 +237,14 @@ class SourceFieldTest extends AbstractEntityTestWithUpdate
                 5,
                 ['isFilterable' => true],
                 400,
-                "The source field 'sku' cannot be updated because it is a system source field, only the value of 'weight', 'isSpellchecked', 'defaultSearchAnalyzer', 'isSpannable' can be changed.",
+                "The source field 'sku' cannot be updated because it is a system source field, only the value of 'defaultLabel', 'weight', 'isSpellchecked', 'defaultSearchAnalyzer', 'isSpannable' can be changed.",
             ],
             [
                 $adminUser,
                 5,
                 ['isSystem' => false],
                 400,
-                "The source field 'sku' cannot be updated because it is a system source field, only the value of 'weight', 'isSpellchecked', 'defaultSearchAnalyzer', 'isSpannable' can be changed.",
+                "The source field 'sku' cannot be updated because it is a system source field, only the value of 'defaultLabel', 'weight', 'isSpellchecked', 'defaultSearchAnalyzer', 'isSpannable' can be changed.",
             ],
             [
                 $adminUser,
@@ -431,7 +431,7 @@ class SourceFieldTest extends AbstractEntityTestWithUpdate
             // Expected error messages
             'Option #0: A code value is required for source field. ' .
             'Option #1: A metadata value is required for source field. ' .
-            "Option #2: The source field 'sku' cannot be updated because it is a system source field, only the value of 'weight' and 'isSpellchecked' can be changed.",
+            "Option #2: The source field 'sku' cannot be updated because it is a system source field, only the value of 'defaultLabel', 'weight', 'isSpellchecked', 'defaultSearchAnalyzer', 'isSpannable' can be changed.",
         ];
 
         // With one sourceField
