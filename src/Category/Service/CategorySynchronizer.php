@@ -85,6 +85,11 @@ class CategorySynchronizer
             foreach (array_merge($categoriesToAdd, $categoriesToUpdate) as $categoryId) {
                 $categoryDoc = $elasticCategories[$categoryId];
                 $category = $sqlCategories[$categoryId] ?? new Category();
+
+                if (!\array_key_exists('name', $categoryDoc->getSource())) {
+                    throw new \Exception(\sprintf('No name provided for category %s', $categoryDoc->getSource()['id']));
+                }
+
                 $category->setId($categoryDoc->getSource()['id']);
                 $category->setParentId($categoryDoc->getSource()['parentId'] ?? '');
                 $category->setLevel((int) ($categoryDoc->getSource()['level'] ?? 0));
