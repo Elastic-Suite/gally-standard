@@ -43,7 +43,11 @@ use Gally\Search\Elasticsearch\Builder\Request\Query\QueryBuilder;
 use Gally\Search\Elasticsearch\Request\Container\Configuration\ContainerConfigurationProvider;
 use Gally\Search\Elasticsearch\RequestFactoryInterface;
 use Gally\Test\AbstractTestCase;
+use Gally\Test\ExpectedResponse;
+use Gally\Test\RequestGraphQlToTest;
+use Gally\User\Constant\Role;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Contracts\HttpClient\ResponseInterface;
 
 class CategorySynchronizerTest extends AbstractTestCase
 {
@@ -204,6 +208,35 @@ class CategorySynchronizerTest extends AbstractTestCase
         $this->expectException(SyncCategoryException::class);
         $this->expectExceptionMessage('error test message');
         $synchronizer->synchronize($index);
+    }
+
+    public function testErrorWithCategoryWithoutName(): void
+    {
+        $localizedCatalogRepository = static::getContainer()->get(LocalizedCatalogRepository::class);
+        $localizedCatalog1 = $localizedCatalogRepository->findOneBy(['code' => 'b2c_fr']);
+
+        $indexName = $this->createIndex('category', $localizedCatalog1->getId());
+        $this->bulkIndex($indexName, ['five' => ['id' => 'four', 'parentId' => 'three', 'level' => 3]]);
+        $this->validateApiCall(
+            new RequestGraphQlToTest(
+                <<<GQL
+                    mutation {
+                      installIndex(input: {
+                        name: "$indexName"
+                      }) {
+                        index { id name aliases }
+                      }
+                    }
+                GQL,
+                $this->getUser(Role::ROLE_ADMIN),
+            ),
+            new ExpectedResponse(
+                200,
+                function (ResponseInterface $response) {
+                    $this->assertGraphQlError('No name provided for category four');
+                }
+            )
+        );
     }
 
     /**
