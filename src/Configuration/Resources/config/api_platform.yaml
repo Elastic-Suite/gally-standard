@@ -49,9 +49,6 @@ api_platform:
     # We need to keep legacy inflector because symfony one will pluralize thesaurus as thesauri and index as indexes
     keep_legacy_inflector: true 
     http_cache:
-        invalidation:   
-            enabled: true
-            varnish_urls: ['%env(VARNISH_URL)%']
         public: true
     graphql:
         nesting_separator: __
