@@ -26,11 +26,14 @@ class CategoryTreeTest extends AbstractTestCase
     {
         parent::setUpBeforeClass();
         self::loadFixture([
+            __DIR__ . '/../../fixtures/source_field.yaml',
             __DIR__ . '/../../fixtures/metadata.yaml',
             __DIR__ . '/../../fixtures/catalogs.yaml',
             __DIR__ . '/../../fixtures/categories.yaml',
             __DIR__ . '/../../fixtures/configurations.yaml',
         ]);
+        self::createEntityElasticsearchIndices('product');
+        self::loadElasticsearchDocumentFixtures([__DIR__ . '/../../fixtures/product_documents.json']);
     }
 
     public function testInvalidCatalog(): void
@@ -50,6 +53,7 @@ class CategoryTreeTest extends AbstractTestCase
                     'name' => 'Un',
                     'level' => 1,
                     'path' => 'one',
+                    'count' => 2,
                     'isVirtual' => true,
                     'children' => [
                         [
@@ -57,6 +61,7 @@ class CategoryTreeTest extends AbstractTestCase
                             'name' => 'Trois',
                             'level' => 2,
                             'path' => 'one/three',
+                            'count' => 1,
                             'isVirtual' => false,
                         ],
                     ],
@@ -72,6 +77,7 @@ class CategoryTreeTest extends AbstractTestCase
                     'name' => 'One',
                     'level' => 1,
                     'path' => 'one',
+                    'count' => 2,
                     'isVirtual' => false,
                     'children' => [
                         [
@@ -79,6 +85,7 @@ class CategoryTreeTest extends AbstractTestCase
                             'name' => 'Three',
                             'level' => 2,
                             'path' => 'one/three',
+                            'count' => 0,
                             'isVirtual' => false,
                         ],
                     ],
@@ -88,6 +95,7 @@ class CategoryTreeTest extends AbstractTestCase
                     'name' => 'Two',
                     'level' => 1,
                     'path' => 'two',
+                    'count' => 2,
                     'isVirtual' => false,
                 ],
             ],
@@ -101,6 +109,7 @@ class CategoryTreeTest extends AbstractTestCase
                     'name' => 'Five',
                     'level' => 1,
                     'path' => 'five',
+                    'count' => 0,
                     'isVirtual' => false,
                 ],
                 [
@@ -108,6 +117,7 @@ class CategoryTreeTest extends AbstractTestCase
                     'name' => 'One',
                     'level' => 1,
                     'path' => 'one',
+                    'count' => 0,
                     'isVirtual' => true,
                 ],
             ],
@@ -121,6 +131,7 @@ class CategoryTreeTest extends AbstractTestCase
                     'name' => 'Five',
                     'level' => 1,
                     'path' => 'five',
+                    'count' => 0,
                     'isVirtual' => false,
                 ],
                 [
@@ -128,6 +139,7 @@ class CategoryTreeTest extends AbstractTestCase
                     'name' => 'Un',
                     'level' => 1,
                     'path' => 'one',
+                    'count' => 0,
                     'isVirtual' => true,
                     'children' => [
                         [
@@ -135,6 +147,7 @@ class CategoryTreeTest extends AbstractTestCase
                             'name' => 'Trois',
                             'level' => 2,
                             'path' => 'one/three',
+                            'count' => 0,
                             'isVirtual' => false,
                         ],
                     ],
@@ -144,6 +157,7 @@ class CategoryTreeTest extends AbstractTestCase
                     'name' => 'Deux',
                     'level' => 1,
                     'path' => 'two',
+                    'count' => 0,
                     'isVirtual' => false,
                 ],
             ],
