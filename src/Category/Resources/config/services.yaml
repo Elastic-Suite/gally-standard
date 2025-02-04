@@ -109,6 +109,10 @@ services:
             - '@Gally\Category\Repository\CategoryRepository'
             - '@Gally\Category\Repository\CategoryConfigurationRepository'
             - '@Gally\Catalog\Service\DefaultCatalogProvider'
+            - '@Gally\Search\Elasticsearch\Builder\Request\SimpleRequestBuilder'
+            - '@Gally\Metadata\Repository\MetadataRepository'
+            - '@Gally\Search\Elasticsearch\Request\Container\Configuration\ContainerConfigurationProvider'
+            - '@Gally\Search\Elasticsearch\Adapter'
     
     Gally\Category\Resolver\CategoryTreeResolver:
         arguments:

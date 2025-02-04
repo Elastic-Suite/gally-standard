@@ -373,6 +373,8 @@ services:
             - '@Gally\Search\Elasticsearch\Request\QueryFactory'
             - '@Gally\Search\Service\SearchSettingsProvider'
             - '@Gally\Search\Service\SearchContext'
+
+    Gally\Search\Elasticsearch\Request\Aggregation\Provider\CategoryCountAggregationProvider: ~
                 
     Gally\Search\Service\ViewMoreContext: ~
 
