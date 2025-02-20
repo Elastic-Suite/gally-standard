@@ -13,10 +13,10 @@
                 <target>Analyse</target>
             </segment>
         </unit>
-        <unit id="gally.menu.analyze_catalog_structure.label">
+        <unit id="gally.menu.analyze_results.label">
             <segment>
-                <source>gally.menu.analyze_catalog_structure.label</source>
-                <target>Structure du catalogue</target>
+                <source>gally.menu.analyze_results.label</source>
+                <target>Résultats</target>
             </segment>
         </unit>
         <unit id="gally.menu.analyze_search_usage.label">
