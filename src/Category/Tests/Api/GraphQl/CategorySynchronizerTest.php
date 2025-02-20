@@ -87,7 +87,7 @@ class CategorySynchronizerTest extends AbstractTestCase
         $localizedCatalog1 = $localizedCatalogRepository->findOneBy(['code' => 'b2c_fr']);
         $localizedCatalog2 = $localizedCatalogRepository->findOneBy(['code' => 'b2c_en']);
         $localizedCatalog3 = $localizedCatalogRepository->findOneBy(['code' => 'b2b_fr']);
-        $category1Data = ['id' => 'one', 'parentId' => null, 'level' => 1, 'name' => 'One'];
+        $category1Data = ['id' => 1, 'parentId' => null, 'level' => 1, 'name' => 'One'];
         $category2Data = ['id' => 'two', 'parentId' => null, 'level' => 1, 'name' => 'Two'];
         $category3Data = ['id' => 'three', 'parentId' => 'one', 'level' => 2, 'name' => 'Three'];
         $category4Data = ['id' => 'four', 'parentId' => 'three', 'level' => 3, 'name' => 'Four'];
@@ -172,7 +172,7 @@ class CategorySynchronizerTest extends AbstractTestCase
         $entityManager = static::getContainer()->get('doctrine')->getManager();
         $catalogRepository = static::getContainer()->get(CatalogRepository::class);
         $categoryRepository = static::getContainer()->get(CategoryRepository::class);
-        $category1 = $categoryRepository->find('one');
+        $category1 = $categoryRepository->find('1');
         $category2 = $categoryRepository->find('two');
         $category3 = $categoryRepository->find('three');
         $catalog1 = $catalogRepository->findOneBy(['code' => 'b2c']);
