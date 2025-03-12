@@ -15,3 +15,9 @@ services:
         arguments:
             - '%gally.graphql_query_renaming%'
             - '@.inner'
+                
+    Gally\GraphQl\Error\ErrorHandler:
+        decorates: api_platform.graphql.error_handler
+        arguments:
+            - '@logger'
+            - '@.inner'
