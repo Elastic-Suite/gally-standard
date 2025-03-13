@@ -28,7 +28,7 @@ class ErrorHandler implements ErrorHandlerInterface
     {
         // Log exceptions in GraphQl context because it's not done by default.
         foreach ($errors as $error) {
-            $exception = $error->getPrevious();
+            $exception = $error->getPrevious() ?? $error;
             $this->logger->critical(
                 '[GraphQl] Internal server error.',
                 [
