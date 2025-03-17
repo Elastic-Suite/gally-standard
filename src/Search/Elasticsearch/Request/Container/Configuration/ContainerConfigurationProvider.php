@@ -26,6 +26,8 @@ class ContainerConfigurationProvider
     /** @var string[] */
     private array $internalRequestTypes = [];
 
+    private array $cache;
+
     /**
      * Add factories via compiler pass.
      *
@@ -64,18 +66,34 @@ class ContainerConfigurationProvider
         $requestType = $requestType ?: 'generic';
         $entityCode = $metadata->getEntity();
 
+        if (isset($this->cache[$entityCode][$localizedCatalog->getCode()][$requestType])) {
+            return $this->cache[$entityCode][$localizedCatalog->getCode()][$requestType];
+        }
+
         if (!\array_key_exists($entityCode, $this->containerConfigFactories)) {
             $entityCode = 'generic';
         }
 
         // Check if the requested requestType is defined for this entity code
         if (\array_key_exists($requestType, $this->containerConfigFactories[$entityCode])) {
-            return $this->containerConfigFactories[$entityCode][$requestType]->create($requestType, $metadata, $localizedCatalog);
+            $containerConfig = $this->containerConfigFactories[$entityCode][$requestType]->create(
+                $requestType,
+                $metadata,
+                $localizedCatalog
+            );
+
+            return $this->cache[$entityCode][$localizedCatalog->getCode()][$requestType] = $containerConfig;
         }
 
         // If not, we check if the requested requestType is defined for the generic entityType to fallback on it if it exists.
         if (\array_key_exists($requestType, $this->containerConfigFactories['generic'])) {
-            return $this->containerConfigFactories['generic'][$requestType]->create($requestType, $metadata, $localizedCatalog);
+            $containerConfig = $this->containerConfigFactories['generic'][$requestType]->create(
+                $requestType,
+                $metadata,
+                $localizedCatalog
+            );
+
+            return $this->cache[$entityCode][$localizedCatalog->getCode()][$requestType] = $containerConfig;
         }
 
         throw new \LogicException(\sprintf('The request type %s is not defined.', $requestType));

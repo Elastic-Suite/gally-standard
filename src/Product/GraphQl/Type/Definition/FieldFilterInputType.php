@@ -13,11 +13,13 @@ declare(strict_types=1);
 
 namespace Gally\Product\GraphQl\Type\Definition;
 
+use ApiPlatform\Metadata\Exception\InvalidArgumentException;
 use Gally\Metadata\GraphQl\Type\Definition\Filter\BoolFilterInputType;
 use Gally\Metadata\GraphQl\Type\Definition\Filter\EntityFilterInterface;
-use Gally\Metadata\Repository\SourceFieldRepository;
+use Gally\Metadata\Repository\MetadataRepository;
 use Gally\Search\Elasticsearch\Builder\Request\Query\Filter\FilterQueryBuilder;
 use Gally\Search\GraphQl\Type\Definition\FieldFilterInputType as BaseFieldFilterInputType;
+use Psr\Log\LoggerInterface;
 
 class FieldFilterInputType extends BaseFieldFilterInputType
 {
@@ -30,7 +32,8 @@ class FieldFilterInputType extends BaseFieldFilterInputType
         FilterQueryBuilder $filterQueryBuilder,
         private iterable $availableTypes,
         private BoolFilterInputType $boolFilterInputType,
-        private SourceFieldRepository $sourceFieldRepository,
+        private MetadataRepository $metadataRepository,
+        private LoggerInterface $logger,
         protected string $nestingSeparator
     ) {
         parent::__construct($availableTypes, $filterQueryBuilder, $nestingSeparator);
@@ -40,13 +43,19 @@ class FieldFilterInputType extends BaseFieldFilterInputType
     public function getConfig(): array
     {
         $fields = ['boolFilter' => ['type' => $this->boolFilterInputType]];
+        try {
+            $metadata = $this->metadataRepository->findByEntity('product');
 
-        foreach ($this->sourceFieldRepository->getFilterableInRequestFields('product') as $filterableField) {
-            foreach ($this->availableTypes as $type) {
-                if ($type->supports($filterableField)) {
-                    $fields[$type->getGraphQlFieldName($type->getFilterFieldName($filterableField->getCode()))] = ['type' => $type];
+            foreach ($metadata->getFilterableSourceFields() as $filterableField) {
+                foreach ($this->availableTypes as $type) {
+                    if ($type->supports($filterableField)) {
+                        $fields[$type->getGraphQlFieldName($type->getFilterFieldName($filterableField->getCode()))] = ['type' => $type];
+                    }
                 }
             }
+        } catch (InvalidArgumentException $exception) {
+            // Metadata product doesn't exist.
+            $this->logger->error($exception->getMessage());
         }
 
         return ['fields' => $fields];

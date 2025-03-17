@@ -43,7 +43,7 @@ class IndexManagerTest extends AbstractTestCase
      */
     public function testGetMapping(string $entity, array $expectedMapping): void
     {
-        $metadata = $this->metadataRepository->findOneBy(['entity' => $entity]);
+        $metadata = $this->metadataRepository->findByEntity($entity);
         $this->entityManager->refresh($metadata); // Flush entity in order to avoid empty relations
         $actualMapping = $this->metadataManager->getMapping($metadata)->asArray();
         foreach ($expectedMapping['properties'] as $propertyName => $expectedProperty) {

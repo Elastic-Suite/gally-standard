@@ -23,7 +23,6 @@ use Gally\ResourceMetadata\Service\ResourceMetadataManager;
 
 /**
  * @method Metadata|null find($id, $lockMode = null, $lockVersion = null)
- * @method Metadata|null findOneBy(array $criteria, array $orderBy = null)
  * @method Metadata[]    findAll()
  * @method Metadata[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */

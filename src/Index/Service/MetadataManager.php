@@ -21,6 +21,8 @@ use Gally\Metadata\Entity\SourceField;
 
 class MetadataManager
 {
+    private array $cache = [];
+
     /**
      * @param SourceFieldConverterInterface[] $sourceFieldConverters Source field converters
      */
@@ -37,14 +39,18 @@ class MetadataManager
      */
     public function getMapping(Metadata $metadata): Mapping
     {
-        $fields = [];
+        if (!isset($this->cache[$metadata->getEntity()])) {
+            $fields = [];
 
-        // Dynamic fields
-        foreach ($metadata->getSourceFields() as $sourceField) {
-            $fields = $this->getFields($sourceField) + $fields;
+            // Dynamic fields
+            foreach ($metadata->getSourceFields() as $sourceField) {
+                $fields = $this->getFields($sourceField) + $fields;
+            }
+
+            $this->cache[$metadata->getEntity()] = new Mapping($fields);
         }
 
-        return new Mapping($fields);
+        return $this->cache[$metadata->getEntity()];
     }
 
     /**
@@ -73,5 +79,10 @@ class MetadataManager
         // @Todo Check mapping status in current index to check if it is the latest version.
 
         return new Mapping\Status($metadata->getEntity(), Mapping\Status::Green);
+    }
+
+    public function cleanLocalCache(): void
+    {
+        $this->cache = [];
     }
 }

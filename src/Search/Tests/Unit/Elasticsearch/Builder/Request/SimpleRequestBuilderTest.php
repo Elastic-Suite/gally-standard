@@ -172,7 +172,7 @@ class SimpleRequestBuilderTest extends AbstractTestCase
      */
     public function testCreateNullQuery(string $entityType, int $catalogId, string $expectedIndexName): void
     {
-        $metadata = self::$metadataRepository->findOneBy(['entity' => $entityType]);
+        $metadata = self::$metadataRepository->findByEntity($entityType);
         $catalog = self::$localizedCatalogRepository->find($catalogId);
         $containerConfig = self::$containerConfigProvider->get($metadata, $catalog);
 
@@ -211,7 +211,7 @@ class SimpleRequestBuilderTest extends AbstractTestCase
      */
     public function testCreateObjectQuery(string $entityType, int $catalogId, string $expectedIndexName): void
     {
-        $metadata = self::$metadataRepository->findOneBy(['entity' => $entityType]);
+        $metadata = self::$metadataRepository->findByEntity($entityType);
         $catalog = self::$localizedCatalogRepository->find($catalogId);
         $containerConfig = self::$containerConfigProvider->get($metadata, $catalog);
 

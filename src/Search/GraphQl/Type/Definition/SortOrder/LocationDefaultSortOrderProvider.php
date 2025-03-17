@@ -32,13 +32,9 @@ class LocationDefaultSortOrderProvider implements SortOrderProviderInterface
         return str_replace('.', $this->nestingSeparator, $sourceField->getCode());
     }
 
-    public function getLabel(SourceField $sourceField): string
+    public function getLabel(string $code, string $label): string
     {
-        return \sprintf(
-            "Sorting by %s's distance (%s)",
-            $sourceField->getDefaultLabel(),
-            $sourceField->getCode()
-        );
+        return \sprintf("Sorting by %s's distance (%s)", $label, $code);
     }
 
     public function getSimplifiedLabel(SourceField $sourceField): string

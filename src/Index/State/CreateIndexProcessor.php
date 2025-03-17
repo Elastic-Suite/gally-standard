@@ -41,7 +41,7 @@ class CreateIndexProcessor implements ProcessorInterface
         $entityType = $data->entityType;
         $localizedCatalogCode = $data->localizedCatalog;
 
-        $metadata = $this->metadataRepository->findOneBy(['entity' => $entityType]);
+        $metadata = $this->metadataRepository->findByEntity($entityType);
         if (!$metadata) {
             throw new InvalidArgumentException(\sprintf('Entity type [%s] does not exist', $entityType));
         }

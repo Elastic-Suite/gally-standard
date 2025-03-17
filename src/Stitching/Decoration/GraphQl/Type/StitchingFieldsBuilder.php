@@ -65,7 +65,7 @@ class StitchingFieldsBuilder implements FieldsBuilderEnumInterface
             return $fields;
         }
 
-        $metadata = $this->metadataRepository->findOneBy(['entity' => $metadataEntity]);
+        $metadata = $this->metadataRepository->findByEntity($metadataEntity);
         if (null === $metadata) {
             throw new EntityNotFoundException(\sprintf("Entity of type '%s' for entity '%s' was not found. You should probably run migrations or fixtures?", Metadata::class, $metadataEntity));
         }
