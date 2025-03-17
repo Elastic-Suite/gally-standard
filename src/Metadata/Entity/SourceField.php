@@ -370,6 +370,7 @@ class SourceField
                     'depends' => [
                         'type' => 'enabled',
                         'conditions' => [
+                            ['field' => 'type', 'value' => Type::TYPE_REFERENCE],
                             ['field' => 'type', 'value' => Type::TYPE_TEXT],
                             ['field' => 'type', 'value' => Type::TYPE_SELECT],
                             ['field' => 'type', 'value' => Type::TYPE_CATEGORY],
@@ -385,7 +386,7 @@ class SourceField
         ],
     )]
     #[Groups(['source_field:read', 'source_field:write', 'facet_configuration:graphql_read'])]
-    private ?string $defaultSearchAnalyzer = FieldInterface::ANALYZER_STANDARD;
+    private ?string $defaultSearchAnalyzer = null;
 
     #[Groups(['source_field:read', 'source_field:write', 'facet_configuration:graphql_read'])]
     private bool $isSystem = false;
@@ -565,14 +566,19 @@ class SourceField
         return $this;
     }
 
-    public function getDefaultSearchAnalyzer(): ?string
+    public function hasDefaultSearchAnalyzer(): bool
     {
-        return $this->defaultSearchAnalyzer;
+        return null !== $this->defaultSearchAnalyzer;
+    }
+
+    public function getDefaultSearchAnalyzer(): string
+    {
+        return $this->defaultSearchAnalyzer ?? self::getDefaultSearchAnalyzerByType($this->getType());
     }
 
     public static function getDefaultSearchAnalyzerByType(?string $type): string
     {
-        return Type::TYPE_REFERENCE === $type() ? FieldInterface::ANALYZER_REFERENCE : FieldInterface::ANALYZER_STANDARD;
+        return Type::TYPE_REFERENCE === $type ? FieldInterface::ANALYZER_REFERENCE : FieldInterface::ANALYZER_STANDARD;
     }
 
     public function setDefaultSearchAnalyzer(?string $defaultSearchAnalyzer): self
