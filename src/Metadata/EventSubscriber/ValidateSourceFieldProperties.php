@@ -16,7 +16,6 @@ namespace Gally\Metadata\EventSubscriber;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Event\PrePersistEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
-use Gally\Index\Entity\Index\Mapping\FieldInterface;
 use Gally\Metadata\Entity\SourceField;
 
 class ValidateSourceFieldProperties
@@ -28,7 +27,7 @@ class ValidateSourceFieldProperties
 
     public function prePersist(PrePersistEventArgs $args): void
     {
-        $this->validateProperties($args->getObject());
+        $this->validateProperties($args->getObject(), true);
     }
 
     public function preUpdate(PreUpdateEventArgs $args): void
@@ -36,7 +35,7 @@ class ValidateSourceFieldProperties
         $this->validateProperties($args->getObject());
     }
 
-    private function validateProperties(object $entity): void
+    private function validateProperties(object $entity, bool $isPersist = false): void
     {
         if (!$entity instanceof SourceField) {
             return;
@@ -51,9 +50,8 @@ class ValidateSourceFieldProperties
             $entity->setIsFilterable(true);
         }
 
-        // Force default search analyzer to 'reference' for source fields with type 'reference'.
-        if (SourceField\Type::TYPE_REFERENCE === $entity->getType() && FieldInterface::ANALYZER_REFERENCE !== $entity->getDefaultSearchAnalyzer()) {
-            $entity->setDefaultSearchAnalyzer(FieldInterface::ANALYZER_REFERENCE);
+        if (!$entity->hasDefaultSearchAnalyzer()) {
+            $entity->setDefaultSearchAnalyzer($entity->getDefaultSearchAnalyzer());
         }
     }
 }
