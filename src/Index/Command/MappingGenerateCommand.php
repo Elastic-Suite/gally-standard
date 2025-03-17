@@ -44,7 +44,7 @@ class MappingGenerateCommand extends Command
 
         $entity = $input->getArgument('entity');
         $ui->writeln("Generate mapping for $entity");
-        $metadata = $this->metadataRepository->findOneBy(['entity' => $entity]);
+        $metadata = $this->metadataRepository->findByEntity($entity);
 
         $mapping = $this->metadataManager->getMapping($metadata);
         $ui->writeln(json_encode($mapping->asArray(), \JSON_PRETTY_PRINT));

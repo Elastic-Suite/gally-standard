@@ -86,7 +86,7 @@ class SortOrderBuilderTest extends AbstractTestCase
         array $sortOrders,
         array $expectedSortOrderCollection
     ): void {
-        $metadata = self::$metadataRepository->findOneBy(['entity' => $entityType]);
+        $metadata = self::$metadataRepository->findByEntity($entityType);
         $this->assertNotNull($metadata);
         $this->assertNotNull($metadata->getEntity());
         $mapping = self::$metadataManager->getMapping($metadata);

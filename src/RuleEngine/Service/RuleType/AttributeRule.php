@@ -125,7 +125,7 @@ class AttributeRule extends AbstractRuleType implements RuleTypeInterface
         }
 
         if (null === $this->productMetadata) {
-            $this->productMetadata = $this->metadataRepository->findOneBy(['entity' => 'product']);
+            $this->productMetadata = $this->metadataRepository->findByEntity('product');
         }
 
         if (!isset($this->sourceFields[$ruleNode['field']])) {

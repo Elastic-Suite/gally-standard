@@ -15,14 +15,12 @@ namespace Gally\Search\Service;
 
 use Gally\Metadata\Entity\Metadata;
 use Gally\Metadata\Entity\SourceField;
-use Gally\Metadata\Repository\SourceFieldRepository;
 
 class ReverseSourceFieldProvider
 {
     private array $sourceFieldByField = [];
 
     public function __construct(
-        private SourceFieldRepository $sourceFieldRepository,
         private string $nestingSeparator
     ) {
     }
@@ -31,9 +29,8 @@ class ReverseSourceFieldProvider
     {
         $fieldName = str_replace($this->nestingSeparator, '.', $fieldName);
         if (!\array_key_exists($fieldName, $this->sourceFieldByField)) {
-            $this->sourceFieldByField[$fieldName] = $this->sourceFieldRepository->findOneBy(
-                ['code' => [$fieldName, explode('.', $fieldName)[0]], 'metadata' => $metadata]
-            );
+            $sourceField = $metadata->getSourceFieldByCodes([$fieldName, explode('.', $fieldName)[0]]);
+            $this->sourceFieldByField[$fieldName] = $sourceField[0] ?? null;
         }
 
         return $this->sourceFieldByField[$fieldName];

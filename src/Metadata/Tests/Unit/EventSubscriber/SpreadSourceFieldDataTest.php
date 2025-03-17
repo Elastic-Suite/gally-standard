@@ -53,7 +53,7 @@ class SpreadSourceFieldDataTest extends AbstractTestCase
         /** @var EntityManager $entityManager */
         $entityManager = static::getContainer()->get('doctrine')->getManager();
 
-        $metadata = $metadataRepository->findOneBy(['entity' => 'product']);
+        $metadata = $metadataRepository->findByEntity('product');
 
         // First of all, we check that we don't have fields in the mapping, for the scalar source field 'flag' and complex source field 'category'.
         $localizedCatalogs = $localizedCatalogRepository->findAll();

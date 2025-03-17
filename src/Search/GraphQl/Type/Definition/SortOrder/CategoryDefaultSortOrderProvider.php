@@ -36,13 +36,9 @@ class CategoryDefaultSortOrderProvider implements SortOrderProviderInterface
         );
     }
 
-    public function getLabel(SourceField $sourceField): string
+    public function getLabel(string $code, string $label): string
     {
-        return \sprintf(
-            "Sorting by %s's Position (%s)",
-            $sourceField->getDefaultLabel(),
-            $sourceField->getCode()
-        );
+        return \sprintf("Sorting by %s's Position (%s)", $label, $code);
     }
 
     public function getSimplifiedLabel(SourceField $sourceField): string

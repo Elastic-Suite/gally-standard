@@ -44,7 +44,7 @@ class MappingStatusCommand extends Command
         $ui = new SymfonyStyle($input, $output);
 
         $entity = $input->getArgument('entity');
-        $metadata = $this->metadataRepository->findOneBy(['entity' => $entity]);
+        $metadata = $this->metadataRepository->findByEntity($entity);
 
         $status = $this->metadataManager->getMappingStatus($metadata);
         switch ($status) {

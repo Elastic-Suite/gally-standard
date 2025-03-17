@@ -20,4 +20,3 @@ services:
     Gally\Stitching\Service\SerializerService:
         arguments:
             - '@Gally\Metadata\Repository\MetadataRepository'
-            - '@Gally\Metadata\Repository\SourceFieldRepository'

@@ -20,6 +20,7 @@ use Gally\Category\Repository\CategoryConfigurationRepository;
 use Gally\Metadata\Entity\SourceField;
 use Gally\Metadata\Entity\SourceField\Type;
 use Gally\Metadata\Repository\MetadataRepository;
+use Gally\Metadata\Repository\SourceFieldRepository;
 use Gally\Search\Elasticsearch\Adapter\Common\Response\AggregationInterface;
 use Gally\Search\Elasticsearch\Adapter\Common\Response\BucketValueInterface;
 use Gally\Search\Elasticsearch\Builder\Response\AggregationBuilder;
@@ -55,6 +56,7 @@ class AddAggregationsData implements ProcessorInterface
         private SearchContext $searchContext,
         private ReverseSourceFieldProvider $reverseSourceFieldProvider,
         private CategoryConfigurationRepository $categoryConfigurationRepository,
+        private SourceFieldRepository $sourceFieldRepository,
         private TranslatorInterface $translator,
         private iterable $availableFilterTypes,
         private array $searchSettings,
@@ -80,11 +82,36 @@ class AddAggregationsData implements ProcessorInterface
             $aggregations = $data->getAggregations();
             if (!empty($aggregations)) {
                 $result['aggregations'] = [];
+                $sourceFields = [];
+
                 foreach ($aggregations as $aggregation) {
                     if (empty($aggregation->getValues())) {
                         continue;
                     }
-                    $result['aggregations'][] = $this->formatAggregation($aggregation, $containerConfig);
+                    $sourceFields[$aggregation->getField()] = $this->reverseSourceFieldProvider->getSourceFieldFromFieldName(
+                        $aggregation->getField(),
+                        $containerConfig->getMetadata()
+                    );
+                }
+
+                $labels = $this->sourceFieldRepository->getLabelsBySourceFields(
+                    $sourceFields,
+                    $containerConfig->getLocalizedCatalog()
+                );
+
+                foreach ($aggregations as $aggregation) {
+                    if (empty($aggregation->getValues())) {
+                        continue;
+                    }
+                    $sourceField = $sourceFields[$aggregation->getField()];
+                    $result['aggregations'][] = $this->formatAggregation(
+                        $aggregation,
+                        $containerConfig,
+                        $sourceFields[$aggregation->getField()],
+                        $sourceField
+                            ? ($labels[$sourceField->getId()]['label'] ?? ucfirst($sourceField->getCode()))
+                            : $aggregation->getField()
+                    );
                 }
             }
         }
@@ -92,10 +119,12 @@ class AddAggregationsData implements ProcessorInterface
         return $result;
     }
 
-    private function formatAggregation(AggregationInterface $aggregation, ContainerConfigurationInterface $containerConfig): array
-    {
-        $sourceField = $this->reverseSourceFieldProvider->getSourceFieldFromFieldName($aggregation->getField(), $containerConfig->getMetadata());
-
+    private function formatAggregation(
+        AggregationInterface $aggregation,
+        ContainerConfigurationInterface $containerConfig,
+        ?SourceField $sourceField,
+        string $label
+    ): array {
         $fieldName = $aggregation->getField();
         if ($sourceField) {
             foreach ($this->availableFilterTypes as $type) {
@@ -108,7 +137,7 @@ class AddAggregationsData implements ProcessorInterface
 
         $data = [
             'field' => $fieldName,
-            'label' => $sourceField ? $sourceField->getLabel($containerConfig->getLocalizedCatalog()->getId()) : $aggregation->getField(),
+            'label' => $label,
             'type' => match ($sourceField?->getType()) {
                 Type::TYPE_PRICE, Type::TYPE_FLOAT, Type::TYPE_INT => self::AGGREGATION_TYPE_SLIDER,
                 Type::TYPE_CATEGORY => self::AGGREGATION_TYPE_CATEGORY,

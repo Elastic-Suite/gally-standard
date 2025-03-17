@@ -85,7 +85,7 @@ class AssemblerTest extends AbstractTestCase
         array $expectedBuiltSortOrders,
         array $expectedAssembledSortOrders
     ): void {
-        $metadata = self::$metadataRepository->findOneBy(['entity' => $entityType]);
+        $metadata = self::$metadataRepository->findByEntity($entityType);
         $this->assertNotNull($metadata);
         $this->assertNotNull($metadata->getEntity());
         $mapping = self::$metadataManager->getMapping($metadata);

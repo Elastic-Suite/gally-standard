@@ -35,7 +35,7 @@ class MappingStatusProvider implements ProviderInterface
 
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): ?Status
     {
-        $metadata = $this->metadataRepository->findOneBy(['entity' => $uriVariables['id']]);
+        $metadata = $this->metadataRepository->findByEntity($uriVariables['id']);
 
         return $metadata ? $this->metadataManager->getMappingStatus($metadata) : null;
     }

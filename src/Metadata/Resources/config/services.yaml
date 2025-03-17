@@ -12,7 +12,7 @@ services:
     Gally\Metadata\Repository\SourceFieldRepository:
         arguments:
             - '@Doctrine\Persistence\ManagerRegistry'
-            - '@Gally\Metadata\Repository\MetadataRepository'
+            - '@Gally\Catalog\Repository\LocalizedCatalogRepository'
         tags:
             - { name: doctrine.repository_service }
 

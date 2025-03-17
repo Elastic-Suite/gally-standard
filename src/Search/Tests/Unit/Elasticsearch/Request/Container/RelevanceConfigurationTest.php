@@ -37,7 +37,7 @@ class RelevanceConfigurationTest extends AbstractTestCase
         $localizedCatalogRepository = static::getContainer()->get(LocalizedCatalogRepository::class);
         $metadataRepository = static::getContainer()->get(MetadataRepository::class);
 
-        $metadata = $metadataRepository->findOneBy(['entity' => 'product_document']);
+        $metadata = $metadataRepository->findByEntity('product_document');
         $b2cEnRelevance = $localizedCatalogRepository->findOneBy(['code' => 'b2c_en_relevance']);
         $b2cFrRelevance = $localizedCatalogRepository->findOneBy(['code' => 'b2c_fr_relevance']);
         $b2bEnRelevance = $localizedCatalogRepository->findOneBy(['code' => 'b2b_en_relevance']);
