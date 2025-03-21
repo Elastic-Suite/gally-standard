@@ -23,4 +23,4 @@ services:
         arguments:
             $aggregationProvider: '@Gally\Search\Elasticsearch\Request\Aggregation\Provider\CategoryCountAggregationProvider'
         tags:
-            - { name: gally.container_configuration.factory, requestType: product_category_count, metadata: product, internal: true }
+            - { name: gally.container_configuration.factory, requestType: product_category_count, metadata: product }
