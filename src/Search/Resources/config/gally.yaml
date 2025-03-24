@@ -32,5 +32,6 @@ gally:
     request_types:
         - { code: product_catalog, label: 'Category listing', limitation_type: !php/const Gally\Search\Constant\RequestType\LimitationType::LIMITATION_CATEGORY }
         - { code: product_search, label: 'Search result', limitation_type: !php/const Gally\Search\Constant\RequestType\LimitationType::LIMITATION_SEARCH }
+        - { code: product_autocomplete, label: 'Autocomplete', limitation_type: !php/const Gally\Search\Constant\RequestType\LimitationType::LIMITATION_SEARCH }
     pipeline_prefix: 'gally-llm-pipeline-'
     default_reference_location: 48.981299, 2.309959
