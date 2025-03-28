@@ -104,7 +104,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     denormalizationContext: ['groups' => ['source_field:write']],
     normalizationContext: ['groups' => ['source_field:read']])]
 
-#[ApiFilter(filterClass: SearchFilter::class, properties: ['code' => 'ipartial', 'type' => 'exact', 'metadata.entity' => 'exact', 'weight' => 'exact', 'search' => 'ipartial'])]
+#[ApiFilter(filterClass: SearchFilter::class, properties: ['code' => 'ipartial', 'type' => 'exact', 'metadata.entity' => 'exact', 'weight' => 'exact', 'search' => 'ipartial', 'defaultSearchAnalyzer' => 'exact'])]
 #[ApiFilter(filterClass: SearchColumnsFilter::class, properties: ['defaultLabel' => ['code', 'labels.label']])]
 #[ApiFilter(filterClass: BooleanFilter::class, properties: ['isSearchable', 'isFilterable', 'isSortable', 'isUsedInAutocomplete', 'isSpellchecked', 'isUsedForRules', 'isSpannable'], arguments: ['treatNullAsFalse' => true])]
 class SourceField
