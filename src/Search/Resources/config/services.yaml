@@ -78,13 +78,18 @@ services:
     
     Gally\Search\Elasticsearch\Request\Aggregation\Provider\FilterableSourceFields:
         arguments:
-            - '@Gally\Search\Repository\Facet\ConfigurationRepository'
+            - '@Gally\Search\Service\FacetConfigurationManager'
             - '@Gally\Search\Service\SearchContext'
             - !tagged_iterator { tag: 'gally.search.aggregation.resolver' }
             - {
                 coverageModifier: '@Gally\Search\Elasticsearch\Request\Aggregation\Modifier\Coverage',
                 viewMore: '@Gally\Search\Elasticsearch\Request\Aggregation\Modifier\ViewMore',
             }
+    
+    Gally\Search\Service\FacetConfigurationManager:
+        arguments:
+            - '@Gally\Search\Repository\Facet\ConfigurationRepository'
+            - '@Gally\Cache\Service\CacheManagerInterface'
                 
     Gally\Search\Elasticsearch\Request\Aggregation\Provider\AutocompleteSourceFields:
         arguments:
@@ -301,11 +306,12 @@ services:
             - '@Gally\Metadata\Repository\MetadataRepository'
             - '@Gally\Search\Elasticsearch\Request\Container\Configuration\ContainerConfigurationProvider'
             - '@Gally\Catalog\Repository\LocalizedCatalogRepository'
-            - '@Gally\Search\Repository\Facet\ConfigurationRepository'
+            - '@Gally\Search\Service\FacetConfigurationManager'
             - '@Gally\Search\Service\SearchContext'
             - '@Gally\Search\Service\ReverseSourceFieldProvider'
             - '@Gally\Category\Repository\CategoryConfigurationRepository'
             - '@Gally\Metadata\Repository\SourceFieldRepository'
+            - '@Gally\Metadata\Repository\SourceFieldOptionRepository'
             - '@Symfony\Contracts\Translation\TranslatorInterface'
             - !tagged_iterator { tag: 'gally.entity_api.filter' }
             - '%gally.search_settings%'
@@ -481,3 +487,10 @@ services:
             - '@Gally\Metadata\Repository\SourceFieldRepository'
         tags:
             - { name: gally.search.ingest_pipeline_processors_provider }
+
+    Gally\Search\EventSubscriber\CleanFacetConfigurationCache:
+        arguments:
+            - '@Gally\Search\Service\FacetConfigurationManager'
+        tags:
+            - { name: doctrine.event_listener, event: postPersist }
+            - { name: doctrine.event_listener, event: postUpdate }

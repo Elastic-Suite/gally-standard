@@ -20,6 +20,7 @@ use Gally\Category\Repository\CategoryConfigurationRepository;
 use Gally\Metadata\Entity\SourceField;
 use Gally\Metadata\Entity\SourceField\Type;
 use Gally\Metadata\Repository\MetadataRepository;
+use Gally\Metadata\Repository\SourceFieldOptionRepository;
 use Gally\Metadata\Repository\SourceFieldRepository;
 use Gally\Search\Elasticsearch\Adapter\Common\Response\AggregationInterface;
 use Gally\Search\Elasticsearch\Adapter\Common\Response\BucketValueInterface;
@@ -28,7 +29,7 @@ use Gally\Search\Elasticsearch\Request\BucketInterface;
 use Gally\Search\Elasticsearch\Request\Container\Configuration\ContainerConfigurationProvider;
 use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface;
 use Gally\Search\Entity\Document;
-use Gally\Search\Repository\Facet\ConfigurationRepository;
+use Gally\Search\Service\FacetConfigurationManager;
 use Gally\Search\Service\ReverseSourceFieldProvider;
 use Gally\Search\Service\SearchContext;
 use Gally\Search\State\Paginator;
@@ -52,11 +53,12 @@ class AddAggregationsData implements ProcessorInterface
         private MetadataRepository $metadataRepository,
         private ContainerConfigurationProvider $containerConfigurationProvider,
         private LocalizedCatalogRepository $localizedCatalogRepository,
-        private ConfigurationRepository $facetConfigRepository,
+        private FacetConfigurationManager $facetConfigurationManager,
         private SearchContext $searchContext,
         private ReverseSourceFieldProvider $reverseSourceFieldProvider,
         private CategoryConfigurationRepository $categoryConfigurationRepository,
         private SourceFieldRepository $sourceFieldRepository,
+        private SourceFieldOptionRepository $sourceFieldOptionRepository,
         private TranslatorInterface $translator,
         private iterable $availableFilterTypes,
         private array $searchSettings,
@@ -74,9 +76,6 @@ class AddAggregationsData implements ProcessorInterface
             $metadata = $this->metadataRepository->findByEntity($context['args']['entityType']);
             $localizedCatalog = $this->localizedCatalogRepository->findByCodeOrId($context['args']['localizedCatalog']);
             $containerConfig = $this->containerConfigurationProvider->get($metadata, $localizedCatalog, $context['args']['requestType'] ?? null);
-            $currentCategory = $this->searchContext->getCategory();
-            $this->facetConfigRepository->setCategoryId($currentCategory?->getId());
-            $this->facetConfigRepository->setMetadata($containerConfig->getMetadata());
 
             /** @var Paginator $data */
             $aggregations = $data->getAggregations();
@@ -167,7 +166,14 @@ class AddAggregationsData implements ProcessorInterface
             $data['count'] = $aggregation->getCount();
             $data['hasMore'] = false;
         }
-        $facetConfigs = $sourceField && $containerConfig->getAggregationProvider()->useFacetConfiguration() ? $this->facetConfigRepository->findOndBySourceField($sourceField) : null;
+
+        $facetConfigs = $sourceField && $containerConfig->getAggregationProvider()->useFacetConfiguration()
+            ? $this->facetConfigurationManager->getOndBySourceField(
+                $containerConfig->getMetadata(),
+                $this->searchContext->getCategory()?->getId(),
+                $sourceField
+            )
+            : null;
         $labels = [];
 
         if (Type::TYPE_CATEGORY === $sourceField->getType()) {
@@ -218,7 +224,7 @@ class AddAggregationsData implements ProcessorInterface
 
         // Sort options according to option position.
         if (BucketInterface::SORT_ORDER_MANUAL == $facetConfigs?->getSortOrder()) {
-            $sourceFieldOptions = $sourceField->getOptions()->toArray();
+            $sourceFieldOptions = $this->sourceFieldOptionRepository->findBy(['sourceField' => $sourceField]);
             $sourceFieldOptions = array_combine(
                 array_map(fn ($option) => $option->getCode(), $sourceFieldOptions),
                 $sourceFieldOptions
