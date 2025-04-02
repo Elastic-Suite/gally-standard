@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Gally\Index\Command;
 
 use Gally\Index\Entity\Index\Mapping\Status;
-use Gally\Index\Service\MetadataManager;
+use Gally\Index\Service\MappingManager;
 use Gally\Metadata\Repository\MetadataRepository;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -26,7 +26,7 @@ class MappingStatusCommand extends Command
 {
     public function __construct(
         private MetadataRepository $metadataRepository,
-        private MetadataManager $metadataManager,
+        private MappingManager $mappingManager,
         string $name
     ) {
         parent::__construct($name);
@@ -46,7 +46,7 @@ class MappingStatusCommand extends Command
         $entity = $input->getArgument('entity');
         $metadata = $this->metadataRepository->findByEntity($entity);
 
-        $status = $this->metadataManager->getMappingStatus($metadata);
+        $status = $this->mappingManager->getMappingStatus($metadata);
         switch ($status) {
             case Status::Green:
                 $ui->writeln('Ok');

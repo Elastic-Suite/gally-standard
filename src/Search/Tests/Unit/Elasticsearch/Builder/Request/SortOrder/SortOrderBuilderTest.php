@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Gally\Search\Tests\Unit\Elasticsearch\Builder\Request\SortOrder;
 
 use Gally\Index\Entity\Index\MappingInterface;
-use Gally\Index\Service\MetadataManager;
+use Gally\Index\Service\MappingManager;
 use Gally\Metadata\Repository\MetadataRepository;
 use Gally\Search\Elasticsearch\Builder\Request\Query\Filter\FilterQueryBuilder;
 use Gally\Search\Elasticsearch\Builder\Request\SortOrder\Nested;
@@ -30,13 +30,9 @@ use Psr\Log\LoggerInterface;
 class SortOrderBuilderTest extends AbstractTestCase
 {
     private static FilterQueryBuilder $filterQueryBuilder;
-
     private static MetadataRepository $metadataRepository;
-
-    private static MetadataManager $metadataManager;
-
+    private static MappingManager $mappingManager;
     private static SortOrderBuilder $sortOrderBuilder;
-
     private static LoggerInterface $logger;
 
     public static function setUpBeforeClass(): void
@@ -53,7 +49,7 @@ class SortOrderBuilderTest extends AbstractTestCase
         );
 
         self::$metadataRepository = static::getContainer()->get(MetadataRepository::class);
-        self::$metadataManager = static::getContainer()->get(MetadataManager::class);
+        self::$mappingManager = static::getContainer()->get(MappingManager::class);
         self::loadFixture([
             __DIR__ . '/../../../../../fixtures/catalogs.yaml',
             __DIR__ . '/../../../../../fixtures/source_field.yaml',
@@ -89,7 +85,7 @@ class SortOrderBuilderTest extends AbstractTestCase
         $metadata = self::$metadataRepository->findByEntity($entityType);
         $this->assertNotNull($metadata);
         $this->assertNotNull($metadata->getEntity());
-        $mapping = self::$metadataManager->getMapping($metadata);
+        $mapping = self::$mappingManager->getMapping($metadata);
         $this->assertNotEmpty($mapping);
 
         $containerConfig = $this->getContainerConfiguration($mapping);

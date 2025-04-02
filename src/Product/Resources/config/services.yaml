@@ -63,6 +63,7 @@ services:
             - '@Gally\Search\GraphQl\Type\Definition\SortEnumType'
             - '@Gally\Search\Service\SearchContext'
             - '@Gally\Metadata\Repository\MetadataRepository'
+            - '@Gally\Metadata\Service\MetadataManager'
             - '@Gally\Metadata\Repository\SourceFieldRepository'
             - !tagged_iterator { tag: 'gally.api.sort_order_provider', index_by: 'provider_name' }
             - '@Gally\Search\Service\ReverseSourceFieldProvider'
@@ -77,6 +78,7 @@ services:
             - !tagged_iterator { tag: 'gally.entity_api.filter' }
             - '@Gally\Metadata\GraphQl\Type\Definition\Filter\BoolFilterInputType'
             - '@Gally\Metadata\Repository\MetadataRepository'
+            - '@Gally\Metadata\Service\MetadataManager'
             - '@logger'
             - '%api_platform.graphql.nesting_separator%'
         tags:

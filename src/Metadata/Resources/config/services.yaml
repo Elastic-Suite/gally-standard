@@ -33,6 +33,10 @@ services:
             - '@Doctrine\Persistence\ManagerRegistry'
         tags:
             - { name: doctrine.repository_service }
+                
+    Gally\Metadata\Service\MetadataManager:
+        arguments:
+            - '@Gally\Cache\Service\CacheManagerInterface'
 
     Gally\Metadata\State\SourceFieldProcessor:
         arguments:
@@ -68,7 +72,7 @@ services:
     Gally\Metadata\EventSubscriber\SpreadSourceFieldData:
         arguments:
             - '@doctrine.orm.entity_manager'
-            - '@Gally\Index\Service\MetadataManager'
+            - '@Gally\Index\Service\MappingManager'
             - '@Gally\Index\Service\IndexOperation'
             - '@Gally\Catalog\Repository\LocalizedCatalogRepository'
             - '@logger'
@@ -229,3 +233,10 @@ services:
         arguments:
             - '@Gally\RequestContext\Service\RequestContextManager'
             - '%gally.default_reference_location%'
+
+    Gally\Metadata\EventSubscriber\CleanMetadataCache:
+        arguments:
+            - '@Gally\Metadata\Service\MetadataManager'
+        tags:
+            - { name: doctrine.event_listener, event: postPersist }
+            - { name: doctrine.event_listener, event: postUpdate }

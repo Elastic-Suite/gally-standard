@@ -14,21 +14,24 @@ declare(strict_types=1);
 namespace Gally\Index\Tests\Unit;
 
 use Doctrine\Persistence\ObjectManager;
-use Gally\Index\Service\MetadataManager;
+use Gally\Index\Service\MappingManager;
 use Gally\Metadata\Repository\MetadataRepository;
+use Gally\Metadata\Service\MetadataManager;
 use Gally\Test\AbstractTestCase;
 
 class IndexManagerTest extends AbstractTestCase
 {
-    protected MetadataManager $metadataManager;
     protected MetadataRepository $metadataRepository;
+    protected MappingManager $mappingManager;
+    protected MetadataManager $metadataManager;
     protected ObjectManager $entityManager;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->metadataManager = static::getContainer()->get(MetadataManager::class);
         $this->metadataRepository = static::getContainer()->get(MetadataRepository::class);
+        $this->mappingManager = static::getContainer()->get(MappingManager::class);
+        $this->metadataManager = static::getContainer()->get(MetadataManager::class);
         $this->entityManager = static::getContainer()->get('doctrine')->getManager();
         $this->loadFixture([
             __DIR__ . '/../fixtures/catalogs.yaml',
@@ -45,7 +48,7 @@ class IndexManagerTest extends AbstractTestCase
     {
         $metadata = $this->metadataRepository->findByEntity($entity);
         $this->entityManager->refresh($metadata); // Flush entity in order to avoid empty relations
-        $actualMapping = $this->metadataManager->getMapping($metadata)->asArray();
+        $actualMapping = $this->mappingManager->getMapping($metadata)->asArray();
         foreach ($expectedMapping['properties'] as $propertyName => $expectedProperty) {
             $this->assertEquals($expectedProperty, $actualMapping['properties'][$propertyName]);
         }

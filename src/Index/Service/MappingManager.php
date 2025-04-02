@@ -13,20 +13,25 @@ declare(strict_types=1);
 
 namespace Gally\Index\Service;
 
+use Gally\Cache\Service\CacheManagerInterface;
 use Gally\Index\Converter\SourceField\SourceFieldConverterInterface;
 use Gally\Index\Entity\Index\Mapping;
 use Gally\Index\Entity\Index\Mapping\FieldInterface;
 use Gally\Metadata\Entity\Metadata;
 use Gally\Metadata\Entity\SourceField;
+use Gally\Metadata\Service\MetadataManager;
 
-class MetadataManager
+class MappingManager
 {
+    private const CACHE_TAG = 'gally_mapping';
     private array $cache = [];
 
     /**
      * @param SourceFieldConverterInterface[] $sourceFieldConverters Source field converters
      */
     public function __construct(
+        private CacheManagerInterface $cacheManager,
+        private MetadataManager $metadataManager,
         private iterable $sourceFieldConverters = []
     ) {
         $sourceFieldConverters = ($sourceFieldConverters instanceof \Traversable) ? iterator_to_array($sourceFieldConverters) : $sourceFieldConverters;
@@ -40,14 +45,20 @@ class MetadataManager
     public function getMapping(Metadata $metadata): Mapping
     {
         if (!isset($this->cache[$metadata->getEntity()])) {
-            $fields = [];
+            $this->cache[$metadata->getEntity()] = $this->cacheManager->get(
+                self::CACHE_TAG . '_' . $metadata->getEntity(),
+                function (&$tags, &$ttl) use ($metadata) {
+                    $fields = [];
 
-            // Dynamic fields
-            foreach ($metadata->getSourceFields() as $sourceField) {
-                $fields = $this->getFields($sourceField) + $fields;
-            }
+                    // Dynamic fields
+                    foreach ($this->metadataManager->getSourceFields($metadata) as $sourceField) {
+                        $fields = $this->getFields($sourceField) + $fields;
+                    }
 
-            $this->cache[$metadata->getEntity()] = new Mapping($fields);
+                    return new Mapping($fields);
+                },
+                [self::CACHE_TAG]
+            );
         }
 
         return $this->cache[$metadata->getEntity()];
@@ -81,8 +92,9 @@ class MetadataManager
         return new Mapping\Status($metadata->getEntity(), Mapping\Status::Green);
     }
 
-    public function cleanLocalCache(): void
+    public function cleanCache(): void
     {
         $this->cache = [];
+        $this->cacheManager->clearTags([self::CACHE_TAG]);
     }
 }

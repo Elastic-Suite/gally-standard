@@ -355,6 +355,7 @@ services:
     
     Gally\Search\Service\ReverseSourceFieldProvider:
         arguments:
+            - '@Gally\Metadata\Service\MetadataManager'
             - '%api_platform.graphql.nesting_separator%'
 
     Gally\Search\Elasticsearch\Request\Aggregation\CoverageProvider:
@@ -372,6 +373,7 @@ services:
             - '@Gally\Search\Elasticsearch\Request\QueryFactory'
             - '@Gally\Search\Service\SearchSettingsProvider'
             - '@Gally\Search\Service\SearchContext'
+            - '@Gally\Metadata\Service\MetadataManager'
 
     Gally\Search\Elasticsearch\Request\Aggregation\Provider\CategoryCountAggregationProvider: ~
                 
@@ -456,6 +458,7 @@ services:
     Gally\Search\Service\SortingOptionsProvider:
         arguments:
             - '@Gally\Metadata\Repository\MetadataRepository'
+            - '@Gally\Metadata\Service\MetadataManager'
             - !tagged_iterator { tag: 'gally.api.sort_order_provider', index_by: 'provider_name' }
                 
     Gally\Search\State\SortingOptionProvider:

@@ -17,14 +17,14 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProviderInterface;
 use Gally\Index\Entity\Index\Mapping\Status;
-use Gally\Index\Service\MetadataManager;
+use Gally\Index\Service\MappingManager;
 use Gally\Metadata\Repository\MetadataRepository;
 
 class MappingStatusProvider implements ProviderInterface
 {
     public function __construct(
         private MetadataRepository $metadataRepository,
-        private MetadataManager $metadataManager
+        private MappingManager $mappingManager
     ) {
     }
 
@@ -37,6 +37,6 @@ class MappingStatusProvider implements ProviderInterface
     {
         $metadata = $this->metadataRepository->findByEntity($uriVariables['id']);
 
-        return $metadata ? $this->metadataManager->getMappingStatus($metadata) : null;
+        return $metadata ? $this->mappingManager->getMappingStatus($metadata) : null;
     }
 }

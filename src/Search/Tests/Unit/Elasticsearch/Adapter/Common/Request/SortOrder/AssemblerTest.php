@@ -15,7 +15,7 @@ namespace Gally\Search\Tests\Unit\Elasticsearch\Adapter\Common\Request\SortOrder
 
 use Gally\Index\Entity\Index\Mapping\FieldInterface;
 use Gally\Index\Entity\Index\MappingInterface;
-use Gally\Index\Service\MetadataManager;
+use Gally\Index\Service\MappingManager;
 use Gally\Metadata\Repository\MetadataRepository;
 use Gally\Search\Elasticsearch\Adapter\Common\Request\Query\Assembler as QueryAssembler;
 use Gally\Search\Elasticsearch\Adapter\Common\Request\SortOrder\Assembler as SortAssembler;
@@ -34,17 +34,11 @@ use Psr\Log\LoggerInterface;
 class AssemblerTest extends AbstractTestCase
 {
     private static FilterQueryBuilder $filterQueryBuilder;
-
     private static MetadataRepository $metadataRepository;
-
-    private static MetadataManager $metadataManager;
-
+    private static MappingManager $mappingManager;
     private static SortOrderBuilder $sortOrderBuilder;
-
     private static QueryAssembler $queryAssembler;
-
     private static SortAssembler $sortAssembler;
-
     private static LoggerInterface $logger;
 
     public static function setUpBeforeClass(): void
@@ -68,7 +62,7 @@ class AssemblerTest extends AbstractTestCase
         ]);
 
         self::$metadataRepository = static::getContainer()->get(MetadataRepository::class);
-        self::$metadataManager = static::getContainer()->get(MetadataManager::class);
+        self::$mappingManager = static::getContainer()->get(MappingManager::class);
     }
 
     /**
@@ -88,7 +82,7 @@ class AssemblerTest extends AbstractTestCase
         $metadata = self::$metadataRepository->findByEntity($entityType);
         $this->assertNotNull($metadata);
         $this->assertNotNull($metadata->getEntity());
-        $mapping = self::$metadataManager->getMapping($metadata);
+        $mapping = self::$mappingManager->getMapping($metadata);
         $this->assertNotEmpty($mapping);
 
         $containerConfig = $this->getContainerConfiguration($mapping);

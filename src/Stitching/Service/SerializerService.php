@@ -15,6 +15,7 @@ namespace Gally\Stitching\Service;
 
 use Gally\Metadata\Constant\SourceFieldAttributeMapping;
 use Gally\Metadata\Repository\MetadataRepository;
+use Gally\Metadata\Service\MetadataManager;
 
 class SerializerService
 {
@@ -24,6 +25,7 @@ class SerializerService
 
     public function __construct(
         private MetadataRepository $metadataRepository,
+        private MetadataManager $metadataManager,
     ) {
     }
 
@@ -99,8 +101,8 @@ class SerializerService
 
             if ($metadata = $this->metadataRepository->findByEntity($entityType)) {
                 $sourceFields = !empty($sourceFieldCodes)
-                    ? $metadata->getSourceFieldByCodes($sourceFieldCodes) // Loading only the provided list of source fields.
-                    : $metadata->getSourceFields();
+                    ? $this->metadataManager->getSourceFieldByCodes($metadata, $sourceFieldCodes) // Loading only the provided list of source fields.
+                    : $this->metadataManager->getSourceFields($metadata);
 
                 foreach ($sourceFields as $sourceField) {
                     $sourceFieldCode = $sourceField->getCode();

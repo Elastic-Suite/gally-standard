@@ -17,6 +17,7 @@ use ApiPlatform\Metadata\Exception\InvalidArgumentException;
 use Gally\Metadata\GraphQl\Type\Definition\Filter\BoolFilterInputType;
 use Gally\Metadata\GraphQl\Type\Definition\Filter\EntityFilterInterface;
 use Gally\Metadata\Repository\MetadataRepository;
+use Gally\Metadata\Service\MetadataManager;
 use Gally\Search\Elasticsearch\Builder\Request\Query\Filter\FilterQueryBuilder;
 use Gally\Search\GraphQl\Type\Definition\FieldFilterInputType as BaseFieldFilterInputType;
 use Psr\Log\LoggerInterface;
@@ -33,6 +34,7 @@ class FieldFilterInputType extends BaseFieldFilterInputType
         private iterable $availableTypes,
         private BoolFilterInputType $boolFilterInputType,
         private MetadataRepository $metadataRepository,
+        private MetadataManager $metadataManager,
         private LoggerInterface $logger,
         protected string $nestingSeparator
     ) {
@@ -46,7 +48,7 @@ class FieldFilterInputType extends BaseFieldFilterInputType
         try {
             $metadata = $this->metadataRepository->findByEntity('product');
 
-            foreach ($metadata->getFilterableSourceFields() as $filterableField) {
+            foreach ($this->metadataManager->getFilterableSourceFields($metadata) as $filterableField) {
                 foreach ($this->availableTypes as $type) {
                     if ($type->supports($filterableField)) {
                         $fields[$type->getGraphQlFieldName($type->getFilterFieldName($filterableField->getCode()))] = ['type' => $type];

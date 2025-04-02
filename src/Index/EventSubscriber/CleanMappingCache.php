@@ -15,32 +15,32 @@ namespace Gally\Index\EventSubscriber;
 
 use Doctrine\ORM\Event\PostPersistEventArgs;
 use Doctrine\ORM\Event\PostUpdateEventArgs;
-use Gally\Index\Service\MetadataManager;
+use Gally\Index\Service\MappingManager;
 use Gally\Metadata\Entity\SourceField;
 
-class CleanMetadataCache
+class CleanMappingCache
 {
     public function __construct(
-        private MetadataManager $metadataManager,
+        private MappingManager $mappingManger,
     ) {
     }
 
     public function postPersist(PostPersistEventArgs $args): void
     {
-        $this->cleanMetadataCache($args->getObject());
+        $this->cleanMappingCache($args->getObject());
     }
 
     public function postUpdate(PostUpdateEventArgs $args): void
     {
-        $this->cleanMetadataCache($args->getObject());
+        $this->cleanMappingCache($args->getObject());
     }
 
-    private function cleanMetadataCache(object $entity): void
+    private function cleanMappingCache(object $entity): void
     {
         if (!$entity instanceof SourceField) {
             return;
         }
 
-        $this->metadataManager->cleanLocalCache();
+        $this->mappingManger->cleanCache();
     }
 }

@@ -18,6 +18,7 @@ use ApiPlatform\Metadata\Exception\InvalidArgumentException;
 use Gally\Metadata\Entity\Metadata;
 use Gally\Metadata\Repository\MetadataRepository;
 use Gally\Metadata\Repository\SourceFieldRepository;
+use Gally\Metadata\Service\MetadataManager;
 use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface;
 use Gally\Search\Elasticsearch\Request\SortOrderInterface;
 use Gally\Search\GraphQl\Type\Definition\SortInputType as SearchSortInputType;
@@ -34,6 +35,7 @@ class SortInputType extends SearchSortInputType
         private TypeInterface $sortEnumType,
         protected SearchContext $searchContext,
         private MetadataRepository $metadataRepository,
+        private MetadataManager $metadataManager,
         private SourceFieldRepository $sourceFieldRepository,
         private iterable $sortOrderProviders,
         protected ReverseSourceFieldProvider $reverseSourceFieldProvider,
@@ -50,9 +52,10 @@ class SortInputType extends SearchSortInputType
 
         try {
             $metadata = $this->metadataRepository->findByEntity('product');
-            $labels = $this->sourceFieldRepository->getLabelsBySourceFields($metadata->getSortableSourceFields());
+            $sortableSourceFields = $this->metadataManager->getSortableSourceFields($metadata);
+            $labels = $this->sourceFieldRepository->getLabelsBySourceFields($sortableSourceFields);
 
-            foreach ($metadata->getSortableSourceFields() as $sortableField) {
+            foreach ($sortableSourceFields as $sortableField) {
                 /** @var SortOrderProviderInterface $sortOrderProvider */
                 foreach ($this->sortOrderProviders as $sortOrderProvider) {
                     if ($sortOrderProvider->supports($sortableField)) {

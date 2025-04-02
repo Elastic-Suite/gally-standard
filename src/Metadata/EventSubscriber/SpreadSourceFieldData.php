@@ -18,7 +18,7 @@ use Doctrine\ORM\Event\PostPersistEventArgs;
 use Doctrine\ORM\Event\PostUpdateEventArgs;
 use Gally\Catalog\Repository\LocalizedCatalogRepository;
 use Gally\Index\Service\IndexOperation;
-use Gally\Index\Service\MetadataManager;
+use Gally\Index\Service\MappingManager;
 use Gally\Metadata\Entity\Metadata;
 use Gally\Metadata\Entity\SourceField;
 use Psr\Log\LoggerInterface;
@@ -38,7 +38,7 @@ class SpreadSourceFieldData
 
     public function __construct(
         private EntityManagerInterface $entityManager,
-        private MetadataManager $metadataManager,
+        private MappingManager $mappingManager,
         private IndexOperation $indexOperation,
         private LocalizedCatalogRepository $localizedCatalogRepository,
         private LoggerInterface $logger,
@@ -157,7 +157,7 @@ class SpreadSourceFieldData
     private function getMappingFieldOptions(SourceField $sourceField): array
     {
         $mappingFieldOptions = [];
-        foreach ($this->metadataManager->getFields($sourceField) as $field) {
+        foreach ($this->mappingManager->getFields($sourceField) as $field) {
             $mappingFieldOptions[$field->getName()] = $field->getConfig();
         }
 

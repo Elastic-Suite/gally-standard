@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Gally\Index\Command;
 
-use Gally\Index\Service\MetadataManager;
+use Gally\Index\Service\MappingManager;
 use Gally\Metadata\Repository\MetadataRepository;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -25,7 +25,7 @@ class MappingGenerateCommand extends Command
 {
     public function __construct(
         private MetadataRepository $metadataRepository,
-        private MetadataManager $metadataManager,
+        private MappingManager $mappingManager,
         string $name
     ) {
         parent::__construct($name);
@@ -46,7 +46,7 @@ class MappingGenerateCommand extends Command
         $ui->writeln("Generate mapping for $entity");
         $metadata = $this->metadataRepository->findByEntity($entity);
 
-        $mapping = $this->metadataManager->getMapping($metadata);
+        $mapping = $this->mappingManager->getMapping($metadata);
         $ui->writeln(json_encode($mapping->asArray(), \JSON_PRETTY_PRINT));
 
         return Command::SUCCESS;

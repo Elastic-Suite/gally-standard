@@ -3,7 +3,7 @@ services:
         public: false
         arguments:
             $indexSettings: '@Gally\Index\Service\IndexSettings'
-            $metadataManager: '@Gally\Index\Service\MetadataManager'
+            $mappingManager: '@Gally\Index\Service\MappingManager'
             $relevanceConfigurationFactory: '@Gally\Search\Elasticsearch\Request\Container\RelevanceConfiguration\RelevanceConfigurationFactory'
             $aggregationProvider: '@Gally\Search\Elasticsearch\Request\Aggregation\Provider\FilterableSourceFields'
             $defaultSortingOptionProvider: ~

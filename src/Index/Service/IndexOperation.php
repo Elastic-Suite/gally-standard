@@ -20,6 +20,7 @@ use Gally\Index\Entity\Index;
 use Gally\Index\Entity\Index\Mapping\FieldInterface;
 use Gally\Index\Repository\Index\IndexRepositoryInterface;
 use Gally\Metadata\Entity\Metadata;
+use Gally\Metadata\Service\MetadataManager;
 use OpenSearch\Common\Exceptions\Missing404Exception;
 
 class IndexOperation
@@ -27,7 +28,8 @@ class IndexOperation
     public function __construct(
         protected IndexRepositoryInterface $indexRepository,
         protected IndexSettingsInterface $indexSettings,
-        protected MetadataManager $metadataManager
+        protected MetadataManager $metadataManager,
+        protected MappingManager $mappingManager
     ) {
     }
 
@@ -66,7 +68,7 @@ class IndexOperation
         $indexSettings = [
             'settings' => $this->indexSettings->getCreateIndexSettings() + $this->indexSettings->getDynamicIndexSettings($metadata, $localizedCatalog),
         ];
-        $indexSettings['mappings'] = $this->metadataManager->getMapping($metadata)->asArray();
+        $indexSettings['mappings'] = $this->mappingManager->getMapping($metadata)->asArray();
 
         return $this->createIndex($metadata->getEntity(), $localizedCatalog, $indexSettings);
     }
@@ -83,12 +85,12 @@ class IndexOperation
     {
         try {
             // Mapping cannot be generated when the source list is empty, this is the case when the fixtures execution.
-            if (0 === \count($metadata->getSourceFields())) {
+            if (0 === \count($this->metadataManager->getSourceFields($metadata))) {
                 return;
             }
 
             $indexAlias = $this->indexSettings->getIndexAliasFromIdentifier($metadata->getEntity(), $localizedCatalog);
-            $mapping = $this->metadataManager->getMapping($metadata)->asArray();
+            $mapping = $this->mappingManager->getMapping($metadata)->asArray();
             $installedMapping = $this->indexRepository->getMapping($indexAlias);
             $installedMapping = reset($installedMapping)['mappings']['properties'];
             if (!empty($fields)) {

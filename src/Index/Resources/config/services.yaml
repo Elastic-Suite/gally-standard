@@ -32,8 +32,10 @@ services:
             - { name: api_platform.state_provider }
             - { name: api_platform.collection_data_provider }
 
-    Gally\Index\Service\MetadataManager:
+    Gally\Index\Service\MappingManager:
         arguments:
+            - '@Gally\Cache\Service\CacheManagerInterface'
+            - '@Gally\Metadata\Service\MetadataManager'
             - !tagged_iterator { tag: 'gally.mapping.source_field_converter' }
 
     Gally\Index\Api\IndexSettingsInterface: '@Gally\Index\Service\IndexSettings'
@@ -49,7 +51,8 @@ services:
         arguments:
             - '@Gally\Index\Repository\Index\IndexRepositoryInterface'
             - '@Gally\Index\Api\IndexSettingsInterface'
-            - '@Gally\Index\Service\MetadataManager'
+            - '@Gally\Metadata\Service\MetadataManager'
+            - '@Gally\Index\Service\MappingManager'
 
     Gally\Index\Service\SelfReindexOperation:
         arguments:
@@ -140,7 +143,7 @@ services:
     Gally\Index\Command\MappingGenerateCommand:
         arguments:
             - '@Gally\Metadata\Repository\MetadataRepository'
-            - '@Gally\Index\Service\MetadataManager'
+            - '@Gally\Index\Service\MappingManager'
             - 'gally:mapping:get'
         tags:
             - { name: console.command }
@@ -148,7 +151,7 @@ services:
     Gally\Index\Command\MappingStatusCommand:
         arguments:
             - '@Gally\Metadata\Repository\MetadataRepository'
-            - '@Gally\Index\Service\MetadataManager'
+            - '@Gally\Index\Service\MappingManager'
             - 'gally:mapping:status'
         tags:
             - { name: console.command }           
@@ -156,7 +159,7 @@ services:
     Gally\Index\State\MappingStatusProvider:
         arguments:
             - '@Gally\Metadata\Repository\MetadataRepository'
-            - '@Gally\Index\Service\MetadataManager'
+            - '@Gally\Index\Service\MappingManager'
         tags:
             - { name: api_platform.state_provider }
             - { name: api_platform.graphql.query_resolver }
@@ -175,9 +178,9 @@ services:
         tags:
             - { name: controller.service_arguments }
 
-    Gally\Index\EventSubscriber\CleanMetadataCache:
+    Gally\Index\EventSubscriber\CleanMappingCache:
         arguments:
-            - '@Gally\Index\Service\MetadataManager'
+            - '@Gally\Index\Service\MappingManager'
         tags:
             - { name: doctrine.event_listener, event: postPersist }
             - { name: doctrine.event_listener, event: postUpdate }

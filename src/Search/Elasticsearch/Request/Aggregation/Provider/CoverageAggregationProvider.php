@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Gally\Search\Elasticsearch\Request\Aggregation\Provider;
 
 use Gally\Metadata\Entity\SourceField\Type;
+use Gally\Metadata\Service\MetadataManager;
 use Gally\Search\Elasticsearch\Request\BucketInterface;
 use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface;
 use Gally\Search\Elasticsearch\Request\QueryFactory;
@@ -30,7 +31,8 @@ class CoverageAggregationProvider implements AggregationProviderInterface
     public function __construct(
         private QueryFactory $queryFactory,
         private SearchSettingsProvider $searchSettings,
-        private SearchContext $searchContext
+        private SearchContext $searchContext,
+        private MetadataManager $metadataManager,
     ) {
     }
 
@@ -46,7 +48,7 @@ class CoverageAggregationProvider implements AggregationProviderInterface
             ];
         }
 
-        $sourceFields = $containerConfig->getMetadata()->getFilterableInAggregationSourceFields();
+        $sourceFields = $this->metadataManager->getFilterableInAggregationSourceFields($containerConfig->getMetadata());
         $queries = [];
 
         foreach ($sourceFields as $sourceField) {

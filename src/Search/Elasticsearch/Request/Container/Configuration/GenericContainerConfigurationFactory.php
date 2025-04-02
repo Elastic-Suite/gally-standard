@@ -15,7 +15,7 @@ namespace Gally\Search\Elasticsearch\Request\Container\Configuration;
 
 use Gally\Catalog\Entity\LocalizedCatalog;
 use Gally\Index\Api\IndexSettingsInterface;
-use Gally\Index\Service\MetadataManager;
+use Gally\Index\Service\MappingManager;
 use Gally\Metadata\Entity\Metadata;
 use Gally\Search\Elasticsearch\Request\Aggregation\Provider\AggregationProviderInterface;
 use Gally\Search\Elasticsearch\Request\Container\DefaultSortingOptionProviderInterface;
@@ -27,7 +27,7 @@ class GenericContainerConfigurationFactory implements ContainerConfigurationFact
 {
     public function __construct(
         private IndexSettingsInterface $indexSettings,
-        private MetadataManager $metadataManager,
+        private MappingManager $mappingManager,
         private RelevanceConfigurationFactoryInterface $relevanceConfigurationFactory,
         private AggregationProviderInterface $aggregationProvider,
         private ?DefaultSortingOptionProviderInterface $defaultSortingOptionProvider,
@@ -40,7 +40,7 @@ class GenericContainerConfigurationFactory implements ContainerConfigurationFact
             $metadata->getEntity(),
             $localizedCatalog->getId()
         );
-        $mapping = $this->metadataManager->getMapping($metadata);
+        $mapping = $this->mappingManager->getMapping($metadata);
 
         return new GenericContainerConfiguration(
             $requestType,
