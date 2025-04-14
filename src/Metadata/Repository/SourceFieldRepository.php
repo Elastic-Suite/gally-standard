@@ -18,6 +18,8 @@ use Doctrine\DBAL\Connection;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\Persistence\ManagerRegistry;
+use Gally\Catalog\Entity\LocalizedCatalog;
+use Gally\Catalog\Repository\LocalizedCatalogRepository;
 use Gally\Metadata\Entity\Metadata;
 use Gally\Metadata\Entity\SourceField;
 use Gally\Metadata\Entity\SourceField\Type;
@@ -42,12 +44,15 @@ class SourceFieldRepository extends ServiceEntityRepository
         'isUsedForRules' => 'is_used_for_rules',
         'isUsedInAutocomplete' => 'is_used_in_autocomplete',
         'isSpannable' => 'is_spannable',
+        'defaultSearchAnalyzer' => 'default_search_analyzer',
         'isSystem' => 'is_system',
         'search' => 'search',
     ];
 
-    public function __construct(ManagerRegistry $registry, private MetadataRepository $metadataRepository)
-    {
+    public function __construct(
+        ManagerRegistry $registry,
+        private LocalizedCatalogRepository $localizedCatalogRepository,
+    ) {
         parent::__construct($registry, SourceField::class);
     }
 
@@ -58,46 +63,6 @@ class SourceFieldRepository extends ServiceEntityRepository
     public function getManagedSourceFieldProperty(): array
     {
         return array_flip($this->entityFields);
-    }
-
-    /**
-     * @return SourceField[]
-     */
-    public function getSortableFields(string $entityCode, array $attributeToExclude = []): array
-    {
-        $queryBuilder = $this->createQueryBuilder('o')
-            ->where('o.metadata = :metadata')
-            ->andWhere('o.isSortable = true')
-            ->setParameter('metadata', $this->metadataRepository->findOneBy(['entity' => $entityCode]));
-
-        if (!empty($attributeToExclude)) {
-            $queryBuilder
-                ->andWhere('o.code not in (:excluded_attribute)')
-                ->setParameter('excluded_attribute', $attributeToExclude);
-        }
-
-        return $queryBuilder->getQuery()->getResult();
-    }
-
-    /**
-     * @return SourceField[]
-     */
-    public function getFilterableInRequestFields(string $entityCode): array
-    {
-        $exprBuilder = $this->getEntityManager()->getExpressionBuilder();
-
-        $query = $this->createQueryBuilder('o')
-            ->where('o.metadata = :metadata')
-            ->andWhere(
-                $exprBuilder->orX(
-                    $exprBuilder->eq('o.isFilterable', 'true'),
-                    $exprBuilder->eq('o.isUsedForRules', 'true'),
-                )
-            )
-            ->setParameter('metadata', $this->metadataRepository->findOneBy(['entity' => $entityCode]))
-            ->getQuery();
-
-        return $query->getResult();
     }
 
     /**
@@ -118,19 +83,6 @@ class SourceFieldRepository extends ServiceEntityRepository
     /**
      * @return SourceField[]
      */
-    public function getFilterableInAggregationFields(string $entityCode): array
-    {
-        return $this->findBy(
-            [
-                'metadata' => $this->metadataRepository->findBy(['entity' => $entityCode]),
-                'isFilterable' => true,
-            ]
-        );
-    }
-
-    /**
-     * @return SourceField[]
-     */
     public function getComplexeFields(Metadata $metadata): array
     {
         $exprBuilder = $this->getEntityManager()->getExpressionBuilder();
@@ -141,7 +93,7 @@ class SourceFieldRepository extends ServiceEntityRepository
                     $exprBuilder->like('s.code', "'%.%'"),
                     $exprBuilder->in(
                         's.type',
-                        [Type::TYPE_SELECT, Type::TYPE_PRICE, Type::TYPE_STOCK, Type::TYPE_CATEGORY]
+                        [Type::TYPE_SELECT, Type::TYPE_PRICE, Type::TYPE_STOCK, Type::TYPE_CATEGORY, Type::TYPE_FILE]
                     )
                 )
             )
@@ -205,5 +157,22 @@ class SourceFieldRepository extends ServiceEntityRepository
                     implode(',', array_map(fn ($field) => "$field = excluded.$field", $this->entityFields))
                 )
             );
+    }
+
+    /**
+     * @param SourceField[] $sourceFields
+     */
+    public function getLabelsBySourceFields(array $sourceFields, ?LocalizedCatalog $localizedCatalog = null): array
+    {
+        $defaultLocalizedCatalog = $localizedCatalog
+            ?: $this->localizedCatalogRepository->findOneBy(['isDefault' => true]);
+        $queryBuilder = $this->createQueryBuilder('sf', 'sf.id')
+            ->select('sf.id as sourceFieldId', 'COALESCE(l.label, sf.defaultLabel) as label')
+            ->leftJoin('sf.labels', 'l', 'WITH', 'l.localizedCatalog = :localizedCatalog')
+            ->where('sf IN (:fields)')
+            ->setParameter('fields', $sourceFields)
+            ->setParameter('localizedCatalog', $defaultLocalizedCatalog);
+
+        return $queryBuilder->getQuery()->getResult();
     }
 }

@@ -87,14 +87,14 @@ class IndexOperationsTest extends AbstractEntityTestCase
                 ['entityType' => 'product', 'localizedCatalog' => "$localizedCatalogId"],
                 201,
                 null,
-                "#^{$this->getApiPath()}/gally_test__gally_{$localizedCatalogCode}_product_[0-9]{8}_[0-9]{6}$#",
+                "#^.*/{$this->getApiPath()}/gally_test__gally_{$localizedCatalogCode}_product_[0-9]{8}_[0-9]{6}$#",
             ];
             $data[] = [
                 $adminUser,
                 ['entityType' => 'category', 'localizedCatalog' => "$localizedCatalogId"],
                 201,
                 null,
-                "#^{$this->getApiPath()}/gally_test__gally_{$localizedCatalogCode}_category_[0-9]{8}_[0-9]{6}$#",
+                "#^.*/{$this->getApiPath()}/gally_test__gally_{$localizedCatalogCode}_category_[0-9]{8}_[0-9]{6}$#",
             ];
         }
 
@@ -134,7 +134,7 @@ class IndexOperationsTest extends AbstractEntityTestCase
                     'aliases' => [],
                     'docsCount' => 2,
                     'entityType' => 'product',
-                    'localizedCatalog' => '/localized_catalogs/4',
+                    'localizedCatalog' => $this->getUri('localized_catalogs', '4'),
                     'status' => 'indexing',
                     'mapping' => [
                         'properties' => [
@@ -182,7 +182,7 @@ class IndexOperationsTest extends AbstractEntityTestCase
                     'aliases' => [],
                     'docsCount' => 0,
                     'entityType' => 'category',
-                    'localizedCatalog' => '/localized_catalogs/4',
+                    'localizedCatalog' => $this->getUri('localized_catalogs', '4'),
                     'status' => 'live',
                     'mapping' => [
                         'properties' => [
@@ -212,7 +212,7 @@ class IndexOperationsTest extends AbstractEntityTestCase
                     'aliases' => [],
                     'docsCount' => 0,
                     'entityType' => 'category',
-                    'localizedCatalog' => '/localized_catalogs/4',
+                    'localizedCatalog' => $this->getUri('localized_catalogs', '4'),
                     'status' => 'ghost',
                     'mapping' => [
                         'properties' => [
@@ -341,19 +341,19 @@ class IndexOperationsTest extends AbstractEntityTestCase
 
         foreach ([401 => null, 403 => $this->getUser(Role::ROLE_CONTRIBUTOR)] as $responseCode => $user) {
             $this->validateApiCall(
-                new RequestToTest('PUT', "/indices/install/{$index->getName()}", $user),
+                new RequestToTest('PUT', "indices/install/{$index->getName()}", $user),
                 new ExpectedResponse($responseCode, null)
             );
         }
 
         $this->validateApiCall(
-            new RequestToTest('PUT', "/indices/install/{$index->getName()}", $this->getUser(Role::ROLE_ADMIN)),
+            new RequestToTest('PUT', "indices/install/{$index->getName()}", $this->getUser(Role::ROLE_ADMIN)),
             new ExpectedResponse(
                 200,
                 function (ResponseInterface $response) use ($index) {
                     $this->assertJsonContains([
-                        '@context' => '/contexts/Index',
-                        '@id' => "/indices/{$index->getName()}",
+                        '@context' => $this->getRoute('contexts/Index'),
+                        '@id' => $this->getUri('indices', $index->getName()),
                         '@type' => 'Index',
                         'name' => $index->getName(),
                         // TODO re-instate tests on aliases when the read stage is correctly performed based on name.
@@ -379,19 +379,19 @@ class IndexOperationsTest extends AbstractEntityTestCase
 
         foreach ([401 => null, 403 => $this->getUser(Role::ROLE_CONTRIBUTOR)] as $responseCode => $user) {
             $this->validateApiCall(
-                new RequestToTest('PUT', "/indices/refresh/{$index->getName()}", $user),
+                new RequestToTest('PUT', "indices/refresh/{$index->getName()}", $user),
                 new ExpectedResponse($responseCode, null)
             );
         }
 
         $this->validateApiCall(
-            new RequestToTest('PUT', "/indices/refresh/{$index->getName()}", $this->getUser(Role::ROLE_ADMIN)),
+            new RequestToTest('PUT', "indices/refresh/{$index->getName()}", $this->getUser(Role::ROLE_ADMIN)),
             new ExpectedResponse(
                 200,
                 function (ResponseInterface $response) use ($index, $initialRefreshCount) {
                     $this->assertJsonContains([
-                        '@context' => '/contexts/Index',
-                        '@id' => "/indices/{$index->getName()}",
+                        '@context' => $this->getRoute('contexts/Index'),
+                        '@id' => $this->getUri('indices', $index->getName()),
                         '@type' => 'Index',
                         'name' => $index->getName(),
                         // TODO re-instate tests on aliases when the read stage is correctly performed based on name.

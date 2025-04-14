@@ -29,7 +29,9 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Gally\Doctrine\Filter\BooleanFilter;
 use Gally\Doctrine\Filter\SearchColumnsFilter;
+use Gally\Index\Entity\Index\Mapping\FieldInterface;
 use Gally\Metadata\Controller\BulkSourceFields;
+use Gally\Metadata\Entity\SourceField\SearchAnalyzer;
 use Gally\Metadata\Entity\SourceField\Type;
 use Gally\Metadata\Entity\SourceField\Weight;
 use Gally\Metadata\Operation\Bulk;
@@ -102,7 +104,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     denormalizationContext: ['groups' => ['source_field:write']],
     normalizationContext: ['groups' => ['source_field:read']])]
 
-#[ApiFilter(filterClass: SearchFilter::class, properties: ['code' => 'ipartial', 'type' => 'exact', 'metadata.entity' => 'exact', 'weight' => 'exact', 'search' => 'ipartial'])]
+#[ApiFilter(filterClass: SearchFilter::class, properties: ['code' => 'ipartial', 'type' => 'exact', 'metadata.entity' => 'exact', 'weight' => 'exact', 'search' => 'ipartial', 'defaultSearchAnalyzer' => 'exact'])]
 #[ApiFilter(filterClass: SearchColumnsFilter::class, properties: ['defaultLabel' => ['code', 'labels.label']])]
 #[ApiFilter(filterClass: BooleanFilter::class, properties: ['isSearchable', 'isFilterable', 'isSortable', 'isUsedInAutocomplete', 'isSpellchecked', 'isUsedForRules', 'isSpannable'], arguments: ['treatNullAsFalse' => true])]
 class SourceField
@@ -350,6 +352,42 @@ class SourceField
     #[Groups(['source_field:read', 'source_field:write', 'facet_configuration:graphql_read'])]
     private ?bool $isSpannable = null;
 
+    #[ApiProperty(
+        extraProperties: [
+            'hydra:supportedProperty' => [
+                'hydra:property' => [
+                    'rdfs:label' => 'Analyzer',
+                ],
+                'gally' => [
+                    'visible' => false,
+                    'editable' => true,
+                    'position' => 120,
+                    'input' => 'select',
+                    'options' => [
+                        'values' => SearchAnalyzer::SEARCH_ANALYZERS_OPTIONS,
+                    ],
+                    'gridHeaderInfoTooltip' => "standard: The textual attribute for searching with possible fuzziness support (if spellcheck = yes).<br />reference: SKU-like, a sequence of numbers or letters, no understandable text, and no deduction, exact matching... <br />standard_edge_ngram: standard + support for searching the beginnings of words regardless of the word's length.",
+                    'depends' => [
+                        'type' => 'enabled',
+                        'conditions' => [
+                            ['field' => 'type', 'value' => Type::TYPE_REFERENCE],
+                            ['field' => 'type', 'value' => Type::TYPE_TEXT],
+                            ['field' => 'type', 'value' => Type::TYPE_SELECT],
+                            ['field' => 'type', 'value' => Type::TYPE_CATEGORY],
+                        ],
+                    ],
+                    'context' => [
+                        'search_configuration_attributes' => [
+                            'visible' => true,
+                        ],
+                    ],
+                ],
+            ],
+        ],
+    )]
+    #[Groups(['source_field:read', 'source_field:write', 'facet_configuration:graphql_read'])]
+    private ?string $defaultSearchAnalyzer = null;
+
     #[Groups(['source_field:read', 'source_field:write', 'facet_configuration:graphql_read'])]
     private bool $isSystem = false;
 
@@ -524,6 +562,28 @@ class SourceField
     public function setIsSpannable(?bool $isSpannable): self
     {
         $this->isSpannable = $isSpannable;
+
+        return $this;
+    }
+
+    public function hasDefaultSearchAnalyzer(): bool
+    {
+        return null !== $this->defaultSearchAnalyzer;
+    }
+
+    public function getDefaultSearchAnalyzer(): string
+    {
+        return $this->defaultSearchAnalyzer ?? self::getDefaultSearchAnalyzerByType($this->getType());
+    }
+
+    public static function getDefaultSearchAnalyzerByType(?string $type): string
+    {
+        return Type::TYPE_REFERENCE === $type ? FieldInterface::ANALYZER_REFERENCE : FieldInterface::ANALYZER_STANDARD;
+    }
+
+    public function setDefaultSearchAnalyzer(?string $defaultSearchAnalyzer): self
+    {
+        $this->defaultSearchAnalyzer = $defaultSearchAnalyzer;
 
         return $this;
     }

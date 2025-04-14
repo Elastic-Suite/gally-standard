@@ -78,7 +78,7 @@ class ClearRuleCache extends AbstractTestCase
         self::$metadataRepository = static::getContainer()->get(MetadataRepository::class);
         self::$localizedCatalogRepository = static::getContainer()->get(LocalizedCatalogRepository::class);
         self::$containerConfigurationProvider = static::getContainer()->get(ContainerConfigurationProvider::class);
-        self::$productMetaData = self::$metadataRepository->findOneBy(['entity' => 'product']);
+        self::$productMetaData = self::$metadataRepository->findByEntity('product');
     }
 
     protected static function loadCurrentFixtures(): void
@@ -94,7 +94,7 @@ class ClearRuleCache extends AbstractTestCase
     {
         /** @var EntityManager $entityManager */
         $entityManager = static::getContainer()->get('doctrine')->getManager();
-        $categoryMetaData = self::$metadataRepository->findOneBy(['entity' => 'category']);
+        $categoryMetaData = self::$metadataRepository->findByEntity('category');
         $rule = self::$defaultRule;
         $localizedCatalog = $this->getLocalizedCatalog('b2c_fr');
         $containerConfig = $this->getContainerConfig($localizedCatalog);

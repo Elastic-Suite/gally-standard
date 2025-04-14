@@ -35,7 +35,7 @@ class FacetConfigurationTest extends AbstractTestCase
 
     protected function getApiPath(): string
     {
-        return '/facet_configurations';
+        return 'facet_configurations';
     }
 
     /**
@@ -309,15 +309,15 @@ class FacetConfigurationTest extends AbstractTestCase
                         $this->assertJsonContains(
                             array_merge(
                                 [
-                                    '@context' => "/contexts/$shortName",
+                                    '@context' => $this->getRoute("contexts/$shortName"),
                                     '@type' => $shortName,
-                                    '@id' => $this->getApiPath() . '/' . $expectedData['id'],
+                                    '@id' => $this->getUri('facet_configurations', $expectedData['id']),
                                 ],
                                 $expectedData
                             )
                         );
                     } else {
-                        $this->assertJsonContains(['@context' => "/contexts/$shortName", '@type' => $shortName]);
+                        $this->assertJsonContains(['@context' => $this->getRoute("contexts/$shortName"), '@type' => $shortName]);
                     }
                 }
             )
@@ -393,8 +393,8 @@ class FacetConfigurationTest extends AbstractTestCase
                     if ($response->getStatusCode() < 400) {
                         $this->assertJsonContains(
                             [
-                                '@context' => "/contexts/$shortName",
-                                '@id' => '/facet_configurations',
+                                '@context' => $this->getRoute("contexts/$shortName"),
+                                '@id' => $this->getRoute('facet_configurations'),
                                 '@type' => 'hydra:Collection',
                                 'hydra:totalItems' => \count($items),
                             ]
@@ -408,7 +408,7 @@ class FacetConfigurationTest extends AbstractTestCase
                             $this->assertEquals($expectedItem, $item);
                         }
                     } else {
-                        $this->assertJsonContains(['@context' => "/contexts/$shortName", '@type' => $shortName]);
+                        $this->assertJsonContains(['@context' => $this->getRoute("contexts/$shortName"), '@type' => $shortName]);
                     }
                 }
             )
@@ -424,10 +424,10 @@ class FacetConfigurationTest extends AbstractTestCase
         $id = implode('-', [$sourceFieldId, $categoryId]);
 
         $baseData = [
-            '@id' => "/facet_configurations/$id",
+            '@id' => $this->getUri('facet_configurations', $id),
             '@type' => 'FacetConfiguration',
             'id' => $id,
-            'sourceField' => "/source_fields/$sourceFieldId",
+            'sourceField' => $this->getUri('source_fields', $sourceFieldId),
             'displayMode' => 'auto',
             'coverageRate' => 90,
             'maxSize' => 10,
@@ -442,12 +442,8 @@ class FacetConfigurationTest extends AbstractTestCase
             'defaultIsVirtual' => false,
             'defaultPosition' => null,
             'position' => null,
-            'category' => $categoryId ? "/categories/$categoryId" : null,
+            'category' => $categoryId ? $this->getUri('categories', $categoryId) : null,
         ];
-
-        if ($categoryId) {
-            $baseData['category'] = "/categories/$categoryId";
-        }
 
         return array_merge($baseData, $data);
     }

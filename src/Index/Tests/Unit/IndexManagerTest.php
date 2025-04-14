@@ -43,7 +43,7 @@ class IndexManagerTest extends AbstractTestCase
      */
     public function testGetMapping(string $entity, array $expectedMapping): void
     {
-        $metadata = $this->metadataRepository->findOneBy(['entity' => $entity]);
+        $metadata = $this->metadataRepository->findByEntity($entity);
         $this->entityManager->refresh($metadata); // Flush entity in order to avoid empty relations
         $actualMapping = $this->metadataManager->getMapping($metadata)->asArray();
         foreach ($expectedMapping['properties'] as $propertyName => $expectedProperty) {
@@ -106,13 +106,14 @@ class IndexManagerTest extends AbstractTestCase
                                     'type' => 'text',
                                     'analyzer' => 'shingle',
                                 ],
-                                'standard' => [
+                                'standard_edge_ngram' => [
                                     'type' => 'text',
-                                    'analyzer' => 'standard',
+                                    'analyzer' => 'standard_edge_ngram',
+                                    'search_analyzer' => 'standard',
                                 ],
                             ],
                             'analyzer' => 'keyword',
-                            'copy_to' => ['search'],
+                            'copy_to' => ['search', 'edge_ngram'],
                             'norms' => false,
                         ],
                         'brand' => [
@@ -179,13 +180,14 @@ class IndexManagerTest extends AbstractTestCase
                                             'type' => 'text',
                                             'analyzer' => 'shingle',
                                         ],
-                                        'standard' => [
+                                        'standard_edge_ngram' => [
                                             'type' => 'text',
-                                            'analyzer' => 'standard',
+                                            'analyzer' => 'standard_edge_ngram',
+                                            'search_analyzer' => 'standard',
                                         ],
                                     ],
                                     'analyzer' => 'keyword',
-                                    'copy_to' => ['search'],
+                                    'copy_to' => ['search', 'edge_ngram'],
                                     'norms' => false,
                                 ],
                                 'id' => [

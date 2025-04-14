@@ -370,7 +370,7 @@ class SearchDocumentsTest extends AbstractTestCase
                         $this->assertEquals($expectedScore, $document['score']);
                         */
                         $this->assertArrayHasKey('id', $document);
-                        $this->assertEquals("/documents/{$expectedOrderedDocIds[$index]}", $document['id']);
+                        $this->assertEquals($this->getUri('documents', $expectedOrderedDocIds[$index]), $document['id']);
 
                         $this->assertArrayHasKey('source', $document);
                         if (\array_key_exists($documentIdentifier, $document['source'])) {
@@ -1504,7 +1504,7 @@ class SearchDocumentsTest extends AbstractTestCase
                     $this->assertCount(\count($expectedOrderedDocIds), $responseData['data']['documents']['collection']);
                     foreach ($responseData['data']['documents']['collection'] as $index => $document) {
                         $this->assertArrayHasKey('id', $document);
-                        $this->assertEquals("/documents/{$expectedOrderedDocIds[$index]}", $document['id']);
+                        $this->assertEquals($this->getUri('documents', $expectedOrderedDocIds[$index]), $document['id']);
 
                         $this->assertArrayHasKey('source', $document);
                         if (\array_key_exists($documentIdentifier, $document['source'])) {
@@ -2055,6 +2055,39 @@ class SearchDocumentsTest extends AbstractTestCase
                 ],
             ],
 
+            // Search with first letters of a "product_name", to test search analyzer 'standard_edge_ngram', find because of exact term
+            [
+                'product_document', // entity type.
+                'b2c_en',           // catalog ID.
+                'Jou',              // query.
+                1,                  // expected result count.
+                [                   // expected result name.
+                    'Joust Duffle Bag',
+                ],
+            ],
+
+            // Search with first letters of a "product_name", to test search analyzer 'standard_edge_ngram', find because of phonetic
+            [
+                'product_document', // entity type.
+                'b2c_en',           // catalog ID.
+                'Joo',              // query.
+                1,                  // expected result count.
+                [                   // expected result name.
+                    'Joust Duffle Bag',
+                ],
+            ],
+
+            // Search with first letters of a "product_name", to test search analyzer 'standard_edge_ngram', find because of fuzziness
+            [
+                'product_document', // entity type.
+                'b2c_en',           // catalog ID.
+                'Juo',              // query.
+                1,                  // expected result count.
+                [                   // expected result name.
+                    'Joust Duffle Bag',
+                ],
+            ],
+
             // Search with words from name and select attribute not spellchecked
             [
                 'product_document', // entity type.
@@ -2123,6 +2156,17 @@ class SearchDocumentsTest extends AbstractTestCase
                 "£¨µùµ㈀㌫\xc3\xb1", // query.
                 0,                  // expected result count.
                 [],
+            ],
+
+            // Search with file content (send the file aas base64 string in a sourceFiel of type field, and apache tika in opsensearch should be able to parse its content).
+            [
+                'product_document', // entity type.
+                'b2c_en',           // catalog ID.
+                'Nam sit amet lorem ipsum.', // query.
+                1,                  // expected result count.
+                [
+                    'Overnight Duffle',
+                ],
             ],
         ];
     }

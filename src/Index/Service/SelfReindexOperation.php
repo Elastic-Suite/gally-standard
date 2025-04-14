@@ -45,7 +45,7 @@ class SelfReindexOperation
     public function performReindex(?string $entityType = null): SelfReindex
     {
         if (!empty($entityType)) {
-            $metadata = $this->metadataRepository->findOneBy(['entity' => $entityType]);
+            $metadata = $this->metadataRepository->findByEntity($entityType);
             if (!$metadata) {
                 throw new InvalidArgumentException(\sprintf('Entity type [%s] does not exist', $entityType));
             }

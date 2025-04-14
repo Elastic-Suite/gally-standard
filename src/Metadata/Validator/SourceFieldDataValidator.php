@@ -22,14 +22,18 @@ use Gally\Metadata\Repository\MetadataRepository;
 class SourceFieldDataValidator
 {
     private array $requiredFields = ['code', 'metadata'];
+    private array $updatableProperties = ['defaultLabel', 'weight', 'isSpellchecked', 'defaultSearchAnalyzer', 'isSpannable'];
     private array $existingMetadataIds;
     private array $existingLocalizedCatalogIds;
+    private string $routePrefix;
 
     public function __construct(
         private EntityManagerInterface $entityManager,
         private MetadataRepository $metadataRepository,
         private LocalizedCatalogRepository $localizedCatalogRepository,
+        string $routePrefix,
     ) {
+        $this->routePrefix = $routePrefix ? '/' . $routePrefix : '';
     }
 
     /**
@@ -50,12 +54,13 @@ class SourceFieldDataValidator
                 $this->entityManager->getUnitOfWork()->detach($label);
             }
 
-            unset($changeSet['isSpellchecked']);
-            unset($changeSet['weight']);
+            foreach ($this->updatableProperties as $updatableProperty) {
+                unset($changeSet[$updatableProperty]);
+            }
 
-            // Prevent user to update a system source field, only the value of 'weight' and 'isSpellchecked' can be changed.
+            // Prevent user to update a system source field, only the value of $this->updatableProperties  can be changed.
             if (\count($changeSet) > 0 && ($sourceField->getIsSystem() || ($changeSet['isSystem'][0] ?? false) === true)) {
-                throw new InvalidArgumentException(\sprintf("The source field '%s' cannot be updated because it is a system source field, only the value of 'weight' and 'isSpellchecked' can be changed.", $sourceField->getCode()));
+                throw new InvalidArgumentException(\sprintf("The source field '%s' cannot be updated because it is a system source field, only the value of '%s' can be changed.", $sourceField->getCode(), implode("', '", $this->updatableProperties)));
             }
         }
     }
@@ -77,22 +82,24 @@ class SourceFieldDataValidator
             }
         }
 
-        $metadataId = (int) str_replace('/metadata/', '', $rawData['metadata']);
+        $metadataId = (int) str_replace($this->routePrefix . '/metadata/', '', $rawData['metadata']);
+        $rawData['metadata'] = $metadataId;
 
         if (!\array_key_exists($metadataId, $this->getExistingMetadataIds())) {
             throw new InvalidArgumentException("Item not found for \"{${$rawData['metadata']}}\".");
         }
 
-        // Prevent user to update a system source field, only the value of 'weight' and 'isSpellchecked' can be changed.
+        // Prevent user to update a system source field, only the value of $updatableProperties can be changed.
         if (isset($existingSourceFields[$metadataId][$rawData['code']])) {
             $existing = $existingSourceFields[$metadataId][$rawData['code']];
             if ($existing['isSystem']) {
                 foreach ($rawData as $field => $value) {
                     if (
-                        !\in_array($field, ['code', 'metadata', 'weight', 'isSpellchecked', 'labels'], true)
-                        && $value !== $existingSourceFields[$metadataId][$rawData['code']][$field]
+                        'labels' !== $field // Don't check sub-entities.
+                        && !\in_array($field, $this->updatableProperties, true)
+                        && $value !== ($existingSourceFields[$metadataId][$rawData['code']][$field] ?? null)
                     ) {
-                        throw new InvalidArgumentException(\sprintf("The source field '%s' cannot be updated because it is a system source field, only the value of 'weight' and 'isSpellchecked' can be changed.", $rawData['code']));
+                        throw new InvalidArgumentException(\sprintf("The source field '%s' cannot be updated because it is a system source field, only the value of '%s' can be changed.", $rawData['code'], implode("', '", $this->updatableProperties)));
                     }
                 }
             }
@@ -100,7 +107,7 @@ class SourceFieldDataValidator
 
         // validate labels data
         foreach ($rawData['labels'] ?? [] as $label) {
-            $localizedCatalogId = (int) str_replace('/localized_catalogs/', '', $label['localizedCatalog']);
+            $localizedCatalogId = (int) str_replace($this->routePrefix . '/localized_catalogs/', '', $label['localizedCatalog']);
 
             if (!\array_key_exists($localizedCatalogId, $this->getExistingLocalizedCatalog())) {
                 throw new InvalidArgumentException("Item not found for \"{$label['localizedCatalog']}\".");

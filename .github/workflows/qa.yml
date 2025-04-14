@@ -21,7 +21,7 @@ jobs:
         runs-on: ubuntu-latest
 
         env:
-            ref: "master" # ${{ github.base_ref }} cannot work on pushes.
+            ref: "2.0.x" # ${{ github.base_ref }} cannot work on pushes.
             gally-directory: ${{ github.workspace }}/gally
             package-directory: ${{ github.workspace }}/gally/api/packages/${{ github.event.repository.name }}
 

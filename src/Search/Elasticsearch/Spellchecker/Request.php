@@ -40,7 +40,7 @@ class Request implements RequestInterface
     public function __construct(
         private string $indexName,
         private string $queryText,
-        private float $cutoffFrequency
+        private float $cutoffFrequency,
     ) {
     }
 

@@ -43,7 +43,11 @@ use Gally\Search\Elasticsearch\Builder\Request\Query\QueryBuilder;
 use Gally\Search\Elasticsearch\Request\Container\Configuration\ContainerConfigurationProvider;
 use Gally\Search\Elasticsearch\RequestFactoryInterface;
 use Gally\Test\AbstractTestCase;
+use Gally\Test\ExpectedResponse;
+use Gally\Test\RequestGraphQlToTest;
+use Gally\User\Constant\Role;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Contracts\HttpClient\ResponseInterface;
 
 class CategorySynchronizerTest extends AbstractTestCase
 {
@@ -83,7 +87,7 @@ class CategorySynchronizerTest extends AbstractTestCase
         $localizedCatalog1 = $localizedCatalogRepository->findOneBy(['code' => 'b2c_fr']);
         $localizedCatalog2 = $localizedCatalogRepository->findOneBy(['code' => 'b2c_en']);
         $localizedCatalog3 = $localizedCatalogRepository->findOneBy(['code' => 'b2b_fr']);
-        $category1Data = ['id' => 'one', 'parentId' => null, 'level' => 1, 'name' => 'One'];
+        $category1Data = ['id' => 1, 'parentId' => null, 'level' => 1, 'name' => 'One'];
         $category2Data = ['id' => 'two', 'parentId' => null, 'level' => 1, 'name' => 'Two'];
         $category3Data = ['id' => 'three', 'parentId' => 'one', 'level' => 2, 'name' => 'Three'];
         $category4Data = ['id' => 'four', 'parentId' => 'three', 'level' => 3, 'name' => 'Four'];
@@ -96,6 +100,7 @@ class CategorySynchronizerTest extends AbstractTestCase
         $this->validateCategoryCount(0, 0);
 
         // Create a non installed category index.
+        sleep(1); // Avoid creating two indexes at the same second (on reset version the testSynchronizeRetry is executed before this test that's why we can have same b2c_fr_category indexes in the same second), to delete after the ticket #1321031 will be done
         $indexName = $this->createIndex('category', $localizedCatalog1->getId());
         $this->bulkIndex($indexName, ['one' => $category1Data, 'two' => $category2Data]);
         $this->validateCategoryCount(0, 0);
@@ -167,7 +172,7 @@ class CategorySynchronizerTest extends AbstractTestCase
         $entityManager = static::getContainer()->get('doctrine')->getManager();
         $catalogRepository = static::getContainer()->get(CatalogRepository::class);
         $categoryRepository = static::getContainer()->get(CategoryRepository::class);
-        $category1 = $categoryRepository->find('one');
+        $category1 = $categoryRepository->find('1');
         $category2 = $categoryRepository->find('two');
         $category3 = $categoryRepository->find('three');
         $catalog1 = $catalogRepository->findOneBy(['code' => 'b2c']);
@@ -204,6 +209,36 @@ class CategorySynchronizerTest extends AbstractTestCase
         $this->expectException(SyncCategoryException::class);
         $this->expectExceptionMessage('error test message');
         $synchronizer->synchronize($index);
+    }
+
+    public function testErrorWithCategoryWithoutName(): void
+    {
+        $localizedCatalogRepository = static::getContainer()->get(LocalizedCatalogRepository::class);
+        $localizedCatalog1 = $localizedCatalogRepository->findOneBy(['code' => 'b2c_fr']);
+
+        sleep(1); // Avoid creating two indexes at the same second, to delete after the ticket #1321031 will be done
+        $indexName = $this->createIndex('category', $localizedCatalog1->getId());
+        $this->bulkIndex($indexName, ['five' => ['id' => 'four', 'parentId' => 'three', 'level' => 3]]);
+        $this->validateApiCall(
+            new RequestGraphQlToTest(
+                <<<GQL
+                    mutation {
+                      installIndex(input: {
+                        name: "$indexName"
+                      }) {
+                        index { id name aliases }
+                      }
+                    }
+                GQL,
+                $this->getUser(Role::ROLE_ADMIN),
+            ),
+            new ExpectedResponse(
+                200,
+                function (ResponseInterface $response) {
+                    $this->assertGraphQlError('No name provided for category four');
+                }
+            )
+        );
     }
 
     /**

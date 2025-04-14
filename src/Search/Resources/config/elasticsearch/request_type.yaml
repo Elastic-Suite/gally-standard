@@ -23,3 +23,10 @@ services:
             $aggregationProvider: '@Gally\Search\Elasticsearch\Request\Aggregation\Provider\AutocompleteSourceFields'
         tags:
             - { name: gally.container_configuration.factory, requestType: autocomplete }
+                
+    gally.container_configuration.category_count.factory:
+        parent: 'Gally\Search\Elasticsearch\Request\Container\Configuration\GenericContainerConfigurationFactory'
+        arguments:
+            $aggregationProvider: '@Gally\Search\Elasticsearch\Request\Aggregation\Provider\CategoryCountAggregationProvider'
+        tags:
+            - { name: gally.container_configuration.factory, requestType: category_count , internal: true  }

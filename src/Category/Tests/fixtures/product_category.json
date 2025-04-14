@@ -1,0 +1,45 @@
+[
+  {
+    "index_name": "gally_b2c_fr_product",
+    "documents": [
+      {
+        "id": "p_1",
+        "name": "Sac de sport Jout",
+        "category": [
+          {
+            "id": "one"
+          },
+          {
+            "id": "two"
+          }
+        ]
+      },
+      {
+        "id": "p_2",
+        "name": "Sac à bandoulière Strive",
+        "category": [
+          {
+            "id": "one"
+          },
+          {
+            "id": "two"
+          }
+        ]
+      },
+      {
+        "id": "p_3",
+        "name": "Sac à dos Crown Summit",
+        "category": [
+          {
+            "id": "three"
+          }
+        ]
+      },
+      {
+        "id": "p_4",
+        "name": "Sac messager Wayfarer"
+      }
+    ]
+  }
+]
+

@@ -22,16 +22,27 @@ use Gally\Category\Entity\Category;
 use Gally\Category\Entity\CategoryTree;
 use Gally\Category\Repository\CategoryConfigurationRepository;
 use Gally\Category\Repository\CategoryRepository;
+use Gally\Metadata\Repository\MetadataRepository;
+use Gally\Product\Entity\Product;
+use Gally\Search\Elasticsearch\Adapter;
+use Gally\Search\Elasticsearch\Builder\Request\SimpleRequestBuilder as RequestBuilder;
+use Gally\Search\Elasticsearch\Request\Container\Configuration\ContainerConfigurationProvider;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class CategoryTreeBuilder
 {
+    private array $productCategoryCount = [];
+
     public function __construct(
         private CatalogRepository $catalogRepository,
         private LocalizedCatalogRepository $localizedCatalogRepository,
         private CategoryRepository $categoryRepository,
         private CategoryConfigurationRepository $categoryConfigurationRepository,
         private DefaultCatalogProvider $defaultCatalogProvider,
+        private RequestBuilder $requestBuilder,
+        private MetadataRepository $metadataRepository,
+        private ContainerConfigurationProvider $containerConfigurationProvider,
+        private Adapter $adapter,
     ) {
     }
 
@@ -50,6 +61,9 @@ class CategoryTreeBuilder
         }
 
         $sortedCategories = $this->getSortedCategories($catalog, $localizedCatalog);
+        if ($localizedCatalog) {
+            $this->productCategoryCount = $this->getCategoryProductCount($localizedCatalog);
+        }
 
         return new CategoryTree($catalogId, $localizedCatalogId, $this->buildCategoryTree($sortedCategories));
     }
@@ -128,6 +142,7 @@ class CategoryTreeBuilder
             'name' => $categoryConfiguration->getName(),
             'level' => $category->getLevel(),
             'path' => $category->getPath(),
+            'count' => $this->productCategoryCount[$category->getId()] ?? 0,
             'isVirtual' => $categoryConfiguration->getIsVirtual(),
         ];
 
@@ -136,5 +151,29 @@ class CategoryTreeBuilder
         }
 
         return $node;
+    }
+
+    private function getCategoryProductCount(LocalizedCatalog $localizedCatalog): array
+    {
+        $metadata = $this->metadataRepository->findByRessourceClass(Product::class);
+        $containerConfig = $this->containerConfigurationProvider->get(
+            $metadata,
+            $localizedCatalog,
+            'product_category_count'
+        );
+        $request = $this->requestBuilder->create($containerConfig, 0, 0);
+        $response = $this->adapter->search($request);
+
+        $count = [];
+
+        $aggregations = $response->getAggregations();
+        $categoryAggregation = \array_key_exists('category.id', $aggregations)
+            ? $aggregations['category.id']->getValues()
+            : [];
+        foreach ($categoryAggregation as $option) {
+            $count[$option->getKey()] = $option->getCount();
+        }
+
+        return $count;
     }
 }

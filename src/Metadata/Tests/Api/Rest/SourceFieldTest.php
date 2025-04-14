@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Gally\Metadata\Tests\Api\Rest;
 
+use Gally\Index\Entity\Index\Mapping\FieldInterface;
 use Gally\Metadata\Entity\SourceField;
 use Gally\Metadata\Repository\SourceFieldLabelRepository;
 use Gally\Metadata\Repository\SourceFieldRepository;
@@ -46,57 +47,57 @@ class SourceFieldTest extends AbstractEntityTestWithUpdate
         $adminUser = $this->getUser(Role::ROLE_ADMIN);
 
         return [
-            [null, ['code' => 'description', 'metadata' => '/metadata/1'], 401],
-            [$this->getUser(Role::ROLE_CONTRIBUTOR), ['code' => 'description', 'metadata' => '/metadata/1'], 403],
-            [$adminUser, ['code' => 'description', 'metadata' => '/metadata/1'], 201],
-            [$adminUser, ['code' => 'weight', 'metadata' => '/metadata/1'], 201],
-            [$adminUser, ['code' => 'image', 'metadata' => '/metadata/2'], 201],
-            [$adminUser, ['code' => 'length', 'isSearchable' => true, 'metadata' => '/metadata/1', 'weight' => 2], 201],
-            [$adminUser, ['code' => 'height', 'isUsedInAutocomplete' => true, 'metadata' => '/metadata/1'], 201],
-            [$adminUser, ['code' => 'width', 'isFilterable' => false, 'isUsedInAutocomplete' => true, 'metadata' => '/metadata/1'], 201],
+            [null, ['code' => 'description', 'metadata' => $this->getUri('metadata', '1')], 401],
+            [$this->getUser(Role::ROLE_CONTRIBUTOR), ['code' => 'description', 'metadata' => $this->getUri('metadata', '1')], 403],
+            [$adminUser, ['code' => 'description', 'metadata' => $this->getUri('metadata', '1')], 201],
+            [$adminUser, ['code' => 'weight', 'metadata' => $this->getUri('metadata', '1')], 201],
+            [$adminUser, ['code' => 'image', 'metadata' => $this->getUri('metadata', '2')], 201],
+            [$adminUser, ['code' => 'length', 'isSearchable' => true, 'metadata' => $this->getUri('metadata', '1'), 'weight' => 2], 201],
+            [$adminUser, ['code' => 'height', 'isUsedInAutocomplete' => true, 'metadata' => $this->getUri('metadata', '1')], 201],
+            [$adminUser, ['code' => 'width', 'isFilterable' => false, 'isUsedInAutocomplete' => true, 'metadata' => $this->getUri('metadata', '1')], 201],
             [$adminUser, ['code' => 'description'], 422, 'metadata: This value should not be blank.'],
-            [$adminUser, ['metadata' => '/metadata/1'], 422, 'code: This value should not be blank.'],
+            [$adminUser, ['metadata' => $this->getUri('metadata', '1')], 422, 'code: This value should not be blank.'],
             [
                 $adminUser,
-                ['code' => 'long_description', 'metadata' => '/metadata/1', 'type' => 'description'],
+                ['code' => 'long_description', 'metadata' => $this->getUri('metadata', '1'), 'type' => 'description'],
                 422,
                 'type: The value you selected is not a valid choice.',
             ],
             [
                 $adminUser,
-                ['code' => 'description', 'metadata' => '/metadata/notExist'],
+                ['code' => 'description', 'metadata' => $this->getUri('metadata', 'notExist')],
                 400,
-                'Item not found for "/metadata/notExist".',
+                'Item not found for "' . $this->getUri('metadata', 'notExist') . '".',
             ],
             [
                 $adminUser,
-                ['code' => 'name', 'metadata' => '/metadata/1'],
+                ['code' => 'name', 'metadata' => $this->getUri('metadata', '1')],
                 422,
                 'code: A field with this code already exist for this entity.',
             ],
             [
                 $adminUser,
-                ['code' => 'color', 'isSearchable' => true, 'metadata' => '/metadata/1', 'weight' => 0],
+                ['code' => 'color', 'isSearchable' => true, 'metadata' => $this->getUri('metadata', '1'), 'weight' => 0],
                 422,
                 'weight: The value you selected is not a valid choice.',
             ],
             [
                 $adminUser,
-                ['code' => 'color', 'isSearchable' => true, 'metadata' => '/metadata/1', 'weight' => 11],
+                ['code' => 'color', 'isSearchable' => true, 'metadata' => $this->getUri('metadata', '1'), 'weight' => 11],
                 422,
                 'weight: The value you selected is not a valid choice.',
             ],
-            [$adminUser, ['code' => 'my_category', 'metadata' => '/metadata/1', 'type' => 'category'], 201],
+            [$adminUser, ['code' => 'my_category', 'metadata' => $this->getUri('metadata', '1'), 'type' => 'category'], 201],
             [
                 $adminUser,
-                ['code' => 'my_category.id', 'metadata' => '/metadata/1', 'type' => 'keyword'],
+                ['code' => 'my_category.id', 'metadata' => $this->getUri('metadata', '1'), 'type' => 'keyword'],
                 500,
                 "You can't create a source field with the code 'my_category.id' because a source field with the code 'my_category' exists.",
             ],
-            [$adminUser, ['code' => 'my_price.price', 'metadata' => '/metadata/1', 'type' => 'float'], 201],
+            [$adminUser, ['code' => 'my_price.price', 'metadata' => $this->getUri('metadata', '1'), 'type' => 'float'], 201],
             [
                 $adminUser,
-                ['code' => 'my_price', 'metadata' => '/metadata/1', 'type' => 'price'],
+                ['code' => 'my_price', 'metadata' => $this->getUri('metadata', '1'), 'type' => 'price'],
                 500,
                 "You can't create a source field with the code 'my_price' because a source field with the code 'my_price.*' exists.",
             ],
@@ -105,11 +106,11 @@ class SourceFieldTest extends AbstractEntityTestWithUpdate
                 $adminUser,
                 [
                     'code' => 'is_new',
-                    'metadata' => '/metadata/1',
+                    'metadata' => $this->getUri('metadata', '1'),
                     'defaultLabel' => 'New',
                     'labels' => [
                         [
-                            'localizedCatalog' => '/localized_catalogs/1',
+                            'localizedCatalog' => $this->getUri('localized_catalogs', '1'),
                             'label' => 'Nouveautés',
                         ],
                     ],
@@ -120,21 +121,24 @@ class SourceFieldTest extends AbstractEntityTestWithUpdate
                 $adminUser,
                 [
                     'code' => 'tags',
-                    'metadata' => '/metadata/1',
+                    'metadata' => $this->getUri('metadata', '1'),
                     'defaultLabel' => 'Tags',
                     'labels' => [
                         [
-                            'localizedCatalog' => '/localized_catalogs/1',
+                            'localizedCatalog' => $this->getUri('localized_catalogs', '1'),
                             'label' => 'Mots clés',
                         ],
                         [
-                            'localizedCatalog' => '/localized_catalogs/2',
+                            'localizedCatalog' => $this->getUri('localized_catalogs', '2'),
                             'label' => 'Tags',
                         ],
                     ],
                 ],
                 201,
             ],
+            [$adminUser, ['code' => 'reference_reference_source_field', 'metadata' => $this->getUri('metadata', '1'), 'type' => SourceField\Type::TYPE_REFERENCE], 201],
+            [$adminUser, ['code' => 'reference_default_source_field', 'metadata' => $this->getUri('metadata', '1'), 'type' => SourceField\Type::TYPE_REFERENCE], 201],
+            [$adminUser, ['code' => 'reference_edge_ngram_source_field', 'metadata' => $this->getUri('metadata', '1'), 'type' => SourceField\Type::TYPE_REFERENCE, 'defaultSearchAnalyzer' => FieldInterface::ANALYZER_EDGE_NGRAM], 201],
         ];
     }
 
@@ -163,7 +167,12 @@ class SourceFieldTest extends AbstractEntityTestWithUpdate
             [$user, 1, ['id' => 1, 'code' => 'name', 'weight' => 10], 200],
             [$user, 13, ['id' => 13, 'code' => 'description', 'weight' => 1], 200],
             [$user, 16, ['id' => 16, 'code' => 'length', 'weight' => 2], 200],
-            [$user, 23, [], 404],
+            // Check if default search analyzer is set to 'reference' when the source fields type is 'reference'.
+            [$user, 23, ['id' => 23, 'code' => 'reference_reference_source_field', 'defaultSearchAnalyzer' => FieldInterface::ANALYZER_REFERENCE], 200],
+            [$user, 24, ['id' => 24, 'code' => 'reference_default_source_field', 'defaultSearchAnalyzer' => FieldInterface::ANALYZER_REFERENCE], 200],
+            // Check if we can set custom default search analyzer (diffrent to'reference)' when the source fields type is 'reference'.
+            [$user, 25, ['id' => 25, 'code' => 'reference_edge_ngram_source_field', 'defaultSearchAnalyzer' => FieldInterface::ANALYZER_EDGE_NGRAM], 200],
+            [$user, 26, [], 404],
         ];
     }
 
@@ -184,9 +193,9 @@ class SourceFieldTest extends AbstractEntityTestWithUpdate
     public function getCollectionDataProvider(): iterable
     {
         return [
-            [null, 25, 401],
-            [$this->getUser(Role::ROLE_CONTRIBUTOR), 25, 200],
-            [$this->getUser(Role::ROLE_ADMIN), 25, 200],
+            [null, 28, 401],
+            [$this->getUser(Role::ROLE_CONTRIBUTOR), 28, 200],
+            [$this->getUser(Role::ROLE_ADMIN), 28, 200],
         ];
     }
 
@@ -233,14 +242,14 @@ class SourceFieldTest extends AbstractEntityTestWithUpdate
                 5,
                 ['isFilterable' => true],
                 400,
-                "The source field 'sku' cannot be updated because it is a system source field, only the value of 'weight' and 'isSpellchecked' can be changed.",
+                "The source field 'sku' cannot be updated because it is a system source field, only the value of 'defaultLabel', 'weight', 'isSpellchecked', 'defaultSearchAnalyzer', 'isSpannable' can be changed.",
             ],
             [
                 $adminUser,
                 5,
                 ['isSystem' => false],
                 400,
-                "The source field 'sku' cannot be updated because it is a system source field, only the value of 'weight' and 'isSpellchecked' can be changed.",
+                "The source field 'sku' cannot be updated because it is a system source field, only the value of 'defaultLabel', 'weight', 'isSpellchecked', 'defaultSearchAnalyzer', 'isSpannable' can be changed.",
             ],
             [
                 $adminUser,
@@ -254,11 +263,11 @@ class SourceFieldTest extends AbstractEntityTestWithUpdate
                 [
                     'labels' => [
                         [
-                            'localizedCatalog' => '/localized_catalogs/1',
+                            'localizedCatalog' => $this->getUri('localized_catalogs', '1'),
                             'label' => 'Pastilles',
                         ],
                         [
-                            'localizedCatalog' => '/localized_catalogs/2',
+                            'localizedCatalog' => $this->getUri('localized_catalogs', '2'),
                             'label' => 'Flags',
                         ],
                     ],
@@ -271,7 +280,7 @@ class SourceFieldTest extends AbstractEntityTestWithUpdate
                 [
                     'labels' => [
                         [
-                            'localizedCatalog' => '/localized_catalogs/1',
+                            'localizedCatalog' => $this->getUri('localized_catalogs', '1'),
                             'label' => 'Les nouveautés updated',
                         ],
                     ],
@@ -284,7 +293,7 @@ class SourceFieldTest extends AbstractEntityTestWithUpdate
                 [
                     'labels' => [
                         [
-                            'localizedCatalog' => '/localized_catalogs/2',
+                            'localizedCatalog' => $this->getUri('localized_catalogs', '2'),
                             'label' => 'New products',
                         ],
                     ],
@@ -301,6 +310,12 @@ class SourceFieldTest extends AbstractEntityTestWithUpdate
                 $adminUser,
                 17,
                 ['isFilterable' => false],
+                200,
+            ],
+            [ // Test that we can update defaultSearchAnalyzer when type is reference.
+                $adminUser,
+                24,
+                ['defaultSearchAnalyzer' => FieldInterface::ANALYZER_STANDARD],
                 200,
             ],
         ];
@@ -341,8 +356,8 @@ class SourceFieldTest extends AbstractEntityTestWithUpdate
                 $shortName = $this->getShortName();
                 $this->assertJsonContains(
                     [
-                        '@context' => "/contexts/$shortName",
-                        '@id' => $this->getApiPath(),
+                        '@context' => $this->getRoute("contexts/$shortName"),
+                        '@id' => $this->getRoute($this->getApiPath()),
                         '@type' => 'hydra:Collection',
                         'hydra:totalItems' => $expectedItemNumber,
                     ],
@@ -390,7 +405,7 @@ class SourceFieldTest extends AbstractEntityTestWithUpdate
                 foreach ($sourceFields as $sourceFieldData) {
                     $sourceField = $sourceFieldRepository->findOneBy(
                         [
-                            'metadata' => (int) str_replace('/metadata/', '', $sourceFieldData['metadata']),
+                            'metadata' => (int) str_replace($this->getRoute('metadata') . '/', '', $sourceFieldData['metadata']),
                             'code' => $sourceFieldData['code'],
                         ]
                     );
@@ -418,7 +433,7 @@ class SourceFieldTest extends AbstractEntityTestWithUpdate
             [ // Source field post data
                 ['weight' => 1],
                 ['code' => 'new_source_field_1', 'weight' => 1],
-                ['code' => 'sku', 'metadata' => '/metadata/1', 'isFilterable' => true],
+                ['code' => 'sku', 'metadata' => $this->getUri('metadata', '1'), 'isFilterable' => true],
             ],
             20, // Expected source field number
             [], // Expected data in response
@@ -427,16 +442,16 @@ class SourceFieldTest extends AbstractEntityTestWithUpdate
             // Expected error messages
             'Option #0: A code value is required for source field. ' .
             'Option #1: A metadata value is required for source field. ' .
-            "Option #2: The source field 'sku' cannot be updated because it is a system source field, only the value of 'weight' and 'isSpellchecked' can be changed.",
+            "Option #2: The source field 'sku' cannot be updated because it is a system source field, only the value of 'defaultLabel', 'weight', 'isSpellchecked', 'defaultSearchAnalyzer', 'isSpannable' can be changed.",
         ];
 
         // With one sourceField
         yield [
             $adminUser, // Api User
             [ // Source field post data
-                ['code' => 'new_source_field_1', 'metadata' => '/metadata/1', 'weight' => 1],
+                ['code' => 'new_source_field_1', 'metadata' => $this->getUri('metadata', '1'), 'weight' => 1],
             ],
-            23, // Expected source field number
+            26, // Expected source field number
             [], // Expected data in response
             [ // Expected search values
                 'new_source_field_1' => 'new_source_field_1 New_source_field_1',
@@ -446,12 +461,12 @@ class SourceFieldTest extends AbstractEntityTestWithUpdate
         yield [
             $adminUser, // Api User
             [ // Source field post data
-                ['code' => 'new_source_field_2', 'metadata' => '/metadata/1', 'weight' => 1],
+                ['code' => 'new_source_field_2', 'metadata' => $this->getUri('metadata', '1'), 'weight' => 1],
                 ['code' => 'new_source_field_3', 'weight' => 1],
-                ['code' => 'new_source_field_3', 'metadata' => '/metadata/1', 'weight' => 1],
-                ['code' => 'sku', 'metadata' => '/metadata/1', 'weight' => 2, 'isSpellchecked' => true],
+                ['code' => 'new_source_field_3', 'metadata' => $this->getUri('metadata', '1'), 'weight' => 1],
+                ['code' => 'sku', 'metadata' => $this->getUri('metadata', '1'), 'weight' => 2, 'isSpellchecked' => true],
             ],
-            25, // Expected source field number
+            28, // Expected source field number
             [], // Expected data in response
             [ // Expected search values
                 'new_source_field_2' => 'new_source_field_2 New_source_field_2',
@@ -464,10 +479,10 @@ class SourceFieldTest extends AbstractEntityTestWithUpdate
         yield [
             $adminUser, // Api User
             [ // Source field post data
-                ['code' => 'new_source_field_2', 'metadata' => '/metadata/1', 'defaultLabel' => 'New source field 2', 'isFilterable' => true],
-                ['code' => 'new_source_field_4', 'metadata' => '/metadata/1', 'weight' => 5],
+                ['code' => 'new_source_field_2', 'metadata' => $this->getUri('metadata', '1'), 'defaultLabel' => 'New source field 2', 'isFilterable' => true],
+                ['code' => 'new_source_field_4', 'metadata' => $this->getUri('metadata', '1'), 'weight' => 5],
             ],
-            26, // Expected source field number
+            29, // Expected source field number
             [ // Expected data in response
                 0 => ['isFilterable' => true, 'weight' => 1, 'isSystem' => false],
                 1 => ['isFilterable' => null, 'weight' => 5, 'isSystem' => false],
@@ -483,31 +498,31 @@ class SourceFieldTest extends AbstractEntityTestWithUpdate
             [ // Source field post data
                 [
                     'code' => 'sku',
-                    'metadata' => '/metadata/1',
+                    'metadata' => $this->getUri('metadata', '1'),
                     'labels' => [
-                        ['localizedCatalog' => '/localized_catalogs/2', 'label' => 'Reference'],
+                        ['localizedCatalog' => $this->getUri('localized_catalogs', '2'), 'label' => 'Reference'],
                     ],
                 ],
                 [
                     'code' => 'new_source_field_2',
-                    'metadata' => '/metadata/1',
+                    'metadata' => $this->getUri('metadata', '1'),
                     'weight' => 1,
                     'defaultLabel' => 'New source field 2',
                     'labels' => [
-                        ['localizedCatalog' => '/localized_catalogs/1', 'label' => 'Localized label source field 2'],
+                        ['localizedCatalog' => $this->getUri('localized_catalogs', '1'), 'label' => 'Localized label source field 2'],
                     ],
                 ],
                 [
                     'code' => 'new_source_field_5',
-                    'metadata' => '/metadata/1',
+                    'metadata' => $this->getUri('metadata', '1'),
                     'weight' => 1,
                     'labels' => [
-                        ['localizedCatalog' => '/localized_catalogs/1', 'label' => 'Localized label source field 5'],
-                        ['localizedCatalog' => '/localized_catalogs/2', 'label' => 'Localized label 2 source field 5'],
+                        ['localizedCatalog' => $this->getUri('localized_catalogs', '1'), 'label' => 'Localized label source field 5'],
+                        ['localizedCatalog' => $this->getUri('localized_catalogs', '2'), 'label' => 'Localized label 2 source field 5'],
                     ],
                 ],
             ],
-            27, // Expected source field number
+            30, // Expected source field number
             [ // Expected data in response
                 1 => ['labels' => [0 => ['label' => 'Localized label source field 2']]],
                 2 => ['labels' => [1 => ['label' => 'Localized label 2 source field 5']]],
@@ -524,23 +539,23 @@ class SourceFieldTest extends AbstractEntityTestWithUpdate
             [ // Source field post data
                 [
                     'code' => 'new_source_field_2',
-                    'metadata' => '/metadata/1',
+                    'metadata' => $this->getUri('metadata', '1'),
                     'weight' => 1,
                     'defaultLabel' => 'New source field 2',
                     'labels' => [
-                        ['localizedCatalog' => '/localized_catalogs/2', 'label' => 'Localized label 2 source field 2'],
+                        ['localizedCatalog' => $this->getUri('localized_catalogs', '2'), 'label' => 'Localized label 2 source field 2'],
                     ],
                 ],
                 [
                     'code' => 'new_source_field_5',
-                    'metadata' => '/metadata/1',
+                    'metadata' => $this->getUri('metadata', '1'),
                     'weight' => 1,
                     'labels' => [
-                        ['localizedCatalog' => '/localized_catalogs/2', 'label' => 'Localized label 2 source field 5'],
+                        ['localizedCatalog' => $this->getUri('localized_catalogs', '2'), 'label' => 'Localized label 2 source field 5'],
                     ],
                 ],
             ],
-            27, // Expected source field number
+            30, // Expected source field number
             [ // Expected data in response
                 0 => ['labels' => [0 => ['label' => 'Localized label 2 source field 2']]],
                 1 => ['labels' => [0 => ['label' => 'Localized label 2 source field 5']]],

@@ -14,7 +14,9 @@ declare(strict_types=1);
 namespace Gally\Product\GraphQl\Type\Definition;
 
 use ApiPlatform\GraphQl\Type\Definition\TypeInterface;
+use ApiPlatform\Metadata\Exception\InvalidArgumentException;
 use Gally\Metadata\Entity\Metadata;
+use Gally\Metadata\Repository\MetadataRepository;
 use Gally\Metadata\Repository\SourceFieldRepository;
 use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface;
 use Gally\Search\Elasticsearch\Request\SortOrderInterface;
@@ -22,6 +24,7 @@ use Gally\Search\GraphQl\Type\Definition\SortInputType as SearchSortInputType;
 use Gally\Search\GraphQl\Type\Definition\SortOrder\SortOrderProviderInterface;
 use Gally\Search\Service\ReverseSourceFieldProvider;
 use Gally\Search\Service\SearchContext;
+use Psr\Log\LoggerInterface;
 
 class SortInputType extends SearchSortInputType
 {
@@ -30,9 +33,11 @@ class SortInputType extends SearchSortInputType
     public function __construct(
         private TypeInterface $sortEnumType,
         protected SearchContext $searchContext,
+        private MetadataRepository $metadataRepository,
         private SourceFieldRepository $sourceFieldRepository,
         private iterable $sortOrderProviders,
         protected ReverseSourceFieldProvider $reverseSourceFieldProvider,
+        private LoggerInterface $logger,
         private string $nestingSeparator,
     ) {
         parent::__construct($this->sortEnumType, $this->searchContext, $this->reverseSourceFieldProvider);
@@ -42,17 +47,29 @@ class SortInputType extends SearchSortInputType
     public function getConfig(): array
     {
         $fields = [];
-        foreach ($this->sourceFieldRepository->getSortableFields('product') as $sortableField) {
-            /** @var SortOrderProviderInterface $sortOrderProvider */
-            foreach ($this->sortOrderProviders as $sortOrderProvider) {
-                if ($sortOrderProvider->supports($sortableField)) {
-                    $fieldName = $sortOrderProvider->getSortOrderField($sortableField);
-                    $fields[$fieldName] = [
-                        'type' => $this->sortEnumType,
-                        'description' => $sortOrderProvider->getLabel($sortableField),
-                    ];
+
+        try {
+            $metadata = $this->metadataRepository->findByEntity('product');
+            $labels = $this->sourceFieldRepository->getLabelsBySourceFields($metadata->getSortableSourceFields());
+
+            foreach ($metadata->getSortableSourceFields() as $sortableField) {
+                /** @var SortOrderProviderInterface $sortOrderProvider */
+                foreach ($this->sortOrderProviders as $sortOrderProvider) {
+                    if ($sortOrderProvider->supports($sortableField)) {
+                        $fieldName = $sortOrderProvider->getSortOrderField($sortableField);
+                        $fields[$fieldName] = [
+                            'type' => $this->sortEnumType,
+                            'description' => $sortOrderProvider->getLabel(
+                                $sortableField->getCode(),
+                                $labels[$sortableField->getId()]['label'] ?? ucfirst($sortableField->getCode())
+                            ),
+                        ];
+                    }
                 }
             }
+        } catch (InvalidArgumentException $exception) {
+            // Metadata product doesn't exist.
+            $this->logger->error($exception->getMessage());
         }
 
         $fields[SortOrderInterface::DEFAULT_SORT_FIELD] = [

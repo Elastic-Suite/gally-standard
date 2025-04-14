@@ -21,10 +21,13 @@ class SourceFieldOptionDataValidator
 {
     private array $requiredFields = ['sourceField', 'code', 'defaultLabel'];
     private array $existingLocalizedCatalogIds;
+    private string $routePrefix;
 
     public function __construct(
         private LocalizedCatalogRepository $localizedCatalogRepository,
+        string $routePrefix,
     ) {
+        $this->routePrefix = $routePrefix ? '/' . $routePrefix : '';
     }
 
     /**
@@ -43,7 +46,7 @@ class SourceFieldOptionDataValidator
                 throw new InvalidArgumentException("A $requiredField value is required for source field option.");
             }
         }
-        $sourceFieldId = (int) str_replace('/source_fields/', '', $rawData['sourceField']);
+        $sourceFieldId = (int) str_replace($this->routePrefix . '/source_fields/', '', $rawData['sourceField']);
 
         if (!\array_key_exists($sourceFieldId, $existingSourceFieldTypeById)) {
             throw new InvalidArgumentException("Item not found for \"{$rawData['sourceField']}\".");
@@ -54,7 +57,7 @@ class SourceFieldOptionDataValidator
 
         // validate labels data
         foreach ($rawData['labels'] ?? [] as $label) {
-            $localizedCatalogId = (int) str_replace('/localized_catalogs/', '', $label['localizedCatalog']);
+            $localizedCatalogId = (int) str_replace($this->routePrefix . '/localized_catalogs/', '', $label['localizedCatalog']);
 
             if (!\array_key_exists($localizedCatalogId, $this->getExistingLocalizedCatalog())) {
                 throw new InvalidArgumentException("Item not found for \"{$label['localizedCatalog']}\".");

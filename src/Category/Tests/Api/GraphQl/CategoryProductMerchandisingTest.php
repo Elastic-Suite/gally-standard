@@ -204,7 +204,7 @@ class CategoryProductMerchandisingTest extends AbstractTestCase
                             'data' => [
                                 'savePositionsCategoryProductMerchandising' => [
                                     'categoryProductMerchandising' => [
-                                        'id' => '/category_product_merchandisings/0',
+                                        'id' => $this->getUri('category_product_merchandisings', '0'),
                                     ],
                                 ],
                             ],
@@ -891,7 +891,7 @@ class CategoryProductMerchandisingTest extends AbstractTestCase
                         $this->assertJsonContains([
                             'data' => [
                                 'getPositionsCategoryProductMerchandising' => [
-                                    'id' => '/category_product_merchandisings/0',
+                                    'id' => $this->getUri('category_product_merchandisings', '0'),
                                 ],
                             ],
                         ]);

@@ -23,7 +23,7 @@ class RuleEngineOperatorsTest extends AbstractTestCase
 {
     protected function getApiPath(): string
     {
-        return '/rule_engine_operators';
+        return 'rule_engine_operators';
     }
 
     public function testSecurity(): void
@@ -42,8 +42,8 @@ class RuleEngineOperatorsTest extends AbstractTestCase
             function (ResponseInterface $response) {
                 $this->assertJsonContains(
                     [
-                        '@context' => '/contexts/RuleEngineOperators',
-                        '@id' => '/rule_engine_operators',
+                        '@context' => $this->getRoute('contexts/RuleEngineOperators'),
+                        '@id' => $this->getRoute('rule_engine_operators'),
                         '@type' => 'RuleEngineOperators',
                         'id' => 'rule_engine_operators',
                         'operators' => [],

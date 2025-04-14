@@ -34,9 +34,10 @@ interface SortOrderProviderInterface
     /**
      * Get the sort order detailed label corresponding to the provided source field.
      *
-     * @param SourceField $sourceField Source field
+     * @param string $code  Source field code
+     * @param string $label Source field label
      */
-    public function getLabel(SourceField $sourceField): string;
+    public function getLabel(string $code, string $label): string;
 
     /**
      * Get the sort order simplified label corresponding to the provided source field.

@@ -13,12 +13,12 @@ declare(strict_types=1);
 
 namespace Gally\Security\Tests\Api\GraphQl;
 
-use ApiPlatform\Symfony\Bundle\Test\ApiTestCase;
+use Gally\Test\AbstractTestCase;
 use Gally\User\Constant\Role;
 use Gally\User\Entity\User;
 use Gally\User\Tests\LoginTrait;
 
-class AuthenticationTest extends ApiTestCase
+class AuthenticationTest extends AbstractTestCase
 {
     use LoginTrait;
 
@@ -41,9 +41,9 @@ class AuthenticationTest extends ApiTestCase
         ];
 
         // Test before login
-        $client->request('POST', '/graphql', ['json' => $listQuery]);
+        $client->request('POST', $this->getRoute('graphql'), ['json' => $listQuery]);
         $this->assertJsonContains(['data' => []]);
-        $response = $client->request('POST', '/graphql', ['json' => $createQuery]);
+        $response = $client->request('POST', $this->getRoute('graphql'), ['json' => $createQuery]);
         $this->assertEquals('Access Denied.', $response->toArray()['errors'][0]['message']);
 
         // Log contributor
@@ -52,9 +52,9 @@ class AuthenticationTest extends ApiTestCase
         $this->assertNotEmpty($token);
 
         // Test not authorized.
-        $client->request('POST', '/graphql', ['json' => $listQuery]);
+        $client->request('POST', $this->getRoute('graphql'), ['json' => $listQuery]);
         $this->assertJsonContains(['data' => []]);
-        $client->request('POST', '/graphql', ['auth_bearer' => $token, 'json' => $createQuery]);
+        $client->request('POST', $this->getRoute('graphql'), ['auth_bearer' => $token, 'json' => $createQuery]);
         $this->assertEquals('Access Denied.', $response->toArray()['errors'][0]['message']);
 
         // Log admin
@@ -63,9 +63,9 @@ class AuthenticationTest extends ApiTestCase
         $this->assertNotEmpty($token);
 
         // Test authorized.
-        $client->request('POST', '/graphql', ['json' => $listQuery]);
+        $client->request('POST', $this->getRoute('graphql'), ['json' => $listQuery]);
         $this->assertJsonContains(['data' => []]);
-        $client->request('POST', '/graphql', ['auth_bearer' => $token, 'json' => $createQuery]);
+        $client->request('POST', $this->getRoute('graphql'), ['auth_bearer' => $token, 'json' => $createQuery]);
         $this->assertJsonContains(['data' => []]);
 
         $this->logout();

@@ -26,12 +26,14 @@ Gally\Metadata\Entity\SourceField:
         metadata: '@product'
         code: 'id'
         type: 'reference'
+        defaultSearchAnalyzer: 'reference'
         isSystem: true
         isSortable: true
     product_sku:
         metadata: '@product'
         code: 'sku'
         type: 'reference'
+        defaultSearchAnalyzer: 'reference'
         isSystem: true
     product_price:
         metadata: '@product'

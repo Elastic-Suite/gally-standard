@@ -174,3 +174,10 @@ services:
             - [ setContainer, [ '@service_container' ] ]
         tags:
             - { name: controller.service_arguments }
+
+    Gally\Index\EventSubscriber\CleanMetadataCache:
+        arguments:
+            - '@Gally\Index\Service\MetadataManager'
+        tags:
+            - { name: doctrine.event_listener, event: postPersist }
+            - { name: doctrine.event_listener, event: postUpdate }

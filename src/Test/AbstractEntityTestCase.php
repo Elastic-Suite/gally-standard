@@ -52,12 +52,15 @@ abstract class AbstractEntityTestCase extends AbstractTestCase
                 $shortName = $this->getShortName();
                 $this->assertJsonContains(
                     array_merge(
-                        ['@context' => "/contexts/$shortName", '@type' => $shortName],
+                        [
+                            '@context' => $this->getRoute("contexts/$shortName"),
+                            '@type' => $shortName,
+                        ],
                         $this->getJsonCreationValidation($data)
                     ),
                     false
                 );
-                $this->assertMatchesRegularExpression($validRegex ?? '~^' . $this->getApiPath() . '/\d+$~', $response->toArray()['@id']);
+                $this->assertMatchesRegularExpression($validRegex ?? '~^.*/?' . $this->getApiPath() . '/\d+$~', $response->toArray()['@id']);
                 $this->assertMatchesResourceItemJsonSchema($this->getEntityClass());
             },
             $message
@@ -99,15 +102,15 @@ abstract class AbstractEntityTestCase extends AbstractTestCase
                     $this->assertJsonContains(
                         array_merge(
                             [
-                                '@context' => "/contexts/$shortName",
+                                '@context' => $this->getRoute("contexts/$shortName"),
                                 '@type' => $shortName,
-                                '@id' => $this->getApiPath() . '/' . $expectedData['id'],
+                                '@id' => $this->getUri($this->getApiPath(), $expectedData['id']),
                             ],
                             $this->getJsonGetValidation($expectedData)
                         )
                     );
                 } else {
-                    $this->assertJsonContains(['@context' => "/contexts/$shortName", '@type' => $shortName]);
+                    $this->assertJsonContains(['@context' => $this->getRoute("contexts/$shortName"), '@type' => $shortName]);
                 }
             }
         );
@@ -178,8 +181,8 @@ abstract class AbstractEntityTestCase extends AbstractTestCase
                     $this->assertJsonContains(
                         array_merge(
                             [
-                                '@context' => "/contexts/$shortName",
-                                '@id' => $this->getApiPath(),
+                                '@context' => $this->getRoute("contexts/$shortName"),
+                                '@id' => $this->getRoute($this->getApiPath()),
                                 '@type' => 'hydra:Collection',
                                 'hydra:totalItems' => $expectedItemNumber,
                             ],
@@ -187,7 +190,7 @@ abstract class AbstractEntityTestCase extends AbstractTestCase
                         )
                     );
                 } else {
-                    $this->assertJsonContains(['@context' => "/contexts/$shortName", '@type' => 'hydra:Collection']);
+                    $this->assertJsonContains(['@context' => $this->getRoute("contexts/$shortName"), '@type' => 'hydra:Collection']);
                 }
             }
         );
@@ -223,6 +226,6 @@ abstract class AbstractEntityTestCase extends AbstractTestCase
     {
         $pathGenerator = static::getContainer()->get('api_platform.path_segment_name_generator');
 
-        return '/' . $pathGenerator->getSegmentName($this->getShortName());
+        return $pathGenerator->getSegmentName($this->getShortName());
     }
 }

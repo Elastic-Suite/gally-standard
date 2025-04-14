@@ -129,6 +129,18 @@ class Spellchecker implements SpellcheckerInterface
             ],
         ];
 
+        $perFieldAnalyzer = [];
+
+        $doc['fields'][] = MappingInterface::DEFAULT_REFERENCE_FIELD . '.' . FieldInterface::ANALYZER_REFERENCE;
+        $doc['doc'][MappingInterface::DEFAULT_REFERENCE_FIELD] = $request->getQueryText();
+
+        $doc['fields'][] = MappingInterface::DEFAULT_EDGE_NGRAM_FIELD . '.' . FieldInterface::ANALYZER_EDGE_NGRAM;
+        $perFieldAnalyzer[MappingInterface::DEFAULT_EDGE_NGRAM_FIELD . '.' . FieldInterface::ANALYZER_EDGE_NGRAM]
+            = FieldInterface::ANALYZER_STANDARD;
+        $doc['doc'][MappingInterface::DEFAULT_EDGE_NGRAM_FIELD] = $request->getQueryText();
+
+        $doc['per_field_analyzer'] = $perFieldAnalyzer;
+
         $docs = [];
 
         // Compute the mTermVector query on all shards to ensure exhaustive results.
@@ -167,6 +179,10 @@ class Spellchecker implements SpellcheckerInterface
                     $type = 'stop';
                 } elseif (\in_array(FieldInterface::ANALYZER_WHITESPACE, $positionStat['analyzers'], true)) {
                     $type = 'exact';
+                } elseif (\in_array(FieldInterface::ANALYZER_REFERENCE, $positionStat['analyzers'], true)) {
+                    $type = 'exact';
+                } elseif (\in_array(FieldInterface::ANALYZER_EDGE_NGRAM, $positionStat['analyzers'], true)) {
+                    $type = 'exact';
                 }
             }
             ++$queryTermStats[$type];
@@ -186,7 +202,12 @@ class Spellchecker implements SpellcheckerInterface
     private function extractTermStatsByPosition(array $termVectors): array
     {
         $statByPosition = [];
-        $analyzers = [FieldInterface::ANALYZER_STANDARD, FieldInterface::ANALYZER_WHITESPACE];
+        $analyzers = [
+            FieldInterface::ANALYZER_STANDARD,
+            FieldInterface::ANALYZER_WHITESPACE,
+            FieldInterface::ANALYZER_REFERENCE,
+            FieldInterface::ANALYZER_EDGE_NGRAM,
+        ];
 
         foreach ($termVectors['term_vectors'] as $propertyName => $fieldData) {
             $analyzer = $this->getAnalyzer($propertyName);

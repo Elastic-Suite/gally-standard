@@ -35,7 +35,7 @@ class RuleEngineGraphQlFiltersTest extends AbstractTestCase
 
     protected function getApiPath(): string
     {
-        return '/rule_engine_graphql_filters';
+        return 'rule_engine_graphql_filters';
     }
 
     public function testSecurity(): void
@@ -58,8 +58,8 @@ class RuleEngineGraphQlFiltersTest extends AbstractTestCase
             function (ResponseInterface $response) use ($ruleData) {
                 $this->assertJsonContains(
                     [
-                        '@context' => '/contexts/RuleEngineGraphQlFilters',
-                        '@id' => '/rule_engine_graph_ql_filters/rule_engine_graphql_filters',
+                        '@context' => $this->getRoute('contexts/RuleEngineGraphQlFilters'),
+                        '@id' => $this->getUri('rule_engine_graph_ql_filters', 'rule_engine_graphql_filters'),
                         '@type' => 'RuleEngineGraphQlFilters',
                         'id' => 'rule_engine_graphql_filters',
                         'graphQlFilters' => $ruleData['expectedFilters'],

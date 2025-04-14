@@ -102,10 +102,10 @@ class Configuration
             'hydra:supportedProperty' => [
                 'gally' => [
                     'depends' => [
+                        'type' => 'enabled',
                         'conditions' => [
-                            'isVirtual' => true,
+                            ['field' => 'isVirtual', 'value' => false],
                         ],
-                        'disabled' => true,
                     ],
                 ],
             ],

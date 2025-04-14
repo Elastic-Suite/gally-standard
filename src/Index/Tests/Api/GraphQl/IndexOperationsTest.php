@@ -84,7 +84,7 @@ class IndexOperationsTest extends AbstractTestCase
                     if (isset($expectedData['error'])) {
                         $this->assertGraphQlError($expectedData['error']);
                     } else {
-                        $this->assertStringContainsString('"id":"\/indices\/' . $expectedData['name'], $response->getContent());
+                        $this->assertStringContainsString('"id":"' . str_replace('/', '\/', $this->getUri('indices', $expectedData['name'])), $response->getContent());
                         $this->assertStringContainsString('"name":"' . $expectedData['name'], $response->getContent());
                         $this->assertStringContainsString('"aliases":[', $response->getContent());
                         foreach ($expectedData['aliases'] as $expectedAlias) {

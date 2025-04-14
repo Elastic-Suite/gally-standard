@@ -38,7 +38,7 @@ class IndexSettingsTest extends AbstractTestCase
         $metadataRepository = static::getContainer()->get(MetadataRepository::class);
         $localizedCatalogRepository = static::getContainer()->get(LocalizedCatalogRepository::class);
 
-        $metadata = $metadataRepository->findOneBy(['entity' => 'product']);
+        $metadata = $metadataRepository->findByEntity('product');
         $localizedCatalogs = $localizedCatalogRepository->findOneBy([]);
         $settings = $indexSettings->getDynamicIndexSettings($metadata, $localizedCatalogs);
 

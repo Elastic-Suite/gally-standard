@@ -27,7 +27,7 @@ class ValidateSourceFieldProperties
 
     public function prePersist(PrePersistEventArgs $args): void
     {
-        $this->validateProperties($args->getObject());
+        $this->validateProperties($args->getObject(), true);
     }
 
     public function preUpdate(PreUpdateEventArgs $args): void
@@ -35,7 +35,7 @@ class ValidateSourceFieldProperties
         $this->validateProperties($args->getObject());
     }
 
-    private function validateProperties(object $entity): void
+    private function validateProperties(object $entity, bool $isPersist = false): void
     {
         if (!$entity instanceof SourceField) {
             return;
@@ -48,6 +48,10 @@ class ValidateSourceFieldProperties
         }
         if ($entity->getIsUsedInAutocomplete()) {
             $entity->setIsFilterable(true);
+        }
+
+        if (!$entity->hasDefaultSearchAnalyzer()) {
+            $entity->setDefaultSearchAnalyzer($entity->getDefaultSearchAnalyzer());
         }
     }
 }

@@ -57,6 +57,10 @@ class Metadata
     /** @var Collection<SourceField> */
     private Collection $sourceFields;
 
+    private array $filterableSourceFields;
+    private array $filterableInAggregationSourceFields;
+    private array $sortableSourceFields;
+
     public function __construct()
     {
         $this->sourceFields = new ArrayCollection();
@@ -85,6 +89,69 @@ class Metadata
     public function getSourceFields(): Collection
     {
         return $this->sourceFields;
+    }
+
+    public function getSourceFieldByCodes(array $codes): array
+    {
+        $list = [];
+        foreach ($this->sourceFields as $field) {
+            if (\in_array($field->getCode(), $codes, true)) {
+                $list[] = $field;
+            }
+        }
+
+        return $list;
+    }
+
+    /**
+     * @return SourceField[]
+     */
+    public function getFilterableSourceFields(): array
+    {
+        if (!isset($this->filterableSourceFields)) {
+            $this->filterableSourceFields = [];
+            foreach ($this->getSourceFields() as $field) {
+                if ($field->getIsFilterable() || $field->getIsUsedForRules()) {
+                    $this->filterableSourceFields[] = $field;
+                }
+            }
+        }
+
+        return $this->filterableSourceFields;
+    }
+
+    /**
+     * @return SourceField[]
+     */
+    public function getFilterableInAggregationSourceFields(): array
+    {
+        if (!isset($this->filterableInAggregationSourceFields)) {
+            $this->filterableInAggregationSourceFields = [];
+            foreach ($this->getFilterableSourceFields() as $field) {
+                if ($field->getIsFilterable()) {
+                    $this->filterableInAggregationSourceFields[] = $field;
+                }
+            }
+        }
+
+        return $this->filterableInAggregationSourceFields;
+    }
+
+    /**
+     * @return SourceField[]
+     */
+    public function getSortableSourceFields(): array
+    {
+        if (!isset($this->sortableSourceFields)) {
+            $this->sortableSourceFields = [];
+            foreach ($this->getSourceFields() as $field) {
+                if ($field->getIsSortable()) {
+                    $this->sortableSourceFields[] = $field;
+                }
+            }
+        }
+
+        return $this->sortableSourceFields;
     }
 
     public function addSourceField(SourceField $sourceField): self

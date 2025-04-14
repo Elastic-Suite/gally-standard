@@ -100,7 +100,9 @@ services:
         alias: gally.search.request.factory
         
     Gally\Search\Elasticsearch\Builder\Request\Query\Fulltext\SearchableFieldFilter: ~
+    Gally\Search\Elasticsearch\Builder\Request\Query\Fulltext\NonStandardSearchableFieldFilter: ~
     Gally\Search\Elasticsearch\Builder\Request\Query\Fulltext\FuzzyFieldFilter: ~
+    Gally\Search\Elasticsearch\Builder\Request\Query\Fulltext\NonStandardFuzzyFieldFilter: ~
     Gally\Search\Elasticsearch\Builder\Request\Query\Fulltext\SpannableFieldFilter: ~
     
     Gally\Search\Elasticsearch\Builder\Request\Query\Fulltext\FulltextQueryBuilder:
@@ -110,6 +112,8 @@ services:
             - '@Gally\Search\Elasticsearch\Builder\Request\Query\Fulltext\SearchableFieldFilter'
             - '@Gally\Search\Elasticsearch\Builder\Request\Query\Fulltext\FuzzyFieldFilter'
             - '@Gally\Search\Elasticsearch\Builder\Request\Query\Fulltext\SpannableFieldFilter'
+            - '@Gally\Search\Elasticsearch\Builder\Request\Query\Fulltext\NonStandardSearchableFieldFilter'
+            - '@Gally\Search\Elasticsearch\Builder\Request\Query\Fulltext\NonStandardFuzzyFieldFilter'
 
     Gally\Search\Elasticsearch\Builder\Request\Query\QueryBuilder:
         arguments:
@@ -301,6 +305,7 @@ services:
             - '@Gally\Search\Service\SearchContext'
             - '@Gally\Search\Service\ReverseSourceFieldProvider'
             - '@Gally\Category\Repository\CategoryConfigurationRepository'
+            - '@Gally\Metadata\Repository\SourceFieldRepository'
             - '@Symfony\Contracts\Translation\TranslatorInterface'
             - !tagged_iterator { tag: 'gally.entity_api.filter' }
             - '%gally.search_settings%'
@@ -350,7 +355,6 @@ services:
     
     Gally\Search\Service\ReverseSourceFieldProvider:
         arguments:
-            - '@Gally\Metadata\Repository\SourceFieldRepository'
             - '%api_platform.graphql.nesting_separator%'
 
     Gally\Search\Elasticsearch\Request\Aggregation\CoverageProvider:
@@ -365,10 +369,11 @@ services:
 
     Gally\Search\Elasticsearch\Request\Aggregation\Provider\CoverageAggregationProvider:
         arguments:
-            - '@Gally\Metadata\Repository\SourceFieldRepository'
             - '@Gally\Search\Elasticsearch\Request\QueryFactory'
             - '@Gally\Search\Service\SearchSettingsProvider'
             - '@Gally\Search\Service\SearchContext'
+
+    Gally\Search\Elasticsearch\Request\Aggregation\Provider\CategoryCountAggregationProvider: ~
                 
     Gally\Search\Service\ViewMoreContext: ~
 
@@ -450,7 +455,6 @@ services:
     
     Gally\Search\Service\SortingOptionsProvider:
         arguments:
-            - '@Gally\Metadata\Repository\SourceFieldRepository'
             - '@Gally\Metadata\Repository\MetadataRepository'
             - !tagged_iterator { tag: 'gally.api.sort_order_provider', index_by: 'provider_name' }
                 
@@ -468,3 +472,9 @@ services:
             - '@OpenSearch\Client'
             - '%gally.pipeline_prefix%'
             - !tagged_iterator { tag: 'gally.search.ingest_pipeline_processors_provider' }
+
+    Gally\Search\Service\FilePipelineProcessorProvider:
+        arguments:
+            - '@Gally\Metadata\Repository\SourceFieldRepository'
+        tags:
+            - { name: gally.search.ingest_pipeline_processors_provider }

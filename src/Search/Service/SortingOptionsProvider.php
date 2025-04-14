@@ -15,7 +15,6 @@ namespace Gally\Search\Service;
 
 use Gally\Metadata\Entity\SourceField;
 use Gally\Metadata\Repository\MetadataRepository;
-use Gally\Metadata\Repository\SourceFieldRepository;
 use Gally\Search\Elasticsearch\Request\SortOrderInterface;
 use Gally\Search\GraphQl\Type\Definition\SortOrder\SortOrderProviderInterface as ProductSortOrderProviderInterface;
 
@@ -24,7 +23,6 @@ class SortingOptionsProvider
     private ?array $sortingOptions;
 
     public function __construct(
-        private SourceFieldRepository $sourceFieldRepository,
         private MetadataRepository $metadataRepository,
         private iterable $sortOrderProviders
     ) {
@@ -41,11 +39,12 @@ class SortingOptionsProvider
 
         if (null === $this->sortingOptions) {
             $sortOptions = [];
-
-            // Id source field need to be sortable to be used as default sort option,
-            // but we don't want to have it in the list
-            $sortableFields = $this->sourceFieldRepository->getSortableFields($metadata->getEntity(), ['id']);
-            foreach ($sortableFields as $sourceField) {
+            foreach ($metadata->getSortableSourceFields() as $sourceField) {
+                // Id source field need to be sortable to be used as default sort option,
+                // but we don't want to have it in the list
+                if ('id' === $sourceField->getCode()) {
+                    continue;
+                }
                 /** @var ProductSortOrderProviderInterface $sortOrderProvider */
                 foreach ($this->sortOrderProviders as $sortOrderProvider) {
                     if ($sortOrderProvider->supports($sourceField)) {
