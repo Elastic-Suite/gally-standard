@@ -3,13 +3,13 @@ name: QA
 on:
     push:
         branches:
-            - master
+            - main
             - '[1-9].[0-9]+.x'
             - 'feature-[a-z]+'
 
     pull_request_target:
         branches:
-            - master
+            - main
             - '[1-9].[0-9]+.x'
             - 'feature-[a-z]+'
 
@@ -21,7 +21,7 @@ jobs:
         runs-on: ubuntu-latest
 
         env:
-            ref: "master" # ${{ github.base_ref }} cannot work on pushes.
+            ref: "main" # ${{ github.base_ref }} cannot work on pushes.
             gally-directory: ${{ github.workspace }}/gally
             package-directory: ${{ github.workspace }}/gally/api/packages/${{ github.event.repository.name }}
 
@@ -35,8 +35,7 @@ jobs:
               uses: ./actions/.github/actions/init-env
               with:
                   ref: ${{ env.ref }}
-                  version: ${{ env.ref == 'master' && 'dev-master' || format('{0}-dev', env.ref) }}
-                  front-version: ${{ env.ref == 'master' && 'main' || env.ref }}
+                  version: ${{ env.ref == 'main' && 'dev-main' || format('{0}-dev', env.ref) }}
                   gally-directory: ${{ env.gally-directory }}
                   package-name: ${{ github.event.repository.name }}
 

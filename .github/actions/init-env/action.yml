@@ -3,15 +3,11 @@ description: init repository structure to run test and ci.
 inputs:
     ref:
         description: 'The branch, tag or SHA to checkout'
-        default: 'master'
+        default: 'main'
         required: true
     version:
         description: 'The version to require'
-        default: 'master'
-        required: true
-    front-version:
-        description: 'The front version to install'
-        default: 'main'
+        default: 'dev-main'
         required: true
     gally-directory:
         description: 'Base gally directory'
@@ -41,7 +37,7 @@ runs:
            uses: actions/checkout@v3
            with:
                repository: 'Elastic-Suite/gally-admin'
-               ref: ${{ inputs.front-version }}
+               ref: ${{ inputs.ref }}
                path: ${{ inputs.gally-directory }}/front/gally-admin
          
          # Checkout current package
