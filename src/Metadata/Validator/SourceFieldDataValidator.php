@@ -86,7 +86,7 @@ class SourceFieldDataValidator
         $rawData['metadata'] = $metadataId;
 
         if (!\array_key_exists($metadataId, $this->getExistingMetadataIds())) {
-            throw new InvalidArgumentException("Item not found for \"{${$rawData['metadata']}}\".");
+            throw new InvalidArgumentException("Item not found for \"{$rawData['metadata']}\".");
         }
 
         // Prevent user to update a system source field, only the value of $updatableProperties can be changed.
