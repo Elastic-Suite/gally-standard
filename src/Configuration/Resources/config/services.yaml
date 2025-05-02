@@ -1,21 +1,38 @@
 services:
+    Gally\Configuration\Repository\ConfigurationRepository:
+        arguments:
+            - '@Doctrine\Persistence\ManagerRegistry'
+            - '%gally%'
+        tags:
+            - { name: doctrine.repository_service }
+    
     Gally\Configuration\State\ConfigurationProvider:
         arguments:
             - '@Gally\Cache\Service\CacheManagerInterface'
-            - '%gally%'
+            - '@Gally\Configuration\Repository\ConfigurationRepository'
+            - '@api_platform.doctrine.orm.state.item_provider'
         tags:
             - { name: api_platform.state_provider }
-        
-    Gally\Configuration\Controller\ConfigurationGet:
+    
+    Gally\Configuration\State\ConfigurationProcessor:
         arguments:
-            - '@Gally\Configuration\State\ConfigurationProvider'
+            - '@api_platform.doctrine.orm.state.persist_processor'
+            - '@api_platform.doctrine.orm.state.remove_processor'
+            - '@Gally\Configuration\Validator\ConfigurationDataValidator'
+            - '@Gally\Configuration\Repository\ConfigurationRepository'
+            - '@doctrine.orm.entity_manager'
+        tags:
+            - { name: api_platform.state_processor }
+                
+    Gally\Configuration\Validator\ConfigurationDataValidator:
+        arguments:
+            - '@Gally\Catalog\Repository\LocalizedCatalogRepository'
+            - '@Gally\Search\Elasticsearch\Request\Container\Configuration\ContainerConfigurationProvider'
+    
+    Gally\Configuration\Controller\BulkConfigurations:
+        arguments:
+            - '@Gally\Configuration\State\ConfigurationProcessor'
         calls:
             - [ setContainer, [ '@service_container' ] ]
         tags:
             - { name: controller.service_arguments }
-    
-    Gally\Configuration\OpenApi\ConfigurationDecorator:
-        decorates: api_platform.openapi.factory
-        arguments:
-            - '@Gally\OpenApi\Helper\Documentation'
-            - '@.inner'
