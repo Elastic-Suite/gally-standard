@@ -1,6 +1,21 @@
 Gally\Configuration\Entity\Configuration:
     conf1:
-        path: 'gally.baseUrl.media'
+        path: 'gally.base_url.media'
         value: 'test_value_general'
         scopeType: 'general'
         scopeCode: ~
+    conf2:
+        path: 'gally.base_url.media'
+        value: 'test_value_b2b'
+        scopeType: 'localized_catalog'
+        scopeCode: 'b2b'
+    conf3:
+        path: 'gally.base_url.media'
+        value: 'test_value_fr'
+        scopeType: 'locale'
+        scopeCode: 'fr_FR'
+    conf4:
+        path: 'gally.base_url.media'
+        value: 'test_value_product_catalog'
+        scopeType: 'request_type'
+        scopeCode: 'product_catalog'

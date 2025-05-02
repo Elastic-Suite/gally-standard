@@ -14,5 +14,9 @@
        <field name="value" type="text" nullable="true" />
        <field name="scopeType" length="255"/>
        <field name="scopeCode" length="255" nullable="true" />
+
+       <unique-constraints>
+           <unique-constraint columns="path,scope_type,scope_code" name="unique_path_scope" />
+       </unique-constraints>
     </entity>
 </doctrine-mapping>

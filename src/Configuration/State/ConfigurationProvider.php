@@ -13,55 +13,61 @@ declare(strict_types=1);
 
 namespace Gally\Configuration\State;
 
+use ApiPlatform\Metadata\CollectionOperationInterface;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProviderInterface;
 use Gally\Cache\Service\CacheManagerInterface;
-use Gally\Catalog\Entity\LocalizedCatalog;
 use Gally\Configuration\Entity\Configuration;
+use Gally\Configuration\Repository\ConfigurationRepository;
 
 class ConfigurationProvider implements ProviderInterface
 {
-    public const LANGUAGE_DEFAULT = 'default';
-
     public function __construct(
         private CacheManagerInterface $cache,
-        private array $defaultConfiguration,
+        private ConfigurationRepository $configurationRepository,
+        private ProviderInterface $itemProvider,
     ) {
     }
 
-    public function get(
-        string $path,
-        string $language = self::LANGUAGE_DEFAULT,
-        string $requestType = null,
-        ?LocalizedCatalog $localizedCatalog = null
-    ): mixed {
-        $defaultConfiguration = $this->getDefaultConfig($path);
-        return new Configuration('toto', $path, $defaultConfiguration);
-    }
-
-    public function provide(Operation $operation, array $uriVariables = [], array $context = []): array
+    public function provide(Operation $operation, array $uriVariables = [], array $context = []): Configuration|array|null
     {
-        return [
-            ['id' => 'base_url/media', 'value' => $this->get('gally.base_url.media')]
-        ];
-    }
-
-    private function getDefaultConfig(string $path): mixed
-    {
-        $pathAsArray = explode('.', $path);
-        if (empty($pathAsArray)) {
-            return null;
+        if (!$operation instanceof CollectionOperationInterface) {
+            return $this->itemProvider->provide($operation, $uriVariables, $context);
         }
 
-        $config = $this->defaultConfiguration;
-        foreach ($pathAsArray as $key) {
-            if (array_key_exists($key, $config)) {
-                $config = $config[$key];
-            } else {
-                return null;
-            }
+        $path = (!isset($context['filters']['path']) || '' === $context['filters']['path'])
+            ? 'gally'
+            : $context['filters']['path'];
+        $currentPage = $context['filters']['currentPage'] ?? null;
+        $pageSize = $context['filters']['pageSize'] ?? null;
+
+        $data = $this->configurationRepository->getScopedConfigurations(
+            $path,
+            [
+                Configuration::SCOPE_LOCALE => $context['filters']['localeCode'] ?? null,
+                Configuration::SCOPE_REQUEST_TYPE => $context['filters']['requestType'] ?? null,
+                Configuration::SCOPE_LOCALIZED_CATALOG => $context['filters']['localizedCatalogCode'] ?? null,
+            ]
+        );
+
+        if (null !== $pageSize) {
+            $pageSize = (int) $pageSize;
+            $currentPage = (int) $currentPage;
+            $offset = ($currentPage - 1) * $pageSize;
+
+            $data = \array_slice($data, $offset, $pageSize);
         }
 
-        return $config;
+        // Decode json for rest api
+        if (!$operation instanceof \ApiPlatform\Metadata\GraphQl\Operation) {
+            array_map(fn (Configuration $configuration) => $configuration->decode(), $data);
+        }
+
+        return $data;
+    }
+
+    public function get()
+    {
+        return 'blop';
     }
 }

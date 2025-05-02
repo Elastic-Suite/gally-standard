@@ -26,7 +26,8 @@ class RequestContextManager
 
     public function getHeaders(): array
     {
-        return $this->configurationProvider->get('gally.request_context.headers')->getValue() ?? [];
+        // @todo pigau conf
+        return /* $this->configurationProvider->get('gally.request_context.headers')->getValue() ?? */ [];
     }
 
     public function getContext(): array
