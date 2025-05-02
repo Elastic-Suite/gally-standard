@@ -16,6 +16,8 @@ namespace Gally\Index\Service;
 use Gally\Analysis\Service\Config;
 use Gally\Catalog\Entity\LocalizedCatalog;
 use Gally\Catalog\Repository\LocalizedCatalogRepository;
+use Gally\Configuration\Service\ConfigReader;
+use Gally\Configuration\State\ConfigurationProvider;
 use Gally\Index\Api\IndexSettingsInterface;
 use Gally\Index\Entity\Index;
 use Gally\Metadata\Entity\Metadata;
@@ -24,79 +26,51 @@ use Gally\Search\Repository\Ingest\PipelineRepositoryInterface;
 
 class IndexSettings implements IndexSettingsInterface
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     public const FULL_REINDEX_REFRESH_INTERVAL = '30s';
 
-    /**
-     * @var string
-     */
+    /** @var string */
     public const DIFF_REINDEX_REFRESH_INTERVAL = '1s';
 
-    /**
-     * @var string
-     */
+    /** @var string */
     public const FULL_REINDEX_TRANSLOG_DURABILITY = 'async';
 
-    /**
-     * @var string
-     */
+    /** @var string */
     public const DIFF_REINDEX_TRANSLOG_DURABILITY = 'request';
 
-    /**
-     * @var int
-     */
-    public const MERGE_FACTOR = 20;
-
-    /**
-     * @var string
-     */
+    /** @var string */
     public const CODEC = 'best_compression';
 
-    /**
-     * @var int
-     */
+    /** @var int  */
     public const TOTAL_FIELD_LIMIT = 20000;
 
-    /**
-     * @var int
-     */
+    /** @var int  */
     public const PER_SHARD_MAX_RESULT_WINDOW = 100000;
 
-    /**
-     * @var int
-     */
+    /** @var int  */
     public const MIN_SHINGLE_SIZE_DEFAULT = 2;
 
-    /**
-     * @var int
-     */
+    /** @var int  */
     public const MAX_SHINGLE_SIZE_DEFAULT = 2;
 
-    /**
-     * @var int
-     */
+    /** @var int  */
     public const MIN_NGRAM_SIZE_DEFAULT = 1;
 
-    /**
-     * @var int
-     */
+    /** @var int  */
     public const MAX_NGRAM_SIZE_DEFAULT = 2;
 
     /**
      * IndexSettings constructor.
      *
      * @param LocalizedCatalogRepository  $localizedCatalogRepository Catalog repository
-     * @param array<mixed>                $indicesConfiguration       Indices configuration
      * @param Config                      $analysisConfig             Analysis configuration
      * @param SourceFieldRepository       $sourceFieldRepository      Source field repository
      * @param PipelineRepositoryInterface $pipelineRepository         Pipeline repository
      */
     public function __construct(
         private LocalizedCatalogRepository $localizedCatalogRepository,
-        private array $indicesConfiguration,
         private Config $analysisConfig,
+        private ConfigurationProvider $configurationProvider,
         private SourceFieldRepository $sourceFieldRepository,
         private PipelineRepositoryInterface $pipelineRepository
     ) {
@@ -346,7 +320,7 @@ class IndexSettings implements IndexSettingsInterface
          * Generate the suffix of the index name from the current date.
          * e.g : Default pattern "{{YYYYMMdd}}_{{HHmmss}}" is converted to "20160221_123421".
          */
-        $indexNameSuffix = $this->indicesConfiguration['timestamp_pattern'];
+        $indexNameSuffix = $this->getIndicesSettingsConfigParam('timestamp_pattern');
 
         // Parse pattern to extract datetime tokens.
         $matches = [];
@@ -367,7 +341,7 @@ class IndexSettings implements IndexSettingsInterface
      */
     private function getIndicesSettingsConfigParam(string $configField): mixed
     {
-        return $this->indicesConfiguration[$configField] ?? null;
+        return $this->configurationProvider->get('gally.indices_settings.' . $configField)->getValue();
     }
 
     /**

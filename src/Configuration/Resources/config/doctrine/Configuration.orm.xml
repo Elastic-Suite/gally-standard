@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="https://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="https://doctrine-project.org/schemas/orm/doctrine-mapping
+                          https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+   <entity name="Gally\Configuration\Entity\Configuration"
+           repository-class="Gally\Configuration\Repository\ConfigurationRepository"
+           table="configuration">
+        <id name="id" type="integer">
+            <generator strategy="SEQUENCE"/>
+        </id>
+       <field name="path" type="text" />
+       <field name="value" type="text" nullable="true" />
+       <field name="scopeType" length="255"/>
+       <field name="scopeCode" length="255" nullable="true" />
+    </entity>
+</doctrine-mapping>

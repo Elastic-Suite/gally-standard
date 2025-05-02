@@ -1,9 +1,8 @@
 services:
     Gally\Menu\Service\MenuBuilder:
         arguments:
-            - '%gally.menu%'
+            - '@Gally\Configuration\State\ConfigurationProvider'
             - '@Symfony\Contracts\Translation\TranslatorInterface'
-            - '@request_stack'
             
     Gally\Menu\Resolver\MenuResolver:
         arguments:

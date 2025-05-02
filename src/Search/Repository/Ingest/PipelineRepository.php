@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Gally\Search\Repository\Ingest;
 
+use Gally\Configuration\State\ConfigurationProvider;
 use Gally\Metadata\Entity\Metadata;
 use Gally\Search\Entity\IngestPipeline;
 use Gally\Search\Service\IngestPipelineProcessorProvider;
@@ -26,7 +27,7 @@ class PipelineRepository implements PipelineRepositoryInterface
      */
     public function __construct(
         protected Client $client,
-        protected string $pipelinePrefix,
+        protected ConfigurationProvider $configurationProvider,
         private iterable $processorsProviders,
     ) {
     }
@@ -65,7 +66,7 @@ class PipelineRepository implements PipelineRepositoryInterface
      */
     public function createByMetadata(Metadata $metadata): ?IngestPipeline
     {
-        $pipelineName = $this->pipelinePrefix . $metadata->getEntity();
+        $pipelineName = $this->configurationProvider->get('gally.pipeline_prefix') . $metadata->getEntity();
         $processors = [];
 
         foreach ($this->processorsProviders as $processorsProvider) {
