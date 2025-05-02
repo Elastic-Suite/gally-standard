@@ -17,6 +17,7 @@ use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
 use Gally\Catalog\Repository\LocalizedCatalogRepository;
 use Gally\Category\Repository\CategoryConfigurationRepository;
+use Gally\Configuration\State\ConfigurationProvider;
 use Gally\Metadata\Entity\SourceField;
 use Gally\Metadata\Entity\SourceField\Type;
 use Gally\Metadata\Repository\MetadataRepository;
@@ -58,8 +59,8 @@ class AddAggregationsData implements ProcessorInterface
         private CategoryConfigurationRepository $categoryConfigurationRepository,
         private SourceFieldRepository $sourceFieldRepository,
         private TranslatorInterface $translator,
+        private ConfigurationProvider $configurationProvider,
         private iterable $availableFilterTypes,
-        private array $searchSettings,
     ) {
     }
 
@@ -151,8 +152,8 @@ class AddAggregationsData implements ProcessorInterface
         ];
 
         if (Type::TYPE_DATE === $sourceField?->getType()) {
-            $data['date_format'] = $this->searchSettings['default_date_field_format'];
-            $data['date_range_interval'] = $this->searchSettings['aggregations']['default_date_range_interval'];
+            $data['date_format'] = $this->configurationProvider->get('gally.search_settings.default_date_field_format');
+            $data['date_range_interval'] = $this->configurationProvider->get('gally.search_settings.aggregations.default_date_range_interval');
         }
 
         $this->formatOptions($aggregation, $sourceField, $containerConfig, $data);
@@ -240,7 +241,7 @@ class AddAggregationsData implements ProcessorInterface
     private function getDistanceRangeLabel(string $key, ContainerConfigurationInterface $containerConfig): string
     {
         $range = explode('-', $key);
-        $unit = $this->searchSettings['default_distance_unit'];
+        $unit = $this->configurationProvider->get('gally.search_settings.default_distance_unit');
         if ('*' === $range[0]) {
             return $this->translator->trans(
                 'search.distance_facet.option_to.label',

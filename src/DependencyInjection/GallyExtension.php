@@ -105,6 +105,8 @@ class GallyExtension extends Extension
         $container->setParameter('gally.request_types', $config['request_types'] ?? []);
         $container->setParameter('gally.pipeline_prefix', $config['pipeline_prefix'] ?? '');
 
+        $container->setParameter('gally', ['gally' => $config]);
+
         // @Todo : Use this feature https://symfony.com/doc/current/bundles/extension.html ?
         //        $this->addAnnotatedClassesToCompile([
         //            // you can define the fully qualified class names...
