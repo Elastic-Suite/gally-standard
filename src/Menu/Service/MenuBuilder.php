@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Gally\Menu\Service;
 
 use ApiPlatform\Metadata\Exception\InvalidArgumentException;
-use Gally\Configuration\State\ConfigurationProvider;
+use Gally\Configuration\Repository\ConfigurationRepository;
 use Gally\Menu\Entity\Menu;
 use Gally\Menu\Entity\MenuItem;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -22,7 +22,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class MenuBuilder
 {
     public function __construct(
-        private ConfigurationProvider $configurationProvider,
+        private ConfigurationRepository $configurationRepository,
         private TranslatorInterface $translator,
     ) {
     }
@@ -31,7 +31,11 @@ class MenuBuilder
     {
         $menuItems = ['root' => new MenuItem('root')];
 
-        foreach ($this->configurationProvider->get('gally.menu') as $entry => $data) {
+        // Todo this is ugly
+        $menu = $this->configurationRepository->getScopedConfigurations('gally.menu');
+        $menu = json_decode(reset($menu)->getValue(), true);
+
+        foreach ($menu as $entry => $data) {
             $parentCode = $data['parent'] ?? 'root';
             $item = new MenuItem(
                 $entry,

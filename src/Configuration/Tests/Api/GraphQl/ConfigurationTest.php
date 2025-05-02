@@ -13,36 +13,90 @@ declare(strict_types=1);
 
 namespace Gally\Configuration\Tests\Api\GraphQl;
 
+use Gally\Configuration\Tests\Api\ConfigurationGetCollectionTrait;
 use Gally\Test\AbstractTestCase;
 use Gally\Test\ExpectedResponse;
 use Gally\Test\RequestGraphQlToTest;
+use Gally\User\Entity\User;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
 class ConfigurationTest extends AbstractTestCase
 {
-    public function testGetCollection(): void
+    use ConfigurationGetCollectionTrait;
+
+    public static function setUpBeforeClass(): void
     {
-        $request = new RequestGraphQlToTest(
-            <<<GQL
+        static::loadFixture([
+            __DIR__ . '/../../fixtures/configurations.yaml',
+            __DIR__ . '/../../fixtures/catalogs.yaml',
+        ]);
+    }
+
+    /**
+     * @dataProvider getFilteredCollectionDataProvider
+     */
+    public function testFilteredGetCollection(
+        ?User $user,
+        ?string $path,
+        ?string $localCode,
+        ?string $requestType,
+        ?string $localizedCatalogCode,
+        ?int $pageSize,
+        ?int $currentPage,
+        int $expectedResponseCode,
+        array $expectedConfigurations,
+    ): void {
+        $filters = 'path: "' . $path . '"';
+        if (null !== $localCode) {
+            $filters .= ', localeCode: "' . $localCode . '"';
+        }
+        if (null !== $requestType) {
+            $filters .= ', requestType: "' . $requestType . '"';
+        }
+        if (null !== $localizedCatalogCode) {
+            $filters .= ', localizedCatalogCode: "' . $localizedCatalogCode . '"';
+        }
+        if (null !== $pageSize) {
+            $filters .= ', pageSize: ' . $pageSize;
+        }
+        if (null !== $currentPage) {
+            $filters .= ', currentPage: ' . $currentPage;
+        }
+
+        $this->validateApiCall(
+            new RequestGraphQlToTest(
+                <<<GQL
                     {
-                      configurations {
-                        id
-                        value
+                      configurations($filters) {
+                        collection { id, path, value }
                       }
                     }
                 GQL,
-            null
-        );
+                $user
+            ),
+            new ExpectedResponse(
+                200,
+                function (ResponseInterface $response) use ($expectedConfigurations, $expectedResponseCode) {
+                    if (401 == $expectedResponseCode) {
+                        $this->assertGraphQlError('Access Denied.');
+                    } else {
+                        $data = $response->toArray();
+                        $expectedConfigurations = array_map(
+                            function (array $configuration) {
+                                $configuration['value'] = json_encode($configuration['value']);
 
-        $expectedResponse = new ExpectedResponse(
-            200,
-            function (ResponseInterface $response) {
-                $this->assertJsonContains([
-                    'data' => ['configurations' => [['id' => 'base_url/media']]],
-                ]);
-            }
+                                return $configuration;
+                            },
+                            $expectedConfigurations
+                        );
+                        $this->assertJsonContains(
+                            ['data' => ['configurations' => ['collection' => $expectedConfigurations]]],
+                            true,
+                            $data['errors'][0]['message'] ?? ''
+                        );
+                    }
+                }
+            )
         );
-
-        $this->validateApiCall($request, $expectedResponse);
     }
 }

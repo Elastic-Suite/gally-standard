@@ -22,7 +22,6 @@ use Doctrine\DBAL\Exception;
 use Doctrine\ORM\EntityManagerInterface;
 use Gally\Catalog\Service\DefaultCatalogProvider;
 use Gally\Index\Entity\Index\Mapping\FieldInterface;
-use Gally\Metadata\Entity\Metadata;
 use Gally\Metadata\Entity\SourceField;
 use Gally\Metadata\Repository\SourceFieldLabelRepository;
 use Gally\Metadata\Repository\SourceFieldRepository;
