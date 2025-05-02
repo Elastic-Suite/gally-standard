@@ -6,7 +6,7 @@ services:
 
     Gally\Search\Elasticsearch\Request\Aggregation\ConfigResolver\DateAggregationConfigResolver:
         arguments:
-            - '%gally.search_settings%'
+            - '@Gally\Configuration\State\ConfigurationProvider'
         tags:
             - { name: 'gally.search.aggregation.resolver' }
 
@@ -35,6 +35,6 @@ services:
     Gally\Search\Elasticsearch\Request\Aggregation\ConfigResolver\GeoDistanceAggregationConfigResolver:
         arguments:
             - '@Gally\Search\Service\SearchContext'
-            - '%gally.search_settings%'
+            - '@Gally\Configuration\State\ConfigurationProvider'
         tags:
             - { name: 'gally.search.aggregation.resolver' }

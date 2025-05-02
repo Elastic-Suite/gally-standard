@@ -14,22 +14,24 @@ declare(strict_types=1);
 namespace Gally\Search\Elasticsearch\Request\Container\RelevanceConfiguration;
 
 use Gally\Catalog\Entity\LocalizedCatalog;
+use Gally\Configuration\State\ConfigurationProvider;
 use Gally\Search\Service\ScopableRequestTypeConfiguration;
 
 class RelevanceConfigurationFactory extends ScopableRequestTypeConfiguration implements RelevanceConfigurationFactoryInterface
 {
     public function __construct(
+        protected ConfigurationProvider $configurationProvider,
         protected array $relevanceConfig,
     ) {
     }
 
     public function create(?LocalizedCatalog $localizedCatalog, ?string $requestType): RelevanceConfigurationInterface
     {
-        $relevanceConfig = $this->getConfig($this->relevanceConfig, $localizedCatalog, $requestType);
+        $relevanceConfig = $this->configurationProvider->get('gally.relevance')->getValue();
         $fuzzinessConfiguration = new FuzzinessConfig(
             $relevanceConfig['fuzziness']['value'],
             $relevanceConfig['fuzziness']['prefixLength'],
-            $relevanceConfig['fuzziness']['maxExpansions']
+            $relevanceConfig['fuzziness']['maxExpansions'],
         );
 
         return new RelevanceConfiguration(

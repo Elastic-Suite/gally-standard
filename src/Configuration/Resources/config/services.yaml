@@ -1,6 +1,21 @@
 services:
     Gally\Configuration\State\ConfigurationProvider:
         arguments:
-            - '%gally.base_url%'
+            - '@Gally\Cache\Service\CacheManagerInterface'
+            - '%gally%'
         tags:
             - { name: api_platform.state_provider }
+        
+    Gally\Configuration\Controller\ConfigurationGet:
+        arguments:
+            - '@Gally\Configuration\State\ConfigurationProvider'
+        calls:
+            - [ setContainer, [ '@service_container' ] ]
+        tags:
+            - { name: controller.service_arguments }
+    
+    Gally\Configuration\OpenApi\ConfigurationDecorator:
+        decorates: api_platform.openapi.factory
+        arguments:
+            - '@Gally\OpenApi\Helper\Documentation'
+            - '@.inner'

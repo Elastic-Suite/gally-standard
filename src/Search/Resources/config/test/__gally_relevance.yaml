@@ -1,0 +1,28 @@
+gally:
+    relevance:
+#    TODO create line in db for this spefic confs   
+#    global:
+#            request_types:
+#                product_search_relevance:
+#                    fulltext:
+#                        minimumShouldMatch: '80%'
+#                    phraseMatch:
+#                        enabled: true
+#                        boost: 20
+#        b2c_fr_relevance:
+#            request_types:
+#                product_catalog:
+#                    fulltext:
+#                        minimumShouldMatch: '70%'
+#                    phraseMatch:
+#                        enabled: true
+#                        boost: 25
+#                    cutOffFrequency:
+#                        value: 0.30
+#        b2b_en_relevance:
+#            request_types:
+#                generic:
+#                    fulltext:
+#                        minimumShouldMatch: '60%'
+#                        tieBreaker: 2.0
+                        

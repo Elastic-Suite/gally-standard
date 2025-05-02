@@ -223,9 +223,9 @@ services:
     Gally\Metadata\Service\PriceGroupProvider:
         arguments:
             - '@Gally\RequestContext\Service\RequestContextManager'
-            - '%gally.default_price_group_id%'
+            - '@Gally\Configuration\State\ConfigurationProvider'
 
     Gally\Metadata\Service\ReferenceLocationProvider:
         arguments:
             - '@Gally\RequestContext\Service\RequestContextManager'
-            - '%gally.default_reference_location%'
+            - '@Gally\Configuration\State\ConfigurationProvider'

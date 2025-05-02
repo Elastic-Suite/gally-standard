@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Gally\Metadata\Service;
 
+use Gally\Configuration\State\ConfigurationProvider;
 use Gally\RequestContext\Service\RequestContextManager;
 
 class ReferenceLocationProvider
@@ -21,12 +22,13 @@ class ReferenceLocationProvider
 
     public function __construct(
         private RequestContextManager $requestContextManager,
-        private string $defaultReferenceLocation,
+        private ConfigurationProvider $configurationProvider,
     ) {
     }
 
     public function getReferenceLocation(): ?string
     {
-        return $this->requestContextManager->getContextByHeader(self::REFERENCE_LOCATION) ?? $this->defaultReferenceLocation;
+        return $this->requestContextManager->getContextByHeader(self::REFERENCE_LOCATION)
+            ?? $this->configurationProvider->get('gally.default_reference_location');
     }
 }

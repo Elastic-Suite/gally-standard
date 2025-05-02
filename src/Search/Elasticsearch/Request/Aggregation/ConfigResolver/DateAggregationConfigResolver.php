@@ -13,13 +13,14 @@ declare(strict_types=1);
 
 namespace Gally\Search\Elasticsearch\Request\Aggregation\ConfigResolver;
 
+use Gally\Configuration\State\ConfigurationProvider;
 use Gally\Metadata\Entity\SourceField;
 use Gally\Search\Elasticsearch\Request\BucketInterface;
 use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface;
 
 class DateAggregationConfigResolver implements FieldAggregationConfigResolverInterface
 {
-    public function __construct(private array $searchConfig)
+    public function __construct(private ConfigurationProvider $configurationProvider)
     {
     }
 
@@ -34,8 +35,8 @@ class DateAggregationConfigResolver implements FieldAggregationConfigResolverInt
             'name' => $sourceField->getCode(),
             'type' => BucketInterface::TYPE_DATE_HISTOGRAM,
             'minDocCount' => 1,
-            'interval' => $this->searchConfig['aggregations']['default_date_range_interval'],
-            'format' => $this->searchConfig['default_date_field_format'],
+            'interval' => $this->configurationProvider->get('gally.search_settings.aggregations.default_date_range_interval'),
+            'format' => $this->configurationProvider->get('gally.search_settings.default_date_field_format'),
         ];
     }
 }

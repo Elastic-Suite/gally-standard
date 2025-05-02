@@ -40,8 +40,8 @@ services:
     Gally\Index\Service\IndexSettings:
         arguments:
             - '@Gally\Catalog\Repository\LocalizedCatalogRepository'
-            - '%gally.indices_settings%'
             - '@Gally\Analysis\Service\Config'
+            - '@Gally\Configuration\State\ConfigurationProvider'
             - '@Gally\Metadata\Repository\SourceFieldRepository'
             - '@Gally\Search\Repository\Ingest\PipelineRepositoryInterface'
 

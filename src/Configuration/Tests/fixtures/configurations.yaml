@@ -1,0 +1,6 @@
+Gally\Configuration\Entity\Configuration:
+    conf1:
+        path: 'gally.baseUrl.media'
+        value: 'test_value_general'
+        scopeType: 'general'
+        scopeCode: ~

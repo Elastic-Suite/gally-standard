@@ -15,15 +15,53 @@ namespace Gally\Configuration\State;
 
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProviderInterface;
+use Gally\Cache\Service\CacheManagerInterface;
+use Gally\Catalog\Entity\LocalizedCatalog;
+use Gally\Configuration\Entity\Configuration;
 
 class ConfigurationProvider implements ProviderInterface
 {
-    public function __construct(private array $baseUrl)
-    {
+    public const LANGUAGE_DEFAULT = 'default';
+
+    public function __construct(
+        private CacheManagerInterface $cache,
+        private array $defaultConfiguration,
+    ) {
+    }
+
+    public function get(
+        string $path,
+        string $language = self::LANGUAGE_DEFAULT,
+        string $requestType = null,
+        ?LocalizedCatalog $localizedCatalog = null
+    ): mixed {
+        $defaultConfiguration = $this->getDefaultConfig($path);
+        return new Configuration('toto', $path, $defaultConfiguration);
     }
 
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): array
     {
-        return [['id' => 'base_url/media', 'value' => $this->baseUrl['media']]];
+        return [
+            ['id' => 'base_url/media', 'value' => $this->get('gally.base_url.media')]
+        ];
+    }
+
+    private function getDefaultConfig(string $path): mixed
+    {
+        $pathAsArray = explode('.', $path);
+        if (empty($pathAsArray)) {
+            return null;
+        }
+
+        $config = $this->defaultConfiguration;
+        foreach ($pathAsArray as $key) {
+            if (array_key_exists($key, $config)) {
+                $config = $config[$key];
+            } else {
+                return null;
+            }
+        }
+
+        return $config;
     }
 }

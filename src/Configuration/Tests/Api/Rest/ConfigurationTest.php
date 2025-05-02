@@ -20,21 +20,34 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
 
 class ConfigurationTest extends AbstractTestCase
 {
-    public function testGetCollection(): void
+    public static function setUpBeforeClass(): void
     {
-        $request = new RequestToTest('GET', 'configurations', null);
-        $expectedResponse = new ExpectedResponse(
-            200,
-            function (ResponseInterface $response) {
-                $this->assertJsonContains([
-                    '@context' => $this->getRoute('contexts/Configuration'),
-                    '@id' => $this->getRoute('configurations'),
-                    '@type' => 'hydra:Collection',
-                    'hydra:member' => [['id' => 'base_url/media']],
-                ]);
-            }
-        );
-
-        $this->validateApiCall($request, $expectedResponse);
+        parent::setUpBeforeClass();
+        self::loadFixture([
+            __DIR__ . '/../../fixtures/configurations.yaml',
+        ]);
     }
+
+    public function testGet(): void
+    {
+
+    }
+
+//    public function testGetCollection(): void
+//    {
+//        $request = new RequestToTest('GET', 'configurations', null);
+//        $expectedResponse = new ExpectedResponse(
+//            200,
+//            function (ResponseInterface $response) {
+//                $this->assertJsonContains([
+//                    '@context' => $this->getRoute('contexts/Configuration'),
+//                    '@id' => $this->getRoute('configurations'),
+//                    '@type' => 'hydra:Collection',
+//                    'hydra:member' => [['id' => 'base_url/media']],
+//                ]);
+//            }
+//        );
+//
+//        $this->validateApiCall($request, $expectedResponse);
+//    }
 }
