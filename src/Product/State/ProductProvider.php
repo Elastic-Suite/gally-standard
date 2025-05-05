@@ -124,6 +124,7 @@ class ProductProvider implements ProviderInterface
 
         return new Paginator(
             $this->denormalizer,
+            $containerConfig,
             $request,
             $response,
             $operation->getClass(),
