@@ -29,7 +29,7 @@ class AddEntityTypeInContext implements ProcessorInterface
 
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): ?array
     {
-        if (Product::class === $operation->getClass()) {
+        if (is_a($operation->getClass(), Product::class, true)) {
             $context['args']['entityType'] = 'product';
         }
 

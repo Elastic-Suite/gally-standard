@@ -18,6 +18,7 @@ use ApiPlatform\Elasticsearch\Serializer\ItemNormalizer;
 use ApiPlatform\State\Pagination\PaginatorInterface;
 use Gally\Search\Elasticsearch\Adapter\Common\Response\AggregationInterface;
 use Gally\Search\Elasticsearch\DocumentInterface;
+use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface;
 use Gally\Search\Elasticsearch\Request\SortOrderInterface;
 use Gally\Search\Elasticsearch\RequestInterface;
 use Gally\Search\Elasticsearch\ResponseInterface;
@@ -30,6 +31,7 @@ class Paginator implements \IteratorAggregate, PaginatorInterface
 
     public function __construct(
         protected DenormalizerInterface $denormalizer,
+        protected ContainerConfigurationInterface $containerConfiguration,
         protected RequestInterface $request,
         protected ResponseInterface $response,
         protected string $resourceClass,
@@ -120,5 +122,13 @@ class Paginator implements \IteratorAggregate, PaginatorInterface
     public function getCurrentSortOrders(): array
     {
         return $this->request->getSortOrders();
+    }
+
+    /**
+     * Get container configuration that generate the request.
+     */
+    public function getContainerConfig(): ContainerConfigurationInterface
+    {
+        return $this->containerConfiguration;
     }
 }
