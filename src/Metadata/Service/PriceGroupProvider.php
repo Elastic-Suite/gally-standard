@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Gally\Metadata\Service;
 
-use Gally\Configuration\State\ConfigurationProvider;
+use Gally\Configuration\Service\ConfigurationManager;
 use Gally\RequestContext\Service\RequestContextManager;
 
 class PriceGroupProvider
@@ -22,13 +22,13 @@ class PriceGroupProvider
 
     public function __construct(
         private RequestContextManager $requestContextManager,
-        private ConfigurationProvider $configurationProvider,
+        private ConfigurationManager $configurationManager,
     ) {
     }
 
     public function getCurrentPriceGroupId(): ?string
     {
-        return (string) $this->requestContextManager->getContextByHeader(self::PRICE_GROUP_ID)
-            ?? $this->configurationProvider->get('gally.default_price_group_id');
+        return (string) ($this->requestContextManager->getContextByHeader(self::PRICE_GROUP_ID)
+            ?? $this->configurationManager->getScopedConfigValue('gally.default_price_group_id'));
     }
 }

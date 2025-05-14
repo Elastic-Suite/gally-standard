@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Gally\Search\Elasticsearch\Builder\Request\SortOrder;
 
-use Gally\Configuration\State\ConfigurationProvider;
+use Gally\Configuration\Service\ConfigurationManager;
 use Gally\Index\Entity\Index\Mapping\FieldInterface;
 use Gally\Index\Entity\Index\MappingInterface;
 use Gally\Search\Elasticsearch\Builder\Request\Query\Filter\FilterQueryBuilder;
@@ -33,8 +33,8 @@ class SortOrderBuilder
      */
     public function __construct(
         private FilterQueryBuilder $queryBuilder,
+        private ConfigurationManager $configurationManager,
         private LoggerInterface $logger,
-        private ConfigurationProvider $configurationProvider,
     ) {
     }
 
@@ -82,7 +82,7 @@ class SortOrderBuilder
 
                 if (FieldInterface::FIELD_TYPE_GEOPOINT === $sortField->getType()) {
                     $type = GeoDistance::class;
-                    $sortOrderParams['unit'] = $this->configurationProvider->get('gally.search_settings.default_distance_unit');
+                    $sortOrderParams['unit'] = $this->configurationManager->getScopedConfigValue('gally.search_settings.default_distance_unit');
                     unset($sortOrderParams['missing']); // Missing parameter is not available for geo distance sort order.
                 }
             } catch (\LogicException $exception) {

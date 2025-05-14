@@ -9,4 +9,4 @@ services:
     Gally\RequestContext\Service\RequestContextManager:
         arguments:
             - '@request_stack'
-            - '@Gally\Configuration\State\ConfigurationProvider'
+            - '@Gally\Configuration\Service\ConfigurationManager'

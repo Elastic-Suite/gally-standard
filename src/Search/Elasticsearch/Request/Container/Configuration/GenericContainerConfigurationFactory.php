@@ -48,7 +48,7 @@ class GenericContainerConfigurationFactory implements ContainerConfigurationFact
             $metadata,
             $indexName,
             $mapping,
-            $this->relevanceConfigurationFactory->create($localizedCatalog, $requestType),
+            $this->relevanceConfigurationFactory->create($localizedCatalog),
             $this->aggregationProvider,
             $this->defaultSortingOptionProvider,
         );
