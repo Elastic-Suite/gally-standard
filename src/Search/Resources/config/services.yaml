@@ -317,7 +317,7 @@ services:
     
     Gally\Search\Elasticsearch\Request\Container\RelevanceConfiguration\RelevanceConfigurationFactory:
         arguments:
-            - '@Gally\Configuration\State\ConfigurationProvider'
+            - '@Gally\Configuration\Repository\ConfigurationRepository'
             - '%gally.relevance%'
     
     Gally\Search\Decoration\GraphQl\AddSortInfoType:
@@ -471,7 +471,7 @@ services:
     Gally\Search\Repository\Ingest\PipelineRepository:
         arguments:
             - '@OpenSearch\Client'
-            - '@Gally\Configuration\State\ConfigurationProvider'
+            - '@Gally\Configuration\Repository\ConfigurationRepository'
             - !tagged_iterator { tag: 'gally.search.ingest_pipeline_processors_provider' }
 
     Gally\Search\Service\FilePipelineProcessorProvider:

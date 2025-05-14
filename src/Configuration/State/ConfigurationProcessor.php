@@ -87,7 +87,7 @@ class ConfigurationProcessor implements ProcessorInterface
         }
 
         foreach ($configurations as $index => $config) {
-            $value = $config->decode()->getValue();
+            $value = $config->getDecodedValue();
             $config = $sortedConfigs[$config->getPath()][$config->getScopeType()][$config->getScopeCode()]
                 ?? $config;
             $config->setValue($value);

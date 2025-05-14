@@ -54,7 +54,7 @@ class ConfigurationRepository extends ServiceEntityRepository
             throw new LogicException('Multiple configurations have been found for the given path.');
         }
 
-        return reset($configs)->decode()->getValue();
+        return reset($configs)->getDecodedValue();
     }
 
     /**

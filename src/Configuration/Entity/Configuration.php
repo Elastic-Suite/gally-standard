@@ -138,6 +138,11 @@ class Configuration
         return $this->value;
     }
 
+    public function getDecodedValue(): mixed
+    {
+        return json_decode($this->value, true);
+    }
+
     public function setValue(mixed $value): void
     {
         $this->value = json_encode($value);
@@ -165,7 +170,7 @@ class Configuration
 
     public function decode(): self
     {
-        $this->value = json_decode($this->value, true);
+        $this->value = $this->getDecodedValue();
 
         return $this;
     }

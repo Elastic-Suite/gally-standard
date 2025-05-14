@@ -351,7 +351,7 @@ DETAIL:  Key (path, scope_type, scope_code)=(gally.base_url.media, localized_cat
                                 array_filter([$configurationData['path'], $configurationData['scope_code'] ?? null])
                             )
                         ],
-                        $configuration->decode()->getValue()
+                        $configuration->getDecodedValue()
                     );
                 }
             },

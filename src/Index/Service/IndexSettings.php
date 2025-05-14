@@ -341,10 +341,7 @@ class IndexSettings implements IndexSettingsInterface
      */
     private function getIndicesSettingsConfigParam(string $configField): mixed
     {
-        // Todo this is ugly
-        $configurations = $this->configurationRepository->getScopedConfigurations('gally.indices_settings.' . $configField);
-
-        return reset($configurations)?->getValue();
+        return $this->configurationRepository->getScopedConfigValue('gally.indices_settings.' . $configField);
     }
 
     /**

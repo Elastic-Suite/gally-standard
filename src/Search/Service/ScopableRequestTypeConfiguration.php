@@ -30,6 +30,7 @@ abstract class ScopableRequestTypeConfiguration
      */
     public function getConfig(array $scopedConfig, ?LocalizedCatalog $localizedCatalog, ?string $requestType): array
     {
+        die('api/packages/gally-standard/src/Search/Service/ScopableRequestTypeConfiguration.php:32');
         $localizedCatalogCode = $localizedCatalog?->getCode() ?? 'global';
         $requestType = $requestType ?? 'generic';
 
