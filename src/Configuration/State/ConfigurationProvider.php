@@ -16,15 +16,13 @@ namespace Gally\Configuration\State;
 use ApiPlatform\Metadata\CollectionOperationInterface;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProviderInterface;
-use Gally\Cache\Service\CacheManagerInterface;
 use Gally\Configuration\Entity\Configuration;
-use Gally\Configuration\Repository\ConfigurationRepository;
+use Gally\Configuration\Service\ConfigurationManager;
 
 class ConfigurationProvider implements ProviderInterface
 {
     public function __construct(
-        private CacheManagerInterface $cache,
-        private ConfigurationRepository $configurationRepository,
+        private ConfigurationManager $configurationManager,
         private ProviderInterface $itemProvider,
     ) {
     }
@@ -41,9 +39,10 @@ class ConfigurationProvider implements ProviderInterface
         $currentPage = $context['filters']['currentPage'] ?? null;
         $pageSize = $context['filters']['pageSize'] ?? null;
 
-        $data = $this->configurationRepository->getScopedConfigurations(
+        $data = $this->configurationManager->getMultiScopedConfigurations(
             $path,
             [
+                Configuration::SCOPE_LANGUAGE => $context['filters']['language'] ?? null,
                 Configuration::SCOPE_LOCALE => $context['filters']['localeCode'] ?? null,
                 Configuration::SCOPE_REQUEST_TYPE => $context['filters']['requestType'] ?? null,
                 Configuration::SCOPE_LOCALIZED_CATALOG => $context['filters']['localizedCatalogCode'] ?? null,
@@ -64,10 +63,5 @@ class ConfigurationProvider implements ProviderInterface
         }
 
         return $data;
-    }
-
-    public function get()
-    {
-        return 'blop';
     }
 }

@@ -13,11 +13,11 @@ declare(strict_types=1);
 
 namespace Gally\Search\Service;
 
-use Gally\Configuration\State\ConfigurationProvider;
+use Gally\Configuration\Service\ConfigurationManager;
 
 class SearchSettingsProvider
 {
-    public function __construct(private ConfigurationProvider $configurationProvider)
+    public function __construct(private ConfigurationManager $configurationManager)
     {
     }
 
@@ -28,7 +28,8 @@ class SearchSettingsProvider
      */
     public function coverageUseIndexedFieldsProperty(): bool
     {
-        return $this->configurationProvider->get('gally.search_settings.aggregations.coverage_use_indexed_fields_property');
+        return $this->configurationManager
+            ->getScopedConfigValue('gally.search_settings.aggregations.coverage_use_indexed_fields_property');
     }
 
     /**
@@ -36,6 +37,7 @@ class SearchSettingsProvider
      */
     public function getDefaultAscSortField(): array
     {
-        return $this->configurationProvider->get('gally.search_settings.sort.default_asc_sort_field');
+        return $this->configurationManager
+            ->getScopedConfigValue('gally.search_settings.sort.default_asc_sort_field');
     }
 }

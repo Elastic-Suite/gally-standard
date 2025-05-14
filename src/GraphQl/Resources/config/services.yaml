@@ -13,7 +13,7 @@ services:
     Gally\GraphQl\Decoration\Type\RenameGraphQlQuery:
         decorates: api_platform.graphql.fields_builder
         arguments:
-            - '@Gally\Configuration\Repository\ConfigurationRepository'
+            - '@Gally\Configuration\Service\ConfigurationManager'
             - '@.inner'
                 
     Gally\GraphQl\Error\ErrorHandler:

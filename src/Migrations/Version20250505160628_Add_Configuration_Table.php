@@ -27,13 +27,15 @@ final class Version20250505160628_Add_Configuration_Table extends AbstractMigrat
     {
         $this->addSql('CREATE SEQUENCE configuration_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE TABLE configuration (id INT NOT NULL, path TEXT NOT NULL, value TEXT DEFAULT NULL, scope_type VARCHAR(255) NOT NULL, scope_code VARCHAR(255) DEFAULT NULL, PRIMARY KEY(id))');
-        $this->addSql('CREATE UNIQUE INDEX unique_path_scope ON configuration (path, scope_type, scope_code)');
+        $this->addSql('CREATE UNIQUE INDEX unique_path_scope_null ON configuration (path, scope_type) WHERE scope_code IS NULL');
+        $this->addSql('CREATE UNIQUE INDEX unique_path_scope ON configuration (path, scope_type, scope_code) WHERE scope_code IS NOT NULL');
     }
 
     public function down(Schema $schema): void
     {
         $this->addSql('DROP SEQUENCE configuration_id_seq CASCADE');
         $this->addSql('DROP INDEX unique_path_scope');
+        $this->addSql('DROP INDEX unique_path_scope_null');
         $this->addSql('DROP TABLE configuration');
     }
 }

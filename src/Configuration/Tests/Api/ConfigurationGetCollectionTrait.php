@@ -19,18 +19,17 @@ trait ConfigurationGetCollectionTrait
 {
     protected function getFilteredCollectionDataProvider(): iterable
     {
-        $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
-
         // No value in db, value should be retrieved from file.
         yield [
-            null,                   // Default user
+            $this->getUser(Role::ROLE_CONTRIBUTOR),  // Default user
             'gally.fake_path', // Config path
+            null,                   // Language code
             null,                   // Locale code
             null,                   // Request type
             null,                   // Localized catalog
             null,                   // Page size
             null,                   // Current page
-            401,                    // Expected response code
+            200,                    // Expected response code
             [],                     // Expected value
         ];
 
@@ -38,6 +37,7 @@ trait ConfigurationGetCollectionTrait
         yield [
             $this->getUser(Role::ROLE_ADMIN), // Default user
             'gally.fake_path', // Config path
+            null,                   // Language code
             null,                   // Locale code
             null,                   // Request type
             null,                   // Localized catalog
@@ -49,8 +49,9 @@ trait ConfigurationGetCollectionTrait
 
         // No value in db, value should be retrieved from file.
         yield [
-            $user,                  // Default user
+            null,                   // Default user
             'gally.fake_path', // Config path
+            null,                   // Language code
             null,                   // Locale code
             null,                   // Request type
             null,                   // Localized catalog
@@ -62,8 +63,9 @@ trait ConfigurationGetCollectionTrait
 
         // No value in db, value should be retrieved from file.
         yield [
-            $user,                  // Default user
+            null,                   // Default user
             'gally.indices_settings.prefix', // Config path
+            null,                   // Language code
             null,                   // Locale code
             null,                   // Request type
             null,                   // Localized catalog
@@ -80,8 +82,9 @@ trait ConfigurationGetCollectionTrait
 
         // A value exist in db, it should override file value.
         yield [
-            $user,                  // Default user
+            null,                   // Default user
             'gally.base_url.media',  // Config path
+            null,                   // Language code
             null,                   // Locale code
             null,                   // Request type
             null,                   // Localized catalog
@@ -98,8 +101,28 @@ trait ConfigurationGetCollectionTrait
 
         // No value defined for given locale, it should fallback on default value.
         yield [
-            $user,                  // Default user
+            null,                   // Default user
             'gally.base_url.media',  // Config path
+            'en',                   // Language code
+            null,                   // Locale code
+            null,                   // Request type
+            null,                   // Localized catalog
+            null,                   // Page size
+            null,                   // Current page
+            200,                    // Expected response code
+            [                       // Expected value
+                [
+                    'path' => 'gally.base_url.media',
+                    'value' => 'test_value_general',
+                ],
+            ],
+        ];
+
+        // No value defined for given locale, it should fallback on default value.
+        yield [
+            null,                   // Default user
+            'gally.base_url.media',  // Config path
+            null,                   // Language code
             'en_US',                // Locale code
             null,                   // Request type
             null,                   // Localized catalog
@@ -116,9 +139,10 @@ trait ConfigurationGetCollectionTrait
 
         // A value is defined for given locale, it should return this value.
         yield [
-            $user,                  // Default user
+            null,                   // Default user
             'gally.base_url.media',  // Config path
-            'fr_FR',                // Locale code
+            'fr',                   // Language code
+            null,                   // Locale code
             null,                   // Request type
             null,                   // Localized catalog
             null,                   // Page size
@@ -132,10 +156,30 @@ trait ConfigurationGetCollectionTrait
             ],
         ];
 
+        // A value is defined for given locale, it should return this value.
+        yield [
+            null,                   // Default user
+            'gally.base_url.media',  // Config path
+            null,                   // Language code
+            'fr_FR',                // Locale code
+            null,                   // Request type
+            null,                   // Localized catalog
+            null,                   // Page size
+            null,                   // Current page
+            200,                    // Expected response code
+            [                       // Expected value
+                [
+                    'path' => 'gally.base_url.media',
+                    'value' => 'test_value_fr_FR',
+                ],
+            ],
+        ];
+
         // No value defined for given request type, it should fallback on default value.
         yield [
-            $user,                  // Default user
+            null,                   // Default user
             'gally.base_url.media',  // Config path
+            null,                   // Language code
             null,                   // Locale code
             'product_search',       // Request type
             null,                   // Localized catalog
@@ -152,8 +196,9 @@ trait ConfigurationGetCollectionTrait
 
         // A value is defined for given request type, it should return this value.
         yield [
-            $user,                  // Default user
+            null,                   // Default user
             'gally.base_url.media',  // Config path
+            null,                   // Language code
             null,                   // Locale code
             'product_catalog',      // Request type
             null,                   // Localized catalog
@@ -170,8 +215,9 @@ trait ConfigurationGetCollectionTrait
 
         // No value defined for given localized catalog, it should fallback on default value.
         yield [
-            $user,                  // Default user
+            null,                   // Default user
             'gally.base_url.media',  // Config path
+            null,                   // Language code
             null,                   // Locale code
             null,                   // Request type
             'b2c',                  // Localized catalog
@@ -188,8 +234,9 @@ trait ConfigurationGetCollectionTrait
 
         // A value is defined for given localized catalog, it should return this value.
         yield [
-            $user,                  // Default user
+            null,                   // Default user
             'gally.base_url.media',  // Config path
+            null,                   // Language code
             null,                   // Locale code
             null,                   // Request type
             'b2b',                  // Localized catalog
@@ -206,8 +253,9 @@ trait ConfigurationGetCollectionTrait
 
         // Test priority between context
         yield [
-            $user,                  // Default user
+            null,                   // Default user
             'gally.base_url.media',  // Config path
+            'fr',                   // Language code
             'fr_FR',                // Locale code
             'product_catalog',      // Request type
             'b2b',                  // Localized catalog
@@ -224,8 +272,9 @@ trait ConfigurationGetCollectionTrait
 
         // Test priority between context
         yield [
-            $user,                  // Default user
+            null,                   // Default user
             'gally.base_url.media',  // Config path
+            'fr',                   // Language code
             'fr_FR',                // Locale code
             'product_catalog',      // Request type
             'b2c',                  // Localized catalog
@@ -242,9 +291,29 @@ trait ConfigurationGetCollectionTrait
 
         // Test priority between context
         yield [
-            $user,                  // Default user
+            null,                   // Default user
             'gally.base_url.media',  // Config path
+            'fr',                   // Language code
             'fr_FR',                // Locale code
+            'product_search',       // Request type
+            'b2c',                  // Localized catalog
+            null,                   // Page size
+            null,                   // Current page
+            200,                    // Expected response code
+            [                       // Expected value
+                [
+                    'path' => 'gally.base_url.media',
+                    'value' => 'test_value_fr_FR',
+                ],
+            ],
+        ];
+
+        // Test priority between context
+        yield [
+            null,                   // Default user
+            'gally.base_url.media',  // Config path
+            'fr',                   // Language code
+            'fr_CA',                // Locale code
             'product_search',       // Request type
             'b2c',                  // Localized catalog
             null,                   // Page size
@@ -260,8 +329,9 @@ trait ConfigurationGetCollectionTrait
 
         // Test priority between context
         yield [
-            $user,                  // Default user
+            null,                   // Default user
             'gally.base_url.media',  // Config path
+            'en',                   // Language code
             'en_US',                // Locale code
             'product_search',       // Request type
             'b2c',                  // Localized catalog
@@ -278,9 +348,10 @@ trait ConfigurationGetCollectionTrait
 
         // Test partial path
         yield [
-            $user,                  // Default user
+            null,                   // Default user
             'gally.search_settings',  // Config path
-            'en_Us',                // Locale code
+            'en',                   // Language code
+            'en_US',                // Locale code
             'product_search',       // Request type
             'b2c',                  // Localized catalog
             null,                   // Page size
@@ -326,9 +397,10 @@ trait ConfigurationGetCollectionTrait
 
         // Test pagination
         yield [
-            $user,                  // Default user
-            'gally.search_settings',  // Config path
-            'en_Us',                // Locale code
+            null,                   // Default user
+            'gally.search_settings', // Config path
+            'en',                   // Language code
+            'en_US',                // Locale code
             'product_search',       // Request type
             'b2c',                  // Localized catalog
             3,                      // Page size
@@ -352,9 +424,10 @@ trait ConfigurationGetCollectionTrait
 
         // Test pagination
         yield [
-            $user,                  // Default user
-            'gally.search_settings',  // Config path
-            'en_Us',                // Locale code
+            null,                   // Default user
+            'gally.search_settings', // Config path
+            'en',                   // Language code
+            'en_US',                // Locale code
             'product_search',       // Request type
             'b2c',                  // Localized catalog
             3,                      // Page size
@@ -388,45 +461,15 @@ trait ConfigurationGetCollectionTrait
 
         // Test get value type from symfony treeBuilder
         yield [
-            $user,                  // Default user
-            'gally.graphql_query_renaming', // Config path
+            null,                  // Default user
+            'gally.menu',          // Config path
+            null,                  // Language code
             null,                  // Locale code
             null,                  // Request type
             null,                  // Localized catalog
             null,                  // Page size
             null,                  // Current page
-            200,                    // Expected response code
-            [                      // Expected value
-                [
-                    'path' => 'gally.graphql_query_renaming',
-                    'value' => [
-                        'Gally\VectorSearch\Entity\Document' => ['renamings' => ['vectorSearchVectorDocuments' => 'vectorSearchDocuments']],
-                        'Gally\Explain\Entity\ExplainProduct' => ['renamings' => ['explainExplainProducts' => 'explain']],
-                        'Gally\Boost\Entity\BoostPreview' => ['renamings' => ['getBoostPreview' => 'previewBoost']],
-                        'Gally\Search\Entity\Document' => ['renamings' => ['searchDocuments' => 'documents']],
-                        'Gally\Search\Entity\Source\SortingOption' => ['renamings' => ['getSortingOptions' => 'sortingOptions']],
-                        'Gally\Product\Entity\Product' => [
-                            'renamings' => [
-                                'searchProducts' => 'products',
-                                'searchPreviewProducts' => 'previewProducts',
-                            ],
-                        ],
-                        'Gally\Category\Entity\Source\CategorySortingOption' => ['renamings' => ['getCategorySortingOptions' => 'categorySortingOptions']],
-                    ],
-                ],
-            ],
-        ];
-
-        // Test no path
-        yield [
-            $user,                  // Default user
-            null,                  // Config path
-            null,                  // Locale code
-            null,                  // Request type
-            null,                  // Localized catalog
-            null,                  // Page size
-            null,                  // Current page
-            200,                    // Expected response code
+            200,                   // Expected response code
             [                      // Expected value
                 [
                     'path' => 'gally.menu',
@@ -436,6 +479,37 @@ trait ConfigurationGetCollectionTrait
                         'category' => ['parent' => 'catalog', 'order' => 10],
                         'thesaurus' => ['order' => 30, 'path' => '/thesaurus/grid'],
                         'optimizer' => ['order' => 20, 'css_class' => 'boost', 'path' => '/boost/grid'],
+                    ],
+                ],
+            ],
+        ];
+
+        // Test no path
+        yield [
+            null,                  // Default user
+            null,                  // Config path
+            null,                  // Language code
+            null,                  // Locale code
+            null,                  // Request type
+            null,                  // Localized catalog
+            null,                  // Page size
+            null,                  // Current page
+            200,                   // Expected response code
+            [                      // Expected value
+                [
+                    'path' => 'gally.menu',
+                    'value' => [
+                        'catalog' => ['order' => 10],
+                        'product' => ['parent' => 'catalog', 'order' => 20],
+                        'category' => ['parent' => 'catalog', 'order' => 10],
+                        'thesaurus' => ['order' => 30, 'path' => '/thesaurus/grid'],
+                        'optimizer' => ['order' => 20, 'css_class' => 'boost', 'path' => '/boost/grid'],
+                    ],
+                ],
+                [
+                    'path' => 'gally.analysis.char_filters',
+                    'value' => [
+                        'html_strip' => ['type' => 'html_strip'],
                     ],
                 ],
             ],

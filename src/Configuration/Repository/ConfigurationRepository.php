@@ -16,9 +16,6 @@ namespace Gally\Configuration\Repository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Gally\Configuration\Entity\Configuration;
-use Gally\Exception\LogicException;
-use Symfony\Component\Config\Definition\ArrayNode;
-use Symfony\Component\Config\Definition\NodeInterface;
 
 /**
  * @method Configuration|null find($id, $lockMode = null, $lockVersion = null)
@@ -30,54 +27,74 @@ class ConfigurationRepository extends ServiceEntityRepository
 {
     public function __construct(
         ManagerRegistry $registry,
-        private array $defaultConfiguration,
     ) {
         parent::__construct($registry, Configuration::class);
     }
 
-    public function getScopePriority(): array
+    /**
+     * Get the list of all available scope types.
+     *
+     * @return string[]
+     */
+    public static function getAvailableScopeTypes(): array
     {
         return [
-            Configuration::SCOPE_LOCALIZED_CATALOG => 40,
-            Configuration::SCOPE_REQUEST_TYPE => 30,
-            Configuration::SCOPE_LOCALE => 20,
+            Configuration::SCOPE_GENERAL,
+            Configuration::SCOPE_LANGUAGE,
+            Configuration::SCOPE_LOCALE,
+            Configuration::SCOPE_REQUEST_TYPE,
+            Configuration::SCOPE_LOCALIZED_CATALOG,
         ];
     }
 
-    public function getScopedConfigValue(string $path, array $scopeCodeContext = []): mixed
+    /**
+     * Define priority between scope type. It will be used to merge configuration in the good order.
+     *
+     * @return int[]
+     */
+    public function getScopePriority(): array
     {
-        $configs = $this->getScopedConfigurations($path, $scopeCodeContext);
-        if (0 === \count($configs)) {
-            return null;
-        }
-        if (\count($configs) > 1) {
-            throw new LogicException('Multiple configurations have been found for the given path.');
-        }
-
-        return reset($configs)->decode()->getValue();
+        return [
+            Configuration::SCOPE_LOCALIZED_CATALOG => 50,
+            Configuration::SCOPE_REQUEST_TYPE => 40,
+            Configuration::SCOPE_LOCALE => 30,
+            Configuration::SCOPE_LANGUAGE => 20,
+        ];
     }
 
     /**
+     * Return configurations matching one of the provided scope (or default scope)
+     * if the configuration path start with the given path.
+     *
+     * @param array<string, string> $scopeCodeContext
+     *
      * @return Configuration[]
      */
-    public function getScopedConfigurations(string $path, array $scopeCodeContext = []): array
+    public function findByScope(string $path, array $scopeCodeContext = []): array
     {
-        $configurations = $this->getDefaultConfigurations($path);
         $queryBuilder = $this->createQueryBuilder('c');
         $conditions = ['c.scopeCode IS NULL'];
-        $parameters = ['path' => $path];
+        $parameters = ['path' => $path . '%'];
         $priorityExpr = [];
 
-        foreach ($this->getScopePriority() as $scopeCode => $priority) {
-            if (isset($scopeCodeContext[$scopeCode])) {
-                $conditions[] = $queryBuilder->expr()->andX("c.scopeType = :type$scopeCode", "c.scopeCode = :$scopeCode");
-                $parameters["type$scopeCode"] = $scopeCode;
-                $parameters["$scopeCode"] = $scopeCodeContext[$scopeCode];
-                $priorityExpr[] = "WHEN c.scopeType = '$scopeCode' THEN $priority";
+        if (isset($scopeCodeContext[Configuration::SCOPE_LOCALE])
+            && !isset($scopeCodeContext[Configuration::SCOPE_LANGUAGE])) {
+            $scopeCodeContext[Configuration::SCOPE_LANGUAGE] = explode(
+                '_',
+                $scopeCodeContext[Configuration::SCOPE_LOCALE]
+            )[0];
+        }
+
+        foreach ($this->getScopePriority() as $scopeType => $priority) {
+            if (isset($scopeCodeContext[$scopeType])) {
+                $conditions[] = $queryBuilder->expr()->andX("c.scopeType = :type$scopeType", "c.scopeCode = :$scopeType");
+                $parameters["type$scopeType"] = $scopeType;
+                $parameters["$scopeType"] = $scopeCodeContext[$scopeType];
+                $priorityExpr[] = "WHEN c.scopeType = '$scopeType' THEN $priority";
             }
         }
 
-        $queryBuilder->where('c.path = :path')
+        $queryBuilder->where('c.path like :path')
             ->andWhere($queryBuilder->expr()->orX(...$conditions))
             ->addSelect(
                 \count($priorityExpr)
@@ -87,81 +104,6 @@ class ConfigurationRepository extends ServiceEntityRepository
             ->orderBy('scopePriority', 'ASC')
             ->setParameters($parameters);
 
-        foreach ($queryBuilder->getQuery()->getResult() as $configuration) {
-            $configurations[$configuration->getPath()] = $configuration;
-        }
-
-        return $configurations;
-    }
-
-    /**
-     * @return Configuration[]
-     */
-    private function getDefaultConfigurations(string $path): array
-    {
-        $config = new \Gally\DependencyInjection\Configuration();
-        $node = $config->getConfigTreeBuilder()->buildTree();
-        $configurations = [];
-        $pathAsArray = explode('.', $path);
-        if ([] === $pathAsArray) {
-            return $configurations;
-        }
-
-        $value = $this->defaultConfiguration;
-        foreach ($pathAsArray as $key) {
-            if ($key == $node->getName()) {
-                $value = $value[$key];
-            } elseif ($node instanceof ArrayNode && \array_key_exists($key, $node->getChildren())) {
-                $value = $value[$key];
-                $node = $node->getChildren()[$key];
-            } else {
-                // Todo what to do in this case
-            }
-        }
-
-        return $this->getFlattenConfiguration($node, $value, $path);
-    }
-
-    /**
-     * @return Configuration[]
-     */
-    private function getFlattenConfiguration(NodeInterface $node, mixed $value, string $path): array
-    {
-        $configurations = [];
-
-        if ($node instanceof ArrayNode) {
-            foreach ($node->getChildren() as $name => $child) {
-                $configurations = array_merge(
-                    $configurations,
-                    $this->getFlattenConfiguration($child, $value[$name] ?? null, implode('.', [$path, $name]))
-                );
-            }
-        }
-
-        if (empty($configurations)) {
-            $configuration = new Configuration();
-            $configuration->setId(0);
-            $configuration->setPath($path);
-            $configuration->setValue($value);
-            $configurations[$path] = $configuration;
-        }
-
-        return $configurations;
-    }
-
-    private function flattenArray(array $array, string $prefix): array
-    {
-        $result = [];
-
-        foreach ($array as $key => $value) {
-            $fullKey = $prefix . '.' . $key;
-            if (!\is_array($value) || array_is_list($value)) {
-                $result[$fullKey] = \is_array($value) ? json_encode($value) : (string) $value;
-            } else {
-                $result += $this->flattenArray($value, $fullKey);
-            }
-        }
-
-        return $result;
+        return $queryBuilder->getQuery()->getResult();
     }
 }

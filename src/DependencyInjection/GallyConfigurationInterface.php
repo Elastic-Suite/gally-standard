@@ -11,11 +11,11 @@
 
 declare(strict_types=1);
 
-namespace Gally\Search\Elasticsearch\Request\Container\RelevanceConfiguration;
+namespace Gally\DependencyInjection;
 
-use Gally\Catalog\Entity\LocalizedCatalog;
+use Symfony\Component\Config\Definition\ConfigurationInterface;
 
-interface RelevanceConfigurationFactoryInterface
+interface GallyConfigurationInterface extends ConfigurationInterface
 {
-    public function create(?LocalizedCatalog $localizedCatalog): RelevanceConfigurationInterface;
+    public function getRootNodeConfig(): string;
 }

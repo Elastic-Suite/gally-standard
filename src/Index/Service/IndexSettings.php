@@ -16,7 +16,7 @@ namespace Gally\Index\Service;
 use Gally\Analysis\Service\Config;
 use Gally\Catalog\Entity\LocalizedCatalog;
 use Gally\Catalog\Repository\LocalizedCatalogRepository;
-use Gally\Configuration\Repository\ConfigurationRepository;
+use Gally\Configuration\Service\ConfigurationManager;
 use Gally\Index\Api\IndexSettingsInterface;
 use Gally\Index\Entity\Index;
 use Gally\Metadata\Entity\Metadata;
@@ -63,14 +63,13 @@ class IndexSettings implements IndexSettingsInterface
      *
      * @param LocalizedCatalogRepository  $localizedCatalogRepository Catalog repository
      * @param Config                      $analysisConfig             Analysis configuration
-     * @param ConfigurationRepository     $configurationRepository    Analysis configuration
      * @param SourceFieldRepository       $sourceFieldRepository      Source field repository
      * @param PipelineRepositoryInterface $pipelineRepository         Pipeline repository
      */
     public function __construct(
         private LocalizedCatalogRepository $localizedCatalogRepository,
-        private Config $analysisConfig, // Todo move this conf in Config
-        private ConfigurationRepository $configurationRepository,
+        private Config $analysisConfig,
+        private ConfigurationManager $configurationManager,
         private SourceFieldRepository $sourceFieldRepository,
         private PipelineRepositoryInterface $pipelineRepository
     ) {
@@ -341,10 +340,7 @@ class IndexSettings implements IndexSettingsInterface
      */
     private function getIndicesSettingsConfigParam(string $configField): mixed
     {
-        // Todo this is ugly
-        $configurations = $this->configurationRepository->getScopedConfigurations('gally.indices_settings.' . $configField);
-
-        return reset($configurations)?->getValue();
+        return $this->configurationManager->getScopedConfigValue('gally.indices_settings.' . $configField);
     }
 
     /**

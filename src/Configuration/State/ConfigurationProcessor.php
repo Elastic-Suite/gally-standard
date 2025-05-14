@@ -34,7 +34,10 @@ class ConfigurationProcessor implements ProcessorInterface
     ) {
     }
 
-    public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = [])
+    /**
+     * @return Configuration|Configuration[]|null
+     */
+    public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): Configuration|array|null
     {
         if ($operation instanceof DeleteOperationInterface) {
             return $this->removeProcessor->process($data, $operation, $uriVariables, $context);
@@ -59,7 +62,8 @@ class ConfigurationProcessor implements ProcessorInterface
                 }
                 $configurations[] = $configuration;
             }
-            $this->persistMultiple($paths, $configurations);
+
+            return $this->persistMultiple($paths, $configurations);
         }
 
         if ($data instanceof Configuration) {
@@ -72,8 +76,10 @@ class ConfigurationProcessor implements ProcessorInterface
     /**
      * @param string[]        $paths
      * @param Configuration[] $configurations
+     *
+     * @return Configuration[]
      */
-    public function persistMultiple(array $paths, array $configurations): void
+    public function persistMultiple(array $paths, array $configurations): array
     {
         $existingConfigs = $this->configurationRepository->findBy(['path' => $paths]);
         $sortedConfigs = [];
@@ -87,10 +93,11 @@ class ConfigurationProcessor implements ProcessorInterface
         }
 
         foreach ($configurations as $index => $config) {
-            $value = $config->decode()->getValue();
+            $value = $config->getDecodedValue();
             $config = $sortedConfigs[$config->getPath()][$config->getScopeType()][$config->getScopeCode()]
                 ?? $config;
             $config->setValue($value);
+            $configurations[$index] = $config;
 
             try {
                 $this->validator->validateObject($config);
@@ -105,5 +112,7 @@ class ConfigurationProcessor implements ProcessorInterface
         }
 
         $this->entityManager->flush();
+
+        return $configurations;
     }
 }

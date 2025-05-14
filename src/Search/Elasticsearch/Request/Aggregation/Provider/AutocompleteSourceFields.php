@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Gally\Search\Elasticsearch\Request\Aggregation\Provider;
 
-use Gally\Configuration\State\ConfigurationProvider;
+use Gally\Configuration\Service\ConfigurationManager;
 use Gally\Metadata\Entity\SourceField;
 use Gally\Metadata\Repository\SourceFieldRepository;
 use Gally\Search\Elasticsearch\Request\Aggregation\ConfigResolver\FieldAggregationConfigResolverInterface;
@@ -27,12 +27,11 @@ class AutocompleteSourceFields implements AggregationProviderInterface
 {
     /**
      * @param SourceFieldRepository                     $sourceFieldRepository Source field repository
-     * @param ConfigurationProvider                     $configurationProvider Configuration provider
      * @param FieldAggregationConfigResolverInterface[] $aggregationResolvers  Attributes Aggregation Resolver Pool
      */
     public function __construct(
         private SourceFieldRepository $sourceFieldRepository,
-        private ConfigurationProvider $configurationProvider,
+        private ConfigurationManager $configurationManager,
         private iterable $aggregationResolvers,
     ) {
     }
@@ -87,8 +86,8 @@ class AutocompleteSourceFields implements AggregationProviderInterface
         }
 
         $entity = $containerConfig->getMetadata()->getEntity();
-        $config['size'] = $this->configurationProvider->get("gally.autocomplete_settings.{$entity}_attribute.max_size")
-            ?? $this->configurationProvider->get('gally.autocomplete_settings.document_attribute.max_size');
+        $config['size'] = $this->configurationManager->getScopedConfigValue("gally.autocomplete_settings.{$entity}_attribute.max_size")
+            ?? $this->configurationManager->getScopedConfigValue('gally.autocomplete_settings.document_attribute.max_size');
 
         return $config;
     }

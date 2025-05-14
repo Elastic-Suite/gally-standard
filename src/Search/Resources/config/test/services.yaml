@@ -2,7 +2,7 @@ services:
     Gally\Search\Service\SearchSettingsProvider:
         class: Gally\Search\Tests\Service\SearchSettingsProvider
         arguments:
-            - '@Gally\Configuration\State\ConfigurationProvider'
+            - '@Gally\Configuration\Service\ConfigurationManager'
     
     Gally\Search\Tests\Mock\DummyProcessorProvider:
         tags:

@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Gally\Search\Tests\Unit\Elasticsearch\Builder\Request;
 
 use Gally\Catalog\Repository\LocalizedCatalogRepository;
+use Gally\Configuration\Service\ConfigurationManager;
 use Gally\Index\Api\IndexSettingsInterface;
 use Gally\Metadata\Entity\Metadata;
 use Gally\Metadata\Repository\MetadataRepository;
@@ -113,8 +114,8 @@ class SimpleRequestBuilderTest extends AbstractTestCase
         self::$queryBuilder = new QueryBuilder(self::$queryFactory, self::$fulltextQueryBuilder, self::$filterQueryBuilder);
         self::$sortOrderBuilder = new SortOrderBuilder(
             self::$filterQueryBuilder,
+            static::getContainer()->get(ConfigurationManager::class),
             self::$logger,
-            static::getContainer()->getParameter('gally.search_settings')
         );
         \assert(static::getContainer()->get(AggregationFactory::class) instanceof AggregationFactory);
         self::$aggregationFactory = static::getContainer()->get(AggregationFactory::class);

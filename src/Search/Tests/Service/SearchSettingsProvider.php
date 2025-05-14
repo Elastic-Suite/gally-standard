@@ -15,16 +15,15 @@ namespace Gally\Search\Tests\Service;
 
 class SearchSettingsProvider extends \Gally\Search\Service\SearchSettingsProvider
 {
-    /**
-     * This method allow unit test to override search settings dynamically.
-     */
-    public function set(string $key, mixed $value): void
+    private bool $coverageUseIndexedFieldsPropertyValue;
+
+    public function coverageUseIndexedFieldsProperty(): bool
     {
-        $class = new \ReflectionClass(\Gally\Search\Service\SearchSettingsProvider::class);
-        $searchSettingsProp = $class->getProperty('searchSettings');
-        $searchSettingsProp->setAccessible(true);
-        $settings = $searchSettingsProp->getValue($this);
-        $settings[$key] = $value;
-        $searchSettingsProp->setValue($this, $settings);
+        return $this->coverageUseIndexedFieldsPropertyValue ?? parent::coverageUseIndexedFieldsProperty();
+    }
+
+    public function setCoverageUseIndexedFieldsProperty(bool $value): void
+    {
+        $this->coverageUseIndexedFieldsPropertyValue = $value;
     }
 }

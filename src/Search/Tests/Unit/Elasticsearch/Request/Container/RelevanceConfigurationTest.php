@@ -25,6 +25,7 @@ class RelevanceConfigurationTest extends AbstractTestCase
     public static function setUpBeforeClass(): void
     {
         static::loadFixture([
+            __DIR__ . '/../../../../fixtures/configurations.yaml',
             __DIR__ . '/../../../../fixtures/catalogs_relevance.yaml',
             __DIR__ . '/../../../../fixtures/source_field.yaml',
             __DIR__ . '/../../../../fixtures/metadata.yaml',
@@ -61,59 +62,8 @@ class RelevanceConfigurationTest extends AbstractTestCase
             ]
         );
 
-        // Check relevance config for 'b2c_en_relevance' scope + 'product_search_relevance' request type.
+        // Check relevance config for 'b2c_en_relevance' scope (request type has no effect).
         $containerConfig = $configurationFactory->create('product_search_relevance', $metadata, $b2cEnRelevance);
-        $relevanceConfig = $containerConfig->getRelevanceConfig();
-        $this->checkRelevanceConfig(
-            $relevanceConfig,
-            [
-                'fulltext_minimumShouldMatch' => '80%',
-                'fulltext_tieBreaker' => 1.0,
-                'phraseMatch_boost' => 20,
-                'fuzziness_enabled' => true,
-                'fuzziness_value' => FuzzinessConfig::VALUE_AUTO,
-                'fuzziness_prefixLength' => 1,
-                'fuzziness_maxExpansions' => 10,
-                'phonetic_enabled' => true,
-            ]
-        );
-
-        // Check relevance config for 'b2c_fr_relevance' scope + 'product_catalog' request type.
-        $containerConfig = $configurationFactory->create('product_catalog', $metadata, $b2cFrRelevance);
-        $relevanceConfig = $containerConfig->getRelevanceConfig();
-        $this->checkRelevanceConfig(
-            $relevanceConfig,
-            [
-                'fulltext_minimumShouldMatch' => '70%',
-                'fulltext_tieBreaker' => 1.0,
-                'phraseMatch_boost' => 25,
-                'fuzziness_enabled' => true,
-                'fuzziness_value' => FuzzinessConfig::VALUE_AUTO,
-                'fuzziness_prefixLength' => 1,
-                'fuzziness_maxExpansions' => 10,
-                'phonetic_enabled' => true,
-            ]
-        );
-
-        // Check relevance config for 'b2b_en_relevance' scope + 'generic' request type.
-        $containerConfig = $configurationFactory->create('generic', $metadata, $b2bEnRelevance);
-        $relevanceConfig = $containerConfig->getRelevanceConfig();
-        $this->checkRelevanceConfig(
-            $relevanceConfig,
-            [
-                'fulltext_minimumShouldMatch' => '60%',
-                'fulltext_tieBreaker' => 2.0,
-                'phraseMatch_boost' => false,
-                'fuzziness_enabled' => true,
-                'fuzziness_value' => FuzzinessConfig::VALUE_AUTO,
-                'fuzziness_prefixLength' => 1,
-                'fuzziness_maxExpansions' => 10,
-                'phonetic_enabled' => true,
-            ]
-        );
-
-        // Check relevance config for 'b2c_en_relevance' scope + 'product_catalog' request type.
-        $containerConfig = $configurationFactory->create('product_catalog', $metadata, $b2cEnRelevance);
         $relevanceConfig = $containerConfig->getRelevanceConfig();
         $this->checkRelevanceConfig(
             $relevanceConfig,
@@ -129,41 +79,7 @@ class RelevanceConfigurationTest extends AbstractTestCase
             ]
         );
 
-        // Check relevance config for 'b2b_en_relevance' scope + 'product_search_relevance' request type.
-        $containerConfig = $configurationFactory->create('product_search_relevance', $metadata, $b2bEnRelevance);
-        $relevanceConfig = $containerConfig->getRelevanceConfig();
-        $this->checkRelevanceConfig(
-            $relevanceConfig,
-            [
-                'fulltext_minimumShouldMatch' => '80%',
-                'fulltext_tieBreaker' => 2.0,
-                'phraseMatch_boost' => 20,
-                'fuzziness_enabled' => true,
-                'fuzziness_value' => FuzzinessConfig::VALUE_AUTO,
-                'fuzziness_prefixLength' => 1,
-                'fuzziness_maxExpansions' => 10,
-                'phonetic_enabled' => true,
-            ]
-        );
-
-        // Check relevance config for 'b2c_fr_relevance' localized catalog scope + 'product_catalog' request type.
-        $containerConfig = $configurationFactory->create('product_search_relevance', $metadata, $b2cFrRelevance);
-        $relevanceConfig = $containerConfig->getRelevanceConfig();
-        $this->checkRelevanceConfig(
-            $relevanceConfig,
-            [
-                'fulltext_minimumShouldMatch' => '80%',
-                'fulltext_tieBreaker' => 1.0,
-                'phraseMatch_boost' => 20,
-                'fuzziness_enabled' => true,
-                'fuzziness_value' => FuzzinessConfig::VALUE_AUTO,
-                'fuzziness_prefixLength' => 1,
-                'fuzziness_maxExpansions' => 10,
-                'phonetic_enabled' => true,
-            ]
-        );
-
-        // Check relevance config for 'b2c_fr_relevance' localized catalog scope + 'product_catalog' request type.
+        // Check relevance config for 'b2c_fr_relevance' scope .
         $containerConfig = $configurationFactory->create('product_catalog', $metadata, $b2cFrRelevance);
         $relevanceConfig = $containerConfig->getRelevanceConfig();
         $this->checkRelevanceConfig(
@@ -172,6 +88,23 @@ class RelevanceConfigurationTest extends AbstractTestCase
                 'fulltext_minimumShouldMatch' => '70%',
                 'fulltext_tieBreaker' => 1.0,
                 'phraseMatch_boost' => 25,
+                'fuzziness_enabled' => true,
+                'fuzziness_value' => FuzzinessConfig::VALUE_AUTO,
+                'fuzziness_prefixLength' => 1,
+                'fuzziness_maxExpansions' => 10,
+                'phonetic_enabled' => true,
+            ]
+        );
+
+        // Check relevance config for 'b2b_en_relevance'scope  (request type has no effect).
+        $containerConfig = $configurationFactory->create('product_catalog', $metadata, $b2bEnRelevance);
+        $relevanceConfig = $containerConfig->getRelevanceConfig();
+        $this->checkRelevanceConfig(
+            $relevanceConfig,
+            [
+                'fulltext_minimumShouldMatch' => '60%',
+                'fulltext_tieBreaker' => 2.0,
+                'phraseMatch_boost' => false,
                 'fuzziness_enabled' => true,
                 'fuzziness_value' => FuzzinessConfig::VALUE_AUTO,
                 'fuzziness_prefixLength' => 1,

@@ -17,14 +17,18 @@ declare(strict_types=1);
 namespace Gally\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
-use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 /**
  * @codeCoverageIgnore
  */
-class Configuration implements ConfigurationInterface
+class Configuration implements GallyConfigurationInterface
 {
     public const ROOT_NODE_CONFIG = 'gally';
+
+    public function getRootNodeConfig(): string
+    {
+        return self::ROOT_NODE_CONFIG;
+    }
 
     /**
      * Example get from https://symfony.com/doc/current/bundles/configuration.html#processing-the-configs-array
@@ -34,7 +38,7 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder(): TreeBuilder
     {
-        $treeBuilder = new TreeBuilder(self::ROOT_NODE_CONFIG);
+        $treeBuilder = new TreeBuilder($this->getRootNodeConfig());
 
         $treeBuilder->getRootNode()
             ->children()
@@ -53,56 +57,53 @@ class Configuration implements ConfigurationInterface
 
                 // Analysis config
                 ->arrayNode('analysis')
-                    ->useAttributeAsKey('language')
-                    ->arrayPrototype()
-                        ->children()
-                            ->arrayNode('char_filters')
-                                ->useAttributeAsKey('name')
-                                ->arrayPrototype()
-                                    ->children()
-                                        ->scalarNode('type')->isRequired()->end()
-                                        ->variableNode('params')->end()
+                    ->children()
+                        ->arrayNode('char_filters')
+                            ->useAttributeAsKey('name')
+                            ->arrayPrototype()
+                                ->children()
+                                    ->scalarNode('type')->isRequired()->end()
+                                    ->variableNode('params')->end()
+                                ->end()
+                            ->end()
+                        ->end()
+                        ->arrayNode('filters')
+                            ->useAttributeAsKey('name')
+                            ->arrayPrototype()
+                                ->children()
+                                    ->scalarNode('type')->isRequired()->end()
+                                    ->variableNode('params')->end()
+                                ->end()
+                            ->end()
+                        ->end()
+                        ->arrayNode('analyzers')
+                            ->useAttributeAsKey('name')
+                            ->arrayPrototype()
+                                ->children()
+                                    ->scalarNode('type')->defaultValue('custom')->end()
+                                    ->arrayNode('char_filter')
+                                        ->isRequired()
+                                        ->scalarPrototype()->end()
+                                    ->end()
+                                    ->scalarNode('tokenizer')->isRequired()->end()
+                                    ->arrayNode('filter')
+                                        ->isRequired()
+                                        ->scalarPrototype()->end()
                                     ->end()
                                 ->end()
                             ->end()
-                            ->arrayNode('filters')
-                                ->useAttributeAsKey('name')
-                                ->arrayPrototype()
-                                    ->children()
-                                        ->scalarNode('type')->isRequired()->end()
-                                        ->variableNode('params')->end()
+                        ->end()
+                        ->arrayNode('normalizers')
+                            ->useAttributeAsKey('name')
+                            ->arrayPrototype()
+                                ->children()
+                                    ->scalarNode('type')->defaultValue('custom')->end()
+                                    ->arrayNode('char_filter')
+                                        ->scalarPrototype()->end()
                                     ->end()
-                                ->end()
-                            ->end()
-                            ->arrayNode('analyzers')
-                                ->useAttributeAsKey('name')
-                                ->arrayPrototype()
-                                    ->children()
-                                        ->scalarNode('type')->defaultValue('custom')->end()
-                                        ->arrayNode('char_filter')
-                                            ->isRequired()
-                                            ->scalarPrototype()->end()
-                                        ->end()
-                                        ->scalarNode('tokenizer')->isRequired()->end()
-                                        ->arrayNode('filter')
-                                            ->isRequired()
-                                            ->scalarPrototype()->end()
-                                        ->end()
-                                    ->end()
-                                ->end()
-                            ->end()
-                            ->arrayNode('normalizers')
-                                ->useAttributeAsKey('name')
-                                ->arrayPrototype()
-                                    ->children()
-                                        ->scalarNode('type')->defaultValue('custom')->end()
-                                        ->arrayNode('char_filter')
-                                            ->scalarPrototype()->end()
-                                        ->end()
-                                        ->arrayNode('filter')
-                                            ->isRequired()
-                                            ->scalarPrototype()->end()
-                                        ->end()
+                                    ->arrayNode('filter')
+                                        ->isRequired()
+                                        ->scalarPrototype()->end()
                                     ->end()
                                 ->end()
                             ->end()

@@ -16,7 +16,16 @@
        <field name="scopeCode" length="255" nullable="true" />
 
        <unique-constraints>
-           <unique-constraint columns="path,scope_type,scope_code" name="unique_path_scope" />
+           <unique-constraint columns="path,scope_type" name="unique_path_scope_null">
+               <options>
+                   <option name="where">scope_code IS NULL</option>
+               </options>
+           </unique-constraint>
+           <unique-constraint columns="path,scope_type,scope_code" name="unique_path_scope">
+               <options>
+                   <option name="where">scope_code IS NOT NULL</option>
+               </options>
+           </unique-constraint>
        </unique-constraints>
     </entity>
 </doctrine-mapping>

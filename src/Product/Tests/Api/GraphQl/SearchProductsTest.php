@@ -929,86 +929,86 @@ class SearchProductsTest extends AbstractTestCase
                 'id',       // document data identifier.
                 [8, 3],  // expected ordered document IDs
             ],
-            //            [
-            //                'b2c_en',   // catalog ID.
-            //                10,         // page size.
-            //                1,          // current page.
-            //                'bag spring', // query: search with multiple words.
-            //                'id',       // document data identifier.
-            //                [2],  // expected ordered document IDs
-            //            ],
-            //            [
-            //                'b2c_en',   // catalog ID.
-            //                10,         // page size.
-            //                1,          // current page.
-            //                'bag sprong', // query: search with misspelled word.
-            //                'id',       // document data identifier.
-            //                [2],  // expected ordered document IDs
-            //            ],
-            //            [
-            //                'b2c_en',   // catalog ID.
-            //                10,         // page size.
-            //                1,          // current page.
-            //                'bohqpaq',  // query: search with word with same phonetic.
-            //                'id',       // document data identifier.
-            //                [6, 12, 11, 3],  // expected ordered document IDs
-            //            ],
-            //            [
-            //                'b2c_en',   // catalog ID.
-            //                10,         // page size.
-            //                1,          // current page.
-            //                '123456',   // query: search with number.
-            //                'id',       // document data identifier.
-            //                [],         // expected ordered document IDs
-            //            ],
-            //            [
-            //                'b2c_en',   // catalog ID.
-            //                10,         // page size.
-            //                1,          // current page.
-            //                '(yoga)\"{}()/\\\\@:\".',  // query: search with special chars.
-            //                'id',       // document data identifier.
-            //                [8, 3],     // expected ordered document IDs
-            //            ],
-            //            [
-            //                'b2c_en',   // catalog ID.
-            //                10,         // page size.
-            //                1,          // current page.
-            //                '24-MB04',  // query: search with word with same sku.
-            //                'id',       // document data identifier.
-            //                [2],        // expected ordered document IDs
-            //            ],
-            //            [
-            //                'b2c_en',   // catalog ID.
-            //                10,         // page size.
-            //                1,          // current page.
-            //                '24MB04',   // query: search with word with same sku.
-            //                'id',       // document data identifier.
-            //                [2],        // expected ordered document IDs
-            //            ],
-            //            [
-            //                'b2c_en',   // catalog ID.
-            //                10,         // page size.
-            //                1,          // current page.
-            //                '24 MB 04', // query: search with word with same sku.
-            //                'id',       // document data identifier.
-            //                [2],  // expected ordered document IDs
-            //            ],
-            //            [
-            //                'b2c_en',   // catalog ID.
-            //                10,         // page size.
-            //                1,          // current page.
-            //                "£¨µùµ㈀㌫\xc3\xb1", // query: various utf8 char.
-            //                'id',       // document data identifier.
-            //                [],  // expected ordered document IDs
-            //            ],
-            //            [
-            //                'b2c_en',   // catalog ID.
-            //                10,         // page size.
-            //                1,          // current page.
-            //                'bag autumn', // query: Verify that documents with "bag" and "autumn" close together in the description have a higher score than those with "bag" and "autumn" farther apart in the description.
-            //                'id',       // document data identifier.
-            //                [4, 1],  // expected ordered document IDs
-            //            ],
+            [
+                'b2c_en',   // catalog ID.
+                10,         // page size.
+                1,          // current page.
+                'bag spring', // query: search with multiple words.
+                'id',       // document data identifier.
+                [2],  // expected ordered document IDs
+            ],
+            [
+                'b2c_en',   // catalog ID.
+                10,         // page size.
+                1,          // current page.
+                'bag sprong', // query: search with misspelled word.
+                'id',       // document data identifier.
+                [2],  // expected ordered document IDs
+            ],
+            [
+                'b2c_en',   // catalog ID.
+                10,         // page size.
+                1,          // current page.
+                'bohqpaq',  // query: search with word with same phonetic.
+                'id',       // document data identifier.
+                [6, 12, 11, 3],  // expected ordered document IDs
+            ],
+            [
+                'b2c_en',   // catalog ID.
+                10,         // page size.
+                1,          // current page.
+                '123456',   // query: search with number.
+                'id',       // document data identifier.
+                [],         // expected ordered document IDs
+            ],
+            [
+                'b2c_en',   // catalog ID.
+                10,         // page size.
+                1,          // current page.
+                '(yoga)\"{}()/\\\\@:\".',  // query: search with special chars.
+                'id',       // document data identifier.
+                [8, 3],     // expected ordered document IDs
+            ],
+            [
+                'b2c_en',   // catalog ID.
+                10,         // page size.
+                1,          // current page.
+                '24-MB04',  // query: search with word with same sku.
+                'id',       // document data identifier.
+                [2],        // expected ordered document IDs
+            ],
+            [
+                'b2c_en',   // catalog ID.
+                10,         // page size.
+                1,          // current page.
+                '24MB04',   // query: search with word with same sku.
+                'id',       // document data identifier.
+                [2],        // expected ordered document IDs
+            ],
+            [
+                'b2c_en',   // catalog ID.
+                10,         // page size.
+                1,          // current page.
+                '24 MB 04', // query: search with word with same sku.
+                'id',       // document data identifier.
+                [2],  // expected ordered document IDs
+            ],
+            [
+                'b2c_en',   // catalog ID.
+                10,         // page size.
+                1,          // current page.
+                "£¨µùµ㈀㌫\xc3\xb1", // query: various utf8 char.
+                'id',       // document data identifier.
+                [],  // expected ordered document IDs
+            ],
+            [
+                'b2c_en',   // catalog ID.
+                10,         // page size.
+                1,          // current page.
+                'bag autumn', // query: Verify that documents with "bag" and "autumn" close together in the description have a higher score than those with "bag" and "autumn" farther apart in the description.
+                'id',       // document data identifier.
+                [4, 1],  // expected ordered document IDs
+            ],
         ];
     }
 
@@ -1612,8 +1612,6 @@ class SearchProductsTest extends AbstractTestCase
             new ExpectedResponse(
                 200,
                 function (ResponseInterface $response) use ($expectedAggregations) {
-                    $data = $response->toArray();
-
                     // Extra test on response structure because all exceptions might not throw an HTTP error code.
                     $this->assertJsonContains([
                         'data' => [

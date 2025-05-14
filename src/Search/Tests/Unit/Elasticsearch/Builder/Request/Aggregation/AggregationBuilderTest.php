@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Gally\Search\Tests\Unit\Elasticsearch\Builder\Request\Aggregation;
 
+use Gally\Configuration\Service\ConfigurationManager;
 use Gally\Index\Entity\Index\Mapping;
 use Gally\Index\Entity\Index\MappingInterface;
 use Gally\Search\Elasticsearch\Builder\Request\Aggregation\AggregationBuilder;
@@ -201,7 +202,7 @@ class AggregationBuilderTest extends KernelTestCase
         return new FilterQueryBuilder(
             $queryFactory,
             static::getContainer()->get(SearchContext::class),
-            static::getContainer()->getParameter('gally.search_settings')
+            static::getContainer()->get(ConfigurationManager::class),
         );
     }
 

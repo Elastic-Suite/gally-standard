@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Gally\Search\Tests\Unit\Elasticsearch\Builder\Request\Query\Filter;
 
+use Gally\Configuration\Service\ConfigurationManager;
 use Gally\DependencyInjection\GenericFactory;
 use Gally\Index\Entity\Index\Mapping;
 use Gally\Index\Entity\Index\Mapping\Field;
@@ -212,7 +213,7 @@ class FilterQueryBuilderTest extends KernelTestCase
         $builder = new FilterQueryBuilder(
             $this->getQueryFactory($this->mockedQueryTypes),
             static::getContainer()->get(SearchContext::class),
-            static::getContainer()->getParameter('gally.search_settings'),
+            static::getContainer()->get(ConfigurationManager::class),
         );
         $config = $this->getContainerConfigMock(self::$fields);
 
