@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Gally\Search\Tests\Unit\Elasticsearch\Builder\Request\SortOrder;
 
+use Gally\Configuration\Service\ConfigurationManager;
 use Gally\Index\Entity\Index\MappingInterface;
 use Gally\Index\Service\MetadataManager;
 use Gally\Metadata\Repository\MetadataRepository;
@@ -48,8 +49,8 @@ class SortOrderBuilderTest extends AbstractTestCase
         self::$logger = static::getContainer()->get(LoggerInterface::class);
         self::$sortOrderBuilder = new SortOrderBuilder(
             self::$filterQueryBuilder,
+            static::getContainer()->get(ConfigurationManager::class),
             self::$logger,
-            static::getContainer()->getParameter('gally.search_settings')
         );
 
         self::$metadataRepository = static::getContainer()->get(MetadataRepository::class);
@@ -68,8 +69,8 @@ class SortOrderBuilderTest extends AbstractTestCase
 
         $sortOrderBuilder = new SortOrderBuilder(
             self::$filterQueryBuilder,
+            static::getContainer()->get(ConfigurationManager::class),
             self::$logger,
-            static::getContainer()->getParameter('gally.search_settings')
         );
         $this->assertEquals($filterQueryBuilderProperty->getValue($sortOrderBuilder), self::$filterQueryBuilder);
     }

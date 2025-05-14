@@ -11,10 +11,15 @@ Gally\Configuration\Entity\Configuration:
         scopeCode: 'b2b'
     conf3:
         path: 'gally.base_url.media'
-        value: 'test_value_fr'
+        value: 'test_value_fr_FR'
         scopeType: 'locale'
         scopeCode: 'fr_FR'
     conf4:
+        path: 'gally.base_url.media'
+        value: 'test_value_fr'
+        scopeType: 'language'
+        scopeCode: 'fr'
+    conf5:
         path: 'gally.base_url.media'
         value: 'test_value_product_catalog'
         scopeType: 'request_type'

@@ -14,9 +14,12 @@ declare(strict_types=1);
 namespace Gally\Analysis\Tests\Unit;
 
 use Gally\Analysis\Service\Config;
-use Gally\DependencyInjection\Configuration;
+use Gally\Configuration\Repository\ConfigurationRepository;
+use Gally\Configuration\Service\ConfigurationManager;
 use Gally\Test\AbstractTestCase;
 use Symfony\Component\Config\Definition\Processor;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
+use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Yaml\Parser as YamlParser;
 
 /**
@@ -33,13 +36,18 @@ class ConfigTest extends AbstractTestCase
      */
     public static function setUpBeforeClass(): void
     {
+        static::loadFixture([__DIR__ . '/../fixtures/configurations.yaml']);
         $yamlParser = new YamlParser();
         $configData = $yamlParser->parseFile(__DIR__ . '/../config/gally_analysis.yaml');
         $processor = new Processor();
         $configurationFormat = new ConfigurationMock();
         self::$config = new Config(
+            new ConfigurationManager(
+                static::getContainer()->get(ConfigurationRepository::class),
+                static::getContainer()->get(KernelInterface::class),
+                new ParameterBag(['gally' => ['gally' => $processor->processConfiguration($configurationFormat, $configData)]]),
+            ),
             new CacheManagerMock(),
-            $processor->processConfiguration($configurationFormat, $configData)['analysis']
         );
     }
 

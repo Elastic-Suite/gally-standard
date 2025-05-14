@@ -41,7 +41,7 @@ services:
         arguments:
             - '@Gally\Catalog\Repository\LocalizedCatalogRepository'
             - '@Gally\Analysis\Service\Config'
-            - '@Gally\Configuration\Repository\ConfigurationRepository'
+            - '@Gally\Configuration\Service\ConfigurationManager'
             - '@Gally\Metadata\Repository\SourceFieldRepository'
             - '@Gally\Search\Repository\Ingest\PipelineRepositoryInterface'
 

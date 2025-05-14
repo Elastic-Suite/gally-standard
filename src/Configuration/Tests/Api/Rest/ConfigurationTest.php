@@ -40,6 +40,21 @@ class ConfigurationTest extends AbstractEntityTestWithUpdate
         return Configuration::class;
     }
 
+    /**
+     * @depends testFilteredGetCollection
+     *
+     * @dataProvider createDataProvider
+     */
+    public function testCreate(
+        ?User $user,
+        array $data,
+        int $responseCode = 201,
+        ?string $message = null,
+        ?string $validRegex = null
+    ): void {
+        parent::testCreate($user, $data, $responseCode, $message, $validRegex);
+    }
+
     public function createDataProvider(): iterable
     {
         $user = $this->getUser(Role::ROLE_ADMIN);
@@ -102,6 +117,17 @@ class ConfigurationTest extends AbstractEntityTestWithUpdate
             [
                 'path' => 'gally.base_url.media',
                 'value' => 'Test value api',
+                'scopeType' => Configuration::SCOPE_LANGUAGE,
+                'scopeCode' => 'fake_language_code',
+            ],
+            400,
+            'Invalid scope code "fake_language_code" for scope "language".',
+        ];
+        yield [
+            $user,
+            [
+                'path' => 'gally.base_url.media',
+                'value' => 'Test value api',
                 'scopeType' => Configuration::SCOPE_REQUEST_TYPE,
                 'scopeCode' => 'fake_request_type',
             ],
@@ -127,7 +153,9 @@ class ConfigurationTest extends AbstractEntityTestWithUpdate
                 'scopeType' => Configuration::SCOPE_GENERAL,
                 'scopeCode' => null,
             ],
-            201,
+            500,
+            'An exception occurred while executing a query: SQLSTATE[23505]: Unique violation: 7 ERROR:  duplicate key value violates unique constraint "unique_path_scope_null"
+DETAIL:  Key (path, scope_type)=(gally.base_url.media, general) already exists.'
         ];
         yield [
             $user,
@@ -212,7 +240,17 @@ DETAIL:  Key (path, scope_type, scope_code)=(gally.base_url.media, localized_cat
 
     public function getDataProvider(): iterable
     {
-        yield [null, 1, [], 401];
+        yield [
+            null,
+            1,
+            [
+                'id' => 1,
+                'path' => 'gally.base_url.media',
+                'scopeType' => 'general',
+                'scopeCode' => null,
+            ],
+            200,
+        ];
         yield [
             $this->getUser(Role::ROLE_CONTRIBUTOR),
             1,
@@ -244,10 +282,7 @@ DETAIL:  Key (path, scope_type, scope_code)=(gally.base_url.media, localized_cat
 
         yield [null, 1, 401];
         yield [$this->getUser(Role::ROLE_CONTRIBUTOR), 1, 403];
-        yield [$adminUser, 5, 204];
-        yield [$adminUser, 6, 204];
-        yield [$adminUser, 8, 204];
-        yield [$adminUser, 10, 204];
+        yield [$adminUser, 1, 204];
         yield [$adminUser, 666, 404];
     }
 
@@ -273,19 +308,18 @@ DETAIL:  Key (path, scope_type, scope_code)=(gally.base_url.media, localized_cat
 
     public function getCollectionDataProvider(): iterable
     {
-        yield [null, 36, 401];
-        yield [$this->getUser(Role::ROLE_CONTRIBUTOR), 36, 200];
-        yield [$this->getUser(Role::ROLE_ADMIN), 36, 200];
+        yield [null, 40, 200];
+        yield [$this->getUser(Role::ROLE_CONTRIBUTOR), 40, 200];
+        yield [$this->getUser(Role::ROLE_ADMIN), 40, 200];
     }
 
     /**
-     * @depends testGetCollection
-     *
      * @dataProvider getFilteredCollectionDataProvider
      */
     public function testFilteredGetCollection(
         ?User $user,
         ?string $path,
+        ?string $language,
         ?string $localCode,
         ?string $requestType,
         ?string $localizedCatalogCode,
@@ -296,6 +330,7 @@ DETAIL:  Key (path, scope_type, scope_code)=(gally.base_url.media, localized_cat
     ): void {
         $data = array_filter([
             'path' => $path,
+            'language' => $language,
             'localeCode' => $localCode,
             'requestType' => $requestType,
             'localizedCatalogCode' => $localizedCatalogCode,
@@ -351,7 +386,7 @@ DETAIL:  Key (path, scope_type, scope_code)=(gally.base_url.media, localized_cat
                                 array_filter([$configurationData['path'], $configurationData['scope_code'] ?? null])
                             )
                         ],
-                        $configuration->decode()->getValue()
+                        $configuration->getDecodedValue()
                     );
                 }
             },
@@ -389,6 +424,7 @@ DETAIL:  Key (path, scope_type, scope_code)=(gally.base_url.media, localized_cat
             $adminUser, // Api User
             [   // Source field post data
                 ['path' => 'gally.test_conf', 'value' => 'test', 'scope_type' => 'general', 'scope_code' => 'fake'],
+                ['path' => 'gally.test_conf', 'value' => 'test', 'scope_type' => 'language', 'scope_code' => 'fake'],
                 ['path' => 'gally.test_conf', 'value' => 'test', 'scope_type' => 'locale', 'scope_code' => 'fake'],
                 ['path' => 'gally.test_conf', 'value' => 'test', 'scope_type' => 'request_type', 'scope_code' => 'fake'],
                 ['path' => 'gally.test_conf', 'value' => 'test', 'scope_type' => 'localized_catalog', 'scope_code' => 'fake'],
@@ -399,9 +435,10 @@ DETAIL:  Key (path, scope_type, scope_code)=(gally.base_url.media, localized_cat
             400, // Expected response code
             // Expected error messages
             'Option #0: Invalid scope code "fake" for scope "general". ' .
-            'Option #1: Invalid scope code "fake" for scope "locale". ' .
-            'Option #2: Invalid scope code "fake" for scope "request_type". ' .
-            'Option #3: Invalid scope code "fake" for scope "localized_catalog".',
+            'Option #1: Invalid scope code "fake" for scope "language". ' .
+            'Option #2: Invalid scope code "fake" for scope "locale". ' .
+            'Option #3: Invalid scope code "fake" for scope "request_type". ' .
+            'Option #4: Invalid scope code "fake" for scope "localized_catalog".',
         ];
 
         yield [
@@ -420,13 +457,15 @@ DETAIL:  Key (path, scope_type, scope_code)=(gally.base_url.media, localized_cat
             $adminUser, // Api User
             [   // Source field post data
                 ['path' => 'gally.test_conf', 'value' => 'bulk value updated', 'scope_type' => 'general'],
+                ['path' => 'gally.test_conf', 'value' => 'bulk value', 'scope_type' => 'language', 'scope_code' => 'fr'],
                 ['path' => 'gally.test_conf', 'value' => 'bulk value', 'scope_type' => 'locale', 'scope_code' => 'fr_FR'],
                 ['path' => 'gally.test_conf2', 'value' => ['test_array' => 'test'], 'scope_type' => 'locale', 'scope_code' => 'fr_FR'],
             ],
-            14, // Expected configurations number
+            15, // Expected configurations number
             [], // Expected data in response
             [   // Expected values
                 'gally.test_conf' => 'bulk value updated',
+                'gally.test_conf_fr' => 'bulk value',
                 'gally.test_conf_fr_FR' => 'bulk value',
                 'gally.test_conf2_fr_FR' => ['test_array' => 'test'],
             ],

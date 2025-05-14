@@ -24,7 +24,7 @@ class ConfigurationMock extends Configuration
 {
     public function getConfigTreeBuilder(): TreeBuilder
     {
-        $treeBuilder = new TreeBuilder(self::ROOT_NODE_CONFIG);
+        $treeBuilder = new TreeBuilder($this->getRootNodeConfig());
 
         /** @var ArrayNodeDefinition $gallyNodeRoot */
         $gallyNodeRoot = parent::getConfigTreeBuilder()->getRootNode();
