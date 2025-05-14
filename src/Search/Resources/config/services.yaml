@@ -89,7 +89,7 @@ services:
     Gally\Search\Elasticsearch\Request\Aggregation\Provider\AutocompleteSourceFields:
         arguments:
             - '@Gally\Metadata\Repository\SourceFieldRepository'
-            - '@Gally\Configuration\State\ConfigurationProvider'
+            - '@Gally\Configuration\Service\ConfigurationManager'
             - !tagged_iterator { tag: 'gally.search.aggregation.resolver' }
 
     gally.search.request.factory:
@@ -125,13 +125,13 @@ services:
         arguments:
             - '@Gally\Search\Elasticsearch\Request\QueryFactory'
             - '@Gally\Search\Service\SearchContext'
-            - '@Gally\Configuration\State\ConfigurationProvider'
+            - '@Gally\Configuration\Service\ConfigurationManager'
 
     Gally\Search\Elasticsearch\Builder\Request\SortOrder\SortOrderBuilder:
         arguments:
             - '@Gally\Search\Elasticsearch\Builder\Request\Query\Filter\FilterQueryBuilder'
+            - '@Gally\Configuration\Service\ConfigurationManager'
             - '@logger'
-            - '@Gally\Configuration\State\ConfigurationProvider'
 
     Gally\Search\Elasticsearch\Builder\Request\Aggregation\AggregationBuilder:
         arguments:
@@ -307,7 +307,7 @@ services:
             - '@Gally\Category\Repository\CategoryConfigurationRepository'
             - '@Gally\Metadata\Repository\SourceFieldRepository'
             - '@Symfony\Contracts\Translation\TranslatorInterface'
-            - '@Gally\Configuration\State\ConfigurationProvider'
+            - '@Gally\Configuration\Service\ConfigurationManager'
             - !tagged_iterator { tag: 'gally.entity_api.filter' }
             
     Gally\Search\Decoration\GraphQl\AddAggregationsInContext:
@@ -317,8 +317,7 @@ services:
     
     Gally\Search\Elasticsearch\Request\Container\RelevanceConfiguration\RelevanceConfigurationFactory:
         arguments:
-            - '@Gally\Configuration\State\ConfigurationProvider'
-            - '%gally.relevance%'
+            - '@Gally\Configuration\Service\ConfigurationManager'
     
     Gally\Search\Decoration\GraphQl\AddSortInfoType:
         decorates: api_platform.graphql.type_builder
@@ -352,7 +351,7 @@ services:
                 
     Gally\Search\Service\SearchSettingsProvider:
         arguments:
-            - '@Gally\Configuration\State\ConfigurationProvider'
+            - '@Gally\Configuration\Service\ConfigurationManager'
     
     Gally\Search\Service\ReverseSourceFieldProvider:
         arguments:
@@ -471,7 +470,7 @@ services:
     Gally\Search\Repository\Ingest\PipelineRepository:
         arguments:
             - '@OpenSearch\Client'
-            - '@Gally\Configuration\State\ConfigurationProvider'
+            - '@Gally\Configuration\Service\ConfigurationManager'
             - !tagged_iterator { tag: 'gally.search.ingest_pipeline_processors_provider' }
 
     Gally\Search\Service\FilePipelineProcessorProvider:

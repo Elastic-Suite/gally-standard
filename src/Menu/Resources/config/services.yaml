@@ -1,7 +1,7 @@
 services:
     Gally\Menu\Service\MenuBuilder:
         arguments:
-            - '@Gally\Configuration\Repository\ConfigurationRepository'
+            - '@Gally\Configuration\Service\ConfigurationManager'
             - '@Symfony\Contracts\Translation\TranslatorInterface'
             
     Gally\Menu\Resolver\MenuResolver:

@@ -38,6 +38,7 @@ class ConfigurationTest extends AbstractTestCase
     public function testFilteredGetCollection(
         ?User $user,
         ?string $path,
+        ?string $language,
         ?string $localCode,
         ?string $requestType,
         ?string $localizedCatalogCode,
@@ -47,6 +48,9 @@ class ConfigurationTest extends AbstractTestCase
         array $expectedConfigurations,
     ): void {
         $filters = 'path: "' . $path . '"';
+        if (null !== $language) {
+            $filters .= ', language: "' . $language . '"';
+        }
         if (null !== $localCode) {
             $filters .= ', localeCode: "' . $localCode . '"';
         }

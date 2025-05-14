@@ -22,24 +22,22 @@ use Gally\User\Service\UserManager;
 
 class UserManagerTest extends AbstractTestCase
 {
-    private static UserManager $userManager;
-    private static UserRepository $userRepository;
     private static string $userEmail = 'user@example.com';
 
     public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
         self::loadFixture([]);
-        self::$userManager = static::getContainer()->get(UserManager::class);
-        self::$userRepository = static::getContainer()->get(UserRepository::class);
     }
 
     public function testCreate(): void
     {
+        $userManager = static::getContainer()->get(UserManager::class);
+        $userRepository = static::getContainer()->get(UserRepository::class);
         $roles = [Role::ROLE_CONTRIBUTOR];
         $password = 'Gally123!';
-        self::$userManager->create(self::$userEmail, $roles, $password);
-        $user = self::$userRepository->findOneBy(['email' => self::$userEmail]);
+        $userManager->create(self::$userEmail, $roles, $password);
+        $user = $userRepository->findOneBy(['email' => self::$userEmail]);
 
         $this->assertInstanceOf(User::class, $user);
         $this->assertEquals(self::$userEmail, $user->getEmail());
@@ -51,19 +49,22 @@ class UserManagerTest extends AbstractTestCase
      */
     public function testisUserExists()
     {
-        $this->assertTrue(self::$userManager->isUserExists(self::$userEmail));
-        $this->assertFalse(self::$userManager->isUserExists('fake_' . self::$userEmail));
+        $userManager = static::getContainer()->get(UserManager::class);
+        $this->assertTrue($userManager->isUserExists(self::$userEmail));
+        $this->assertFalse($userManager->isUserExists('fake_' . self::$userEmail));
     }
 
     public function testGetRoles()
     {
-        $this->assertEquals(Role::ROLES, self::$userManager->getRoles());
+        $userManager = static::getContainer()->get(UserManager::class);
+        $this->assertEquals(Role::ROLES, $userManager->getRoles());
     }
 
     public function testGetFakeRoles()
     {
+        $userManager = static::getContainer()->get(UserManager::class);
         $fakeRole = 'ROLE_FAKE';
-        $this->assertEquals([$fakeRole], self::$userManager->getFakeRoles([$fakeRole, Role::ROLE_ADMIN, Role::ROLE_CONTRIBUTOR]));
+        $this->assertEquals([$fakeRole], $userManager->getFakeRoles([$fakeRole, Role::ROLE_ADMIN, Role::ROLE_CONTRIBUTOR]));
     }
 
     /**
@@ -72,9 +73,10 @@ class UserManagerTest extends AbstractTestCase
     public function testFailureUpdate(): void
     {
         // User not exists.
+        $userManager = static::getContainer()->get(UserManager::class);
         $this->expectException(EntityNotFoundException::class);
         $this->expectExceptionMessage(\sprintf("The user with the email 'fake_%s' was not found", self::$userEmail));
-        self::$userManager->update('fake_' . self::$userEmail, self::$userEmail, null, null);
+        $userManager->update('fake_' . self::$userEmail, self::$userEmail, null, null);
     }
 
     /**
@@ -82,6 +84,8 @@ class UserManagerTest extends AbstractTestCase
      */
     public function testUpdate(): void
     {
+        $userManager = static::getContainer()->get(UserManager::class);
+        $userRepository = static::getContainer()->get(UserRepository::class);
         $this->assertTrue(true);
         $roles = [Role::ROLE_CONTRIBUTOR];
         $password = 'Gally123!';
@@ -89,14 +93,14 @@ class UserManagerTest extends AbstractTestCase
         $newRoles = [Role::ROLE_ADMIN, Role::ROLE_CONTRIBUTOR];
         $newPassword = 'NewGally123!';
 
-        $user = self::$userRepository->findOneBy(['email' => self::$userEmail]);
+        $user = $userRepository->findOneBy(['email' => self::$userEmail]);
         $user = clone $user;
         $this->assertInstanceOf(User::class, $user);
 
-        self::$userManager->update(self::$userEmail, null, null, $newPassword);
+        $userManager->update(self::$userEmail, null, null, $newPassword);
 
         // Change password.
-        $userUpdated = self::$userRepository->findOneBy(['email' => self::$userEmail]);
+        $userUpdated = $userRepository->findOneBy(['email' => self::$userEmail]);
         $this->assertInstanceOf(User::class, $userUpdated);
         $newPasswordHash = $userUpdated->getPassword();
         $this->assertEquals($user->getEmail(), $userUpdated->getEmail());
@@ -104,22 +108,22 @@ class UserManagerTest extends AbstractTestCase
         $this->assertNotEquals($user->getPassword(), $newPasswordHash);
 
         // Change roles.
-        self::$userManager->update(self::$userEmail, null, $newRoles, null);
-        $userUpdated = self::$userRepository->findOneBy(['email' => self::$userEmail]);
+        $userManager->update(self::$userEmail, null, $newRoles, null);
+        $userUpdated = $userRepository->findOneBy(['email' => self::$userEmail]);
         $this->assertInstanceOf(User::class, $userUpdated);
         $this->assertEquals($user->getEmail(), $userUpdated->getEmail());
         $this->assertEquals($newRoles, $userUpdated->getRoles());
         $this->assertEquals($userUpdated->getPassword(), $newPasswordHash);
 
         // Change email.
-        self::$userManager->update(self::$userEmail, $newEmail, null, null);
+        $userManager->update(self::$userEmail, $newEmail, null, null);
         $this->assertInstanceOf(User::class, $userUpdated);
         $this->assertEquals($newEmail, $userUpdated->getEmail());
         $this->assertEquals($newRoles, $userUpdated->getRoles());
         $this->assertEquals($userUpdated->getPassword(), $newPasswordHash);
 
         // Change all.
-        self::$userManager->update($newEmail, self::$userEmail, $roles, $password);
+        $userManager->update($newEmail, self::$userEmail, $roles, $password);
         $this->assertInstanceOf(User::class, $userUpdated);
         $this->assertEquals(self::$userEmail, $userUpdated->getEmail());
         $this->assertEquals($roles, $userUpdated->getRoles());

@@ -1,15 +1,19 @@
 services:
+    Gally\Configuration\Service\ConfigurationManager:
+        arguments:
+            - '@Gally\Configuration\Repository\ConfigurationRepository'
+            - '@kernel'
+            - '@parameter_bag'
+            
     Gally\Configuration\Repository\ConfigurationRepository:
         arguments:
             - '@Doctrine\Persistence\ManagerRegistry'
-            - '%gally%'
         tags:
             - { name: doctrine.repository_service }
     
     Gally\Configuration\State\ConfigurationProvider:
         arguments:
-            - '@Gally\Cache\Service\CacheManagerInterface'
-            - '@Gally\Configuration\Repository\ConfigurationRepository'
+            - '@Gally\Configuration\Service\ConfigurationManager'
             - '@api_platform.doctrine.orm.state.item_provider'
         tags:
             - { name: api_platform.state_provider }

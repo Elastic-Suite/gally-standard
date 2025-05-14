@@ -23,22 +23,24 @@ class RelevanceConfiguration implements RelevanceConfigurationInterface
 
     public function getMinimumShouldMatch(): string
     {
-        return $this->relevanceConfig['fulltext']['minimumShouldMatch'];
+        return $this->relevanceConfig['fulltext.minimumShouldMatch'];
     }
 
     public function getTieBreaker(): float
     {
-        return $this->relevanceConfig['fulltext']['tieBreaker'];
+        return $this->relevanceConfig['fulltext.tieBreaker'];
     }
 
     public function getPhraseMatchBoost(): int|false
     {
-        return !$this->relevanceConfig['phraseMatch']['enabled'] ? false : (int) $this->relevanceConfig['phraseMatch']['boost'];
+        return !$this->relevanceConfig['phraseMatch.enabled']
+            ? false
+            : (int) $this->relevanceConfig['phraseMatch.boost'];
     }
 
     public function getCutOffFrequency(): float
     {
-        return $this->relevanceConfig['cutOffFrequency']['value'];
+        return $this->relevanceConfig['cutOffFrequency.value'];
     }
 
     public function getFuzzinessConfiguration(): ?FuzzinessConfigurationInterface
@@ -48,26 +50,26 @@ class RelevanceConfiguration implements RelevanceConfigurationInterface
 
     public function isFuzzinessEnabled(): bool
     {
-        return $this->relevanceConfig['fuzziness']['enabled'];
+        return $this->relevanceConfig['fuzziness.enabled'];
     }
 
     public function isPhoneticSearchEnabled(): bool
     {
-        return $this->relevanceConfig['phonetic']['enabled'];
+        return $this->relevanceConfig['phonetic.enabled'];
     }
 
     public function getSpanNearBoost(): int|false
     {
-        return $this->relevanceConfig['span']['boost'];
+        return $this->relevanceConfig['span.boost'];
     }
 
     public function getSpanNearSlop(): int
     {
-        return $this->relevanceConfig['span']['slop'];
+        return $this->relevanceConfig['span.slop'];
     }
 
     public function isSpanNearInOrder(): bool
     {
-        return $this->relevanceConfig['span']['in_order'];
+        return $this->relevanceConfig['span.in_order'];
     }
 }

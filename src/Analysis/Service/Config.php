@@ -14,6 +14,8 @@ declare(strict_types=1);
 namespace Gally\Analysis\Service;
 
 use Gally\Cache\Service\CacheManagerInterface;
+use Gally\Configuration\Entity\Configuration;
+use Gally\Configuration\Service\ConfigurationManager;
 
 class Config
 {
@@ -21,8 +23,8 @@ class Config
     public const LANGUAGE_DEFAULT = 'default';
 
     public function __construct(
+        private ConfigurationManager $configManager,
         private CacheManagerInterface $cache,
-        private array $analysisConfiguration,
     ) {
     }
 
@@ -35,15 +37,23 @@ class Config
             self::CACHE_KEY_PREFIX . $language,
             function (&$tags, &$ttl) use ($language) {
                 // @codeCoverageIgnoreStart
-                $configuration = $this->analysisConfiguration[self::LANGUAGE_DEFAULT] ?? [];
+                $configuration = [
+                    'char_filters' => $this->configManager->getScopedConfigValue('gally.analysis.char_filters'),
+                    'filters' => $this->configManager->getScopedConfigValue('gally.analysis.filters'),
+                    'analyzers' => $this->configManager->getScopedConfigValue('gally.analysis.analyzers'),
+                    'normalizers' => $this->configManager->getScopedConfigValue('gally.analysis.normalizers'),
+                ];
 
                 if (self::LANGUAGE_DEFAULT !== $language) {
-                    $languageConf = $this->analysisConfiguration[$language] ?? [];
+                    $languageCharFilters = $this->configManager->getScopedConfigValue('gally.analysis.char_filters', Configuration::SCOPE_LANGUAGE, $language);
+                    $languageFilters = $this->configManager->getScopedConfigValue('gally.analysis.filters', Configuration::SCOPE_LANGUAGE, $language);
+                    $languageAnalyzers = $this->configManager->getScopedConfigValue('gally.analysis.analyzers', Configuration::SCOPE_LANGUAGE, $language);
+                    $languageNormalizer = $this->configManager->getScopedConfigValue('gally.analysis.normalizers', Configuration::SCOPE_LANGUAGE, $language);
                     $configuration = [
-                        'char_filters' => array_merge($configuration['char_filters'] ?? [], $languageConf['char_filters'] ?? []),
-                        'filters' => array_merge($configuration['filters'] ?? [], $languageConf['filters'] ?? []),
-                        'analyzers' => array_merge($configuration['analyzers'] ?? [], $languageConf['analyzers'] ?? []),
-                        'normalizers' => array_merge($configuration['normalizers'] ?? [], $languageConf['normalizers'] ?? []),
+                        'char_filters' => array_merge($configuration['char_filters'] ?? [], $languageCharFilters ?? []),
+                        'filters' => array_merge($configuration['filters'] ?? [], $languageFilters ?? []),
+                        'analyzers' => array_merge($configuration['analyzers'] ?? [], $languageAnalyzers ?? []),
+                        'normalizers' => array_merge($configuration['normalizers'] ?? [], $languageNormalizer ?? []),
                     ];
                 }
 

@@ -14,29 +14,29 @@ declare(strict_types=1);
 namespace Gally\Search\Elasticsearch\Request\Container\RelevanceConfiguration;
 
 use Gally\Catalog\Entity\LocalizedCatalog;
-use Gally\Configuration\State\ConfigurationProvider;
-use Gally\Search\Service\ScopableRequestTypeConfiguration;
+use Gally\Configuration\Entity\Configuration;
+use Gally\Configuration\Service\ConfigurationManager;
 
-class RelevanceConfigurationFactory extends ScopableRequestTypeConfiguration implements RelevanceConfigurationFactoryInterface
+class RelevanceConfigurationFactory implements RelevanceConfigurationFactoryInterface
 {
     public function __construct(
-        protected ConfigurationProvider $configurationProvider,
-        protected array $relevanceConfig,
+        protected ConfigurationManager $configurationManager,
     ) {
     }
 
-    public function create(?LocalizedCatalog $localizedCatalog, ?string $requestType): RelevanceConfigurationInterface
+    public function create(?LocalizedCatalog $localizedCatalog): RelevanceConfigurationInterface
     {
-        $relevanceConfig = $this->configurationProvider->get('gally.relevance')->getValue();
+        $relevanceConfig = $this->configurationManager->getScopedConfigValues(
+            'gally.relevance',
+            Configuration::SCOPE_LOCALIZED_CATALOG,
+            $localizedCatalog->getCode(),
+        );
         $fuzzinessConfiguration = new FuzzinessConfig(
-            $relevanceConfig['fuzziness']['value'],
-            $relevanceConfig['fuzziness']['prefixLength'],
-            $relevanceConfig['fuzziness']['maxExpansions'],
+            $relevanceConfig['fuzziness.value'],
+            $relevanceConfig['fuzziness.prefixLength'],
+            $relevanceConfig['fuzziness.maxExpansions'],
         );
 
-        return new RelevanceConfiguration(
-            $relevanceConfig,
-            $fuzzinessConfiguration
-        );
+        return new RelevanceConfiguration($relevanceConfig, $fuzzinessConfiguration);
     }
 }

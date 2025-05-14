@@ -46,60 +46,64 @@ class CategorySynchronizerTest extends GraphQlVersion
         $catalogRepository = static::getContainer()->get(LocalizedCatalogRepository::class);
         $catalog1 = $catalogRepository->findOneBy(['code' => 'b2c_fr']);
         sleep(1); // Avoid creating two index at the same second
+
         $indexName = $this->createIndex('category', $catalog1->getId());
         $this->installIndex($indexName);
-        $index = self::$indexRepository->findByName($indexName);
+        $index = $this->indexRepository->findByName($indexName);
 
         $mutationMock = $this->getMockBuilder($decoratedClass)
             ->disableOriginalConstructor()
             ->getMock();
-        if (DocumentProcessor::class == $decoratedClass) {
+
+        if (DocumentProcessor::class === $decoratedClass) {
             $decoratedMethodParams = [new IndexDocument($indexName, []), new Get()];
             $mutationMock->method($decoratedMethod);
-        } elseif (RemoveIndexDocument::class == $decoratedClass) {
+        } elseif (RemoveIndexDocument::class === $decoratedClass) {
             $decoratedMethodParams = [$indexName, new Request()];
             $mutationMock->method($decoratedMethod)->willReturn($index);
         } else {
             $decoratedMethodParams = [null, new Get(), []];
-            $mutationMock->method($decoratedMethod)->willReturn(self::$serializer->serialize($index, 'jsonld'));
+            $mutationMock->method($decoratedMethod)->willReturn($this->serializer->serialize($index, 'jsonld'));
         }
 
         $synchronizer = $this->getMockerSynchronizer(true);
-        $decorator = new $decorator($mutationMock, $synchronizer, ...$constructorParams);
+        $decorator = new $decorator(
+            $mutationMock,
+            $synchronizer,
+            ...array_map(fn ($serviceName) => static::getContainer()->get($serviceName), $constructorParams)
+        );
         $decorator->{$decoratedMethod}(...$decoratedMethodParams);
 
         $synchronizer = $this->getMockerSynchronizer();
-        $decorator = new $decorator($mutationMock, $synchronizer, ...$constructorParams);
+        $decorator = new $decorator(
+            $mutationMock,
+            $synchronizer,
+            ...array_map(fn ($serviceName) => static::getContainer()->get($serviceName), $constructorParams)
+        );
         $this->expectException(SyncCategoryException::class);
         $decorator->{$decoratedMethod}(...$decoratedMethodParams);
     }
 
     public function retryTestDataProvider(): iterable
     {
-        $indexSettings = static::getContainer()->get(IndexSettings::class);
-        $indexRepository = static::getContainer()->get(IndexRepository::class);
-        $categoryProductPositionManager = static::getContainer()->get(CategoryProductPositionManager::class);
-        $categoryProductMerchandisingRepository = static::getContainer()->get(CategoryProductMerchandisingRepository::class);
-        $serializer = static::getContainer()->get('api_platform.serializer');
-
         yield [
             InstallIndexProcessor::class, // Decorated class
             SyncCategoryDataAfterInstallRest::class, // Decorator
-            [$categoryProductPositionManager, $serializer], // Constructor params
+            [CategoryProductPositionManager::class, 'api_platform.serializer'], // Constructor params
             'process', // Decorated method
         ];
 
         yield [
             DocumentProcessor::class, // Decorated class
             SyncCategoryDataAfterBulkRest::class, // Decorator
-            [$indexSettings, $indexRepository, $categoryProductPositionManager, $serializer], // Constructor params
+            [IndexSettings::class, IndexRepository::class, CategoryProductPositionManager::class, 'api_platform.serializer'], // Constructor params
             'process', // Decorated method
         ];
 
         yield [
             RemoveIndexDocument::class, // Decorated class
             SyncCategoryDataAfterBulkDeleteRest::class, // Decorator
-            [$indexSettings, $indexRepository, $categoryProductMerchandisingRepository], // Constructor params
+            [IndexSettings::class, IndexRepository::class, CategoryProductMerchandisingRepository::class], // Constructor params
         ];
     }
 }

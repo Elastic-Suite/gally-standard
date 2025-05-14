@@ -1,0 +1,94 @@
+Gally\Configuration\Entity\Configuration:
+    conf_override_language_char_filters:
+        path: 'gally.analysis.char_filters'
+        scopeType: 'language'
+        scopeCode: 'override_language'
+        value:
+            char_filter_name:
+                type: char_filter_type_language_override
+            char_filter_with_params:
+                type: char_filter_with_params_type_override
+                params:
+                    simpleParam: false
+            char_filter_override:
+                type: char_filter_type_language_override
+    conf_override_language_filters:
+        path: 'gally.analysis.filters'
+        scopeType: 'language'
+        scopeCode: 'override_language'
+        value:
+            filter_name:
+                type: filter_type_language_override
+    conf_override_language_analyzers:
+        path: 'gally.analysis.analyzers'
+        scopeType: 'language'
+        scopeCode: 'override_language'
+        value:
+            analyzer_name:
+                char_filter:
+                    - char_filter_name
+                    - char_filter_with_params
+                    - char_filter_override
+                    - invalid_char_filter
+                tokenizer: tokenizer_override
+                filter:
+                    - filter_name
+                    - filter_with_params
+                    - invalid_filter
+    conf_override_language_normalizers:
+        path: 'gally.analysis.normalizers'
+        scopeType: 'language'
+        scopeCode: 'override_language'
+        value:
+            normalizer_name:
+                char_filter:
+                    - char_filter_name
+                    - char_filter_with_params
+                    - char_filter_override
+                    - invalid_char_filter
+                filter:
+                    - filter_name
+                    - filter_with_params
+                    - invalid_filter
+    conf_generated_language_char_filters:
+        path: 'gally.analysis.char_filters'
+        scopeType: 'language'
+        scopeCode: 'char_filter_generated_language'
+        value:
+            dummy:
+                type: dummy_type
+    conf_generated_language_filters:
+        path: 'gally.analysis.filters'
+        scopeType: 'language'
+        scopeCode: 'filter_generated_language'
+        value:
+            dummy:
+                type: dummy_type
+    conf_generated_language_analyzers:
+        path: 'gally.analysis.analyzers'
+        scopeType: 'language'
+        scopeCode: 'analyzer_generated_language'
+        value:
+            dummy:
+                char_filter:
+                    - char_filter_name
+                    - char_filter_with_params
+                    - invalid_char_filter
+                tokenizer: dummy_tokenizer
+                filter:
+                    - filter_name
+                    - filter_with_params
+                    - invalid_filter
+    conf_generated_language_normalizers:
+        path: 'gally.analysis.normalizers'
+        scopeType: 'language'
+        scopeCode: 'normalizer_generated_language'
+        value:
+            dummy:
+                char_filter:
+                    - char_filter_name
+                    - invalid_char_filter
+                filter:
+                    - filter_name
+                    - filter_with_params
+                    - invalid_filter

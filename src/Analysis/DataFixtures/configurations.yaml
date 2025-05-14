@@ -1,0 +1,261 @@
+Gally\Configuration\Entity\Configuration:
+    analysis_ar:
+        path: 'gally.analysis.filters'
+        scopeType: 'language'
+        scopeCode: 'ar'
+        value:
+            stemmer:
+                type: stemmer
+                params: { language: arabic }
+    analysis_eu:
+        path: 'gally.analysis.filters'
+        scopeType: 'language'
+        scopeCode: 'eu'
+        value:
+            stemmer:
+                type: stemmer
+                params: { language: basque }
+    analysis_bg:
+        path: 'gally.analysis.filters'
+        scopeType: 'language'
+        scopeCode: 'bg'
+        value:
+            stemmer:
+                type: stemmer
+                params: { language: bulgarian }
+    analysis_ca:
+        path: 'gally.analysis.filters'
+        scopeType: 'language'
+        scopeCode: 'ca'
+        value:
+            stemmer:
+                type: stemmer
+                params: { language: catalan }
+            elision:
+                type: elision
+                params:
+                    articles: [d, l, m, n, s, t]
+    analysis_cs:
+        path: 'gally.analysis.filters'
+        scopeType: 'language'
+        scopeCode: 'cs'
+        value:
+            stemmer:
+                type: stemmer
+                params: { language: czech }
+    analysis_da:
+        path: 'gally.analysis.filters'
+        scopeType: 'language'
+        scopeCode: 'da'
+        value:
+            stemmer:
+                type: stemmer
+                params: { language: danish }
+    analysis_de:
+        path: 'gally.analysis.filters'
+        scopeType: 'language'
+        scopeCode: 'de'
+        value:
+            stemmer:
+                type: stemmer
+                params: { language: german2 }
+    analysis_en:
+        path: 'gally.analysis.filters'
+        scopeType: 'language'
+        scopeCode: 'en'
+        value:
+            stemmer:
+                type: stemmer
+                params: { language: english }
+    analysis_es:
+        path: 'gally.analysis.filters'
+        scopeType: 'language'
+        scopeCode: 'es'
+        value:
+            stemmer:
+                type: stemmer
+                params: { language: spanish }
+    analysis_el:
+        path: 'gally.analysis.filters'
+        scopeType: 'language'
+        scopeCode: 'el'
+        value:
+            stemmer:
+                type: stemmer
+                params: {language: greek}
+    analysis_fi:
+        path: 'gally.analysis.filters'
+        scopeType: 'language'
+        scopeCode: 'fi'
+        value:
+            stemmer:
+                type: stemmer
+                params: {language: finnish}
+    analysis_fr:
+        path: 'gally.analysis.filters'
+        scopeType: 'language'
+        scopeCode: 'fr'
+        value:
+            stemmer:
+                type: stemmer
+                params: {language: french}
+            # No known issues with the french or light_french stemmers. 
+            # But this is to show that having an empty list of rules is valid.
+            # This means existing rules can be both re-defined or voided in a custom module.   
+            #   params: {rules: []}
+            # Known issues with the "french" stemmer.
+            stemmer_override:
+                type: stemmer_override
+                params: 
+                    rules:
+                        - clous => clou
+                        - verrous => verrou
+                        - ecrous => ecrou
+                        - clef => cle
+                        - clefs => cle
+            elision:
+                type: elision
+                params:
+                    articles: [l, m, t, qu, n, s, j, d, c]
+            phonetic:
+                type: phonetic
+                params:
+                    encoder: beider_morse
+                    languageset: french
+    analysis_gl:
+        path: 'gally.analysis.filters'
+        scopeType: 'language'
+        scopeCode: 'gl'
+        value:
+            stemmer:
+                type: stemmer
+                params: {language: galician}
+    analysis_hi:
+        path: 'gally.analysis.filters'
+        scopeType: 'language'
+        scopeCode: 'hi'
+        value:
+            stemmer:
+                type: stemmer
+                params: {language: hindi}
+    analysis_hu:
+        path: 'gally.analysis.filters'
+        scopeType: 'language'
+        scopeCode: 'hu'
+        value:
+            stemmer:
+                type: stemmer
+                params: {language: hungarian}
+    analysis_id:
+        path: 'gally.analysis.filters'
+        scopeType: 'language'
+        scopeCode: 'id'
+        value:
+            stemmer:
+                type: stemmer
+                params: {language: indonesian}
+    analysis_it:
+        path: 'gally.analysis.filters'
+        scopeType: 'language'
+        scopeCode: 'it'
+        value:
+            stemmer:
+                type: stemmer
+                params: {language: italian}
+            # Known issues with the italian stemmer. 
+            # Please note that we do not claim 100% accuracy in the selected stems.
+            # For instance, the stem for trapani is originally trapan, the same as the verb trapanare.
+            # So the actual valid rule might be trapano => trapan ...     
+            stemmer_override:
+                type: stemmer_override
+                params: 
+                    rules:
+                        - trapani => trap
+                        - zanzariere => zanzarier
+                        - lavatoi => lavatoi
+                        - lamiere => lamier
+                        - plafoniere => plafonier
+            elision:
+                type: elision
+                params:
+                    articles: [c, l, all, dall, dell,nell, sull, coll, pell,gl, agl, dagl, degl, negl,sugl, un, m, t, s, v, d]
+    analysis_lv:
+        path: 'gally.analysis.filters'
+        scopeType: 'language'
+        scopeCode: 'lv'
+        value:
+            stemmer:
+                type: stemmer
+                params: {language: latvian}
+    analysis_lt:
+        path: 'gally.analysis.filters'
+        scopeType: 'language'
+        scopeCode: 'lt'
+        value:
+            stemmer:
+                type: stemmer
+                params: {language: lithuanian}
+    analysis_nb:
+        path: 'gally.analysis.filters'
+        scopeType: 'language'
+        scopeCode: 'nb'
+        value:
+            stemmer:
+                type: stemmer
+                params: {language: norwegian}
+    analysis_nn:
+        path: 'gally.analysis.filters'
+        scopeType: 'language'
+        scopeCode: 'nn'
+        value:
+            stemmer:
+                type: stemmer
+                params: {language: light_nynorsk}
+    analysis_nl:
+        path: 'gally.analysis.filters'
+        scopeType: 'language'
+        scopeCode: 'nl'
+        value:
+            stemmer:
+                type: stemmer
+                params: {language: dutch}
+    analysis_pt:
+        path: 'gally.analysis.filters'
+        scopeType: 'language'
+        scopeCode: 'pt'
+        value:
+            stemmer:
+                type: stemmer
+                params: {language: portuguese}
+    analysis_ro:
+        path: 'gally.analysis.filters'
+        scopeType: 'language'
+        scopeCode: 'ro'
+        value:
+            stemmer:
+                type: stemmer
+                params: {language: romanian}
+    analysis_ru:
+        path: 'gally.analysis.filters'
+        scopeType: 'language'
+        scopeCode: 'ru'
+        value:
+            stemmer:
+                type: stemmer
+                params: {language: russian}
+    analysis_sv:
+        path: 'gally.analysis.filters'
+        scopeType: 'language'
+        scopeCode: 'sv'
+        value:
+            stemmer:
+                type: stemmer
+                params: {language: swedish}
+    analysis_tr:
+        path: 'gally.analysis.filters'
+        scopeType: 'language'
+        scopeCode: 'tr'
+        value:
+            stemmer:
+                type: stemmer
+                params: {language: turkish}
