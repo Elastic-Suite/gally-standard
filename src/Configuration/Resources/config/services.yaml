@@ -2,7 +2,8 @@ services:
     Gally\Configuration\Repository\ConfigurationRepository:
         arguments:
             - '@Doctrine\Persistence\ManagerRegistry'
-            - '%gally%'
+            - '@Symfony\Component\HttpKernel\KernelInterface'
+            - '@parameter_bag'
         tags:
             - { name: doctrine.repository_service }
     

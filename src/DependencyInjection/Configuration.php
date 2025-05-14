@@ -17,14 +17,18 @@ declare(strict_types=1);
 namespace Gally\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
-use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 /**
  * @codeCoverageIgnore
  */
-class Configuration implements ConfigurationInterface
+class Configuration implements GallyConfigurationInterface
 {
     public const ROOT_NODE_CONFIG = 'gally';
+
+    public function getRootNodeConfig(): string
+    {
+        return self::ROOT_NODE_CONFIG;
+    }
 
     /**
      * Example get from https://symfony.com/doc/current/bundles/configuration.html#processing-the-configs-array
@@ -34,7 +38,7 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder(): TreeBuilder
     {
-        $treeBuilder = new TreeBuilder(self::ROOT_NODE_CONFIG);
+        $treeBuilder = new TreeBuilder($this->getRootNodeConfig());
 
         $treeBuilder->getRootNode()
             ->children()

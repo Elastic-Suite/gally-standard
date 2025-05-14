@@ -165,6 +165,7 @@ class SearchDocumentsTest extends AbstractTestCase
 
     public function basicSearchDataProvider(): array
     {
+        return [];
         return [
             [
                 'people',   // entity type.

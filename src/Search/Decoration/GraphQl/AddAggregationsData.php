@@ -17,7 +17,7 @@ use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
 use Gally\Catalog\Repository\LocalizedCatalogRepository;
 use Gally\Category\Repository\CategoryConfigurationRepository;
-use Gally\Configuration\State\ConfigurationProvider;
+use Gally\Configuration\Repository\ConfigurationRepository;
 use Gally\Metadata\Entity\SourceField;
 use Gally\Metadata\Entity\SourceField\Type;
 use Gally\Metadata\Repository\MetadataRepository;
@@ -29,7 +29,7 @@ use Gally\Search\Elasticsearch\Request\BucketInterface;
 use Gally\Search\Elasticsearch\Request\Container\Configuration\ContainerConfigurationProvider;
 use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface;
 use Gally\Search\Entity\Document;
-use Gally\Search\Repository\Facet\ConfigurationRepository;
+use Gally\Search\Repository\Facet\ConfigurationRepository as FacetConfigurationRepository;
 use Gally\Search\Service\ReverseSourceFieldProvider;
 use Gally\Search\Service\SearchContext;
 use Gally\Search\State\Paginator;
@@ -49,18 +49,18 @@ class AddAggregationsData implements ProcessorInterface
     public const AGGREGATION_TYPE_HISTOGRAM = 'histogram';
 
     public function __construct(
-        private ProcessorInterface $decorated,
-        private MetadataRepository $metadataRepository,
-        private ContainerConfigurationProvider $containerConfigurationProvider,
-        private LocalizedCatalogRepository $localizedCatalogRepository,
-        private ConfigurationRepository $facetConfigRepository,
-        private SearchContext $searchContext,
-        private ReverseSourceFieldProvider $reverseSourceFieldProvider,
+        private ProcessorInterface              $decorated,
+        private MetadataRepository              $metadataRepository,
+        private ContainerConfigurationProvider  $containerConfigurationProvider,
+        private LocalizedCatalogRepository      $localizedCatalogRepository,
+        private FacetConfigurationRepository    $facetConfigRepository,
+        private SearchContext                   $searchContext,
+        private ReverseSourceFieldProvider      $reverseSourceFieldProvider,
         private CategoryConfigurationRepository $categoryConfigurationRepository,
-        private SourceFieldRepository $sourceFieldRepository,
-        private TranslatorInterface $translator,
-        private ConfigurationProvider $configurationProvider,
-        private iterable $availableFilterTypes,
+        private SourceFieldRepository           $sourceFieldRepository,
+        private TranslatorInterface             $translator,
+        private ConfigurationRepository         $configurationRepository,
+        private iterable                        $availableFilterTypes,
     ) {
     }
 
@@ -152,8 +152,8 @@ class AddAggregationsData implements ProcessorInterface
         ];
 
         if (Type::TYPE_DATE === $sourceField?->getType()) {
-            $data['date_format'] = $this->configurationProvider->get('gally.search_settings.default_date_field_format');
-            $data['date_range_interval'] = $this->configurationProvider->get('gally.search_settings.aggregations.default_date_range_interval');
+            $data['date_format'] = $this->configurationRepository->getScopedConfigValue('gally.search_settings.default_date_field_format');
+            $data['date_range_interval'] = $this->configurationRepository->getScopedConfigValue('gally.search_settings.aggregations.default_date_range_interval');
         }
 
         $this->formatOptions($aggregation, $sourceField, $containerConfig, $data);
@@ -241,7 +241,7 @@ class AddAggregationsData implements ProcessorInterface
     private function getDistanceRangeLabel(string $key, ContainerConfigurationInterface $containerConfig): string
     {
         $range = explode('-', $key);
-        $unit = $this->configurationProvider->get('gally.search_settings.default_distance_unit');
+        $unit = $this->configurationRepository->getScopedConfigValue('gally.search_settings.default_distance_unit');
         if ('*' === $range[0]) {
             return $this->translator->trans(
                 'search.distance_facet.option_to.label',

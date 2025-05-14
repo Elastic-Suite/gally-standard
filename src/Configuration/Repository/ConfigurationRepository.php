@@ -15,10 +15,14 @@ namespace Gally\Configuration\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Gally\Bundle\Entity\ExtraBundle;
 use Gally\Configuration\Entity\Configuration;
+use Gally\DependencyInjection\Extension;
 use Gally\Exception\LogicException;
 use Symfony\Component\Config\Definition\ArrayNode;
 use Symfony\Component\Config\Definition\NodeInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\HttpKernel\KernelInterface;
 
 /**
  * @method Configuration|null find($id, $lockMode = null, $lockVersion = null)
@@ -28,11 +32,15 @@ use Symfony\Component\Config\Definition\NodeInterface;
  */
 class ConfigurationRepository extends ServiceEntityRepository
 {
+    private $configTree;
+
     public function __construct(
         ManagerRegistry $registry,
-        private array $defaultConfiguration,
+        private KernelInterface $kernel,
+        private ParameterBagInterface $parameters,
     ) {
         parent::__construct($registry, Configuration::class);
+        $this->configTree = $this->buildConfigTree();
     }
 
     public function getScopePriority(): array
@@ -99,15 +107,15 @@ class ConfigurationRepository extends ServiceEntityRepository
      */
     private function getDefaultConfigurations(string $path): array
     {
-        $config = new \Gally\DependencyInjection\Configuration();
-        $node = $config->getConfigTreeBuilder()->buildTree();
         $configurations = [];
         $pathAsArray = explode('.', $path);
         if ([] === $pathAsArray) {
             return $configurations;
         }
 
-        $value = $this->defaultConfiguration;
+        $rootNode = reset($pathAsArray);
+        $node = $this->configTree[$rootNode];
+        $value = $this->parameters->get($rootNode);
         foreach ($pathAsArray as $key) {
             if ($key == $node->getName()) {
                 $value = $value[$key];
@@ -115,7 +123,7 @@ class ConfigurationRepository extends ServiceEntityRepository
                 $value = $value[$key];
                 $node = $node->getChildren()[$key];
             } else {
-                // Todo what to do in this case
+                return $configurations;
             }
         }
 
@@ -149,6 +157,9 @@ class ConfigurationRepository extends ServiceEntityRepository
         return $configurations;
     }
 
+    /**
+     * Todo remove
+     */
     private function flattenArray(array $array, string $prefix): array
     {
         $result = [];
@@ -163,5 +174,23 @@ class ConfigurationRepository extends ServiceEntityRepository
         }
 
         return $result;
+    }
+
+    private function buildConfigTree(): array
+    {
+        $configTree = [];
+        foreach ($this->kernel->getBundles() as $bundle) {
+            if (str_starts_with($bundle->getName(), ExtraBundle::GALLY_BUNDLE_PREFIX)) {
+                $extension = $bundle->getContainerExtension();
+                if ($extension instanceof Extension) {
+                    $configuration = $extension->getGallyConfiguration();
+                    if ($configuration) {
+                        $configTree[$configuration->getRootNodeConfig()] = $configuration->getConfigTreeBuilder()->buildTree();
+                    }
+                }
+            }
+        }
+
+        return $configTree;
     }
 }

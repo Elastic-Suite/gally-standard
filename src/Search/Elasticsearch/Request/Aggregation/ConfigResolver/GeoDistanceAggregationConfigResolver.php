@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Gally\Search\Elasticsearch\Request\Aggregation\ConfigResolver;
 
-use Gally\Configuration\State\ConfigurationProvider;
+use Gally\Configuration\Repository\ConfigurationRepository;
 use Gally\Metadata\Entity\SourceField;
 use Gally\Search\Elasticsearch\Request\BucketInterface;
 use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface;
@@ -23,7 +23,7 @@ class GeoDistanceAggregationConfigResolver implements FieldAggregationConfigReso
 {
     public function __construct(
         private SearchContext $searchContext,
-        private ConfigurationProvider $configurationProvider
+        private ConfigurationRepository $configurationRepository
     ) {
     }
 
@@ -38,8 +38,8 @@ class GeoDistanceAggregationConfigResolver implements FieldAggregationConfigReso
             'name' => $sourceField->getCode(),
             'type' => BucketInterface::TYPE_GEO_DISTANCE,
             'origin' => $this->searchContext->getReferenceLocation(),
-            'unit' => $this->configurationProvider->get('gally.search_settings.default_distance_unit'),
-            'ranges' => $this->configurationProvider->get('gally.search_settings.aggregations.default_distance_ranges'),
+            'unit' => $this->configurationRepository->getScopedConfigValue('gally.search_settings.default_distance_unit'),
+            'ranges' => $this->configurationRepository->getScopedConfigValue('gally.search_settings.aggregations.default_distance_ranges'),
         ];
     }
 }

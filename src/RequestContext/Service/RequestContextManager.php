@@ -13,21 +13,20 @@ declare(strict_types=1);
 
 namespace Gally\RequestContext\Service;
 
-use Gally\Configuration\State\ConfigurationProvider;
+use Gally\Configuration\Repository\ConfigurationRepository;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class RequestContextManager
 {
     public function __construct(
         private RequestStack $requestStack,
-        private ConfigurationProvider $configurationProvider,
+        private ConfigurationRepository $configurationRepository,
     ) {
     }
 
     public function getHeaders(): array
     {
-        // @todo pigau conf
-        return /* $this->configurationProvider->get('gally.request_context.headers')->getValue() ?? */ [];
+        return $this->configurationRepository->getScopedConfigValue('gally.request_context.headers');
     }
 
     public function getContext(): array

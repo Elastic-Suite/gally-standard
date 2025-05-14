@@ -68,29 +68,34 @@ class GallyExtension extends Extension
         $this->loadGallyConfig($container);
     }
 
-    /**
-     * Allows to load services config and set bundle parameters in container.
-     *
-     * {@inheritdoc}
-     */
+//    /**
+//     * Allows to load services config and set bundle parameters in container.
+//     *
+//     * {@inheritdoc}
+//     */
     public function load(array $configs, ContainerBuilder $container): void
     {
-        $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../'));
-
-        $paths = $this->getPaths(__DIR__ . '/../*/Resources/config/services.yaml', __DIR__ . '/../');
-        foreach ($paths as $path) {
-            $loader->load($path);
-        }
-
-        if ('test' === $container->getParameter('kernel.environment')) {
-            $paths = $this->getPaths(__DIR__ . '/../*/Resources/config/test/services.yaml', __DIR__ . '/../');
-            foreach ($paths as $path) {
-                $loader->load($path);
-            }
-        }
-
-        $configuration = new Configuration();
-        $config = $this->processConfiguration($configuration, $configs);
+        parent::load($configs, $container);
+//        $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../'));
+//
+//        $paths = $this->getPaths(__DIR__ . '/../*/Resources/config/services.yaml', __DIR__ . '/../');
+//        foreach ($paths as $path) {
+//            $loader->load($path);
+//        }
+//
+//        if ('test' === $container->getParameter('kernel.environment')) {
+//            $paths = $this->getPaths(__DIR__ . '/../*/Resources/config/test/services.yaml', __DIR__ . '/../');
+//            foreach ($paths as $path) {
+//                $loader->load($path);
+//            }
+//        }
+//
+//        $configuration = $this->getGallyConfiguration();
+//        if ($configuration) {
+//            $config = $this->processConfiguration($configuration, $configs);
+//            $container->setParameter($configuration->getRootNodeConfig(), [$configuration->getRootNodeConfig() => $config]);
+//        }
+//
         $container->setParameter('gally.indices_settings', $config['indices_settings'] ?? []);
         $container->setParameter('gally.menu', $config['menu'] ?? []);
         $container->setParameter('gally.analysis', $config['analysis'] ?? []);
@@ -104,8 +109,6 @@ class GallyExtension extends Extension
         $container->setParameter('gally.default_reference_location', $config['default_reference_location'] ?? null);
         $container->setParameter('gally.request_types', $config['request_types'] ?? []);
         $container->setParameter('gally.pipeline_prefix', $config['pipeline_prefix'] ?? '');
-
-        $container->setParameter('gally', ['gally' => $config]);
 
         // @Todo : Use this feature https://symfony.com/doc/current/bundles/extension.html ?
         //        $this->addAnnotatedClassesToCompile([
