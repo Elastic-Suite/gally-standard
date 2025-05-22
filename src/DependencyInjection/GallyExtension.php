@@ -65,6 +65,15 @@ class GallyExtension extends Extension
         $fixturePaths = $this->getPaths(__DIR__ . '/../*/DataFixtures', __DIR__ . '/../');
         $container->prependExtensionConfig('hautelook_alice', ['fixtures_path' => $fixturePaths]);
 
+        $twigPaths = [];
+        $paths = $this->getPaths(__DIR__ . '/../*/Resources/views');
+        foreach ($paths as $path) {
+            if (is_dir($path)) {
+                $twigPaths[$path] = 'GallyBundle';
+            }
+        }
+        $container->prependExtensionConfig('twig', ['paths' => $twigPaths]);
+
         $this->loadGallyConfig($container);
     }
 

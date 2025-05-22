@@ -5,6 +5,12 @@ services:
         tags:
             - { name: doctrine.repository_service }
 
+    Gally\User\Repository\PasswordTokenRepository:
+        arguments:
+            - '@Doctrine\Persistence\ManagerRegistry'
+        tags:
+            - { name: doctrine.repository_service }
+            
     Gally\User\DataFixtures\Providers\HashPasswordProvider:
         arguments:
             - '@Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface'
@@ -42,3 +48,10 @@ services:
             - '@Gally\User\Service\Command\QuestionBuilder'
         tags:
             - { name: console.command }
+                
+    Gally\User\EventSubscriber\ForgotPasswordEventSubscriber:
+        arguments:
+            - '@Gally\Email\Service\EmailSender'
+            - '@Gally\User\Service\UserManager'
+        tags:
+            - { name: kernel.event_subscriber }
