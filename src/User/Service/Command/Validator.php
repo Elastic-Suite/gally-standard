@@ -73,11 +73,27 @@ class Validator
             }
 
             $errors = $this->cmdValidation->notBlank($value);
-            if (empty($value)) {
+            if (!empty($errors)) {
                 throw new \InvalidArgumentException(implode(\PHP_EOL, $errors));
             }
 
             return $value;
+        });
+    }
+
+    public function isBoolean(Question $question, bool $update = false): void
+    {
+        $question->setValidator(function ($value) use ($update) {
+            if ($update && empty($value)) {
+                return null;
+            }
+
+            $errors = $this->cmdValidation->isBoolean($value);
+            if (!empty($errors)) {
+                throw new \InvalidArgumentException(implode(\PHP_EOL, $errors));
+            }
+
+            return (bool) preg_match(CmdValidation::TRUE_REGEXP, $value);
         });
     }
 

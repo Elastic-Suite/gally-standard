@@ -136,7 +136,7 @@ class ValidatorTest extends AbstractTestCase
     }
 
     /**
-     * @dataProvider errorUserNotBlankDataProvider
+     * @dataProvider errorNotBlankDataProvider
      */
     public function testErrorNotBlank(?string $value, array $errors): void
     {
@@ -149,7 +149,7 @@ class ValidatorTest extends AbstractTestCase
         $validatorFunction($value);
     }
 
-    public function errorUserNotBlankDataProvider(): array
+    public function errorNotBlankDataProvider(): array
     {
         return [
             [
@@ -159,6 +159,52 @@ class ValidatorTest extends AbstractTestCase
             [
                 '',
                 ['This field cannot be empty.'],
+            ],
+        ];
+    }
+
+    public function testIsBoolean(): void
+    {
+        $question = self::$cmdQuestionBuilder->getQuestion('Is active user ? (yes/no):');
+
+        self::$cmdValidator->isBoolean($question);
+        $validatorFunction = $question->getValidator();
+        $this->assertTrue($validatorFunction('Yes'));
+        $this->assertFalse($validatorFunction('No'));
+
+        self::$cmdValidator->isBoolean($question, true);
+        $validatorFunction = $question->getValidator();
+        $this->assertNull($validatorFunction(null));
+    }
+
+    /**
+     * @dataProvider errorIsBooleanDataProvider
+     */
+    public function testErrorIsBoolean(?string $value, array $errors): void
+    {
+        $question = self::$cmdQuestionBuilder->getQuestion('Is active user ? (yes/no):');
+        self::$cmdValidator->isBoolean($question);
+        $validatorFunction = $question->getValidator();
+
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage(implode(\PHP_EOL, $errors));
+        $validatorFunction($value);
+    }
+
+    public function errorIsBooleanDataProvider(): array
+    {
+        return [
+            [
+                null,
+                ['Value accepted "yes", "No", "y", "n".'],
+            ],
+            [
+                'false',
+                ['Value accepted "yes", "No", "y", "n".'],
+            ],
+            [
+                'true',
+                ['Value accepted "yes", "No", "y", "n".'],
             ],
         ];
     }
