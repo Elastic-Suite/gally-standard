@@ -39,7 +39,12 @@ final class ConfigurationItemProvider implements ProviderInterface
      */
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null
     {
-        [$sourceFieldId, $categoryId] = explode('-', $uriVariables['id']);
+        if (preg_match('/^([^-]+)-(.*)$/', $uriVariables['id'], $matches)) {
+            [$fullMatch, $sourceFieldId, $categoryId] = $matches;
+        } else {
+            throw new LogicException("Invalid facet configuration ID format : {$uriVariables['id']}.");
+        }
+
         /** @var EntityManagerInterface $manager */
         $manager = $this->managerRegistry->getManagerForClass($operation->getClass());
         /** @var ConfigurationRepository $repository */
