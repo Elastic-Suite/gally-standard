@@ -1,0 +1,15 @@
+{% extends '@GallyBundle/emails/template/base.html.twig' %}
+
+{% block subject %}Bienvenue chez Mon Application{% endblock %}
+
+{% block body %}
+    <p>Bonjour,</p>
+
+    <p>Votre compte a bien été créé.</p>
+
+    <p>Identifiant : <strong>{{ user.email }}</strong></p>
+
+    <p>Vous pouvez définir votre votre mot de passe en suivant le lien :<a href="#">{{ password_token }}</a></p>
+
+    <p>Merci et à bientôt !</p>
+{% endblock %}
