@@ -6,3 +6,7 @@ services:
     Gally\Doctrine\Filter\BooleanFilter:
         arguments: [ '@doctrine', ~, '@?logger' ]
         tags: [ 'api_platform.filter' ]
+
+    Gally\Doctrine\Filter\JsonFilter:
+        arguments: [ '@doctrine', ~, '@?logger' ]
+        tags: [ 'api_platform.filter' ]

@@ -40,6 +40,24 @@ class ValidationTest extends AbstractTestCase
         $this->assertEquals(['This field cannot be empty.'], self::$cmdValidation->notBlank(null));
     }
 
+    public function testIsBoolean(): void
+    {
+        $this->assertEquals([], self::$cmdValidation->isBoolean('y'));
+        $this->assertEquals([], self::$cmdValidation->isBoolean('Yes'));
+        $this->assertEquals([], self::$cmdValidation->isBoolean('Ykk'));
+        $this->assertEquals([], self::$cmdValidation->isBoolean('n'));
+        $this->assertEquals([], self::$cmdValidation->isBoolean('No'));
+        $this->assertEquals([], self::$cmdValidation->isBoolean('Ykk'));
+    }
+
+    public function testErrorIsBoolean(): void
+    {
+        $this->assertEquals(['Value accepted "yes", "No", "y", "n".'], self::$cmdValidation->isBoolean(''));
+        $this->assertEquals(['Value accepted "yes", "No", "y", "n".'], self::$cmdValidation->isBoolean(null));
+        $this->assertEquals(['Value accepted "yes", "No", "y", "n".'], self::$cmdValidation->isBoolean('tTyes'));
+        $this->assertEquals(['Value accepted "yes", "No", "y", "n".'], self::$cmdValidation->isBoolean('tNo'));
+    }
+
     public function testEmail(): void
     {
         $this->assertEquals([], self::$cmdValidation->email(self::$userEmail));

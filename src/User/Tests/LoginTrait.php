@@ -42,11 +42,20 @@ trait LoginTrait
         return $user;
     }
 
+    public function getUserByLoginData(string $email, string $password): User
+    {
+        $user = new User();
+        $user->setEmail($email)
+            ->setPassword($password);
+
+        return $user;
+    }
+
     public function loginRest(Client $client, User $user): string
     {
         $routePrefix = static::getContainer()->getParameter('route_prefix');
-        $role = $user->getRoles()[0];
-        if (!isset(self::$tokens[$role])) {
+        $email = $user->getEmail();
+        if (!isset(self::$tokens[$email])) {
             $response = $client->request('POST', $routePrefix . '/authentication_token', [
                 'headers' => ['Content-Type' => 'application/json'],
                 'json' => [
@@ -55,17 +64,21 @@ trait LoginTrait
                 ],
             ]);
 
-            self::$tokens[$role] = $response->toArray()['token'];
+            if (200 !== $response->getStatusCode()) {
+                return '';
+            }
+
+            self::$tokens[$email] = $response->toArray()['token'];
         }
 
-        return self::$tokens[$role];
+        return self::$tokens[$email];
     }
 
     public function loginGraphQl(Client $client, User $user): string
     {
-        $role = $user->getRoles()[0];
+        $email = $user->getEmail();
         $routePrefix = static::getContainer()->getParameter('route_prefix');
-        if (!isset(self::$tokens[$role])) {
+        if (!isset(self::$tokens[$email])) {
             $response = $client->request(
                 'POST',
                 $routePrefix . '/graphql',
@@ -84,10 +97,14 @@ trait LoginTrait
                 ]
             );
 
-            self::$tokens[$role] = $response->toArray()['data']['tokenAuthentication']['authentication']['token'];
+            if (!($response->toArray()['data']['tokenAuthentication']['authentication']['token'] ?? null)) {
+                return '';
+            }
+
+            self::$tokens[$email] = $response->toArray()['data']['tokenAuthentication']['authentication']['token'];
         }
 
-        return self::$tokens[$role];
+        return self::$tokens[$email];
     }
 
     public function logout(): void

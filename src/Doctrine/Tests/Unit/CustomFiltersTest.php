@@ -19,12 +19,14 @@ use ApiPlatform\Doctrine\Orm\Util\QueryNameGenerator;
 use ApiPlatform\Metadata\IdentifiersExtractorInterface;
 use ApiPlatform\Metadata\IriConverterInterface;
 use Doctrine\Persistence\ManagerRegistry;
+use Gally\Doctrine\Filter\JsonFilter;
 use Gally\Doctrine\Filter\RangeFilterWithDefault;
 use Gally\Doctrine\Filter\SearchColumnsFilter;
 use Gally\Doctrine\Filter\SearchFilter;
 use Gally\Doctrine\Filter\SearchFilterWithDefault;
 use Gally\Doctrine\Tests\Entity\FakeEntity;
 use Gally\Test\AbstractTestCase;
+use Gally\User\Constant\Role;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 
@@ -41,7 +43,7 @@ class CustomFiltersTest extends AbstractTestCase
         array $additionalArguments = []
     ): void {
         $manager = static::getContainer()->get(ManagerRegistry::class);
-        $ressourceClass = FakeEntity::class;
+        $resourceClass = FakeEntity::class;
 
         /** @var FilterInterface $filter */
         $filter = new $filterClass(
@@ -54,13 +56,13 @@ class CustomFiltersTest extends AbstractTestCase
             ...$additionalArguments
         );
 
-        $queryBuilder = $manager->getRepository($ressourceClass)->createQueryBuilder('o');
-        $filter->apply($queryBuilder, new QueryNameGenerator(), $ressourceClass, null, ['filters' => $filterValue]);
+        $queryBuilder = $manager->getRepository($resourceClass)->createQueryBuilder('o');
+        $filter->apply($queryBuilder, new QueryNameGenerator(), $resourceClass, null, ['filters' => $filterValue]);
 
         $this->assertEquals($expectedDQL, $queryBuilder->getQuery()->getDQL());
     }
 
-    public function applyCustomSearchFilterDataProvider()
+    public function applyCustomSearchFilterDataProvider(): iterable
     {
         yield [
             SearchFilter::class, // Filter class
@@ -106,7 +108,7 @@ class CustomFiltersTest extends AbstractTestCase
         array $additionalArguments = []
     ): void {
         $manager = static::getContainer()->get(ManagerRegistry::class);
-        $ressourceClass = FakeEntity::class;
+        $resourceClass = FakeEntity::class;
 
         /** @var FilterInterface $filter */
         $filter = new $filterClass(
@@ -116,13 +118,13 @@ class CustomFiltersTest extends AbstractTestCase
             ...$additionalArguments
         );
 
-        $queryBuilder = $manager->getRepository($ressourceClass)->createQueryBuilder('o');
-        $filter->apply($queryBuilder, new QueryNameGenerator(), $ressourceClass, null, ['filters' => $filterValue]);
+        $queryBuilder = $manager->getRepository($resourceClass)->createQueryBuilder('o');
+        $filter->apply($queryBuilder, new QueryNameGenerator(), $resourceClass, null, ['filters' => $filterValue]);
 
         $this->assertEquals($expectedDQL, $queryBuilder->getQuery()->getDQL());
     }
 
-    public function applyCustomRangeFilterDataProvider()
+    public function applyCustomRangeFilterDataProvider(): iterable
     {
         yield [
             RangeFilter::class, // Filter class
@@ -150,6 +152,54 @@ class CustomFiltersTest extends AbstractTestCase
             ['weight' => ['gte' => '42']], // Filter value
             "SELECT o FROM Gally\Doctrine\Tests\Entity\FakeEntity o WHERE (CASE WHEN o.weight IS NULL THEN (CASE WHEN default.weight IS NOT NULL THEN default.weight ELSE '100' END) ELSE o.weight END) >= :weight_p1", // Expected DQL,
             ['defaultValues' => ['weight' => '100']], // Additional constructor arguments
+        ];
+    }
+
+    /**
+     * @dataProvider applyCustomFilterDataProvider
+     */
+    public function testCustomFilter(
+        string $filterClass,
+        array $properties,
+        array $filterValue,
+        string $expectedDQL,
+        array $additionalArguments = []
+    ): void {
+        $manager = static::getContainer()->get(ManagerRegistry::class);
+        $resourceClass = FakeEntity::class;
+
+        /** @var FilterInterface $filter */
+        $filter = new $filterClass(
+            $manager,
+            static::getContainer()->get(LoggerInterface::class),
+            $properties,
+        );
+
+        $queryBuilder = $manager->getRepository($resourceClass)->createQueryBuilder('o');
+        $filter->apply($queryBuilder, new QueryNameGenerator(), $resourceClass, null, ['filters' => $filterValue]);
+
+        $this->assertEquals($expectedDQL, $queryBuilder->getQuery()->getDQL());
+    }
+
+    public function applyCustomFilterDataProvider(): iterable
+    {
+        yield [
+            JsonFilter::class, // Filter class
+            ['roles' => null], // Properties
+            ['roles' => Role::ROLE_ADMIN], // Filter value
+            "SELECT o FROM Gally\Doctrine\Tests\Entity\FakeEntity o WHERE JSONB_EXISTS_ANY(o.roles, ARRAY(:roles0_p1)) = true", // Expected DQL
+        ];
+        yield [
+            JsonFilter::class, // Filter class
+            ['roles' => null], // Properties
+            ['roles' => [Role::ROLE_ADMIN]], // Filter value
+            "SELECT o FROM Gally\Doctrine\Tests\Entity\FakeEntity o WHERE JSONB_EXISTS_ANY(o.roles, ARRAY(:roles0_p1)) = true", // Expected DQL
+        ];
+        yield [
+            JsonFilter::class, // Filter class
+            ['roles' => null], // Properties
+            ['roles' => [Role::ROLE_ADMIN, Role::ROLE_CONTRIBUTOR]], // Filter value
+            "SELECT o FROM Gally\Doctrine\Tests\Entity\FakeEntity o WHERE JSONB_EXISTS_ANY(o.roles, ARRAY(:roles0_p1, :roles1_p2)) = true", // Expected DQL
         ];
     }
 }

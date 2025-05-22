@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" version="2.0" srcLang="en-US" trgLang="fr-FR">
+    <file id="gally_user.fr">
+        <unit id="gally_user_email_reset_password_subject">
+            <segment>
+                <source>gally.user.email.reset_password.subject</source>
+                <target>Réinitialisation du mot de passe pour %first_name% %last_name%.</target>
+            </segment>
+        </unit>
+        <unit id="gally_user_email_reset_password_main_message">
+            <segment>
+                <source>gally.user.email.reset_password.main_message</source>
+                <target>Nous avons reçu une demande de création ou de modification du mot de passe de votre compte. Si vous êtes à l'origine de cette demande, veuillez cliquer pour %link%. </target>
+            </segment>
+        </unit>
+        <unit id="gally_user_email_reset_password_main_message_link">
+            <segment>
+                <source>gally.user.email.reset_password.main_message.link</source>
+                <target>réinitialiser votre mot de passe</target>
+            </segment>
+        </unit>
+        <unit id="gally_user_email_reset_password_ignore_message">
+            <segment>
+                <source>gally.user.email.reset_password.ignore_message</source>
+                <target>Si vous n’êtes pas à l’origine de cette demande, vous pouvez ignorer cet e-mail et votre mot de passe restera inchangé.</target>
+            </segment>
+        </unit>
+        <unit id="gally_user_email_reset_password_polite_message">
+            <segment>
+                <source>gally.user.email.reset_password.polite_message</source>
+                <target>Merci,</target>
+            </segment>
+        </unit>
+    </file>
+</xliff>

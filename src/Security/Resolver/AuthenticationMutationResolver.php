@@ -15,6 +15,7 @@ namespace Gally\Security\Resolver;
 
 use ApiPlatform\GraphQl\Resolver\MutationResolverInterface;
 use Gally\Security\Entity\Authentication;
+use Gally\User\Entity\User;
 use Gally\User\Repository\UserRepository;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -72,9 +73,15 @@ class AuthenticationMutationResolver implements MutationResolverInterface
         );
 
         if ($user instanceof PasswordAuthenticatedUserInterface && $this->passwordHasher->isPasswordValid($user, $password)) {
-            $item->setToken($this->jwtManager->create($user));
-            $item->setCode(Response::HTTP_OK);
-            $item->setMessage('');
+            if ($user instanceof User && $user->getIsActive()) {
+                $item->setToken($this->jwtManager->create($user));
+                $item->setCode(Response::HTTP_OK);
+                $item->setMessage('');
+            } else {
+                $item->setMessage(
+                    $this->translator->trans('gally.security.account.inactive', [], 'security')
+                );
+            }
         }
 
         return $item;

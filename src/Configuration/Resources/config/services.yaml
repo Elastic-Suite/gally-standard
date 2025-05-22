@@ -10,7 +10,7 @@ services:
         arguments:
             - '%gally.configuration%'
             - '@Symfony\Contracts\Translation\TranslatorInterface'
-            
+    
     Gally\Configuration\Repository\ConfigurationRepository:
         arguments:
             - '@Doctrine\Persistence\ManagerRegistry'
@@ -40,7 +40,7 @@ services:
             - '@doctrine.orm.entity_manager'
         tags:
             - { name: api_platform.state_processor }
-                
+    
     Gally\Configuration\Validator\ConfigurationDataValidator:
         arguments:
             - '@Gally\Catalog\Repository\LocalizedCatalogRepository'
@@ -61,10 +61,14 @@ services:
         calls:
             - [ setContainer, [ '@service_container' ] ]
         tags:
-            - { name: controller.service_arguments }    
+            - { name: controller.service_arguments }
     
     Gally\Configuration\Resolver\ConfigurationTreeResolver:
         arguments:
             - '@Gally\Configuration\Service\ConfigurationTreeBuilder'
         tags:
             - { name: api_platform.graphql.query_resolver }
+
+    Gally\Configuration\Service\BaseUrlProvider:
+        arguments:
+            - '@Gally\Configuration\Service\ConfigurationManager'

@@ -1,0 +1,5 @@
+services:
+    Gally\Email\Service\EmailSender:
+        arguments:
+            - '@Symfony\Component\Mailer\MailerInterface'
+            - '@logger'

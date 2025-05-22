@@ -1,0 +1,3 @@
+gally:
+    email:
+        default_sender: 'contact@example.com'

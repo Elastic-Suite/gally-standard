@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" version="2.0" srcLang="en-US" trgLang="en-US">
+    <file id="security.en">
+        <unit id="gally_security_account_inactive">
+            <segment>
+                <source>gally.security.account.inactive</source>
+                <target>Your account is inactive.</target>
+            </segment>
+        </unit>
+    </file>
+</xliff>
