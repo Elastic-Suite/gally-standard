@@ -15,6 +15,7 @@ namespace Gally\Security\Tests\Api\Rest;
 
 use Gally\Test\AbstractTestCase;
 use Gally\User\Constant\Role;
+use Gally\User\Service\UserManager;
 use Gally\User\Tests\LoginTrait;
 
 class AuthenticationTest extends AbstractTestCase
@@ -28,13 +29,13 @@ class AuthenticationTest extends AbstractTestCase
         $client = self::createClient();
         $catalog = ['code' => 'login_rest_catalog', 'name' => 'Login Rest catalog'];
 
-        // Test before login
+        // Test before login.
         $client->request('GET', $this->getRoute('catalogs'));
         $this->assertResponseStatusCodeSame(200);
         $client->request('POST', $this->getRoute('catalogs'), ['json' => $catalog]);
         $this->assertResponseStatusCodeSame(401);
 
-        // Log contributor
+        // Log contributor.
         $token = $this->loginRest($client, $this->getUser(Role::ROLE_CONTRIBUTOR));
         $this->assertResponseIsSuccessful();
         $this->assertNotEmpty($token);
@@ -45,7 +46,7 @@ class AuthenticationTest extends AbstractTestCase
         $client->request('POST', $this->getRoute('catalogs'), ['auth_bearer' => $token, 'json' => $catalog]);
         $this->assertResponseStatusCodeSame(403);
 
-        // Log admin
+        // Log admin.
         $token = $this->loginRest($client, $this->getUser(Role::ROLE_ADMIN));
         $this->assertResponseIsSuccessful();
         $this->assertNotEmpty($token);
@@ -56,6 +57,24 @@ class AuthenticationTest extends AbstractTestCase
         $client->request('POST', $this->getRoute('catalogs'), ['auth_bearer' => $token, 'json' => $catalog]);
         $this->assertResponseStatusCodeSame(201);
 
+        // Test that  "admin not active" user cannot log in and access to an API with a valid token (valid token generated before the user become inactive).
+        $userManager = static::getContainer()->get(UserManager::class);
+        $userManager->update('admin_not_active@test.com', null, null, null, null, null, true);
+        $tokenAdminNotActive = $this->loginRest($client, $this->getUserByLoginData('admin_not_active@test.com', 'apassword'));
+        $this->assertResponseIsSuccessful();
+        $this->assertNotEmpty($token);
+
+        $client->request('GET', $this->getRoute('catalogs'), ['auth_bearer' => $token]);
+        $this->assertResponseStatusCodeSame(200);
+
         $this->logout();
+
+        $userManager->update('admin_not_active@test.com', null, null, null, null, null, false);
+        $token = $this->loginRest($client, $this->getUserByLoginData('admin_not_active@test.com', 'apassword'));
+        $this->assertResponseStatusCodeSame(401);
+        $this->assertEmpty($token);
+
+        $client->request('GET', $this->getRoute('catalogs'), ['auth_bearer' => $tokenAdminNotActive]);
+        $this->assertResponseStatusCodeSame(401);
     }
 }

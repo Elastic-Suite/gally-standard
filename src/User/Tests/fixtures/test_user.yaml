@@ -1,9 +1,22 @@
 Gally\User\Entity\User:
     admin:
+        isActive: true
         email: admin@test.com
+        firstName: John
+        lastName: Doe
         password: <hashPassword('apassword')>
-        roles: [ 'ROLE_ADMIN' ]
+        roles: [ 'ROLE_ADMIN', 'ROLE_CONTRIBUTOR' ]
     contributor:
+        isActive: true
         email: contributor@test.com
+        firstName: Jane
+        lastName: Doe
         password: <hashPassword('apassword')>
         roles: [ 'ROLE_CONTRIBUTOR' ]
+    admin_not_active:
+        isActive: false
+        email: admin_not_active@test.com
+        firstName: Tony
+        lastName: Dark
+        password: <hashPassword('apassword')>
+        roles: [ 'ROLE_ADMIN', 'ROLE_CONTRIBUTOR' ]

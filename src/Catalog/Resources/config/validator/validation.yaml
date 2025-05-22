@@ -23,4 +23,4 @@ Gally\Catalog\Entity\LocalizedCatalog:
         - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
               fields: [code, locale]
               errorPath: locale
-              message: 'This code and locale couple already exists.'                  
+              message: 'This code and locale couple already exists.'
