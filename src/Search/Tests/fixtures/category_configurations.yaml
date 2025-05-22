@@ -74,3 +74,8 @@ Gally\Category\Entity\Category\Configuration:
         catalog: '@catalog2'
         localizedCatalog: '@catalog2_fr'
         name: 'Cinq'
+    conf16:
+        category: '@categ6'
+        catalog: '@catalog1'
+        localizedCatalog: '@catalog1_en'
+        name: 'Six'

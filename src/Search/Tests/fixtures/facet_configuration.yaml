@@ -44,3 +44,8 @@ Gally\Search\Entity\Facet\Configuration:
             sourceField: '@product_size'
             category: '@categ1'
         displayMode: 'hidden'
+    product_size_facet_categ6:
+        __construct:
+            sourceField: '@product_size'
+            category: '@categ6'
+        displayMode: 'displayed'

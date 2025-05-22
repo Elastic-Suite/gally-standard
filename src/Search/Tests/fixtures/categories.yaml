@@ -21,3 +21,7 @@ Gally\Category\Entity\Category:
         id: cat_5
         level: 1
         path: cat_5
+    categ6:
+        id: cat-6
+        level: 1
+        path: cat-6
