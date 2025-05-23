@@ -1,0 +1,21 @@
+Gally\Catalog\Entity\Catalog:
+    catalog1:
+        code: b2c_test
+        name: B2C Test Catalog
+    catalog2:
+        code: b2b_test
+        name: B2B Test Catalog
+        
+Gally\Catalog\Entity\LocalizedCatalog:
+    catalog1_fr:
+        catalog: '@catalog1'
+        code: b2c_test_fr
+        locale: fr_FR
+        currency: EUR
+        name: B2C French Test Store View
+    catalog1_en:
+        catalog: '@catalog1'
+        code: b2c_test_eb
+        locale: en_US
+        currency: EUR
+        name: B2C English Test Store View

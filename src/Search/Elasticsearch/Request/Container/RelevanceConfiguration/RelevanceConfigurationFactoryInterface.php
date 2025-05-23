@@ -17,5 +17,5 @@ use Gally\Catalog\Entity\LocalizedCatalog;
 
 interface RelevanceConfigurationFactoryInterface
 {
-    public function create(?LocalizedCatalog $localizedCatalog, ?string $requestType): RelevanceConfigurationInterface;
+    public function create(?LocalizedCatalog $localizedCatalog): RelevanceConfigurationInterface;
 }

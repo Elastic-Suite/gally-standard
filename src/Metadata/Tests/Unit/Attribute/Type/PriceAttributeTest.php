@@ -23,8 +23,7 @@ class PriceAttributeTest extends KernelTestCase
     public function testInstantiateFailure(): void
     {
         $this->expectException(\ArgumentCountError::class);
-        $priceAttribute = $this->getMockBuilder(PriceAttribute::class)
-            ->getMock();
+        $this->getMockBuilder(PriceAttribute::class)->getMock();
     }
 
     /**

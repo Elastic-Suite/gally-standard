@@ -1,24 +1,21 @@
 gally:
     relevance:
-        global:
-            request_types:
-                generic:
-                    fulltext:
-                        minimumShouldMatch: '100%'
-                        tieBreaker: 1.0
-                    phraseMatch:
-                        enabled: false
-                        boost: 0
-                    cutOffFrequency:
-                        value: 0.15
-                    fuzziness:
-                        enabled: true
-                        value: !php/const Gally\Search\Elasticsearch\Request\Container\RelevanceConfiguration\FuzzinessConfig::VALUE_AUTO
-                        prefixLength: 1
-                        maxExpansions: 10
-                    phonetic:  
-                        enabled: true
-                    span:
-                        boost: 10
-                        slop: 10
-                        in_order: false
+        fulltext:
+            minimumShouldMatch: '100%'
+            tieBreaker: 1.0
+        phraseMatch:
+            enabled: false
+            boost: 0
+        cutOffFrequency:
+            value: 0.15
+        fuzziness:
+            enabled: true
+            value: !php/const Gally\Search\Elasticsearch\Request\Container\RelevanceConfiguration\FuzzinessConfig::VALUE_AUTO
+            prefixLength: 1
+            maxExpansions: 10
+        phonetic:  
+            enabled: true
+        span:
+            boost: 10
+            slop: 10
+            in_order: false

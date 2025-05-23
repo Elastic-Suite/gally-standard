@@ -28,6 +28,7 @@ class GallyBundle extends Bundle
         $mappings = [
             realpath(__DIR__ . '/Catalog/Resources/config/doctrine') => 'Gally\Catalog\Entity',
             realpath(__DIR__ . '/Category/Resources/config/doctrine') => 'Gally\Category\Entity',
+            realpath(__DIR__ . '/Configuration/Resources/config/doctrine') => 'Gally\Configuration\Entity',
             realpath(__DIR__ . '/Metadata/Resources/config/doctrine') => 'Gally\Metadata\Entity',
             realpath(__DIR__ . '/User/Resources/config/doctrine') => 'Gally\User\Entity',
             realpath(__DIR__ . '/Search/Resources/config/doctrine') => 'Gally\Search\Entity',

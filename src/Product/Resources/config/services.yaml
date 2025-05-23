@@ -87,15 +87,6 @@ services:
             - '@Gally\Search\Elasticsearch\Request\Container\Configuration\ContainerConfigurationProvider'
         tags:
             - { name: api_platform.graphql.type }
-    
-    Gally\Product\Service\CurrentCategoryProvider:
-        arguments:
-            - '@Gally\Category\Repository\CategoryRepository'
-
-    Gally\Product\Service\PriceGroupProvider:
-        arguments:
-            - '@Gally\RequestContext\Service\RequestContextManager'
-            - '%gally.default_price_group_id%'
  
     Gally\Product\Decoration\GraphQl\AddEntityTypeInContext:
         decorates: api_platform.graphql.state_processor.normalize

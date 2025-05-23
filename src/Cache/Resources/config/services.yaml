@@ -1,6 +1,5 @@
 services:
     Gally\Cache\Service\CacheManagerInterface: '@Gally\Cache\Service\CacheManager'
-    # TODO conditionally inject the purger interface if api http cache is active
     Gally\Cache\Service\CacheManager:
         arguments:
             - '@gally.cache'

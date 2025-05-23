@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Gally\Search\Tests\Unit\Elasticsearch\Adapter\Common\Request\SortOrder;
 
+use Gally\Configuration\Service\ConfigurationManager;
 use Gally\Index\Entity\Index\Mapping\FieldInterface;
 use Gally\Index\Entity\Index\MappingInterface;
 use Gally\Index\Service\MetadataManager;
@@ -34,17 +35,12 @@ use Psr\Log\LoggerInterface;
 class AssemblerTest extends AbstractTestCase
 {
     private static FilterQueryBuilder $filterQueryBuilder;
-
+    private static ConfigurationManager $configurationManager;
     private static MetadataRepository $metadataRepository;
-
     private static MetadataManager $metadataManager;
-
     private static SortOrderBuilder $sortOrderBuilder;
-
     private static QueryAssembler $queryAssembler;
-
     private static SortAssembler $sortAssembler;
-
     private static LoggerInterface $logger;
 
     public static function setUpBeforeClass(): void
@@ -53,11 +49,12 @@ class AssemblerTest extends AbstractTestCase
 
         \assert(static::getContainer()->get(QueryFactory::class) instanceof QueryFactory);
         self::$filterQueryBuilder = static::getContainer()->get(FilterQueryBuilder::class);
+        self::$configurationManager = static::getContainer()->get(ConfigurationManager::class);
         self::$logger = static::getContainer()->get(LoggerInterface::class);
         self::$sortOrderBuilder = new SortOrderBuilder(
             self::$filterQueryBuilder,
+            self::$configurationManager,
             self::$logger,
-            static::getContainer()->getParameter('gally.search_settings')
         );
         self::$queryAssembler = static::getContainer()->get(QueryAssembler::class);
         self::$sortAssembler = new SortAssembler(self::$queryAssembler);
