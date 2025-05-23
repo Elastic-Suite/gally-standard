@@ -16,7 +16,9 @@ declare(strict_types=1);
 
 namespace Gally\DependencyInjection;
 
+use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
 /**
  * @codeCoverageIgnore
@@ -64,6 +66,16 @@ class GallyExtension extends Extension
         $container->prependExtensionConfig('hautelook_alice', ['fixtures_path' => $fixturePaths]);
 
         $this->loadGallyConfig($container);
+    }
+
+    public function load(array $configs, ContainerBuilder $container): void
+    {
+        parent::load($configs, $container);
+
+        $configuration = $this->getGallyConfiguration();
+        $config = $this->processConfiguration($configuration, $configs);
+        $container->setParameter('gally.menu', $config['menu'] ?? []);
+        $container->setParameter('gally.configuration', $config['configuration'] ?? []);
     }
 
     protected function loadGallyConfig(ContainerBuilder $container): void

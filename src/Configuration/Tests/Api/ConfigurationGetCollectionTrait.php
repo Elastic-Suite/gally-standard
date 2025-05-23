@@ -462,7 +462,7 @@ trait ConfigurationGetCollectionTrait
         // Test get value type from symfony treeBuilder
         yield [
             null,                  // Default user
-            'gally.menu',          // Config path
+            'gally.analysis.char_filters', // Config path
             null,                  // Language code
             null,                  // Locale code
             null,                  // Request type
@@ -472,13 +472,9 @@ trait ConfigurationGetCollectionTrait
             200,                   // Expected response code
             [                      // Expected value
                 [
-                    'path' => 'gally.menu',
+                    'path' => 'gally.analysis.char_filters',
                     'value' => [
-                        'catalog' => ['order' => 10],
-                        'product' => ['parent' => 'catalog', 'order' => 20],
-                        'category' => ['parent' => 'catalog', 'order' => 10],
-                        'thesaurus' => ['order' => 30, 'path' => '/thesaurus/grid'],
-                        'optimizer' => ['order' => 20, 'css_class' => 'boost', 'path' => '/boost/grid'],
+                        'html_strip' => ['type' => 'html_strip'],
                     ],
                 ],
             ],
@@ -497,19 +493,49 @@ trait ConfigurationGetCollectionTrait
             200,                   // Expected response code
             [                      // Expected value
                 [
-                    'path' => 'gally.menu',
-                    'value' => [
-                        'catalog' => ['order' => 10],
-                        'product' => ['parent' => 'catalog', 'order' => 20],
-                        'category' => ['parent' => 'catalog', 'order' => 10],
-                        'thesaurus' => ['order' => 30, 'path' => '/thesaurus/grid'],
-                        'optimizer' => ['order' => 20, 'css_class' => 'boost', 'path' => '/boost/grid'],
-                    ],
-                ],
-                [
                     'path' => 'gally.analysis.char_filters',
                     'value' => [
                         'html_strip' => ['type' => 'html_strip'],
+                    ],
+                ],
+                [
+                    'path' => 'gally.analysis.filters',
+                    'value' => [
+                        'trim' => ['type' => 'trim'],
+                        'truncate_to_max' => ['type' => 'truncate','params' => ['length' => 8192]],
+                        'lowercase' => ['type' => 'lowercase'],
+                        'word_delimiter' => [
+                            'type' => 'word_delimiter',
+                            'params' => [
+                                'generate_word_parts' => true,
+                                'catenate_words' => true,
+                                'catenate_numbers' => true,
+                                'catenate_all' => true,
+                                'split_on_case_change' => true,
+                                'split_on_numerics' => true,
+                                'preserve_original' => true
+                            ]
+                        ],
+                        'shingle' => ['type' => 'shingle', 'params' => ['min_shingle_size' => 2,'max_shingle_size' => 2,'output_unigrams' => true]],
+                        'reference_shingle' => [
+                            'type' => 'shingle',
+                            'params' => ['min_shingle_size' => 2,'max_shingle_size' => 10,'output_unigrams' => true,'token_separator' => '']
+                        ],
+                        'reference_word_delimiter' => [
+                            'type' => 'word_delimiter',
+                            'params' => [
+                                'generate_word_parts' => true,
+                                'catenate_words' => false,
+                                'catenate_numbers' => false,
+                                'catenate_all' => false,
+                                'split_on_case_change' => true,
+                                'split_on_numerics' => true,
+                                'preserve_original' => false
+                            ]
+                        ],
+                        'ascii_folding' => ['type' => 'asciifolding','params' => ['preserve_original' => false]],
+                        'phonetic' => ['type' => 'phonetic','params' => ['encoder' => 'metaphone']],
+                        'edge_ngram_filter' => ['type' => 'edge_ngram','params' => ['min_gram' => 3, 'max_gram' => 20]]
                     ],
                 ],
             ],

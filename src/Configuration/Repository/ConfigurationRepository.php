@@ -48,6 +48,34 @@ class ConfigurationRepository extends ServiceEntityRepository
     }
 
     /**
+     * Returns a list of configuration paths that cannot be accessed via the config manager.
+     * These configurations should be injected directly into the services that require them.
+     *
+     * @return string[]
+     */
+    public static function getBlacklistedPaths(): array
+    {
+        return [
+            'gally.configuration',
+            'gally.menu',
+        ];
+    }
+
+    /**
+     * Check if the given path is one of the blacklisted paths.
+     */
+    public static function isPathValid(string $path): bool
+    {
+        foreach (self::getBlacklistedPaths() as $prefix) {
+            if (str_starts_with($path, $prefix)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
      * Define priority between scope type. It will be used to merge configuration in the good order.
      *
      * @return int[]

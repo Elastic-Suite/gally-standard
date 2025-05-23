@@ -81,9 +81,16 @@ class ConfigurationManager
      */
     public function getMultiScopedConfigurations(string $path, array $scopeCodeContext = []): array
     {
+        if (!ConfigurationRepository::isPathValid($path)) {
+            return [];
+        }
+
         $configurations = $this->getDefaultConfigurations($path);
 
         foreach ($this->configurationRepository->findByScope($path, $scopeCodeContext) as $configuration) {
+            if (!array_key_exists($configuration->getPath(), $configurations)) {
+                continue;
+            }
             $configurations[$configuration->getPath()] = $configuration;
         }
 
@@ -142,7 +149,7 @@ class ConfigurationManager
             }
         }
 
-        if (empty($configurations)) {
+        if (empty($configurations) && ConfigurationRepository::isPathValid($path)) {
             $configuration = new Configuration();
             $configuration->setId(0);
             $configuration->setPath($path);

@@ -148,6 +148,26 @@ class ConfigurationTest extends AbstractEntityTestWithUpdate
         yield [
             $user,
             [
+                'path' => 'gally.menu',
+                'value' => 'Fake value',
+                'scopeType' => Configuration::SCOPE_GENERAL,
+            ],
+            400,
+            'The given configuration path is blacklisted and must not be used with the configuration manager.',
+        ];
+        yield [
+            $user,
+            [
+                'path' => 'gally.menu.subpath',
+                'value' => 'Fake value',
+                'scopeType' => Configuration::SCOPE_GENERAL,
+            ],
+            400,
+            'The given configuration path is blacklisted and must not be used with the configuration manager.',
+        ];
+        yield [
+            $user,
+            [
                 'path' => 'gally.base_url.media',
                 'value' => 'Test value api',
                 'scopeType' => Configuration::SCOPE_GENERAL,
@@ -308,9 +328,9 @@ DETAIL:  Key (path, scope_type, scope_code)=(gally.base_url.media, localized_cat
 
     public function getCollectionDataProvider(): iterable
     {
-        yield [null, 40, 200];
-        yield [$this->getUser(Role::ROLE_CONTRIBUTOR), 40, 200];
-        yield [$this->getUser(Role::ROLE_ADMIN), 40, 200];
+        yield [null, 38, 200];
+        yield [$this->getUser(Role::ROLE_CONTRIBUTOR), 38, 200];
+        yield [$this->getUser(Role::ROLE_ADMIN), 38, 200];
     }
 
     /**

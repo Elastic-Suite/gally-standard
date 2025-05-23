@@ -1,0 +1,3 @@
+gally:
+    base_url: 
+        media: '%env(GALLY_CATALOG_MEDIA_URL)%'
