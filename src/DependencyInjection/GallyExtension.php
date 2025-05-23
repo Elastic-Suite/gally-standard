@@ -73,6 +73,7 @@ class GallyExtension extends Extension
         $configuration = $this->getGallyConfiguration();
         $config = $this->processConfiguration($configuration, $configs);
         $container->setParameter('gally.menu', $config['menu'] ?? []);
+        $container->setParameter('gally.configuration', $config['configuration'] ?? []);
     }
 
     protected function loadGallyConfig(ContainerBuilder $container): void
