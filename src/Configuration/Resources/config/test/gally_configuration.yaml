@@ -1,3 +1,73 @@
 gally:
-    base_url: 
-        media: 'test_value_file'
+    configuration:
+        scopes:
+            !php/const Gally\Configuration\Entity\Configuration::SCOPE_LANGUAGE:
+                label: 'Languages'
+                options:             
+                    values:
+                        - { value: 'fr', label: 'French'}
+                        - { value: 'en', label: 'English'}
+            !php/const Gally\Configuration\Entity\Configuration::SCOPE_LOCALE:
+                label: 'Locales'
+                options:             
+                    api_rest: '/boost_model_options'
+                    api_graphql: 'boostModelOptions'
+                    
+        groups:
+            general:
+                label: 'General'
+                scopeType: !php/const Gally\Configuration\Entity\Configuration::SCOPE_LOCALE               
+                fieldset:
+                    general:
+                        label: 'General'
+                        position: 10,
+                        tooltip: 'Test tooltip'
+                        fields: 
+                            gally.base_url.media:
+                                label: 'Base media url'
+                                position: 10
+                                input: 'string'
+                                visible: true
+                                editable: true
+                                placeholder: 'Test'
+                                infoTooltip: 'Test info tooltip'
+                                rangeDateType: 'from'
+                                rangeDateId: 'createdAt'
+                                options:
+                                    objectKeyValue: 'locale'
+                                    api_rest: '/boost_model_options'
+                                    api_graphql: 'boostModelOptions'
+                                    values:
+                                        - value: 'synonym' 
+                                          label: 'Synonym'
+                                        - value: 'expansion'
+                                          label: 'Expansion'
+                                depends:
+                                    - type: visible
+                                      conditions:
+                                          - field: 'scopeType'
+                                            value: 'test'
+                                multipleInputConfiguration:
+                                    inputDependencies:
+                                        -   field: 'model'
+                                            value: 'constant_score'
+                                            jsonKeyValue: 'constant_score_value'
+                                            input: 'slider'
+                                        -   field: 'model'
+                                            value: 'attribute_value'
+                                            jsonKeyValue: 'attribute_value_config'
+                                            input: 'proportionalToAttribute'
+                                validation:
+                                    min: 10
+                                    max: 100
+                                multipleValueFormat:
+                                    maxCount: 3
+                                requestTypeConfigurations:
+                                    operatorOptionsApi: 'boost_query_text_operator_options'
+                                    limitationTypeOptionsApi: 'boost_limitation_type_options'
+                                    requestTypeOptionsApi: 'boost_request_type_options'
+
+                    preview:
+                        label: 'Preview'
+                        position: 20,
+                        external: true

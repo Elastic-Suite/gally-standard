@@ -1,3 +1,21 @@
 gally:
-    base_url: 
-        media: '%env(GALLY_CATALOG_MEDIA_URL)%'
+    configuration:
+        scopes:
+            !php/const Gally\Configuration\Entity\Configuration::SCOPE_LANGUAGE:
+                label: 'Languages'
+                options:             
+                    api_rest: '/boost_model_options'
+                    api_graphql: 'boostModelOptions'
+                    
+        groups:
+            general:
+                label: 'General'
+                scopeType: !php/const Gally\Configuration\Entity\Configuration::SCOPE_LOCALIZED_CATALOG               
+                fieldset:
+                    general:
+                        label: 'General'
+                        fields: 
+                            gally.base_url.media:
+                                label: 'Base media url'
+                                position: 10
+                                input: 'string'
