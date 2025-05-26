@@ -3,9 +3,28 @@ gally:
         scopes:
             !php/const Gally\Configuration\Entity\Configuration::SCOPE_LANGUAGE:
                 label: 'Languages'
-                options:             
-                    api_rest: '/boost_model_options'
-                    api_graphql: 'boostModelOptions'
+                input: 'optgroup'
+                options:
+                    api_rest: '/language_options'
+                    api_graphql: 'languageOptions'
+            !php/const Gally\Configuration\Entity\Configuration::SCOPE_LOCALE:
+                label: 'Locales'
+                input: 'optgroup'
+                options:
+                    api_rest: '/locale_group_options'
+                    api_graphql: 'localeGroupOptions'
+            !php/const Gally\Configuration\Entity\Configuration::SCOPE_REQUEST_TYPE:
+                label: 'Request types'
+                input: 'select'
+                options:
+                    api_rest: '/request_type_options'
+                    api_graphql: 'requestTypeOptions'
+            !php/const Gally\Configuration\Entity\Configuration::SCOPE_LOCALIZED_CATALOG:
+                label: 'Localized catalogs'
+                input: 'optgroup'
+                options:
+                    api_rest: '/localized_catalog_group_options'
+                    api_graphql: 'localizedCatalogGroupOptions'
                     
         groups:
             general:
@@ -14,7 +33,7 @@ gally:
                 fieldset:
                     general:
                         label: 'General'
-                        fields: 
+                        fields:
                             gally.base_url.media:
                                 label: 'Base media url'
                                 position: 10
