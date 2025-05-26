@@ -148,6 +148,26 @@ class ConfigurationTest extends AbstractEntityTestWithUpdate
         yield [
             $user,
             [
+                'path' => 'gally.menu',
+                'value' => 'Fake value',
+                'scopeType' => Configuration::SCOPE_GENERAL,
+            ],
+            400,
+            'The given configuration path is blacklisted and must not be used with the configuration manager.',
+        ];
+        yield [
+            $user,
+            [
+                'path' => 'gally.menu.subpath',
+                'value' => 'Fake value',
+                'scopeType' => Configuration::SCOPE_GENERAL,
+            ],
+            400,
+            'The given configuration path is blacklisted and must not be used with the configuration manager.',
+        ];
+        yield [
+            $user,
+            [
                 'path' => 'gally.base_url.media',
                 'value' => 'Test value api',
                 'scopeType' => Configuration::SCOPE_GENERAL,
@@ -231,13 +251,6 @@ DETAIL:  Key (path, scope_type, scope_code)=(gally.base_url.media, localized_cat
         ];
     }
 
-    protected function getJsonCreationValidation(array $expectedData): array
-    {
-        $expectedData['value'] = json_encode($expectedData['value']);
-
-        return $expectedData;
-    }
-
     public function getDataProvider(): iterable
     {
         yield [
@@ -249,7 +262,7 @@ DETAIL:  Key (path, scope_type, scope_code)=(gally.base_url.media, localized_cat
                 'scopeType' => 'general',
                 'scopeCode' => null,
             ],
-            200,
+            401,
         ];
         yield [
             $this->getUser(Role::ROLE_CONTRIBUTOR),
@@ -291,14 +304,6 @@ DETAIL:  Key (path, scope_type, scope_code)=(gally.base_url.media, localized_cat
         yield [null, 1, ['value' => 'Value updated'], 405];
     }
 
-    protected function getJsonUpdateValidation(array $expectedData): array
-    {
-        $expectedData = parent::getJsonCreationValidation($expectedData);
-        $expectedData['value'] = json_encode($expectedData['value']);
-
-        return $expectedData;
-    }
-
     public function putUpdateDataProvider(): iterable
     {
         yield [null, 7, ['value' => 'Test value api by locale es_ES updated'], 401];
@@ -306,11 +311,45 @@ DETAIL:  Key (path, scope_type, scope_code)=(gally.base_url.media, localized_cat
         yield [$this->getUser(Role::ROLE_ADMIN), 7, ['value' => 'Test value api by locale es_ES updated'], 200];
     }
 
+    /**
+     * @dataProvider getCollectionDataProvider
+     *
+     * @depends testDelete
+     */
+    public function testGetCollection(?User $user, int $expectedItemNumber, int $responseCode): void
+    {
+        $request = new RequestToTest('GET', $this->getApiPath(), $user);
+        $expectedResponse = new ExpectedResponse(
+            $responseCode,
+            function (ResponseInterface $response) use ($expectedItemNumber) {
+                $shortName = $this->getShortName();
+                if ($response->getStatusCode() < 400) {
+                    $this->assertJsonContains(
+                        array_merge(
+                            [
+                                '@context' => $this->getRoute("contexts/$shortName"),
+                                '@id' => $this->getRoute($this->getApiPath()),
+                                '@type' => 'hydra:Collection',
+                            ],
+                            $this->getJsonGetCollectionValidation()
+                        )
+                    );
+                    $data = $response->toArray();
+                    $this->assertGreaterThanOrEqual($expectedItemNumber, $data['hydra:totalItems']);
+                } else {
+                    $this->assertJsonContains(['@context' => $this->getRoute("contexts/$shortName"), '@type' => 'hydra:Collection']);
+                }
+            }
+        );
+
+        $this->validateApiCall($request, $expectedResponse);
+    }
+
     public function getCollectionDataProvider(): iterable
     {
-        yield [null, 40, 200];
-        yield [$this->getUser(Role::ROLE_CONTRIBUTOR), 40, 200];
-        yield [$this->getUser(Role::ROLE_ADMIN), 40, 200];
+        yield [null, 38, 401];
+        yield [$this->getUser(Role::ROLE_CONTRIBUTOR), 38, 200];
+        yield [$this->getUser(Role::ROLE_ADMIN), 38, 200];
     }
 
     /**
@@ -318,7 +357,7 @@ DETAIL:  Key (path, scope_type, scope_code)=(gally.base_url.media, localized_cat
      */
     public function testFilteredGetCollection(
         ?User $user,
-        ?string $path,
+        string|array|null $path,
         ?string $language,
         ?string $localCode,
         ?string $requestType,

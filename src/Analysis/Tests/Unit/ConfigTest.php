@@ -46,6 +46,7 @@ class ConfigTest extends AbstractTestCase
                 static::getContainer()->get(ConfigurationRepository::class),
                 static::getContainer()->get(KernelInterface::class),
                 new ParameterBag(['gally' => ['gally' => $processor->processConfiguration($configurationFormat, $configData)]]),
+                new CacheManagerMock(),
             ),
             new CacheManagerMock(),
         );

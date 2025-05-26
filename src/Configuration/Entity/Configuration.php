@@ -25,16 +25,17 @@ use ApiPlatform\Metadata\Put;
 use Gally\Configuration\Controller\BulkConfigurations;
 use Gally\Configuration\State\ConfigurationProcessor;
 use Gally\Configuration\State\ConfigurationProvider;
-use Gally\Doctrine\Filter\SearchFilterWithDefault;
+use Gally\Doctrine\Filter\SearchFilter;
 use Gally\Doctrine\Filter\VirtualSearchFilter;
 use Gally\Metadata\Operation\Bulk;
 use Gally\User\Constant\Role;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Attribute\SerializedName;
 
 #[ApiResource(
     operations: [
-        new Get(),
-        new GetCollection(),
+        new Get(security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
+        new GetCollection(security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
         new Post(security: "is_granted('" . Role::ROLE_ADMIN . "')"),
         new Put(security: "is_granted('" . Role::ROLE_ADMIN . "')"),
         new Delete(security: "is_granted('" . Role::ROLE_ADMIN . "')"),
@@ -77,18 +78,18 @@ use Symfony\Component\Serializer\Annotation\Groups;
         ),
     ],
     graphQlOperations: [
-        new QueryCollection(name: 'collection_query'),
+        new QueryCollection(
+            name: 'collection_query',
+            normalizationContext: ['groups' => ['configuration:graphql']],
+            security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
+        ),
     ],
     paginationType: 'page',
     provider: ConfigurationProvider::class,
     processor: ConfigurationProcessor::class,
     normalizationContext: ['groups' => ['configuration:read']]
 )]
-#[ApiFilter(
-    filterClass: SearchFilterWithDefault::class,
-    properties: ['path' => 'ipartial'],
-    arguments: ['defaultValues' => ['path' => 'gally']])
-]
+#[ApiFilter(filterClass: SearchFilter::class, properties: ['path' => 'exact'])]
 #[ApiFilter(
     filterClass: VirtualSearchFilter::class,
     properties: [
@@ -107,20 +108,19 @@ class Configuration
     public const SCOPE_GENERAL = 'general';
 
     #[ApiProperty(identifier: true)]
-    #[Groups('configuration:read')]
+    #[Groups(['configuration:read', 'configuration:graphql'])]
     private int $id;
 
-    #[Groups('configuration:read')]
+    #[Groups(['configuration:read', 'configuration:graphql'])]
     private string $path;
 
-    #[Groups('configuration:read')]
-    public mixed $value;
+    private mixed $value;
 
-    #[Groups('configuration:read')]
-    public string $scopeType;
+    #[Groups(['configuration:read', 'configuration:graphql'])]
+    private string $scopeType;
 
-    #[Groups('configuration:read')]
-    public ?string $scopeCode;
+    #[Groups(['configuration:read', 'configuration:graphql'])]
+    private ?string $scopeCode;
 
     public function __construct()
     {
@@ -146,11 +146,15 @@ class Configuration
         $this->path = $path;
     }
 
-    public function getValue(): mixed
+    #[SerializedName('value')]
+    #[Groups(['configuration:graphql'])]
+    public function getValue(): string
     {
         return $this->value;
     }
 
+    #[SerializedName('value')]
+    #[Groups(['configuration:read'])]
     public function getDecodedValue(): mixed
     {
         return json_decode($this->value, true);

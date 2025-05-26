@@ -4,6 +4,7 @@ services:
             - '@Gally\Configuration\Repository\ConfigurationRepository'
             - '@kernel'
             - '@parameter_bag'
+            - '@Gally\Cache\Service\CacheManager'
             
     Gally\Configuration\Repository\ConfigurationRepository:
         arguments:
@@ -15,6 +16,13 @@ services:
         arguments:
             - '@Gally\Configuration\Service\ConfigurationManager'
             - '@api_platform.doctrine.orm.state.item_provider'
+        tags:
+            - { name: api_platform.state_provider }
+            - { name: doctrine.repository_service }
+    
+    Gally\Configuration\State\PublicConfigurationProvider:
+        arguments:
+            - '@Gally\Configuration\State\ConfigurationProvider'
         tags:
             - { name: api_platform.state_provider }
     

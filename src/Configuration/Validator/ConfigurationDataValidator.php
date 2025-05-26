@@ -39,6 +39,9 @@ class ConfigurationDataValidator
         if (null === $configuration->getPath()) {
             throw new InvalidArgumentException('Path is required for configuration.');
         }
+        if (!ConfigurationRepository::isPathValid($configuration->getPath())) {
+            throw new InvalidArgumentException('The given configuration path is blacklisted and must not be used with the configuration manager.');
+        }
         if (null === $configuration->getScopeType()) {
             throw new InvalidArgumentException('Scope type is required for configuration.');
         }
