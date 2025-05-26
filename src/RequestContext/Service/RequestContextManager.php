@@ -26,7 +26,7 @@ class RequestContextManager
 
     public function getHeaders(): array
     {
-        return $this->configurationManager->getScopedConfigValue('gally.request_context.headers');
+        return $this->configurationManager->getScopedConfigValue('gally.request_context.headers') ?? [];
     }
 
     public function getContext(): array
