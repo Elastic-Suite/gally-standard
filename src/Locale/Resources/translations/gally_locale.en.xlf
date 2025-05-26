@@ -13,5 +13,17 @@
                 <target>Unused Locales</target>
             </segment>
         </unit>
+        <unit id="gally_language_used_label">
+            <segment>
+                <source>gally.language.used.label</source>
+                <target>Language(s) used in catalog(s)</target>
+            </segment>
+        </unit>
+        <unit id="gally_language_unused_label">
+            <segment>
+                <source>gally.language.unused.label</source>
+                <target>Unused Languages</target>
+            </segment>
+        </unit>
     </file>
 </xliff>

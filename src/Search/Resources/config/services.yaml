@@ -478,3 +478,10 @@ services:
             - '@Gally\Metadata\Repository\SourceFieldRepository'
         tags:
             - { name: gally.search.ingest_pipeline_processors_provider }
+    
+    Gally\Search\State\RequestTypeOptionProvider:
+        arguments:
+            - '@Gally\Search\Elasticsearch\Request\Container\Configuration\ContainerConfigurationProvider'
+            - '@api_platform.doctrine.orm.state.item_provider'
+        tags:
+            - { name: api_platform.state_provider }
