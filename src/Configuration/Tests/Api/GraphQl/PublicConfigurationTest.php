@@ -13,16 +13,15 @@ declare(strict_types=1);
 
 namespace Gally\Configuration\Tests\Api\GraphQl;
 
-use Gally\Configuration\Tests\Api\ConfigurationGetCollectionTrait;
+use Gally\Configuration\Tests\Api\PublicConfigurationGetCollectionTrait;
 use Gally\Test\AbstractTestCase;
 use Gally\Test\ExpectedResponse;
 use Gally\Test\RequestGraphQlToTest;
-use Gally\User\Entity\User;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
-class ConfigurationTest extends AbstractTestCase
+class PublicConfigurationTest extends AbstractTestCase
 {
-    use ConfigurationGetCollectionTrait;
+    use PublicConfigurationGetCollectionTrait;
 
     public static function setUpBeforeClass(): void
     {
@@ -36,8 +35,6 @@ class ConfigurationTest extends AbstractTestCase
      * @dataProvider getFilteredCollectionDataProvider
      */
     public function testFilteredGetCollection(
-        ?User $user,
-        string|array|null $path,
         ?string $language,
         ?string $localCode,
         ?string $requestType,
@@ -47,39 +44,41 @@ class ConfigurationTest extends AbstractTestCase
         int $expectedResponseCode,
         array $expectedConfigurations,
     ): void {
-        $filters = \is_array($path)
-            ? 'path_list: ' . json_encode($path)
-            : 'path: "' . $path . '"';
+        $filters = [];
 
         if (null !== $language) {
-            $filters .= ', language: "' . $language . '"';
+            $filters[] = 'language: "' . $language . '"';
         }
         if (null !== $localCode) {
-            $filters .= ', localeCode: "' . $localCode . '"';
+            $filters[] = 'localeCode: "' . $localCode . '"';
         }
         if (null !== $requestType) {
-            $filters .= ', requestType: "' . $requestType . '"';
+            $filters[] = 'requestType: "' . $requestType . '"';
         }
         if (null !== $localizedCatalogCode) {
-            $filters .= ', localizedCatalogCode: "' . $localizedCatalogCode . '"';
+            $filters[] = 'localizedCatalogCode: "' . $localizedCatalogCode . '"';
         }
         if (null !== $pageSize) {
-            $filters .= ', pageSize: ' . $pageSize;
+            $filters[] = 'pageSize: ' . $pageSize;
         }
         if (null !== $currentPage) {
-            $filters .= ', currentPage: ' . $currentPage;
+            $filters[] = 'currentPage: ' . $currentPage;
         }
+
+        $api = empty($filters)
+            ? 'publicConfigurations'
+            : 'publicConfigurations(' . implode(' ,', $filters) . ')';
 
         $this->validateApiCall(
             new RequestGraphQlToTest(
                 <<<GQL
                     {
-                      configurations($filters) {
+                      $api {
                         collection { id, path, value }
                       }
                     }
                 GQL,
-                $user
+                null
             ),
             new ExpectedResponse(
                 200,
@@ -97,7 +96,7 @@ class ConfigurationTest extends AbstractTestCase
                             $expectedConfigurations
                         );
                         $this->assertJsonContains(
-                            ['data' => ['configurations' => ['collection' => $expectedConfigurations]]],
+                            ['data' => ['publicConfigurations' => ['collection' => $expectedConfigurations]]],
                             true,
                             $data['errors'][0]['message'] ?? ''
                         );

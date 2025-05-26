@@ -66,6 +66,15 @@ class GallyExtension extends Extension
         $this->loadGallyConfig($container);
     }
 
+    public function load(array $configs, ContainerBuilder $container): void
+    {
+        parent::load($configs, $container);
+
+        $configuration = $this->getGallyConfiguration();
+        $config = $this->processConfiguration($configuration, $configs);
+        $container->setParameter('gally.menu', $config['menu'] ?? []);
+    }
+
     protected function loadGallyConfig(ContainerBuilder $container): void
     {
         $isTestMode = 'test' === $container->getParameter('kernel.environment');

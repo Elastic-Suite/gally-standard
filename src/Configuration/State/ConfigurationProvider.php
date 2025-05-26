@@ -34,7 +34,7 @@ class ConfigurationProvider implements ProviderInterface
         }
 
         $path = (!isset($context['filters']['path']) || '' === $context['filters']['path'])
-            ? 'gally'
+            ? []
             : $context['filters']['path'];
         $currentPage = $context['filters']['currentPage'] ?? null;
         $pageSize = $context['filters']['pageSize'] ?? null;
@@ -46,7 +46,8 @@ class ConfigurationProvider implements ProviderInterface
                 Configuration::SCOPE_LOCALE => $context['filters']['localeCode'] ?? null,
                 Configuration::SCOPE_REQUEST_TYPE => $context['filters']['requestType'] ?? null,
                 Configuration::SCOPE_LOCALIZED_CATALOG => $context['filters']['localizedCatalogCode'] ?? null,
-            ]
+            ],
+            $context['only_public'] ?? false
         );
 
         if (null !== $pageSize) {
@@ -55,11 +56,6 @@ class ConfigurationProvider implements ProviderInterface
             $offset = ($currentPage - 1) * $pageSize;
 
             $data = \array_slice($data, $offset, $pageSize);
-        }
-
-        // Decode json for rest api
-        if (!$operation instanceof \ApiPlatform\Metadata\GraphQl\Operation) {
-            array_map(fn (Configuration $configuration) => $configuration->decode(), $data);
         }
 
         return $data;

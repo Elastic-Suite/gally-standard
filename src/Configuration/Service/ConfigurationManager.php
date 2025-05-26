@@ -14,12 +14,12 @@ declare(strict_types=1);
 namespace Gally\Configuration\Service;
 
 use Gally\Bundle\Entity\ExtraBundle;
+use Gally\Cache\Service\CacheManagerInterface;
 use Gally\Configuration\Entity\Configuration;
 use Gally\Configuration\Repository\ConfigurationRepository;
 use Gally\DependencyInjection\Extension;
 use Gally\Exception\LogicException;
 use Symfony\Component\Config\Definition\ArrayNode;
-use Symfony\Component\Config\Definition\NodeInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 
@@ -34,6 +34,7 @@ class ConfigurationManager
         private ConfigurationRepository $configurationRepository,
         private KernelInterface $kernel,
         private ParameterBagInterface $parameters,
+        private CacheManagerInterface $cacheManager,
     ) {
         $this->configTree = $this->buildConfigTree();
     }
@@ -79,11 +80,46 @@ class ConfigurationManager
      *
      * @return Configuration[]
      */
-    public function getMultiScopedConfigurations(string $path, array $scopeCodeContext = []): array
+    public function getMultiScopedConfigurations(array|string $paths, array $scopeCodeContext = [], bool $onlyPublic = false): array
     {
-        $configurations = $this->getDefaultConfigurations($path);
+        if (\is_string($paths) && !ConfigurationRepository::isPathValid($paths, $onlyPublic)) {
+            return [];
+        }
+        if (\is_array($paths)) {
+            if (empty($paths) && $onlyPublic) {
+                $paths = ConfigurationRepository::getPublicPaths();
+            } else {
+                $paths = ConfigurationRepository::filterInvalidPaths($paths, $onlyPublic);
+            }
+        }
 
-        foreach ($this->configurationRepository->findByScope($path, $scopeCodeContext) as $configuration) {
+        $defaultConfigurations = [];
+
+        foreach ($this->configTree as $key => $node) {
+            if ($this->parameters->has($key)) {
+                $values = $this->parameters->get($key);
+                $defaultConfigurations += $this->cacheManager->get(
+                    'gally_flatten_default_configurations_' . $key . '_' . $this->kernel->getEnvironment(),
+                    function (&$tags, &$ttl) use ($key, $node, $values): array {
+                        return $this->getFlattenDefaultConfigurations($key, $node, $values[$key]);
+                    },
+                    ['gally_flatten_configuration'],
+                );
+            }
+        }
+
+        if (!empty($paths)) {
+            $configurations = \is_string($paths)
+                ? array_filter($defaultConfigurations, fn ($key) => str_starts_with($key, $paths), \ARRAY_FILTER_USE_KEY)
+                : array_intersect_key($defaultConfigurations, array_flip($paths));
+        } else {
+            $configurations = $defaultConfigurations;
+        }
+
+        foreach ($this->configurationRepository->findByScope($paths, $scopeCodeContext) as $configuration) {
+            if (!\array_key_exists($configuration->getPath(), $configurations)) {
+                continue;
+            }
             $configurations[$configuration->getPath()] = $configuration;
         }
 
@@ -96,58 +132,22 @@ class ConfigurationManager
      *
      * @return Configuration[]
      */
-    private function getDefaultConfigurations(string $path): array
+    private function getFlattenDefaultConfigurations(string $path, ArrayNode $node, array $values): array
     {
         $configurations = [];
-        $pathAsArray = explode('.', $path);
-        if ('' === $path) {
-            return $configurations;
-        }
 
-        $rootNode = reset($pathAsArray);
-        $node = $this->configTree[$rootNode];
-        $value = $this->parameters->get($rootNode);
-        foreach ($pathAsArray as $key) {
-            if ($key == $node->getName()) {
-                $value = $value[$key];
-            } elseif ($node instanceof ArrayNode && \array_key_exists($key, $node->getChildren())) {
-                if (!\array_key_exists($key, $value)) {
-                    return $configurations;
-                }
-                $value = $value[$key];
-                $node = $node->getChildren()[$key];
+        foreach ($node->getChildren() as $key => $child) {
+            if ($child instanceof ArrayNode && !empty($child->getChildren())) {
+                $configurations += $this->getFlattenDefaultConfigurations($path . '.' . $key, $child, $values[$key] ?? []);
             } else {
-                return $configurations;
+                if (ConfigurationRepository::isPathValid($path . '.' . $key)) {
+                    $configuration = new Configuration();
+                    $configuration->setId(0);
+                    $configuration->setPath($path . '.' . $key);
+                    $configuration->setValue($values[$key] ?? null);
+                    $configurations[$path . '.' . $key] = $configuration;
+                }
             }
-        }
-
-        return $this->getFlattenConfiguration($node, $value, $path);
-    }
-
-    /**
-     * Flatten default configurations to match database structure.
-     *
-     * @return Configuration[]
-     */
-    private function getFlattenConfiguration(NodeInterface $node, mixed $value, string $path): array
-    {
-        $configurations = [];
-
-        if ($node instanceof ArrayNode) {
-            foreach ($node->getChildren() as $name => $child) {
-                $configurations = array_merge(
-                    $configurations,
-                    $this->getFlattenConfiguration($child, $value[$name] ?? null, implode('.', [$path, $name]))
-                );
-            }
-        }
-
-        if (empty($configurations)) {
-            $configuration = new Configuration();
-            $configuration->setId(0);
-            $configuration->setPath($path);
-            $configuration->setValue($value);
-            $configurations[$path] = $configuration;
         }
 
         return $configurations;
