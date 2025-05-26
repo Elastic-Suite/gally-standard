@@ -56,6 +56,7 @@ class ConfigurationRepository extends ServiceEntityRepository
     public static function getBlacklistedPaths(): array
     {
         return [
+            'gally.configuration',
             'gally.menu',
         ];
     }
