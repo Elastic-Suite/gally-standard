@@ -2,25 +2,25 @@ gally:
     configuration:
         scopes:
             !php/const Gally\Configuration\Entity\Configuration::SCOPE_LANGUAGE:
-                label: 'Languages'
+                labelKey: 'gally_configuration.scope.language.label'
                 input: 'optgroup'
                 options:
                     api_rest: '/language_options'
                     api_graphql: 'languageOptions'
             !php/const Gally\Configuration\Entity\Configuration::SCOPE_LOCALE:
-                label: 'Locales'
+                labelKey: 'gally_configuration.scope.locales.label'
                 input: 'optgroup'
                 options:
                     api_rest: '/locale_group_options'
                     api_graphql: 'localeGroupOptions'
             !php/const Gally\Configuration\Entity\Configuration::SCOPE_REQUEST_TYPE:
-                label: 'Request types'
+                labelKey: 'gally_configuration.scope.request_type.label'
                 input: 'select'
                 options:
                     api_rest: '/request_type_options'
                     api_graphql: 'requestTypeOptions'
             !php/const Gally\Configuration\Entity\Configuration::SCOPE_LOCALIZED_CATALOG:
-                label: 'Localized catalogs'
+                labelKey: 'gally_configuration.scope.localized_catalog.label'
                 input: 'optgroup'
                 options:
                     api_rest: '/localized_catalog_group_options'
@@ -28,13 +28,13 @@ gally:
                     
         groups:
             general:
-                label: 'General'
+                labelKey: 'gally_configuration.group.general.label'
                 scopeType: !php/const Gally\Configuration\Entity\Configuration::SCOPE_LOCALIZED_CATALOG               
-                fieldset:
+                fieldsets:
                     general:
-                        label: 'General'
+                        labelKey: 'gally_configuration.group.general.fieldset.general.label'
                         fields:
                             gally.base_url.media:
-                                label: 'Base media url'
+                                labelKey: 'gally_configuration.gally_base_url_media.label'
                                 position: 10
                                 input: 'string'

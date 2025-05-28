@@ -2,35 +2,35 @@ gally:
     configuration:
         scopes:
             !php/const Gally\Configuration\Entity\Configuration::SCOPE_LANGUAGE:
-                label: 'Languages'
+                labelKey: 'gally_configuration.scope.language.label'
                 options:             
                     values:
                         - { value: 'fr', label: 'French'}
                         - { value: 'en', label: 'English'}
             !php/const Gally\Configuration\Entity\Configuration::SCOPE_LOCALE:
-                label: 'Locales'
+                labelKey: 'gally_configuration.scope.locales.label'
                 options:             
                     api_rest: '/boost_model_options'
                     api_graphql: 'boostModelOptions'
                     
         groups:
             general:
-                label: 'General'
+                labelKey: 'gally_configuration.group.general.label'
                 scopeType: !php/const Gally\Configuration\Entity\Configuration::SCOPE_LOCALE               
-                fieldset:
+                fieldsets:
                     general:
-                        label: 'General'
-                        position: 10,
-                        tooltip: 'Test tooltip'
+                        labelKey: 'gally_configuration.group.general.fieldset.general.label'
+                        position: 10
+                        tooltipKey: 'gally_configuration.group.general.fieldset.general.toolTip'
                         fields: 
                             gally.base_url.media:
-                                label: 'Base media url'
+                                labelKey: 'gally_configuration.gally_base_url_media.label'
                                 position: 10
                                 input: 'string'
                                 visible: true
                                 editable: true
-                                placeholder: 'Test'
-                                infoTooltip: 'Test info tooltip'
+                                placeholderKey: 'gally_configuration.gally_base_url_media.placeholder'
+                                infoTooltipKey: 'gally_configuration.gally_base_url_media.toolTip'
                                 rangeDateType: 'from'
                                 rangeDateId: 'createdAt'
                                 options:
@@ -68,6 +68,6 @@ gally:
                                     requestTypeOptionsApi: 'boost_request_type_options'
 
                     preview:
-                        label: 'Preview'
-                        position: 20,
+                        position: 20
                         external: true
+    
