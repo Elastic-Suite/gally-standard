@@ -103,38 +103,6 @@ class MultiTermsTest extends KernelTestCase
     }
 
     /**
-     * Test the standard term aggregation building sorted by relevance.
-     */
-    public function testRelevanceSortOrderTermAggregationBuild(): void
-    {
-        $aggBuilder = $this->getAggregationAssembler();
-        $multiTermBucket = new MultiTerms(
-            'aggregationName',
-            'fieldName',
-            ['otherFieldName'],
-            [],
-            null,
-            null,
-            null,
-            0,
-            BucketInterface::SORT_ORDER_RELEVANCE,
-            [],
-            [], 2
-        );
-
-        $aggregation = $aggBuilder->assembleAggregation($multiTermBucket);
-
-        $this->assertArrayHasKey('multi_terms', $aggregation);
-        // $this->assertArrayHasKey('terms', $aggregation['multi_terms']);
-        // $this->assertIsArray($aggregation['multi_terms']['terms']);
-        // $this->assertEquals([['field' => 'fieldName'], ['field' => 'otherFieldName']], $aggregation['multi_terms']['terms']);
-        $this->assertEquals(['termRelevance' => SortOrderInterface::SORT_DESC], $aggregation['multi_terms']['order']);
-        $this->assertArrayHasKey('aggregations', $aggregation);
-        $this->assertArrayHasKey('termRelevance', $aggregation['aggregations']);
-        $this->assertEquals(['avg' => ['script' => BucketInterface::SORT_ORDER_RELEVANCE]], $aggregation['aggregations']['termRelevance']);
-    }
-
-    /**
      * Test the standard term aggregation building with filter.
      */
     public function testWithFilter(): void

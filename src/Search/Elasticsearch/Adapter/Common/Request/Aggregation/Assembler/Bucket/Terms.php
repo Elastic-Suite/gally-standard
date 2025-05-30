@@ -39,9 +39,6 @@ class Terms implements AssemblerInterface
             $aggregationEs['terms']['order'] = [$aggregation::SORT_ORDER_COUNT => SortOrderInterface::SORT_DESC];
         } elseif ($aggregation->getSortOrder() == $aggregation::SORT_ORDER_TERM) {
             $aggregationEs['terms']['order'] = [$aggregation::SORT_ORDER_TERM => SortOrderInterface::SORT_ASC];
-        } elseif ($aggregation->getSortOrder() == $aggregation::SORT_ORDER_RELEVANCE && !$aggregation->isNested()) {
-            $aggregationEs['aggregations']['termRelevance'] = ['avg' => ['script' => $aggregation::SORT_ORDER_RELEVANCE]];
-            $aggregationEs['terms']['order'] = ['termRelevance' => SortOrderInterface::SORT_DESC];
         }
 
         return $aggregationEs;

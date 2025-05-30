@@ -165,7 +165,7 @@ class FacetConfigurationTest extends AbstractTestCase
             [$admin, '3-0', ['coverageRate' => 0, 'sortOrder' => 'invalidSortOrder'], 422, 'sortOrder: The value you selected is not a valid choice.'],
             [$this->getUser(Role::ROLE_CONTRIBUTOR), '3-0', ['coverageRate' => 0, 'sortOrder' => BucketInterface::SORT_ORDER_COUNT], 200],
             [$admin, '3-0', ['coverageRate' => 1, 'maxSize' => 100, 'sortOrder' => BucketInterface::SORT_ORDER_TERM, 'position' => 1], 200],
-            [$admin, '3-cat_1', ['coverageRate' => 10, 'sortOrder' => BucketInterface::SORT_ORDER_RELEVANCE], 200],
+            [$admin, '3-cat_1', ['coverageRate' => 10, 'sortOrder' => BucketInterface::SORT_ORDER_MANUAL], 200],
             [$admin, '4-cat_1', ['coverageRate' => 10, 'sortOrder' => BucketInterface::SORT_ORDER_MANUAL, 'position' => 1], 200],
             [$admin, '3-cat_2', ['coverageRate' => 90], 200], // Put the default value back on a sub level
         ];
@@ -211,7 +211,7 @@ class FacetConfigurationTest extends AbstractTestCase
                 'cat_1',
                 [
                     ['sourceField' => 2, 'category' => 'cat_1', 'sourceFieldLabel' => 'Name'],
-                    ['sourceField' => 3, 'category' => 'cat_1', 'coverageRate' => 10, 'maxSize' => 100, 'defaultCoverageRate' => 1, 'defaultMaxSize' => 100, 'sourceFieldLabel' => 'Brand', 'sortOrder' => BucketInterface::SORT_ORDER_RELEVANCE, 'defaultSortOrder' => BucketInterface::SORT_ORDER_TERM, 'position' => 1, 'defaultPosition' => 1],
+                    ['sourceField' => 3, 'category' => 'cat_1', 'coverageRate' => 10, 'maxSize' => 100, 'defaultCoverageRate' => 1, 'defaultMaxSize' => 100, 'sourceFieldLabel' => 'Brand', 'sortOrder' => BucketInterface::SORT_ORDER_MANUAL, 'defaultSortOrder' => BucketInterface::SORT_ORDER_TERM, 'position' => 1, 'defaultPosition' => 1],
                     ['sourceField' => 4, 'category' => 'cat_1', 'coverageRate' => 10, 'sourceFieldLabel' => 'Color', 'sortOrder' => BucketInterface::SORT_ORDER_MANUAL, 'position' => 1],
                     ['sourceField' => 5, 'category' => 'cat_1', 'coverageRate' => 90, 'sourceFieldLabel' => 'Category'],
                     ['sourceField' => 6, 'category' => 'cat_1', 'coverageRate' => 90, 'sourceFieldLabel' => 'Length'],

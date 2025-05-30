@@ -48,9 +48,6 @@ class MultiTerms implements AssemblerInterface
             $aggregationEs['multi_terms']['order'] = [$aggregation::SORT_ORDER_COUNT => SortOrderInterface::SORT_DESC];
         } elseif ($aggregation->getSortOrder() == $aggregation::SORT_ORDER_TERM) {
             $aggregationEs['multi_terms']['order'] = [$aggregation::SORT_ORDER_TERM => SortOrderInterface::SORT_ASC];
-        } elseif ($aggregation->getSortOrder() == $aggregation::SORT_ORDER_RELEVANCE && !$aggregation->isNested()) {
-            $aggregationEs['aggregations']['termRelevance'] = ['avg' => ['script' => $aggregation::SORT_ORDER_RELEVANCE]];
-            $aggregationEs['multi_terms']['order'] = ['termRelevance' => SortOrderInterface::SORT_DESC];
         }
 
         return $aggregationEs;

@@ -214,7 +214,6 @@ class Configuration
                             ['value' => BucketInterface::SORT_ORDER_COUNT, 'label' => 'Result count'],
                             ['value' => BucketInterface::SORT_ORDER_MANUAL, 'label' => 'Admin sort'],
                             ['value' => BucketInterface::SORT_ORDER_TERM, 'label' => 'Name'],
-                            ['value' => BucketInterface::SORT_ORDER_RELEVANCE, 'label' => 'Relevance'],
                         ],
                     ],
                 ],
@@ -484,7 +483,6 @@ class Configuration
         return [
             BucketInterface::SORT_ORDER_COUNT,
             BucketInterface::SORT_ORDER_TERM,
-            BucketInterface::SORT_ORDER_RELEVANCE,
             BucketInterface::SORT_ORDER_MANUAL,
         ];
     }
