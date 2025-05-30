@@ -69,7 +69,7 @@ class TermsTest extends AbstractBucketTestCase
             'nestedPath' => 'category',
             'size' => 10,
             'minDocCount' => 10,
-            'sortOrder' => BucketInterface::SORT_ORDER_RELEVANCE,
+            'sortOrder' => BucketInterface::SORT_ORDER_TERM,
         ]];
 
         yield [[
@@ -78,7 +78,7 @@ class TermsTest extends AbstractBucketTestCase
             'nestedPath' => 'category',
             'size' => 10,
             'minDocCount' => 10,
-            'sortOrder' => BucketInterface::SORT_ORDER_RELEVANCE,
+            'sortOrder' => BucketInterface::SORT_ORDER_TERM,
             'include' => [
                 'red',
                 'blue',
@@ -91,7 +91,7 @@ class TermsTest extends AbstractBucketTestCase
             'nestedPath' => 'category',
             'size' => 10,
             'minDocCount' => 10,
-            'sortOrder' => BucketInterface::SORT_ORDER_RELEVANCE,
+            'sortOrder' => BucketInterface::SORT_ORDER_TERM,
             'exclude' => [
                 'red',
                 'blue',

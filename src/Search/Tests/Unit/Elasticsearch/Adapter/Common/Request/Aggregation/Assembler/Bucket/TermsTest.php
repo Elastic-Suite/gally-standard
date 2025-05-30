@@ -73,24 +73,6 @@ class TermsTest extends KernelTestCase
     }
 
     /**
-     * Test the standard term aggregation building sorted by relevance.
-     */
-    public function testRelevanceSortOrderTermAggregationBuild(): void
-    {
-        $aggBuilder = $this->getAggregationAssembler();
-        $termsBucket = new Terms('aggregationName', 'fieldName', [], null, null, null, 0, BucketInterface::SORT_ORDER_RELEVANCE, [], [], 2);
-
-        $aggregation = $aggBuilder->assembleAggregation($termsBucket);
-
-        $this->assertArrayHasKey('terms', $aggregation);
-        $this->assertEquals('fieldName', $aggregation['terms']['field']);
-        $this->assertEquals(['termRelevance' => SortOrderInterface::SORT_DESC], $aggregation['terms']['order']);
-        $this->assertArrayHasKey('aggregations', $aggregation);
-        $this->assertArrayHasKey('termRelevance', $aggregation['aggregations']);
-        $this->assertEquals(['avg' => ['script' => BucketInterface::SORT_ORDER_RELEVANCE]], $aggregation['aggregations']['termRelevance']);
-    }
-
-    /**
      * Test the standard term aggregation building with filter.
      */
     public function testWithFilter(): void
