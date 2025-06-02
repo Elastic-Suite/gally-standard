@@ -1,0 +1,31 @@
+Gally\Configuration\Entity\Configuration:
+    conf1:
+        path: 'gally.relevance.fulltext.minimumShouldMatch'
+        value: '70%'
+        scopeType: 'localized_catalog'
+        scopeCode: 'b2c_fr_relevance'
+    conf2:
+        path: 'gally.relevance.phraseMatch.enabled'
+        value: true
+        scopeType: 'localized_catalog'
+        scopeCode: 'b2c_fr_relevance'
+    conf3:
+        path: 'gally.relevance.phraseMatch.boost'
+        value: 25
+        scopeType: 'localized_catalog'
+        scopeCode: 'b2c_fr_relevance'
+    conf4:
+        path: 'gally.relevance.cutOffFrequency.value'
+        value: '0.30'
+        scopeType: 'localized_catalog'
+        scopeCode: 'b2c_fr_relevance'
+    conf5:
+        path: 'gally.relevance.fulltext.minimumShouldMatch'
+        value: '60%'
+        scopeType: 'localized_catalog'
+        scopeCode: 'b2b_en_relevance'
+    conf6:
+        path: 'gally.relevance.fulltext.tieBreaker'
+        value: 2
+        scopeType: 'localized_catalog'
+        scopeCode: 'b2b_en_relevance'

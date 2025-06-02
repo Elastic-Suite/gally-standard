@@ -3,7 +3,6 @@ services:
         arguments:
             - '%gally.menu%'
             - '@Symfony\Contracts\Translation\TranslatorInterface'
-            - '@request_stack'
             
     Gally\Menu\Resolver\MenuResolver:
         arguments:

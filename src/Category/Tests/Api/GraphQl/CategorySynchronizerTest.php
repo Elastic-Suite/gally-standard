@@ -53,20 +53,25 @@ class CategorySynchronizerTest extends AbstractTestCase
 {
     use IndexActions;
 
-    protected static IndexRepositoryInterface $indexRepository;
-    protected static CategoryRepository $categoryRepository;
-    protected static CategoryConfigurationRepository $categoryConfigurationRepository;
-    protected static SerializerInterface $serializer;
+    protected IndexRepositoryInterface $indexRepository;
+    protected CategoryRepository $categoryRepository;
+    protected CategoryConfigurationRepository $categoryConfigurationRepository;
+    protected SerializerInterface $serializer;
 
-    public static function setUpBeforeClass(): void
+    /**
+     * Use setUp instead of setupBeforeClass in order to
+     * reset test data between testSynchronizeRetry and testSynchronize.
+     */
+    protected function setUp(): void
     {
-        // Use setUp instead of setupBeforeClass in order to
-        // reset test data between testSynchronizeRetry and testSynchronize
-        parent::setUpBeforeClass();
-        \assert(static::getContainer()->get(IndexRepositoryInterface::class) instanceof IndexRepositoryInterface);
-        self::$indexRepository = static::getContainer()->get(IndexRepositoryInterface::class);
-        self::$categoryConfigurationRepository = static::getContainer()->get(CategoryConfigurationRepository::class);
-        self::$serializer = static::getContainer()->get('api_platform.serializer');
+        parent::setUp();
+        self::bootKernel();
+
+        $container = static::getContainer();
+        $this->indexRepository = $container->get(IndexRepositoryInterface::class);
+        $this->categoryConfigurationRepository = $container->get(CategoryConfigurationRepository::class);
+        $this->serializer = $container->get('api_platform.serializer');
+
         self::loadFixture([
             __DIR__ . '/../../fixtures/catalogs.yaml',
             __DIR__ . '/../../fixtures/source_field.yaml',
@@ -204,7 +209,7 @@ class CategorySynchronizerTest extends AbstractTestCase
         $catalog1 = $catalogRepository->findOneBy(['code' => 'b2c_fr']);
         $indexName = $this->createIndex('category', $catalog1->getId());
         $this->installIndex($indexName);
-        $index = self::$indexRepository->findByName($indexName);
+        $index = $this->indexRepository->findByName($indexName);
 
         $this->expectException(SyncCategoryException::class);
         $this->expectExceptionMessage('error test message');
@@ -252,7 +257,7 @@ class CategorySynchronizerTest extends AbstractTestCase
         sleep(1); // Avoid creating two index at the same second
         $indexName = $this->createIndex('category', $catalog1->getId());
         $this->installIndex($indexName);
-        $index = self::$indexRepository->findByName($indexName);
+        $index = $this->indexRepository->findByName($indexName);
 
         $mutationMock = $this->getMockBuilder($mutationClass)
             ->disableOriginalConstructor()
@@ -261,7 +266,7 @@ class CategorySynchronizerTest extends AbstractTestCase
         $decorator = new $decorator(
             $mutationMock,
             $synchronizer,
-            ...$constructorParams,
+            ...array_map(fn ($serviceName) => static::getContainer()->get($serviceName), $constructorParams),
         );
 
         $this->assertEquals($index, $decorator->__invoke(null, ['args' => ['input' => ['data' => '[]']]]));
@@ -270,7 +275,7 @@ class CategorySynchronizerTest extends AbstractTestCase
         $decorator = new $decorator(
             $mutationMock,
             $synchronizer,
-            ...$constructorParams,
+            ...array_map(fn ($serviceName) => static::getContainer()->get($serviceName), $constructorParams),
         );
         $this->expectException(SyncCategoryException::class);
         $decorator->__invoke(null, ['args' => ['input' => ['data' => '[]']]]);
@@ -278,14 +283,9 @@ class CategorySynchronizerTest extends AbstractTestCase
 
     public function retryTestDataProvider(): iterable
     {
-        $indexSettings = static::getContainer()->get(IndexSettings::class);
-        $indexRepository = static::getContainer()->get(IndexRepository::class);
-        $categoryProductPositionManager = static::getContainer()->get(CategoryProductPositionManager::class);
-        $categoryProductMerchandisingRepository = static::getContainer()->get(CategoryProductMerchandisingRepository::class);
-
-        yield [InstallIndexMutation::class, SyncCategoryDataAfterInstall::class, [$categoryProductPositionManager]];
-        yield [BulkIndexMutation::class, SyncCategoryDataAfterBulk::class, [$indexSettings, $indexRepository, $categoryProductPositionManager]];
-        yield [BulkDeleteIndexMutation::class, SyncCategoryDataAfterBulkDelete::class, [$indexSettings, $indexRepository, $categoryProductMerchandisingRepository]];
+        yield [InstallIndexMutation::class, SyncCategoryDataAfterInstall::class, [CategoryProductPositionManager::class]];
+        yield [BulkIndexMutation::class, SyncCategoryDataAfterBulk::class, [IndexSettings::class, IndexRepository::class, CategoryProductPositionManager::class]];
+        yield [BulkDeleteIndexMutation::class, SyncCategoryDataAfterBulkDelete::class, [IndexSettings::class, IndexRepository::class, CategoryProductMerchandisingRepository::class]];
     }
 
     protected function prepareIndex(int $catalogId, array $data): void
@@ -319,8 +319,8 @@ class CategorySynchronizerTest extends AbstractTestCase
         $entityManager = static::getContainer()->get('doctrine')->getManager();
         // Clear cache and instantiate a new repository to force repository to get a fresh db object.
         $entityManager->clear();
-        self::$categoryRepository = static::getContainer()->get(CategoryRepository::class);
-        self::$categoryConfigurationRepository = static::getContainer()->get(CategoryConfigurationRepository::class);
+        $this->categoryRepository = static::getContainer()->get(CategoryRepository::class);
+        $this->categoryConfigurationRepository = static::getContainer()->get(CategoryConfigurationRepository::class);
     }
 
     protected function getMockerSynchronizer(bool $succeedOnRetry = false): CategorySynchronizer

@@ -85,7 +85,7 @@ class CoverageTest extends AbstractTestCase
         $facetConfigRepository->setMetadata($metadata);
         $facetsConfigs = $facetConfigRepository->findAll();
 
-        $searchSettings->set('aggregations', ['coverage_use_indexed_fields_property' => $coverageUseIndexFieldsProperty]);
+        $searchSettings->setCoverageUseIndexedFieldsProperty($coverageUseIndexFieldsProperty);
         $facetsConfigs = $coverage->modifyFacetConfigs($containerConfig, $facetsConfigs, null, [], []);
         $this->assertEquals(
             $expectedAggregations,

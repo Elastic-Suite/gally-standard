@@ -13,5 +13,17 @@
                 <target>Locales non utilisées</target>
             </segment>
         </unit>
+        <unit id="gally_language_used_label">
+            <segment>
+                <source>gally.language.used.label</source>
+                <target>Langue(s) utilisée(s) par les catalgue(s)</target>
+            </segment>
+        </unit>
+        <unit id="gally_language_unused_label">
+            <segment>
+                <source>gally.language.unused.label</source>
+                <target>Langues non utilisées</target>
+            </segment>
+        </unit>
     </file>
 </xliff>

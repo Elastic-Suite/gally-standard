@@ -1,6 +1,69 @@
 services:
+    Gally\Configuration\Service\ConfigurationManager:
+        arguments:
+            - '@Gally\Configuration\Repository\ConfigurationRepository'
+            - '@kernel'
+            - '@parameter_bag'
+            - '@Gally\Cache\Service\CacheManager'
+    
+    Gally\Configuration\Service\ConfigurationTreeBuilder:
+        arguments:
+            - '%gally.configuration%'
+            - '@Symfony\Contracts\Translation\TranslatorInterface'
+            
+    Gally\Configuration\Repository\ConfigurationRepository:
+        arguments:
+            - '@Doctrine\Persistence\ManagerRegistry'
+        tags:
+            - { name: doctrine.repository_service }
+    
     Gally\Configuration\State\ConfigurationProvider:
         arguments:
-            - '%gally.base_url%'
+            - '@Gally\Configuration\Service\ConfigurationManager'
+            - '@api_platform.doctrine.orm.state.item_provider'
         tags:
             - { name: api_platform.state_provider }
+            - { name: doctrine.repository_service }
+    
+    Gally\Configuration\State\PublicConfigurationProvider:
+        arguments:
+            - '@Gally\Configuration\State\ConfigurationProvider'
+        tags:
+            - { name: api_platform.state_provider }
+    
+    Gally\Configuration\State\ConfigurationProcessor:
+        arguments:
+            - '@api_platform.doctrine.orm.state.persist_processor'
+            - '@api_platform.doctrine.orm.state.remove_processor'
+            - '@Gally\Configuration\Validator\ConfigurationDataValidator'
+            - '@Gally\Configuration\Repository\ConfigurationRepository'
+            - '@doctrine.orm.entity_manager'
+        tags:
+            - { name: api_platform.state_processor }
+                
+    Gally\Configuration\Validator\ConfigurationDataValidator:
+        arguments:
+            - '@Gally\Catalog\Repository\LocalizedCatalogRepository'
+            - '@Gally\Search\Elasticsearch\Request\Container\Configuration\ContainerConfigurationProvider'
+    
+    Gally\Configuration\Controller\BulkConfigurations:
+        arguments:
+            - '@Gally\Configuration\State\ConfigurationProcessor'
+        calls:
+            - [ setContainer, [ '@service_container' ] ]
+        tags:
+            - { name: controller.service_arguments }
+    
+    Gally\Configuration\Controller\ConfigurationTreeController:
+        arguments:
+            - '@Gally\Configuration\Service\ConfigurationTreeBuilder'
+        calls:
+            - [ setContainer, [ '@service_container' ] ]
+        tags:
+            - { name: controller.service_arguments }    
+    
+    Gally\Configuration\Resolver\ConfigurationTreeResolver:
+        arguments:
+            - '@Gally\Configuration\Service\ConfigurationTreeBuilder'
+        tags:
+            - { name: api_platform.graphql.query_resolver }

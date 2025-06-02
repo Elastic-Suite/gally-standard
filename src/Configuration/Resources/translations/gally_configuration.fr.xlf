@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" version="2.0" srcLang="en-US" trgLang="fr-FR">
+    <file id="gally_configuration.fr">
+        <unit id="gally_configuration.scope.language.label">
+            <segment>
+                <source>gally_configuration.scope.language.label</source>
+                <target>Langues</target>
+            </segment>
+        </unit>
+        <unit id="gally_configuration.scope.locales.label">
+            <segment>
+                <source>gally_configuration.scope.locales.label</source>
+                <target>Locales</target>
+            </segment>
+        </unit>
+        <unit id="gally_configuration.scope.request_type.label">
+            <segment>
+                <source>gally_configuration.scope.request_type.label</source>
+                <target>Types de requête</target>
+            </segment>
+        </unit>
+        <unit id="gally_configuration.scope.localized_catalog.label">
+            <segment>
+                <source>gally_configuration.scope.localized_catalog.label</source>
+                <target>Catalogues localisés</target>
+            </segment>
+        </unit>
+        <unit id="gally_configuration.group.general.label">
+            <segment>
+                <source>gally_configuration.group.general.label</source>
+                <target>Général</target>
+            </segment>
+        </unit>
+        <unit id="gally_configuration.group.general.fieldset.general.label">
+            <segment>
+                <source>gally_configuration.group.general.fieldset.general.label</source>
+                <target>Général</target>
+            </segment>
+        </unit>
+        <unit id="gally_configuration.gally_base_url_media.label">
+            <segment>
+                <source>gally_configuration.gally_base_url_media.label</source>
+                <target>Base url pour les média</target>
+            </segment>
+        </unit>
+    </file>
+</xliff>
