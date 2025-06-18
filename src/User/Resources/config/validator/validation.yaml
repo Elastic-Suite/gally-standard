@@ -1,0 +1,17 @@
+Gally\User\Entity\User:
+    properties:
+        firstName:
+            - NotBlank: ~
+        lastName:
+            - NotBlank: ~
+        email:
+            - NotBlank: ~
+            - Length:
+                  min: 1
+                  max: 180
+            - Email: ~
+        roles:
+            - NotBlank: ~
+            - Json: ~
+        isActive:
+            - Type: bool
