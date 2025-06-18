@@ -13,6 +13,9 @@ declare(strict_types=1);
 
 namespace Gally\User\Entity;
 
+use ApiPlatform\Doctrine\Orm\Filter\BooleanFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
@@ -47,12 +50,61 @@ use Symfony\Component\Serializer\Annotation\Groups;
     denormalizationContext: ['groups' => ['user:write']],
     normalizationContext: ['groups' => ['user:read']]
 )]
+#[ApiFilter(filterClass: SearchFilter::class, properties: ['email' => 'ipartial', 'roles' => 'exact'])]
+//#[ApiFilter(filterClass: BooleanFilter::class, properties: ['isActive'])]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[Groups('user:read')]
     private int $id;
 
     #[ApiProperty(
+        required: true,
+        extraProperties: [
+            'hydra:supportedProperty' => [
+                'hydra:property' => [
+                    'rdfs:label' => 'First name',
+                ],
+                'gally' => [
+                    'visible' => true,
+                    'editable' => false,
+                    'position' => 10,
+                    'form' => [
+                        'placeholder' => 'First name',
+                        'fieldset' => 'general',
+                        'position' => 10,
+                    ],
+                ],
+            ],
+        ],
+    )]
+    #[Groups(['user:read', 'user:write'])]
+    private string $firstName;
+
+    #[ApiProperty(
+        required: true,
+        extraProperties: [
+            'hydra:supportedProperty' => [
+                'hydra:property' => [
+                    'rdfs:label' => 'Last name',
+                ],
+                'gally' => [
+                    'visible' => true,
+                    'editable' => false,
+                    'position' => 20,
+                    'form' => [
+                        'placeholder' => 'Last name',
+                        'fieldset' => 'general',
+                        'position' => 20,
+                    ],
+                ],
+            ],
+        ],
+    )]
+    #[Groups(['user:read', 'user:write'])]
+    private string $lastName;
+
+    #[ApiProperty(
+        required: true,
         extraProperties: [
             'hydra:supportedProperty' => [
                 'hydra:property' => [
@@ -61,11 +113,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 'gally' => [
                     'visible' => true,
                     'editable' => false,
-                    'position' => 10,
+                    'position' => 30,
                     'form' => [
                         'placeholder' => 'E-mail',
                         'fieldset' => 'general',
-                        'position' => 10,
+                        'position' => 30,
                     ],
                 ],
             ],
@@ -75,6 +127,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private string $email;
 
     #[ApiProperty(
+        required: true,
         extraProperties: [
             'hydra:supportedProperty' => [
                 'hydra:property' => [
@@ -83,11 +136,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 'gally' => [
                     'visible' => true,
                     'editable' => false,
-                    'position' => 20,
+                    'position' => 40,
+                    'input' => 'select',
+                    'options' => [
+                        'values' => [
+                            ['value' => Role::ROLE_ADMIN, 'label' => Role::ROLE_ADMIN],
+                            ['value' => Role::ROLE_CONTRIBUTOR, 'label' => Role::ROLE_CONTRIBUTOR],
+                        ],
+                    ],
                     'form' => [
                         'placeholder' => 'Role',
                         'fieldset' => 'general',
-                        'position' => 20,
+                        'position' => 50,
                     ],
                 ],
             ],
@@ -96,11 +156,59 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Groups(['user:read', 'user:write'])]
     private array $roles = [];
 
+    #[ApiProperty(
+        required: true,
+        extraProperties: [
+            'hydra:supportedProperty' => [
+                'hydra:property' => [
+                    'rdfs:label' => 'Enable',
+                ],
+                'gally' => [
+                    'visible' => true,
+                    'editable' => false,
+                    'position' => 60,
+                    'form' => [
+                        'defaultValue' => true,
+                        'fieldset' => 'general',
+                        'position' => 60,
+                        'disabled' => true,
+                    ],
+                ],
+            ],
+        ],
+    )]
+    #[Groups(['user:read', 'user:write'])]
+    private bool $isActive = true;
+
     private string $password;
 
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getFirstName(): string
+    {
+        return $this->firstName;
+    }
+
+    public function setFirstName(string $firstName): self
+    {
+        $this->firstName = $firstName;
+
+        return $this;
+    }
+
+    public function getLastName(): string
+    {
+        return $this->lastName;
+    }
+
+    public function setLastName(string $lastName): self
+    {
+        $this->lastName = $lastName;
+
+        return $this;
     }
 
     public function getEmail(): ?string
@@ -149,6 +257,44 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;
+
+        return $this;
+    }
+
+    #[ApiProperty(
+        extraProperties: [
+            'hydra:supportedProperty' => [
+                'hydra:property' => [
+                    'rdfs:label' => 'Password',
+                ],
+                'gally' => [
+                    'visible' => false,
+                    'editable' => false,
+                    'position' => 30,
+                    'form' => [
+                        'visible' => true,
+                        'placeholder' => '********',
+                        'fieldset' => 'general',
+                        'position' => 40,
+                    ],
+                ],
+            ],
+        ],
+    )]
+    #[Groups(['user:read'])]
+    public function getDummyPassword(): string
+    {
+        return 'dummy password';
+    }
+
+    public function isActive(): bool
+    {
+        return $this->isActive;
+    }
+
+    public function setIsActive(bool $isActive): self
+    {
+        $this->isActive = $isActive;
 
         return $this;
     }
