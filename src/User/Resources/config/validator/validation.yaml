@@ -12,6 +12,6 @@ Gally\User\Entity\User:
             - Email: ~
         roles:
             - NotBlank: ~
-            - Json: ~
+            - Choice: { callback: getValidRole, multiple: true }
         isActive:
             - Type: bool

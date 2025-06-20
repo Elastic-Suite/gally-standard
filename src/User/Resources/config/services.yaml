@@ -53,5 +53,7 @@ services:
         arguments:
             - '@Gally\Email\Service\EmailSender'
             - '@Gally\User\Service\UserManager'
+            - '@Gally\Configuration\Service\BaseUrlProvider'
+            - '@request_stack'
         tags:
             - { name: kernel.event_subscriber }

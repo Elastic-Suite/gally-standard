@@ -50,8 +50,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
     denormalizationContext: ['groups' => ['user:write']],
     normalizationContext: ['groups' => ['user:read']]
 )]
-#[ApiFilter(filterClass: SearchFilter::class, properties: ['email' => 'ipartial', 'roles' => 'exact'])]
-//#[ApiFilter(filterClass: BooleanFilter::class, properties: ['isActive'])]
+#[ApiFilter(filterClass: SearchFilter::class, properties: ['firstName' => 'ipartial', 'lastName' => 'ipartial', 'email' => 'ipartial', 'roles' => 'exact'])]
+#[ApiFilter(filterClass: BooleanFilter::class, properties: ['isActive'])]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[Groups('user:read')]
@@ -71,7 +71,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                     'form' => [
                         'placeholder' => 'First name',
                         'fieldset' => 'general',
-                        'position' => 10,
+                        'position' => 20,
                     ],
                 ],
             ],
@@ -94,7 +94,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                     'form' => [
                         'placeholder' => 'Last name',
                         'fieldset' => 'general',
-                        'position' => 20,
+                        'position' => 30,
                     ],
                 ],
             ],
@@ -114,10 +114,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                     'visible' => true,
                     'editable' => false,
                     'position' => 30,
+                    'input' => 'email',
                     'form' => [
                         'placeholder' => 'E-mail',
                         'fieldset' => 'general',
-                        'position' => 30,
+                        'position' => 40,
                     ],
                 ],
             ],
@@ -131,9 +132,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         extraProperties: [
             'hydra:supportedProperty' => [
                 'hydra:property' => [
-                    'rdfs:label' => 'Role',
+                    'rdfs:label' => 'Role(s)',
                 ],
                 'gally' => [
+                    'infoTooltip' => 'If you select value ROLE_ADMIN, all the roles will be selected automatically, because the ROLE_ADMIN includes all the roles.',
                     'visible' => true,
                     'editable' => false,
                     'position' => 40,
@@ -147,7 +149,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                     'form' => [
                         'placeholder' => 'Role',
                         'fieldset' => 'general',
-                        'position' => 50,
+                        'position' => 60,
                     ],
                 ],
             ],
@@ -170,8 +172,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                     'form' => [
                         'defaultValue' => true,
                         'fieldset' => 'general',
-                        'position' => 60,
-                        'disabled' => true,
+                        'position' => 10,
                     ],
                 ],
             ],
@@ -271,11 +272,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                     'visible' => false,
                     'editable' => false,
                     'position' => 30,
+                    'input' => 'password',
                     'form' => [
                         'visible' => true,
                         'placeholder' => '********',
                         'fieldset' => 'general',
-                        'position' => 40,
+                        'position' => 50,
                     ],
                 ],
             ],
@@ -284,10 +286,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Groups(['user:read'])]
     public function getDummyPassword(): string
     {
-        return 'dummy password';
+        return '********';
     }
 
-    public function isActive(): bool
+    public function getIsActive(): bool
     {
         return $this->isActive;
     }
@@ -321,5 +323,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    /**
+     * Get valid role values.
+     *
+     * @return int[]
+     */
+    public static function getValidRole(): array
+    {
+        return Role::ROLES;
     }
 }

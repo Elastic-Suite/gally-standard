@@ -4,3 +4,7 @@ services:
             - '%gally.base_url%'
         tags:
             - { name: api_platform.state_provider }
+
+    Gally\Configuration\Service\BaseUrlProvider:
+        arguments:
+            - '%gally.base_url%'
