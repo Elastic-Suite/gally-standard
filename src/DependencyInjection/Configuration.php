@@ -256,6 +256,9 @@ class Configuration implements GallyConfigurationInterface
                         ->scalarNode('media')
                             ->defaultValue('https://%env(SERVER_NAME)%/media/catalog/product/')
                         ->end()
+                        ->scalarNode('front')
+                            ->defaultValue('https://%env(SERVER_NAME)%/')
+                        ->end()
                     ->end()
                 ->end()
 

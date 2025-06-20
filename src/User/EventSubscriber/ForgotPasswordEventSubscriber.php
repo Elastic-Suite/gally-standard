@@ -17,16 +17,20 @@ use CoopTilleuls\ForgotPasswordBundle\Event\UpdatePasswordEvent;
 use Doctrine\ORM\Event\PostPersistEventArgs;
 use CoopTilleuls\ForgotPasswordBundle\Event\CreateTokenEvent;
 use Gally\Category\Service\CategoryProductPositionManager;
+use Gally\Configuration\Service\BaseUrlProvider;
 use Gally\Email\Service\EmailSender;
 use Gally\User\Entity\User;
 use Gally\User\Service\UserManager;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class ForgotPasswordEventSubscriber implements EventSubscriberInterface
 {
     public function __construct(
         private EmailSender $emailSender,
         private UserManager $userManager,
+        private BaseUrlProvider $baseUrlProvider,
+        private RequestStack $requestStack,
     ) {
     }
 
@@ -44,6 +48,7 @@ class ForgotPasswordEventSubscriber implements EventSubscriberInterface
         $passwordToken = $event->getPasswordToken();
         /** @var User $user */
         $user = $passwordToken->getUser();
+        $language = json_decode($this->requestStack->getCurrentRequest()->getContent(), true)['language'] ?? 'en';
 
         #todo: traduire les mails
         $this->emailSender->sendTemplateEmail(
@@ -51,7 +56,10 @@ class ForgotPasswordEventSubscriber implements EventSubscriberInterface
             $user->getEmail(),
             'Reset password',
             '@GallyBundle/emails/user_reset_password.html.twig',
-            ['password_token' => $passwordToken->getToken()]
+            [
+                'password_token' => $passwordToken->getToken(),
+                'token_url' => $this->baseUrlProvider->getFrontUrlWithLanguage($language) . 'reset-password?' . http_build_query(['token' => $passwordToken->getToken()]),
+            ]
         );
     }
 
