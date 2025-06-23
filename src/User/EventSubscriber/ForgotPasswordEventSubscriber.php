@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Gally\User\EventSubscriber;
 
 use CoopTilleuls\ForgotPasswordBundle\Event\UpdatePasswordEvent;
+use CoopTilleuls\ForgotPasswordBundle\Provider\ProviderInterface;
 use Doctrine\ORM\Event\PostPersistEventArgs;
 use CoopTilleuls\ForgotPasswordBundle\Event\CreateTokenEvent;
 use Gally\Category\Service\CategoryProductPositionManager;
@@ -27,9 +28,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 class ForgotPasswordEventSubscriber implements EventSubscriberInterface
 {
     public function __construct(
-        private EmailSender $emailSender,
         private UserManager $userManager,
-        private BaseUrlProvider $baseUrlProvider,
         private RequestStack $requestStack,
     ) {
     }
@@ -50,17 +49,7 @@ class ForgotPasswordEventSubscriber implements EventSubscriberInterface
         $user = $passwordToken->getUser();
         $language = json_decode($this->requestStack->getCurrentRequest()->getContent(), true)['language'] ?? 'en';
 
-        #todo: traduire les mails
-        $this->emailSender->sendTemplateEmail(
-            'admin@example.com', #todo: update with configuration
-            $user->getEmail(),
-            'Reset password',
-            '@GallyBundle/emails/user_reset_password.html.twig',
-            [
-                'password_token' => $passwordToken->getToken(),
-                'token_url' => $this->baseUrlProvider->getFrontUrlWithLanguage($language) . 'reset-password?' . http_build_query(['token' => $passwordToken->getToken()]),
-            ]
-        );
+        $this->userManager->sendResetPasswordEmail($user, $passwordToken, $language);
     }
 
     public function updatePassword(UpdatePasswordEvent $event): void
@@ -69,6 +58,5 @@ class ForgotPasswordEventSubscriber implements EventSubscriberInterface
         /** @var User $user */
         $user = $passwordToken->getUser();
         $this->userManager->update($user->getEmail(), null, null, $event->getPassword());
-        //todo : gérer l'echec de validation du password ? envoyer un mail pour dire changement du password fait.
     }
 }

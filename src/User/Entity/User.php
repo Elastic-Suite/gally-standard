@@ -28,10 +28,21 @@ use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
 use Gally\User\Constant\Role;
+use Gally\User\State\UserProcessor;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
-
+/**
+ *  RAF
+ *
+ * Gérer les users désactivés
+ * Faire fonctionner le filtre role qui est de type array/json
+ * Ajouter un un message d'erreur plus joli quand le user existe déjà.
+ * Edit n'est pas traduit dans les grids
+ * Traduire le mail + ajouter le sender par défaut dans la config.
+ * Once user is created the first time, email can't be modified.
+ * Disable Password field.
+ */
 #[ApiResource(
     operations: [
         new Get(security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
@@ -47,6 +58,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
         new Mutation(name: 'create', security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
         new Mutation(name: 'update', security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
         new Mutation(name: 'delete', security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')")],
+    processor: UserProcessor::class,
     denormalizationContext: ['groups' => ['user:write']],
     normalizationContext: ['groups' => ['user:read']]
 )]
@@ -129,25 +141,27 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ApiProperty(
         required: true,
+        types: 'array',
         extraProperties: [
             'hydra:supportedProperty' => [
                 'hydra:property' => [
                     'rdfs:label' => 'Role(s)',
+                    'range' => 'xmls:array',
                 ],
                 'gally' => [
-                    'infoTooltip' => 'If you select value ROLE_ADMIN, all the roles will be selected automatically, because the ROLE_ADMIN includes all the roles.',
+                    'infoTooltip' => 'If you select the value ROLE_ADMIN, all roles will be selected automatically, because ROLE_ADMIN includes all roles.',
                     'visible' => true,
                     'editable' => false,
                     'position' => 40,
                     'input' => 'select',
                     'options' => [
                         'values' => [
-                            ['value' => Role::ROLE_ADMIN, 'label' => Role::ROLE_ADMIN],
-                            ['value' => Role::ROLE_CONTRIBUTOR, 'label' => Role::ROLE_CONTRIBUTOR],
+                            ['value' => Role::ROLE_ADMIN, 'label' => 'Administrator'],
+                            ['value' => Role::ROLE_CONTRIBUTOR, 'label' => 'Contributor'],
                         ],
                     ],
                     'form' => [
-                        'placeholder' => 'Role',
+                        'placeholder' => 'Role(s)',
                         'fieldset' => 'general',
                         'position' => 60,
                     ],
@@ -181,7 +195,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Groups(['user:read', 'user:write'])]
     private bool $isActive = true;
 
-    private string $password;
+    private ?string $password = null;
 
     public function getId(): ?int
     {
@@ -269,6 +283,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                     'rdfs:label' => 'Password',
                 ],
                 'gally' => [
+                    'infoTooltip' => "An email will be sent to the user so that they can set their password.",
                     'visible' => false,
                     'editable' => false,
                     'position' => 30,
@@ -304,7 +319,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @see PasswordAuthenticatedUserInterface
      */
-    public function getPassword(): string
+    public function getPassword(): ?string
     {
         return $this->password;
     }

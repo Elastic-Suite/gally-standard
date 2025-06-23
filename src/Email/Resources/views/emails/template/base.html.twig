@@ -1,19 +1,19 @@
 {# templates/emails/base.html.twig #}
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="UTF-8">
-    <title>{% block subject %}Titre du mail{% endblock %}</title>
-</head>
-<body style="font-family: Arial, sans-serif; background: #f9f9f9; padding: 20px;">
-<div style="max-width: 600px; margin: auto; background: white; border: 1px solid #ddd; padding: 20px;">
-    {% include '@GallyBundle/emails/template/base/_header.html.twig' %}
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block subject %}{% endblock %}</title>
+    </head>
+    <body style="font-family: Arial, sans-serif; background: rgb(234, 240, 246); padding: 20px; color :rgb(35, 73, 109);">
+        <div style="max-width: 600px; margin: auto; background: white; border: 1px solid #ddd; padding: 20px;">
+            {% include '@GallyBundle/emails/template/base/_header.html.twig' %}
 
-    <div style="padding: 20px 0;">
-        {% block body %}{% endblock %}
-    </div>
+            <div style="padding: 20px 0;">
+                {% block body %}{% endblock %}
+            </div>
 
-    {% include '@GallyBundle/emails/template/base/_footer.html.twig' %}
-</div>
-</body>
+            {% include '@GallyBundle/emails/template/base/_footer.html.twig' %}
+        </div>
+    </body>
 </html>

@@ -13,8 +13,13 @@ declare(strict_types=1);
 
 namespace Gally\User\Service;
 
+use CoopTilleuls\ForgotPasswordBundle\Entity\AbstractPasswordToken;
+use CoopTilleuls\ForgotPasswordBundle\Manager\ForgotPasswordManager;
+use CoopTilleuls\ForgotPasswordBundle\Provider\ProviderInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityNotFoundException;
+use Gally\Configuration\Service\BaseUrlProvider;
+use Gally\Email\Service\EmailSender;
 use Gally\User\Constant\Role;
 use Gally\User\Entity\User;
 use Gally\User\Repository\UserRepository;
@@ -26,6 +31,8 @@ class UserManager
         private EntityManagerInterface $entityManager,
         private UserRepository $userRepository,
         private UserPasswordHasherInterface $passwordHasher,
+        private EmailSender $emailSender,
+        private BaseUrlProvider $baseUrlProvider,
     ) {
     }
 
@@ -80,5 +87,24 @@ class UserManager
     public function getFakeRoles(array $roles): array
     {
         return array_diff($roles, $this->getRoles());
+    }
+
+    public function sendResetPasswordEmail(User $user, AbstractPasswordToken $passwordToken, string $frontLanguage = 'en'): void
+    {
+        $subject = sprintf("Password reset for %s %s", $user->getFirstName(), $user->getLastName());
+        #todo: traduire les mails
+        $this->emailSender->sendTemplateEmail(
+            'admin@example.com', #todo: update with configuration
+            $user->getEmail(),
+            $subject,
+            '@GallyBundle/emails/user_reset_password.html.twig',
+            [
+                'subject' => $subject,
+                'first_name' => $user->getFirstName(),
+                'last_name' => $user->getLastName(),
+                'password_token' => $passwordToken->getToken(),
+                'token_url' => $this->baseUrlProvider->getFrontUrlWithLanguage($frontLanguage) . 'reset-password?' . http_build_query(['token' => $passwordToken->getToken()]),
+            ]
+        );
     }
 }
