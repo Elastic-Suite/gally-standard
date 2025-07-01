@@ -53,7 +53,7 @@ class ConfigurationRepository extends ServiceEntityRepository
      *
      * @return string[]
      */
-    public static function getBlacklistedPaths(): array
+    public function getBlacklistedPaths(): array
     {
         return [
             'gally.configuration',
@@ -62,12 +62,11 @@ class ConfigurationRepository extends ServiceEntityRepository
     }
 
     /**
-     * Returns a list of configuration paths that cannot be accessed via the config manager.
-     * These configurations should be injected directly into the services that require them.
+     * Returns a list of configuration paths that can be accessed via the public api entrypoint.
      *
      * @return string[]
      */
-    public static function getPublicPaths(): array
+    public function getPublicPaths(): array
     {
         return [
             'gally.base_url.media',
@@ -77,16 +76,16 @@ class ConfigurationRepository extends ServiceEntityRepository
     /**
      * Check if the given path is one of the blacklisted paths.
      */
-    public static function isPathValid(string $path, bool $onlyPublic = false): bool
+    public function isPathValid(string $path, bool $onlyPublic = false): bool
     {
-        foreach (self::getBlacklistedPaths() as $prefix) {
+        foreach ($this->getBlacklistedPaths() as $prefix) {
             if (str_starts_with($path, $prefix)) {
                 return false;
             }
         }
 
         if ($onlyPublic) {
-            return \in_array($path, self::getPublicPaths(), true);
+            return \in_array($path, $this->getPublicPaths(), true);
         }
 
         return true;
@@ -95,11 +94,11 @@ class ConfigurationRepository extends ServiceEntityRepository
     /**
      * Remove blacklisted paths from the list of given paths.
      */
-    public static function filterInvalidPaths(array $paths, bool $onlyPublic = false): array
+    public function filterInvalidPaths(array $paths, bool $onlyPublic = false): array
     {
         $validPaths = [];
         foreach ($paths as $path) {
-            if (self::isPathValid($path, $onlyPublic)) {
+            if ($this->isPathValid($path, $onlyPublic)) {
                 $validPaths[] = $path;
             }
         }

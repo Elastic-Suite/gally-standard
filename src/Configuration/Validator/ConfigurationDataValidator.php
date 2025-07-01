@@ -26,6 +26,7 @@ class ConfigurationDataValidator
     public function __construct(
         private LocalizedCatalogRepository $localizedCatalogRepository,
         private ContainerConfigurationProvider $configurationProvider,
+        private ConfigurationRepository $configurationRepository,
     ) {
     }
 
@@ -39,7 +40,7 @@ class ConfigurationDataValidator
         if (null === $configuration->getPath()) {
             throw new InvalidArgumentException('Path is required for configuration.');
         }
-        if (!ConfigurationRepository::isPathValid($configuration->getPath())) {
+        if (!$this->configurationRepository->isPathValid($configuration->getPath())) {
             throw new InvalidArgumentException('The given configuration path is blacklisted and must not be used with the configuration manager.');
         }
         if (null === $configuration->getScopeType()) {

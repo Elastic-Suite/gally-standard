@@ -82,14 +82,14 @@ class ConfigurationManager
      */
     public function getMultiScopedConfigurations(array|string $paths, array $scopeCodeContext = [], bool $onlyPublic = false): array
     {
-        if (\is_string($paths) && !ConfigurationRepository::isPathValid($paths, $onlyPublic)) {
+        if (\is_string($paths) && !$this->configurationRepository->isPathValid($paths, $onlyPublic)) {
             return [];
         }
         if (\is_array($paths)) {
             if (empty($paths) && $onlyPublic) {
-                $paths = ConfigurationRepository::getPublicPaths();
+                $paths = $this->configurationRepository->getPublicPaths();
             } else {
-                $paths = ConfigurationRepository::filterInvalidPaths($paths, $onlyPublic);
+                $paths = $this->configurationRepository->filterInvalidPaths($paths, $onlyPublic);
             }
         }
 
@@ -140,7 +140,7 @@ class ConfigurationManager
             if ($child instanceof ArrayNode && !empty($child->getChildren())) {
                 $configurations += $this->getFlattenDefaultConfigurations($path . '.' . $key, $child, $values[$key] ?? []);
             } else {
-                if (ConfigurationRepository::isPathValid($path . '.' . $key)) {
+                if ($this->configurationRepository->isPathValid($path . '.' . $key)) {
                     $configuration = new Configuration();
                     $configuration->setId(0);
                     $configuration->setPath($path . '.' . $key);
