@@ -45,6 +45,7 @@ services:
         arguments:
             - '@Gally\Catalog\Repository\LocalizedCatalogRepository'
             - '@Gally\Search\Elasticsearch\Request\Container\Configuration\ContainerConfigurationProvider'
+            - '@Gally\Configuration\Repository\ConfigurationRepository'
     
     Gally\Configuration\Controller\BulkConfigurations:
         arguments:
