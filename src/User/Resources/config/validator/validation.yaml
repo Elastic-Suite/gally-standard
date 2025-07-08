@@ -15,3 +15,8 @@ Gally\User\Entity\User:
             - Choice: { callback: getValidRole, multiple: true }
         isActive:
             - Type: bool
+    constraints:
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
+            fields: [ email ]
+            errorPath: email
+            message: 'gally.user.email.unique'

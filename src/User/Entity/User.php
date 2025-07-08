@@ -34,14 +34,16 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 /**
  *  RAF
- *
+ * Ajouter logo avec la base line - ok
+ * Enlever utilisateur dans la page grid - ok
+ *  Edit n'est pas traduit dans les grids - ok
+ * Ajouter un message d'erreur plus joli quand le user existe déjà. - ok
  * Gérer les users désactivés
- * Faire fonctionner le filtre role qui est de type array/json
- * Ajouter un un message d'erreur plus joli quand le user existe déjà.
- * Edit n'est pas traduit dans les grids
  * Traduire le mail + ajouter le sender par défaut dans la config.
+ * Faire fonctionner le filtre role qui est de type array/json
  * Once user is created the first time, email can't be modified.
  * Disable Password field.
+ * Test unit
  */
 #[ApiResource(
     operations: [
