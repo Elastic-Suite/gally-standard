@@ -302,6 +302,15 @@ class Configuration implements ConfigurationInterface
                 // Ingest pipeline configuration
                 ->scalarNode('pipeline_prefix')->isRequired()->end()
 
+                // Cache tag filter
+                ->arrayNode('cache_tag_filter')
+                    ->normalizeKeys(false)
+                    ->useAttributeAsKey('normalization_context')
+                    ->arrayPrototype()
+                        ->prototype('scalar')->end()
+                    ->end()
+                ->end()
+
             ->end();
 
         return $treeBuilder;
