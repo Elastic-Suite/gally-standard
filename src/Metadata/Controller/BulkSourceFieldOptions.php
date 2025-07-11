@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Gally\Metadata\Controller;
 
+use ApiPlatform\HttpCache\PurgerInterface;
+use ApiPlatform\Metadata\IriConverterInterface;
 use Gally\Metadata\State\SourceFieldOptionProcessor;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,13 +25,25 @@ class BulkSourceFieldOptions extends AbstractController
 {
     public function __construct(
         private SourceFieldOptionProcessor $sourceFieldOptionProcessor,
+        private IriConverterInterface $iriConverter,
+        private PurgerInterface $purger,
     ) {
     }
 
     public function __invoke(Request $request): array
     {
-        $options = json_decode($request->getContent(), true);
+        $sourceFieldOptions = json_decode($request->getContent(), true);
 
-        return $this->sourceFieldOptionProcessor->persistMultiple($options);
+        $sourceFieldOptionEntities = $this->sourceFieldOptionProcessor->persistMultiple($sourceFieldOptions);
+        $tags = [];
+
+        foreach ($sourceFieldOptionEntities as $sourceFieldOption) {
+            $iri = $this->iriConverter->getIriFromResource($sourceFieldOption);
+            $tags[$iri] = $iri;
+        }
+
+        $this->purger->purge(array_values($tags));
+
+        return $sourceFieldOptionEntities;
     }
 }

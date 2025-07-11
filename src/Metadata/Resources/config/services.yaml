@@ -94,6 +94,8 @@ services:
     Gally\Metadata\Controller\BulkSourceFields:
         arguments:
             - '@Gally\Metadata\State\SourceFieldProcessor'
+            - '@api_platform.iri_converter'
+            - '@api_platform.http_cache.purger'
         calls:
             - [ setContainer, [ '@service_container' ] ]
         tags:
@@ -102,6 +104,8 @@ services:
     Gally\Metadata\Controller\BulkSourceFieldOptions:
         arguments:
             - '@Gally\Metadata\State\SourceFieldOptionProcessor'
+            - '@api_platform.iri_converter'
+            - '@api_platform.http_cache.purger'
         calls:
             - [ setContainer, [ '@service_container' ] ]
         tags:
