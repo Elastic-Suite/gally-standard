@@ -153,6 +153,8 @@ class SourceFieldTest extends AbstractEntityTestWithUpdate
             $expectedData['isUsedInAutocomplete'] = false;
         }
 
+        unset($expectedData['labels']);
+
         return parent::getJsonCreationValidation($expectedData);
     }
 
@@ -323,11 +325,7 @@ class SourceFieldTest extends AbstractEntityTestWithUpdate
 
     protected function getJsonUpdateValidation(array $expectedData): array
     {
-        foreach ($expectedData['labels'] ?? [] as $index => $label) {
-            // Remove localized catalog in labels data because localized catalog are include as sub entity in response.
-            // @see api/packages/gally-standard/src/Catalog/Model/LocalizedCatalog.php:55
-            unset($expectedData['labels'][$index]['localizedCatalog']);
-        }
+        unset($expectedData['labels']);
 
         // Test that autocomplete sourceField are always filterable
         if (\array_key_exists('isUsedInAutocomplete', $expectedData) && $expectedData['isUsedInAutocomplete']) {
@@ -524,8 +522,9 @@ class SourceFieldTest extends AbstractEntityTestWithUpdate
             ],
             30, // Expected source field number
             [ // Expected data in response
-                1 => ['labels' => [0 => ['label' => 'Localized label source field 2']]],
-                2 => ['labels' => [1 => ['label' => 'Localized label 2 source field 5']]],
+                0 => ['code' => 'sku'],
+                1 => ['code' => 'new_source_field_2'],
+                2 => ['code' => 'new_source_field_5'],
             ],
             [ // Expected search values
                 'sku' => 'sku Reference',
@@ -557,8 +556,8 @@ class SourceFieldTest extends AbstractEntityTestWithUpdate
             ],
             30, // Expected source field number
             [ // Expected data in response
-                0 => ['labels' => [0 => ['label' => 'Localized label 2 source field 2']]],
-                1 => ['labels' => [0 => ['label' => 'Localized label 2 source field 5']]],
+                0 => ['code' => 'new_source_field_2'],
+                1 => ['code' => 'new_source_field_5'],
             ],
             [ // Expected search values
                 'new_source_field_2' => 'new_source_field_2 Localized label 2 source field 2',

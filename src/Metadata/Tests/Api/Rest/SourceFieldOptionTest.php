@@ -71,11 +71,7 @@ class SourceFieldOptionTest extends AbstractEntityTestWithUpdate
 
     protected function getJsonCreationValidation(array $expectedData): array
     {
-        foreach ($expectedData['labels'] ?? [] as $index => $label) {
-            // Remove localized catalog in labels data because localized catalog are include as sub entity in response.
-            // @see api/packages/gally-standard/src/Catalog/Model/LocalizedCatalog.php:55
-            unset($expectedData['labels'][$index]['localizedCatalog']);
-        }
+        unset($expectedData['labels']);
 
         return parent::getJsonCreationValidation($expectedData);
     }
@@ -188,16 +184,9 @@ class SourceFieldOptionTest extends AbstractEntityTestWithUpdate
 
     protected function getJsonUpdateValidation(array $expectedData): array
     {
-        foreach ($expectedData['labels'] ?? [] as $index => $label) {
-            // Remove localized catalog in labels data because localized catalog are include as sub entity in response.
-            // @see api/packages/gally-standard/src/Catalog/Model/LocalizedCatalog.php:55
-            unset($expectedData['labels'][$index]['localizedCatalog']);
+        unset($expectedData['labels']);
 
-            // Remove id because the label will be removed and added on update
-            unset($expectedData['labels'][$index]['@id']);
-        }
-
-        return parent::getJsonCreationValidation($expectedData);
+        return parent::getJsonUpdateValidation($expectedData);
     }
 
     /**
@@ -351,14 +340,10 @@ class SourceFieldOptionTest extends AbstractEntityTestWithUpdate
             [9 => 9],
             [
                 0 => [
-                    'labels' => [
-                        0 => ['label' => 'Localized label brand 4'],
-                    ],
+                    'defaultLabel' => 'New brand 4',
                 ],
                 1 => [
-                    'labels' => [
-                        0 => ['label' => 'Localized label1 brand 5'],
-                    ],
+                    'defaultLabel' => 'New brand 5',
                 ],
             ],
             200,
@@ -411,19 +396,13 @@ class SourceFieldOptionTest extends AbstractEntityTestWithUpdate
             ],
             [
                 0 => [
-                    'labels' => [
-                        1 => ['label' => 'Localized label2 brand 4'],
-                    ],
+                    'defaultLabel' => 'New brand 4',
                 ],
                 1 => [
-                    'labels' => [
-                        0 => ['label' => 'Localized label2 brand 5'],
-                    ],
+                    'defaultLabel' => 'New brand 5',
                 ],
                 2 => [
-                    'labels' => [
-                        0 => ['label' => 'Localized label1 material 1'],
-                    ],
+                    'defaultLabel' => 'New Material 1',
                 ],
             ],
             200,

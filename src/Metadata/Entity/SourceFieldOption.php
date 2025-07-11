@@ -114,7 +114,7 @@ class SourceFieldOption
     private string $defaultLabel;
 
     /** @var Collection<SourceFieldOptionLabel> */
-    #[Groups(['source_field_option:read', 'source_field_option:write'])]
+    #[Groups(['source_field_option:write'])]
     private Collection $labels;
 
     public function __construct()
