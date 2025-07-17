@@ -43,7 +43,7 @@
             </unique-constraint>
         </unique-constraints>
 
-        <field name="name" type="string" length="255" nullable="true" />
+        <field name="name" type="text" nullable="true" />
         <field name="isVirtual" type="boolean" nullable="true" />
         <field name="virtualRule" type="text" nullable="true" />
         <field name="useNameInProductSearch" type="boolean" nullable="true" />
