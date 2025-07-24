@@ -110,7 +110,14 @@ class ConfigurationManager
 
         if (!empty($paths)) {
             $configurations = \is_string($paths)
-                ? array_filter($defaultConfigurations, fn ($key) => str_starts_with($key, $paths), \ARRAY_FILTER_USE_KEY)
+                ? (
+                    \array_key_exists($paths, $defaultConfigurations)
+                        ? [$paths => $defaultConfigurations[$paths]]
+                        : array_filter(
+                            $defaultConfigurations,
+                            fn ($key) => str_starts_with($key, $paths), \ARRAY_FILTER_USE_KEY
+                        )
+                )
                 : array_intersect_key($defaultConfigurations, array_flip($paths));
         } else {
             $configurations = $defaultConfigurations;
