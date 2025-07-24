@@ -83,7 +83,7 @@ trait ConfigurationGetCollectionTrait
         // A value exist in db, it should override file value.
         yield [
             $this->getUser(Role::ROLE_CONTRIBUTOR), // Default user
-            'gally.base_url.media',  // Config path
+            'gally.base_url.media', // Config path
             null,                   // Language code
             null,                   // Locale code
             null,                   // Request type
@@ -102,7 +102,7 @@ trait ConfigurationGetCollectionTrait
         // No value defined for given locale, it should fallback on default value.
         yield [
             $this->getUser(Role::ROLE_CONTRIBUTOR), // Default user
-            'gally.base_url.media',  // Config path
+            'gally.base_url.media', // Config path
             'en',                   // Language code
             null,                   // Locale code
             null,                   // Request type
@@ -121,7 +121,7 @@ trait ConfigurationGetCollectionTrait
         // No value defined for given locale, it should fallback on default value.
         yield [
             $this->getUser(Role::ROLE_CONTRIBUTOR), // Default user
-            'gally.base_url.media',  // Config path
+            'gally.base_url.media', // Config path
             null,                   // Language code
             'en_US',                // Locale code
             null,                   // Request type
@@ -140,7 +140,7 @@ trait ConfigurationGetCollectionTrait
         // A value is defined for given locale, it should return this value.
         yield [
             $this->getUser(Role::ROLE_CONTRIBUTOR), // Default user
-            'gally.base_url.media',  // Config path
+            'gally.base_url.media', // Config path
             'fr',                   // Language code
             null,                   // Locale code
             null,                   // Request type
@@ -159,7 +159,7 @@ trait ConfigurationGetCollectionTrait
         // A value is defined for given locale, it should return this value.
         yield [
             $this->getUser(Role::ROLE_CONTRIBUTOR), // Default user
-            'gally.base_url.media',  // Config path
+            'gally.base_url.media', // Config path
             null,                   // Language code
             'fr_FR',                // Locale code
             null,                   // Request type
@@ -178,7 +178,7 @@ trait ConfigurationGetCollectionTrait
         // No value defined for given request type, it should fallback on default value.
         yield [
             $this->getUser(Role::ROLE_CONTRIBUTOR), // Default user
-            'gally.base_url.media',  // Config path
+            'gally.base_url.media', // Config path
             null,                   // Language code
             null,                   // Locale code
             'product_search',       // Request type
@@ -197,7 +197,7 @@ trait ConfigurationGetCollectionTrait
         // A value is defined for given request type, it should return this value.
         yield [
             $this->getUser(Role::ROLE_CONTRIBUTOR), // Default user
-            'gally.base_url.media',  // Config path
+            'gally.base_url.media', // Config path
             null,                   // Language code
             null,                   // Locale code
             'product_catalog',      // Request type
@@ -216,7 +216,7 @@ trait ConfigurationGetCollectionTrait
         // No value defined for given localized catalog, it should fallback on default value.
         yield [
             $this->getUser(Role::ROLE_CONTRIBUTOR), // Default user
-            'gally.base_url.media',  // Config path
+            'gally.base_url.media', // Config path
             null,                   // Language code
             null,                   // Locale code
             null,                   // Request type
@@ -235,7 +235,7 @@ trait ConfigurationGetCollectionTrait
         // A value is defined for given localized catalog, it should return this value.
         yield [
             $this->getUser(Role::ROLE_CONTRIBUTOR), // Default user
-            'gally.base_url.media',  // Config path
+            'gally.base_url.media', // Config path
             null,                   // Language code
             null,                   // Locale code
             null,                   // Request type
@@ -254,7 +254,7 @@ trait ConfigurationGetCollectionTrait
         // Test priority between context
         yield [
             $this->getUser(Role::ROLE_CONTRIBUTOR), // Default user
-            'gally.base_url.media',  // Config path
+            'gally.base_url.media', // Config path
             'fr',                   // Language code
             'fr_FR',                // Locale code
             'product_catalog',      // Request type
@@ -273,7 +273,7 @@ trait ConfigurationGetCollectionTrait
         // Test priority between context
         yield [
             $this->getUser(Role::ROLE_CONTRIBUTOR), // Default user
-            'gally.base_url.media',  // Config path
+            'gally.base_url.media', // Config path
             'fr',                   // Language code
             'fr_FR',                // Locale code
             'product_catalog',      // Request type
@@ -292,7 +292,7 @@ trait ConfigurationGetCollectionTrait
         // Test priority between context
         yield [
             $this->getUser(Role::ROLE_CONTRIBUTOR), // Default user
-            'gally.base_url.media',  // Config path
+            'gally.base_url.media', // Config path
             'fr',                   // Language code
             'fr_FR',                // Locale code
             'product_search',       // Request type
@@ -311,7 +311,7 @@ trait ConfigurationGetCollectionTrait
         // Test priority between context
         yield [
             $this->getUser(Role::ROLE_CONTRIBUTOR), // Default user
-            'gally.base_url.media',  // Config path
+            'gally.base_url.media', // Config path
             'fr',                   // Language code
             'fr_CA',                // Locale code
             'product_search',       // Request type
@@ -330,7 +330,7 @@ trait ConfigurationGetCollectionTrait
         // Test priority between context
         yield [
             $this->getUser(Role::ROLE_CONTRIBUTOR), // Default user
-            'gally.base_url.media',  // Config path
+            'gally.base_url.media', // Config path
             'en',                   // Language code
             'en_US',                // Locale code
             'product_search',       // Request type
@@ -349,7 +349,7 @@ trait ConfigurationGetCollectionTrait
         // Test partial path
         yield [
             $this->getUser(Role::ROLE_CONTRIBUTOR), // Default user
-            'gally.search_settings',  // Config path
+            'gally.search_settings', // Config path
             'en',                   // Language code
             'en_US',                // Locale code
             'product_search',       // Request type
