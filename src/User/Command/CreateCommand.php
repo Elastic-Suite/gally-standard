@@ -45,6 +45,14 @@ class CreateCommand extends Command
         $helper = $this->getHelper('question');
         $output->writeln('Create User Command Interactive Wizard.');
 
+        $question = $this->cmdQuestionBuilder->getQuestion('First name:');
+        $this->cmdValidator->notBlank($question);
+        $firstName = $helper->ask($input, $output, $question);
+
+        $question = $this->cmdQuestionBuilder->getQuestion('Last name:');
+        $this->cmdValidator->notBlank($question);
+        $lastName = $helper->ask($input, $output, $question);
+
         $question = $this->cmdQuestionBuilder->getQuestion('Email:');
         $this->cmdValidator->userEmailNotExists($question);
         $email = $helper->ask($input, $output, $question);
@@ -60,7 +68,7 @@ class CreateCommand extends Command
         $this->cmdValidator->rolesExists($question);
         $roles = $helper->ask($input, $output, $question);
 
-        $this->userManager->create($email, $roles, $password);
+        $this->userManager->create($firstName, $lastName, $email, $roles, $password);
 
         $output->writeln('The user has been successfully created!');
 

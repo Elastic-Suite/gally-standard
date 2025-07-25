@@ -305,6 +305,15 @@ class Configuration implements ConfigurationInterface
                 // Ingest pipeline configuration
                 ->scalarNode('pipeline_prefix')->isRequired()->end()
 
+                // Email config
+                ->arrayNode('email')
+                    ->children()
+                        ->scalarNode('default_sender')
+                            ->isRequired()
+                        ->end()
+                    ->end()
+                ->end()
+
             ->end();
 
         return $treeBuilder;

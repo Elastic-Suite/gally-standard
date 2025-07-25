@@ -49,6 +49,14 @@ class UpdateCommand extends Command
         $this->cmdValidator->userEmailExists($question);
         $currentEmail = $helper->ask($input, $output, $question);
 
+        $question = $this->cmdQuestionBuilder->getQuestion('New first name:');
+        $this->cmdValidator->notBlank($question);
+        $firstName = $helper->ask($input, $output, $question);
+
+        $question = $this->cmdQuestionBuilder->getQuestion('New last name:');
+        $this->cmdValidator->notBlank($question);
+        $lastName = $helper->ask($input, $output, $question);
+
         $question = $this->cmdQuestionBuilder->getQuestion('New email:');
         $this->cmdValidator->userEmailNotExists($question, true);
         $email = $helper->ask($input, $output, $question);
@@ -64,7 +72,7 @@ class UpdateCommand extends Command
         $this->cmdValidator->rolesExists($question, true);
         $roles = $helper->ask($input, $output, $question);
 
-        $this->userManager->update($currentEmail, $email, $roles, $password);
+        $this->userManager->update($currentEmail, $firstName, $lastName, $email, $roles, $password);
 
         $output->writeln('The user has been updated.');
 
