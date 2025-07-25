@@ -24,6 +24,7 @@ use Gally\User\Constant\Role;
 use Gally\User\Entity\User;
 use Gally\User\Repository\UserRepository;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class UserManager
 {
@@ -33,12 +34,16 @@ class UserManager
         private UserPasswordHasherInterface $passwordHasher,
         private EmailSender $emailSender,
         private BaseUrlProvider $baseUrlProvider,
+        private TranslatorInterface $translator,
+        private array $emailConfig,
     ) {
     }
 
-    public function create(string $email, array $roles, string $password): void
+    public function create(string $firstName, string $lastName, string $email, array $roles, string $password): void
     {
         $user = new User();
+        $user->setFirstName($firstName);
+        $user->setLastName($lastName);
         $user->setEmail($email);
         $user->setRoles(empty($roles) ? [Role::ROLE_CONTRIBUTOR] : $roles);
         $user->setPassword(
@@ -49,7 +54,7 @@ class UserManager
         $this->entityManager->flush();
     }
 
-    public function update(string $currentEmail, ?string $email, ?array $roles, ?string $password): void
+    public function update(string $currentEmail, ?string $firstName, ?string $lastName, ?string $email, ?array $roles, ?string $password): void
     {
         /** @var User|null $user */
         $user = $this->userRepository->findOneBy(['email' => $currentEmail]);
@@ -58,6 +63,8 @@ class UserManager
             throw new EntityNotFoundException("The user with the email '{$currentEmail}' was not found");
         }
 
+        $user->setFirstName($firstName ?? $user->getFirstName());
+        $user->setLastName($lastName ?? $user->getLastName());
         $user->setEmail($email ?? $user->getEmail());
         $user->setRoles($roles ?? $user->getRoles());
         if (null !== $password) {
@@ -91,10 +98,13 @@ class UserManager
 
     public function sendResetPasswordEmail(User $user, AbstractPasswordToken $passwordToken, string $frontLanguage = 'en'): void
     {
-        $subject = sprintf("Password reset for %s %s", $user->getFirstName(), $user->getLastName());
-        #todo: traduire les mails
+        $subject = $this->translator->trans(
+            'gally.user.email.reset_password.subject',
+            ['%first_name%' => ucfirst($user->getFirstName()), '%last_name%' => strtoupper($user->getLastName())],
+            'gally_user'
+        );
         $this->emailSender->sendTemplateEmail(
-            'admin@example.com', #todo: update with configuration
+            $this->emailConfig['default_sender'],
             $user->getEmail(),
             $subject,
             '@GallyBundle/emails/user_reset_password.html.twig',

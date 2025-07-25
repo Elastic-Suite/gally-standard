@@ -439,6 +439,15 @@ class Configuration implements GallyConfigurationInterface
                 ->end()
             ->end();
 
+                // Email config
+                ->arrayNode('email')
+                    ->children()
+                        ->scalarNode('default_sender')
+                            ->isRequired()
+                        ->end()
+                    ->end()
+                ->end()
+
         return $treeBuilder;
     }
 }

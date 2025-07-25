@@ -23,6 +23,8 @@ services:
             - '@Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface'
             - '@Gally\Email\Service\EmailSender'
             - '@Gally\Configuration\Service\BaseUrlProvider'
+            - '@Symfony\Contracts\Translation\TranslatorInterface'
+            - '%gally.email%'
 
     Gally\User\Service\Command\QuestionBuilder: ~
 
@@ -67,3 +69,11 @@ services:
             - '@coop_tilleuls_forgot_password.provider_chain'
         tags:
             - { name: api_platform.state_processor }
+    
+    gally.authenticator:
+        class: Gally\User\Security\GallyAuthenticator
+        parent: lexik_jwt_authentication.security.jwt_authenticator
+        
+    Gally\User\EventSubscriber\AuthenticationSuccessEventSubscriber:
+        tags:
+            - { name: kernel.event_subscriber }

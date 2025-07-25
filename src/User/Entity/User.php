@@ -27,6 +27,7 @@ use ApiPlatform\Metadata\GraphQl\QueryCollection;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
+use Gally\Doctrine\Filter\JsonFilter;
 use Gally\User\Constant\Role;
 use Gally\User\State\UserProcessor;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -38,12 +39,17 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * Enlever utilisateur dans la page grid - ok
  *  Edit n'est pas traduit dans les grids - ok
  * Ajouter un message d'erreur plus joli quand le user existe déjà. - ok
- * Gérer les users désactivés
- * Traduire le mail + ajouter le sender par défaut dans la config.
+ *  Gérer les users désactivés - ok
+ * ajouter le prénom et le nom dans la commande de création + update de l'user - ok
+ * Traduire le mail + ajouter le sender par défaut dans la config. - ok
+ * Once user is created the first time, email can't be modified. - ok
+ *  Disable Password field. -> ok
+ *  cacher le menu pour les user not admin. - ok
  * Faire fonctionner le filtre role qui est de type array/json
- * Once user is created the first time, email can't be modified.
- * Disable Password field.
- * Test unit
+ * Test unit  du user
+ * Ajouter des tests pou vérifier que le user not active ne puisse pas se logegr
+ * Ajouter un test pour vérifier que le user not active ne puisse pas appeler un endpoint protégé
+ * voir problème de ref dans la console
  */
 #[ApiResource(
     operations: [
@@ -64,8 +70,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
     denormalizationContext: ['groups' => ['user:write']],
     normalizationContext: ['groups' => ['user:read']]
 )]
-#[ApiFilter(filterClass: SearchFilter::class, properties: ['firstName' => 'ipartial', 'lastName' => 'ipartial', 'email' => 'ipartial', 'roles' => 'exact'])]
+#[ApiFilter(filterClass: SearchFilter::class, properties: ['firstName' => 'ipartial', 'lastName' => 'ipartial', 'email' => 'ipartial'])]
 #[ApiFilter(filterClass: BooleanFilter::class, properties: ['isActive'])]
+#[ApiFilter(filterClass: JsonFilter::class, properties: ['roles'])]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[Groups('user:read')]
@@ -133,6 +140,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                         'placeholder' => 'E-mail',
                         'fieldset' => 'general',
                         'position' => 40,
+                        'depends' => [
+                            'type' => 'enabled',
+                            'conditions' => [
+                                ['field' => 'id', 'value' => null],
+                            ],
+                        ],
                     ],
                 ],
             ],
@@ -285,7 +298,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                     'rdfs:label' => 'Password',
                 ],
                 'gally' => [
-                    'infoTooltip' => "An email will be sent to the user so that they can set their password.",
+                    'infoTooltip' => "An email will be sent to the user allowing them to set their password.",
                     'visible' => false,
                     'editable' => false,
                     'position' => 30,
@@ -295,6 +308,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                         'placeholder' => '********',
                         'fieldset' => 'general',
                         'position' => 50,
+                        'depends' => [
+                            // A "depends" without conditions allows to disable a field.
+                            'type' => 'enabled',
+                            'conditions' => [],
+                        ],
                     ],
                 ],
             ],

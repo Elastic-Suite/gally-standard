@@ -22,41 +22,27 @@ use Gally\Configuration\Service\BaseUrlProvider;
 use Gally\Email\Service\EmailSender;
 use Gally\User\Entity\User;
 use Gally\User\Service\UserManager;
+use Lexik\Bundle\JWTAuthenticationBundle\Event\AuthenticationSuccessEvent;
+use Lexik\Bundle\JWTAuthenticationBundle\Events;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Security\Core\Exception\UserNotFoundException;
 
-class ForgotPasswordEventSubscriber implements EventSubscriberInterface
+class AuthenticationSuccessEventSubscriber implements EventSubscriberInterface
 {
-    public function __construct(
-        private UserManager $userManager,
-        private RequestStack $requestStack,
-    ) {
-    }
-
     public static function getSubscribedEvents(): array
     {
         return [
-            CreateTokenEvent::class => 'sendResetPasswordEmail',
-            UpdatePasswordEvent::class => 'updatePassword',
-
+            Events::AUTHENTICATION_SUCCESS => 'isUserActive',
         ];
     }
 
-    public function sendResetPasswordEmail(CreateTokenEvent $event): void
+    public function isUserActive(AuthenticationSuccessEvent $event): void
     {
-        $passwordToken = $event->getPasswordToken();
         /** @var User $user */
-        $user = $passwordToken->getUser();
-        $language = json_decode($this->requestStack->getCurrentRequest()->getContent(), true)['language'] ?? 'en';
-
-        $this->userManager->sendResetPasswordEmail($user, $passwordToken, $language);
-    }
-
-    public function updatePassword(UpdatePasswordEvent $event): void
-    {
-        $passwordToken = $event->getPasswordToken();
-        /** @var User $user */
-        $user = $passwordToken->getUser();
-        $this->userManager->update($user->getEmail(), null, null, null, null, $event->getPassword());
+        $user = $event->getUser();
+        if (!$user?->getIsActive()) {
+            throw new UserNotFoundException(sprintf('The user "%s" is not active.', $user?->getEmail()));
+        }
     }
 }
