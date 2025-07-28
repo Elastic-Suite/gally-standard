@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Gally\User\Tests\Api\Rest;
+namespace Gally\Catalog\Tests\Api\Rest;
 
 use Gally\Catalog\Entity\Catalog;
 use Gally\Test\AbstractEntityTestWithUpdate;

@@ -45,7 +45,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * Once user is created the first time, email can't be modified. - ok
  *  Disable Password field. -> ok
  *  cacher le menu pour les user not admin. - ok
- * Faire fonctionner le filtre role qui est de type array/json
+ * Faire fonctionner le filtre role qui est de type array/json, fait mais ne fonctionne pas - ok
+ * Tests front , tester les fonctions ajouter dans les services
  * Test unit  du user
  * Ajouter des tests pou vérifier que le user not active ne puisse pas se logegr
  * Ajouter un test pour vérifier que le user not active ne puisse pas appeler un endpoint protégé
@@ -72,7 +73,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 )]
 #[ApiFilter(filterClass: SearchFilter::class, properties: ['firstName' => 'ipartial', 'lastName' => 'ipartial', 'email' => 'ipartial'])]
 #[ApiFilter(filterClass: BooleanFilter::class, properties: ['isActive'])]
-#[ApiFilter(filterClass: JsonFilter::class, properties: ['roles'])]
+#[ApiFilter(filterClass: JsonFilter::class, properties: ['roles' => null])]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[Groups('user:read')]
