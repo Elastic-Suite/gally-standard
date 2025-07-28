@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Gally\Doctrine\Filter;
 
+use Doctrine\DBAL\Connection;
+use Doctrine\ORM\Query\Expr;
 use ApiPlatform\Doctrine\Orm\Filter\AbstractFilter;
 use ApiPlatform\Doctrine\Orm\Util\QueryNameGeneratorInterface;
 use ApiPlatform\Metadata\Operation;
@@ -30,20 +32,30 @@ class JsonFilter extends AbstractFilter
             return;
         }
 
+        // S'assurer que la valeur est un tableau
+        $values = is_array($value) ? $value : [$value];
+        $values = array_values(array_filter($values, static fn($v) => is_string($v) && trim($v) !== ''));
+
+        if (count($values) === 0) {
+            return;
+        }
+
         $alias = $queryBuilder->getRootAliases()[0];
 
-        foreach ((array) $value as $key => $val) {
-            $parameterName = $queryNameGenerator->generateParameterName($property);
-            // PostgreSQL JSON field access: ->> extracts the text value of a key
-//            $expr = sprintf("%s.%s ->> '%s' = :%s", $alias, $property, $key, $parameterName);
-            $expr = $queryBuilder->expr()->eq(
-                "JSON_GET_TEXT($alias.$property, '$.$key')",
-                ":$parameterName"
-            );
-            $queryBuilder
-                ->andWhere($expr)
-                ->setParameter($parameterName, $val);
+        // Crée des paramètres individuels pour array[:p1, :p2, ...]
+        $paramPlaceholders = [];
+        foreach ($values as $i => $val) {
+            $paramName = $queryNameGenerator->generateParameterName($property . $i);
+            $paramPlaceholders[] = ':' . $paramName;
+            $queryBuilder->setParameter($paramName, $val); // pas Connection::PARAM_STR_ARRAY
         }
+
+        $arraySql = sprintf('ARRAY(%s)', implode(', ', $paramPlaceholders));
+
+        // Génère l'expression SQL JSONB_EXISTS_ANY
+        $expr = sprintf('JSONB_EXISTS_ANY(%s.%s, %s) = true', $alias, $property, $arraySql);
+
+        $queryBuilder->andWhere($expr);
     }
 
     public function getDescription(string $resourceClass): array
@@ -53,26 +65,23 @@ class JsonFilter extends AbstractFilter
         $properties = $this->getProperties();
 
         foreach ($properties as $property => $propertyData) {
-            $description[$property] = [
+            $description[$this->normalizePropertyName($property)] = [
+                'property' => $property,
+                'type' => Type::BUILTIN_TYPE_STRING,
+                'required' => false,
+                'is_collection' => false,
+                'description' => 'Filter JSON fields containing arrays of values.',
+            ];
+
+            $description[$this->normalizePropertyName($property) . '[]'] = [
                 'property' => $property,
                 'type' => Type::BUILTIN_TYPE_ARRAY,
                 'required' => false,
-//                'strategy' => $propertyData['strategy'],
+                'is_collection' => true,
+                'description' => 'Filter JSON fields containing arrays of values.',
             ];
         }
 
         return $description;
-
-        // todo:  rendre la description generique
-//        return [
-//            'roles' => [
-//                'property' => 'roles',
-//                'type' => Type::BUILTIN_TYPE_ARRAY,
-//                'required' => false,
-//                'swagger' => [
-//                    'description' => 'Filter by sub-key of a JSON field',
-//                ],
-//            ],
-//        ];
     }
 }

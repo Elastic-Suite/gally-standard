@@ -5,4 +5,5 @@ doctrine:
                 date: DoctrineExtensions\Query\Postgresql\Date
             string_functions:
                 STRING_AGG: DoctrineExtensions\Query\Postgresql\StringAgg
-                JSON_GET_TEXT: Scienta\DoctrineJsonFunctions\Query\AST\Functions\Postgresql\JsonGetText
+                ARRAY: Gally\Doctrine\Dql\ArrayFunction
+                JSONB_EXISTS_ANY: Scienta\DoctrineJsonFunctions\Query\AST\Functions\Postgresql\JsonbExistsAny
