@@ -60,9 +60,6 @@ class GallyExtension extends Extension
             ]
         );
 
-        $fixturePaths = $this->getPaths(__DIR__ . '/../*/DataFixtures', __DIR__ . '/../');
-        $container->prependExtensionConfig('hautelook_alice', ['fixtures_path' => $fixturePaths]);
-
         $this->loadGallyConfig($container);
     }
 
