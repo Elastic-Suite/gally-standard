@@ -54,19 +54,19 @@ use Symfony\Component\Serializer\Annotation\Groups;
  */
 #[ApiResource(
     operations: [
-        new Get(security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
-        new Put(security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
-        new Patch(security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
-        new Delete(security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
-        new GetCollection(security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
-        new Post(security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
+        new Get(security: "is_granted('" . Role::ROLE_ADMIN . "')"),
+        new Put(security: "is_granted('" . Role::ROLE_ADMIN . "')"),
+        new Patch(security: "is_granted('" . Role::ROLE_ADMIN . "')"),
+        new Delete(security: "is_granted('" . Role::ROLE_ADMIN . "')"),
+        new GetCollection(security: "is_granted('" . Role::ROLE_ADMIN . "')"),
+        new Post(security: "is_granted('" . Role::ROLE_ADMIN . "')"),
     ],
     graphQlOperations: [
-        new Query(name: 'item_query', security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
-        new QueryCollection(name: 'collection_query', security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
-        new Mutation(name: 'create', security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
-        new Mutation(name: 'update', security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
-        new Mutation(name: 'delete', security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')")],
+        new Query(name: 'item_query', security: "is_granted('" . Role::ROLE_ADMIN . "')"),
+        new QueryCollection(name: 'collection_query', security: "is_granted('" . Role::ROLE_ADMIN . "')"),
+        new Mutation(name: 'create', security: "is_granted('" . Role::ROLE_ADMIN . "')"),
+        new Mutation(name: 'update', security: "is_granted('" . Role::ROLE_ADMIN . "')"),
+        new Mutation(name: 'delete', security: "is_granted('" . Role::ROLE_ADMIN . "')")],
     processor: UserProcessor::class,
     denormalizationContext: ['groups' => ['user:write']],
     normalizationContext: ['groups' => ['user:read']]
