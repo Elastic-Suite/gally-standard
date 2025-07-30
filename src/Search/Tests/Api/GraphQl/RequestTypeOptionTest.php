@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Gally\Boost\Tests\Api\GraphQl\Source;
+namespace Gally\Search\Tests\Api\GraphQl\Source;
 
 use Gally\Test\AbstractTestCase;
 use Gally\Test\ExpectedResponse;
