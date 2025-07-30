@@ -11,9 +11,9 @@
 
 declare(strict_types=1);
 
-namespace Gally\Boost\Tests\Api\Rest\Source;
+namespace Gally\Search\Tests\Api\Rest\Source;
 
-use Gally\Boost\Tests\Api\GraphQl\Source\RequestTypeOptionTest as GraphQlRequestTypeOptionTest;
+use Gally\Search\Tests\Api\GraphQl\Source\RequestTypeOptionTest as GraphQlRequestTypeOptionTest;
 use Gally\Test\ExpectedResponse;
 use Gally\Test\RequestToTest;
 use Gally\User\Entity\User;
