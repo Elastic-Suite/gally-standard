@@ -229,3 +229,10 @@ services:
         arguments:
             - '@Gally\RequestContext\Service\RequestContextManager'
             - '@Gally\Configuration\Service\ConfigurationManager'
+
+    Gally\Metadata\Fixture\EntityProvider:
+        arguments:
+            - '@Gally\Metadata\Repository\MetadataRepository'
+            - '@Gally\Metadata\Repository\SourceFieldRepository'
+        tags:
+            - { name: 'nelmio_alice.faker.provider' }

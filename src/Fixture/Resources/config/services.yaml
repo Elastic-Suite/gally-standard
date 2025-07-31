@@ -23,4 +23,10 @@ services:
         arguments:
             - '@doctrine.orm.entity_manager'
         tags:
+            - { name: 'nelmio_alice.faker.provider' }    
+    
+    Gally\Fixture\Service\EntityProvider:
+        arguments:
+            - '@doctrine.orm.entity_manager'
+        tags:
             - { name: 'nelmio_alice.faker.provider' }
