@@ -40,7 +40,7 @@ class UserProcessor implements ProcessorInterface
 
         $resetPassword = false;
         /** @var User $data */
-        if (null === $data->getPassword()) {
+        if ('' === $data->getPassword()) {
             $data->setPassword(
                 $this->passwordHasher->hashPassword($data, uniqid())
             );

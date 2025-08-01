@@ -13,14 +13,11 @@ declare(strict_types=1);
 
 namespace Gally\Configuration\Service;
 
-use Gally\Configuration\Repository\ConfigurationRepository;
-
 class BaseUrlProvider
 {
     public function __construct(
         private ConfigurationManager $configManager,
-    )
-    {
+    ) {
     }
 
     public function getFrontUrl(): string

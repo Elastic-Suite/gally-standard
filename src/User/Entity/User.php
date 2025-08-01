@@ -49,6 +49,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * Faire fonctionner le filtre role qui est de type array/json, fait mais ne fonctionne pas - ok
  * Tests front, tester les fonctions ajouter dans les services - ok
  * Test unit  du user - ok
+ * clean le code + faire auto code review, attention le fichier docker avec le debug activé + pas la bonne version du module des tieuls
  * Ajouter des tests pour vérifier que le user not active ne puisse pas se logger -
  * Ajouter un test pour vérifier que le user not active ne puisse pas appeler un endpoint protégé -
  * voir problème de ref dans la console.
@@ -212,7 +213,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Groups(['user:read', 'user:write'])]
     private bool $isActive = true;
 
-    private string $password;
+    private string $password = '';
 
     public function getId(): ?int
     {
@@ -341,7 +342,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @see PasswordAuthenticatedUserInterface
      */
-    public function getPassword(): ?string
+    public function getPassword(): string
     {
         return $this->password;
     }
