@@ -1,0 +1,22 @@
+Gally\User\Entity\User:
+    properties:
+        firstName:
+            - NotBlank: ~
+        lastName:
+            - NotBlank: ~
+        email:
+            - NotBlank: ~
+            - Length:
+                  min: 1
+                  max: 180
+            - Email: ~
+        roles:
+            - NotBlank: ~
+            - Choice: { callback: getValidRole, multiple: true }
+        isActive:
+            - Type: bool
+    constraints:
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
+            fields: [ email ]
+            errorPath: email
+            message: 'gally.user.email.unique'

@@ -120,7 +120,7 @@ class SourceField
                 ],
                 'gally' => [
                     'visible' => true,
-                    'editable' => false,
+                    'editable' => true,
                     'position' => 10,
                 ],
             ],

@@ -8,9 +8,12 @@
         <id name="id" type="integer">
             <generator strategy="SEQUENCE"/>
         </id>
+        <field name="firstName" type="string" nullable="false" unique="false" />
+        <field name="lastName" type="string" nullable="false" unique="false" />
         <field name="email" type="string" length="180" nullable="false" unique="true" />
-        <field name="roles" type="json" nullable="false" unique="false" />
         <field name="password" type="string" nullable="false" unique="false" />
+        <field name="roles" type="json" nullable="false" unique="false" />
+        <field name="isActive" type="boolean" nullable="false" />
     </entity>
 
 </doctrine-mapping>
