@@ -24,7 +24,7 @@ services:
             - '@Gally\Email\Service\EmailSender'
             - '@Gally\Configuration\Service\BaseUrlProvider'
             - '@Symfony\Contracts\Translation\TranslatorInterface'
-            - '%gally.email%'
+            - '@Gally\Configuration\Service\ConfigurationManager'
 
     Gally\User\Service\Command\QuestionBuilder: ~
 

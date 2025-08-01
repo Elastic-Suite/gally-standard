@@ -301,6 +301,15 @@ class Configuration implements GallyConfigurationInterface
                 // Ingest pipeline configuration
                 ->scalarNode('pipeline_prefix')->isRequired()->end()
 
+                // Email config
+                ->arrayNode('email')
+                    ->children()
+                        ->scalarNode('default_sender')
+                            ->isRequired()
+                        ->end()
+                    ->end()
+                ->end()
+
                 // Configuration tree
                 ->arrayNode('configuration')
                     ->children()
@@ -438,15 +447,6 @@ class Configuration implements GallyConfigurationInterface
                     ->end()
                 ->end()
             ->end();
-
-                // Email config
-                ->arrayNode('email')
-                    ->children()
-                        ->scalarNode('default_sender')
-                            ->isRequired()
-                        ->end()
-                    ->end()
-                ->end()
 
         return $treeBuilder;
     }

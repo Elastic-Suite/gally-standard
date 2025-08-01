@@ -13,15 +13,19 @@ declare(strict_types=1);
 
 namespace Gally\Configuration\Service;
 
+use Gally\Configuration\Repository\ConfigurationRepository;
+
 class BaseUrlProvider
 {
-    public function __construct(private array $baseUrl)
+    public function __construct(
+        private ConfigurationManager $configManager,
+    )
     {
     }
 
     public function getFrontUrl(): string
     {
-        return rtrim($this->baseUrl['front'], '/') . '/';
+        return rtrim($this->configManager->getScopedConfigValue('gally.base_url.front'), '/') . '/';
     }
 
     public function getFrontUrlWithLanguage(string $language = 'en'): string

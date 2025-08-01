@@ -17,7 +17,9 @@ use CoopTilleuls\ForgotPasswordBundle\Entity\AbstractPasswordToken;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityNotFoundException;
 use Gally\Configuration\Service\BaseUrlProvider;
+use Gally\Configuration\Service\ConfigurationManager;
 use Gally\Email\Service\EmailSender;
+use Gally\Search\Repository\Facet\ConfigurationRepository;
 use Gally\User\Constant\Role;
 use Gally\User\Entity\User;
 use Gally\User\Repository\UserRepository;
@@ -33,7 +35,7 @@ class UserManager
         private EmailSender $emailSender,
         private BaseUrlProvider $baseUrlProvider,
         private TranslatorInterface $translator,
-        private array $emailConfig,
+        private ConfigurationManager $configManager,
     ) {
     }
 
@@ -102,7 +104,7 @@ class UserManager
             'gally_user'
         );
         $this->emailSender->sendTemplateEmail(
-            $this->emailConfig['default_sender'],
+            $this->configManager->getScopedConfigValue('gally.email.default_sender'),
             $user->getEmail(),
             $subject,
             '@GallyBundle/emails/user_reset_password.html.twig',
