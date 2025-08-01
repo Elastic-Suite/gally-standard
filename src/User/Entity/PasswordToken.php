@@ -19,7 +19,7 @@ class PasswordToken extends AbstractPasswordToken
 {
     private int $id;
 
-    private ?User $user = null;
+    private User $user;
 
     public function getId(): ?int
     {

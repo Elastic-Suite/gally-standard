@@ -13,11 +13,10 @@ declare(strict_types=1);
 
 namespace Gally\Doctrine\Filter;
 
-use Doctrine\DBAL\Connection;
-use Doctrine\ORM\Query\Expr;
 use ApiPlatform\Doctrine\Orm\Filter\AbstractFilter;
 use ApiPlatform\Doctrine\Orm\Util\QueryNameGeneratorInterface;
 use ApiPlatform\Metadata\Operation;
+use Doctrine\DBAL\Connection;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\PropertyInfo\Type;
 
@@ -26,23 +25,23 @@ class JsonFilter extends AbstractFilter
     protected function filterProperty(string $property, $value, QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, string $resourceClass, ?Operation $operation = null, array $context = []): void
     {
         if (
-            !$this->isPropertyEnabled($property, $resourceClass) ||
-            !$this->isPropertyMapped($property, $resourceClass)
+            !$this->isPropertyEnabled($property, $resourceClass)
+            || !$this->isPropertyMapped($property, $resourceClass)
         ) {
             return;
         }
 
-        // S'assurer que la valeur est un tableau
-        $values = is_array($value) ? $value : [$value];
-        $values = array_values(array_filter($values, static fn($v) => is_string($v) && trim($v) !== ''));
+        // Is it an array ?
+        $values = \is_array($value) ? $value : [$value];
+        $values = array_values(array_filter($values, static fn ($v) => \is_string($v) && '' !== trim($v)));
 
-        if (count($values) === 0) {
+        if (0 === \count($values)) {
             return;
         }
 
         $alias = $queryBuilder->getRootAliases()[0];
 
-        // Crée des paramètres individuels pour array[:p1, :p2, ...]
+        // Create individual parameters for array[:p1, :p2, ...]
         $paramPlaceholders = [];
         foreach ($values as $i => $val) {
             $paramName = $queryNameGenerator->generateParameterName($property . $i);
@@ -50,17 +49,16 @@ class JsonFilter extends AbstractFilter
             $queryBuilder->setParameter($paramName, $val); // pas Connection::PARAM_STR_ARRAY
         }
 
-        $arraySql = sprintf('ARRAY(%s)', implode(', ', $paramPlaceholders));
+        $arraySql = \sprintf('ARRAY(%s)', implode(', ', $paramPlaceholders));
 
-        // Génère l'expression SQL JSONB_EXISTS_ANY
-        $expr = sprintf('JSONB_EXISTS_ANY(%s.%s, %s) = true', $alias, $property, $arraySql);
+        // Generate SQL expression "JSONB_EXISTS_ANY"
+        $expr = \sprintf('JSONB_EXISTS_ANY(%s.%s, %s) = true', $alias, $property, $arraySql);
 
         $queryBuilder->andWhere($expr);
     }
 
     public function getDescription(string $resourceClass): array
     {
-
         $description = [];
         $properties = $this->getProperties();
 

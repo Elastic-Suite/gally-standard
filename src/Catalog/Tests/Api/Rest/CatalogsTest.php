@@ -17,7 +17,7 @@ use Gally\Catalog\Entity\Catalog;
 use Gally\Test\AbstractEntityTestWithUpdate;
 use Gally\User\Constant\Role;
 
-class UserTest extends AbstractEntityTestWithUpdate
+class CatalogsTest extends AbstractEntityTestWithUpdate
 {
     protected static function getFixtureFiles(): array
     {

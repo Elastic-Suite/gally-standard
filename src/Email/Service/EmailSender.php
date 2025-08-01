@@ -1,14 +1,23 @@
 <?php
+/**
+ * DISCLAIMER.
+ *
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
+ *
+ * @author    Gally Team <elasticsuite@smile.fr>
+ * @copyright 2022-present Smile
+ * @license   Open Software License v. 3.0 (OSL-3.0)
+ */
 
 declare(strict_types=1);
 
 namespace Gally\Email\Service;
 
 use Psr\Log\LoggerInterface;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 
 class EmailSender
 {
@@ -46,7 +55,7 @@ class EmailSender
                     $emailList[] = $this->getEmailObject($address);
                 }
 
-                $email->$function(...$emailList);
+                $email->{$function}(...$emailList);
             }
         }
 
@@ -70,7 +79,7 @@ class EmailSender
         }
     }
 
-    public function getEmailObject(string $email, string $name = null): Address
+    public function getEmailObject(string $email, ?string $name = null): Address
     {
         if (false !== stripos($email, '<')) {
             $emailObject = Address::create($email);

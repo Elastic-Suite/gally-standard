@@ -25,7 +25,7 @@ class GallyAuthenticator extends JWTAuthenticator
         /** @var User $user */
         $user = parent::loadUser($payload, $identity);
         if (!$user->getIsActive()) {
-            throw new UserNotFoundException(sprintf('The user "%s" is not active.', $identity));
+            throw new UserNotFoundException(\sprintf('The user "%s" is not active.', $identity));
         }
 
         return $user;

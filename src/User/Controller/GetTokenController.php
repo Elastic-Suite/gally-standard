@@ -19,12 +19,6 @@ final class GetTokenController
 {
     public function __invoke(): Response
     {
-        try {
-            $response = new Response('', Response::HTTP_NO_CONTENT);
-        } catch (\Exception $e) {
-
-        }
-
-        return $response;
+        return new Response('', Response::HTTP_NO_CONTENT);
     }
 }

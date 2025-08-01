@@ -33,6 +33,7 @@ use Gally\User\State\UserProcessor;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
+
 /**
  *  RAF
  * Ajouter logo avec la base line - ok
@@ -46,11 +47,11 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *  Disable Password field. -> ok
  *  cacher le menu pour les user not admin. - ok
  * Faire fonctionner le filtre role qui est de type array/json, fait mais ne fonctionne pas - ok
- * Tests front , tester les fonctions ajouter dans les services
- * Test unit  du user
- * Ajouter des tests pou vérifier que le user not active ne puisse pas se logegr
- * Ajouter un test pour vérifier que le user not active ne puisse pas appeler un endpoint protégé
- * voir problème de ref dans la console
+ * Tests front, tester les fonctions ajouter dans les services - ok
+ * Test unit  du user - ok
+ * Ajouter des tests pour vérifier que le user not active ne puisse pas se logger -
+ * Ajouter un test pour vérifier que le user not active ne puisse pas appeler un endpoint protégé -
+ * voir problème de ref dans la console.
  */
 #[ApiResource(
     operations: [
@@ -211,7 +212,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Groups(['user:read', 'user:write'])]
     private bool $isActive = true;
 
-    private ?string $password = null;
+    private string $password;
 
     public function getId(): ?int
     {
@@ -299,7 +300,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                     'rdfs:label' => 'Password',
                 ],
                 'gally' => [
-                    'infoTooltip' => "An email will be sent to the user allowing them to set their password.",
+                    'infoTooltip' => 'An email will be sent to the user allowing them to set their password.',
                     'visible' => false,
                     'editable' => false,
                     'position' => 30,
@@ -364,7 +365,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * Get valid role values.
      *
-     * @return int[]
+     * @return string[]
      */
     public static function getValidRole(): array
     {

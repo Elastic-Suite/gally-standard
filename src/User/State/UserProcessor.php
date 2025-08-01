@@ -18,9 +18,6 @@ use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
 use CoopTilleuls\ForgotPasswordBundle\Manager\ForgotPasswordManager;
 use CoopTilleuls\ForgotPasswordBundle\Provider\ProviderChainInterface;
-use Doctrine\ORM\EntityManagerInterface;
-use Gally\Catalog\Entity\LocalizedCatalog;
-use Gally\Catalog\Repository\LocalizedCatalogRepository;
 use Gally\User\Entity\User;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
@@ -43,7 +40,7 @@ class UserProcessor implements ProcessorInterface
 
         $resetPassword = false;
         /** @var User $data */
-        if ($data->getPassword() === null) {
+        if (null === $data->getPassword()) {
             $data->setPassword(
                 $this->passwordHasher->hashPassword($data, uniqid())
             );
@@ -59,5 +56,4 @@ class UserProcessor implements ProcessorInterface
 
         return $result;
     }
-
 }

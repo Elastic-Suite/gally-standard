@@ -13,9 +13,6 @@ declare(strict_types=1);
 
 namespace Gally\Configuration\Service;
 
-use ApiPlatform\Metadata\Operation;
-use ApiPlatform\State\ProviderInterface;
-
 class BaseUrlProvider
 {
     public function __construct(private array $baseUrl)
@@ -24,10 +21,10 @@ class BaseUrlProvider
 
     public function getFrontUrl(): string
     {
-        return  rtrim($this->baseUrl['front'], '/') . '/' ;
+        return rtrim($this->baseUrl['front'], '/') . '/';
     }
 
-    public function getFrontUrlWithLanguage(string $language = 'en' ): string
+    public function getFrontUrlWithLanguage(string $language = 'en'): string
     {
         return $this->getFrontUrl() . $language . '/';
     }

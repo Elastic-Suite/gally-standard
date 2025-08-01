@@ -24,7 +24,11 @@ class UserManagerTest extends AbstractTestCase
 {
     private static UserManager $userManager;
     private static UserRepository $userRepository;
+    private static string $userFirstName = 'John';
+    private static string $userLastName = 'Doe';
     private static string $userEmail = 'user@example.com';
+    private static array $userRoles = [Role::ROLE_CONTRIBUTOR];
+    private static string $userPassword = 'Gally123';
 
     public static function setUpBeforeClass(): void
     {
@@ -36,14 +40,12 @@ class UserManagerTest extends AbstractTestCase
 
     public function testCreate(): void
     {
-        $roles = [Role::ROLE_CONTRIBUTOR];
-        $password = 'Gally123!';
-        self::$userManager->create(self::$userEmail, $roles, $password);
+        self::$userManager->create(self::$userFirstName, self::$userLastName, self::$userEmail, self::$userRoles, self::$userPassword);
         $user = self::$userRepository->findOneBy(['email' => self::$userEmail]);
 
         $this->assertInstanceOf(User::class, $user);
         $this->assertEquals(self::$userEmail, $user->getEmail());
-        $this->assertEquals($roles, $user->getRoles());
+        $this->assertEquals(self::$userRoles, $user->getRoles());
     }
 
     /**
@@ -74,7 +76,7 @@ class UserManagerTest extends AbstractTestCase
         // User not exists.
         $this->expectException(EntityNotFoundException::class);
         $this->expectExceptionMessage(\sprintf("The user with the email 'fake_%s' was not found", self::$userEmail));
-        self::$userManager->update('fake_' . self::$userEmail, self::$userEmail, null, null);
+        self::$userManager->update('fake_' . self::$userEmail, null, null, self::$userEmail, null, null);
     }
 
     /**
@@ -82,47 +84,65 @@ class UserManagerTest extends AbstractTestCase
      */
     public function testUpdate(): void
     {
-        $this->assertTrue(true);
-        $roles = [Role::ROLE_CONTRIBUTOR];
         $password = 'Gally123!';
+        $newFirstName = 'Tony';
+        $newLastName = 'Dark';
         $newEmail = 'updated_user@example.com';
         $newRoles = [Role::ROLE_ADMIN, Role::ROLE_CONTRIBUTOR];
         $newPassword = 'NewGally123!';
 
         $user = self::$userRepository->findOneBy(['email' => self::$userEmail]);
-        $user = clone $user;
         $this->assertInstanceOf(User::class, $user);
-
-        self::$userManager->update(self::$userEmail, null, null, $newPassword);
+        $passwordHash = $user->getPassword();
 
         // Change password.
-        $userUpdated = self::$userRepository->findOneBy(['email' => self::$userEmail]);
-        $this->assertInstanceOf(User::class, $userUpdated);
-        $newPasswordHash = $userUpdated->getPassword();
-        $this->assertEquals($user->getEmail(), $userUpdated->getEmail());
-        $this->assertEquals($user->getRoles(), $userUpdated->getRoles());
-        $this->assertNotEquals($user->getPassword(), $newPasswordHash);
+        self::$userManager->update(self::$userEmail, null, null, null, null, $newPassword);
+        $newPasswordHash = $user->getPassword();
+        $this->assertEquals(self::$userFirstName, $user->getFirstName());
+        $this->assertEquals(self::$userLastName, $user->getLastName());
+        $this->assertEquals(self::$userEmail, $user->getEmail());
+        $this->assertEquals(self::$userRoles, $user->getRoles());
+        $this->assertNotEquals($passwordHash, $newPasswordHash);
+
+        // Change first name.
+        self::$userManager->update(self::$userEmail, $newFirstName, null, null, null, null);
+        $this->assertInstanceOf(User::class, $user);
+        $this->assertEquals($newFirstName, $user->getFirstName());
+        $this->assertEquals(self::$userLastName, $user->getLastName());
+        $this->assertEquals(self::$userEmail, $user->getEmail());
+        $this->assertEquals(self::$userRoles, $user->getRoles());
+        $this->assertEquals($newPasswordHash, $user->getPassword());
+
+        // Change last name.
+        self::$userManager->update(self::$userEmail, null, $newLastName, null, null, null);
+        $this->assertEquals($newFirstName, $user->getFirstName());
+        $this->assertEquals($newLastName, $user->getLastName());
+        $this->assertEquals(self::$userEmail, $user->getEmail());
+        $this->assertEquals(self::$userRoles, $user->getRoles());
+        $this->assertEquals($newPasswordHash, $user->getPassword());
 
         // Change roles.
-        self::$userManager->update(self::$userEmail, null, $newRoles, null);
-        $userUpdated = self::$userRepository->findOneBy(['email' => self::$userEmail]);
-        $this->assertInstanceOf(User::class, $userUpdated);
-        $this->assertEquals($user->getEmail(), $userUpdated->getEmail());
-        $this->assertEquals($newRoles, $userUpdated->getRoles());
-        $this->assertEquals($userUpdated->getPassword(), $newPasswordHash);
+        self::$userManager->update(self::$userEmail, null, null, null, $newRoles, null);
+        $this->assertEquals($newFirstName, $user->getFirstName());
+        $this->assertEquals($newLastName, $user->getLastName());
+        $this->assertEquals(self::$userEmail, $user->getEmail());
+        $this->assertEquals($newRoles, $user->getRoles());
+        $this->assertEquals($newPasswordHash, $user->getPassword());
 
         // Change email.
-        self::$userManager->update(self::$userEmail, $newEmail, null, null);
-        $this->assertInstanceOf(User::class, $userUpdated);
-        $this->assertEquals($newEmail, $userUpdated->getEmail());
-        $this->assertEquals($newRoles, $userUpdated->getRoles());
-        $this->assertEquals($userUpdated->getPassword(), $newPasswordHash);
+        self::$userManager->update(self::$userEmail, null, null, $newEmail, null, null);
+        $this->assertEquals($newFirstName, $user->getFirstName());
+        $this->assertEquals($newLastName, $user->getLastName());
+        $this->assertEquals($newEmail, $user->getEmail());
+        $this->assertEquals($newRoles, $user->getRoles());
+        $this->assertEquals($newPasswordHash, $user->getPassword());
 
         // Change all.
-        self::$userManager->update($newEmail, self::$userEmail, $roles, $password);
-        $this->assertInstanceOf(User::class, $userUpdated);
-        $this->assertEquals(self::$userEmail, $userUpdated->getEmail());
-        $this->assertEquals($roles, $userUpdated->getRoles());
-        $this->assertNotEquals($userUpdated->getPassword(), $newPasswordHash);
+        self::$userManager->update($newEmail, self::$userFirstName, self::$userLastName, self::$userEmail, self::$userRoles, $password);
+        $this->assertEquals(self::$userFirstName, $user->getFirstName());
+        $this->assertEquals(self::$userLastName, $user->getLastName());
+        $this->assertEquals(self::$userEmail, $user->getEmail());
+        $this->assertEquals(self::$userRoles, $user->getRoles());
+        $this->assertNotEquals($newPasswordHash, $user->getPassword());
     }
 }
