@@ -14,8 +14,6 @@ declare(strict_types=1);
 namespace Gally\User\Service;
 
 use CoopTilleuls\ForgotPasswordBundle\Entity\AbstractPasswordToken;
-use CoopTilleuls\ForgotPasswordBundle\Manager\ForgotPasswordManager;
-use CoopTilleuls\ForgotPasswordBundle\Provider\ProviderInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityNotFoundException;
 use Gally\Configuration\Service\BaseUrlProvider;

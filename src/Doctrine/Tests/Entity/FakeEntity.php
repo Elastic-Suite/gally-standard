@@ -22,4 +22,6 @@ class FakeEntity
     public string $name;
 
     public int $weight;
+
+    public array $roles;
 }

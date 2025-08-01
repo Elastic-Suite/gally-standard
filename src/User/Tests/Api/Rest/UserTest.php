@@ -43,7 +43,7 @@ class UserTest extends AbstractEntityTestWithUpdate
             [null, ['email' => 'jwt@example.com', 'isActive' => true, 'firstName' => 'JWT Token not found', 'lastName' => 'Doe', 'roles' => [Role::ROLE_CONTRIBUTOR]], 401],
 
             [$adminUser, ['email' => 'contributor@example.com', 'isActive' => true, 'firstName' => 'Alice', 'lastName' => 'Doe', 'roles' => [Role::ROLE_CONTRIBUTOR]], 422, 'email: This email is already associated with another user.'],
-            [$adminUser, [ 'isActive' => true,'firstName' => 'Alice', 'lastName' => 'Doe', 'roles' => [Role::ROLE_CONTRIBUTOR]], 422, 'email: This value should not be blank.'],
+            [$adminUser, ['isActive' => true, 'firstName' => 'Alice', 'lastName' => 'Doe', 'roles' => [Role::ROLE_CONTRIBUTOR]], 422, 'email: This value should not be blank.'],
             [$adminUser, ['email' => 'error', 'isActive' => true, 'firstName' => 'Error', 'lastName' => 'Doe', 'roles' => [Role::ROLE_CONTRIBUTOR]], 422, 'email: This value is not a valid email address.'],
             [$adminUser, ['email' => str_repeat('abcd', 42) . '@examples.com', 'isActive' => true, 'firstName' => 'Error', 'lastName' => 'Doe', 'roles' => [Role::ROLE_CONTRIBUTOR]], 422, 'email: This value is too long. It should have 180 characters or less.'],
 
@@ -66,10 +66,10 @@ class UserTest extends AbstractEntityTestWithUpdate
         $user = $this->getUser(Role::ROLE_ADMIN);
 
         return [
-            [null, 3, ['id' => 1, 'email' => 'admin@example.com',], 401],
-            [$this->getUser(Role::ROLE_CONTRIBUTOR), 1, ['id' => 1, 'email' => 'admin@example.com',], 403],
-            [$user, 3, ['id' => 3, 'email' => 'admin@example.com', 'isActive' => true, 'firstName' => 'John', 'lastName' => 'Doe', 'roles' => [Role::ROLE_ADMIN, Role::ROLE_CONTRIBUTOR], 'dummyPassword' =>  '********'], 200],
-            [$user, 7, [], 404],
+            [null, 4, ['id' => 4, 'email' => 'admin@example.com'], 401],
+            [$this->getUser(Role::ROLE_CONTRIBUTOR), 1, ['id' => 1, 'email' => 'admin@example.com'], 403],
+            [$user, 4, ['id' => 4, 'email' => 'admin@example.com', 'isActive' => true, 'firstName' => 'John', 'lastName' => 'Doe', 'roles' => [Role::ROLE_ADMIN, Role::ROLE_CONTRIBUTOR], 'dummyPassword' => '********'], 200],
+            [$user, 8, [], 404],
         ];
     }
 
@@ -78,11 +78,11 @@ class UserTest extends AbstractEntityTestWithUpdate
         $adminUser = $this->getUser(Role::ROLE_ADMIN);
 
         return [
-            [null, 1, 401],
+            [null, 6, 401],
             [$this->getUser(Role::ROLE_CONTRIBUTOR), 1, 403],
-            [$adminUser, 5, 204],
             [$adminUser, 6, 204],
-            [$adminUser, 7, 404],
+            [$adminUser, 7, 204],
+            [$adminUser, 8, 404],
         ];
     }
 
@@ -91,16 +91,16 @@ class UserTest extends AbstractEntityTestWithUpdate
         return [
             [null, 5, 401],
             [$this->getUser(Role::ROLE_CONTRIBUTOR), 5, 403],
-            [$this->getUser(Role::ROLE_ADMIN), 4, 200],
+            [$this->getUser(Role::ROLE_ADMIN), 5, 200],
         ];
     }
 
     public function patchUpdateDataProvider(): iterable
     {
         return [
-            [null, 3, ['firstName' => 'John PATCH/PUT'], 401],
-            [$this->getUser(Role::ROLE_CONTRIBUTOR), 3, ['firstName' => 'John PATCH/PUT'], 403],
-            [$this->getUser(Role::ROLE_ADMIN), 3, ['firstName' => 'John PATCH/PUT'], 200],
+            [null, 4, ['firstName' => 'John PATCH/PUT'], 401],
+            [$this->getUser(Role::ROLE_CONTRIBUTOR), 4, ['firstName' => 'John PATCH/PUT'], 403],
+            [$this->getUser(Role::ROLE_ADMIN), 4, ['firstName' => 'John PATCH/PUT'], 200],
         ];
     }
 }

@@ -13,13 +13,8 @@ declare(strict_types=1);
 
 namespace Gally\User\EventSubscriber;
 
-use CoopTilleuls\ForgotPasswordBundle\Event\UpdatePasswordEvent;
-use CoopTilleuls\ForgotPasswordBundle\Provider\ProviderInterface;
-use Doctrine\ORM\Event\PostPersistEventArgs;
 use CoopTilleuls\ForgotPasswordBundle\Event\CreateTokenEvent;
-use Gally\Category\Service\CategoryProductPositionManager;
-use Gally\Configuration\Service\BaseUrlProvider;
-use Gally\Email\Service\EmailSender;
+use CoopTilleuls\ForgotPasswordBundle\Event\UpdatePasswordEvent;
 use Gally\User\Entity\User;
 use Gally\User\Service\UserManager;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -38,7 +33,6 @@ class ForgotPasswordEventSubscriber implements EventSubscriberInterface
         return [
             CreateTokenEvent::class => 'sendResetPasswordEmail',
             UpdatePasswordEvent::class => 'updatePassword',
-
         ];
     }
 
