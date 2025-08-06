@@ -41,12 +41,18 @@
         </many-to-one>
 
         <one-to-many field="labels" target-entity="Gally\Metadata\Entity\SourceFieldLabel" mapped-by="sourceField">
+            <order-by>
+                <order-by-field name="id" direction="ASC" />
+            </order-by>
             <cascade>
                 <cascade-persist/>
             </cascade>
         </one-to-many>
 
         <one-to-many field="options" target-entity="Gally\Metadata\Entity\SourceFieldOption" mapped-by="sourceField">
+            <order-by>
+                <order-by-field name="id" direction="ASC" />
+            </order-by>
             <cascade>
                 <cascade-persist/>
             </cascade>
