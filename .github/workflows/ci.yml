@@ -84,7 +84,7 @@ jobs:
               working-directory: ${{ env.gally-directory }}
               run: |
                   docker compose -f compose.yml -f compose.ci.yml exec -T php bin/console gally:index:clear --no-interaction
-                  docker compose -f compose.yml -f compose.ci.yml exec -T php bin/console hautelook:fixtures:load --no-interaction -vv
+                  docker compose -f compose.yml -f compose.ci.yml exec -T php bin/console hautelook:fixtures:load --no-interaction --append -vv
 
             - name: Coverage
               working-directory: ${{ env.gally-directory }}
