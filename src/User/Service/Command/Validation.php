@@ -20,6 +20,9 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class Validation
 {
+    public const TRUE_REGEXP = '/^y/i';
+    public const FALSE_REGEXP = '/^n/i';
+
     public function __construct(
         private UserManager $userManager,
         private ValidatorInterface $validator
@@ -32,6 +35,20 @@ class Validation
         $notBlank = new NotBlank();
         if (\count($this->validator->validate($value, $notBlank)) > 0) {
             $errors[] = 'This field cannot be empty.';
+        }
+
+        return $errors;
+    }
+
+    public function isBoolean(mixed $value): array
+    {
+        $errors = [];
+
+        $isTrue = (bool) preg_match(self::TRUE_REGEXP, (string) $value);
+        $isFalse = (bool) preg_match(self::FALSE_REGEXP, (string) $value);
+
+        if (!$isTrue && !$isFalse) {
+            $errors[] = 'Value accepted "yes", "No", "y", "n".';
         }
 
         return $errors;
