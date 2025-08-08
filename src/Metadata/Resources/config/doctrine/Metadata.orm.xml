@@ -11,6 +11,9 @@
         <field name="entity" type="string" length="255" nullable="false" unique="true" />
 
         <one-to-many field="sourceFields" target-entity="Gally\Metadata\Entity\SourceField" mapped-by="metadata">
+            <order-by>
+                <order-by-field name="id" direction="ASC" />
+            </order-by>
             <cascade>
                 <cascade-persist/>
             </cascade>
