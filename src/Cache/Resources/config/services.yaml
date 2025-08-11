@@ -56,3 +56,6 @@ services:
             - '@Gally\ResourceMetadata\Service\ResourceMetadataManager'
             - '@api_platform.metadata.resource.metadata_collection_factory'
             - '@api_platform.iri_converter'
+
+    api_platform.http_cache.tag_collector:
+        class: Gally\Cache\Service\TagCollector
