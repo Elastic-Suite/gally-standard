@@ -33,6 +33,7 @@ gally:
                                 infoTooltipKey: 'gally_configuration.gally_base_url_media.toolTip'
                                 rangeDateType: 'from'
                                 rangeDateId: 'createdAt'
+                                required: true
                                 options:
                                     objectKeyValue: 'locale'
                                     api_rest: '/boost_model_options'
@@ -67,7 +68,7 @@ gally:
                                     limitationTypeOptionsApi: 'boost_limitation_type_options'
                                     requestTypeOptionsApi: 'boost_request_type_options'
 
-                    preview:
+                    preview: #todo: fix this part test not relevant for the moment.
                         position: 20
                         external: true
     

@@ -18,12 +18,14 @@ use ApiPlatform\Metadata\Operation;
 use ApiPlatform\Metadata\UrlGeneratorInterface;
 use ApiPlatform\State\ProviderInterface;
 use Gally\Catalog\Repository\CatalogRepository;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class LocalizedCatalogGroupOptionProvider implements ProviderInterface
 {
     public function __construct(
         private CatalogRepository $catalogRepository,
         private IriConverterInterface $iriConverter,
+        private RequestStack $requestStack,
     ) {
     }
 
@@ -32,13 +34,20 @@ class LocalizedCatalogGroupOptionProvider implements ProviderInterface
      */
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null
     {
+        $keyToGet = $this->requestStack->getCurrentRequest()->get('keyToGetOnValue');
         $groupOptions = [];
         foreach ($this->catalogRepository->findAll() as $catalog) {
             $groupOption['value'] = $groupOption['id'] = $catalog->getCode();
             $groupOption['label'] = $catalog->getName();
             $options = [];
             foreach ($catalog->getLocalizedCatalogs() as $localizedCatalog) {
-                $option['value'] = $this->iriConverter->getIriFromResource($localizedCatalog, UrlGeneratorInterface::ABS_PATH);
+                $getValueMethod = sprintf('get%s', ucfirst($keyToGet ?? ''));
+                if ($keyToGet !== null && method_exists($localizedCatalog, $getValueMethod)) {
+                    $option['value'] = $localizedCatalog->$getValueMethod();
+                } else {
+                    $option['value'] = $this->iriConverter->getIriFromResource($localizedCatalog, UrlGeneratorInterface::ABS_PATH);
+                }
+
                 $option['label'] = $localizedCatalog->getName();
                 $options[] = $option;
             }

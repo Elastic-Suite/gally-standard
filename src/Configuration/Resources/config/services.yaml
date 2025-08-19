@@ -72,3 +72,34 @@ services:
     Gally\Configuration\Service\BaseUrlProvider:
         arguments:
             - '@Gally\Configuration\Service\ConfigurationManager'
+
+    Gally\Configuration\State\Source\LanguageOptionProvider:
+        arguments:
+            - '@Gally\Catalog\Repository\LocalizedCatalogRepository'
+            - '@Symfony\Contracts\Translation\TranslatorInterface'
+        tags:
+            - { name: api_platform.state_provider }
+    
+    Gally\Configuration\State\Source\LocaleGroupOptionProvider:
+        arguments:
+            - '@Gally\Catalog\Repository\LocalizedCatalogRepository'
+            - '@Symfony\Contracts\Translation\TranslatorInterface'
+        tags:
+            - { name: api_platform.state_provider }
+
+    Gally\Configuration\State\Source\LocalizedCatalogGroupOptionProvider:
+        arguments:
+            - '@Gally\Catalog\Repository\CatalogRepository'
+            - '@api_platform.iri_converter'
+            - '@request_stack'
+            - '@Symfony\Contracts\Translation\TranslatorInterface'
+        tags:
+            - { name: api_platform.state_provider }
+
+    Gally\Configuration\State\Source\RequestTypeOptionProvider:
+        arguments:
+            - '@Gally\Search\Elasticsearch\Request\Container\Configuration\ContainerConfigurationProvider'
+            - '@api_platform.doctrine.orm.state.item_provider'
+            - '@Symfony\Contracts\Translation\TranslatorInterface'
+        tags:
+            - { name: api_platform.state_provider }

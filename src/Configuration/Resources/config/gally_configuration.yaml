@@ -4,37 +4,124 @@ gally:
             !php/const Gally\Configuration\Entity\Configuration::SCOPE_LANGUAGE:
                 labelKey: 'gally_configuration.scope.language.label'
                 input: 'optgroup'
+                filterName: 'language'
                 options:
-                    api_rest: '/language_options'
-                    api_graphql: 'languageOptions'
+                    api_rest: '/configuration_language_options'
+                    api_graphql: 'configurationLanguageOptions'
             !php/const Gally\Configuration\Entity\Configuration::SCOPE_LOCALE:
                 labelKey: 'gally_configuration.scope.locales.label'
                 input: 'optgroup'
+                filterName: 'localeCode'
                 options:
-                    api_rest: '/locale_group_options'
-                    api_graphql: 'localeGroupOptions'
+                    api_rest: '/configuration_locale_group_options'
+                    api_graphql: 'configurationLocaleGroupOptions'
             !php/const Gally\Configuration\Entity\Configuration::SCOPE_REQUEST_TYPE:
                 labelKey: 'gally_configuration.scope.request_type.label'
                 input: 'select'
+                filterName: 'requestType'
                 options:
-                    api_rest: '/request_type_options'
-                    api_graphql: 'requestTypeOptions'
+                    api_rest: '/configuration_request_type_options'
+                    api_graphql: 'configurationRequestTypeOptions'
             !php/const Gally\Configuration\Entity\Configuration::SCOPE_LOCALIZED_CATALOG:
                 labelKey: 'gally_configuration.scope.localized_catalog.label'
                 input: 'optgroup'
+                filterName: 'localizedCatalogCode'
                 options:
-                    api_rest: '/localized_catalog_group_options'
-                    api_graphql: 'localizedCatalogGroupOptions'
-                    
+                    api_rest: '/configuration_localized_catalog_group_options?keyToGetOnValue=code'
+
         groups:
             general:
                 labelKey: 'gally_configuration.group.general.label'
-                scopeType: !php/const Gally\Configuration\Entity\Configuration::SCOPE_LOCALIZED_CATALOG               
+                scopeType: !php/const Gally\Configuration\Entity\Configuration::SCOPE_LOCALIZED_CATALOG
                 fieldsets:
                     general:
                         labelKey: 'gally_configuration.group.general.fieldset.general.label'
+                        position: 10
                         fields:
                             gally.base_url.media:
                                 labelKey: 'gally_configuration.gally_base_url_media.label'
                                 position: 10
                                 input: 'string'
+#****************************************************** todo: next part added just for tests purpose, should be removed ******************************************************
+                    secondary:
+                        labelKey: 'Secondary'
+                        position: 20
+                        fields:
+                            gally.base_url.media:
+                                labelKey: 'gally_configuration.gally_base_url_media.label'
+                                position: 1
+                                input: 'string'
+                                required: false
+                            select:
+                                labelKey: 'Select'
+                                position: 5
+                                input: 'select'
+                                options:
+                                    api_rest: '/boost_model_options'
+                                    api_graphql: 'boostModelOptions'
+                            optgroup:
+                                labelKey: 'Multi select'
+                                position: 2
+                                input: 'optgroup'
+                                options:
+                                    api_rest: '/localized_catalog_group_options'
+                                    api_graphql: 'localizedCatalogGroupOptions'
+                            type:
+                                labelKey: 'Type'
+                                position: 0
+                                input: 'select'
+                                options:
+                                    values:
+                                        -   value: 'synonym'
+                                            label: 'Synonym'
+                                        -   value: 'expansion'
+                                            label: 'Expansion'
+                            boolean:
+                                labelKey: 'Boolean'
+                                position: 15
+                                input: 'boolean'
+            secondary:
+                labelKey: 'Secondary'
+                scopeType: !php/const Gally\Configuration\Entity\Configuration::SCOPE_REQUEST_TYPE
+                fieldsets:
+                    general:
+                        labelKey: 'gally_configuration.group.general.fieldset.general.label'
+                        position: 20
+                        fields:
+                            gally.base_url.media:
+                                labelKey: 'gally_configuration.gally_base_url_media.label'
+                                position: 30
+                                input: 'string'
+                    secondary:
+                        labelKey: 'Secondary'
+                        position: 10
+                        fields:
+                            select:
+                                labelKey: 'Select'
+                                position: 5
+                                input: 'select'
+                                options:
+                                    objectKeyValue: 'locale'
+                                    api_rest: '/boost_model_options'
+                                    api_graphql: 'boostModelOptions'
+                            optgroup:
+                                labelKey: 'Multi select'
+                                position: 15
+                                input: 'optgroup'
+                                options:
+                                    api_rest: '/localized_catalog_group_options'
+                                    api_graphql: 'localizedCatalogGroupOptions'
+                            type:
+                                labelKey: 'Type'
+                                position: 15
+                                input: 'select'
+                                options:
+                                    values:
+                                        -   value: 'synonym'
+                                            label: 'Synonym'
+                                        -   value: 'expansion'
+                                            label: 'Expansion'
+                            boolean:
+                                labelKey: 'Boolean'
+                                position: 15
+                                input: 'boolean'

@@ -51,11 +51,11 @@ class ConfigurationProcessor implements ProcessorInterface
                 if (\array_key_exists('path', $item)) {
                     $configuration->setPath($item['path']);
                 }
-                if (\array_key_exists('scope_type', $item)) {
-                    $configuration->setScopeType($item['scope_type']);
+                if (\array_key_exists('scopeType', $item)) {
+                    $configuration->setScopeType($item['scopeType']);
                 }
                 $configuration->setValue($item['value'] ?? null);
-                $configuration->setScopeCode($item['scope_code'] ?? null);
+                $configuration->setScopeCode($item['scopeCode'] ?? null);
 
                 if ($configuration->getPath()) {
                     $paths[] = $configuration->getPath();

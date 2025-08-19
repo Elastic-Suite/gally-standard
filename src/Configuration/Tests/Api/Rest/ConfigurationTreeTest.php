@@ -95,6 +95,7 @@ class ConfigurationTreeTest extends AbstractTestCase
                                         'infoTooltip' => 'gally_configuration.gally_base_url_media.toolTip',
                                         'rangeDateType' => 'from',
                                         'rangeDateId' => 'createdAt',
+                                        'required' => true,
                                         'options' => [
                                             'objectKeyValue' => 'locale',
                                             'api_rest' => '/boost_model_options',
