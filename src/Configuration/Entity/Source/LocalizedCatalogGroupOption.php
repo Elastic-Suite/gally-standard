@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Gally\Catalog\Entity\Source;
+namespace Gally\Configuration\Entity\Source;
 
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
@@ -19,7 +19,8 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\GraphQl\QueryCollection;
 use Gally\Catalog\Entity\Catalog;
 use Gally\Catalog\Entity\LocalizedCatalog;
-use Gally\Catalog\State\Source\LocalizedCatalogGroupOptionProvider;
+use Gally\Configuration\State\Source\LocalizedCatalogGroupOptionProvider;
+use Gally\Catalog\Entity\Source\LocalizedCatalogGroupOption as BaseLocalizedCatalogGroupOption;
 
 #[ApiResource(
     operations: [
@@ -42,14 +43,9 @@ use Gally\Catalog\State\Source\LocalizedCatalogGroupOptionProvider;
     provider: LocalizedCatalogGroupOptionProvider::class,
     extraProperties: [
         'gally' => ['cache_tag' => ['resource_classes' => [Catalog::class, LocalizedCatalog::class]]],
-    ]
+    ],
+    shortName: 'ConfigurationLocalizedCatalogGroupOption'
 )]
-class LocalizedCatalogGroupOption
+class LocalizedCatalogGroupOption extends BaseLocalizedCatalogGroupOption
 {
-    #[ApiProperty(identifier: true)]
-    public string $value;
-
-    public string $label;
-
-    public array $options;
 }
