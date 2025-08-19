@@ -414,15 +414,15 @@ DETAIL:  Key (path, scope_type, scope_code)=(gally.base_url.media, localized_cat
                     $configuration = $configurationRepository->findOneBy(
                         [
                             'path' => $configurationData['path'],
-                            'scopeType' => $configurationData['scope_type'],
-                            'scopeCode' => $configurationData['scope_code'] ?? null,
+                            'scopeType' => $configurationData['scopeType'],
+                            'scopeCode' => $configurationData['scopeCode'] ?? null,
                         ]
                     );
                     $this->assertSame(
                         $expectedSearchValues[
                             implode(
                                 '_',
-                                array_filter([$configurationData['path'], $configurationData['scope_code'] ?? null])
+                                array_filter([$configurationData['path'], $configurationData['scopeCode'] ?? null])
                             )
                         ],
                         $configuration->getDecodedValue()
@@ -449,7 +449,7 @@ DETAIL:  Key (path, scope_type, scope_code)=(gally.base_url.media, localized_cat
             [   // Source field post data
                 ['value' => 'test'],
                 ['path' => 'gally.test_conf', 'value' => 'test'],
-                ['path' => 'gally.test_conf', 'value' => 'test', 'scope_type' => 'general'],
+                ['path' => 'gally.test_conf', 'value' => 'test', 'scopeType' => 'general'],
             ],
             12, // Expected configurations number
             [], // Expected data in response
@@ -462,11 +462,11 @@ DETAIL:  Key (path, scope_type, scope_code)=(gally.base_url.media, localized_cat
         yield [
             $adminUser, // Api User
             [   // Source field post data
-                ['path' => 'gally.test_conf', 'value' => 'test', 'scope_type' => 'general', 'scope_code' => 'fake'],
-                ['path' => 'gally.test_conf', 'value' => 'test', 'scope_type' => 'language', 'scope_code' => 'fake'],
-                ['path' => 'gally.test_conf', 'value' => 'test', 'scope_type' => 'locale', 'scope_code' => 'fake'],
-                ['path' => 'gally.test_conf', 'value' => 'test', 'scope_type' => 'request_type', 'scope_code' => 'fake'],
-                ['path' => 'gally.test_conf', 'value' => 'test', 'scope_type' => 'localized_catalog', 'scope_code' => 'fake'],
+                ['path' => 'gally.test_conf', 'value' => 'test', 'scopeType' => 'general', 'scopeCode' => 'fake'],
+                ['path' => 'gally.test_conf', 'value' => 'test', 'scopeType' => 'language', 'scopeCode' => 'fake'],
+                ['path' => 'gally.test_conf', 'value' => 'test', 'scopeType' => 'locale', 'scopeCode' => 'fake'],
+                ['path' => 'gally.test_conf', 'value' => 'test', 'scopeType' => 'request_type', 'scopeCode' => 'fake'],
+                ['path' => 'gally.test_conf', 'value' => 'test', 'scopeType' => 'localized_catalog', 'scopeCode' => 'fake'],
             ],
             12, // Expected configurations number
             [], // Expected data in response
@@ -483,7 +483,7 @@ DETAIL:  Key (path, scope_type, scope_code)=(gally.base_url.media, localized_cat
         yield [
             $adminUser, // Api User
             [   // Source field post data
-                ['path' => 'gally.test_conf', 'value' => 'bulk value', 'scope_type' => 'general'],
+                ['path' => 'gally.test_conf', 'value' => 'bulk value', 'scopeType' => 'general'],
             ],
             12, // Expected configurations number
             [], // Expected data in response
@@ -495,10 +495,10 @@ DETAIL:  Key (path, scope_type, scope_code)=(gally.base_url.media, localized_cat
         yield [
             $adminUser, // Api User
             [   // Source field post data
-                ['path' => 'gally.test_conf', 'value' => 'bulk value updated', 'scope_type' => 'general'],
-                ['path' => 'gally.test_conf', 'value' => 'bulk value', 'scope_type' => 'language', 'scope_code' => 'fr'],
-                ['path' => 'gally.test_conf', 'value' => 'bulk value', 'scope_type' => 'locale', 'scope_code' => 'fr_FR'],
-                ['path' => 'gally.test_conf2', 'value' => ['test_array' => 'test'], 'scope_type' => 'locale', 'scope_code' => 'fr_FR'],
+                ['path' => 'gally.test_conf', 'value' => 'bulk value updated', 'scopeType' => 'general'],
+                ['path' => 'gally.test_conf', 'value' => 'bulk value', 'scopeType' => 'language', 'scopeCode' => 'fr'],
+                ['path' => 'gally.test_conf', 'value' => 'bulk value', 'scopeType' => 'locale', 'scopeCode' => 'fr_FR'],
+                ['path' => 'gally.test_conf2', 'value' => ['test_array' => 'test'], 'scopeType' => 'locale', 'scopeCode' => 'fr_FR'],
             ],
             15, // Expected configurations number
             [], // Expected data in response

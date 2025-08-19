@@ -32,13 +32,14 @@ class LocalizedCatalogGroupOptionTest extends AbstractTestCase
     /**
      * @dataProvider getCollectionDataProvider
      */
-    public function testGetCollection(array $expectedData): void
+    public function testGetCollection(array $expectedData, ?string $keyToGetOnValue): void
     {
+        $parameters = $keyToGetOnValue ? sprintf('(keyToGetOnValue: "%s") ', $keyToGetOnValue) : '';
         $this->validateApiCall(
             new RequestGraphQlToTest(
                 <<<GQL
                     {
-                      localizedCatalogGroupOptions {
+                      localizedCatalogGroupOptions $parameters{
                         id
                         value
                         label
@@ -61,25 +62,50 @@ class LocalizedCatalogGroupOptionTest extends AbstractTestCase
     public function getCollectionDataProvider(): array
     {
         return [
-            [[
+            [
                 [
-                    'id' => 'b2c_test',
-                    'value' => 'b2c_test',
-                    'label' => 'B2C Test Catalog',
-                    'options' => [
-                        ['value' => $this->getUri('localized_catalogs', '1'), 'label' => 'B2C French Store View'],
-                        ['value' => $this->getUri('localized_catalogs', '2'), 'label' => 'B2C English Store View'],
+                    [
+                        'id' => 'b2c_test',
+                        'value' => 'b2c_test',
+                        'label' => 'B2C Test Catalog',
+                        'options' => [
+                            ['value' => $this->getUri('localized_catalogs', '1'), 'label' => 'B2C French Store View'],
+                            ['value' => $this->getUri('localized_catalogs', '2'), 'label' => 'B2C English Store View'],
+                        ],
+                    ],
+                    [
+                        'id' => 'b2b_test',
+                        'value' => 'b2b_test',
+                        'label' => 'B2B Test Catalog',
+                        'options' => [
+                            ['value' => $this->getUri('localized_catalogs', '3'), 'label' => 'B2B English Store View'],
+                        ],
                     ],
                 ],
+            ],
+            // todo testes ajoutés mais pas eu le temps de vérifier, car problème de btree (jsonb)
+            [
                 [
-                    'id' => 'b2b_test',
-                    'value' => 'b2b_test',
-                    'label' => 'B2B Test Catalog',
-                    'options' => [
-                        ['value' => $this->getUri('localized_catalogs', '3'), 'label' => 'B2B English Store View'],
+                    [
+                        'id' => 'b2c_test',
+                        'value' => 'b2c_test',
+                        'label' => 'B2C Test Catalog',
+                        'options' => [
+                            ['value' => 'b2c_fr'],
+                            ['value' => 'b2c_en'],
+                        ],
+                    ],
+                    [
+                        'id' => 'b2b_test',
+                        'value' => 'b2b_test',
+                        'label' => 'B2B Test Catalog',
+                        'options' => [
+                            ['value' => 'b2b_en'],
+                        ],
                     ],
                 ],
-            ]],
+                'code'
+            ],
         ];
     }
 }

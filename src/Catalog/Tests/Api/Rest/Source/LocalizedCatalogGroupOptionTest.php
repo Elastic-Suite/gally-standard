@@ -23,7 +23,7 @@ class LocalizedCatalogGroupOptionTest extends GraphQlLocalizedCatalogGroupOption
     /**
      * @dataProvider getCollectionDataProvider
      */
-    public function testGetCollection(array $expectedData): void
+    public function testGetCollection(array $expectedData, ?string $keyToGetOnValue): void
     {
         $this->validateApiCall(
             new RequestToTest('GET', 'localized_catalog_group_options', null),
