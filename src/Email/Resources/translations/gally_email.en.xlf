@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" version="2.0" srcLang="en-US" trgLang="en-US">
+    <file id="gally_email.en">
+        <unit id="gally_email_footer_all_right_reserved">
+            <segment>
+                <source>gally.email.footer.all_right_reserved</source>
+                <target>All rights reserved. </target>
+            </segment>
+        </unit>
+    </file>
+</xliff>

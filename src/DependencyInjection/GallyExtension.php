@@ -60,6 +60,15 @@ class GallyExtension extends Extension
             ]
         );
 
+        $twigPaths = [];
+        $paths = $this->getPaths(__DIR__ . '/../*/Resources/views');
+        foreach ($paths as $path) {
+            if (is_dir($path)) {
+                $twigPaths[$path] = 'GallyBundle';
+            }
+        }
+        $container->prependExtensionConfig('twig', ['paths' => $twigPaths]);
+
         $this->loadGallyConfig($container);
     }
 
