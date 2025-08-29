@@ -25,11 +25,11 @@ class DefaultCatalogProviderTest extends AbstractTestCase
     {
         parent::setUp();
         $this->defaultCatalogProvider = static::getContainer()->get('Gally\Catalog\Service\DefaultCatalogProviderTest'); // @phpstan-ignore-line
-        $this->loadFixture([__DIR__ . '/../fixtures/catalogs.yaml']);
     }
 
     public function testNoLocalizedCatalog(): void
     {
+        $this->loadFixture([__DIR__ . '/../fixtures/catalogs.yaml']);
         $this->expectException(NoCatalogException::class);
         $this->defaultCatalogProvider->getDefaultLocalizedCatalog();
     }
@@ -39,7 +39,10 @@ class DefaultCatalogProviderTest extends AbstractTestCase
         $this->loadFixture([__DIR__ . '/../fixtures/catalogs.yaml', __DIR__ . '/../fixtures/localized_catalogs.yaml']);
         $catalog = $this->defaultCatalogProvider->getDefaultLocalizedCatalog();
         $this->assertEquals('B2C French Store View', $catalog->getName());
+    }
 
+    public function testGetLocalizedCatalogWithDefault(): void
+    {
         $this->loadFixture([__DIR__ . '/../fixtures/catalogs.yaml', __DIR__ . '/../fixtures/localized_catalogs_with_default.yaml']);
         $catalog = $this->defaultCatalogProvider->getDefaultLocalizedCatalog();
         $this->assertEquals('B2B English Store View', $catalog->getName());

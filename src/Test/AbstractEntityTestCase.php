@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Gally\Test;
 
 use ApiPlatform\Metadata\Resource\ResourceMetadataCollection;
+use Doctrine\DBAL\Schema\Sequence;
 use Gally\Locale\EventSubscriber\LocaleSubscriber;
 use Gally\User\Entity\User;
 use Symfony\Contracts\HttpClient\ResponseInterface;
@@ -28,12 +29,13 @@ abstract class AbstractEntityTestCase extends AbstractTestCase
     public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
+        static::resetSequence(static::getEntityClass());
         static::loadFixture(static::getFixtureFiles());
     }
 
     abstract protected static function getFixtureFiles(): array;
 
-    abstract protected function getEntityClass(): string;
+    abstract protected static function getEntityClass(): string;
 
     /**
      * @dataProvider createDataProvider

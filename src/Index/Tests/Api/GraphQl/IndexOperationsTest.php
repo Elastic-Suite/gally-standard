@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Gally\Index\Tests\Api\GraphQl;
 
+use Gally\Catalog\Entity\Catalog;
+use Gally\Catalog\Entity\LocalizedCatalog;
 use Gally\Catalog\Repository\LocalizedCatalogRepository;
 use Gally\Index\Api\IndexSettingsInterface;
 use Gally\Index\Entity\Index;
@@ -37,6 +39,8 @@ class IndexOperationsTest extends AbstractTestCase
 
     public static function setUpBeforeClass(): void
     {
+        static::resetSequence(Catalog::class);
+        static::resetSequence(LocalizedCatalog::class);
         parent::setUpBeforeClass();
         \assert(static::getContainer()->get(IndexRepositoryInterface::class) instanceof IndexRepositoryInterface);
         self::$indexRepository = static::getContainer()->get(IndexRepositoryInterface::class);
@@ -98,6 +102,8 @@ class IndexOperationsTest extends AbstractTestCase
 
     public function createIndexDataProvider(): iterable
     {
+        static::resetSequence(Catalog::class);
+        static::resetSequence(LocalizedCatalog::class);
         self::loadFixture([
             __DIR__ . '/../../fixtures/metadata.yaml',
             __DIR__ . '/../../fixtures/catalogs.yaml',
@@ -191,6 +197,8 @@ class IndexOperationsTest extends AbstractTestCase
 
     public function installIndexDataProvider(): iterable
     {
+        static::resetSequence(Catalog::class);
+        static::resetSequence(LocalizedCatalog::class);
         self::loadFixture([
             __DIR__ . '/../../fixtures/metadata.yaml',
             __DIR__ . '/../../fixtures/catalogs.yaml',

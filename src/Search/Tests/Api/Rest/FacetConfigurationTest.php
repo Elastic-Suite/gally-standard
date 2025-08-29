@@ -56,17 +56,17 @@ class FacetConfigurationTest extends AbstractTestCase
                 null,
                 null,
                 [
-                    ['sourceField' => 2, 'sourceFieldLabel' => 'Name'],
-                    ['sourceField' => 3, 'sourceFieldLabel' => 'Brand'],
-                    ['sourceField' => 4, 'sourceFieldLabel' => 'Color'],
-                    ['sourceField' => 5, 'sourceFieldLabel' => 'Category'],
-                    ['sourceField' => 6, 'sourceFieldLabel' => 'Length'],
-                    ['sourceField' => 7, 'sourceFieldLabel' => 'Size'],
-                    ['sourceField' => 8, 'sourceFieldLabel' => 'Weight'],
-                    ['sourceField' => 15, 'sourceFieldLabel' => 'Is_eco_friendly'],
-                    ['sourceField' => 16, 'sourceFieldLabel' => 'Created_at'],
-                    ['sourceField' => 20, 'sourceFieldLabel' => 'Color_full'],
-                    ['sourceField' => 21, 'sourceFieldLabel' => 'Manufacture_location'],
+                    ['sourceField' => 15, 'sourceFieldLabel' => 'Name'],
+                    ['sourceField' => 16, 'sourceFieldLabel' => 'Brand'],
+                    ['sourceField' => 17, 'sourceFieldLabel' => 'Color'],
+                    ['sourceField' => 18, 'sourceFieldLabel' => 'Category'],
+                    ['sourceField' => 19, 'sourceFieldLabel' => 'Length'],
+                    ['sourceField' => 20, 'sourceFieldLabel' => 'Size'],
+                    ['sourceField' => 21, 'sourceFieldLabel' => 'Weight'],
+                    ['sourceField' => 28, 'sourceFieldLabel' => 'Is_eco_friendly'],
+                    ['sourceField' => 29, 'sourceFieldLabel' => 'Created_at'],
+                    ['sourceField' => 33, 'sourceFieldLabel' => 'Color_full'],
+                    ['sourceField' => 34, 'sourceFieldLabel' => 'Manufacture_location'],
                 ],
                 200,
             ],
@@ -75,17 +75,17 @@ class FacetConfigurationTest extends AbstractTestCase
                 null,
                 'cat_1',
                 [
-                    ['sourceField' => 2, 'category' => 'cat_1', 'sourceFieldLabel' => 'Name'],
-                    ['sourceField' => 3, 'category' => 'cat_1', 'sourceFieldLabel' => 'Brand'],
-                    ['sourceField' => 4, 'category' => 'cat_1', 'sourceFieldLabel' => 'Color'],
-                    ['sourceField' => 5, 'category' => 'cat_1', 'sourceFieldLabel' => 'Category'],
-                    ['sourceField' => 6, 'category' => 'cat_1', 'sourceFieldLabel' => 'Length'],
-                    ['sourceField' => 7, 'category' => 'cat_1', 'sourceFieldLabel' => 'Size'],
-                    ['sourceField' => 8, 'category' => 'cat_1', 'sourceFieldLabel' => 'Weight'],
-                    ['sourceField' => 15, 'category' => 'cat_1', 'sourceFieldLabel' => 'Is_eco_friendly'],
-                    ['sourceField' => 16, 'category' => 'cat_1', 'sourceFieldLabel' => 'Created_at'],
-                    ['sourceField' => 20, 'category' => 'cat_1', 'sourceFieldLabel' => 'Color_full'],
-                    ['sourceField' => 21, 'category' => 'cat_1', 'sourceFieldLabel' => 'Manufacture_location'],
+                    ['sourceField' => 15, 'category' => 'cat_1', 'sourceFieldLabel' => 'Name'],
+                    ['sourceField' => 16, 'category' => 'cat_1', 'sourceFieldLabel' => 'Brand'],
+                    ['sourceField' => 17, 'category' => 'cat_1', 'sourceFieldLabel' => 'Color'],
+                    ['sourceField' => 18, 'category' => 'cat_1', 'sourceFieldLabel' => 'Category'],
+                    ['sourceField' => 19, 'category' => 'cat_1', 'sourceFieldLabel' => 'Length'],
+                    ['sourceField' => 20, 'category' => 'cat_1', 'sourceFieldLabel' => 'Size'],
+                    ['sourceField' => 21, 'category' => 'cat_1', 'sourceFieldLabel' => 'Weight'],
+                    ['sourceField' => 28, 'category' => 'cat_1', 'sourceFieldLabel' => 'Is_eco_friendly'],
+                    ['sourceField' => 29, 'category' => 'cat_1', 'sourceFieldLabel' => 'Created_at'],
+                    ['sourceField' => 33, 'category' => 'cat_1', 'sourceFieldLabel' => 'Color_full'],
+                    ['sourceField' => 34, 'category' => 'cat_1', 'sourceFieldLabel' => 'Manufacture_location'],
                 ],
                 200,
             ],
@@ -94,17 +94,17 @@ class FacetConfigurationTest extends AbstractTestCase
                 null,
                 'cat_2',
                 [
-                    ['sourceField' => 2, 'category' => 'cat_2', 'sourceFieldLabel' => 'Name'],
-                    ['sourceField' => 3, 'category' => 'cat_2', 'sourceFieldLabel' => 'Brand'],
-                    ['sourceField' => 4, 'category' => 'cat_2', 'sourceFieldLabel' => 'Color'],
-                    ['sourceField' => 5, 'category' => 'cat_2', 'sourceFieldLabel' => 'Category'],
-                    ['sourceField' => 6, 'category' => 'cat_2', 'sourceFieldLabel' => 'Length'],
-                    ['sourceField' => 7, 'category' => 'cat_2', 'sourceFieldLabel' => 'Size'],
-                    ['sourceField' => 8, 'category' => 'cat_2', 'sourceFieldLabel' => 'Weight'],
-                    ['sourceField' => 15, 'category' => 'cat_2', 'sourceFieldLabel' => 'Is_eco_friendly'],
-                    ['sourceField' => 16, 'category' => 'cat_2', 'sourceFieldLabel' => 'Created_at'],
-                    ['sourceField' => 20, 'category' => 'cat_2', 'sourceFieldLabel' => 'Color_full'],
-                    ['sourceField' => 21, 'category' => 'cat_2', 'sourceFieldLabel' => 'Manufacture_location'],
+                    ['sourceField' => 15, 'category' => 'cat_2', 'sourceFieldLabel' => 'Name'],
+                    ['sourceField' => 16, 'category' => 'cat_2', 'sourceFieldLabel' => 'Brand'],
+                    ['sourceField' => 17, 'category' => 'cat_2', 'sourceFieldLabel' => 'Color'],
+                    ['sourceField' => 18, 'category' => 'cat_2', 'sourceFieldLabel' => 'Category'],
+                    ['sourceField' => 19, 'category' => 'cat_2', 'sourceFieldLabel' => 'Length'],
+                    ['sourceField' => 20, 'category' => 'cat_2', 'sourceFieldLabel' => 'Size'],
+                    ['sourceField' => 21, 'category' => 'cat_2', 'sourceFieldLabel' => 'Weight'],
+                    ['sourceField' => 28, 'category' => 'cat_2', 'sourceFieldLabel' => 'Is_eco_friendly'],
+                    ['sourceField' => 29, 'category' => 'cat_2', 'sourceFieldLabel' => 'Created_at'],
+                    ['sourceField' => 33, 'category' => 'cat_2', 'sourceFieldLabel' => 'Color_full'],
+                    ['sourceField' => 34, 'category' => 'cat_2', 'sourceFieldLabel' => 'Manufacture_location'],
                 ],
                 200,
             ],
@@ -113,16 +113,16 @@ class FacetConfigurationTest extends AbstractTestCase
                 'product',
                 null,
                 [
-                    ['sourceField' => 3, 'sourceFieldLabel' => 'Brand'],
-                    ['sourceField' => 4, 'sourceFieldLabel' => 'Color'],
-                    ['sourceField' => 5, 'sourceFieldLabel' => 'Category'],
-                    ['sourceField' => 6, 'sourceFieldLabel' => 'Length'],
-                    ['sourceField' => 7, 'sourceFieldLabel' => 'Size'],
-                    ['sourceField' => 8, 'sourceFieldLabel' => 'Weight'],
-                    ['sourceField' => 15, 'sourceFieldLabel' => 'Is_eco_friendly'],
-                    ['sourceField' => 16, 'sourceFieldLabel' => 'Created_at'],
-                    ['sourceField' => 20, 'sourceFieldLabel' => 'Color_full'],
-                    ['sourceField' => 21, 'sourceFieldLabel' => 'Manufacture_location'],
+                    ['sourceField' => 16, 'sourceFieldLabel' => 'Brand'],
+                    ['sourceField' => 17, 'sourceFieldLabel' => 'Color'],
+                    ['sourceField' => 18, 'sourceFieldLabel' => 'Category'],
+                    ['sourceField' => 19, 'sourceFieldLabel' => 'Length'],
+                    ['sourceField' => 20, 'sourceFieldLabel' => 'Size'],
+                    ['sourceField' => 21, 'sourceFieldLabel' => 'Weight'],
+                    ['sourceField' => 28, 'sourceFieldLabel' => 'Is_eco_friendly'],
+                    ['sourceField' => 29, 'sourceFieldLabel' => 'Created_at'],
+                    ['sourceField' => 33, 'sourceFieldLabel' => 'Color_full'],
+                    ['sourceField' => 34, 'sourceFieldLabel' => 'Manufacture_location'],
                 ],
                 200,
             ],
@@ -131,7 +131,7 @@ class FacetConfigurationTest extends AbstractTestCase
                 'category',
                 null,
                 [
-                    ['sourceField' => 2, 'sourceFieldLabel' => 'Name'],
+                    ['sourceField' => 15, 'sourceFieldLabel' => 'Name'],
                 ],
                 200,
             ],
@@ -161,13 +161,13 @@ class FacetConfigurationTest extends AbstractTestCase
         $admin = $this->getUser(Role::ROLE_ADMIN);
 
         return [
-            [null, '3-0', ['coverageRate' => 0], 401, 'Access Denied.'],
-            [$admin, '3-0', ['coverageRate' => 0, 'sortOrder' => 'invalidSortOrder'], 422, 'sortOrder: The value you selected is not a valid choice.'],
-            [$this->getUser(Role::ROLE_CONTRIBUTOR), '3-0', ['coverageRate' => 0, 'sortOrder' => BucketInterface::SORT_ORDER_COUNT], 200],
-            [$admin, '3-0', ['coverageRate' => 1, 'maxSize' => 100, 'sortOrder' => BucketInterface::SORT_ORDER_TERM, 'position' => 1], 200],
-            [$admin, '3-cat_1', ['coverageRate' => 10, 'sortOrder' => BucketInterface::SORT_ORDER_MANUAL], 200],
-            [$admin, '4-cat_1', ['coverageRate' => 10, 'sortOrder' => BucketInterface::SORT_ORDER_MANUAL, 'position' => 1], 200],
-            [$admin, '3-cat_2', ['coverageRate' => 90], 200], // Put the default value back on a sub level
+            [null, '16-0', ['coverageRate' => 0], 401, 'Access Denied.'],
+            [$admin, '16-0', ['coverageRate' => 0, 'sortOrder' => 'invalidSortOrder'], 422, 'sortOrder: The value you selected is not a valid choice.'],
+            [$this->getUser(Role::ROLE_CONTRIBUTOR), '16-0', ['coverageRate' => 0, 'sortOrder' => BucketInterface::SORT_ORDER_COUNT], 200],
+            [$admin, '16-0', ['coverageRate' => 1, 'maxSize' => 100, 'sortOrder' => BucketInterface::SORT_ORDER_TERM, 'position' => 1], 200],
+            [$admin, '16-cat_1', ['coverageRate' => 10, 'sortOrder' => BucketInterface::SORT_ORDER_MANUAL], 200],
+            [$admin, '17-cat_1', ['coverageRate' => 10, 'sortOrder' => BucketInterface::SORT_ORDER_MANUAL, 'position' => 1], 200],
+            [$admin, '16-cat_2', ['coverageRate' => 90], 200], // Put the default value back on a sub level
         ];
     }
 
@@ -191,17 +191,17 @@ class FacetConfigurationTest extends AbstractTestCase
                 null,
                 null,
                 [
-                    ['sourceField' => 2, 'sourceFieldLabel' => 'Name'],
-                    ['sourceField' => 3, 'coverageRate' => 1, 'sourceFieldLabel' => 'Brand', 'maxSize' => 100, 'sortOrder' => BucketInterface::SORT_ORDER_TERM, 'position' => 1], // product_brand.
-                    ['sourceField' => 4, 'sourceFieldLabel' => 'Color'], // product_color.
-                    ['sourceField' => 5, 'sourceFieldLabel' => 'Category'], // product_category.
-                    ['sourceField' => 6, 'sourceFieldLabel' => 'Length'], // product_length.
-                    ['sourceField' => 7, 'sourceFieldLabel' => 'Size'], // size.
-                    ['sourceField' => 8, 'sourceFieldLabel' => 'Weight'], // weight.
-                    ['sourceField' => 15, 'sourceFieldLabel' => 'Is_eco_friendly'],
-                    ['sourceField' => 16, 'sourceFieldLabel' => 'Created_at'],
-                    ['sourceField' => 20, 'sourceFieldLabel' => 'Color_full'],
-                    ['sourceField' => 21, 'sourceFieldLabel' => 'Manufacture_location'],
+                    ['sourceField' => 15, 'sourceFieldLabel' => 'Name'],
+                    ['sourceField' => 16, 'coverageRate' => 1, 'sourceFieldLabel' => 'Brand', 'maxSize' => 100, 'sortOrder' => BucketInterface::SORT_ORDER_TERM, 'position' => 1], // product_brand.
+                    ['sourceField' => 17, 'sourceFieldLabel' => 'Color'], // product_color.
+                    ['sourceField' => 18, 'sourceFieldLabel' => 'Category'], // product_category.
+                    ['sourceField' => 19, 'sourceFieldLabel' => 'Length'], // product_length.
+                    ['sourceField' => 20, 'sourceFieldLabel' => 'Size'], // size.
+                    ['sourceField' => 21, 'sourceFieldLabel' => 'Weight'], // weight.
+                    ['sourceField' => 28, 'sourceFieldLabel' => 'Is_eco_friendly'],
+                    ['sourceField' => 29, 'sourceFieldLabel' => 'Created_at'],
+                    ['sourceField' => 33, 'sourceFieldLabel' => 'Color_full'],
+                    ['sourceField' => 34, 'sourceFieldLabel' => 'Manufacture_location'],
                 ],
                 200,
             ],
@@ -210,17 +210,17 @@ class FacetConfigurationTest extends AbstractTestCase
                 null,
                 'cat_1',
                 [
-                    ['sourceField' => 2, 'category' => 'cat_1', 'sourceFieldLabel' => 'Name'],
-                    ['sourceField' => 3, 'category' => 'cat_1', 'coverageRate' => 10, 'maxSize' => 100, 'defaultCoverageRate' => 1, 'defaultMaxSize' => 100, 'sourceFieldLabel' => 'Brand', 'sortOrder' => BucketInterface::SORT_ORDER_MANUAL, 'defaultSortOrder' => BucketInterface::SORT_ORDER_TERM, 'position' => 1, 'defaultPosition' => 1],
-                    ['sourceField' => 4, 'category' => 'cat_1', 'coverageRate' => 10, 'sourceFieldLabel' => 'Color', 'sortOrder' => BucketInterface::SORT_ORDER_MANUAL, 'position' => 1],
-                    ['sourceField' => 5, 'category' => 'cat_1', 'coverageRate' => 90, 'sourceFieldLabel' => 'Category'],
-                    ['sourceField' => 6, 'category' => 'cat_1', 'coverageRate' => 90, 'sourceFieldLabel' => 'Length'],
-                    ['sourceField' => 7, 'category' => 'cat_1', 'coverageRate' => 90, 'sourceFieldLabel' => 'Size'],
-                    ['sourceField' => 8, 'category' => 'cat_1', 'coverageRate' => 90, 'sourceFieldLabel' => 'Weight'],
-                    ['sourceField' => 15, 'category' => 'cat_1', 'coverageRate' => 90, 'sourceFieldLabel' => 'Is_eco_friendly'],
-                    ['sourceField' => 16, 'category' => 'cat_1', 'coverageRate' => 90, 'sourceFieldLabel' => 'Created_at'],
-                    ['sourceField' => 20, 'category' => 'cat_1', 'coverageRate' => 90, 'sourceFieldLabel' => 'Color_full'],
-                    ['sourceField' => 21, 'category' => 'cat_1', 'coverageRate' => 90, 'sourceFieldLabel' => 'Manufacture_location'],
+                    ['sourceField' => 15, 'category' => 'cat_1', 'sourceFieldLabel' => 'Name'],
+                    ['sourceField' => 16, 'category' => 'cat_1', 'coverageRate' => 10, 'maxSize' => 100, 'defaultCoverageRate' => 1, 'defaultMaxSize' => 100, 'sourceFieldLabel' => 'Brand', 'sortOrder' => BucketInterface::SORT_ORDER_MANUAL, 'defaultSortOrder' => BucketInterface::SORT_ORDER_TERM, 'position' => 1, 'defaultPosition' => 1],
+                    ['sourceField' => 17, 'category' => 'cat_1', 'coverageRate' => 10, 'sourceFieldLabel' => 'Color', 'sortOrder' => BucketInterface::SORT_ORDER_MANUAL, 'position' => 1],
+                    ['sourceField' => 18, 'category' => 'cat_1', 'coverageRate' => 90, 'sourceFieldLabel' => 'Category'],
+                    ['sourceField' => 19, 'category' => 'cat_1', 'coverageRate' => 90, 'sourceFieldLabel' => 'Length'],
+                    ['sourceField' => 20, 'category' => 'cat_1', 'coverageRate' => 90, 'sourceFieldLabel' => 'Size'],
+                    ['sourceField' => 21, 'category' => 'cat_1', 'coverageRate' => 90, 'sourceFieldLabel' => 'Weight'],
+                    ['sourceField' => 28, 'category' => 'cat_1', 'coverageRate' => 90, 'sourceFieldLabel' => 'Is_eco_friendly'],
+                    ['sourceField' => 29, 'category' => 'cat_1', 'coverageRate' => 90, 'sourceFieldLabel' => 'Created_at'],
+                    ['sourceField' => 33, 'category' => 'cat_1', 'coverageRate' => 90, 'sourceFieldLabel' => 'Color_full'],
+                    ['sourceField' => 34, 'category' => 'cat_1', 'coverageRate' => 90, 'sourceFieldLabel' => 'Manufacture_location'],
                 ],
                 200,
             ],
@@ -229,17 +229,17 @@ class FacetConfigurationTest extends AbstractTestCase
                 null,
                 'cat_2',
                 [
-                    ['sourceField' => 2, 'category' => 'cat_2', 'sourceFieldLabel' => 'Name'],
-                    ['sourceField' => 3, 'category' => 'cat_2', 'coverageRate' => 90, 'maxSize' => 100, 'defaultCoverageRate' => 1,  'defaultMaxSize' => 100, 'sourceFieldLabel' => 'Brand', 'sortOrder' => BucketInterface::SORT_ORDER_TERM, 'defaultSortOrder' => BucketInterface::SORT_ORDER_TERM, 'position' => 1, 'defaultPosition' => 1],
-                    ['sourceField' => 4, 'category' => 'cat_2', 'coverageRate' => 90, 'sourceFieldLabel' => 'Color'],
-                    ['sourceField' => 5, 'category' => 'cat_2', 'coverageRate' => 90, 'sourceFieldLabel' => 'Category'],
-                    ['sourceField' => 6, 'category' => 'cat_2', 'coverageRate' => 90, 'sourceFieldLabel' => 'Length'],
-                    ['sourceField' => 7, 'category' => 'cat_2', 'coverageRate' => 90, 'sourceFieldLabel' => 'Size'],
-                    ['sourceField' => 8, 'category' => 'cat_2', 'coverageRate' => 90, 'sourceFieldLabel' => 'Weight'],
-                    ['sourceField' => 15, 'category' => 'cat_2', 'coverageRate' => 90, 'sourceFieldLabel' => 'Is_eco_friendly'],
-                    ['sourceField' => 16, 'category' => 'cat_2', 'coverageRate' => 90, 'sourceFieldLabel' => 'Created_at'],
-                    ['sourceField' => 20, 'category' => 'cat_2', 'coverageRate' => 90, 'sourceFieldLabel' => 'Color_full'],
-                    ['sourceField' => 21, 'category' => 'cat_2', 'coverageRate' => 90, 'sourceFieldLabel' => 'Manufacture_location'],
+                    ['sourceField' => 15, 'category' => 'cat_2', 'sourceFieldLabel' => 'Name'],
+                    ['sourceField' => 16, 'category' => 'cat_2', 'coverageRate' => 90, 'maxSize' => 100, 'defaultCoverageRate' => 1,  'defaultMaxSize' => 100, 'sourceFieldLabel' => 'Brand', 'sortOrder' => BucketInterface::SORT_ORDER_TERM, 'defaultSortOrder' => BucketInterface::SORT_ORDER_TERM, 'position' => 1, 'defaultPosition' => 1],
+                    ['sourceField' => 17, 'category' => 'cat_2', 'coverageRate' => 90, 'sourceFieldLabel' => 'Color'],
+                    ['sourceField' => 18, 'category' => 'cat_2', 'coverageRate' => 90, 'sourceFieldLabel' => 'Category'],
+                    ['sourceField' => 19, 'category' => 'cat_2', 'coverageRate' => 90, 'sourceFieldLabel' => 'Length'],
+                    ['sourceField' => 20, 'category' => 'cat_2', 'coverageRate' => 90, 'sourceFieldLabel' => 'Size'],
+                    ['sourceField' => 21, 'category' => 'cat_2', 'coverageRate' => 90, 'sourceFieldLabel' => 'Weight'],
+                    ['sourceField' => 28, 'category' => 'cat_2', 'coverageRate' => 90, 'sourceFieldLabel' => 'Is_eco_friendly'],
+                    ['sourceField' => 29, 'category' => 'cat_2', 'coverageRate' => 90, 'sourceFieldLabel' => 'Created_at'],
+                    ['sourceField' => 33, 'category' => 'cat_2', 'coverageRate' => 90, 'sourceFieldLabel' => 'Color_full'],
+                    ['sourceField' => 34, 'category' => 'cat_2', 'coverageRate' => 90, 'sourceFieldLabel' => 'Manufacture_location'],
                 ],
                 200,
             ],
@@ -248,16 +248,16 @@ class FacetConfigurationTest extends AbstractTestCase
                 'product',
                 null,
                 [
-                    ['sourceField' => 3, 'coverageRate' => 1, 'sourceFieldLabel' => 'Brand', 'maxSize' => 100, 'sortOrder' => BucketInterface::SORT_ORDER_TERM, 'position' => 1], // product_brand.
-                    ['sourceField' => 4, 'sourceFieldLabel' => 'Color'], // product_color.
-                    ['sourceField' => 5, 'sourceFieldLabel' => 'Category'], // product_category.
-                    ['sourceField' => 6, 'sourceFieldLabel' => 'Length'], // product_length.
-                    ['sourceField' => 7, 'sourceFieldLabel' => 'Size'], // size.
-                    ['sourceField' => 8, 'sourceFieldLabel' => 'Weight'], // weight.
-                    ['sourceField' => 15, 'sourceFieldLabel' => 'Is_eco_friendly'],
-                    ['sourceField' => 16, 'sourceFieldLabel' => 'Created_at'],
-                    ['sourceField' => 20, 'sourceFieldLabel' => 'Color_full'], // product_color_full.
-                    ['sourceField' => 21, 'sourceFieldLabel' => 'Manufacture_location'],
+                    ['sourceField' => 16, 'coverageRate' => 1, 'sourceFieldLabel' => 'Brand', 'maxSize' => 100, 'sortOrder' => BucketInterface::SORT_ORDER_TERM, 'position' => 1], // product_brand.
+                    ['sourceField' => 17, 'sourceFieldLabel' => 'Color'], // product_color.
+                    ['sourceField' => 18, 'sourceFieldLabel' => 'Category'], // product_category.
+                    ['sourceField' => 19, 'sourceFieldLabel' => 'Length'], // product_length.
+                    ['sourceField' => 20, 'sourceFieldLabel' => 'Size'], // size.
+                    ['sourceField' => 21, 'sourceFieldLabel' => 'Weight'], // weight.
+                    ['sourceField' => 28, 'sourceFieldLabel' => 'Is_eco_friendly'],
+                    ['sourceField' => 29, 'sourceFieldLabel' => 'Created_at'],
+                    ['sourceField' => 33, 'sourceFieldLabel' => 'Color_full'], // product_color_full.
+                    ['sourceField' => 34, 'sourceFieldLabel' => 'Manufacture_location'],
                 ],
                 200,
             ],
@@ -266,7 +266,7 @@ class FacetConfigurationTest extends AbstractTestCase
                 'category',
                 null,
                 [
-                    ['sourceField' => 2, 'sourceFieldLabel' => 'Name'],
+                    ['sourceField' => 15, 'sourceFieldLabel' => 'Name'],
                 ],
                 401,
                 'Access Denied.',
@@ -276,7 +276,7 @@ class FacetConfigurationTest extends AbstractTestCase
                 'category',
                 null,
                 [
-                    ['sourceField' => 2, 'sourceFieldLabel' => 'Name'],
+                    ['sourceField' => 15, 'sourceFieldLabel' => 'Name'],
                 ],
                 200,
             ],
@@ -285,7 +285,7 @@ class FacetConfigurationTest extends AbstractTestCase
                 'category',
                 null,
                 [
-                    ['sourceField' => 2, 'sourceFieldLabel' => 'Name'],
+                    ['sourceField' => 15, 'sourceFieldLabel' => 'Name'],
                 ],
                 200,
             ],
@@ -338,9 +338,9 @@ class FacetConfigurationTest extends AbstractTestCase
         $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
 
         return [
-            [null, '3-0', ['id' => '3-0'], 401],
-            [$user, '3-0', ['id' => '3-0'], 200],
-            [$this->getUser(Role::ROLE_ADMIN), '3-0', ['id' => '3-0'], 200],
+            [null, '16-0', ['id' => '16-0'], 401],
+            [$user, '16-0', ['id' => '16-0'], 200],
+            [$this->getUser(Role::ROLE_ADMIN), '16-0', ['id' => '16-0'], 200],
         ];
     }
 
@@ -370,9 +370,9 @@ class FacetConfigurationTest extends AbstractTestCase
     public function deleteDataProvider(): iterable
     {
         return [
-            [null, '3-0', 401, 'Access Denied.'],
-            [$this->getUser(Role::ROLE_CONTRIBUTOR), '3-0', 204],
-            [$this->getUser(Role::ROLE_ADMIN), '3-cat_1', 204],
+            [null, '16-0', 401, 'Access Denied.'],
+            [$this->getUser(Role::ROLE_CONTRIBUTOR), '16-0', 204],
+            [$this->getUser(Role::ROLE_ADMIN), '16-cat_1', 204],
         ];
     }
 

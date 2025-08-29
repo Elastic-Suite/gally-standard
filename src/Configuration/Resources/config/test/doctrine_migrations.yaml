@@ -1,0 +1,4 @@
+doctrine_migrations:
+    migrations_paths:
+        'Gally\Migrations': '@GallyBundle/Migrations'
+        'Gally\Test\Migrations': '@GallyBundle/Test/Migrations'

@@ -24,7 +24,7 @@ class UserTest extends AbstractEntityTestWithUpdate
         return [];
     }
 
-    protected function getEntityClass(): string
+    protected static function getEntityClass(): string
     {
         return User::class;
     }

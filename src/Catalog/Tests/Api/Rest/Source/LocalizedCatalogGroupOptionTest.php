@@ -20,15 +20,6 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
 
 class LocalizedCatalogGroupOptionTest extends GraphQlLocalizedCatalogGroupOptionTest
 {
-    public static function setUpBeforeClass(): void
-    {
-        parent::setUpBeforeClass();
-        self::loadFixture([
-            __DIR__ . '/../../../fixtures/localized_catalogs.yaml',
-            __DIR__ . '/../../../fixtures/catalogs.yaml',
-        ]);
-    }
-
     /**
      * @dataProvider getCollectionDataProvider
      */

@@ -24,7 +24,7 @@ class MetadataTest extends AbstractEntityTestWithUpdate
         return [__DIR__ . '/../../fixtures/metadata.yaml'];
     }
 
-    protected function getEntityClass(): string
+    protected static function getEntityClass(): string
     {
         return Metadata::class;
     }
@@ -49,11 +49,11 @@ class MetadataTest extends AbstractEntityTestWithUpdate
         $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
 
         return [
-            [null, 1, ['id' => 1, 'entity' => 'product'], 401],
-            [$this->getUser(Role::ROLE_ADMIN), 1, ['id' => 1, 'entity' => 'product'], 200],
-            [$user, 1, ['id' => 1, 'entity' => 'product'], 200],
-            [$user, 3, ['id' => 3, 'entity' => 'article'], 200],
-            [$user, 5, [], 404],
+            [null, 3, ['id' => 3, 'entity' => 'product'], 401],
+            [$this->getUser(Role::ROLE_ADMIN), 3, ['id' => 3, 'entity' => 'product'], 200],
+            [$user, 3, ['id' => 3, 'entity' => 'product'], 200],
+            [$user, 5, ['id' => 5, 'entity' => 'article'], 200],
+            [$user, 7, [], 404],
         ];
     }
 
@@ -62,11 +62,11 @@ class MetadataTest extends AbstractEntityTestWithUpdate
         $adminUser = $this->getUser(Role::ROLE_ADMIN);
 
         return [
-            [null, 1, 401],
-            [$this->getUser(Role::ROLE_CONTRIBUTOR), 1, 403],
-            [$adminUser, 1, 204],
+            [null, 3, 401],
+            [$this->getUser(Role::ROLE_CONTRIBUTOR), 3, 403],
             [$adminUser, 3, 204],
-            [$adminUser, 5, 404],
+            [$adminUser, 5, 204],
+            [$adminUser, 7, 404],
         ];
     }
 
@@ -82,9 +82,9 @@ class MetadataTest extends AbstractEntityTestWithUpdate
     public function patchUpdateDataProvider(): iterable
     {
         return [
-            [null, 3, ['entity' => 'article PATCH/PUT'], 401],
-            [$this->getUser(Role::ROLE_CONTRIBUTOR), 3, ['entity' => 'article PATCH/PUT'], 403],
-            [$this->getUser(Role::ROLE_ADMIN), 3, ['entity' => 'article PATCH/PUT'], 200],
+            [null, 5, ['entity' => 'article PATCH/PUT'], 401],
+            [$this->getUser(Role::ROLE_CONTRIBUTOR), 5, ['entity' => 'article PATCH/PUT'], 403],
+            [$this->getUser(Role::ROLE_ADMIN), 5, ['entity' => 'article PATCH/PUT'], 200],
         ];
     }
 }

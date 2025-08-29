@@ -35,7 +35,7 @@ class ConfigurationTest extends AbstractEntityTestWithUpdate
         ];
     }
 
-    protected function getEntityClass(): string
+    protected static function getEntityClass(): string
     {
         return Configuration::class;
     }
@@ -255,9 +255,9 @@ DETAIL:  Key (path, scope_type, scope_code)=(gally.base_url.media, localized_cat
     {
         yield [
             null,
-            1,
+            28,
             [
-                'id' => 1,
+                'id' => 28,
                 'path' => 'gally.base_url.media',
                 'scopeType' => 'general',
                 'scopeCode' => null,
@@ -266,9 +266,9 @@ DETAIL:  Key (path, scope_type, scope_code)=(gally.base_url.media, localized_cat
         ];
         yield [
             $this->getUser(Role::ROLE_CONTRIBUTOR),
-            1,
+            28,
             [
-                'id' => 1,
+                'id' => 28,
                 'path' => 'gally.base_url.media',
                 'scopeType' => 'general',
                 'scopeCode' => null,
@@ -277,9 +277,9 @@ DETAIL:  Key (path, scope_type, scope_code)=(gally.base_url.media, localized_cat
         ];
         yield [
             $this->getUser(Role::ROLE_ADMIN),
-            2,
+            29,
             [
-                'id' => 2,
+                'id' => 29,
                 'path' => 'gally.base_url.media',
                 'scopeType' => 'localized_catalog',
                 'scopeCode' => 'b2b',
@@ -293,22 +293,22 @@ DETAIL:  Key (path, scope_type, scope_code)=(gally.base_url.media, localized_cat
     {
         $adminUser = $this->getUser(Role::ROLE_ADMIN);
 
-        yield [null, 1, 401];
-        yield [$this->getUser(Role::ROLE_CONTRIBUTOR), 1, 403];
-        yield [$adminUser, 1, 204];
+        yield [null, 28, 401];
+        yield [$this->getUser(Role::ROLE_CONTRIBUTOR), 28, 403];
+        yield [$adminUser, 29, 204];
         yield [$adminUser, 666, 404];
     }
 
     public function patchUpdateDataProvider(): iterable
     {
-        yield [null, 1, ['value' => 'Value updated'], 405];
+        yield [null, 28, ['value' => 'Value updated'], 405];
     }
 
     public function putUpdateDataProvider(): iterable
     {
-        yield [null, 7, ['value' => 'Test value api by locale es_ES updated'], 401];
-        yield [$this->getUser(Role::ROLE_CONTRIBUTOR), 7, ['value' => 'Test value api by locale es_ES updated'], 403];
-        yield [$this->getUser(Role::ROLE_ADMIN), 7, ['value' => 'Test value api by locale es_ES updated'], 200];
+        yield [null, 34, ['value' => 'Test value api by locale es_ES updated'], 401];
+        yield [$this->getUser(Role::ROLE_CONTRIBUTOR), 34, ['value' => 'Test value api by locale es_ES updated'], 403];
+        yield [$this->getUser(Role::ROLE_ADMIN), 34, ['value' => 'Test value api by locale es_ES updated'], 200];
     }
 
     /**

@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Gally\Index\Tests\Api\Rest;
 
+use Gally\Catalog\Entity\Catalog;
+use Gally\Catalog\Entity\LocalizedCatalog;
 use Gally\Fixture\Service\ElasticsearchFixturesInterface;
 use Gally\Index\Entity\Index;
 use Gally\Index\Repository\Index\IndexRepositoryInterface;
@@ -52,7 +54,7 @@ class IndexOperationsTest extends AbstractEntityTestCase
     /**
      * This method is called before the first test of this test class is run.
      */
-    protected function getEntityClass(): string
+    protected static function getEntityClass(): string
     {
         return Index::class;
     }

@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Gally\Catalog\Tests\Api\GraphQl\Source;
 
+use Gally\Catalog\Entity\Catalog;
+use Gally\Catalog\Entity\LocalizedCatalog;
 use Gally\Test\AbstractTestCase;
 use Gally\Test\ExpectedResponse;
 use Gally\Test\RequestGraphQlToTest;
@@ -22,6 +24,8 @@ class LocalizedCatalogGroupOptionTest extends AbstractTestCase
 {
     public static function setUpBeforeClass(): void
     {
+        static::resetSequence(Catalog::class);
+        static::resetSequence(LocalizedCatalog::class);
         parent::setUpBeforeClass();
         self::loadFixture([
             __DIR__ . '/../../../fixtures/localized_catalogs.yaml',
