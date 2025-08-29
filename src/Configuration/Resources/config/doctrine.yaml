@@ -1,4 +1,9 @@
 doctrine:
+    dbal:
+        types:
+            jsonb: Gally\Doctrine\Type\JsonbType
+        mapping_types:
+            jsonb: jsonb
     orm:
         dql:
             datetime_functions:

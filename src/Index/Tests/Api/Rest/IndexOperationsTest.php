@@ -52,7 +52,7 @@ class IndexOperationsTest extends AbstractEntityTestCase
     /**
      * This method is called before the first test of this test class is run.
      */
-    protected function getEntityClass(): string
+    protected static function getEntityClass(): string
     {
         return Index::class;
     }

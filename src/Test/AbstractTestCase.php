@@ -14,6 +14,12 @@ declare(strict_types=1);
 namespace Gally\Test;
 
 use ApiPlatform\Symfony\Bundle\Test\ApiTestCase;
+use Doctrine\Migrations\FilesystemMigrationsRepository;
+use Doctrine\Migrations\Metadata\Storage\TableMetadataStorage;
+use Doctrine\Migrations\MigratorConfiguration;
+use Doctrine\Migrations\Version\SortedMigrationPlanCalculator;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Tools\SchemaTool;
 use Gally\Fixture\Service\ElasticsearchFixtures;
 use Gally\Fixture\Service\EntityIndicesFixturesInterface;
 use Gally\User\Tests\LoginTrait;
@@ -28,11 +34,48 @@ abstract class AbstractTestCase extends ApiTestCase
 {
     use LoginTrait;
 
-    protected static function loadFixture(array $paths)
+    protected static function loadFixture(array $paths, bool $resetDatabase = false): void
     {
-        $databaseTool = static::getContainer()->get(DatabaseToolCollection::class)->get();
-        $databaseTool->loadAliceFixture(array_merge(static::getUserFixtures(), $paths));
+        /** @var EntityManagerInterface $entityManager */
         $entityManager = static::getContainer()->get('doctrine')->getManager();
+        $databaseTool = static::getContainer()->get(DatabaseToolCollection::class)->get();
+        $dependencyFactory = static::getContainer()->get('doctrine.migrations.dependency_factory');
+
+        $schemaTool = new SchemaTool($entityManager);
+        $schemaTool->dropDatabase();
+
+        // Create database schema with migrations
+        $migratorConfiguration = (new MigratorConfiguration())
+            ->setDryRun(false)
+            ->setTimeAllQueries(false)
+            ->setAllOrNothing(true);
+        $migrationsRepository = new FilesystemMigrationsRepository(
+            $dependencyFactory->getConfiguration()->getMigrationClasses(),
+            $dependencyFactory->getConfiguration()->getMigrationDirectories(),
+            $dependencyFactory->getMigrationsFinder(),
+            $dependencyFactory->getMigrationFactory(),
+        );
+        $planCalculator = new SortedMigrationPlanCalculator(
+            $migrationsRepository,
+            $dependencyFactory->getMetadataStorage(),
+            $dependencyFactory->getVersionComparator(),
+        );
+
+        $version = $dependencyFactory->getVersionAliasResolver()->resolveVersionAlias('latest');
+        $plan = $planCalculator->getPlanUntilVersion($version);
+
+        // Create a new MetadataStorage object to avoid error with already set properties.
+        $metadataStorage = new TableMetadataStorage(
+            $dependencyFactory->getConnection(),
+            $dependencyFactory->getVersionComparator(),
+            $dependencyFactory->getConfiguration()->getMetadataStorageConfiguration(),
+            $dependencyFactory->getMigrationRepository(),
+        );
+        $metadataStorage->ensureInitialized();
+        $dependencyFactory->getMigrator()->migrate($plan, $migratorConfiguration);
+
+        // Load alice fixtures with append
+        $databaseTool->loadAliceFixture(array_merge(static::getUserFixtures(), $paths), true);
         $entityManager->clear();
     }
 
