@@ -118,11 +118,19 @@ abstract class Extension extends BaseExtension implements PrependExtensionInterf
 
     protected function loadGallyStandardConfigFile(ContainerBuilder $container, string $fileName, string $configNode): void
     {
+        $isTestMode = 'test' === $container->getParameter('kernel.environment');
         $this->loadGallyConfigFile($container, __DIR__ . '/../Configuration/Resources/config/' . $fileName, $configNode);
+        if ($isTestMode) {
+            $this->loadGallyConfigFile($container, __DIR__ . '/../Configuration/Resources/config/test/' . $fileName, $configNode);
+        }
     }
 
     protected function loadGallyConfigFile(ContainerBuilder $container, string $fileName, string $configNode): void
     {
+        if (!file_exists($fileName)) {
+            return;
+        }
+
         $yamlParser ??= new YamlParser(); // @phpstan-ignore-line
         $config = $yamlParser->parseFile($fileName, Yaml::PARSE_CONSTANT);
         $container->prependExtensionConfig($configNode, $config[$configNode]);
