@@ -36,7 +36,7 @@ class SourceFieldOptionTest extends AbstractEntityTestWithUpdate
         ];
     }
 
-    protected static function getEntityClass(): string
+    protected function getEntityClass(): string
     {
         return SourceFieldOption::class;
     }

@@ -24,7 +24,7 @@ class MetadataTest extends AbstractEntityTestWithUpdate
         return [__DIR__ . '/../../fixtures/metadata.yaml'];
     }
 
-    protected static function getEntityClass(): string
+    protected function getEntityClass(): string
     {
         return Metadata::class;
     }

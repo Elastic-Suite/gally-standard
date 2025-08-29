@@ -34,7 +34,7 @@ abstract class AbstractTestCase extends ApiTestCase
 {
     use LoginTrait;
 
-    protected static function loadFixture(array $paths, bool $resetDatabase = false): void
+    protected static function loadFixture(array $paths): void
     {
         /** @var EntityManagerInterface $entityManager */
         $entityManager = static::getContainer()->get('doctrine')->getManager();

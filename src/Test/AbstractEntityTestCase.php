@@ -33,7 +33,7 @@ abstract class AbstractEntityTestCase extends AbstractTestCase
 
     abstract protected static function getFixtureFiles(): array;
 
-    abstract protected static function getEntityClass(): string;
+    abstract protected function getEntityClass(): string;
 
     /**
      * @dataProvider createDataProvider

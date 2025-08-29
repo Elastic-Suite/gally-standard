@@ -30,7 +30,7 @@ class CategoryTest extends AbstractEntityTestWithUpdate
         ];
     }
 
-    protected static function getEntityClass(): string
+    protected function getEntityClass(): string
     {
         return Category::class;
     }

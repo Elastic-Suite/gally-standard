@@ -19,11 +19,6 @@ use Gally\User\Constant\Role;
 
 class CatalogsTest extends AbstractEntityTestWithUpdate
 {
-    public static function setUpBeforeClass(): void
-    {
-        parent::setUpBeforeClass();
-    }
-
     protected static function getFixtureFiles(): array
     {
         return [
@@ -32,7 +27,7 @@ class CatalogsTest extends AbstractEntityTestWithUpdate
         ];
     }
 
-    protected static function getEntityClass(): string
+    protected function getEntityClass(): string
     {
         return Catalog::class;
     }

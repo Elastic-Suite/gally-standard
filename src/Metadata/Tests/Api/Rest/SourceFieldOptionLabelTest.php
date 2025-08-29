@@ -30,7 +30,7 @@ class SourceFieldOptionLabelTest extends AbstractEntityTestWithUpdate
         ];
     }
 
-    protected static function getEntityClass(): string
+    protected function getEntityClass(): string
     {
         return SourceFieldOptionLabel::class;
     }
