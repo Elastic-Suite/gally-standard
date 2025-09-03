@@ -43,7 +43,7 @@ class RequestTypeOptionProvider extends BaseRequestTypeOptionProvider
         return array_merge(
             [[
                 'value' => Configuration::SCOPE_GENERAL,
-                'label' => $this->translator->trans('gally_configuration.scope.default.label', [], 'gally_configuration') // todo: changer label par "Tous les request types"
+                'label' => $this->translator->trans('gally_configuration.scope.all_request_types.label', [], 'gally_configuration'),
             ]],
             parent::provide($operation, $uriVariables, $context)
         );

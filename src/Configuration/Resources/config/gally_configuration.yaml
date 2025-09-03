@@ -32,7 +32,8 @@ gally:
         groups:
             general:
                 labelKey: 'gally_configuration.group.general.label'
-                scopeType: !php/const Gally\Configuration\Entity\Configuration::SCOPE_LOCALIZED_CATALOG
+                scopeType: !php/const Gally\Configuration\Entity\Configuration::SCOPE_LOCALIZED_CATALOG 
+                position: 10
                 fieldsets:
                     general:
                         labelKey: 'gally_configuration.group.general.fieldset.general.label'
