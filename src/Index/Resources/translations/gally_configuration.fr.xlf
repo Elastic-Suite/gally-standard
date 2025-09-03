@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" version="2.0"
+       srcLang="en-US" trgLang="fr-FR">
+    <file id="gally_configuration.fr">
+        <unit id="gally_configuration.group.index.label">
+            <segment>
+                <source>gally_configuration.group.index.label</source>
+                <target>Index</target>
+            </segment>
+        </unit>
+        <unit id="gally_configuration.group.index.fieldset.general.label">
+            <segment>
+                <source>gally_configuration.group.index.fieldset.general.label</source>
+                <target>Général</target>
+            </segment>
+        </unit>
+        <unit id="gally_configuration.gally_indices_settings_prefix.label">
+            <segment>
+                <source>gally_configuration.gally_indices_settings_prefix.label</source>
+                <target>Préfixe d'index</target>
+            </segment>
+        </unit>
+        <unit id="gally_configuration.gally_indices_settings_timestamp_pattern.label">
+            <segment>
+                <source>gally_configuration.gally_indices_settings_timestamp_pattern.label</source>
+                <target>Modèle utilisé pour la création des index</target>
+            </segment>
+        </unit>
+        <unit id="gally_configuration.gally_indices_settings_number_of_shards.label">
+            <segment>
+                <source>gally_configuration.gally_indices_settings_number_of_shards.label</source>
+                <target>Nombre de shards par index</target>
+            </segment>
+        </unit>
+        <unit id="gally_configuration.gally_indices_settings_number_of_replicas.label">
+            <segment>
+                <source>gally_configuration.gally_indices_settings_number_of_replicas.label</source>
+                <target>Nombre de replicas par index</target>
+            </segment>
+        </unit>
+        <unit id="gally_configuration.gally_indices_settings_batch_indexing_size.label">
+            <segment>
+                <source>gally_configuration.gally_indices_settings_batch_indexing_size.label</source>
+                <target>Taille du lot d'indexation</target>
+            </segment>
+        </unit>
+        <unit id="gally_configuration.gally_indices_settings_time_before_ghost.label">
+            <segment>
+                <source>gally_configuration.gally_indices_settings_time_before_ghost.label</source>
+                <target>Temps avant qu'un index soit considéré Fantôme (en secondes)</target>
+            </segment>
+        </unit>
+        <unit id="gally_configuration.gally_indices_settings_time_before_ghost.tooltip">
+            <segment>
+                <source>gally_configuration.gally_indices_settings_time_before_ghost.tooltip</source>
+                <target>Les index Elasticsuite résultant de l'échec d'une ré-indexation complète sont considérés comme
+                    fantômes après que cette période de temps (en secondes) s'est écoulée depuis leur création. Vous
+                    pouvez réduire cette période de temps pour accélérer la suppression des index fantômes, mais prenez
+                    soin d'ajouter une période de sécurité au temps de réindexation maximum de l'index le plus complexe
+                    de votre plateforme (généralement un index catalog_product/de recherche produits). Valeur par
+                    défaut: 172 800 secondes (2 jours), valeur minimum: 3600 (1 heure).
+                </target>
+            </segment>
+        </unit>
+    </file>
+</xliff>

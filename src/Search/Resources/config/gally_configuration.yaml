@@ -1,0 +1,52 @@
+gally:
+    configuration:
+        groups:
+            search:
+                labelKey: 'gally_configuration.group.search.label'
+                position: 30
+                scopeType: !php/const Gally\Configuration\Entity\Configuration::SCOPE_LOCALIZED_CATALOG               
+                fieldsets:
+                    general:
+                        labelKey: 'gally_configuration.group.search.fieldset.general.label'
+                        position: 10
+                        fields:
+                            gally.pipeline_prefix:
+                                labelKey: 'gally_configuration.gally_pipeline_prefix.label'
+                                position: 10
+                                input: 'string'
+                            gally.default_reference_location:
+                                labelKey: 'gally_configuration.gally_default_reference_location.label'
+                                position: 20
+                                input: 'string'
+                    search:
+                        labelKey: 'gally_configuration.group.search.fieldset.search.label'
+                        position: 20
+                        fields:
+                            gally.search_settings.default_date_field_format:
+                                labelKey: 'gally_configuration.gally_search_settings_default_date_field_format.label'
+                                position: 10
+                                input: 'string'
+                            gally.search_settings.default_distance_unit:
+                                labelKey: 'gally_configuration.gally_search_settings_default_distance_unit.label'
+                                position: 20
+                                input: 'string'
+                            gally.search_settings.aggregations.default_date_range_interval:
+                                labelKey: 'gally_configuration.gally_search_settings_aggregations_default_date_range_interval.label'
+                                position: 40
+                                input: 'string'
+                            gally.search_settings.aggregations.default_distance_ranges:
+                                labelKey: 'gally_configuration.gally_search_settings_aggregations_default_distance_ranges.label'
+                                position: 50
+                                input: 'string'
+                            gally.search_settings.sort.default_asc_sort_field:
+                                labelKey: 'gally_configuration.gally_search_settings_sort_default_asc_sort_field.label'
+                                position: 60
+                                input: 'string'
+                    autocomplete:
+                        labelKey: 'gally_configuration.group.search.fieldset.autocomplete.label'
+                        position: 30
+                        fields:
+                            gally.autocomplete_settings.document_attribute.max_size:
+                                labelKey: 'gally_configuration.gally_autocomplete_settings_document_attribute_max_size.label'
+                                position: 10
+                                input: 'number'

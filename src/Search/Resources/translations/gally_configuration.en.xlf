@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" version="2.0"
+       srcLang="en-US" trgLang="en-US">
+    <file id="gally_configuration.en">
+        <unit id="gally_configuration.group.search.label">
+            <segment>
+                <source>gally_configuration.group.search.label</source>
+                <target>Search</target>
+            </segment>
+        </unit>
+        <unit id="gally_configuration.group.search.fieldset.general.label">
+            <segment>
+                <source>gally_configuration.group.search.fieldset.general.label</source>
+                <target>General</target>
+            </segment>
+        </unit>
+        <unit id="gally_configuration.gally_pipeline_prefix.label">
+            <segment>
+                <source>gally_configuration.gally_pipeline_prefix.label</source>
+                <target>Pipeline prefix</target>
+            </segment>
+        </unit>
+        <unit id="gally_configuration.gally_default_reference_location.label">
+            <segment>
+                <source>gally_configuration.gally_default_reference_location.label</source>
+                <target>Default reference location</target>
+            </segment>
+        </unit>
+        <unit id="gally_configuration.group.search.fieldset.search.label">
+            <segment>
+                <source>gally_configuration.group.search.fieldset.search.label</source>
+                <target>Search</target>
+            </segment>
+        </unit>
+        <unit id="gally_configuration.gally_search_settings_default_date_field_format.label">
+            <segment>
+                <source>gally_configuration.gally_search_settings_default_date_field_format.label</source>
+                <target>Default date field format</target>
+            </segment>
+        </unit>
+        <unit id="gally_configuration.gally_search_settings_default_distance_unit.label">
+            <segment>
+                <source>gally_configuration.gally_search_settings_default_distance_unit.label</source>
+                <target>Default distance unit</target>
+            </segment>
+        </unit>
+        <unit id="gally_configuration.gally_search_settings_aggregations_default_date_range_interval.label">
+            <segment>
+                <source>gally_configuration.gally_search_settings_aggregations_default_date_range_interval.label
+                </source>
+                <target>Default date range interval</target>
+            </segment>
+        </unit>
+        <unit id="gally_configuration.gally_search_settings_aggregations_default_distance_ranges.label">
+            <segment>
+                <source>gally_configuration.gally_search_settings_aggregations_default_distance_ranges.label</source>
+                <target>Default distance ranges</target>
+            </segment>
+        </unit>
+        <unit id="gally_configuration.gally_search_settings_sort_default_asc_sort_field.label">
+            <segment>
+                <source>gally_configuration.gally_search_settings_sort_default_asc_sort_field.label</source>
+                <target>Default ascending sort field</target>
+            </segment>
+        </unit>
+        <unit id="gally_configuration.group.search.fieldset.autocomplete.label">
+            <segment>
+                <source>gally_configuration.group.search.fieldset.autocomplete.label</source>
+                <target>Autocomplete</target>
+            </segment>
+        </unit>
+        <unit id="gally_configuration.gally_autocomplete_settings_document_attribute_max_size.label">
+            <segment>
+                <source>gally_configuration.gally_autocomplete_settings_document_attribute_max_size.label</source>
+                <target>Maximum size for document attribute autocomplete</target>
+            </segment>
+        </unit>
+    </file>
+</xliff>

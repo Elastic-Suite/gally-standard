@@ -1,0 +1,37 @@
+gally:
+    configuration:
+        groups:
+            index:
+                labelKey: 'gally_configuration.group.index.label'
+                position: 20
+                scopeType: !php/const Gally\Configuration\Entity\Configuration::SCOPE_LOCALIZED_CATALOG               
+                fieldsets:
+                    general:
+                        labelKey: 'gally_configuration.group.index.fieldset.general.label'
+                        position: 10
+                        fields:
+                            gally.indices_settings.prefix:
+                                labelKey: 'gally_configuration.gally_indices_settings_prefix.label'
+                                position: 10
+                                input: 'string'
+                            gally.indices_settings.timestamp_pattern:
+                                labelKey: 'gally_configuration.gally_indices_settings_timestamp_pattern.label'
+                                position: 10
+                                input: 'string'
+                            gally.indices_settings.number_of_shards:
+                                labelKey: 'gally_configuration.gally_indices_settings_number_of_shards.label'
+                                position: 10
+                                input: 'number'
+                            gally.indices_settings.number_of_replicas:
+                                labelKey: 'gally_configuration.gally_indices_settings_number_of_replicas.label'
+                                position: 10
+                                input: 'number'
+                            gally.indices_settings.batch_indexing_size:
+                                labelKey: 'gally_configuration.gally_indices_settings_batch_indexing_size.label'
+                                position: 10
+                                input: 'number'
+                            gally.indices_settings.time_before_ghost:
+                                labelKey: 'gally_configuration.gally_indices_settings_time_before_ghost.label'
+                                infoTooltipKey: 'gally_configuration.gally_indices_settings_time_before_ghost.tooltip'
+                                position: 10
+                                input: 'number'

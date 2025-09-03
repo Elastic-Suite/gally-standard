@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" version="2.0"
+       srcLang="en-US" trgLang="fr-FR">
+    <file id="gally_configuration.fr">
+        <unit id="gally_configuration.gally_default_price_group_id.label">
+            <segment>
+                <source>gally_configuration.gally_default_price_group_id.label</source>
+                <target>ID du groupe de prix par défaut</target>
+            </segment>
+        </unit>
+        <unit id="gally_configuration.gally_autocomplete_settings_product_attribute_max_size.label">
+            <segment>
+                <source>gally_configuration.gally_autocomplete_settings_product_attribute_max_size.label</source>
+                <target>Taille maximale pour l'autocomplétion des attributs produit</target>
+            </segment>
+        </unit>
+    </file>
+</xliff>

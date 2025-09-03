@@ -1,0 +1,16 @@
+gally:
+    configuration:
+        groups:
+            search:           
+                fieldsets:
+                    general:
+                        fields:
+                            gally.default_price_group_id:
+                                labelKey: 'gally_configuration.gally_default_price_group_id.label'
+                                position: 10
+                                input: 'string'
+                    autocomplete:
+                        fields:
+                            gally.autocomplete_settings.product_attribute.max_size:
+                                labelKey: 'gally_configuration.gally_autocomplete_settings_product_attribute_max_size.label'
+                                input: 'number'

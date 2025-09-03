@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" version="2.0"
+       srcLang="en-US" trgLang="en-US">
+    <file id="gally_configuration.en">
+        <unit id="gally_configuration.group.index.label">
+            <segment>
+                <source>gally_configuration.group.index.label</source>
+                <target>Index</target>
+            </segment>
+        </unit>
+        <unit id="gally_configuration.group.index.fieldset.general.label">
+            <segment>
+                <source>gally_configuration.group.index.fieldset.general.label</source>
+                <target>General</target>
+            </segment>
+        </unit>
+        <unit id="gally_configuration.gally_indices_settings_prefix.label">
+            <segment>
+                <source>gally_configuration.gally_indices_settings_prefix.label</source>
+                <target>Index prefix</target>
+            </segment>
+        </unit>
+        <unit id="gally_configuration.gally_indices_settings_timestamp_pattern.label">
+            <segment>
+                <source>gally_configuration.gally_indices_settings_timestamp_pattern.label</source>
+                <target>Timestamp pattern</target>
+            </segment>
+        </unit>
+        <unit id="gally_configuration.gally_indices_settings_number_of_shards.label">
+            <segment>
+                <source>gally_configuration.gally_indices_settings_number_of_shards.label</source>
+                <target>Number of shards</target>
+            </segment>
+        </unit>
+        <unit id="gally_configuration.gally_indices_settings_number_of_replicas.label">
+            <segment>
+                <source>gally_configuration.gally_indices_settings_number_of_replicas.label</source>
+                <target>Number of replicas</target>
+            </segment>
+        </unit>
+        <unit id="gally_configuration.gally_indices_settings_batch_indexing_size.label">
+            <segment>
+                <source>gally_configuration.gally_indices_settings_batch_indexing_size.label</source>
+                <target>Batch indexing size</target>
+            </segment>
+        </unit>
+        <unit id="gally_configuration.gally_indices_settings_time_before_ghost.label">
+            <segment>
+                <source>gally_configuration.gally_indices_settings_time_before_ghost.label</source>
+                <target>Time for an index to be considered Ghost (in seconds)</target>
+            </segment>
+        </unit>
+        <unit id="gally_configuration.gally_indices_settings_time_before_ghost.tooltip">
+            <segment>
+                <source>gally_configuration.gally_indices_settings_time_before_ghost.tooltip</source>
+                <target>Elasticsuite derelict indices resulting from a failed full reindex are considered ghost after
+                    this amount of time (in seconds) has elapsed since their creation. You can reduce this amount of
+                    time to speed up ghost indices cleanup, but take care to add a safety on top of the maximum
+                    reindexing duration of the more complex index of your platform (usually a catalog_product/product
+                    search index). Defaults to 172,800 seconds (2 days), minimum value: 3600 (1 hour).
+                </target>
+            </segment>
+        </unit>
+    </file>
+</xliff>

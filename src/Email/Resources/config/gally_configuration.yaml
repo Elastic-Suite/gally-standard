@@ -1,0 +1,13 @@
+gally:
+    configuration:
+        groups:
+            general:              
+                fieldsets:
+                    email:
+                        labelKey: 'gally_configuration.group.general.fieldset.email.label'
+                        position: 20
+                        fields:
+                            gally.email.default_sender:
+                                labelKey: 'gally_configuration.gally_email_default_sender.label'
+                                position: 10
+                                input: 'string'

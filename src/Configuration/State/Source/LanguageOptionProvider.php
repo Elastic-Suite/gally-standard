@@ -34,10 +34,10 @@ class LanguageOptionProvider extends BaseLanguageOptionProvider
             [[
                     'value' => Configuration::SCOPE_GENERAL,
                     'id' => Configuration::SCOPE_GENERAL,
-                    'label' => $this->translator->trans('gally_configuration.scope.default.label', [], 'gally_configuration'), // t
+                    'label' => $this->translator->trans('gally_configuration.scope.default.label', [], 'gally_configuration'),
                     'options' => [[
                         'value' => Configuration::SCOPE_GENERAL,
-                        'label' => $this->translator->trans('gally_configuration.scope.default.label', [], 'gally_configuration'), // todo: changer label par "Toutes les langues"
+                        'label' => $this->translator->trans('gally_configuration.scope.all_languages.label', [], 'gally_configuration'),
                     ]],
             ]],
             parent::provide($operation, $uriVariables, $context)

@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" version="2.0" srcLang="en-US" trgLang="fr-FR">
     <file id="gally_configuration.fr">
-        <unit id="gally_configuration.scope.language.label">
+        <unit id="gally_configuration.scope.default.label">
             <segment>
-                <source>gally_configuration.scope.language.label</source>
-                <target>Langues</target>
+                <source>gally_configuration.scope.default.label</source>
+                <target>Général</target>
+            </segment>
+        </unit>
+        <unit id="gally_configuration.scope.all_languages.label">
+            <segment>
+                <source>gally_configuration.scope.all_languages.label</source>
+                <target>Tous les langages</target>
             </segment>
         </unit>
         <unit id="gally_configuration.scope.locales.label">
@@ -13,16 +19,34 @@
                 <target>Locales</target>
             </segment>
         </unit>
+        <unit id="gally_configuration.scope.all_locales.label">
+            <segment>
+                <source>gally_configuration.scope.all_locales.label</source>
+                <target>Toutes les locales</target>
+            </segment>
+        </unit>
         <unit id="gally_configuration.scope.request_type.label">
             <segment>
                 <source>gally_configuration.scope.request_type.label</source>
                 <target>Types de requête</target>
             </segment>
         </unit>
+        <unit id="gally_configuration.scope.all_request_types.label">
+            <segment>
+                <source>gally_configuration.scope.all_request_types.label</source>
+                <target>Tous les types de requête</target>
+            </segment>
+        </unit>
         <unit id="gally_configuration.scope.localized_catalog.label">
             <segment>
                 <source>gally_configuration.scope.localized_catalog.label</source>
                 <target>Catalogues localisés</target>
+            </segment>
+        </unit>
+        <unit id="gally_configuration.scope.all_localized_catalogs.label">
+            <segment>
+                <source>gally_configuration.scope.all_localized_catalogs.label</source>
+                <target>Tous les catalogues localisés</target>
             </segment>
         </unit>
         <unit id="gally_configuration.group.general.label">

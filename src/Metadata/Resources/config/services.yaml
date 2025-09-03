@@ -57,6 +57,10 @@ services:
             - '%route_prefix%'
         tags:
             - { name: api_platform.state_processor }
+                
+    Gally\Metadata\State\SourceFieldTypeProvider:
+        tags:
+            - { name: api_platform.state_provider }
 
     Gally\Metadata\EventSubscriber\ValidateSourceFieldCode:
         arguments:
