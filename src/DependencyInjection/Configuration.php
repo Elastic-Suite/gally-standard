@@ -366,6 +366,7 @@ class Configuration implements GallyConfigurationInterface
                                                             ->booleanNode('visible')->defaultValue(true)->end()
                                                             ->booleanNode('editable')->defaultValue(true)->end()
                                                             ->booleanNode('required')->defaultValue(true)->end()
+                                                            ->booleanNode('multiple')->defaultValue(false)->end()
                                                             ->scalarNode('position')->end()
                                                             ->enumNode('input')
                                                                 ->isRequired()
