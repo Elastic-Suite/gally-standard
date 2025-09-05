@@ -10,4 +10,4 @@ gally:
                             gally.email.default_sender:
                                 labelKey: 'gally_configuration.gally_email_default_sender.label'
                                 position: 10
-                                input: 'string'
+                                input: 'email'
