@@ -22,6 +22,16 @@
             "label": "Test brand"
           }
         ],
+        "tags": [
+          {
+            "value": "1",
+            "label": "101"
+          },
+          {
+            "value": "2",
+            "label": "10"
+          }
+        ],
         "category": [
           {
             "is_virtual": "false",
@@ -74,6 +84,16 @@
             "label": "Black"
           }
         ],
+        "tags": [
+          {
+            "value": "1",
+            "label": "101"
+          },
+          {
+            "value": "3",
+            "label": "20"
+          }
+        ],
         "category": [
           {
             "is_virtual": "false",
@@ -118,6 +138,12 @@
         "description": "A super bag for summer and yoga.",
         "size" : 8,
         "weight" : 0.750,
+        "tags": [
+          {
+            "value": "4",
+            "label": "1012"
+          }
+        ],
         "color": [
           {
             "value": "black",
@@ -151,6 +177,12 @@
         "name": "Wayfarer Messenger Bag",
         "description": "A super bag for autumn. It may be used in any other season too !",
         "size" : 7,
+        "tags": [
+          {
+            "value": "5",
+            "label": "1011"
+          }
+        ],
         "color": [
           {
             "value": "black",
@@ -178,6 +210,12 @@
         "name": "Rival Field Messenger",
         "description": "A super bag for summer.",
         "size" : 2,
+        "tags": [
+          {
+            "value": "6",
+            "label": "111"
+          }
+        ],
         "color": [
           {
             "value": "grey",

@@ -160,6 +160,16 @@ Gally\Metadata\Entity\SourceField:
         isSortable: true
         isSpellchecked: false
         isUsedForRules: true
+    product_tags:
+        metadata: '@product'
+        code: tags
+        type: select
+        weight: 1
+        isSearchable: true
+        isSpellchecked: false
+        isFilterable: true
+        isSortable: false
+        isUsedForRules: false
     category_id:
         metadata: '@category'
         code: 'id'

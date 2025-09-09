@@ -33,8 +33,11 @@ interface BucketInterface extends AggregationInterface
 
     public const SORT_ORDER_COUNT = '_count';
     public const SORT_ORDER_TERM = '_term';
-    public const SORT_ORDER_RELEVANCE = '_score';
+
+    public const SORT_ORDER_TERM_DESC = '_term_desc';
     public const SORT_ORDER_MANUAL = '_manual';
+    public const SORT_ORDER_NATURAL_ASC = '_natural_asc';
+    public const SORT_ORDER_NATURAL_DESC = '_natural_desc';
 
     public const FIELD_VALUE = 'value';
 

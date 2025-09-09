@@ -889,9 +889,19 @@ class SearchDocumentsTest extends AbstractTestCase
                         'hasMore' => false,
                         'options' => [
                             [
+                                'label' => 'White',
+                                'value' => 'white',
+                                'count' => 2,
+                            ],
+                            [
                                 'label' => 'Red',
                                 'value' => 'red',
                                 'count' => 1,
+                            ],
+                            [
+                                'label' => 'Pink',
+                                'value' => 'pink',
+                                'count' => 2,
                             ],
                             [
                                 'label' => 'Grey',
@@ -910,6 +920,44 @@ class SearchDocumentsTest extends AbstractTestCase
                                 'label' => '200.0km and more',
                                 'value' => '200.0-*',
                                 'count' => 12,
+                            ],
+                        ],
+                    ],
+                    [
+                        'field' => 'tags__value',
+                        'label' => 'Tags',
+                        'type' => 'checkbox',
+                        'hasMore' => false,
+                        'options' => [
+                            [
+                                'label' => '10',
+                                'value' => '2',
+                                'count' => 1,
+                            ],
+                            [
+                                'label' => '20',
+                                'value' => '3',
+                                'count' => 1,
+                            ],
+                            [
+                                'label' => '101',
+                                'value' => '1',
+                                'count' => 2,
+                            ],
+                            [
+                                'label' => '111',
+                                'value' => '6',
+                                'count' => 1,
+                            ],
+                            [
+                                'label' => '1011',
+                                'value' => '5',
+                                'count' => 1,
+                            ],
+                            [
+                                'label' => '1012',
+                                'value' => '4',
+                                'count' => 1,
                             ],
                         ],
                     ],
@@ -987,14 +1035,14 @@ class SearchDocumentsTest extends AbstractTestCase
                         'hasMore' => false,
                         'options' => [
                             [
-                                'label' => 'Rouge',
-                                'value' => 'red',
+                                'label' => 'Vert',
+                                'value' => 'green',
                                 'count' => 1,
                             ],
                             [
-                                'label' => 'Gris',
-                                'value' => 'grey',
-                                'count' => 5,
+                                'label' => 'Rouge',
+                                'value' => 'red',
+                                'count' => 1,
                             ],
                         ],
                     ],
@@ -1103,14 +1151,14 @@ class SearchDocumentsTest extends AbstractTestCase
                         'hasMore' => false,
                         'options' => [
                             [
-                                'label' => 'Rouge',
-                                'value' => 'red',
+                                'label' => 'Vert',
+                                'value' => 'green',
                                 'count' => 1,
                             ],
                             [
-                                'label' => 'Gris',
-                                'value' => 'grey',
-                                'count' => 5,
+                                'label' => 'Rouge',
+                                'value' => 'red',
+                                'count' => 1,
                             ],
                         ],
                     ],
@@ -1219,14 +1267,14 @@ class SearchDocumentsTest extends AbstractTestCase
                         'hasMore' => false,
                         'options' => [
                             [
-                                'label' => 'Rouge',
-                                'value' => 'red',
+                                'label' => 'Vert',
+                                'value' => 'green',
                                 'count' => 1,
                             ],
                             [
-                                'label' => 'Gris',
-                                'value' => 'grey',
-                                'count' => 5,
+                                'label' => 'Rouge',
+                                'value' => 'red',
+                                'count' => 1,
                             ],
                         ],
                     ],

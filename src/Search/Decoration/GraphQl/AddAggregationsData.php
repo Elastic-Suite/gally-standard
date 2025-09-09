@@ -168,7 +168,7 @@ class AddAggregationsData implements ProcessorInterface
             $data['count'] = $aggregation->getCount();
             $data['hasMore'] = false;
         }
-        $facetConfigs = $sourceField && $containerConfig->getAggregationProvider()->useFacetConfiguration() ? $this->facetConfigRepository->findOndBySourceField($sourceField) : null;
+        $facetConfig = $sourceField && $containerConfig->getAggregationProvider()->useFacetConfiguration() ? $this->facetConfigRepository->findOndBySourceField($sourceField) : null;
         $labels = [];
 
         if (Type::TYPE_CATEGORY === $sourceField->getType()) {
@@ -218,20 +218,48 @@ class AddAggregationsData implements ProcessorInterface
         }
 
         // Sort options according to option position.
-        if (BucketInterface::SORT_ORDER_MANUAL == $facetConfigs?->getSortOrder()) {
+        if (
+            \in_array(
+                $facetConfig?->getSortOrder(),
+                [
+                    BucketInterface::SORT_ORDER_MANUAL,
+                    BucketInterface::SORT_ORDER_TERM_DESC,
+                    BucketInterface::SORT_ORDER_NATURAL_ASC,
+                    BucketInterface::SORT_ORDER_NATURAL_DESC,
+                ], true
+            )
+        ) {
             $sourceFieldOptions = $sourceField->getOptions()->toArray();
             $sourceFieldOptions = array_combine(
                 array_map(fn ($option) => $option->getCode(), $sourceFieldOptions),
                 $sourceFieldOptions
             );
             $options = $data['options'];
-            usort(
-                $options,
-                fn ($a, $b) => (isset($sourceFieldOptions[$a['value']]) ? $sourceFieldOptions[$a['value']]->getPosition() : 1) - (isset($sourceFieldOptions[$b['value']]) ? $sourceFieldOptions[$b['value']]->getPosition() : 1)
-            );
+            $callback = match ($facetConfig->getSortOrder()) {
+                BucketInterface::SORT_ORDER_MANUAL => function ($itemA, $itemB) use ($sourceFieldOptions) {
+                    $itemAPos = isset($sourceFieldOptions[$itemA['value']])
+                        ? $sourceFieldOptions[$itemA['value']]->getPosition()
+                        : 1;
+                    $itemBPos = isset($sourceFieldOptions[$itemB['value']])
+                        ? $sourceFieldOptions[$itemB['value']]->getPosition()
+                        : 1;
 
-            if (\count($options) > $facetConfigs->getMaxSize()) {
-                $options = \array_slice($options, 0, $facetConfigs->getMaxSize());
+                    return $itemAPos - $itemBPos;
+                },
+                BucketInterface::SORT_ORDER_TERM_DESC => function ($itemA, $itemB) {
+                    return strcmp($itemB['label'], $itemA['label']);
+                },
+                BucketInterface::SORT_ORDER_NATURAL_ASC => function ($itemA, $itemB) {
+                    return strnatcasecmp($itemA['label'], $itemB['label']);
+                },
+                BucketInterface::SORT_ORDER_NATURAL_DESC => function ($itemA, $itemB) {
+                    return strnatcasecmp($itemB['label'], $itemA['label']);
+                },
+            };
+            usort($options, $callback);
+
+            if (\count($options) > $facetConfig->getMaxSize()) {
+                $options = \array_slice($options, 0, $facetConfig->getMaxSize());
                 $data['hasMore'] = true;
             }
             $data['options'] = $options;
