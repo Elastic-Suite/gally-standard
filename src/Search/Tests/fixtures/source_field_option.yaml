@@ -109,3 +109,33 @@ Gally\Metadata\Entity\SourceFieldOption:
         source_field: '@product_color_full'
         position: 11
         defaultLabel: Orange
+    product_tags_option_1:
+        code: '1'
+        source_field: '@product_tags'
+        position: 1
+        defaultLabel: 101
+    product_tags_option_2:
+        code: '2'
+        source_field: '@product_tags'
+        position: 2
+        defaultLabel: 10
+    product_tags_option_3:
+        code: '3'
+        source_field: '@product_tags'
+        position: 3
+        defaultLabel: 20
+    product_tags_option_4:
+        code: '4'
+        source_field: '@product_tags'
+        position: 4
+        defaultLabel: 1012
+    product_tags_option_5:
+        code: '5'
+        source_field: '@product_tags'
+        position: 5
+        defaultLabel: 1011
+    product_tags_option_6:
+        code: '6'
+        source_field: '@product_tags'
+        position: 6
+        defaultLabel: 111

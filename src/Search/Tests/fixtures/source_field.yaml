@@ -155,4 +155,14 @@ Gally\Metadata\Entity\SourceField:
         isFilterable: false
         isSortable: false
         isUsedForRules: false
+    product_tags:
+        metadata: '@product'
+        code: tags
+        type: select
+        weight: 1
+        isSearchable: true
+        isSpellchecked: false
+        isFilterable: true
+        isSortable: false
+        isUsedForRules: false
 

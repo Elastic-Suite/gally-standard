@@ -1680,6 +1680,44 @@ class SearchProductsTest extends AbstractTestCase
                         ],
                     ],
                     [
+                        'field' => 'tags__value',
+                        'label' => 'Tags',
+                        'type' => 'checkbox',
+                        'hasMore' => false,
+                        'options' => [
+                            [
+                                'label' => '10',
+                                'value' => '2',
+                                'count' => 1,
+                            ],
+                            [
+                                'label' => '20',
+                                'value' => '3',
+                                'count' => 1,
+                            ],
+                            [
+                                'label' => '101',
+                                'value' => '1',
+                                'count' => 2,
+                            ],
+                            [
+                                'label' => '111',
+                                'value' => '6',
+                                'count' => 1,
+                            ],
+                            [
+                                'label' => '1011',
+                                'value' => '5',
+                                'count' => 1,
+                            ],
+                            [
+                                'label' => '1012',
+                                'value' => '4',
+                                'count' => 1,
+                            ],
+                        ],
+                    ],
+                    [
                         'field' => 'color__value',
                         'label' => 'Color',
                         'type' => 'checkbox',
@@ -1740,6 +1778,29 @@ class SearchProductsTest extends AbstractTestCase
                         ],
                     ],
                     [
+                        'field' => 'tags__value',
+                        'label' => 'Tags',
+                        'type' => 'checkbox',
+                        'hasMore' => false,
+                        'options' => [
+                            [
+                                'label' => '101',
+                                'value' => '1',
+                                'count' => 2,
+                            ],
+                            [
+                                'label' => '20',
+                                'value' => '3',
+                                'count' => 1,
+                            ],
+                            [
+                                'label' => '10',
+                                'value' => '2',
+                                'count' => 1,
+                            ],
+                        ],
+                    ],
+                    [
                         'field' => 'color__value',
                         'label' => 'Color',
                         'type' => 'checkbox',
@@ -1776,7 +1837,6 @@ class SearchProductsTest extends AbstractTestCase
                             ],
                         ],
                     ],
-                    ['field' => 'brand__value', 'label' => 'Brand', 'type' => 'checkbox'],
                     [
                         'field' => 'manufacture_location',
                         'label' => 'Manufacture_location',
@@ -1785,6 +1845,25 @@ class SearchProductsTest extends AbstractTestCase
                             [
                                 'label' => '200.0km and more',
                                 'value' => '200.0-*',
+                                'count' => 1,
+                            ],
+                        ],
+                    ],
+                    ['field' => 'brand__value', 'label' => 'Brand', 'type' => 'checkbox'],
+                    [
+                        'field' => 'tags__value',
+                        'label' => 'Tags',
+                        'type' => 'checkbox',
+                        'hasMore' => false,
+                        'options' => [
+                            [
+                                'label' => '10',
+                                'value' => '2',
+                                'count' => 1,
+                            ],
+                            [
+                                'label' => '101',
+                                'value' => '1',
                                 'count' => 1,
                             ],
                         ],

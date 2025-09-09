@@ -212,8 +212,11 @@ class Configuration
                     'options' => [
                         'values' => [
                             ['value' => BucketInterface::SORT_ORDER_COUNT, 'label' => 'Result count'],
-                            ['value' => BucketInterface::SORT_ORDER_MANUAL, 'label' => 'Admin sort'],
-                            ['value' => BucketInterface::SORT_ORDER_TERM, 'label' => 'Name'],
+                            ['value' => BucketInterface::SORT_ORDER_MANUAL, 'label' => 'Admin sort - slow'],
+                            ['value' => BucketInterface::SORT_ORDER_TERM, 'label' => 'Name (A → Z)'],
+                            ['value' => BucketInterface::SORT_ORDER_TERM_DESC, 'label' => 'Name (Z → A) - slow'],
+                            ['value' => BucketInterface::SORT_ORDER_NATURAL_ASC, 'label' => 'Natural sort (A → Z) - slow'],
+                            ['value' => BucketInterface::SORT_ORDER_NATURAL_DESC, 'label' => 'Natural sort (Z → A) - slow'],
                         ],
                     ],
                 ],
@@ -483,7 +486,10 @@ class Configuration
         return [
             BucketInterface::SORT_ORDER_COUNT,
             BucketInterface::SORT_ORDER_TERM,
+            BucketInterface::SORT_ORDER_TERM_DESC,
             BucketInterface::SORT_ORDER_MANUAL,
+            BucketInterface::SORT_ORDER_NATURAL_ASC,
+            BucketInterface::SORT_ORDER_NATURAL_DESC,
         ];
     }
 }

@@ -27,3 +27,15 @@ Gally\Search\Entity\Facet\Configuration:
             category: '@categ1'
         displayMode: 'hidden'
         position: 1
+    product_tags_facet:
+        __construct:
+            sourceField: '@product_tags'
+            category: ~
+        displayMode: 'displayed'
+        sortOrder: _natural_asc
+    product_tags_categ1_facet:
+        __construct:
+            sourceField: '@product_tags'
+            category: '@categ1'
+        displayMode: 'displayed'
+        sortOrder: _natural_desc

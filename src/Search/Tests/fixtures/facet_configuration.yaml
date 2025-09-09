@@ -4,7 +4,7 @@ Gally\Search\Entity\Facet\Configuration:
             sourceField: '@product_category'
             category: ~
         displayMode: 'displayed'
-        sortOrder: _name
+        sortOrder: _term
         maxSize: 0
     product_color_facet:
         __construct:
@@ -16,7 +16,7 @@ Gally\Search\Entity\Facet\Configuration:
         __construct:
             sourceField: '@product_color_full'
             category: ~
-        sortOrder: _manual
+        sortOrder: _term_desc
     product_weight_facet:
         __construct:
             sourceField: '@product_weight'
@@ -44,3 +44,15 @@ Gally\Search\Entity\Facet\Configuration:
             sourceField: '@product_size'
             category: '@categ1'
         displayMode: 'hidden'
+    product_tags_facet:
+        __construct:
+            sourceField: '@product_tags'
+            category: ~
+        displayMode: 'displayed'
+        sortOrder: _natural_asc
+    product_tags_categ1_facet:
+        __construct:
+            sourceField: '@product_tags'
+            category: '@categ1'
+        displayMode: 'displayed'
+        sortOrder: _natural_desc
