@@ -32,6 +32,5 @@ services:
         arguments:
             - '@Gally\Catalog\Repository\CatalogRepository'
             - '@api_platform.iri_converter'
-            - '@request_stack'
         tags:
             - { name: api_platform.state_provider }

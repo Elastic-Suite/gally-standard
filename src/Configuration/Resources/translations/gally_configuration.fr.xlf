@@ -7,6 +7,12 @@
                 <target>Général</target>
             </segment>
         </unit>
+        <unit id="gally_configuration.scope.languages.label">
+            <segment>
+                <source>gally_configuration.scope.languages.label</source>
+                <target>Languages</target>
+            </segment>
+        </unit>
         <unit id="gally_configuration.scope.all_languages.label">
             <segment>
                 <source>gally_configuration.scope.all_languages.label</source>

@@ -107,6 +107,17 @@ class ConfigurationTest extends AbstractEntityTestWithUpdate
                 'path' => 'gally.base_url.media',
                 'value' => 'Test value api',
                 'scopeType' => Configuration::SCOPE_LOCALE,
+                'scopeCode' => null,
+            ],
+            400,
+            'Invalid scope code null for scope "locale".',
+        ];
+        yield [
+            $user,
+            [
+                'path' => 'gally.base_url.media',
+                'value' => 'Test value api',
+                'scopeType' => Configuration::SCOPE_LOCALE,
                 'scopeCode' => 'fake_locale_code',
             ],
             400,
@@ -181,16 +192,6 @@ DETAIL:  Key (path, scope_type)=(gally.base_url.media, general) already exists.'
             $user,
             [
                 'path' => 'gally.base_url.media',
-                'value' => 'Test value api by locale general',
-                'scopeType' => Configuration::SCOPE_LOCALE,
-                'scopeCode' => null,
-            ],
-            201,
-        ];
-        yield [
-            $user,
-            [
-                'path' => 'gally.base_url.media',
                 'value' => 'Test value api by locale es_ES',
                 'scopeType' => Configuration::SCOPE_LOCALE,
                 'scopeCode' => 'es_ES',
@@ -201,29 +202,9 @@ DETAIL:  Key (path, scope_type)=(gally.base_url.media, general) already exists.'
             $user,
             [
                 'path' => 'gally.base_url.media',
-                'value' => 'Test value api by request type general',
-                'scopeType' => Configuration::SCOPE_REQUEST_TYPE,
-                'scopeCode' => null,
-            ],
-            201,
-        ];
-        yield [
-            $user,
-            [
-                'path' => 'gally.base_url.media',
                 'value' => 'Test value api by request type product_search',
                 'scopeType' => Configuration::SCOPE_REQUEST_TYPE,
                 'scopeCode' => 'product_autocomplete',
-            ],
-            201,
-        ];
-        yield [
-            $user,
-            [
-                'path' => 'gally.base_url.media',
-                'value' => 'Test value api by localized catalog general',
-                'scopeType' => Configuration::SCOPE_LOCALIZED_CATALOG,
-                'scopeCode' => null,
             ],
             201,
         ];
@@ -451,7 +432,7 @@ DETAIL:  Key (path, scope_type, scope_code)=(gally.base_url.media, localized_cat
                 ['path' => 'gally.test_conf', 'value' => 'test'],
                 ['path' => 'gally.test_conf', 'value' => 'test', 'scopeType' => 'general'],
             ],
-            12, // Expected configurations number
+            9,  // Expected configurations number
             [], // Expected data in response
             [], // Expected search values
             400, // Expected response code
@@ -468,7 +449,7 @@ DETAIL:  Key (path, scope_type, scope_code)=(gally.base_url.media, localized_cat
                 ['path' => 'gally.test_conf', 'value' => 'test', 'scopeType' => 'request_type', 'scopeCode' => 'fake'],
                 ['path' => 'gally.test_conf', 'value' => 'test', 'scopeType' => 'localized_catalog', 'scopeCode' => 'fake'],
             ],
-            12, // Expected configurations number
+            9,  // Expected configurations number
             [], // Expected data in response
             [], // Expected search values
             400, // Expected response code
@@ -485,7 +466,7 @@ DETAIL:  Key (path, scope_type, scope_code)=(gally.base_url.media, localized_cat
             [   // Source field post data
                 ['path' => 'gally.test_conf', 'value' => 'bulk value', 'scopeType' => 'general'],
             ],
-            12, // Expected configurations number
+            9,  // Expected configurations number
             [], // Expected data in response
             [   // Expected values
                 'gally.test_conf' => 'bulk value',
@@ -500,7 +481,7 @@ DETAIL:  Key (path, scope_type, scope_code)=(gally.base_url.media, localized_cat
                 ['path' => 'gally.test_conf', 'value' => 'bulk value', 'scopeType' => 'locale', 'scopeCode' => 'fr_FR'],
                 ['path' => 'gally.test_conf2', 'value' => ['test_array' => 'test'], 'scopeType' => 'locale', 'scopeCode' => 'fr_FR'],
             ],
-            15, // Expected configurations number
+            12, // Expected configurations number
             [], // Expected data in response
             [   // Expected values
                 'gally.test_conf' => 'bulk value updated',

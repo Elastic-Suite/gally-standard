@@ -2,7 +2,7 @@ gally:
     configuration:
         scopes:
             !php/const Gally\Configuration\Entity\Configuration::SCOPE_LANGUAGE:
-                labelKey: 'gally_configuration.scope.language.label'
+                labelKey: 'gally_configuration.scope.languages.label'
                 options:             
                     values:
                         - { value: 'fr', label: 'French'}
@@ -67,8 +67,3 @@ gally:
                                     operatorOptionsApi: 'boost_query_text_operator_options'
                                     limitationTypeOptionsApi: 'boost_limitation_type_options'
                                     requestTypeOptionsApi: 'boost_request_type_options'
-
-                    preview: #todo: fix this part test not relevant for the moment.
-                        position: 20
-                        external: true
-    

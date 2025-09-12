@@ -27,7 +27,7 @@ class Configuration implements GallyConfigurationInterface
     public const CONFIG_INPUT_TYPE = [
         'boolean', 'image', 'label', 'number', 'price', 'range', 'score', 'select', 'stock', 'string', 'tag',
         'button', 'optgroup', 'rangeDate', 'requestType', 'ruleEngine', 'slider', 'multipleInput', 'synonym',
-        'expansion', 'productInfo', 'boostPreview', 'positionEffect', 'proportionalToAttribute', 'email'
+        'expansion', 'productInfo', 'boostPreview', 'positionEffect', 'proportionalToAttribute', 'email',
     ];
 
     public function getRootNodeConfig(): string

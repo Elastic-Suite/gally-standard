@@ -13,14 +13,13 @@ declare(strict_types=1);
 
 namespace Gally\Configuration\Entity\Source;
 
-use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\GraphQl\QueryCollection;
 use Gally\Catalog\Entity\LocalizedCatalog;
 use Gally\Configuration\State\Source\LanguageOptionProvider;
-use Gally\User\Constant\Role;
 use Gally\Locale\Entity\Source\LanguageOption as BaseLanguageOption;
+use Gally\User\Constant\Role;
 
 #[ApiResource(
     operations: [
@@ -39,6 +38,4 @@ use Gally\Locale\Entity\Source\LanguageOption as BaseLanguageOption;
 )]
 class LanguageOption extends BaseLanguageOption
 {
-
-    //Todo add tests on all entities of sub directory Source.
 }

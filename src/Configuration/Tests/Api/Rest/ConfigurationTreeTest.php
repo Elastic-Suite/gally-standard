@@ -139,11 +139,6 @@ class ConfigurationTreeTest extends AbstractTestCase
                                     ],
                                 ],
                             ],
-                            'preview' => [
-                                'label' => 'preview',
-                                'position' => 20,
-                                'external' => true,
-                            ],
                         ],
                         'label' => 'General',
                     ],
