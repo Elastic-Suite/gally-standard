@@ -1081,6 +1081,16 @@ class SearchProductsTest extends AbstractTestCase
                 'is_eco_friendly: { exist: true, eq: true }', // Filters.
                 'Filter argument is_eco_friendly: Only \'eq\' or \'exist\' should be filled.', // debug message
             ],
+            [
+                'b2c_en', // catalog ID.
+                'created_at: {eq: "invalid-date-format"}', // Filters.
+                "Filter argument created_at: Date format for 'invalid-date-format' is not valid in operator 'eq'.", // debug message
+            ],
+            [
+                'b2c_en', // catalog ID.
+                'created_at: {gte: "2022-13-45"}', // Filters.
+                "Filter argument created_at: Date format for '2022-13-45' is not valid in operator 'gte'.", // debug message
+            ],
         ];
     }
 

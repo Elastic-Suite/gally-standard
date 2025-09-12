@@ -62,7 +62,7 @@ class RuleEngineOperatorsTest extends AbstractTestCase
     protected function checkResponseData(array $responseArray)
     {
         $this->assertGreaterThanOrEqual(11, \count($responseArray['operators']));
-        $this->assertGreaterThanOrEqual(7, \count($responseArray['operatorsBySourceFieldType']));
-        $this->assertGreaterThanOrEqual(7, \count($responseArray['operatorsValueType']));
+        $this->assertGreaterThanOrEqual(11, \count($responseArray['operatorsBySourceFieldType']));
+        $this->assertGreaterThanOrEqual(11, \count($responseArray['operatorsValueType']));
     }
 }

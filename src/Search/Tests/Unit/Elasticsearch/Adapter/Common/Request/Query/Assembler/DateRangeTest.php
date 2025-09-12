@@ -36,7 +36,7 @@ class DateRangeTest extends AbstractSimpleQueryAssemblerTestCase
         $this->assertArrayHasKey('field', $query['range']);
         $this->assertEquals(
             [
-                'lte' => '2023-01-01||/d',
+                'lte' => '2023-01-01',
                 'boost' => DateRangeQuery::DEFAULT_BOOST_VALUE,
                 'format' => 'yyyy-MM-dd',
             ],

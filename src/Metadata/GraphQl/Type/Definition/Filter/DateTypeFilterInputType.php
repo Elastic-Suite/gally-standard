@@ -13,10 +13,14 @@ declare(strict_types=1);
 
 namespace Gally\Metadata\GraphQl\Type\Definition\Filter;
 
+use Gally\Configuration\Service\ConfigurationManager;
 use Gally\Metadata\Entity\SourceField;
 use Gally\Search\Constant\FilterOperator;
+use Gally\Search\Elasticsearch\Builder\Request\Query\Filter\FilterQueryBuilder;
 use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface;
+use Gally\Search\Elasticsearch\Request\QueryFactory;
 use Gally\Search\Elasticsearch\Request\QueryInterface;
+use Gally\Search\Service\DateFormatUtils;
 use GraphQL\Type\Definition\Type;
 
 class DateTypeFilterInputType extends AbstractFilter
@@ -24,6 +28,16 @@ class DateTypeFilterInputType extends AbstractFilter
     public const NAME = 'EntityDateTypeFilterInput';
 
     public string $name = self::NAME;
+
+    public function __construct(
+        FilterQueryBuilder $filterQueryBuilder,
+        QueryFactory $queryFactory,
+        private ConfigurationManager $configurationManager,
+        private DateFormatUtils $dateUtils,
+        string $nestingSeparator,
+    ) {
+        parent::__construct($filterQueryBuilder, $queryFactory, $nestingSeparator);
+    }
 
     public function supports(SourceField $sourceField): bool
     {
@@ -86,6 +100,23 @@ class DateTypeFilterInputType extends AbstractFilter
             );
         }
 
+        $dateFormat = $this->configurationManager->getScopedConfigValue(
+            'gally.search_settings.default_date_field_format'
+        );
+        foreach ($inputData as $operator => $value) {
+            foreach (\is_array($value) ? $value : [$value] as $dateStr) {
+                if (!$this->dateUtils->checkDateFormat($dateStr, DateFormatUtils::COMPLETE_DATE_FORMAT)
+                    && !$this->dateUtils->checkDateFormat($dateStr, $dateFormat)) {
+                    $errors[] = \sprintf(
+                        "Filter argument %s: Date format for '%s' is not valid in operator '%s'.",
+                        $argName,
+                        $dateStr,
+                        $operator
+                    );
+                }
+            }
+        }
+
         return $errors;
     }
 
@@ -94,12 +125,8 @@ class DateTypeFilterInputType extends AbstractFilter
         if (isset($inputFilter[FilterOperator::IN])) {
             $queries = [];
             foreach ($inputFilter[FilterOperator::IN] as $value) {
-                $queries[] = parent::transformToGallyFilter(
-                    [
-                        'field' => $inputFilter['field'],
-                        FilterOperator::LTE => $value,
-                        FilterOperator::GTE => $value,
-                    ],
+                $queries[] = $this->transformToGallyFilter(
+                    ['field' => $inputFilter['field'], FilterOperator::EQ => $value],
                     $containerConfig,
                     $filterContext
                 );
@@ -112,6 +139,25 @@ class DateTypeFilterInputType extends AbstractFilter
             $inputFilter[FilterOperator::LTE] = $inputFilter[FilterOperator::EQ];
             $inputFilter[FilterOperator::GTE] = $inputFilter[FilterOperator::EQ];
             unset($inputFilter[FilterOperator::EQ]);
+        }
+
+        // Convert date format if necessary to complete date.
+        $dateFormat = $this->configurationManager->getScopedConfigValue(
+            'gally.search_settings.default_date_field_format'
+        );
+        foreach ($inputFilter as $operator => $value) {
+            if ($this->dateUtils->checkDateFormat($value, $dateFormat)) {
+                switch ($operator) {
+                    case FilterOperator::LT:
+                    case FilterOperator::GTE:
+                        $inputFilter[$operator] = $this->dateUtils->getFirstDayOfPeriod($value, $dateFormat);
+                        break;
+                    case FilterOperator::GT:
+                    case FilterOperator::LTE:
+                        $inputFilter[$operator] = $this->dateUtils->getLastDayOfPeriod($value, $dateFormat);
+                        break;
+                }
+            }
         }
 
         return parent::transformToGallyFilter($inputFilter, $containerConfig, $filterContext);

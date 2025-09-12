@@ -74,6 +74,7 @@ class AttributeRule extends AbstractRuleType implements RuleTypeInterface
         Type::TYPE_CATEGORY => [FilterOperator::EQ, FilterOperator::NOT_EQ],
         Type::TYPE_PRICE => self::NUMERIC_OPERATORS,
         Type::TYPE_STOCK => [FilterOperator::EQ],
+        Type::TYPE_DATE => self::NUMERIC_OPERATORS,
     ];
 
     private ?Metadata $productMetadata = null;

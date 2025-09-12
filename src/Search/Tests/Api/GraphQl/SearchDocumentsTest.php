@@ -1425,6 +1425,18 @@ class SearchDocumentsTest extends AbstractTestCase
                 '{distanceFilter:{field:"id" lte: 100}}', // Filters.
                 'Filter argument distanceFilter: The field id should be of type geo_point.', // debug message
             ],
+            [
+                'product_document', // entity type.
+                'b2c_en', // catalog ID.
+                '{equalFilter: {field:"created_at", eq: "invalid-date-format"}}', // Filters.
+                "Filter argument equalFilter: Date format for 'invalid-date-format' is not valid.", // debug message
+            ],
+            [
+                'product_document', // entity type.
+                'b2c_en', // catalog ID.
+                '{rangeFilter: {field:"created_at", gte: "2022-13-45"}}', // Filters.
+                "Filter argument rangeFilter: Date format for '2022-13-45' is not valid in operator 'gte'.", // debug message
+            ],
         ];
     }
 
