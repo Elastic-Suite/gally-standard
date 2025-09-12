@@ -17,10 +17,7 @@ use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\GraphQl\QueryCollection;
-use Gally\Metadata\Entity\SourceField;
 use Gally\Metadata\State\SourceFieldTypeProvider;
-use Gally\Search\Resolver\DummyResolver;
-use Gally\Search\State\SortingOptionProvider;
 use Gally\User\Constant\Role;
 
 #[ApiResource(

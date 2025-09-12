@@ -17,7 +17,6 @@ use ApiPlatform\Metadata\CollectionOperationInterface;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProviderInterface;
 use Gally\Metadata\Entity\SourceField\Type;
-use Gally\Search\Elasticsearch\Request\Container\Configuration\ContainerConfigurationProvider;
 
 class SourceFieldTypeProvider implements ProviderInterface
 {

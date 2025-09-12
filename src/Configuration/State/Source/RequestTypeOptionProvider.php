@@ -42,6 +42,7 @@ class RequestTypeOptionProvider extends BaseRequestTypeOptionProvider
 
         return array_merge(
             [[
+                'id' => Configuration::SCOPE_GENERAL,
                 'value' => Configuration::SCOPE_GENERAL,
                 'label' => $this->translator->trans('gally_configuration.scope.all_request_types.label', [], 'gally_configuration'),
             ]],

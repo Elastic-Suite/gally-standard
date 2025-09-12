@@ -2,7 +2,7 @@ gally:
     configuration:
         scopes:
             !php/const Gally\Configuration\Entity\Configuration::SCOPE_LANGUAGE:
-                labelKey: 'gally_configuration.scope.language.label'
+                labelKey: 'gally_configuration.scope.languages.label'
                 input: 'optgroup'
                 filterName: 'language'
                 options:

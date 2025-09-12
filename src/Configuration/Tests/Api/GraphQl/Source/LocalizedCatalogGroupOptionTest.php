@@ -11,11 +11,12 @@
 
 declare(strict_types=1);
 
-namespace Gally\Catalog\Tests\Api\GraphQl\Source;
+namespace Gally\Configuration\Tests\Api\GraphQl\Source;
 
 use Gally\Test\AbstractTestCase;
 use Gally\Test\ExpectedResponse;
 use Gally\Test\RequestGraphQlToTest;
+use Gally\User\Constant\Role;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
 class LocalizedCatalogGroupOptionTest extends AbstractTestCase
@@ -24,7 +25,6 @@ class LocalizedCatalogGroupOptionTest extends AbstractTestCase
     {
         parent::setUpBeforeClass();
         self::loadFixture([
-            __DIR__ . '/../../../fixtures/localized_catalogs.yaml',
             __DIR__ . '/../../../fixtures/catalogs.yaml',
         ]);
     }
@@ -32,28 +32,26 @@ class LocalizedCatalogGroupOptionTest extends AbstractTestCase
     /**
      * @dataProvider getCollectionDataProvider
      */
-    public function testGetCollection(array $expectedData, ?string $keyToGetOnValue = null): void
+    public function testGetCollection(array $expectedData): void
     {
-        $parameters = $keyToGetOnValue ? \sprintf('(keyToGetOnValue: "%s") ', $keyToGetOnValue) : '';
         $this->validateApiCall(
             new RequestGraphQlToTest(
                 <<<GQL
                     {
-                      localizedCatalogGroupOptions $parameters{
-                        id
+                      configurationLocalizedCatalogGroupOptions {
                         value
                         label
                         options
                       }
                     }
                 GQL,
-                null,
+                $this->getUser(Role::ROLE_CONTRIBUTOR),
             ),
             new ExpectedResponse(
                 200,
                 function (ResponseInterface $response) use ($expectedData) {
                     $responseData = $response->toArray();
-                    $this->assertSame($expectedData, $responseData['data']['localizedCatalogGroupOptions']);
+                    $this->assertSame($expectedData, $responseData['data']['configurationLocalizedCatalogGroupOptions']);
                 }
             )
         );
@@ -65,45 +63,26 @@ class LocalizedCatalogGroupOptionTest extends AbstractTestCase
             [
                 [
                     [
-                        'id' => 'b2c_test',
+                        'value' => 'general',
+                        'label' => 'General',
+                        'options' => [
+                            ['value' => null, 'label' => 'All localized catalogs'],
+                        ],
+                    ],
+                    [
                         'value' => 'b2c_test',
                         'label' => 'B2C Test Catalog',
                         'options' => [
-                            ['value' => $this->getUri('localized_catalogs', '1'), 'label' => 'B2C French Store View'],
-                            ['value' => $this->getUri('localized_catalogs', '2'), 'label' => 'B2C English Store View'],
+                            ['value' => $this->getUri('localized_catalogs', '1'), 'label' => 'B2C French Test Store View'],
+                            ['value' => $this->getUri('localized_catalogs', '2'), 'label' => 'B2C English Test Store View'],
                         ],
                     ],
                     [
-                        'id' => 'b2b_test',
                         'value' => 'b2b_test',
                         'label' => 'B2B Test Catalog',
-                        'options' => [
-                            ['value' => $this->getUri('localized_catalogs', '3'), 'label' => 'B2B English Store View'],
-                        ],
+                        'options' => [],
                     ],
                 ],
-            ],
-            [
-                [
-                    [
-                        'id' => 'b2c_test',
-                        'value' => 'b2c_test',
-                        'label' => 'B2C Test Catalog',
-                        'options' => [
-                            ['value' => 'b2c_fr', 'label' => 'B2C French Store View'],
-                            ['value' => 'b2c_en', 'label' => 'B2C English Store View'],
-                        ],
-                    ],
-                    [
-                        'id' => 'b2b_test',
-                        'value' => 'b2b_test',
-                        'label' => 'B2B Test Catalog',
-                        'options' => [
-                            ['value' => 'b2b_en', 'label' => 'B2B English Store View'],
-                        ],
-                    ],
-                ],
-                'code',
             ],
         ];
     }

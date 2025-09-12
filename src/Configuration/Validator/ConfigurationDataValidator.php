@@ -35,48 +35,45 @@ class ConfigurationDataValidator
      *
      * @return void
      */
-    public function validateObject(Configuration $configuration)
+    public function validateObject(Configuration $conf)
     {
-        if (null === $configuration->getPath()) {
+        if (null === $conf->getPath()) {
             throw new InvalidArgumentException('Path is required for configuration.');
         }
-        if (!$this->configurationRepository->isPathValid($configuration->getPath())) {
+        if (!$this->configurationRepository->isPathValid($conf->getPath())) {
             throw new InvalidArgumentException('The given configuration path is blacklisted and must not be used with the configuration manager.');
         }
-        if (null === $configuration->getScopeType()) {
+        if (null === $conf->getScopeType()) {
             throw new InvalidArgumentException('Scope type is required for configuration.');
         }
-        if (!\in_array($configuration->getScopeType(), ConfigurationRepository::getAvailableScopeTypes(), true)) {
-            throw new InvalidArgumentException(\sprintf('Invalid scope type : "%s".', $configuration->getScopeType()));
-        }
-        if (null === $configuration->getScopeCode()) {
-            return;
+        if (!\in_array($conf->getScopeType(), ConfigurationRepository::getAvailableScopeTypes(), true)) {
+            throw new InvalidArgumentException(\sprintf('Invalid scope type : "%s".', $conf->getScopeType()));
         }
 
         $isValid = true;
-        switch ($configuration->getScopeType()) {
+        switch ($conf->getScopeType()) {
             case Configuration::SCOPE_GENERAL:
-                $isValid = false;
+                $isValid = null === $conf->getScopeCode();
                 break;
             case Configuration::SCOPE_LANGUAGE:
                 $validLanguages = array_unique(
                     array_map(fn ($locale) => \Locale::getPrimaryLanguage($locale), \ResourceBundle::getLocales(''))
                 );
-                $isValid = \in_array($configuration->getScopeCode(), $validLanguages, true);
+                $isValid = \in_array($conf->getScopeCode(), $validLanguages, true);
                 break;
             case Configuration::SCOPE_LOCALE:
-                $isValid = \in_array($configuration->getScopeCode(), \ResourceBundle::getLocales(''), true);
+                $isValid = \in_array($conf->getScopeCode(), \ResourceBundle::getLocales(''), true);
                 break;
             case Configuration::SCOPE_REQUEST_TYPE:
-                $isValid = \in_array($configuration->getScopeCode(), $this->configurationProvider->getAvailableRequestType('product'), true);
+                $isValid = \in_array($conf->getScopeCode(), $this->configurationProvider->getAvailableRequestType('product'), true);
                 break;
             case Configuration::SCOPE_LOCALIZED_CATALOG:
-                $isValid = \in_array($configuration->getScopeCode(), $this->getExistingLocalizedCatalogCode(), true);
+                $isValid = \in_array($conf->getScopeCode(), $this->getExistingLocalizedCatalogCode(), true);
                 break;
         }
 
         if (!$isValid) {
-            throw new InvalidArgumentException(\sprintf('Invalid scope code "%s" for scope "%s".', $configuration->getScopeCode(), $configuration->getScopeType()));
+            throw new InvalidArgumentException($conf->getScopeCode() ? \sprintf('Invalid scope code "%s" for scope "%s".', $conf->getScopeCode(), $conf->getScopeType()) : \sprintf('Invalid scope code null for scope "%s".', $conf->getScopeType()));
         }
     }
 

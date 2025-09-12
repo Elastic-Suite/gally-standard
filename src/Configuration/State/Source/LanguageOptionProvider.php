@@ -16,8 +16,8 @@ namespace Gally\Configuration\State\Source;
 use ApiPlatform\Metadata\Operation;
 use Gally\Catalog\Repository\LocalizedCatalogRepository;
 use Gally\Configuration\Entity\Configuration;
-use Symfony\Contracts\Translation\TranslatorInterface;
 use Gally\Locale\State\Source\LanguageOptionProvider as BaseLanguageOptionProvider;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class LanguageOptionProvider extends BaseLanguageOptionProvider
 {
@@ -32,13 +32,13 @@ class LanguageOptionProvider extends BaseLanguageOptionProvider
     {
         return array_merge(
             [[
+                'value' => Configuration::SCOPE_GENERAL,
+                'id' => Configuration::SCOPE_GENERAL,
+                'label' => $this->translator->trans('gally_configuration.scope.default.label', [], 'gally_configuration'),
+                'options' => [[
                     'value' => Configuration::SCOPE_GENERAL,
-                    'id' => Configuration::SCOPE_GENERAL,
-                    'label' => $this->translator->trans('gally_configuration.scope.default.label', [], 'gally_configuration'),
-                    'options' => [[
-                        'value' => Configuration::SCOPE_GENERAL,
-                        'label' => $this->translator->trans('gally_configuration.scope.all_languages.label', [], 'gally_configuration'),
-                    ]],
+                    'label' => $this->translator->trans('gally_configuration.scope.all_languages.label', [], 'gally_configuration'),
+                ]],
             ]],
             parent::provide($operation, $uriVariables, $context)
         );

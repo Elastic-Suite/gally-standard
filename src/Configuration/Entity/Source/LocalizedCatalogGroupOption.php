@@ -13,14 +13,13 @@ declare(strict_types=1);
 
 namespace Gally\Configuration\Entity\Source;
 
-use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\GraphQl\QueryCollection;
 use Gally\Catalog\Entity\Catalog;
 use Gally\Catalog\Entity\LocalizedCatalog;
-use Gally\Configuration\State\Source\LocalizedCatalogGroupOptionProvider;
 use Gally\Catalog\Entity\Source\LocalizedCatalogGroupOption as BaseLocalizedCatalogGroupOption;
+use Gally\Configuration\State\Source\LocalizedCatalogGroupOptionProvider;
 
 #[ApiResource(
     operations: [
@@ -31,7 +30,7 @@ use Gally\Catalog\Entity\Source\LocalizedCatalogGroupOption as BaseLocalizedCata
                     ['name' => 'keyToGetOnValue', 'in' => 'query', 'type' => 'string'],
                 ],
             ],
-        )
+        ),
     ],
     graphQlOperations: [new QueryCollection(
         name: 'collection_query',

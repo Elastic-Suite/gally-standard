@@ -13,14 +13,13 @@ declare(strict_types=1);
 
 namespace Gally\Configuration\Entity\Source;
 
-use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\GraphQl\QueryCollection;
 use Gally\Catalog\Entity\LocalizedCatalog;
 use Gally\Configuration\State\Source\LocaleGroupOptionProvider;
-use Gally\User\Constant\Role;
 use Gally\Locale\Entity\Source\LocaleGroupOption as BaseLocaleGroupOption;
+use Gally\User\Constant\Role;
 
 #[ApiResource(
     operations: [

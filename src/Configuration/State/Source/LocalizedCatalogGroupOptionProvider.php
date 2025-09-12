@@ -15,23 +15,19 @@ namespace Gally\Configuration\State\Source;
 
 use ApiPlatform\Api\IriConverterInterface;
 use ApiPlatform\Metadata\Operation;
-use ApiPlatform\Metadata\UrlGeneratorInterface;
-use ApiPlatform\State\ProviderInterface;
 use Gally\Catalog\Repository\CatalogRepository;
-use Gally\Configuration\Entity\Configuration;
-use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Contracts\Translation\TranslatorInterface;
 use Gally\Catalog\State\Source\LocalizedCatalogGroupOptionProvider as BaseLocalizedCatalogGroupOptionProvider;
+use Gally\Configuration\Entity\Configuration;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class LocalizedCatalogGroupOptionProvider extends BaseLocalizedCatalogGroupOptionProvider
 {
     public function __construct(
         private CatalogRepository $catalogRepository,
         private IriConverterInterface $iriConverter,
-        private RequestStack $requestStack,
         private TranslatorInterface $translator,
     ) {
-        parent::__construct($this->catalogRepository, $this->iriConverter, $this->requestStack);
+        parent::__construct($this->catalogRepository, $this->iriConverter);
     }
 
     /**
@@ -41,7 +37,6 @@ class LocalizedCatalogGroupOptionProvider extends BaseLocalizedCatalogGroupOptio
     {
         return array_merge(
             [[
-                //todo: si on ne veut pas afficher le group dans la dropdown en front on peut supprimer les lignes "value", "id", "label".
                 'value' => Configuration::SCOPE_GENERAL,
                 'id' => Configuration::SCOPE_GENERAL,
                 'label' => $this->translator->trans('gally_configuration.scope.default.label', [], 'gally_configuration'),

@@ -30,7 +30,7 @@ use Gally\Catalog\State\Source\LocalizedCatalogGroupOptionProvider;
                     ['name' => 'keyToGetOnValue', 'in' => 'query', 'type' => 'string'],
                 ],
             ],
-        )
+        ),
     ],
     graphQlOperations: [new QueryCollection(
         name: 'collection_query',

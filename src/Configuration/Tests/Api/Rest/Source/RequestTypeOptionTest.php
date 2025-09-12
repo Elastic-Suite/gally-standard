@@ -11,22 +11,23 @@
 
 declare(strict_types=1);
 
-namespace Gally\Catalog\Tests\Api\Rest\Source;
+namespace Gally\Configuration\Tests\Api\Rest\Source;
 
-use Gally\Catalog\Tests\Api\GraphQl\Source\LocalizedCatalogGroupOptionTest as GraphQlLocalizedCatalogGroupOptionTest;
+use Gally\Configuration\Tests\Api\GraphQl\Source\RequestTypeOptionTest as GraphQlRequestTypeOptionTest;
 use Gally\Test\ExpectedResponse;
 use Gally\Test\RequestToTest;
+use Gally\User\Constant\Role;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
-class LocalizedCatalogGroupOptionTest extends GraphQlLocalizedCatalogGroupOptionTest
+class RequestTypeOptionTest extends GraphQlRequestTypeOptionTest
 {
     /**
      * @dataProvider getCollectionDataProvider
      */
-    public function testGetCollection(array $expectedData, ?string $keyToGetOnValue = null): void
+    public function testGetCollection(array $expectedData): void
     {
         $this->validateApiCall(
-            new RequestToTest('GET', 'localized_catalog_group_options' . ($keyToGetOnValue ? "?keyToGetOnValue={$keyToGetOnValue}" : ''), null),
+            new RequestToTest('GET', 'configuration_request_type_options', $this->getUser(Role::ROLE_CONTRIBUTOR)),
             new ExpectedResponse(
                 200,
                 function (ResponseInterface $response) use ($expectedData) {

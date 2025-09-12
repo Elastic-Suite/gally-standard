@@ -14,13 +14,10 @@ declare(strict_types=1);
 namespace Gally\Configuration\State\Source;
 
 use ApiPlatform\Metadata\Operation;
-use ApiPlatform\State\ProviderInterface;
 use Gally\Catalog\Repository\LocalizedCatalogRepository;
 use Gally\Configuration\Entity\Configuration;
-use Symfony\Component\Intl\Exception\MissingResourceException;
-use Symfony\Component\Intl\Locales;
-use Symfony\Contracts\Translation\TranslatorInterface;
 use Gally\Locale\State\Source\LocaleGroupOptionProvider as BaseLocaleGroupOptionProvider;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class LocaleGroupOptionProvider extends BaseLocaleGroupOptionProvider
 {
@@ -40,7 +37,7 @@ class LocaleGroupOptionProvider extends BaseLocaleGroupOptionProvider
                 'label' => $this->translator->trans('gally_configuration.scope.default.label', [], 'gally_configuration'),
                 'options' => [[
                     'value' => Configuration::SCOPE_GENERAL,
-                    'label' => $this->translator->trans('gally_configuration.scope.all_locales.label', [], 'gally_configuration')
+                    'label' => $this->translator->trans('gally_configuration.scope.all_locales.label', [], 'gally_configuration'),
                 ]],
             ]],
             parent::provide($operation, $uriVariables, $context)

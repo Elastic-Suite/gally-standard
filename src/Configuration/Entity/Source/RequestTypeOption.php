@@ -13,13 +13,12 @@ declare(strict_types=1);
 
 namespace Gally\Configuration\Entity\Source;
 
-use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\GraphQl\QueryCollection;
 use Gally\Configuration\State\Source\RequestTypeOptionProvider;
+use Gally\Search\Entity\Source\RequestTypeOption as BaseRequestTypeOption;
 use Gally\User\Constant\Role;
-use Gally\Search\Entity\Source\RequestTypeOption as  BaseRequestTypeOption;
 
 #[ApiResource(
     operations: [
