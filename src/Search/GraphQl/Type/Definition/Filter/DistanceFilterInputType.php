@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Gally\Search\GraphQl\Type\Definition\Filter;
 
 use ApiPlatform\GraphQl\Type\Definition\TypeInterface;
+use Gally\Configuration\Service\ConfigurationManager;
 use Gally\GraphQl\Type\Definition\FilterInterface;
 use Gally\Index\Entity\Index\Mapping\FieldInterface;
 use Gally\Metadata\Entity\SourceField\Type as SourceFieldType;
@@ -22,6 +23,7 @@ use Gally\Search\Elasticsearch\Builder\Request\Query\Filter\FilterQueryBuilder;
 use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface;
 use Gally\Search\Elasticsearch\Request\QueryFactory;
 use Gally\Search\Elasticsearch\Request\QueryInterface;
+use Gally\Search\Service\DateFormatUtils;
 use Gally\Search\Service\ReverseSourceFieldProvider;
 use GraphQL\Type\Definition\Type;
 
@@ -35,8 +37,10 @@ class DistanceFilterInputType extends RangeFilterInputType implements TypeInterf
         private FilterQueryBuilder $filterQueryBuilder,
         private ReverseSourceFieldProvider $reverseSourceFieldProvider,
         private QueryFactory $queryFactory,
+        ConfigurationManager $configurationManager,
+        DateFormatUtils $dateUtils,
     ) {
-        parent::__construct($filterQueryBuilder, $reverseSourceFieldProvider);
+        parent::__construct($filterQueryBuilder, $reverseSourceFieldProvider, $configurationManager, $dateUtils);
         $this->name = self::NAME;
     }
 

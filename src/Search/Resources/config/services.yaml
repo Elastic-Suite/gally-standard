@@ -223,6 +223,8 @@ services:
             - '@Gally\Search\Elasticsearch\Builder\Request\Query\Filter\FilterQueryBuilder'
             - '@Gally\Search\Service\ReverseSourceFieldProvider'
             - '@Gally\Search\GraphQl\Type\Definition\FieldFilterInputType'
+            - '@Gally\Configuration\Service\ConfigurationManager'
+            - '@Gally\Search\Service\DateFormatUtils'
         tags:
             - { name: api_platform.graphql.type }
 
@@ -237,6 +239,8 @@ services:
         arguments:
             - '@Gally\Search\Elasticsearch\Builder\Request\Query\Filter\FilterQueryBuilder'
             - '@Gally\Search\Service\ReverseSourceFieldProvider'
+            - '@Gally\Configuration\Service\ConfigurationManager'
+            - '@Gally\Search\Service\DateFormatUtils'
         tags:
             - { name: api_platform.graphql.type }
 
@@ -245,6 +249,8 @@ services:
             - '@Gally\Search\Elasticsearch\Builder\Request\Query\Filter\FilterQueryBuilder'
             - '@Gally\Search\Service\ReverseSourceFieldProvider'
             - '@Gally\Search\Elasticsearch\Request\QueryFactory'
+            - '@Gally\Configuration\Service\ConfigurationManager'
+            - '@Gally\Search\Service\DateFormatUtils'
         tags:
             - { name: api_platform.graphql.type }
 
@@ -485,3 +491,5 @@ services:
             - '@api_platform.doctrine.orm.state.item_provider'
         tags:
             - { name: api_platform.state_provider }
+                
+    Gally\Search\Service\DateFormatUtils: ~

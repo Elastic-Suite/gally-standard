@@ -14,13 +14,16 @@ declare(strict_types=1);
 namespace Gally\Search\GraphQl\Type\Definition\Filter;
 
 use ApiPlatform\GraphQl\Type\Definition\TypeInterface;
+use Gally\Configuration\Service\ConfigurationManager;
 use Gally\GraphQl\Type\Definition\FilterInterface;
 use Gally\Index\Entity\Index\Mapping\FieldInterface;
+use Gally\Metadata\Entity\SourceField\Type as SourceFieldType;
 use Gally\Search\Constant\FilterOperator;
 use Gally\Search\Elasticsearch\Builder\Request\Query\Filter\FilterQueryBuilder;
 use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface;
 use Gally\Search\Elasticsearch\Request\QueryInterface;
 use Gally\Search\GraphQl\Type\Definition\FieldFilterInputType;
+use Gally\Search\Service\DateFormatUtils;
 use Gally\Search\Service\ReverseSourceFieldProvider;
 use GraphQL\Type\Definition\InputObjectType;
 use GraphQL\Type\Definition\Type;
@@ -35,6 +38,8 @@ class EqualTypeFilterInputType extends InputObjectType implements TypeInterface,
         private FilterQueryBuilder $filterQueryBuilder,
         private ReverseSourceFieldProvider $reverseSourceFieldProvider,
         private FieldFilterInputType $fieldFilterInputType,
+        private ConfigurationManager $configurationManager,
+        private DateFormatUtils $dateUtils,
     ) {
         $this->name = self::NAME;
 
@@ -78,6 +83,32 @@ class EqualTypeFilterInputType extends InputObjectType implements TypeInterface,
                 FilterOperator::EQ,
                 FilterOperator::IN
             );
+        }
+
+        $field = $this->reverseSourceFieldProvider->getSourceFieldFromFieldName(
+            $inputData['field'],
+            $containerConfig->getMetadata()
+        );
+        if ($field && SourceFieldType::TYPE_DATE === $field->getType()) {
+            $dateFormat = $this->configurationManager->getScopedConfigValue(
+                'gally.search_settings.default_date_field_format'
+            );
+
+            $values = array_merge(
+                isset($inputData[FilterOperator::EQ]) ? [$inputData[FilterOperator::EQ]] : [],
+                $inputData[FilterOperator::IN] ?? []
+            );
+
+            foreach ($values as $value) {
+                if (!$this->dateUtils->checkDateFormat($value, DateFormatUtils::COMPLETE_DATE_FORMAT)
+                    && !$this->dateUtils->checkDateFormat($value, $dateFormat)) {
+                    $errors[] = \sprintf(
+                        "Filter argument %s: Date format for '%s' is not valid.",
+                        $argName,
+                        $value,
+                    );
+                }
+            }
         }
 
         return $errors;

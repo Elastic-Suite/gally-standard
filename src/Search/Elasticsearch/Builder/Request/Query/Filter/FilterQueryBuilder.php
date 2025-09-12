@@ -104,7 +104,6 @@ class FilterQueryBuilder
         if (FieldInterface::FIELD_TYPE_DATE === $field->getType()) {
             $queryType = QueryInterface::TYPE_DATE_RANGE;
             $condition = ['bounds' => $condition];
-            $condition['format'] = $this->configurationManager->getScopedConfigValue('gally.search_settings.default_date_field_format');
         } elseif (FieldInterface::FIELD_TYPE_GEOPOINT === $field->getType() && isset($condition['lte'])) {
             $queryType = QueryInterface::TYPE_GEO_DISTANCE;
             $condition['distance'] = $condition['lte'];
