@@ -53,6 +53,7 @@ class ViewMoreFacetTest extends AbstractTestCase
      * @param ?string $expectedError      Expected error
      * @param ?int    $expectedItemsCount Expected items count in (paged) response
      * @param string  $filter             Filters to apply
+     * @param ?string $optionSearch       Filter option result matching search
      */
     public function testViewMoreFacetOptions(
         string $catalogId,
@@ -61,6 +62,7 @@ class ViewMoreFacetTest extends AbstractTestCase
         ?string $expectedError,
         ?int $expectedItemsCount,
         string $filter,
+        ?string $optionSearch,
     ): void {
         $user = null;
 
@@ -73,6 +75,10 @@ class ViewMoreFacetTest extends AbstractTestCase
 
         if ($currentCategoryId) {
             $arguments .= \sprintf(', currentCategoryId: "%s"', $currentCategoryId);
+        }
+
+        if ($optionSearch) {
+            $arguments .= \sprintf(', optionSearch: "%s"', $optionSearch);
         }
 
         $this->validateApiCall(
@@ -119,6 +125,7 @@ class ViewMoreFacetTest extends AbstractTestCase
                 'The source field \'invalid_field\' does not exist', // expected error.
                 null, // expected items count.
                 '', // filter.
+                null, // option search.
             ],
             [
                 'b2c_en', // catalog ID.
@@ -127,6 +134,7 @@ class ViewMoreFacetTest extends AbstractTestCase
                 null, // expected error.
                 9, // expected items count.
                 '', // filter.
+                null, // option search.
             ],
             [
                 'b2c_en', // catalog ID.
@@ -135,6 +143,7 @@ class ViewMoreFacetTest extends AbstractTestCase
                 null, // expected error.
                 2, // expected items count.
                 '', // filter.
+                null, // option search.
             ],
             [
                 'b2c_en', // catalog ID.
@@ -143,6 +152,7 @@ class ViewMoreFacetTest extends AbstractTestCase
                 null, // expected error.
                 1, // expected items count.
                 'sku: { eq: "24-MB01" }', // filter.
+                null, // option search.
             ],
             [
                 'b2c_en', // catalog ID.
@@ -151,6 +161,16 @@ class ViewMoreFacetTest extends AbstractTestCase
                 null, // expected error.
                 1, // expected items count.
                 '', // filter.
+                null, // option search.
+            ],
+            [
+                'b2c_en', // catalog ID.
+                'color__value', // aggregation.
+                null, // current category id.
+                null, // expected error.
+                2, // expected items count.
+                '', // filter.
+                'gre', // option search.
             ],
         ];
     }

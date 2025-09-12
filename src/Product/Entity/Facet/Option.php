@@ -52,6 +52,9 @@ use Gally\Search\Resolver\DummyResolver;
                     'type' => '[ProductFieldFilterInput]',
                     'is_gally_arg' => true,
                 ],
+                'optionSearch' => [
+                    'type' => 'String', 'description' => 'Option search Text',
+                ],
             ]
         ),
     ],
