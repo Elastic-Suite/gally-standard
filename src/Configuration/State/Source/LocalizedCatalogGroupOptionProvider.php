@@ -46,7 +46,7 @@ class LocalizedCatalogGroupOptionProvider extends BaseLocalizedCatalogGroupOptio
                 'id' => Configuration::SCOPE_GENERAL,
                 'label' => $this->translator->trans('gally_configuration.scope.default.label', [], 'gally_configuration'),
                 'options' => [[
-                    'value' => Configuration::SCOPE_GENERAL,
+                    'value' => null,
                     'label' => $this->translator->trans('gally_configuration.scope.all_localized_catalogs.label', [], 'gally_configuration'),
                 ]],
             ]],
