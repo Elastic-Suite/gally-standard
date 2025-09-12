@@ -55,6 +55,7 @@ class ViewMoreFacetTest extends AbstractTestCase
      * @param ?string $expectedError      Expected error
      * @param ?int    $expectedItemsCount Expected items count in (paged) response
      * @param string  $filter             Filters to apply
+     * @param ?string $optionSearch       filter option result matching search
      */
     public function testViewMoreFacetOptions(
         string $entityType,
@@ -63,6 +64,7 @@ class ViewMoreFacetTest extends AbstractTestCase
         ?string $expectedError,
         ?int $expectedItemsCount,
         string $filter,
+        ?string $optionSearch,
     ): void {
         $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
 
@@ -73,6 +75,10 @@ class ViewMoreFacetTest extends AbstractTestCase
             $aggregation,
             $filter
         );
+
+        if ($optionSearch) {
+            $arguments .= \sprintf(', optionSearch: "%s"', $optionSearch);
+        }
 
         $this->validateApiCall(
             new RequestGraphQlToTest(
@@ -118,6 +124,7 @@ class ViewMoreFacetTest extends AbstractTestCase
                 'The source field \'invalid_field\' does not exist', // expected error.
                 null, // expected items count.
                 '', // filter.
+                null, // option search.
             ],
             [
                 'product_document', // entity type.
@@ -126,6 +133,7 @@ class ViewMoreFacetTest extends AbstractTestCase
                 null, // expected error.
                 9, // expected items count.
                 '', // filter.
+                null, // option search.
             ],
             [
                 'product_document', // entity type.
@@ -134,6 +142,7 @@ class ViewMoreFacetTest extends AbstractTestCase
                 null, // expected error.
                 2, // expected items count.
                 '', // filter.
+                null, // option search.
             ],
             [
                 'product_document', // entity type.
@@ -142,6 +151,16 @@ class ViewMoreFacetTest extends AbstractTestCase
                 null, // expected error.
                 1, // expected items count.
                 '{equalFilter: {field:"sku", eq: "24-MB01"}}', // filter.
+                null, // option search.
+            ],
+            [
+                'product_document', // entity type.
+                'b2c_en', // catalog ID.
+                'color__value', // aggregation.
+                null, // expected error.
+                2, // expected items count.
+                '', // filter.
+                'gre', // option search.
             ],
         ];
     }

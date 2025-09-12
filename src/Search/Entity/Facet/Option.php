@@ -48,6 +48,9 @@ use Gally\Search\State\Facet\OptionProvider;
                 'filter' => [
                     'type' => '[FieldFilterInput]', 'is_gally_arg' => true,
                 ],
+                'optionSearch' => [
+                    'type' => 'String', 'description' => 'Option search Text',
+                ],
             ]
         ),
     ],

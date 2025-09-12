@@ -124,15 +124,25 @@ class OptionProvider implements ProviderInterface
                 );
             }
 
+            $optionSearch = $context['filters']['optionSearch'] ?? null;
+            $optionSearchLower = $optionSearch ? mb_strtolower($optionSearch) : null;
+
             /** @var Adapter\Common\Response\BucketValueInterface $option */
             foreach ($response->getAggregations()[$filterName]->getValues() as $option) {
                 if (0 === $option->getCount()) {
                     continue;
                 }
 
-                $options[] = \is_array($option->getKey())
-                    ? new Option((string) $option->getKey()[1], (string) $option->getKey()[0], $option->getCount())
-                    : new Option((string) $option->getKey(), $labels[$option->getKey()] ?? (string) $option->getKey(), $option->getCount());
+                $key = \is_array($option->getKey()) ? (string) $option->getKey()[1] : (string) $option->getKey();
+                $label = \is_array($option->getKey())
+                    ? (string) $option->getKey()[0]
+                    : ($labels[$option->getKey()] ?? (string) $option->getKey());
+
+                if ($optionSearchLower && !str_contains(mb_strtolower($label), $optionSearchLower)) {
+                    continue;
+                }
+
+                $options[] = new Option($key, $label, $option->getCount());
             }
         }
 
