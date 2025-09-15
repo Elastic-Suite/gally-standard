@@ -62,13 +62,13 @@ use Symfony\Component\Serializer\Attribute\SerializedName;
                                 [
                                     'path' => 'gally.base_url.media',
                                     'value' => 'https://gally.com/media/',
-                                    'scopeType' => 'localized_catalog',
+                                    'scope_type' => 'localized_catalog',
                                 ],
                                 [
                                     'path' => 'gally.base_url.media',
                                     'value' => 'https://gally.fr/media/',
-                                    'scopeType' => 'localized_catalog',
-                                    'scopeCode' => 'b2c_fr',
+                                    'scope_type' => 'localized_catalog',
+                                    'scope_code' => 'b2c_fr',
                                 ],
                             ],
                         ],
