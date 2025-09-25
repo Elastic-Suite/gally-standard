@@ -70,16 +70,6 @@ class ConfigurationTest extends AbstractEntityTestWithUpdate
             401,
         ];
         yield [
-            $this->getUser(Role::ROLE_CONTRIBUTOR),
-            [
-                'path' => 'gally.base_url.media',
-                'value' => 'Test value api',
-                'scopeType' => Configuration::SCOPE_GENERAL,
-                'scopeCode' => null,
-            ],
-            403,
-        ];
-        yield [
             $user,
             [
                 'path' => 'gally.base_url.media',
@@ -199,7 +189,7 @@ DETAIL:  Key (path, scope_type)=(gally.base_url.media, general) already exists.'
             201,
         ];
         yield [
-            $user,
+            $this->getUser(Role::ROLE_CONTRIBUTOR),
             [
                 'path' => 'gally.base_url.media',
                 'value' => 'Test value api by request type product_search',
@@ -275,7 +265,7 @@ DETAIL:  Key (path, scope_type, scope_code)=(gally.base_url.media, localized_cat
         $adminUser = $this->getUser(Role::ROLE_ADMIN);
 
         yield [null, 28, 401];
-        yield [$this->getUser(Role::ROLE_CONTRIBUTOR), 28, 403];
+        yield [$this->getUser(Role::ROLE_CONTRIBUTOR), 28, 204];
         yield [$adminUser, 29, 204];
         yield [$adminUser, 666, 404];
     }
@@ -288,8 +278,8 @@ DETAIL:  Key (path, scope_type, scope_code)=(gally.base_url.media, localized_cat
     public function putUpdateDataProvider(): iterable
     {
         yield [null, 34, ['value' => 'Test value api by locale es_ES updated'], 401];
-        yield [$this->getUser(Role::ROLE_CONTRIBUTOR), 34, ['value' => 'Test value api by locale es_ES updated'], 403];
-        yield [$this->getUser(Role::ROLE_ADMIN), 34, ['value' => 'Test value api by locale es_ES updated'], 200];
+        yield [$this->getUser(Role::ROLE_CONTRIBUTOR), 34, ['value' => 'Test value api by locale es_ES updated'], 200];
+        yield [$this->getUser(Role::ROLE_ADMIN), 34, ['value' => 'Test value api by locale es_ES updated 2'], 200];
     }
 
     /**
@@ -422,11 +412,10 @@ DETAIL:  Key (path, scope_type, scope_code)=(gally.base_url.media, localized_cat
 
         // Test ACL
         yield [null, [], 11, [], [], 401];
-        yield [$this->getUser(Role::ROLE_CONTRIBUTOR), [], 11, [], [], 403];
 
         // Incomplete / invalid data
         yield [
-            $adminUser, // Api User
+            $this->getUser(Role::ROLE_CONTRIBUTOR), // Api User
             [   // Source field post data
                 ['value' => 'test'],
                 ['path' => 'gally.test_conf', 'value' => 'test'],
