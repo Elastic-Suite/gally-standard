@@ -42,7 +42,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ApiResource(
     operations: [
         new Get(security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
-        new Put(security: "is_granted('" . Role::ROLE_ADMIN . "')"),
+        new Put(security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
         new Delete(security: "is_granted('" . Role::ROLE_ADMIN . "')"),
         new Bulk(
             security: "is_granted('" . Role::ROLE_ADMIN . "')",
@@ -97,7 +97,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
         new Query(name: 'item_query', security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
         new QueryCollection(name: 'collection_query', security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
         new Mutation(name: 'create', security: "is_granted('" . Role::ROLE_ADMIN . "')"),
-        new Mutation(name: 'update', security: "is_granted('" . Role::ROLE_ADMIN . "')"),
+        new Mutation(name: 'update', security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
         new Mutation(name: 'delete', security: "is_granted('" . Role::ROLE_ADMIN . "')"),
     ],
     processor: SourceFieldProcessor::class,

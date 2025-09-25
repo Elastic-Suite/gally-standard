@@ -235,7 +235,7 @@ class SourceFieldTest extends AbstractEntityTestWithUpdate
 
         return [
             [null, 18, ['weight' => 10, 'isSpellchecked' => true], 401],
-            [$this->getUser(Role::ROLE_CONTRIBUTOR), 18, ['weight' => 10, 'isSpellchecked' => true], 403],
+            [$this->getUser(Role::ROLE_CONTRIBUTOR), 18, ['weight' => 10, 'isSpellchecked' => true], 200],
             [$adminUser, 18, ['weight' => 10, 'isSpellchecked' => true], 200],
             [
                 $adminUser,

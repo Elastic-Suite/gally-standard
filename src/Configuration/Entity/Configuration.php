@@ -36,11 +36,11 @@ use Symfony\Component\Serializer\Attribute\SerializedName;
     operations: [
         new Get(security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
         new GetCollection(security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
-        new Post(security: "is_granted('" . Role::ROLE_ADMIN . "')"),
-        new Put(security: "is_granted('" . Role::ROLE_ADMIN . "')"),
-        new Delete(security: "is_granted('" . Role::ROLE_ADMIN . "')"),
+        new Post(security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
+        new Put(security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
+        new Delete(security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
         new Bulk(
-            security: "is_granted('" . Role::ROLE_ADMIN . "')",
+            security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
             controller: BulkConfigurations::class,
             uriTemplate: '/configurations/bulk',
             read: false,
