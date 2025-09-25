@@ -212,13 +212,14 @@ class Configuration
                     'options' => [
                         'values' => [
                             ['value' => BucketInterface::SORT_ORDER_COUNT, 'label' => 'Result count'],
-                            ['value' => BucketInterface::SORT_ORDER_MANUAL, 'label' => 'Admin sort - slow'],
+                            ['value' => BucketInterface::SORT_ORDER_MANUAL, 'label' => 'Admin sort'],
                             ['value' => BucketInterface::SORT_ORDER_TERM, 'label' => 'Name (A → Z)'],
-                            ['value' => BucketInterface::SORT_ORDER_TERM_DESC, 'label' => 'Name (Z → A) - slow'],
-                            ['value' => BucketInterface::SORT_ORDER_NATURAL_ASC, 'label' => 'Natural sort (A → Z) - slow'],
-                            ['value' => BucketInterface::SORT_ORDER_NATURAL_DESC, 'label' => 'Natural sort (Z → A) - slow'],
+                            ['value' => BucketInterface::SORT_ORDER_TERM_DESC, 'label' => 'Name (Z → A)'],
+                            ['value' => BucketInterface::SORT_ORDER_NATURAL_ASC, 'label' => 'Natural sort (A → Z)'],
+                            ['value' => BucketInterface::SORT_ORDER_NATURAL_DESC, 'label' => 'Natural sort (Z → A)'],
                         ],
                     ],
+                    'gridHeaderInfoTooltip' => 'Non-native OpenSearch sorting may impact performance on facets with many options.<br />Affected sorts are:<br />• Admin sort<br />• Name (Z → A)<br />• Natural sort (A → Z)<br />• Natural sort (Z → A)',
                 ],
             ],
         ],
