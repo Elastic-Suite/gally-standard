@@ -46,8 +46,7 @@
         </unit>
         <unit id="gally_configuration.gally_search_settings_aggregations_default_date_range_interval.label">
             <segment>
-                <source>gally_configuration.gally_search_settings_aggregations_default_date_range_interval.label
-                </source>
+                <source>gally_configuration.gally_search_settings_aggregations_default_date_range_interval.label</source>
                 <target>Intervalle de plage de dates par défaut</target>
             </segment>
         </unit>
