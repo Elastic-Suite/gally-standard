@@ -7,7 +7,11 @@ gally:
                         labelKey: 'gally_configuration.group.general.fieldset.email.label'
                         position: 20
                         fields:
-                            gally.email.default_sender:
-                                labelKey: 'gally_configuration.gally_email_default_sender.label'
+                            gally.email.default_sender_name:
+                                labelKey: 'gally_configuration.gally_email_default_sender_name.label'
                                 position: 10
+                                input: 'string'
+                            gally.email.default_sender_email:
+                                labelKey: 'gally_configuration.gally_email_default_sender_email.label'
+                                position: 20
                                 input: 'email'

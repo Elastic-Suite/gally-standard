@@ -104,8 +104,14 @@ class UserManager
             ['%first_name%' => ucfirst($user->getFirstName()), '%last_name%' => strtoupper($user->getLastName())],
             'gally_user'
         );
+
+        $from = $this->emailSender->getEmailObject(
+            $this->configManager->getScopedConfigValue('gally.email.default_sender_email'),
+            $this->configManager->getScopedConfigValue('gally.email.default_sender_name')
+        )->toString();
+
         $this->emailSender->sendTemplateEmail(
-            $this->configManager->getScopedConfigValue('gally.email.default_sender'),
+            $from,
             $user->getEmail(),
             $subject,
             '@GallyBundle/emails/user_reset_password.html.twig',

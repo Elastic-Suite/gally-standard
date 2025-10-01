@@ -8,10 +8,16 @@
                 <target>Paramètres d'email</target>
             </segment>
         </unit>
-        <unit id="gally_configuration.gally_email_default_sender.label">
+        <unit id="gally_configuration.gally_email_default_sender_name.label">
             <segment>
-                <source>gally_configuration.gally_email_default_sender.label</source>
-                <target>Expéditeur par défaut</target>
+                <source>gally_configuration.gally_email_default_sender_name.label</source>
+                <target>Nom de l'expéditeur par défaut</target>
+            </segment>
+        </unit>
+        <unit id="gally_configuration.gally_email_default_sender_email.label">
+            <segment>
+                <source>gally_configuration.gally_email_default_sender_email.label</source>
+                <target>Email de l'expéditeur par défaut</target>
             </segment>
         </unit>
     </file>

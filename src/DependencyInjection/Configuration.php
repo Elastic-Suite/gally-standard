@@ -304,7 +304,10 @@ class Configuration implements GallyConfigurationInterface
                 // Email config
                 ->arrayNode('email')
                     ->children()
-                        ->scalarNode('default_sender')
+                        ->scalarNode('default_sender_name')
+                            ->isRequired()
+                        ->end()
+                        ->scalarNode('default_sender_email')
                             ->isRequired()
                         ->end()
                     ->end()

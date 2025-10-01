@@ -1,3 +1,4 @@
 gally:
     email:
-        default_sender: 'contact@example.com'
+        default_sender_name: '%env(GALLY_DEFAULT_SENDER_NAME)%'
+        default_sender_email: '%env(GALLY_DEFAULT_SENDER_EMAIL)%'
