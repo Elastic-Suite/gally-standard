@@ -8,11 +8,18 @@
                 <target>Email Settings</target>
             </segment>
         </unit>
-        <unit id="gally_configuration.gally_email_default_sender.label">
+        <unit id="gally_configuration.gally_email_default_sender_name.label">
             <segment>
-                <source>gally_configuration.gally_email_default_sender.label</source>
-                <target>Default sender</target>
+                <source>gally_configuration.gally_email_default_sender_name.label</source>
+                <target>Default sender name</target>
             </segment>
         </unit>
+        <unit id="gally_configuration.gally_email_default_sender_email.label">
+            <segment>
+                <source>gally_configuration.gally_email_default_sender_email.label</source>
+                <target>Default sender email</target>
+            </segment>
+        </unit>
+
     </file>
 </xliff>
