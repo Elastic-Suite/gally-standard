@@ -27,7 +27,7 @@ jobs:
             gally-directory: ${{ github.workspace }}/gally
             package-name: ${{ github.event.repository.name }} # PHP package name is equal to the repository name.
 
-        steps:                
+        steps:
             - name: Get event
               run: echo "event name is:" ${{ github.event_name }}
 
@@ -88,7 +88,7 @@ jobs:
 
             - name: Coverage
               working-directory: ${{ env.gally-directory }}
-              run: docker compose -f compose.yml -f compose.ci.yml exec -e XDEBUG_MODE=coverage -T php bin/phpunit --coverage-clover=coverage/coverage.xml vendor/gally/${{ env.package-name }}
+              run: docker compose -f compose.yml -f compose.ci.yml exec -T php php -d pcov.enabled=1 -d pcov.directory=vendor/gally/${{ env.package-name }} bin/phpunit --coverage-clover=coverage/coverage.xml vendor/gally/${{ env.package-name }}
 
             - name: Cleanup coverage file
               working-directory: ${{ env.gally-directory }}
