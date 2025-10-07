@@ -73,5 +73,11 @@
                 <target>Media base url</target>
             </segment>
         </unit>
+        <unit id="gally_configuration.gally_base_url_gally_front.label">
+            <segment>
+                <source>gally_configuration.gally_base_url_gally_front.label</source>
+                <target>Gally back office url</target>
+            </segment>
+        </unit>
     </file>
 </xliff>

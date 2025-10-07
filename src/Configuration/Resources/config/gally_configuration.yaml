@@ -43,3 +43,7 @@ gally:
                                 labelKey: 'gally_configuration.gally_base_url_media.label'
                                 position: 10
                                 input: 'string'
+                            gally.base_url.gally_front:
+                                labelKey: 'gally_configuration.gally_base_url_gally_front.label'
+                                position: 20
+                                input: 'string'

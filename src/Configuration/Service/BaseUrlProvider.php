@@ -22,7 +22,7 @@ class BaseUrlProvider
 
     public function getFrontUrl(): string
     {
-        return rtrim($this->configManager->getScopedConfigValue('gally.base_url.front'), '/') . '/';
+        return rtrim($this->configManager->getScopedConfigValue('gally.base_url.gally_front'), '/') . '/';
     }
 
     public function getFrontUrlWithLanguage(string $language = 'en'): string
