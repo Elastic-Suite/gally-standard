@@ -5,6 +5,8 @@ Gally\Job\Entity\Job:
         type:
             - NotBlank: ~
             - Type: string
+            - Length:
+                  max: 255
         profile:
             - NotBlank: ~
             - Type: string
@@ -13,27 +15,11 @@ Gally\Job\Entity\Job:
         status:
             - NotBlank: ~
             - Type: string
-        fromDate:
-            - Type: \Datetime
-        toDate:
-            - Type: \Datetime
-        conditionRule:
-            - Json: ~
-        model:
+            - Length:
+                  max: 255
+        importFile:
             - NotBlank: ~
-            - Type: string
-            - Gally\Boost\Validator\ModelConstraint: ~  
-        modelConfig:
-            - NotBlank: ~
-            - Json: ~
-        localizedCatalogs:
-            - NotBlank: ~
-            - Type: iterable
-            - Count:
-                min: 1
-    constraints:
-        - Gally\Boost\Validator\ModelConfigConstraint: ~
-        - Callback: [Gally\Validator\DateRange, validate]
+            - Type: Gally\Job\Entity\Job\ImportFile
 
 Gally\Job\Entity\Job\ImportFile:
     properties:

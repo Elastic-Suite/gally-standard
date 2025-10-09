@@ -12,7 +12,7 @@
         <field name="type" type="string" length="255" nullable="false" unique="false" />
         <field name="profile" type="string" length="255" nullable="false" unique="false" />
         <field name="status" type="string" length="255" nullable="false" unique="false" />
-        <field name="import_file" type="string" length="255" nullable="true" unique="false" />
+<!--        <field name="import_file" type="string" length="255" nullable="true" unique="false" />-->
         <field name="createdAt" type="datetime" nullable="false">
             <gedmo:timestampable on="create"/>
         </field>
@@ -20,21 +20,16 @@
 
         <one-to-many field="logs" target-entity="Gally\Job\Entity\Job\Log" mapped-by="job" orphan-removal="true">
             <order-by>
-                <order-by-field name="loggedAt" direction="ASC" />
-            </order-by>
-            <cascade>
-                <cascade-persist/>
-            </cascade>
-        </one-to-many>
-
-        <one-to-many field="ImportFile" target-entity="Gally\Job\Entity\Job\ImportFile" mapped-by="job" orphan-removal="true">
-            <order-by>
                 <order-by-field name="id" direction="ASC" />
             </order-by>
             <cascade>
                 <cascade-persist/>
             </cascade>
         </one-to-many>
+
+        <one-to-one field="importFile" target-entity="Gally\Job\Entity\Job\ImportFile" orphan-removal="true">
+            <join-column name="job_id" referenced-column-name="id" nullable="false" on-delete="CASCADE" on-update="CASCADE"/>
+        </one-to-one>
     </entity>
 
 </doctrine-mapping>

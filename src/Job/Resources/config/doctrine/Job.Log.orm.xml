@@ -14,7 +14,7 @@
         <field name="log" type="text" nullable="true" unique="false" />
 
         <many-to-one field="job" target-entity="Gally\Job\Entity\Job" inversed-by="logs">
-            <join-column name="job_id" referenced-column-name="id" nullable="false" on-delete="CASCADE" on-update="CASCADE"/>
+            <join-column name="import_file_id" referenced-column-name="id" nullable="false" on-delete="CASCADE" on-update="CASCADE"/>
         </many-to-one>
     </entity>
 

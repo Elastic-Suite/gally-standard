@@ -68,4 +68,9 @@ class ImportFile
     {
         return $this->id;
     }
+
+    public function getJob(): Job
+    {
+        return $this->job;
+    }
 }

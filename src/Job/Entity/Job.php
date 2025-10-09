@@ -120,9 +120,8 @@ class Job
     #[Groups(['job:read'])]
     private Collection $logs;
 
-    /** @var \Doctrine\Common\Collections\Collection&iterable<ImportFile> */
     #[Groups(['job:read'])]
-    private Collection $ImportFile;
+    private ImportFile $importFile;
 
     #[Groups(['job:read'])]
     protected $createdAt;
@@ -135,10 +134,7 @@ class Job
 
     public function __construct()
     {
-        $this->localizedCatalogs = new ArrayCollection();
-        $this->requestTypes = new ArrayCollection();
-        $this->categoryLimitations = new ArrayCollection();
-        $this->searchLimitations = new ArrayCollection();
+        $this->logs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -146,298 +142,73 @@ class Job
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getType(): string
     {
-        return $this->name;
+        return $this->type;
     }
 
-    public function setName(string $name): self
+    public function setType(string $type): self
     {
-        $this->name = $name;
+        $this->type = $type;
 
         return $this;
     }
 
-    public function getIsActive(): ?bool
+    public function getProfile(): string
     {
-        return $this->isActive;
+        return $this->profile;
     }
 
-    public function setIsActive(bool $isActive): self
+    public function setProfile(string $profile): self
     {
-        $this->isActive = $isActive;
+        $this->profile = $profile;
 
         return $this;
     }
 
-    public function getFromDate(): ?\DateTime
+    public function getStatus(): string
     {
-        return $this->fromDate;
+        return $this->status;
     }
 
-    public function setFromDate(?\DateTime $fromDate): self
+    public function setStatus(string $status): self
     {
-        $this->fromDate = $fromDate;
+        $this->status = $status;
 
         return $this;
     }
 
-    public function getToDate(): ?\DateTime
+    public function getLogs(): Collection
     {
-        return $this->toDate;
+        return $this->logs;
     }
 
-    public function setToDate(?\DateTime $toDate): self
+    public function setLogs(Collection $logs): self
     {
-        $this->toDate = $toDate;
+        $this->logs = $logs;
 
         return $this;
     }
 
-    public function getConditionRule(): ?string
+    public function getImportFile(): ImportFile
     {
-        return $this->conditionRule;
+        return $this->importFile;
     }
 
-    public function setConditionRule(?string $conditionRule): self
+    public function setImportFile(ImportFile $importFile): self
     {
-        $this->conditionRule = $conditionRule;
+        $this->importFile = $importFile;
 
         return $this;
     }
 
-    public function getModel(): string
+    public function getFinishedAt(): ?\DateTime
     {
-        return $this->model;
+        return $this->finishedAt;
     }
 
-    public function setModel(string $model): self
+    public function setFinishedAt(?\DateTime $finishedAt): void
     {
-        $this->model = $model;
-
-        return $this;
-    }
-
-    public function getModelConfigValue(string $key, $defaultValue = null): mixed
-    {
-        return json_decode($this->modelConfig, true)[$key] ?? $defaultValue;
-    }
-
-    public function getModelConfig(): string
-    {
-        return $this->modelConfig;
-    }
-
-    public function setModelConfig(string $modelConfig): self
-    {
-        $this->modelConfig = $modelConfig;
-
-        return $this;
-    }
-
-    #[ApiProperty(
-        extraProperties: [
-            'hydra:supportedProperty' => [
-                'hydra:property' => [
-                    'rdfs:label' => 'Localized catalog(s)',
-                ],
-                'gally' => [
-                    'visible' => true,
-                    'editable' => false,
-                    'position' => 60,
-                    'input' => 'optgroup',
-                    'options' => [
-                        'api_rest' => '/localized_catalog_group_options',
-                        'api_graphql' => 'localizedCatalogGroupOptions',
-                    ],
-                    'alias' => 'localizedCatalogs.id',
-                    'form' => [
-                        'visible' => false,
-                    ],
-                ],
-            ],
-        ],
-    )]
-    #[Groups(['job:read'])]
-    public function getLocalizedCatalogLabels(): array
-    {
-        $localizedCatalogLabels = [];
-        foreach ($this->localizedCatalogs as $localizedCatalog) {
-            $localizedCatalogLabels[] = $localizedCatalog->getCatalog()->getName() . ' - ' . $localizedCatalog->getName();
-        }
-
-        return $localizedCatalogLabels;
-    }
-
-    /**
-     * @return Collection|LocalizedCatalog[]
-     */
-    public function getLocalizedCatalogs(): Collection
-    {
-        return $this->localizedCatalogs;
-    }
-
-    public function addLocalizedCatalog(LocalizedCatalog $localizedCatalog): self
-    {
-        if (!$this->localizedCatalogs->contains($localizedCatalog)) {
-            $this->localizedCatalogs[] = $localizedCatalog;
-            // Reset array keys to keep localizedCatalogs as a json array during the normalization.
-            $this->localizedCatalogs = new ArrayCollection($this->localizedCatalogs->getValues());
-        }
-
-        return $this;
-    }
-
-    public function removeLocalizedCatalog(LocalizedCatalog $localizedCatalog): self
-    {
-        $this->localizedCatalogs->removeElement($localizedCatalog);
-        // Reset array keys to keep localizedCatalogs as a json array during the normalization.
-        $this->localizedCatalogs = new ArrayCollection($this->localizedCatalogs->getValues());
-
-        return $this;
-    }
-
-    public function getRequestTypeLabels(): array
-    {
-        return $this->requestTypeLabels;
-    }
-
-    public function setRequestTypeLabels(array $requestTypeLabels): self
-    {
-        $this->requestTypeLabels = $requestTypeLabels;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|RequestType[]
-     */
-    public function getRequestTypes(): Collection
-    {
-        return $this->requestTypes;
-    }
-
-    public function setRequestTypes(Collection $requestTypes): self
-    {
-        $this->requestTypes = $requestTypes;
-
-        return $this;
-    }
-
-    public function addRequestType(RequestType $requestType): self
-    {
-        if (!$this->requestTypes->contains($requestType)) {
-            $this->requestTypes[] = $requestType;
-            $requestType->setBoost($this);
-            // Reset array keys to keep requestTypes as a json array during the normalization.
-            $this->requestTypes = new ArrayCollection($this->requestTypes->getValues());
-        }
-
-        return $this;
-    }
-
-    public function removeRequestType(RequestType $requestType): self
-    {
-        if ($this->requestTypes->contains($requestType)) {
-            $this->requestTypes->removeElement($requestType);
-            // Reset array keys to keep requestTypes as a json array during the normalization.
-            $this->requestTypes = new ArrayCollection($this->requestTypes->getValues());
-        }
-
-        return $this;
-    }
-
-    public function setCategoryLimitations(Collection $categoryLimitations): self
-    {
-        $this->categoryLimitations = $categoryLimitations;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|CategoryLimitation[]
-     */
-    public function getCategoryLimitations(): Collection
-    {
-        return $this->categoryLimitations;
-    }
-
-    public function addCategoryLimitation(CategoryLimitation $categoryLimitation): self
-    {
-        if (!$this->categoryLimitations->contains($categoryLimitation)) {
-            $this->categoryLimitations[] = $categoryLimitation;
-            $categoryLimitation->setBoost($this);
-            // Reset array keys to keep categoryLimitations as a json array during the normalization.
-            $this->categoryLimitations = new ArrayCollection($this->categoryLimitations->getValues());
-        }
-
-        return $this;
-    }
-
-    public function removeCategoryLimitation(CategoryLimitation $categoryLimitation): self
-    {
-        if ($this->categoryLimitations->contains($categoryLimitation)) {
-            $this->categoryLimitations->removeElement($categoryLimitation);
-            // Reset array keys to keep categoryLimitations as a json array during the normalization.
-            $this->categoryLimitations = new ArrayCollection($this->categoryLimitations->getValues());
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|SearchLimitation[]
-     */
-    public function getSearchLimitations(): Collection
-    {
-        // Reset array keys to keep searchLimitations as a json array during the normalization.
-        return new ArrayCollection($this->searchLimitations->getValues());
-    }
-
-    public function addSearchLimitation(SearchLimitation $searchLimitation): self
-    {
-        if (!$this->searchLimitations->contains($searchLimitation)) {
-            $this->searchLimitations[] = $searchLimitation;
-            $searchLimitation->setBoost($this);
-        }
-
-        return $this;
-    }
-
-    public function removeSearchLimitation(SearchLimitation $searchLimitation): self
-    {
-        if ($this->searchLimitations->contains($searchLimitation)) {
-            $this->searchLimitations->removeElement($searchLimitation);
-        }
-
-        return $this;
-    }
-
-    #[ApiProperty(
-        extraProperties: [
-            'hydra:supportedProperty' => [
-                'hydra:property' => [
-                    'rdfs:label' => 'Boost Preview',
-                ],
-                'gally' => [
-                    'fieldset' => 'preview',
-                    'visible' => false,
-                    'editable' => false,
-                    'position' => 40,
-                    'input' => 'boostPreview',
-                    'form' => [
-                        'visible' => true,
-                    ],
-                ],
-            ],
-        ],
-    )]
-    #[Groups(['job:read'])]
-    /**
-     * Property used only to display boost preview in front-office.
-     */
-    public function getPreview(): string
-    {
-        return '';
+        $this->finishedAt = $finishedAt;
     }
 }

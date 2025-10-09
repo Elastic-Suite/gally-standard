@@ -13,6 +13,10 @@
         <many-to-one field="job" target-entity="Gally\Job\Entity\Job" inversed-by="logs">
             <join-column name="job_id" referenced-column-name="id" nullable="false" on-delete="CASCADE" on-update="CASCADE"/>
         </many-to-one>
+
+        <one-to-one field="job" target-entity="Gally\Job\Entity\Job" fetch="EAGER">
+            <join-column name="job_id" referenced-column-name="id" nullable="false" on-delete="CASCADE" on-update="CASCADE"/>
+        </one-to-one>
     </entity>
 
 </doctrine-mapping>
