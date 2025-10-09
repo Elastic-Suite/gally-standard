@@ -1,0 +1,10 @@
+services:
+    Gally\File\Encoder\MultipartDecoder:
+        arguments:
+            - '@request_stack'
+        tags:
+            - { name: serializer.encoder }
+
+    Gally\File\Serializer\UploadedFileDenormalizer:
+        tags:
+            - { name: serializer.normalizer }

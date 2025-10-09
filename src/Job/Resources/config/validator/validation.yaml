@@ -1,0 +1,47 @@
+Gally\Job\Entity\Job:
+    properties:
+        type:
+            - Choice: { callback: [Gally\Job\Entity\Job, getTypes] }
+        profile:
+            - NotBlank: ~
+        status:
+            - Choice: { callback: [Gally\Job\Entity\Job, getStatuses] }
+        file:
+            - Type: Gally\Job\Entity\Job\File
+    constraints:
+        - Gally\Job\Validator\JobProfileConstraint: ~
+        - Gally\Job\Validator\JobFileConstraint: ~
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
+              fields: [ file ]
+              errorPath: file
+              message: 'gally.job.file.unique'
+
+Gally\Job\Entity\Job\File:
+    properties:
+        file:
+            - NotBlank: ~
+            - Type: Symfony\Component\HttpFoundation\File\File
+            - Symfony\Component\Validator\Constraints\File:
+                maxSize: '5M'
+                mimeTypes:
+                    - 'text/csv'
+                    - 'application/csv'
+                    - 'text/x-comma-separated-values'
+                    - 'text/x-csv'
+                    - 'text/plain'
+                    - 'application/vnd.ms-excel'
+                mimeTypesMessage: 'gally.job.file.not_csv'
+
+Gally\Job\Entity\Job\Log:
+    properties:
+        job:
+            - NotBlank: ~
+            - Type: Gally\Job\Entity\Job
+        severity:
+            - NotBlank: ~
+            - Type: string
+        message:
+            - Type: string
+        loggedAt:
+            - NotBlank: ~
+            - Type: \DateTime

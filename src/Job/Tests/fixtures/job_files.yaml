@@ -1,0 +1,7 @@
+Gally\Job\Entity\Job\File:
+    job_file_1:
+        filePath: 'test_unit_dummy_import_creation.csv'
+    job_file_2:
+        filePath: 'test_unit_dummy_import_update.csv'
+    job_file_3:
+        filePath: 'test_unit_dummy_export_2025-11-07_17-10-26_3.csv'

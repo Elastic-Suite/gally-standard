@@ -45,6 +45,7 @@ class CategoryTest extends AbstractEntityTestWithUpdate
         int $responseCode = 201,
         ?string $message = null,
         ?string $validRegex = null,
+        array $files = [],
     ): void {
         // Category can't be created via api.
         $this->assertTrue(true);

@@ -29,6 +29,8 @@ use Gally\Fixture\Service\EntityIndicesFixturesInterface;
 use Gally\User\Tests\LoginTrait;
 use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
 use PHPUnit\Framework\ExpectationFailedException;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
 /**
@@ -118,6 +120,36 @@ abstract class AbstractTestCase extends ApiTestCase
         }
     }
 
+    protected static function copyDirectoryFiles(string $fromPath, string $toPath): void
+    {
+        $filesystem = static::getContainer()->get(Filesystem::class);
+
+        if (!$filesystem->exists($fromPath)) {
+            throw new \InvalidArgumentException(\sprintf('Source path "%s" does not exist.', $fromPath));
+        }
+
+        $filesystem->mkdir($toPath);
+        $filesystem->mirror($fromPath, $toPath);
+    }
+
+    protected static function uploadFile(string $filePath, ?string $newFileName = null): UploadedFile
+    {
+        $filesystem = static::getContainer()->get(Filesystem::class);
+
+        $originalName = basename($filePath);
+        $newFileName = $newFileName ?? $originalName;
+        $dir = rtrim(sys_get_temp_dir(), '/') . '/gally_fixture_files';
+
+        if (!$filesystem->exists($dir)) {
+            $filesystem->mkdir($dir);
+        }
+
+        $tmpPath = $dir . '/' . $newFileName;
+        $filesystem->copy($filePath, $tmpPath, true); // Keep original fixture intact
+
+        return new UploadedFile($tmpPath, $originalName, null, null, true);
+    }
+
     protected static function createEntityElasticsearchIndices(string $entityType, string|int|null $localizedCatalogIdentifier = null)
     {
         $entityIndicesFixtures = static::getContainer()->get(EntityIndicesFixturesInterface::class);
@@ -152,6 +184,8 @@ abstract class AbstractTestCase extends ApiTestCase
     {
         $client = static::createClient();
         $data = ['headers' => $request->getHeaders()];
+        $data['extra'] = $request->getExtra();
+
         if (
             \in_array($request->getMethod(), ['POST', 'PUT', 'PATCH'], true)
             || ('DELETE' == $request->getMethod() && $request->getData())
