@@ -1,0 +1,48 @@
+Gally\Job\Entity\Job:
+    job_1:
+        file: '@job_file_1'
+        type: !php/const Gally\Job\Entity\Job::TYPE_IMPORT
+        profile: !php/const Gally\Job\Tests\Job\DummyImport::JOB_PROFILE
+
+    job_2:
+        file: '@job_file_2'
+        type: !php/const Gally\Job\Entity\Job::TYPE_IMPORT
+        profile: !php/const Gally\Job\Tests\Job\DummyImport::JOB_PROFILE
+
+    job_3:
+        file: '@job_file_3'
+        type: !php/const Gally\Job\Entity\Job::TYPE_IMPORT
+        profile: !php/const Gally\Job\Tests\Job\DummyImport::JOB_PROFILE
+
+    job_4:
+        file: '@job_file_4'
+        type: !php/const Gally\Job\Entity\Job::TYPE_IMPORT
+        profile: !php/const Gally\Job\Tests\Job\DummyImport::JOB_PROFILE
+
+    job_5:
+        file: '@job_file_5'
+        type: !php/const Gally\Job\Entity\Job::TYPE_IMPORT
+        profile: !php/const Gally\Job\Tests\Job\DummyImport::JOB_PROFILE
+
+    job_6:
+        file: '@job_file_6'
+        type: !php/const Gally\Job\Entity\Job::TYPE_IMPORT
+        profile: 'fake_import'
+
+    job_7:
+        type: !php/const Gally\Job\Entity\Job::TYPE_EXPORT
+        profile: 'fake_export'
+
+Gally\Job\Entity\Job\File:
+    job_file_1:
+        filePath: 'fakeFileImport.csv'
+    job_file_2:
+        filePath: 'test_unit_dummy_import.csv'
+    job_file_3:
+        filePath: 'test_unit_dummy_import_wrong_header.csv'
+    job_file_4:
+        filePath: 'test_unit_dummy_import_additional_header.csv'
+    job_file_5:
+        filePath: 'test_unit_dummy_import_additional_data.csv'
+    job_file_6:
+        filePath: 'test_unit_dummy_import.csv'

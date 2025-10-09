@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" version="2.0" srcLang="en-US" trgLang="en-US">
+    <file id="validators.en">
+        <unit id="gally_job_file_unique">
+            <segment>
+                <source>gally.job.file.unique</source>
+                <target>The file uploaded is already used for another job.</target>
+            </segment>
+        </unit>
+        <unit id="gally_job_file_unique">
+            <segment>
+                <source>gally.job.profile.not_valid</source>
+                 <target>The profile "{{ profile }}" does not exist for jobs of type "{{ type }}".</target>
+            </segment>
+        </unit>
+        <unit id="gally_job_file_not_valid">
+            <segment>
+                <source>gally.job.file.not_valid</source>
+                <target>A file cannot be uploaded for "export" jobs.</target>
+            </segment>
+        </unit>
+        <unit id="gally_job_file_required">
+            <segment>
+                <source>gally.job.file.required</source>
+                <target>A file is required for "import" jobs.</target>
+            </segment>
+        </unit>
+        <unit id="gally.job.file.mime_types">
+            <segment>
+                <source>gally.job.file.not_csv</source>
+                <target>The uploaded file is not a csv.</target>
+            </segment>
+        </unit>
+    </file>
+</xliff>

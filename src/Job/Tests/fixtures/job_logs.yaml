@@ -1,0 +1,29 @@
+Gally\Job\Entity\Job:
+    job_1:
+        type: !php/const Gally\Job\Entity\Job::TYPE_EXPORT
+        profile: !php/const Gally\Job\Tests\Job\DummyExport::JOB_PROFILE
+        created_at: <(new DateTime('2025-11-07 17:06:21'))>
+        finished_at: <(new DateTime('2025-11-07 17:07:02'))>
+        status: !php/const Gally\Job\Entity\Job::STATUS_FINISHED
+
+Gally\Job\Entity\Job\Log:
+    job_log_1:
+        job: '@job_1'
+        loggedAt: <(new DateTime('2025-11-07 17:07:01'))>
+        severity: 'info'
+        message: 'Start dummy export'
+    job_log_2:
+        job: '@job_1'
+        loggedAt: <(new DateTime('2025-11-07 17:07:01'))>
+        severity: 'info'
+        message: 'Do nothing'
+    job_log_3:
+        job: '@job_1'
+        loggedAt: <(new DateTime('2025-11-07 17:07:01'))>
+        severity: 'info'
+        message: 'Batch size: %s'
+    job_log_4:
+        job: '@job_1'
+        loggedAt: <(new DateTime('2025-11-07 17:07:02'))>
+        severity: 'info'
+        message: 'End dummy export'

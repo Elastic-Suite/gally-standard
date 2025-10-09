@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="https://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:gedmo="http://gediminasm.org/schemas/orm/doctrine-extensions-mapping"
+                  xmlns:xsi="https://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="https://doctrine-project.org/schemas/orm/doctrine-mapping
+                          https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <entity name="Gally\Job\Entity\Job" table="job" repository-class="Gally\Job\Repository\JobRepository">
+        <id name="id" type="integer">
+            <generator strategy="SEQUENCE"/>
+        </id>
+        <field name="type" type="string" length="255" nullable="false" unique="false" />
+        <field name="profile" type="string" length="255" nullable="false" unique="false" />
+        <field name="status" type="string" length="255" nullable="false" unique="false" />
+        <field name="createdAt" type="datetime" nullable="false">
+            <gedmo:timestampable on="create"/>
+        </field>
+        <field name="finishedAt" type="datetime" nullable="true" />
+
+        <one-to-one field="file" target-entity="Gally\Job\Entity\Job\File" fetch="EAGER">
+            <join-column name="file_id" referenced-column-name="id" nullable="true"/>
+            <cascade>
+                <cascade-persist/>
+                <cascade-remove/>
+            </cascade>
+        </one-to-one>
+
+        <one-to-many field="logs" target-entity="Gally\Job\Entity\Job\Log" mapped-by="job" orphan-removal="true">
+            <order-by>
+                <order-by-field name="id" direction="ASC" />
+            </order-by>
+            <cascade>
+                <cascade-persist/>
+            </cascade>
+        </one-to-many>
+    </entity>
+
+</doctrine-mapping>

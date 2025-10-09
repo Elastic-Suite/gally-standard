@@ -26,6 +26,14 @@ class LanguageOptionTest extends AbstractTestCase
     protected const USED_LANGUAGE_COUNT = 2;
     protected const UNUSED_LANGUAGE_COUNT = 139;
 
+    public static function setUpBeforeClass(): void
+    {
+        parent::setUpBeforeClass();
+        self::loadFixture([
+            __DIR__ . '/../../../fixtures/catalogs.yaml',
+        ]);
+    }
+
     /**
      * @dataProvider getCollectionDataProvider
      */

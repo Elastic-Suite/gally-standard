@@ -10,3 +10,7 @@ services:
     Gally\Doctrine\Filter\JsonFilter:
         arguments: [ '@doctrine', ~, '@?logger' ]
         tags: [ 'api_platform.filter' ]
+        
+    Gally\Doctrine\Service\EntityManagerFactory:
+        arguments: [ '@doctrine' ]
+

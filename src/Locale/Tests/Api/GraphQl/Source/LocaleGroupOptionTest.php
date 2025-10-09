@@ -26,6 +26,14 @@ class LocaleGroupOptionTest extends AbstractTestCase
     protected const USED_LOCALE_COUNT = 2;
     protected const UNUSED_LOCALE_COUNT = 497;
 
+    public static function setUpBeforeClass(): void
+    {
+        parent::setUpBeforeClass();
+        self::loadFixture([
+            __DIR__ . '/../../../fixtures/catalogs.yaml',
+        ]);
+    }
+
     /**
      * @dataProvider getCollectionDataProvider
      */

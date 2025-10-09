@@ -18,6 +18,7 @@ declare(strict_types=1);
 namespace Gally\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\Finder\Finder;
 
 /**
  * @codeCoverageIgnore
@@ -57,6 +58,9 @@ class GallyExtension extends Extension
                     'mapping' => [
                         'paths' => $this->getPaths(__DIR__ . '/../*/Resources/config/validator'),
                     ],
+                ],
+                'messenger' => [
+                    'routing' => array_fill_keys($this->getMessageClasses(__DIR__ . '/../*/Message'), 'async'),
                 ],
             ]
         );
@@ -112,5 +116,56 @@ class GallyExtension extends Extension
         }
 
         $this->loadGallyConfigByFiles($container, $configFiles);
+    }
+
+    /**
+     * Get all message class names using Symfony Finder.
+     */
+    private function getMessageClasses(string $pattern): array
+    {
+        $classes = [];
+        $paths = $this->getPaths($pattern);
+
+        foreach ($paths as $path) {
+            if (!is_dir($path)) {
+                continue;
+            }
+
+            $finder = new Finder();
+            $finder->files()->in($path)->name('*.php');
+
+            foreach ($finder as $file) {
+                $className = $this->extractClassNameFromFile($file->getPathname());
+                if ($className && class_exists($className)) {
+                    $classes[] = $className;
+                }
+            }
+        }
+
+        return $classes;
+    }
+
+    /**
+     * Extract fully qualified class name from PHP file.
+     */
+    private function extractClassNameFromFile(string $filePath): ?string
+    {
+        $content = file_get_contents($filePath);
+
+        // Extract namespace
+        if (preg_match('/namespace\s+([^;]+);/', $content, $namespaceMatches)) {
+            $namespace = $namespaceMatches[1];
+        } else {
+            return null;
+        }
+
+        // Extract class name
+        if (preg_match('/class\s+(\w+)/', $content, $classMatches)) {
+            $className = $classMatches[1];
+
+            return $namespace . '\\' . $className;
+        }
+
+        return null;
     }
 }

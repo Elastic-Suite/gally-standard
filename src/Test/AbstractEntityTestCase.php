@@ -30,11 +30,26 @@ abstract class AbstractEntityTestCase extends AbstractTestCase
     {
         parent::setUpBeforeClass();
         static::loadFixture(static::getFixtureFiles());
+        $fileToMove = static::getFileDirectoriesToCopy();
+        if (!empty($fileToMove)) {
+            $filesToCopy = static::getFileDirectoriesToCopy();
+            foreach ($filesToCopy as $fileToCopy) {
+                static::copyDirectoryFiles($fileToCopy['from_path'], $fileToCopy['to_path']);
+            }
+        }
     }
 
     abstract protected static function getFixtureFiles(): array;
 
     abstract protected function getEntityClass(): string;
+
+    /**
+     * @return array{from_path: string, to_path: string}[]
+     */
+    protected static function getFileDirectoriesToCopy(): array
+    {
+        return [];
+    }
 
     /**
      * @dataProvider createDataProvider
@@ -45,8 +60,16 @@ abstract class AbstractEntityTestCase extends AbstractTestCase
         int $responseCode = 201,
         ?string $message = null,
         ?string $validRegex = null,
+        array $files = [],
     ): void {
-        $request = new RequestToTest('POST', $this->getApiPath(), $user, $data);
+        $headers = [];
+        $extra = [];
+        if (!empty($files)) {
+            $headers = ['Content-Type' => 'multipart/form-data'];
+            $extra['files'] = $files;
+        }
+
+        $request = new RequestToTest('POST', $this->getApiPath(), $user, $data, $headers, $extra);
         $expectedResponse = new ExpectedResponse(
             $responseCode,
             function (ResponseInterface $response) use ($data, $validRegex) {
@@ -78,6 +101,7 @@ abstract class AbstractEntityTestCase extends AbstractTestCase
      * - (optional) int $responseCode: expected response code
      * - (optional) string $message: expected error message
      * - (optional) string $validRegex: a regexp used to validate generated id.
+     * - (optional) array $files: files to upload.
      */
     abstract public function createDataProvider(): iterable;
 

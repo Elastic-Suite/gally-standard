@@ -52,6 +52,7 @@ class ConfigurationTest extends AbstractEntityTestWithUpdate
         int $responseCode = 201,
         ?string $message = null,
         ?string $validRegex = null,
+        array $files = [],
     ): void {
         parent::testCreate($user, $data, $responseCode, $message, $validRegex);
     }
