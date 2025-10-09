@@ -27,6 +27,7 @@ class RequestToTest
         protected ?User $user,
         protected array $data = [],
         protected array $headers = [],
+        protected array $extra = [],
     ) {
     }
 
@@ -53,6 +54,11 @@ class RequestToTest
     public function getUser(): ?User
     {
         return $this->user;
+    }
+
+    public function getExtra(): array
+    {
+        return $this->extra;
     }
 
     public function setUser(?User $user): void

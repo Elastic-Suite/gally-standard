@@ -4,6 +4,9 @@ api_platform:
     show_webby: false
     formats:
         jsonld: [ 'application/ld+json' ]
+        multipart: [ 'multipart/form-data' ]
+        csv: [ 'text/csv' ]
+        
     docs_formats:
         jsonld: [ 'application/ld+json' ]
         jsonopenapi: [ 'application/vnd.openapi+json' ]

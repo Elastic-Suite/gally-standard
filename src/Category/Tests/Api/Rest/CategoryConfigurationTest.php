@@ -50,6 +50,7 @@ class CategoryConfigurationTest extends AbstractEntityTestWithUpdate
         int $responseCode = 201,
         ?string $message = null,
         ?string $validRegex = null,
+        array $files = [],
     ): void {
         if (isset($data['catalog'])) {
             $catalogRepository = static::getContainer()->get(CatalogRepository::class);

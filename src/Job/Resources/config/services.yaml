@@ -1,0 +1,99 @@
+services:
+    Gally\Job\Serializer\JobFileNormalizer:
+        arguments:
+            - '@api_platform.jsonld.normalizer.item'
+            - '@Vich\UploaderBundle\Storage\StorageInterface'
+        tags:
+            - { name: serializer.normalizer }
+
+    Gally\Job\Repository\JobRepository:
+        arguments:
+            - '@Doctrine\Persistence\ManagerRegistry'
+        tags:
+            - { name: doctrine.repository_service }
+                
+    Gally\Job\Repository\Job\LogRepository:
+        arguments:
+            - '@Doctrine\Persistence\ManagerRegistry'
+        tags:
+            - { name: doctrine.repository_service }
+                
+    Gally\Job\Repository\Job\FileRepository:
+        arguments:
+            - '@Doctrine\Persistence\ManagerRegistry'
+        tags:
+            - { name: doctrine.repository_service }
+
+    Gally\Job\MessageHandler\ProcessJobHandler:
+        arguments:
+            - '@Gally\Job\Service\JobManager'
+        tags:
+            - { name: messenger.message_handler,  handles: Gally\Job\Message\ProcessJob }
+
+    Gally\Job\EventSubscriber\DispatchProcessJobMessage:
+        arguments:
+            - '@messenger.default_bus'
+        tags:
+            - { name: doctrine.event_listener, event: postPersist }
+      
+    Gally\Job\Service\JobManager:
+        arguments:
+            - '@Gally\Job\Repository\JobRepository'
+            - '@doctrine.orm.entity_manager'
+            - '%kernel.project_dir%'
+            - '@translator'
+            - !tagged_iterator { tag: 'gally.job.export' }
+            - !tagged_iterator { tag: 'gally.job.import' }
+
+    Gally\Job\Controller\DownloadJobFile:
+        arguments:
+            - '@Gally\Job\Service\JobManager'
+        calls:
+            - [ setContainer, [ '@service_container' ] ]
+        tags:
+            - { name: controller.service_arguments }
+                
+    Gally\Job\Controller\JobProfilesController:
+        arguments:
+            - '@Gally\Job\Service\JobManager'
+        calls:
+            - [ setContainer, [ '@service_container' ] ]
+        tags:
+            - { name: controller.service_arguments }
+
+    Gally\Job\Resolver\JobProfilesResolver:
+        arguments:
+            - '@Gally\Job\Service\JobManager'
+        tags:
+            - { name: api_platform.graphql.query_resolver }
+
+    Gally\Job\Validator\JobProfileConstraintValidator:
+        arguments:
+            - '@Gally\Job\Service\JobManager'
+        tags:
+            - { name: validator.constraint_validator }
+
+    Gally\Job\Validator\JobFileConstraintValidator:
+        tags:
+            - { name: validator.constraint_validator }
+
+    Gally\Job\State\Source\ProfileOptionProvider:
+        arguments:
+            - '@Gally\Job\Service\JobManager'
+            - '@api_platform.doctrine.orm.state.item_provider'
+        tags:
+            - { name: api_platform.state_provider }
+
+    Gally\Job\State\Source\StatusOptionProvider:
+        arguments:
+            - '@translator'
+            - '@api_platform.doctrine.orm.state.item_provider'
+        tags:
+            - { name: api_platform.state_provider }
+
+    Gally\Job\State\Source\TypeOptionProvider:
+        arguments:
+            - '@translator'
+            - '@api_platform.doctrine.orm.state.item_provider'
+        tags:
+            - { name: api_platform.state_provider }
