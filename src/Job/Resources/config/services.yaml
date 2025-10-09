@@ -1,0 +1,25 @@
+services:
+    Gally\Job\Serializer\ImportFileNormalizer:
+        arguments:
+            - '@api_platform.jsonld.normalizer.item'
+            - '@vich_uploader.storage.flysystem'
+        tags:
+            - { name: serializer.normalizer }
+
+    Gally\Job\Repository\JobRepository:
+        arguments:
+            - '@Doctrine\Persistence\ManagerRegistry'
+        tags:
+            - { name: doctrine.repository_service }
+                
+    Gally\Job\Repository\Job\LogRepository:
+        arguments:
+            - '@Doctrine\Persistence\ManagerRegistry'
+        tags:
+            - { name: doctrine.repository_service }
+                
+    Gally\Job\Repository\Job\ImportFileRepository:
+        arguments:
+            - '@Doctrine\Persistence\ManagerRegistry'
+        tags:
+            - { name: doctrine.repository_service }

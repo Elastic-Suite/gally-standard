@@ -1,0 +1,61 @@
+# todo: ajouter les validation sur les type select , du genre le type, profile, severity,  ...
+
+Gally\Job\Entity\Job:
+    properties:
+        type:
+            - NotBlank: ~
+            - Type: string
+        profile:
+            - NotBlank: ~
+            - Type: string
+            - Length:
+                  max: 255
+        status:
+            - NotBlank: ~
+            - Type: string
+        fromDate:
+            - Type: \Datetime
+        toDate:
+            - Type: \Datetime
+        conditionRule:
+            - Json: ~
+        model:
+            - NotBlank: ~
+            - Type: string
+            - Gally\Boost\Validator\ModelConstraint: ~  
+        modelConfig:
+            - NotBlank: ~
+            - Json: ~
+        localizedCatalogs:
+            - NotBlank: ~
+            - Type: iterable
+            - Count:
+                min: 1
+    constraints:
+        - Gally\Boost\Validator\ModelConfigConstraint: ~
+        - Callback: [Gally\Validator\DateRange, validate]
+
+Gally\Job\Entity\Job\ImportFile:
+    properties:
+        job:
+            - NotBlank: ~
+            - Type: Gally\Job\Entity\Job
+        filePath:
+            - NotBlank: ~
+            - Type: string
+            - Length:
+                max: 255
+
+Gally\Job\Entity\Job\Log:
+    properties:
+        job:
+            - NotBlank: ~
+            - Type: Gally\Job\Entity\Job
+        severity:
+            - NotBlank: ~
+            - Type: string
+        log:
+            - Type: string
+        loggedAt:
+            - NotBlank: ~
+            - Type: \DateTime

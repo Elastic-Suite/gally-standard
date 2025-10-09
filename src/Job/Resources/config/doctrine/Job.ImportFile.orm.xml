@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="https://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="https://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="https://doctrine-project.org/schemas/orm/doctrine-mapping
+                          https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <entity name="Gally\Job\Entity\Job\ImportFile" table="localized_catalog" repository-class="Gally\Job\Repository\Job\ImportFileRepository">
+        <id name="id" type="integer">
+            <generator strategy="SEQUENCE"/>
+        </id>
+        <field name="filePath" type="string" length="255" nullable="false" unique="false" />
+
+        <many-to-one field="job" target-entity="Gally\Job\Entity\Job" inversed-by="logs">
+            <join-column name="job_id" referenced-column-name="id" nullable="false" on-delete="CASCADE" on-update="CASCADE"/>
+        </many-to-one>
+    </entity>
+
+</doctrine-mapping>
