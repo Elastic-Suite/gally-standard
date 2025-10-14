@@ -23,14 +23,9 @@ Gally\Job\Entity\Job:
 
 Gally\Job\Entity\Job\ImportFile:
     properties:
-        job:
+        file:
             - NotBlank: ~
-            - Type: Gally\Job\Entity\Job
-        filePath:
-            - NotBlank: ~
-            - Type: string
-            - Length:
-                max: 255
+            - Type: Symfony\Component\HttpFoundation\File\File
 
 Gally\Job\Entity\Job\Log:
     properties:

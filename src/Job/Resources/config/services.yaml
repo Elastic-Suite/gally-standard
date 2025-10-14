@@ -23,3 +23,13 @@ services:
             - '@Doctrine\Persistence\ManagerRegistry'
         tags:
             - { name: doctrine.repository_service }
+
+    Gally\Job\MessageHandler\ProcessJobHandler:
+        tags:
+            - { name: messenger.message_handler,  handles: Gally\Job\Message\ProcessJob }
+
+    Gally\Job\EventSubscriber\DispatchProcessJobMessage:
+        arguments:
+            - '@messenger.default_bus'
+        tags:
+            - { name: doctrine.event_listener, event: postPersist }

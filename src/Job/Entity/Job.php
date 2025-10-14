@@ -60,6 +60,14 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ApiFilter(filterClass: SearchFilter::class, properties: ['type' => 'exact', 'profile' => 'exact', 'status' => 'exact'])]
 class Job
 {
+    public const STATUS_NEW = 'new';
+    public const STATUS_PROCESSING = 'processing';
+    public const STATUS_FINISHED = 'finished';
+    public const STATUS_ERROR = 'error';
+
+    public const TYPE_EXPORT = 'export';
+    public const TYPE_IMPORT = 'import';
+
     use TimestampableEntity;
 
     #[Groups(['job:read', 'job:write'])]
@@ -114,14 +122,14 @@ class Job
         ],
     )]
     #[Groups(['job:read'])]
-    private string $status;
+    private string $status = self::STATUS_NEW;
+
+    #[Groups(['job:read', 'job:write'])]
+    private ImportFile $importFile;
 
     /** @var \Doctrine\Common\Collections\Collection&iterable<Log> */
     #[Groups(['job:read'])]
     private Collection $logs;
-
-    #[Groups(['job:read'])]
-    private ImportFile $importFile;
 
     #[Groups(['job:read'])]
     protected $createdAt;

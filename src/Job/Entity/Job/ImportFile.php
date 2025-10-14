@@ -11,6 +11,7 @@ use ApiPlatform\Metadata\Post;
 use ApiPlatform\OpenApi\Model;
 use Doctrine\ORM\Mapping as ORM;
 use Gally\Job\Entity\Job;
+use Gally\User\Constant\Role;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -23,8 +24,8 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
     types: ['https://schema.org/JobImportFile'],
     outputFormats: ['jsonld' => ['application/ld+json']],
     operations: [
-        new Get(),
-        new GetCollection(),
+        new Get(security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
+        new GetCollection(security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
         new Post(
             inputFormats: ['multipart' => ['multipart/form-data']],
             openapi: new Model\Operation(
@@ -43,15 +44,15 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
                         ]
                     ])
                 )
-            )
+            ),
+            security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
         )
-    ]
+    ],
+    shortName: 'JobImportFile'
 )]
 class ImportFile
 {
     private ?int $id = null;
-
-    private Job $job;
 
     #[ApiProperty(types: ['https://schema.org/contentUrl'], writable: false)]
     #[Groups(['job_import_file:read'])]
@@ -67,10 +68,5 @@ class ImportFile
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getJob(): Job
-    {
-        return $this->job;
     }
 }

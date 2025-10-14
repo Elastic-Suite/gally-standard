@@ -18,6 +18,14 @@
         </field>
         <field name="finishedAt" type="datetime" nullable="true" />
 
+        <one-to-one field="importFile" target-entity="Gally\Job\Entity\Job\ImportFile" fetch="EAGER">
+            <join-column name="import_file_id" referenced-column-name="id" nullable="false"/>
+            <cascade>
+                <cascade-persist/>
+                <cascade-remove/>
+            </cascade>
+        </one-to-one>
+
         <one-to-many field="logs" target-entity="Gally\Job\Entity\Job\Log" mapped-by="job" orphan-removal="true">
             <order-by>
                 <order-by-field name="id" direction="ASC" />
@@ -26,10 +34,6 @@
                 <cascade-persist/>
             </cascade>
         </one-to-many>
-
-        <one-to-one field="importFile" target-entity="Gally\Job\Entity\Job\ImportFile" orphan-removal="true">
-            <join-column name="job_id" referenced-column-name="id" nullable="false" on-delete="CASCADE" on-update="CASCADE"/>
-        </one-to-one>
     </entity>
 
 </doctrine-mapping>
