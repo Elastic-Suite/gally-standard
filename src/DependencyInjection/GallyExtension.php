@@ -58,10 +58,10 @@ class GallyExtension extends Extension
                         'paths' => $this->getPaths(__DIR__ . '/../*/Resources/config/validator'),
                     ],
                 ],
-//                'messenger' => [
-//                    //todo: on peut aussi utiliser une interface est ce que c'est pas mieux ? https://symfony.com/doc/current/messenger.html#routing-messages-to-a-transport
-//                    'routing' => array_fill_keys($this->getMessageClasses(__DIR__ . '/../*/Message'), 'async'),
-//                ],
+                'messenger' => [
+                    //todo: on peut aussi utiliser une interface est ce que c'est pas mieux ? https://symfony.com/doc/current/messenger.html#routing-messages-to-a-transport
+                    'routing' => array_fill_keys($this->getMessageClasses(__DIR__ . '/../*/Message'), 'async'),
+                ],
             ]
         );
 
