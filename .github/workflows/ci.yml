@@ -27,7 +27,7 @@ jobs:
             gally-directory: ${{ github.workspace }}/gally
             package-name: ${{ github.event.repository.name }} # PHP package name is equal to the repository name.
 
-        steps:                
+        steps:
             - name: Get event
               run: echo "event name is:" ${{ github.event_name }}
 
@@ -85,6 +85,7 @@ jobs:
               run: |
                   docker compose -f compose.yml -f compose.ci.yml exec -T php bin/console gally:index:clear --no-interaction
                   docker compose -f compose.yml -f compose.ci.yml exec -T php bin/console hautelook:fixtures:load --no-interaction --append -vv
+                  docker compose -f compose.yml -f compose.ci.yml exec -T php bin/console doctrine:fixtures:load --append --no-interaction -vv
 
             - name: Coverage
               working-directory: ${{ env.gally-directory }}
@@ -131,6 +132,10 @@ jobs:
               with:
                   name: coverage-report
                   path: api/coverage/coverage.xml
+
+            - name: e2e
+              working-directory: ${{ env.gally-directory }}
+              run: docker compose -f compose.yml -f compose.ci.yml exec -T e2e yarn test:ci:standard
 
             - name: "[End] Job failed, gathering logs"
               working-directory: ${{ env.gally-directory }}
