@@ -24,7 +24,7 @@ runs:
            uses: shivammathur/setup-php@v2
            with:
                php-version: 8.3
-                
+
          # Checkout gally "template" from the same branch. This is the dev environment with docker files.
          - name: Checkout Gally template
            uses: actions/checkout@v3
@@ -39,7 +39,7 @@ runs:
                repository: 'Elastic-Suite/gally-admin'
                ref: ${{ inputs.ref }}
                path: ${{ inputs.gally-directory }}/front/gally-admin
-         
+
          # Checkout current package
          # in $GITHUB_WORKSPACE we will have this after this step :
          # - gally : a full development environment which is needed for PHPStan
@@ -49,14 +49,21 @@ runs:
            with:
                path: ${{ format('{0}/api/packages/{1}', inputs.gally-directory, inputs.package-name) }}
                ref: ${{ github.event.pull_request.head.sha }}
-         
+
          # Get composer cache
          - name: Cache Composer dependencies
            uses: actions/cache@v4
            with:
                path: /tmp/composer-cache
                key: ${{ runner.os }}-${{ hashFiles('**/composer.lock') }}
-         
+
+         # Install sample data package
+         - name: Install sample data package
+           working-directory: ${{ format('{0}/api/packages/{1}', inputs.gally-directory, inputs.package-name) }}
+           shell: bash
+           run: |
+             composer require --no-update gally/gally-sample-data:${{ inputs.version }}
+
          # Add current package as path composer package.
          - name: Prepare local Repository
            working-directory: ${{ inputs.gally-directory }}
@@ -64,13 +71,13 @@ runs:
            run: |
                composer config --global --no-interaction --ansi repositories.${{ inputs.package-name }} '{ "type": "path", "url": "packages/${{ github.event.repository.name }}", "options": { "versions": { "gally/${{ inputs.package-name }}": "${{ inputs.version }}"}}}'
                composer config --global repositories
-         
+
          # Require current package.
          - name: Add package from current branch or PR (local contrib)
            working-directory: ${{ inputs.gally-directory }}
            shell: bash
            run: |
-               COMPOSER_MIRROR_PATH_REPOS=1 composer require gally/${{ inputs.package-name }}:${{ inputs.version }} --working-dir=api
+               COMPOSER_MIRROR_PATH_REPOS=1 composer require gally/${{ inputs.package-name }}:${{ inputs.version }} gally/gally-sample-data:${{ inputs.version }} --working-dir=api
 
 
 
