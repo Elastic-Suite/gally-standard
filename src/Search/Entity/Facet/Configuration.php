@@ -140,7 +140,7 @@ class Configuration
                 'gally' => [
                     'visible' => true,
                     'editable' => true,
-                    'position' => 20,
+                    'position' => 30,
                     'input' => 'select',
                     'options' => [
                         'values' => [
@@ -165,7 +165,7 @@ class Configuration
                 'gally' => [
                     'visible' => true,
                     'editable' => true,
-                    'position' => 30,
+                    'position' => 40,
                     'input' => 'percentage',
                     'validation' => [
                         'min' => 0,
@@ -187,7 +187,7 @@ class Configuration
                 'gally' => [
                     'visible' => true,
                     'editable' => true,
-                    'position' => 40,
+                    'position' => 50,
                     'validation' => [
                         'min' => 0,
                     ],
@@ -207,7 +207,7 @@ class Configuration
                 'gally' => [
                     'visible' => true,
                     'editable' => true,
-                    'position' => 50,
+                    'position' => 60,
                     'input' => 'select',
                     'options' => [
                         'values' => [
@@ -236,7 +236,7 @@ class Configuration
                 'gally' => [
                     'visible' => false,
                     'editable' => true,
-                    'position' => 60,
+                    'position' => 70,
                 ],
             ],
         ],
@@ -253,7 +253,7 @@ class Configuration
                 'gally' => [
                     'visible' => false,
                     'editable' => true,
-                    'position' => 70,
+                    'position' => 80,
                 ],
             ],
         ],
@@ -270,7 +270,7 @@ class Configuration
                 'gally' => [
                     'visible' => true,
                     'editable' => true,
-                    'position' => 80,
+                    'position' => 90,
                     'input' => 'text',
                 ],
             ],
@@ -445,12 +445,34 @@ class Configuration
         extraProperties: [
             'hydra:supportedProperty' => [
                 'hydra:property' => [
-                    'rdfs:label' => 'Attribute label',
+                    'rdfs:label' => 'Attribute code',
                 ],
                 'gally' => [
                     'visible' => true,
                     'editable' => false,
                     'position' => 10,
+                    'alias' => 'sourceField.code',
+                    'sticky' => true,
+                ],
+            ],
+        ],
+    )]
+    #[Groups(['facet_configuration:read'])]
+    public function getSourceFieldCode(): string
+    {
+        return $this->getSourceField()->getCode();
+    }
+
+    #[ApiProperty(
+        extraProperties: [
+            'hydra:supportedProperty' => [
+                'hydra:property' => [
+                    'rdfs:label' => 'Attribute label',
+                ],
+                'gally' => [
+                    'visible' => true,
+                    'editable' => false,
+                    'position' => 20,
                     'alias' => 'sourceField.defaultLabel',
                 ],
             ],

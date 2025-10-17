@@ -113,7 +113,7 @@ class FacetConfigurationTest extends RestFacetConfigurationTest
                             defaultSortOrder
                             defaultPosition
                             category { id }
-                            sourceField { id defaultLabel }
+                            sourceField { id defaultLabel code}
                         }
                         paginationInfo {totalCount}
                       }
@@ -222,6 +222,7 @@ class FacetConfigurationTest extends RestFacetConfigurationTest
     {
         $sourceFieldId = $data['sourceField'];
         $sourceFieldLabel = $data['sourceFieldLabel'];
+        $sourceFieldCode = $data['sourceFieldCode'];
         $categoryId = $data['category'] ?? 0;
         unset($data['sourceField']);
         unset($data['category']);
@@ -232,6 +233,7 @@ class FacetConfigurationTest extends RestFacetConfigurationTest
             'sourceField' => [
                 'id' => $this->getUri('source_fields', $sourceFieldId),
                 'defaultLabel' => $sourceFieldLabel,
+                'code' => $sourceFieldCode,
             ],
             'category' => null,
             'displayMode' => 'auto',
@@ -255,6 +257,7 @@ class FacetConfigurationTest extends RestFacetConfigurationTest
 
         $data = array_merge($baseData, $data);
         unset($data['sourceFieldLabel']);
+        unset($data['sourceFieldCode']);
 
         return $data;
     }
