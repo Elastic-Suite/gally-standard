@@ -6,38 +6,20 @@
  *
  * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
- * @license   Licensed to Smile-SA. All rights reserved. No warranty, explicit or implicit, provided.
- *            Unauthorized copying of this file, via any medium, is strictly prohibited.
+ * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
 namespace Gally\Job\Entity\Job;
 
-use ApiPlatform\Doctrine\Orm\Filter\BooleanFilter;
-use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
-use ApiPlatform\Metadata\ApiFilter;
-use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
-use ApiPlatform\Metadata\GraphQl\Mutation;
 use ApiPlatform\Metadata\GraphQl\Query;
 use ApiPlatform\Metadata\GraphQl\QueryCollection;
-use ApiPlatform\Metadata\Post;
-use ApiPlatform\Metadata\Put;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
-use Gally\Boost\Entity\Boost\CategoryLimitation;
-use Gally\Boost\Entity\Boost\RequestType;
-use Gally\Boost\Entity\Boost\SearchLimitation;
-use Gally\Boost\State\BoostProcessor;
-use Gally\Boost\State\BoostProvider;
-use Gally\Catalog\Entity\LocalizedCatalog;
 use Gally\Job\Entity\Job;
 use Gally\User\Constant\Role;
-use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ApiResource(

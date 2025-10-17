@@ -71,6 +71,3 @@ runs:
            shell: bash
            run: |
                COMPOSER_MIRROR_PATH_REPOS=1 composer require gally/${{ inputs.package-name }}:${{ inputs.version }} --working-dir=api
-
-
-

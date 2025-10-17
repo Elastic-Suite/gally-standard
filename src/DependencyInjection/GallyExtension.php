@@ -59,7 +59,7 @@ class GallyExtension extends Extension
                     ],
                 ],
                 'messenger' => [
-                    //todo: on peut aussi utiliser une interface est ce que c'est pas mieux ? https://symfony.com/doc/current/messenger.html#routing-messages-to-a-transport
+                    // todo: on peut aussi utiliser une interface est ce que c'est pas mieux ? https://symfony.com/doc/current/messenger.html#routing-messages-to-a-transport
                     'routing' => array_fill_keys($this->getMessageClasses(__DIR__ . '/../*/Message'), 'async'),
                 ],
             ]
@@ -162,6 +162,7 @@ class GallyExtension extends Extension
         // Extract class name
         if (preg_match('/class\s+(\w+)/', $content, $classMatches)) {
             $className = $classMatches[1];
+
             return $namespace . '\\' . $className;
         }
 

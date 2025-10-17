@@ -34,5 +34,4 @@ class DispatchProcessJobMessage
 
         $this->bus->dispatch(new ProcessJob($entity->getId()));
     }
-
 }

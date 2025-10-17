@@ -15,8 +15,9 @@ namespace Gally\Job\Service;
 
 use Gally\Job\Entity\Job;
 
-interface ImportInterface
+interface JobExportInterface
 {
     public function supports(string $profile): bool;
-    public function process(Job $job):void;
+
+    public function process(Job $job): void;
 }

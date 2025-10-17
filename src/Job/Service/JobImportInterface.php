@@ -15,9 +15,13 @@ namespace Gally\Job\Service;
 
 use Gally\Job\Entity\Job;
 
-interface ExportInterface
+interface JobImportInterface
 {
     public function supports(string $profile): bool;
 
-    public function process(Job $job):void;
+    public function getLabel(): string;
+
+    public function process(Job $job): void;
+
+    public function validateImportFile(Job $job): void;
 }

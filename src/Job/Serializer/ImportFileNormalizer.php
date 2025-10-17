@@ -19,7 +19,6 @@ use Vich\UploaderBundle\Storage\StorageInterface;
 
 class ImportFileNormalizer implements NormalizerInterface
 {
-
     private const ALREADY_CALLED = 'IMPORT_FILE_NORMALIZER_ALREADY_CALLED';
 
     public function __construct(
@@ -39,7 +38,6 @@ class ImportFileNormalizer implements NormalizerInterface
 
     public function supportsNormalization($data, ?string $format = null, array $context = []): bool
     {
-
         if (isset($context[self::ALREADY_CALLED])) {
             return false;
         }

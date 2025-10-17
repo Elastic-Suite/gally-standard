@@ -25,6 +25,8 @@ services:
             - { name: doctrine.repository_service }
 
     Gally\Job\MessageHandler\ProcessJobHandler:
+        arguments:
+            - '@Gally\Job\Service\JobManager'
         tags:
             - { name: messenger.message_handler,  handles: Gally\Job\Message\ProcessJob }
 
@@ -33,3 +35,10 @@ services:
             - '@messenger.default_bus'
         tags:
             - { name: doctrine.event_listener, event: postPersist }
+                  
+    Gally\Job\Service\JobManager:
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - !tagged_iterator { tag: 'gally.job.export' }
+            - !tagged_iterator { tag: 'gally.job.import' }
+        

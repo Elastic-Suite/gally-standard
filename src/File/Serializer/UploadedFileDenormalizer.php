@@ -18,7 +18,7 @@ use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 
 final class UploadedFileDenormalizer implements DenormalizerInterface
 {
-    public function denormalize($data, string $type, string $format = null, array $context = []): File
+    public function denormalize($data, string $type, ?string $format = null, array $context = []): File
     {
         return $data;
     }

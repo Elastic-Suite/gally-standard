@@ -6,21 +6,24 @@
  *
  * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
- * @license   Licensed to Smile-SA. All rights reserved. No warranty, explicit or implicit, provided.
- *            Unauthorized copying of this file, via any medium, is strictly prohibited.
+ * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
 namespace Gally\Job\MessageHandler;
 
-
 use Gally\Job\Message\ProcessJob;
+use Gally\Job\Service\JobManager;
 
 class ProcessJobHandler
 {
+    public function __construct(private JobManager $jobManager)
+    {
+    }
+
     public function __invoke(ProcessJob $message): void
     {
-        error_log('ProcessJobHandler - ' . $message->getJoId() . PHP_EOL, 3, '/tmp/botis.log');
+        $this->jobManager->processByJobId($message->getJobId());
     }
 }

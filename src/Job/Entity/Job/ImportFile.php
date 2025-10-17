@@ -1,4 +1,15 @@
 <?php
+/**
+ * DISCLAIMER.
+ *
+ * Do not edit or add to this file if you wish to upgrade Gally to newer versions in the future.
+ *
+ * @author    Gally Team <elasticsuite@smile.fr>
+ * @copyright 2022-present Smile
+ * @license   Open Software License v. 3.0 (OSL-3.0)
+ */
+
+declare(strict_types=1);
 // api/src/Entity/MediaObject.php
 
 namespace Gally\Job\Entity\Job;
@@ -10,7 +21,6 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\OpenApi\Model;
 use Doctrine\ORM\Mapping as ORM;
-use Gally\Job\Entity\Job;
 use Gally\User\Constant\Role;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -37,16 +47,16 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
                                 'properties' => [
                                     'file' => [
                                         'type' => 'string',
-                                        'format' => 'binary'
-                                    ]
-                                ]
-                            ]
-                        ]
+                                        'format' => 'binary',
+                                    ],
+                                ],
+                            ],
+                        ],
                     ])
                 )
             ),
             security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
-        )
+        ),
     ],
     shortName: 'JobImportFile'
 )]

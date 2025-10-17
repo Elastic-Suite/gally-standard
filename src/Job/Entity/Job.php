@@ -6,15 +6,13 @@
  *
  * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
- * @license   Licensed to Smile-SA. All rights reserved. No warranty, explicit or implicit, provided.
- *            Unauthorized copying of this file, via any medium, is strictly prohibited.
+ * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
 
 namespace Gally\Job\Entity;
 
-use ApiPlatform\Doctrine\Orm\Filter\BooleanFilter;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiProperty;
@@ -26,15 +24,8 @@ use ApiPlatform\Metadata\GraphQl\Mutation;
 use ApiPlatform\Metadata\GraphQl\Query;
 use ApiPlatform\Metadata\GraphQl\QueryCollection;
 use ApiPlatform\Metadata\Post;
-use ApiPlatform\Metadata\Put;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Gally\Boost\Entity\Boost\CategoryLimitation;
-use Gally\Boost\Entity\Boost\RequestType;
-use Gally\Boost\Entity\Boost\SearchLimitation;
-use Gally\Boost\State\BoostProcessor;
-use Gally\Boost\State\BoostProvider;
-use Gally\Catalog\Entity\LocalizedCatalog;
 use Gally\Job\Entity\Job\ImportFile;
 use Gally\Job\Entity\Job\Log;
 use Gally\User\Constant\Role;
@@ -60,15 +51,14 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ApiFilter(filterClass: SearchFilter::class, properties: ['type' => 'exact', 'profile' => 'exact', 'status' => 'exact'])]
 class Job
 {
+    use TimestampableEntity;
     public const STATUS_NEW = 'new';
     public const STATUS_PROCESSING = 'processing';
     public const STATUS_FINISHED = 'finished';
-    public const STATUS_ERROR = 'error';
+    public const STATUS_FAILED = 'error';
 
     public const TYPE_EXPORT = 'export';
     public const TYPE_IMPORT = 'import';
-
-    use TimestampableEntity;
 
     #[Groups(['job:read', 'job:write'])]
     private ?int $id = null;

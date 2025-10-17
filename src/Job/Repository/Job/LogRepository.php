@@ -6,8 +6,7 @@
  *
  * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
- * @license   Licensed to Smile-SA. All rights reserved. No warranty, explicit or implicit, provided.
- *            Unauthorized copying of this file, via any medium, is strictly prohibited.
+ * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
@@ -17,7 +16,6 @@ namespace Gally\Job\Repository\Job;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Gally\Job\Entity\Job;
-use Gally\Job\Repository\RequestType;
 
 /**
  * @method Job\Log|null find($id, $lockMode = null, $lockVersion = null)
