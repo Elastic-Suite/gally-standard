@@ -85,11 +85,6 @@ interface IndexSettingsInterface
     public function getIndexConfig(string $indexIdentifier): array;
 
     /**
-     * Get indexing batch size configured.
-     */
-    public function getBatchIndexingSize(): int;
-
-    /**
      * Get dynamic index settings per catalog (language).
      *
      * @return array<mixed>

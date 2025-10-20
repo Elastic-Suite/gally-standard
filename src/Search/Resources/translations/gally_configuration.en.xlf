@@ -47,19 +47,19 @@
         <unit id="gally_configuration.gally_search_settings_aggregations_default_date_range_interval.label">
             <segment>
                 <source>gally_configuration.gally_search_settings_aggregations_default_date_range_interval.label</source>
-                <target>Default date range interval</target>
+                <target>Default date facet interval</target>
             </segment>
         </unit>
         <unit id="gally_configuration.gally_search_settings_aggregations_default_distance_ranges.label">
             <segment>
                 <source>gally_configuration.gally_search_settings_aggregations_default_distance_ranges.label</source>
-                <target>Default distance ranges</target>
+                <target>Default geo-distance ranges</target>
             </segment>
         </unit>
-        <unit id="gally_configuration.gally_search_settings_sort_default_asc_sort_field.label">
+        <unit id="gally_configuration.gally_search_settings_sort_default_desc_sort_field.label">
             <segment>
-                <source>gally_configuration.gally_search_settings_sort_default_asc_sort_field.label</source>
-                <target>Default ascending sort field</target>
+                <source>gally_configuration.gally_search_settings_sort_default_desc_sort_field.label</source>
+                <target>Code with default descending sort </target>
             </segment>
         </unit>
         <unit id="gally_configuration.group.search.fieldset.autocomplete.label">
@@ -71,7 +71,127 @@
         <unit id="gally_configuration.gally_autocomplete_settings_document_attribute_max_size.label">
             <segment>
                 <source>gally_configuration.gally_autocomplete_settings_document_attribute_max_size.label</source>
-                <target>Maximum size for document attribute autocomplete</target>
+                <target>Max attr. options autocomplete</target>
+            </segment>
+        </unit>
+        <unit id="gally_configuration.group.relevance.label">
+            <segment>
+                <source>gally_configuration.group.relevance.label</source>
+                <target>Relevance</target>
+            </segment>
+        </unit>
+        <unit id="gally_configuration.group.relevance.fieldset.fulltext.label">
+            <segment>
+                <source>gally_configuration.group.relevance.fieldset.fulltext.label</source>
+                <target>Fulltext search</target>
+            </segment>
+        </unit>
+        <unit id="gally_configuration.gally_relevance_fulltext_minimum_should_match.label">
+            <segment>
+                <source>gally_configuration.gally_relevance_fulltext_minimum_should_match.label</source>
+                <target>Minimum should match</target>
+            </segment>
+        </unit>
+        <unit id="gally_configuration.gally_relevance_fulltext_tie_breaker.label">
+            <segment>
+                <source>gally_configuration.gally_relevance_fulltext_tie_breaker.label</source>
+                <target>Tie breaker</target>
+            </segment>
+        </unit>
+        <unit id="gally_configuration.group.relevance.fieldset.phrase_match.label">
+            <segment>
+                <source>gally_configuration.group.relevance.fieldset.phrase_match.label</source>
+                <target>Phrase search</target>
+            </segment>
+        </unit>
+        <unit id="gally_configuration.gally_relevance_phrase_match_enabled.label">
+            <segment>
+                <source>gally_configuration.gally_relevance_phrase_match_enabled.label</source>
+                <target>Enable phrase boost</target>
+            </segment>
+        </unit>
+        <unit id="gally_configuration.gally_relevance_phrase_match_boost.label">
+            <segment>
+                <source>gally_configuration.gally_relevance_phrase_match_boost.label</source>
+                <target>Boost value</target>
+            </segment>
+        </unit>
+        <unit id="gally_configuration.group.relevance.fieldset.cut_off_frequency.label">
+            <segment>
+                <source>gally_configuration.group.relevance.fieldset.cut_off_frequency.label</source>
+                <target>Stopwords detection</target>
+            </segment>
+        </unit>
+        <unit id="gally_configuration.gally_relevance_cut_off_frequency_value.label">
+            <segment>
+                <source>gally_configuration.gally_relevance_cut_off_frequency_value.label</source>
+                <target>Cutoff frequency</target>
+            </segment>
+        </unit>
+        <unit id="gally_configuration.group.relevance.fieldset.fuzziness.label">
+            <segment>
+                <source>gally_configuration.group.relevance.fieldset.fuzziness.label</source>
+                <target>Fuzzy search</target>
+            </segment>
+        </unit>
+        <unit id="gally_configuration.gally_relevance_fuzziness_enabled.label">
+            <segment>
+                <source>gally_configuration.gally_relevance_fuzziness_enabled.label</source>
+                <target>Enable fuzzy search</target>
+            </segment>
+        </unit>
+        <unit id="gally_configuration.gally_relevance_fuzziness_value.label">
+            <segment>
+                <source>gally_configuration.gally_relevance_fuzziness_value.label</source>
+                <target>Fuzzy search similarity</target>
+            </segment>
+        </unit>
+        <unit id="gally_configuration.gally_relevance_fuzziness_prefix_length.label">
+            <segment>
+                <source>gally_configuration.gally_relevance_fuzziness_prefix_length.label</source>
+                <target>Fuzzy search prefix</target>
+            </segment>
+        </unit>
+        <unit id="gally_configuration.gally_relevance_fuzziness_max_expansions.label">
+            <segment>
+                <source>gally_configuration.gally_relevance_fuzziness_max_expansions.label</source>
+                <target>Maximum number of expansions</target>
+            </segment>
+        </unit>
+        <unit id="gally_configuration.group.relevance.fieldset.phonetic.label">
+            <segment>
+                <source>gally_configuration.group.relevance.fieldset.phonetic.label</source>
+                <target>Phonetic search</target>
+            </segment>
+        </unit>
+        <unit id="gally_configuration.gally_relevance_phonetic_enabled.label">
+            <segment>
+                <source>gally_configuration.gally_relevance_phonetic_enabled.label</source>
+                <target>Enable phonetic search</target>
+            </segment>
+        </unit>
+        <unit id="gally_configuration.group.relevance.fieldset.span.label">
+            <segment>
+                <source>gally_configuration.group.relevance.fieldset.span.label</source>
+                <target>Proximity search</target>
+            </segment>
+        </unit>
+        <unit id="gally_configuration.gally_relevance_span_boost.label">
+            <segment>
+                <source>gally_configuration.gally_relevance_span_boost.label</source>
+                <target>Span boost</target>
+            </segment>
+        </unit>
+        <unit id="gally_configuration.gally_relevance_span_slop.label">
+            <segment>
+                <source>gally_configuration.gally_relevance_span_slop.label</source>
+                <target>Span slop</target>
+            </segment>
+        </unit>
+        <unit id="gally_configuration.gally_relevance_span_in_order.label">
+            <segment>
+                <source>gally_configuration.gally_relevance_span_in_order.label</source>
+                <target>Span in order</target>
             </segment>
         </unit>
     </file>

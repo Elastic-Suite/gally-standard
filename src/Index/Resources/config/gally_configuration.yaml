@@ -26,10 +26,6 @@ gally:
                                 labelKey: 'gally_configuration.gally_indices_settings_number_of_replicas.label'
                                 position: 10
                                 input: 'number'
-                            gally.indices_settings.batch_indexing_size:
-                                labelKey: 'gally_configuration.gally_indices_settings_batch_indexing_size.label'
-                                position: 10
-                                input: 'number'
                             gally.indices_settings.time_before_ghost:
                                 labelKey: 'gally_configuration.gally_indices_settings_time_before_ghost.label'
                                 infoTooltipKey: 'gally_configuration.gally_indices_settings_time_before_ghost.tooltip'

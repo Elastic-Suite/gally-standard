@@ -38,8 +38,8 @@ gally:
                                 labelKey: 'gally_configuration.gally_search_settings_aggregations_default_distance_ranges.label'
                                 position: 50
                                 input: 'string'
-                            gally.search_settings.sort.default_asc_sort_field:
-                                labelKey: 'gally_configuration.gally_search_settings_sort_default_asc_sort_field.label'
+                            gally.search_settings.sort.default_desc_sort_field:
+                                labelKey: 'gally_configuration.gally_search_settings_sort_default_desc_sort_field.label'
                                 position: 60
                                 input: 'string'
                     autocomplete:
@@ -50,3 +50,84 @@ gally:
                                 labelKey: 'gally_configuration.gally_autocomplete_settings_document_attribute_max_size.label'
                                 position: 10
                                 input: 'number'
+            relevance:
+                labelKey: 'gally_configuration.group.relevance.label'
+                position: 35
+                scopeType: !php/const Gally\Configuration\Entity\Configuration::SCOPE_LOCALIZED_CATALOG
+                fieldsets:
+                    fulltext:
+                        labelKey: 'gally_configuration.group.relevance.fieldset.fulltext.label'
+                        position: 10
+                        fields:
+                            gally.relevance.fulltext.minimumShouldMatch:
+                                labelKey: 'gally_configuration.gally_relevance_fulltext_minimum_should_match.label'
+                                position: 10
+                                input: 'string'
+                            gally.relevance.fulltext.tieBreaker:
+                                labelKey: 'gally_configuration.gally_relevance_fulltext_tie_breaker.label'
+                                position: 20
+                                input: 'number'
+                    phrase_match:
+                        labelKey: 'gally_configuration.group.relevance.fieldset.phrase_match.label'
+                        position: 20
+                        fields:
+                            gally.relevance.phraseMatch.enabled:
+                                labelKey: 'gally_configuration.gally_relevance_phrase_match_enabled.label'
+                                position: 10
+                                input: 'boolean'
+                            gally.relevance.phraseMatch.boost:
+                                labelKey: 'gally_configuration.gally_relevance_phrase_match_boost.label'
+                                position: 20
+                                input: 'number'
+                    cut_off_frequency:
+                        labelKey: 'gally_configuration.group.relevance.fieldset.cut_off_frequency.label'
+                        position: 30
+                        fields:
+                            gally.relevance.cutOffFrequency.value:
+                                labelKey: 'gally_configuration.gally_relevance_cut_off_frequency_value.label'
+                                position: 10
+                                input: 'number'
+                    fuzziness:
+                        labelKey: 'gally_configuration.group.relevance.fieldset.fuzziness.label'
+                        position: 40
+                        fields:
+                            gally.relevance.fuzziness.enabled:
+                                labelKey: 'gally_configuration.gally_relevance_fuzziness_enabled.label'
+                                position: 10
+                                input: 'boolean'
+                            gally.relevance.fuzziness.value:
+                                labelKey: 'gally_configuration.gally_relevance_fuzziness_value.label'
+                                position: 20
+                                input: 'string'
+                            gally.relevance.fuzziness.prefixLength:
+                                labelKey: 'gally_configuration.gally_relevance_fuzziness_prefix_length.label'
+                                position: 30
+                                input: 'number'
+                            gally.relevance.fuzziness.maxExpansions:
+                                labelKey: 'gally_configuration.gally_relevance_fuzziness_max_expansions.label'
+                                position: 40
+                                input: 'number'
+                    phonetic:
+                        labelKey: 'gally_configuration.group.relevance.fieldset.phonetic.label'
+                        position: 50
+                        fields:
+                            gally.relevance.phonetic.enabled:
+                                labelKey: 'gally_configuration.gally_relevance_phonetic_enabled.label'
+                                position: 10
+                                input: 'boolean'
+                    span:
+                        labelKey: 'gally_configuration.group.relevance.fieldset.span.label'
+                        position: 60
+                        fields:
+                            gally.relevance.span.boost:
+                                labelKey: 'gally_configuration.gally_relevance_span_boost.label'
+                                position: 10
+                                input: 'number'
+                            gally.relevance.span.slop:
+                                labelKey: 'gally_configuration.gally_relevance_span_slop.label'
+                                position: 20
+                                input: 'number'
+                            gally.relevance.span.in_order:
+                                labelKey: 'gally_configuration.gally_relevance_span_in_order.label'
+                                position: 30
+                                input: 'boolean'

@@ -70,13 +70,13 @@
         <unit id="gally_configuration.gally_base_url_media.label">
             <segment>
                 <source>gally_configuration.gally_base_url_media.label</source>
-                <target>Base url pour les média</target>
+                <target>Base url média</target>
             </segment>
         </unit>
             <unit id="gally_configuration.gally_base_url_gally_front.label">
                 <segment>
                     <source>gally_configuration.gally_base_url_gally_front.label</source>
-                    <target>Url du back office de Gally</target>
+                    <target>URL backoffice Gally</target>
                 </segment>
             </unit>
     </file>

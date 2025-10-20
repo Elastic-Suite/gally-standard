@@ -11,7 +11,7 @@
         <unit id="gally_configuration.gally_autocomplete_settings_product_attribute_max_size.label">
             <segment>
                 <source>gally_configuration.gally_autocomplete_settings_product_attribute_max_size.label</source>
-                <target>Maximum size for product attribute autocomplete</target>
+                <target>Max attr. autocomplete</target>
             </segment>
         </unit>
     </file>

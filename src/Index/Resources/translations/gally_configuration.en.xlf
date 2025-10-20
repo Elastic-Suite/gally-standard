@@ -38,16 +38,10 @@
                 <target>Number of replicas</target>
             </segment>
         </unit>
-        <unit id="gally_configuration.gally_indices_settings_batch_indexing_size.label">
-            <segment>
-                <source>gally_configuration.gally_indices_settings_batch_indexing_size.label</source>
-                <target>Batch indexing size</target>
-            </segment>
-        </unit>
         <unit id="gally_configuration.gally_indices_settings_time_before_ghost.label">
             <segment>
                 <source>gally_configuration.gally_indices_settings_time_before_ghost.label</source>
-                <target>Time for an index to be considered Ghost (in seconds)</target>
+                <target>Ghost index timeout (s)</target>
             </segment>
         </unit>
         <unit id="gally_configuration.gally_indices_settings_time_before_ghost.tooltip">

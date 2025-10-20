@@ -389,7 +389,7 @@ trait ConfigurationGetCollectionTrait
                     ],
                 ],
                 [
-                    'path' => 'gally.search_settings.sort.default_asc_sort_field',
+                    'path' => 'gally.search_settings.sort.default_desc_sort_field',
                     'value' => ['_count', '_score'],
                 ],
             ],
@@ -453,7 +453,7 @@ trait ConfigurationGetCollectionTrait
                     ],
                 ],
                 [
-                    'path' => 'gally.search_settings.sort.default_asc_sort_field',
+                    'path' => 'gally.search_settings.sort.default_desc_sort_field',
                     'value' => ['_count', '_score'],
                 ],
             ],
