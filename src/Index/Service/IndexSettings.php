@@ -170,14 +170,6 @@ class IndexSettings implements IndexSettingsInterface
     }
 
     /**
-     * Get number the batch indexing size from the configuration.
-     */
-    public function getBatchIndexingSize(): int
-    {
-        return (int) $this->getIndicesSettingsConfigParam('batch_indexing_size');
-    }
-
-    /**
      * Max number of results per query.
      */
     public function getMaxResultWindow(): int

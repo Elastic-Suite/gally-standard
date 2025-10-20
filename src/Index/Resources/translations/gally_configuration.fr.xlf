@@ -17,37 +17,31 @@
         <unit id="gally_configuration.gally_indices_settings_prefix.label">
             <segment>
                 <source>gally_configuration.gally_indices_settings_prefix.label</source>
-                <target>Préfixe d'index</target>
+                <target>Préfixe des index</target>
             </segment>
         </unit>
         <unit id="gally_configuration.gally_indices_settings_timestamp_pattern.label">
             <segment>
                 <source>gally_configuration.gally_indices_settings_timestamp_pattern.label</source>
-                <target>Modèle utilisé pour la création des index</target>
+                <target>Timestamp pattern</target>
             </segment>
         </unit>
         <unit id="gally_configuration.gally_indices_settings_number_of_shards.label">
             <segment>
                 <source>gally_configuration.gally_indices_settings_number_of_shards.label</source>
-                <target>Nombre de shards par index</target>
+                <target>Nombre de shards</target>
             </segment>
         </unit>
         <unit id="gally_configuration.gally_indices_settings_number_of_replicas.label">
             <segment>
                 <source>gally_configuration.gally_indices_settings_number_of_replicas.label</source>
-                <target>Nombre de replicas par index</target>
-            </segment>
-        </unit>
-        <unit id="gally_configuration.gally_indices_settings_batch_indexing_size.label">
-            <segment>
-                <source>gally_configuration.gally_indices_settings_batch_indexing_size.label</source>
-                <target>Taille du lot d'indexation</target>
+                <target>Nombre de relicas</target>
             </segment>
         </unit>
         <unit id="gally_configuration.gally_indices_settings_time_before_ghost.label">
             <segment>
                 <source>gally_configuration.gally_indices_settings_time_before_ghost.label</source>
-                <target>Temps avant qu'un index soit considéré Fantôme (en secondes)</target>
+                <target>Délai index fantôme (s)</target>
             </segment>
         </unit>
         <unit id="gally_configuration.gally_indices_settings_time_before_ghost.tooltip">

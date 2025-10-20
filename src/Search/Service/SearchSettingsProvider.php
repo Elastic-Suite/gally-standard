@@ -35,9 +35,9 @@ class SearchSettingsProvider
     /**
      * Get sort field that need to be sort ascending by default.
      */
-    public function getDefaultAscSortField(): array
+    public function getDefaultDescSortField(): array
     {
         return $this->configurationManager
-            ->getScopedConfigValue('gally.search_settings.sort.default_asc_sort_field');
+            ->getScopedConfigValue('gally.search_settings.sort.default_desc_sort_field');
     }
 }

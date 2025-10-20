@@ -42,7 +42,7 @@ class ProductDefaultSortingOptionProvider implements DefaultSortingOptionProvide
             );
 
             if ($config && $config->getDefaultSorting()) {
-                $direction = \in_array($config->getDefaultSorting(), $this->searchSettingsProvider->getDefaultAscSortField(), true)
+                $direction = \in_array($config->getDefaultSorting(), $this->searchSettingsProvider->getDefaultDescSortField(), true)
                     ? SortOrderInterface::SORT_DESC
                     : SortOrderInterface::SORT_ASC;
 

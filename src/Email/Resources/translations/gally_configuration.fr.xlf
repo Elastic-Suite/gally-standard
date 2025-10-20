@@ -11,13 +11,13 @@
         <unit id="gally_configuration.gally_email_default_sender_name.label">
             <segment>
                 <source>gally_configuration.gally_email_default_sender_name.label</source>
-                <target>Nom de l'expéditeur par défaut</target>
+                <target>Nom expéditeur par défaut</target>
             </segment>
         </unit>
         <unit id="gally_configuration.gally_email_default_sender_email.label">
             <segment>
                 <source>gally_configuration.gally_email_default_sender_email.label</source>
-                <target>Email de l'expéditeur par défaut</target>
+                <target>Email expéditeur par défaut</target>
             </segment>
         </unit>
     </file>
