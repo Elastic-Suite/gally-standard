@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" version="2.0"
+       srcLang="en-US" trgLang="en-US">
+    <file id="gally_job.en">
+        <unit id="import_error_file_not_found">
+            <segment>
+                <source>import.error.file_not_found</source>
+                <target>Import file not found</target>
+            </segment>
+        </unit>
+        <unit id="import_error_file_not_readable">
+            <segment>
+                <source>import.error.file_not_readable</source>
+                <target>Import file is not readable</target>
+            </segment>
+        </unit>
+        <unit id="import_error_cannot_open_file">
+            <segment>
+                <source>import.error.cannot_open_file</source>
+                <target>Cannot open import file</target>
+            </segment>
+        </unit>
+        <unit id="import_error_column_count_mismatch">
+            <segment>
+                <source>import.error.column_count_mismatch</source>
+                <target>Column count mismatch at line %line%. Expected %expected% columns, got %actual%</target>
+            </segment>
+        </unit>
+        <unit id="import_error_missing_columns">
+            <segment>
+                <source>import.error.missing_columns</source>
+                <target>Missing required columns at line %line%: %missing_columns%</target>
+            </segment>
+        </unit>
+    </file>
+</xliff>

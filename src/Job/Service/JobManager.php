@@ -90,6 +90,21 @@ class JobManager
         $this->log($job, 'END Job');
     }
 
+    public function logInfo(Job $job, string $message): void
+    {
+        $this->log($job, $message);
+    }
+
+    public function logDebug(Job $job, string $message): void
+    {
+        $this->log($job, $message, LogLevel::DEBUG);
+    }
+
+    public function logError(Job $job, string $message): void
+    {
+        $this->log($job, $message, LogLevel::ERROR);
+    }
+
     /**
      * @param array<array{message: string, severity?: string}> $logs
      */
@@ -108,6 +123,17 @@ class JobManager
         $log = $this->getLogObject($job, $message, $severity);
         $this->entityManager->persist($log);
         $this->entityManager->flush();
+    }
+
+    protected function getLogObject(Job $job, string $message, string $severity = LogLevel::INFO): Job\Log
+    {
+        $log = new Job\Log();
+        $log->setJob($job);
+        $log->setSeverity($severity);
+        $log->setLog($message);
+        $log->setLoggedAt(new \DateTime());
+
+        return $log;
     }
 
     public function save($job): void
@@ -137,17 +163,6 @@ class JobManager
     {
         $job->setStatus(Job::STATUS_FINISHED);
         $job->setFinishedAt(new \DateTime());
-    }
-
-    protected function getLogObject(Job $job, string $message, string $severity = LogLevel::INFO): Job\Log
-    {
-        $log = new Job\Log();
-        $log->setJob($job);
-        $log->setSeverity($severity);
-        $log->setLog($message);
-        $log->setLoggedAt(new \DateTime());
-
-        return $log;
     }
 
     protected function processImport(Job $job): void
