@@ -27,7 +27,7 @@ jobs:
             gally-directory: ${{ github.workspace }}/gally
             package-name: ${{ github.event.repository.name }} # PHP package name is equal to the repository name.
 
-        steps:                
+        steps:
             - name: Get event
               run: echo "event name is:" ${{ github.event_name }}
 
@@ -69,6 +69,18 @@ jobs:
             - name: HTTPS Failure
               if: ${{ failure() && steps.tests.https_reachability == 'failure' }}
               run: docker compose -f compose.yml -f compose.ci.yml logs
+
+            - name: Log gally admin path
+              working-directory: ${{ env.gally-directory }}
+              run: docker compose -f compose.yml -f compose.ci.yml exec -T pwa ls -l node_modules/@elastic-suite/ && git -C front/gally-admin rev-parse HEAD
+
+            - name: Log gally admin components table
+              working-directory: ${{ env.gally-directory }}
+              run: docker compose -f compose.yml -f compose.ci.yml exec -T pwa cat node_modules/@elastic-suite/gally-admin-components/src/components/organisms/CustomTable/CustomTable.tsx
+
+            - name: Log gally admin path yarn list
+              working-directory: ${{ env.gally-directory }}
+              run: docker compose -f compose.yml -f compose.ci.yml exec -T pwa  yarn list @elastic-suite/gally-admin-shared
 
             - name: Create test database
               working-directory: ${{ env.gally-directory }}
@@ -131,6 +143,10 @@ jobs:
               with:
                   name: coverage-report
                   path: api/coverage/coverage.xml
+
+            - name: e2e
+              working-directory: ${{ env.gally-directory }}
+              run: docker compose -f compose.yml -f compose.ci.yml exec -T e2e yarn test:ci:standard
 
             - name: "[End] Job failed, gathering logs"
               working-directory: ${{ env.gally-directory }}
