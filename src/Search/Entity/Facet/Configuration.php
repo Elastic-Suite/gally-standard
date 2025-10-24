@@ -113,6 +113,9 @@ class Configuration
     public const DISPLAY_MODE_ALWAYS_DISPLAYED = 'displayed';
     public const DISPLAY_MODE_ALWAYS_HIDDEN = 'hidden';
 
+    public const FILTER_LOGICAL_OPERATOR_OR = 'OR';
+    public const FILTER_LOGICAL_OPERATOR_AND = 'AND';
+
     private const DEFAULT_VALUES = [
         'displayMode' => self::DISPLAY_MODE_AUTO,
         'coverageRate' => 90,
@@ -121,6 +124,7 @@ class Configuration
         'isRecommendable' => false,
         'isVirtual' => false,
         'position' => null,
+        'booleanLogic' => self::FILTER_LOGICAL_OPERATOR_OR,
     ];
 
     #[Groups(['facet_configuration:read'])]
@@ -266,6 +270,33 @@ class Configuration
         extraProperties: [
             'hydra:supportedProperty' => [
                 'hydra:property' => [
+                    'rdfs:label' => 'Facet internal logic',
+                ],
+                'gally' => [
+                    'visible' => true,
+                    'editable' => true,
+                    'position' => 85,
+                    'input' => 'select',
+                    'options' => [
+                        'values' => [
+                            ['value' => self::FILTER_LOGICAL_OPERATOR_OR, 'label' => 'Logical OR'],
+                            ['value' => self::FILTER_LOGICAL_OPERATOR_AND, 'label' => 'Logical AND'],
+                        ],
+                    ],
+                    'gridHeaderInfoTooltip' => 'When several values are selected in a facet/filter, the default ' .
+                        'behavior is to combine them with a logical OR ("red" OR "blue"). But a logical AND can be ' .
+                        'handy for some attributes ("egg free" AND "gluten free", "waterproof AND lightweight AND warm").',
+                ],
+            ],
+        ],
+    )]
+    #[Groups(['facet_configuration:read', 'facet_configuration:write'])]
+    private ?string $booleanLogic = null;
+
+    #[ApiProperty(
+        extraProperties: [
+            'hydra:supportedProperty' => [
+                'hydra:property' => [
                     'rdfs:label' => 'Position',
                 ],
                 'gally' => [
@@ -300,6 +331,9 @@ class Configuration
 
     #[Groups(['facet_configuration:read'])]
     private ?int $defaultPosition = null;
+
+    #[Groups(['facet_configuration:read'])]
+    private ?string $defaultBooleanLogic = null;
 
     public function __construct(SourceField $sourceField, ?Category $category)
     {
@@ -407,6 +441,16 @@ class Configuration
         $this->position = $position;
     }
 
+    public function getBooleanLogic(): ?string
+    {
+        return $this->booleanLogic ?? $this->getDefaultBooleanLogic();
+    }
+
+    public function setBooleanLogic(?string $booleanLogic): void
+    {
+        $this->booleanLogic = $booleanLogic;
+    }
+
     public function getDefaultDisplayMode(): ?string
     {
         return $this->defaultDisplayMode;
@@ -440,6 +484,11 @@ class Configuration
     public function getDefaultPosition(): ?int
     {
         return $this->defaultPosition;
+    }
+
+    public function getDefaultBooleanLogic(): ?string
+    {
+        return $this->defaultBooleanLogic;
     }
 
     #[ApiProperty(
@@ -494,6 +543,7 @@ class Configuration
         $this->defaultIsRecommendable = $defaultConfiguration->getIsRecommendable() ?? self::DEFAULT_VALUES['isRecommendable'];
         $this->defaultIsVirtual = $defaultConfiguration->getIsVirtual() ?? self::DEFAULT_VALUES['isVirtual'];
         $this->defaultPosition = $defaultConfiguration->getPosition() ?? self::DEFAULT_VALUES['position'];
+        $this->defaultBooleanLogic = $defaultConfiguration->getBooleanLogic() ?? self::DEFAULT_VALUES['booleanLogic'];
     }
 
     public static function getAvailableDisplayModes(): array

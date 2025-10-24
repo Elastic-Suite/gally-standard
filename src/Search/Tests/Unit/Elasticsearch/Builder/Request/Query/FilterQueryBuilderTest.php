@@ -23,6 +23,8 @@ use Gally\Search\Elasticsearch\Builder\Request\Query\Filter\FilterQueryBuilder;
 use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface;
 use Gally\Search\Elasticsearch\Request\QueryFactory;
 use Gally\Search\Elasticsearch\Request\QueryInterface;
+use Gally\Search\Repository\Facet\ConfigurationRepository;
+use Gally\Search\Service\ReverseSourceFieldProvider;
 use Gally\Search\Service\SearchContext;
 use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -195,6 +197,8 @@ class FilterQueryBuilderTest extends KernelTestCase
             $this->getQueryFactory($this->mockedQueryTypes),
             static::getContainer()->get(SearchContext::class),
             static::getContainer()->get(ConfigurationManager::class),
+            static::getContainer()->get(ReverseSourceFieldProvider::class),
+            static::getContainer()->get(ConfigurationRepository::class),
         );
         $config = $this->getContainerConfigMock(self::$fields);
 

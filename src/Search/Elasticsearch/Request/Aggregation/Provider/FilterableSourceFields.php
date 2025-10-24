@@ -104,6 +104,7 @@ class FilterableSourceFields implements AggregationProviderInterface
         }
 
         $config['sortOrder'] = $facetConfig->getSortOrder();
+        $config['booleanLogic'] = $facetConfig->getBooleanLogic();
         $config['size'] = \in_array(
             $facetConfig->getSortOrder(),
             [
