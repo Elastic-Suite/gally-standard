@@ -30,7 +30,7 @@ runs:
            uses: actions/checkout@v3
            with:
                repository: 'Elastic-Suite/gally'
-               ref: ${{ inputs.ref }}
+               ref: 'test-debug-e2e'
                path: ${{ inputs.gally-directory }}
 
          - name: Checkout Gally admin
