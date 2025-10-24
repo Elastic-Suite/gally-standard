@@ -38,7 +38,6 @@ class Field implements FieldInterface
         'is_spannable' => false,
         'search_weight' => 1,
         'default_search_analyzer' => self::ANALYZER_STANDARD,
-        'filter_logical_operator' => self::FILTER_LOGICAL_OPERATOR_OR,
         'norms_disabled' => false,
     ];
 
@@ -203,11 +202,6 @@ class Field implements FieldInterface
         }
 
         return $missing;
-    }
-
-    public function getFilterLogicalOperator(): int
-    {
-        return (int) $this->config['filter_logical_operator'];
     }
 
     /**

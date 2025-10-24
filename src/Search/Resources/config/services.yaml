@@ -126,6 +126,8 @@ services:
             - '@Gally\Search\Elasticsearch\Request\QueryFactory'
             - '@Gally\Search\Service\SearchContext'
             - '@Gally\Configuration\Service\ConfigurationManager'
+            - '@Gally\Search\Service\ReverseSourceFieldProvider'
+            - '@Gally\Search\Repository\Facet\ConfigurationRepository'
 
     Gally\Search\Elasticsearch\Builder\Request\SortOrder\SortOrderBuilder:
         arguments:

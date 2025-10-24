@@ -14,12 +14,12 @@ declare(strict_types=1);
 
 namespace Gally\Search\Elasticsearch\Builder\Request\Aggregation;
 
-use Gally\Index\Entity\Index\Mapping\FieldInterface;
 use Gally\Search\Elasticsearch\Builder\Request\Query\Filter\FilterQueryBuilder;
 use Gally\Search\Elasticsearch\Request\AggregationFactory;
 use Gally\Search\Elasticsearch\Request\AggregationInterface;
 use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface;
 use Gally\Search\Elasticsearch\Request\QueryInterface;
+use Gally\Search\Entity\Facet\Configuration;
 
 /**
  * Builder for aggregation part of the search request.
@@ -69,7 +69,7 @@ class AggregationBuilder
     {
         $aggregationType = $aggregationParams['type'];
         $fieldName = $aggregationParams['field'] ?? $aggregationParams['name'];
-        $logicalOperator = FieldInterface::FILTER_LOGICAL_OPERATOR_OR;
+        $logicalOperator = $aggregationParams['booleanLogic'] ?? Configuration::FILTER_LOGICAL_OPERATOR_OR;
 
         try {
             $field = $containerConfig->getMapping()->getField($fieldName);
@@ -91,8 +91,6 @@ class AggregationBuilder
             } elseif (isset($aggregationParams['nestedPath'])) {
                 unset($aggregationParams['nestedPath']);
             }
-
-            $logicalOperator = $field->getFilterLogicalOperator();
         } catch (\Exception $e) {
             $aggregationParams['field'] = $fieldName;
         }
@@ -103,7 +101,7 @@ class AggregationBuilder
 
         // Ensure any globally applied (attribute layered navigation) filter is NOT applied on the (most likely) originating agg.
         $bucketFilters = array_diff_key($filters, [$fieldName => true]);
-        if (FieldInterface::FILTER_LOGICAL_OPERATOR_AND === $logicalOperator) {
+        if (Configuration::FILTER_LOGICAL_OPERATOR_AND === $logicalOperator) {
             $bucketFilters = $filters;
         }
 

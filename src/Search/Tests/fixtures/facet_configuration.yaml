@@ -12,6 +12,7 @@ Gally\Search\Entity\Facet\Configuration:
             category: ~
         maxSize: 2
         sortOrder: _manual
+        booleanLogic: AND
     product_color__full_facet:
         __construct:
             sourceField: '@product_color_full'

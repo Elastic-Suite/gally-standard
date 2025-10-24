@@ -48,12 +48,6 @@ interface FieldInterface
     public const ANALYZER_REFERENCE = 'reference';
     public const ANALYZER_EDGE_NGRAM = 'standard_edge_ngram';
 
-    /**
-     * Field filter logical operators.
-     */
-    public const FILTER_LOGICAL_OPERATOR_OR = 0;
-    public const FILTER_LOGICAL_OPERATOR_AND = 1;
-
     public function getName(): string;
 
     public function getType(): string;
@@ -117,9 +111,4 @@ interface FieldInterface
      * @param string $direction The direction used to sort
      */
     public function getSortMissing(string $direction = SortOrderInterface::SORT_ASC): mixed;
-
-    /**
-     * Retrieve the logical operator to use when building a filter combining multiple values: OR (default) or AND.
-     */
-    public function getFilterLogicalOperator(): int;
 }

@@ -17,9 +17,13 @@ namespace Gally\Search\Elasticsearch\Builder\Request\Query\Filter;
 use Gally\Configuration\Service\ConfigurationManager;
 use Gally\Exception\LogicException;
 use Gally\Index\Entity\Index\Mapping\FieldInterface;
+use Gally\Metadata\Entity\SourceField;
 use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface;
 use Gally\Search\Elasticsearch\Request\QueryFactory;
 use Gally\Search\Elasticsearch\Request\QueryInterface;
+use Gally\Search\Entity\Facet\Configuration;
+use Gally\Search\Repository\Facet\ConfigurationRepository;
+use Gally\Search\Service\ReverseSourceFieldProvider;
 use Gally\Search\Service\SearchContext;
 
 /**
@@ -56,6 +60,8 @@ class FilterQueryBuilder
         private QueryFactory $queryFactory,
         private SearchContext $searchContext,
         private ConfigurationManager $configurationManager,
+        private ReverseSourceFieldProvider $reverseSourceFieldProvider,
+        private ConfigurationRepository $facetConfigRepository,
     ) {
     }
 
@@ -68,8 +74,10 @@ class FilterQueryBuilder
      */
     public function create(ContainerConfigurationInterface $containerConfig, array $filters, ?string $currentPath = null): QueryInterface
     {
-        $queries = [];
+        $this->facetConfigRepository->setMetadata($containerConfig->getMetadata());
+        $this->facetConfigRepository->setCategoryId($this->searchContext->getCategory()?->getId());
 
+        $queries = [];
         $mapping = $containerConfig->getMapping();
 
         foreach ($filters as $fieldName => $condition) {
@@ -77,7 +85,12 @@ class FilterQueryBuilder
                 $queries[] = $condition;
             } else {
                 $mappingField = $mapping->getField($fieldName);
-                $queries[] = $this->prepareFieldCondition($mappingField, $condition, $currentPath);
+                $sourceField = $this->reverseSourceFieldProvider->getSourceFieldFromFieldName(
+                    $mappingField->getName(),
+                    $containerConfig->getMetadata()
+                );
+
+                $queries[] = $this->prepareFieldCondition($mappingField, $sourceField, $condition, $currentPath);
             }
         }
 
@@ -97,7 +110,7 @@ class FilterQueryBuilder
      * @param array|string|int $condition   Filter condition
      * @param string|null      $currentPath Current nested path or null
      */
-    private function prepareFieldCondition(FieldInterface $field, mixed $condition, ?string $currentPath): QueryInterface
+    private function prepareFieldCondition(FieldInterface $field, ?SourceField $sourceField, mixed $condition, ?string $currentPath): QueryInterface
     {
         $queryType = QueryInterface::TYPE_TERMS;
         $condition = $this->prepareCondition($condition);
@@ -137,17 +150,21 @@ class FilterQueryBuilder
             throw new LogicException(\sprintf('Unable to identify the field property to use for filtering on "%s", possible invalid mapping', $field->getName()));
         }
 
-        if ((QueryInterface::TYPE_TERMS === $queryType)
-            && (FieldInterface::FILTER_LOGICAL_OPERATOR_AND === $field->getFilterLogicalOperator())
+        $logicalOperator = Configuration::FILTER_LOGICAL_OPERATOR_OR;
+        if ($sourceField) {
+            $facetConfig = $this->facetConfigRepository->findOndBySourceField($sourceField);
+            $logicalOperator = $facetConfig?->getBooleanLogic() ?? $logicalOperator;
+        }
+        if (QueryInterface::TYPE_TERMS === $queryType
+            && Configuration::FILTER_LOGICAL_OPERATOR_AND === $logicalOperator
         ) {
-            $query = $this->getCombinedTermsQuery($condition['field'], $condition['values']);
+            $query = $this->getCombinedTermsQuery($field, $condition['field'], $condition['values'], $currentPath);
         } else {
             $query = $this->queryFactory->create($queryType, $condition);
-        }
-
-        if ($this->isNestedField($field, $currentPath)) {
-            $queryParams = ['path' => $field->getNestedPath(), 'query' => $query];
-            $query = $this->queryFactory->create(QueryInterface::TYPE_NESTED, $queryParams);
+            if ($this->isNestedField($field, $currentPath)) {
+                $queryParams = ['path' => $field->getNestedPath(), 'query' => $query];
+                $query = $this->queryFactory->create(QueryInterface::TYPE_NESTED, $queryParams);
+            }
         }
 
         if (isset($condition['negative'])) {
@@ -219,10 +236,12 @@ class FilterQueryBuilder
     /**
      * Get a filter query corresponding to combining terms with a logical AND.
      *
-     * @param string $field  Filter field
-     * @param mixed  $values Filter values
+     * @param FieldInterface $field       Filter field
+     * @param string         $fieldName   Filter field name
+     * @param mixed          $values      Filter values
+     * @param string|null    $currentPath Current path
      */
-    private function getCombinedTermsQuery(string $field, mixed $values): QueryInterface
+    private function getCombinedTermsQuery(FieldInterface $field, string $fieldName, mixed $values, ?string $currentPath): QueryInterface
     {
         $query = null;
 
@@ -234,7 +253,12 @@ class FilterQueryBuilder
 
         $filters = [];
         foreach ($values as $value) {
-            $filters[] = $this->queryFactory->create(QueryInterface::TYPE_TERM, ['field' => $field, 'value' => $value]);
+            $query = $this->queryFactory->create(QueryInterface::TYPE_TERM, ['field' => $fieldName, 'value' => $value]);
+            if ($this->isNestedField($field, $currentPath)) {
+                $queryParams = ['path' => $field->getNestedPath(), 'query' => $query];
+                $query = $this->queryFactory->create(QueryInterface::TYPE_NESTED, $queryParams);
+            }
+            $filters[] = $query;
         }
 
         if (1 === \count($filters)) {

@@ -1932,6 +1932,42 @@ class SearchDocumentsTest extends AbstractTestCase
                 'entity_id', // document data identifier.
                 [5, 2, 3, 4], // expected ordered document IDs
             ],
+            [
+                'product_document', // entity type.
+                'b2c_en', // catalog ID.
+                10, // page size.
+                1,  // current page.
+                ['id' => SortOrderInterface::SORT_ASC], // sort order specifications.
+                <<<GQL
+                  {equalFilter: {field:"color__value", eq:"black"}},
+                GQL, // filter.
+                'entity_id', // document data identifier.
+                [1, 2, 3, 4, 6, 7, 8, 11, 12, 14], // expected ordered document IDs
+            ],
+            [
+                'product_document', // entity type.
+                'b2c_en', // catalog ID.
+                10, // page size.
+                1,  // current page.
+                ['id' => SortOrderInterface::SORT_ASC], // sort order specifications.
+                <<<GQL
+                  {equalFilter: {field:"color__value", eq:"grey"}},
+                GQL, // filter.
+                'entity_id', // document data identifier.
+                [3, 5, 6, 11, 12, 14], // expected ordered document IDs
+            ],
+            [
+                'product_document', // entity type.
+                'b2c_en', // catalog ID.
+                10, // page size.
+                1,  // current page.
+                ['id' => SortOrderInterface::SORT_ASC], // sort order specifications.
+                <<<GQL
+                  {equalFilter: {field:"color__value", in:["grey", "black"]}},
+                GQL, // filter.
+                'entity_id', // document data identifier.
+                [3, 6, 11, 12, 14], // expected ordered document IDs
+            ],
         ];
     }
 
