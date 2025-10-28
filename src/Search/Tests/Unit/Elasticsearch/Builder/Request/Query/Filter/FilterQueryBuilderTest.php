@@ -22,6 +22,8 @@ use Gally\Search\Elasticsearch\Builder\Request\Query\Filter\FilterQueryBuilder;
 use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface;
 use Gally\Search\Elasticsearch\Request\QueryFactory;
 use Gally\Search\Elasticsearch\Request\QueryInterface;
+use Gally\Search\Repository\Facet\ConfigurationRepository;
+use Gally\Search\Service\ReverseSourceFieldProvider;
 use Gally\Search\Service\SearchContext;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
@@ -48,12 +50,6 @@ class FilterQueryBuilderTest extends KernelTestCase
             new Field('simpleTextField', FieldInterface::FIELD_TYPE_KEYWORD),
             new Field('analyzedField', FieldInterface::FIELD_TYPE_TEXT, null, ['is_searchable' => true, 'is_filterable' => false]),
             new Field('nested.child', FieldInterface::FIELD_TYPE_KEYWORD, 'nested'),
-            new Field(
-                'filterableLogicalAnd',
-                FieldInterface::FIELD_TYPE_KEYWORD,
-                null,
-                ['is_filterable' => true, 'filter_logical_operator' => FieldInterface::FILTER_LOGICAL_OPERATOR_AND]
-            ),
         ];
     }
 
@@ -214,6 +210,8 @@ class FilterQueryBuilderTest extends KernelTestCase
             $this->getQueryFactory($this->mockedQueryTypes),
             static::getContainer()->get(SearchContext::class),
             static::getContainer()->get(ConfigurationManager::class),
+            static::getContainer()->get(ReverseSourceFieldProvider::class),
+            static::getContainer()->get(ConfigurationRepository::class),
         );
         $config = $this->getContainerConfigMock(self::$fields);
 
