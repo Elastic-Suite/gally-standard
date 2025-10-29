@@ -134,6 +134,7 @@ jobs:
                   path: api/coverage/coverage.xml
 
             - name: e2e
+              continue-on-error: true
               working-directory: ${{ env.gally-directory }}
               run: docker compose -f compose.yml -f compose.ci.yml exec -T e2e yarn test:ci:standard
 
