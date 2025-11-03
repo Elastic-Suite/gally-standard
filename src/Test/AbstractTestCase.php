@@ -14,6 +14,9 @@ declare(strict_types=1);
 namespace Gally\Test;
 
 use ApiPlatform\Symfony\Bundle\Test\ApiTestCase;
+use Doctrine\DBAL\Configuration;
+use Doctrine\DBAL\DriverManager;
+use Doctrine\DBAL\Schema\DefaultSchemaManagerFactory;
 use Doctrine\Migrations\FilesystemMigrationsRepository;
 use Doctrine\Migrations\Metadata\Storage\TableMetadataStorage;
 use Doctrine\Migrations\MigratorConfiguration;
@@ -43,6 +46,8 @@ abstract class AbstractTestCase extends ApiTestCase
 
         $schemaTool = new SchemaTool($entityManager);
         $schemaTool->dropDatabase();
+
+        self::createDatabaseIfNotExists();
 
         // Create database schema with migrations
         $migratorConfiguration = (new MigratorConfiguration())
@@ -77,6 +82,35 @@ abstract class AbstractTestCase extends ApiTestCase
         // Load alice fixtures with append
         $databaseTool->loadAliceFixture(array_merge(static::getUserFixtures(), $paths), true);
         $entityManager->clear();
+    }
+
+    protected static function createDatabaseIfNotExists(): void
+    {
+        /** @var EntityManagerInterface $entityManager */
+        $entityManager = static::getContainer()->get('doctrine')->getManager();
+        $connection = $entityManager->getConnection();
+        $params = $connection->getParams();
+        $databaseName = $params['dbname'];
+
+        // Configure connection to postgres database explicitly
+        $params['dbname'] = 'postgres';
+
+        // Configure schema manager factory to avoid deprecation
+        $config = new Configuration();
+        $config->setSchemaManagerFactory(new DefaultSchemaManagerFactory());
+
+        $tmpConnection = DriverManager::getConnection($params, $config);
+        $schemaManager = $tmpConnection->createSchemaManager();
+
+        try {
+            if (!\in_array($databaseName, $schemaManager->listDatabases(), true)) {
+                $schemaManager->createDatabase($databaseName);
+            }
+        } catch (\Exception $e) {
+            // Ignore database creation errors
+        } finally {
+            $tmpConnection->close();
+        }
     }
 
     protected static function createEntityElasticsearchIndices(string $entityType, string|int|null $localizedCatalogIdentifier = null)
