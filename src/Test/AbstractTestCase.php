@@ -45,7 +45,11 @@ abstract class AbstractTestCase extends ApiTestCase
         $dependencyFactory = static::getContainer()->get('doctrine.migrations.dependency_factory');
 
         $schemaTool = new SchemaTool($entityManager);
-        $schemaTool->dropDatabase();
+        try {
+            $schemaTool->dropDatabase();
+        } catch (\Exception $e) {
+            // Ignore if database doesn't exist
+        }
 
         self::createDatabaseIfNotExists();
 
