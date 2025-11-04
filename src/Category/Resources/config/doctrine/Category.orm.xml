@@ -11,7 +11,7 @@
         <id name="id" type="string" length="255" nullable="false" />
         <field name="parentId" type="string" length="255" nullable="true" />
         <field name="level" type="integer" nullable="false" />
-        <field name="path" type="string" length="255" nullable="false" />
+        <field name="path" type="text" nullable="false" />
     </entity>
 
 </doctrine-mapping>

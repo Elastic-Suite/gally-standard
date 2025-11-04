@@ -297,6 +297,15 @@ class Configuration implements GallyConfigurationInterface
                 // Ingest pipeline configuration
                 ->scalarNode('pipeline_prefix')->isRequired()->end()
 
+                // Cache tag filter
+                ->arrayNode('cache_tag_filter')
+                    ->normalizeKeys(false)
+                    ->useAttributeAsKey('normalization_context')
+                    ->arrayPrototype()
+                        ->prototype('scalar')->end()
+                    ->end()
+                ->end()
+
                 // Email config
                 ->arrayNode('email')
                     ->children()

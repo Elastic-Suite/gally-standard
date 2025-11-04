@@ -1,0 +1,8 @@
+gally:
+     cache_tag_filter:
+         source_field:read:
+             - Gally\Metadata\Entity\SourceFieldLabel
+             - Gally\Catalog\Entity\LocalizedCatalog
+         source_field_option:read:
+             - Gally\Metadata\Entity\SourceFieldOptionLabel
+             - Gally\Catalog\Entity\LocalizedCatalog

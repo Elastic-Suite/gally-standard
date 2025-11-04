@@ -86,7 +86,7 @@ class SourceFieldDataValidator
         $rawData['metadata'] = $metadataId;
 
         if (!\array_key_exists($metadataId, $this->getExistingMetadataIds())) {
-            throw new InvalidArgumentException("Item not found for \"{$rawData['metadata']}\".");
+            throw new InvalidArgumentException("The metadata with id \"{$rawData['metadata']}\" doesn't not exist.");
         }
 
         // Prevent user to update a system source field, only the value of $updatableProperties can be changed.
@@ -110,7 +110,7 @@ class SourceFieldDataValidator
             $localizedCatalogId = (int) str_replace($this->routePrefix . '/localized_catalogs/', '', $label['localizedCatalog']);
 
             if (!\array_key_exists($localizedCatalogId, $this->getExistingLocalizedCatalog())) {
-                throw new InvalidArgumentException("Item not found for \"{$label['localizedCatalog']}\".");
+                throw new InvalidArgumentException("The localized catalog with id \"{$label['localizedCatalog']}\" doesn't not exist.");
             }
         }
     }

@@ -113,6 +113,26 @@ class FacetConfigurationTest extends AbstractTestCase
             ],
             [
                 $user,
+                null,
+                'cat-6',
+                [
+                    ['sourceField' => 15, 'category' => 'cat-6', 'sourceFieldLabel' => 'Name'],
+                    ['sourceField' => 16, 'category' => 'cat-6', 'sourceFieldLabel' => 'Brand'],
+                    ['sourceField' => 17, 'category' => 'cat-6', 'sourceFieldLabel' => 'Color'],
+                    ['sourceField' => 18, 'category' => 'cat-6', 'sourceFieldLabel' => 'Category'],
+                    ['sourceField' => 19, 'category' => 'cat-6', 'sourceFieldLabel' => 'Length'],
+                    ['sourceField' => 20, 'category' => 'cat-6', 'sourceFieldLabel' => 'Size'],
+                    ['sourceField' => 21, 'category' => 'cat-6', 'sourceFieldLabel' => 'Weight'],
+                    ['sourceField' => 28, 'category' => 'cat-6', 'sourceFieldLabel' => 'Is_eco_friendly'],
+                    ['sourceField' => 29, 'category' => 'cat-6', 'sourceFieldLabel' => 'Created_at'],
+                    ['sourceField' => 33, 'category' => 'cat-6', 'sourceFieldLabel' => 'Color_full'],
+                    ['sourceField' => 34, 'category' => 'cat-6', 'sourceFieldLabel' => 'Manufacture_location'],
+                    ['sourceField' => 36, 'category' => 'cat-6', 'sourceFieldLabel' => 'Tags'],
+                ],
+                200,
+            ],
+            [
+                $user,
                 'product',
                 null,
                 [
@@ -172,6 +192,7 @@ class FacetConfigurationTest extends AbstractTestCase
             [$admin, '16-cat_1', ['coverageRate' => 10, 'sortOrder' => BucketInterface::SORT_ORDER_MANUAL], 200],
             [$admin, '17-cat_1', ['coverageRate' => 10, 'sortOrder' => BucketInterface::SORT_ORDER_MANUAL, 'position' => 1], 200],
             [$admin, '16-cat_2', ['coverageRate' => 90], 200], // Put the default value back on a sub level
+            [$admin, '16-cat-6', ['coverageRate' => 90], 200], // Test with category id with a hyphen
         ];
     }
 
@@ -247,6 +268,26 @@ class FacetConfigurationTest extends AbstractTestCase
                     ['sourceField' => 33, 'category' => 'cat_2', 'coverageRate' => 90, 'sourceFieldLabel' => 'Color_full'],
                     ['sourceField' => 34, 'category' => 'cat_2', 'coverageRate' => 90, 'sourceFieldLabel' => 'Manufacture_location'],
                     ['sourceField' => 36, 'category' => 'cat_2', 'coverageRate' => 90, 'sourceFieldLabel' => 'Tags'],
+                ],
+                200,
+            ],
+            [
+                $user,
+                null,
+                'cat-6',
+                [
+                    ['sourceField' => 15, 'category' => 'cat-6', 'sourceFieldLabel' => 'Name'],
+                    ['sourceField' => 16, 'category' => 'cat-6', 'coverageRate' => 90, 'maxSize' => 100, 'defaultCoverageRate' => 1,  'defaultMaxSize' => 100, 'sourceFieldLabel' => 'Brand', 'sortOrder' => BucketInterface::SORT_ORDER_TERM, 'defaultSortOrder' => BucketInterface::SORT_ORDER_TERM, 'position' => 1, 'defaultPosition' => 1],
+                    ['sourceField' => 17, 'category' => 'cat-6', 'coverageRate' => 90, 'sourceFieldLabel' => 'Color'],
+                    ['sourceField' => 18, 'category' => 'cat-6', 'coverageRate' => 90, 'sourceFieldLabel' => 'Category'],
+                    ['sourceField' => 19, 'category' => 'cat-6', 'coverageRate' => 90, 'sourceFieldLabel' => 'Length'],
+                    ['sourceField' => 20, 'category' => 'cat-6', 'coverageRate' => 90, 'sourceFieldLabel' => 'Size'],
+                    ['sourceField' => 21, 'category' => 'cat-6', 'coverageRate' => 90, 'sourceFieldLabel' => 'Weight'],
+                    ['sourceField' => 28, 'category' => 'cat-6', 'coverageRate' => 90, 'sourceFieldLabel' => 'Is_eco_friendly'],
+                    ['sourceField' => 29, 'category' => 'cat-6', 'coverageRate' => 90, 'sourceFieldLabel' => 'Created_at'],
+                    ['sourceField' => 33, 'category' => 'cat-6', 'coverageRate' => 90, 'sourceFieldLabel' => 'Color_full'],
+                    ['sourceField' => 34, 'category' => 'cat-6', 'coverageRate' => 90, 'sourceFieldLabel' => 'Manufacture_location'],
+                    ['sourceField' => 36, 'category' => 'cat-6', 'coverageRate' => 90, 'sourceFieldLabel' => 'Tags'],
                 ],
                 200,
             ],
@@ -348,6 +389,7 @@ class FacetConfigurationTest extends AbstractTestCase
         return [
             [null, '16-0', ['id' => '16-0'], 401],
             [$user, '16-0', ['id' => '16-0'], 200],
+            [$user, '16-cat-6', ['id' => '16-cat-6'], 200],
             [$this->getUser(Role::ROLE_ADMIN), '16-0', ['id' => '16-0'], 200],
         ];
     }

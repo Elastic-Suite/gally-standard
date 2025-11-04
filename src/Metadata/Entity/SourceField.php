@@ -403,7 +403,7 @@ class SourceField
     private ?string $search = null;
 
     /** @var Collection<SourceFieldLabel> */
-    #[Groups(['source_field:read', 'source_field:write'])]
+    #[Groups(['source_field:write'])]
     private Collection $labels;
 
     /** @var Collection<SourceFieldOption> */
