@@ -9,6 +9,10 @@ inputs:
         description: 'The version to require'
         default: 'dev-main'
         required: true
+    last_published_version:
+        description: 'The last published version to require'
+        default: 'dev-main'
+        required: true
     gally-directory:
         description: 'Base gally directory'
         default: ''
@@ -57,13 +61,6 @@ runs:
                path: /tmp/composer-cache
                key: ${{ runner.os }}-${{ hashFiles('**/composer.lock') }}
 
-         # Install sample data package
-         - name: Install sample data package
-           working-directory: ${{ format('{0}/api/packages/{1}', inputs.gally-directory, inputs.package-name) }}
-           shell: bash
-           run: |
-             composer require --no-update gally/gally-sample-data:${{ inputs.version }}
-
          # Add current package as path composer package.
          - name: Prepare local Repository
            working-directory: ${{ inputs.gally-directory }}
@@ -77,7 +74,7 @@ runs:
            working-directory: ${{ inputs.gally-directory }}
            shell: bash
            run: |
-               COMPOSER_MIRROR_PATH_REPOS=1 composer require gally/${{ inputs.package-name }}:${{ inputs.version }} gally/gally-sample-data:${{ inputs.version }} --working-dir=api
+               COMPOSER_MIRROR_PATH_REPOS=1 composer require "gally/${{ inputs.package-name }}:${{ inputs.version }} as ${{ inputs.last_published_version }}" "gally/gally-sample-data:${{ inputs.version }} as ${{ inputs.last_published_version }}" --working-dir=api
 
 
 
