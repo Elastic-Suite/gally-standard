@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -37,7 +38,7 @@ class Coverage implements ModifierInterface
         array $facetConfigs,
         QueryInterface|string|null $query,
         array $filters,
-        array $queryFilters
+        array $queryFilters,
     ): array {
         $relevantFacets = [];
         $coverageRates = $this->getCoverageRates($containerConfig, $query, $filters, $queryFilters);
@@ -63,7 +64,7 @@ class Coverage implements ModifierInterface
         array $aggregations,
         QueryInterface|string|null $query,
         array $filters,
-        array $queryFilters
+        array $queryFilters,
     ): array {
         return $aggregations;
     }
@@ -80,7 +81,7 @@ class Coverage implements ModifierInterface
         ContainerConfigurationInterface $containerConfig,
         QueryInterface|string|null $query = null,
         array $filters = [],
-        array $queryFilters = []
+        array $queryFilters = [],
     ): array {
         $coverageConfigProvider = $this->containerConfigurationProvider->get(
             $containerConfig->getMetadata(),

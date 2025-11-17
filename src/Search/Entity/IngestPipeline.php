@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -18,7 +19,7 @@ class IngestPipeline
     public function __construct(
         protected string $name,
         protected string $description,
-        protected array $processors
+        protected array $processors,
     ) {
     }
 

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -20,7 +21,7 @@ class SyncCategoryException extends \LogicException implements ExceptionInterfac
     public function __construct(
         string $message = 'An error occurred during category synchronization',
         int $code = 0,
-        ?\Throwable $previous = null
+        ?\Throwable $previous = null,
     ) {
         parent::__construct($message, $code, $previous);
     }

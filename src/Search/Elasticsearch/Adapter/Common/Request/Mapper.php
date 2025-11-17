@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -39,7 +40,7 @@ class Mapper
     public function __construct(
         QueryAssembler $queryAssembler,
         SortOrderAssembler $sortOrderAssembler,
-        AggregationAssembler $aggregationAssembler
+        AggregationAssembler $aggregationAssembler,
     ) {
         $this->queryAssembler = $queryAssembler;
         $this->sortOrderAssembler = $sortOrderAssembler;

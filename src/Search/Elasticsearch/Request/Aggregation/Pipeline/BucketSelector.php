@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -30,7 +31,7 @@ class BucketSelector extends AbstractPipeline
         string $name,
         array|string|null $bucketsPath,
         private string $script,
-        private string $gapPolicy = self::GAP_POLICY_SKIP
+        private string $gapPolicy = self::GAP_POLICY_SKIP,
     ) {
         parent::__construct($name, $bucketsPath);
     }

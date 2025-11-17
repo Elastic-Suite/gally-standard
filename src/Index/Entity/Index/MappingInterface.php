@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -70,6 +71,6 @@ interface MappingInterface
         ?string $analyzer = null,
         ?string $defaultField = null,
         float $boost = 1,
-        ?FieldFilterInterface $fieldFilter = null
+        ?FieldFilterInterface $fieldFilter = null,
     ): array;
 }

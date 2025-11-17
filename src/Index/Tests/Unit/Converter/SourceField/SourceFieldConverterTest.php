@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -392,7 +393,7 @@ class SourceFieldConverterTest extends AbstractTestCase
     public function testPriceSourceFieldConversion(
         string $sourceFieldCode,
         string $sourceFieldType,
-        array $expectedFields
+        array $expectedFields,
     ): void {
         // Initialize reflector to be able to check the private properties set in the Mapping\Field constructor.
         $fieldReflector = new \ReflectionClass(Mapping\Field::class);
@@ -518,7 +519,7 @@ class SourceFieldConverterTest extends AbstractTestCase
     public function testReferenceSourceFieldConversion(
         string $sourceFieldCode,
         string $sourceFieldType,
-        array $expectedFields
+        array $expectedFields,
     ): void {
         // Initialize reflector to be able to check the private properties set in the Mapping\Field constructor.
         $fieldReflector = new \ReflectionClass(Mapping\Field::class);
@@ -619,7 +620,7 @@ class SourceFieldConverterTest extends AbstractTestCase
     public function testSelectSourceFieldConversion(
         string $sourceFieldCode,
         string $sourceFieldType,
-        array $expectedFields
+        array $expectedFields,
     ): void {
         // Initialize reflector to be able to check the private properties set in the Mapping\Field constructor.
         $fieldReflector = new \ReflectionClass(Mapping\Field::class);
@@ -755,7 +756,7 @@ class SourceFieldConverterTest extends AbstractTestCase
     public function testStockSourceFieldConversion(
         string $sourceFieldCode,
         string $sourceFieldType,
-        array $expectedFields
+        array $expectedFields,
     ): void {
         // Initialize reflector to be able to check the private properties set in the Mapping\Field constructor.
         $fieldReflector = new \ReflectionClass(Mapping\Field::class);
@@ -861,7 +862,7 @@ class SourceFieldConverterTest extends AbstractTestCase
     public function testTextSourceFieldConversion(
         string $sourceFieldCode,
         string $sourceFieldType,
-        array $expectedFields
+        array $expectedFields,
     ): void {
         // Initialize reflector to be able to check the private properties set in the Mapping\Field constructor.
         $fieldReflector = new \ReflectionClass(Mapping\Field::class);
@@ -962,7 +963,7 @@ class SourceFieldConverterTest extends AbstractTestCase
     public function testLocationSourceFieldConversion(
         string $sourceFieldCode,
         string $sourceFieldType,
-        array $expectedFields
+        array $expectedFields,
     ): void {
         // Initialize reflector to be able to check the private properties set in the Mapping\Field constructor.
         $fieldReflector = new \ReflectionClass(Mapping\Field::class);
@@ -1060,7 +1061,7 @@ class SourceFieldConverterTest extends AbstractTestCase
         string $fieldType,
         ?string $path,
         array $fieldConfig,
-        array $expectedMappingProperties
+        array $expectedMappingProperties,
     ): void {
         $field = new Mapping\Field($fieldCode, $fieldType, $path, $fieldConfig);
         $this->assertEquals($expectedMappingProperties, $field->getMappingPropertyConfig());

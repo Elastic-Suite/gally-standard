@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -22,7 +23,7 @@ use Gally\Index\Repository\Document\DocumentRepositoryInterface;
 class DocumentProcessor implements ProcessorInterface
 {
     public function __construct(
-        private DocumentRepositoryInterface $documentRepository
+        private DocumentRepositoryInterface $documentRepository,
     ) {
     }
 

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -38,7 +39,7 @@ class LocalizedCatalogLocaleFilter extends GallySearchFilter
         QueryNameGeneratorInterface $queryNameGenerator,
         string $resourceClass,
         ?Operation $operation = null,
-        array $context = []
+        array $context = [],
     ): void {
         if (
             !$this->isPropertyEnabled($property, $resourceClass)

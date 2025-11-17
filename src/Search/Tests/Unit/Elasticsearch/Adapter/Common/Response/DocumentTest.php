@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -33,7 +34,7 @@ class DocumentTest extends KernelTestCase
         ?string $docType,
         ?float $score,
         ?array $source,
-        ?array $additionalData
+        ?array $additionalData,
     ) {
         $documentData = [
             '_id' => $documentId,

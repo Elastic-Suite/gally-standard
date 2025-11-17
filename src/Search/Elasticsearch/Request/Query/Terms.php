@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -40,7 +41,7 @@ class Terms implements QueryInterface
         string|bool|array|int|float $values,
         string $field,
         ?string $name = null,
-        float $boost = QueryInterface::DEFAULT_BOOST_VALUE
+        float $boost = QueryInterface::DEFAULT_BOOST_VALUE,
     ) {
         if (!\is_array($values) && \is_string($values)) {
             $values = explode(',', $values);

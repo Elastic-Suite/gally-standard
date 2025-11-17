@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -24,7 +25,7 @@ class SortingOptionsProvider
 
     public function __construct(
         private MetadataRepository $metadataRepository,
-        private iterable $sortOrderProviders
+        private iterable $sortOrderProviders,
     ) {
         $this->sortingOptions = null;
     }

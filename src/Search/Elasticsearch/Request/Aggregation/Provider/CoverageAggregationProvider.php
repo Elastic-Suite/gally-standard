@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -30,7 +31,7 @@ class CoverageAggregationProvider implements AggregationProviderInterface
     public function __construct(
         private QueryFactory $queryFactory,
         private SearchSettingsProvider $searchSettings,
-        private SearchContext $searchContext
+        private SearchContext $searchContext,
     ) {
     }
 
@@ -38,7 +39,7 @@ class CoverageAggregationProvider implements AggregationProviderInterface
         ContainerConfigurationInterface $containerConfig,
         QueryInterface|string|null $query = null,
         array $filters = [],
-        array $queryFilters = []
+        array $queryFilters = [],
     ): array {
         if ($this->searchSettings->coverageUseIndexedFieldsProperty()) {
             return [

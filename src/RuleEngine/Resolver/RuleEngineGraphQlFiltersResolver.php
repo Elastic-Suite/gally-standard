@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -20,7 +21,7 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 class RuleEngineGraphQlFiltersResolver
 {
     public function __construct(
-        private RuleEngineManager $ruleEngineManager
+        private RuleEngineManager $ruleEngineManager,
     ) {
     }
 

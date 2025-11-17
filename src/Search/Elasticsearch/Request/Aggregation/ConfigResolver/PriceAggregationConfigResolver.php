@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -21,7 +22,7 @@ use Gally\Search\Service\SearchContext;
 class PriceAggregationConfigResolver implements FieldAggregationConfigResolverInterface
 {
     public function __construct(
-        private SearchContext $searchContext
+        private SearchContext $searchContext,
     ) {
     }
 

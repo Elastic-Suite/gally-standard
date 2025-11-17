@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -124,7 +125,7 @@ class AddAggregationsData implements ProcessorInterface
         AggregationInterface $aggregation,
         ContainerConfigurationInterface $containerConfig,
         ?SourceField $sourceField,
-        string $label
+        string $label,
     ): array {
         $fieldName = $aggregation->getField();
         if ($sourceField) {

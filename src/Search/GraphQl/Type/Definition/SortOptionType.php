@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -22,7 +23,7 @@ class SortOptionType extends ObjectType implements TypeInterface
     public const NAME = 'SortOption';
 
     public function __construct(
-        private TypeInterface $sortEnumType
+        private TypeInterface $sortEnumType,
     ) {
         $this->name = self::NAME;
 

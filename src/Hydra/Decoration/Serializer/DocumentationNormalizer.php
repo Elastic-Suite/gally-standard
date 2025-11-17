@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -140,7 +141,7 @@ class DocumentationNormalizer implements NormalizerInterface
      * Creates context for property metatata factories.
      * Copy/Paste as this function is private.
      *
-     * @see \ApiPlatform\Hydra\Serializer\DocumentationNormalizer::getPropertyMetadataFactoryContext
+     * @see BaseDocumentationNormalizer::getPropertyMetadataFactoryContext
      */
     private function getPropertyMetadataFactoryContext(ApiResource $resourceMetadata): array
     {

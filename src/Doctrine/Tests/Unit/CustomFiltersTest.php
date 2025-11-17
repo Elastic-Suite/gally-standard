@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -40,7 +41,7 @@ class CustomFiltersTest extends AbstractTestCase
         array $properties,
         array $filterValue,
         string $expectedDQL,
-        array $additionalArguments = []
+        array $additionalArguments = [],
     ): void {
         $manager = static::getContainer()->get(ManagerRegistry::class);
         $resourceClass = FakeEntity::class;
@@ -105,7 +106,7 @@ class CustomFiltersTest extends AbstractTestCase
         array $properties,
         array $filterValue,
         string $expectedDQL,
-        array $additionalArguments = []
+        array $additionalArguments = [],
     ): void {
         $manager = static::getContainer()->get(ManagerRegistry::class);
         $resourceClass = FakeEntity::class;
@@ -163,7 +164,7 @@ class CustomFiltersTest extends AbstractTestCase
         array $properties,
         array $filterValue,
         string $expectedDQL,
-        array $additionalArguments = []
+        array $additionalArguments = [],
     ): void {
         $manager = static::getContainer()->get(ManagerRegistry::class);
         $resourceClass = FakeEntity::class;

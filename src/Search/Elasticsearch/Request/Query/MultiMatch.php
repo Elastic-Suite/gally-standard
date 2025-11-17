@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -70,7 +71,7 @@ class MultiMatch implements QueryInterface
         ?string $name = null,
         float $boost = QueryInterface::DEFAULT_BOOST_VALUE,
         ?FuzzinessConfigurationInterface $fuzzinessConfig = null,
-        string $matchType = self::DEFAULT_MATCH_TYPE
+        string $matchType = self::DEFAULT_MATCH_TYPE,
     ) {
         $this->name = $name;
         $this->queryText = $queryText;

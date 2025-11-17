@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -26,7 +27,7 @@ class SyncCategoryNameAfterBulkRest implements ProcessorInterface
     public function __construct(
         private DocumentProcessor $decorated,
         private IndexRepositoryInterface $indexRepository,
-        private CategoryNameUpdater $categoryNameUpdater
+        private CategoryNameUpdater $categoryNameUpdater,
     ) {
     }
 

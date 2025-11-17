@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -37,7 +38,7 @@ class Paginator implements \IteratorAggregate, PaginatorInterface
         protected string $resourceClass,
         protected int $limit,
         protected int $offset,
-        protected array $denormalizationContext = []
+        protected array $denormalizationContext = [],
     ) {
     }
 

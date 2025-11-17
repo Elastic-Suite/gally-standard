@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -129,7 +130,7 @@ class NestedTest extends KernelTestCase
         ?QueryInterface $originalQuery,
         ?string $scoreMode,
         ?string $name,
-        ?float $boost
+        ?float $boost,
     ): void {
         // TODO: use reflection to build mapping ?
         $queryParams = [

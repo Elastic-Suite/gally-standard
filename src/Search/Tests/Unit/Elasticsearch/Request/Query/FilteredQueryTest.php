@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -56,7 +57,7 @@ class FilteredQueryTest extends KernelTestCase
         ?QueryInterface $query,
         ?QueryInterface $filter,
         ?string $name,
-        float $boost
+        float $boost,
     ): void {
         $this->performCreateParamsTests($query, $filter, $name, $boost);
     }
@@ -130,7 +131,7 @@ class FilteredQueryTest extends KernelTestCase
         ?QueryInterface $query,
         ?QueryInterface $filter,
         ?string $name,
-        float $boost
+        float $boost,
     ): void {
         // TODO: use reflection to build mapping ?
         $queryParams = [

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -22,7 +23,7 @@ use Gally\Index\Service\SelfReindexOperation;
 class SelfReIndexProcessor implements ProcessorInterface
 {
     public function __construct(
-        private SelfReindexOperation $reindexOperation
+        private SelfReindexOperation $reindexOperation,
     ) {
     }
 

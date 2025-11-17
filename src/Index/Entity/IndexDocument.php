@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -88,7 +89,7 @@ class IndexDocument
 
     public function __construct(
         string $indexName,
-        array $documents
+        array $documents,
     ) {
         $this->indexName = $indexName;
         $this->documents = $documents;

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -101,7 +102,7 @@ class MoreLikeThis implements QueryInterface
         int $maxQueryTerms = self::DEFAULT_MAX_QUERY_TERMS,
         bool $includeOriginalDocs = false,
         ?string $name = null,
-        float $boost = QueryInterface::DEFAULT_BOOST_VALUE
+        float $boost = QueryInterface::DEFAULT_BOOST_VALUE,
     ) {
         $this->fields = $fields;
         $this->like = $like;

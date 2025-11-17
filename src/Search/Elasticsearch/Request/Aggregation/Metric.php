@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -30,7 +31,7 @@ class Metric implements MetricInterface
         private string $name,
         private string $field,
         private string $type = MetricInterface::TYPE_STATS,
-        private array $config = []
+        private array $config = [],
     ) {
     }
 

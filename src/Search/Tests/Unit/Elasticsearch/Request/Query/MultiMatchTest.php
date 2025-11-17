@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -79,7 +80,7 @@ class MultiMatchTest extends KernelTestCase
         ?string $name,
         ?float $boost,
         ?FuzzinessConfigurationInterface $fuzzinessConfig,
-        ?string $matchType
+        ?string $matchType,
     ): void {
         // TODO: use reflection to build mapping ?
         $queryParams = [

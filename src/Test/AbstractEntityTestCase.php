@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -43,7 +44,7 @@ abstract class AbstractEntityTestCase extends AbstractTestCase
         array $data,
         int $responseCode = 201,
         ?string $message = null,
-        ?string $validRegex = null
+        ?string $validRegex = null,
     ): void {
         $request = new RequestToTest('POST', $this->getApiPath(), $user, $data);
         $expectedResponse = new ExpectedResponse(

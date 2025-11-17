@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -36,7 +37,7 @@ class FilterableSourceFields implements AggregationProviderInterface
         private ConfigurationRepository $facetConfigRepository,
         private SearchContext $searchContext,
         private iterable $aggregationResolvers,
-        private iterable $modifiersPool = []
+        private iterable $modifiersPool = [],
     ) {
     }
 
@@ -44,7 +45,7 @@ class FilterableSourceFields implements AggregationProviderInterface
         ContainerConfigurationInterface $containerConfig,
         $query = null,
         $filters = [],
-        $queryFilters = []
+        $queryFilters = [],
     ): array {
         $currentCategory = $this->searchContext->getCategory();
         $this->facetConfigRepository->setCategoryId($currentCategory?->getId());

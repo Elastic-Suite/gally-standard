@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -88,7 +89,7 @@ class MoreLikeThisTest extends KernelTestCase
         ?int $maxQueryTerms,
         ?bool $includeOriginalDocs,
         ?string $name,
-        ?float $boost
+        ?float $boost,
     ): void {
         // TODO: use reflection to build mapping ?
         $queryParams = [

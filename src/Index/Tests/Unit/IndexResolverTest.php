@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -41,7 +42,7 @@ class IndexResolverTest extends AbstractTestCase
     public function testGetIndexAliasFromIdentifier(
         string $indexIdentifier,
         LocalizedCatalog|int|string $catalog,
-        string $expectedAlias
+        string $expectedAlias,
     ): void {
         $indexAlias = $this->indexSettings->getIndexAliasFromIdentifier($indexIdentifier, $catalog);
         $this->assertEquals($expectedAlias, $indexAlias);
@@ -57,7 +58,7 @@ class IndexResolverTest extends AbstractTestCase
     public function testCreateIndexNameFromIdentifier(
         string $indexIdentifier,
         LocalizedCatalog|int|string $catalog,
-        string $expectedAlias
+        string $expectedAlias,
     ): void {
         $indexName = $this->indexSettings->createIndexNameFromIdentifier($indexIdentifier, $catalog);
         $this->assertStringStartsWith($expectedAlias, $indexName);

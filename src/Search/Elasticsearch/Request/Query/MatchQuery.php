@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -49,7 +50,7 @@ class MatchQuery implements QueryInterface
         string $field,
         string $minimumShouldMatch = self::DEFAULT_MINIMUM_SHOULD_MATCH,
         ?string $name = null,
-        float $boost = QueryInterface::DEFAULT_BOOST_VALUE
+        float $boost = QueryInterface::DEFAULT_BOOST_VALUE,
     ) {
         $this->name = $name;
         $this->queryText = $queryText;

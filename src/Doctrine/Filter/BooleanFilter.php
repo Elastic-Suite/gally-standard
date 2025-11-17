@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -41,7 +42,7 @@ class BooleanFilter extends AbstractFilter
         ?LoggerInterface $logger = null,
         ?array $properties = null,
         ?NameConverterInterface $nameConverter = null,
-        private bool $treatNullAsFalse = false
+        private bool $treatNullAsFalse = false,
     ) {
         parent::__construct($managerRegistry, $logger, $properties, $nameConverter);
     }

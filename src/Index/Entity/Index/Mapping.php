@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -114,7 +115,7 @@ class Mapping implements MappingInterface
         ?string $analyzer = null,
         ?string $defaultField = null,
         float $boost = 1,
-        ?FieldFilterInterface $fieldFilter = null
+        ?FieldFilterInterface $fieldFilter = null,
     ): array {
         $weightedFields = [];
         $fields = $this->getFields();

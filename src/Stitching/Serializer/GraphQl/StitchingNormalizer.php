@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -37,7 +38,7 @@ class StitchingNormalizer implements NormalizerInterface, NormalizerAwareInterfa
         private MetadataRepository $metadataRepository,
         private ResourceMetadataCollectionFactoryInterface $resourceMetadataCollectionFactory,
         private ResourceMetadataManager $resourceMetadataManager,
-        private SerializerService $serializerService
+        private SerializerService $serializerService,
     ) {
     }
 

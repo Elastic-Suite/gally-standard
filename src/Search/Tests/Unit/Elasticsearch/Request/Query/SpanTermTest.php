@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -68,7 +69,7 @@ class SpanTermTest extends KernelTestCase
         string|bool $value,
         string $field,
         ?string $name,
-        ?float $boost
+        ?float $boost,
     ): void {
         // TODO: use reflection to build mapping ?
         $queryParams = [

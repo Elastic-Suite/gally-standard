@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -50,7 +51,7 @@ class Nested implements QueryInterface
         ?QueryInterface $query = null,
         string $scoreMode = self::SCORE_MODE_NONE,
         ?string $name = null,
-        float $boost = QueryInterface::DEFAULT_BOOST_VALUE
+        float $boost = QueryInterface::DEFAULT_BOOST_VALUE,
     ) {
         $this->name = $name;
         $this->boost = $boost;

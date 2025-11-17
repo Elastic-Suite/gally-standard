@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -27,7 +28,7 @@ class MetadataManager
      * @param SourceFieldConverterInterface[] $sourceFieldConverters Source field converters
      */
     public function __construct(
-        private iterable $sourceFieldConverters = []
+        private iterable $sourceFieldConverters = [],
     ) {
         $sourceFieldConverters = ($sourceFieldConverters instanceof \Traversable) ? iterator_to_array($sourceFieldConverters) : $sourceFieldConverters;
 

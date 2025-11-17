@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -42,7 +43,7 @@ class SpanNear implements SpanQueryInterface
         int $slop = 0,
         bool $inOrder = true,
         ?string $name = null,
-        float $boost = SpanQueryInterface::DEFAULT_BOOST_VALUE
+        float $boost = SpanQueryInterface::DEFAULT_BOOST_VALUE,
     ) {
         $this->name = $name;
         $this->clauses = $clauses;

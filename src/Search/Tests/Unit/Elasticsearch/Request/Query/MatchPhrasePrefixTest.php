@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -67,7 +68,7 @@ class MatchPhrasePrefixTest extends KernelTestCase
         string $field,
         ?int $maxExpansions,
         ?string $name,
-        ?float $boost
+        ?float $boost,
     ): void {
         $queryParams = [
             'queryText' => $queryText,

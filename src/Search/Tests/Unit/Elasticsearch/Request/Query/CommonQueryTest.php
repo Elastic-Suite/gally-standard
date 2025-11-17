@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -68,7 +69,7 @@ class CommonQueryTest extends KernelTestCase
         string $field,
         string $minimumShouldMatch,
         ?string $name,
-        float $boost
+        float $boost,
     ): void {
         $this->performCreateParamsTests($queryText, $field, $minimumShouldMatch, $name, $boost);
     }
@@ -115,7 +116,7 @@ class CommonQueryTest extends KernelTestCase
         string $field,
         string $minimumShouldMatch,
         ?string $name,
-        float $boost
+        float $boost,
     ): void {
         // TODO: use reflection to build mapping ?
         $queryParams = [

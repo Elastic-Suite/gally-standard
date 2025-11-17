@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -71,7 +72,7 @@ class IndexSettings implements IndexSettingsInterface
         private Config $analysisConfig,
         private ConfigurationManager $configurationManager,
         private SourceFieldRepository $sourceFieldRepository,
-        private PipelineRepositoryInterface $pipelineRepository
+        private PipelineRepositoryInterface $pipelineRepository,
     ) {
     }
 

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -203,7 +204,7 @@ class FulltextQueryBuilder
         ContainerConfigInterface $containerConfig,
         string $queryText,
         int $spellingType,
-        float $boost
+        float $boost,
     ): ?QueryInterface {
         $query = null;
 
@@ -314,7 +315,7 @@ class FulltextQueryBuilder
         ?string $analyzer = null,
         ?FieldFilterInterface $fieldFilter = null,
         ?string $defaultField = null,
-        float $boost = 1
+        float $boost = 1,
     ): array {
         $mapping = $containerConfig->getMapping();
 

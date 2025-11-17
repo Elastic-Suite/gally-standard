@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -20,7 +21,7 @@ use Gally\Search\Service\ViewMoreContext;
 class ViewMore implements ModifierInterface
 {
     public function __construct(
-        private ViewMoreContext $viewMoreContext
+        private ViewMoreContext $viewMoreContext,
     ) {
     }
 
@@ -29,7 +30,7 @@ class ViewMore implements ModifierInterface
         array $facetConfigs,
         QueryInterface|string|null $query,
         array $filters,
-        array $queryFilters
+        array $queryFilters,
     ): array {
         $relevantSourceFields = $facetConfigs;
         if ($this->viewMoreContext->getSourceField()) {
@@ -48,7 +49,7 @@ class ViewMore implements ModifierInterface
         array $aggregations,
         QueryInterface|string|null $query,
         array $filters,
-        array $queryFilters
+        array $queryFilters,
     ): array {
         if ($this->viewMoreContext->getFilterName()) {
             if (isset($aggregations[$this->viewMoreContext->getFilterName()])) {

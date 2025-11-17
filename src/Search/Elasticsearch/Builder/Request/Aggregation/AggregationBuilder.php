@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -33,7 +34,7 @@ class AggregationBuilder
      */
     public function __construct(
         private AggregationFactory $aggregationFactory,
-        private FilterQueryBuilder $queryBuilder
+        private FilterQueryBuilder $queryBuilder,
     ) {
     }
 

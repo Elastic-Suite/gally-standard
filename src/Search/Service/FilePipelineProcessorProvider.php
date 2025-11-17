@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -20,7 +21,7 @@ use Gally\Metadata\Repository\SourceFieldRepository;
 class FilePipelineProcessorProvider implements IngestPipelineProcessorProvider
 {
     public function __construct(
-        protected SourceFieldRepository $sourceFieldRepository
+        protected SourceFieldRepository $sourceFieldRepository,
     ) {
     }
 
