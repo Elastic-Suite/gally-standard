@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -19,7 +20,7 @@ use Doctrine\ORM\Id\SequenceGenerator;
 class ORMPsqlSequenceProvider
 {
     public function __construct(
-        private EntityManager $entityManager
+        private EntityManager $entityManager,
     ) {
     }
 

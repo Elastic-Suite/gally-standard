@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -21,7 +22,7 @@ use Gally\Index\Repository\Index\IndexRepositoryInterface;
 class RefreshIndexMutation implements MutationResolverInterface
 {
     public function __construct(
-        private IndexRepositoryInterface $indexRepository
+        private IndexRepositoryInterface $indexRepository,
     ) {
     }
 

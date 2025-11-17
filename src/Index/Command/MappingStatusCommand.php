@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -27,7 +28,7 @@ class MappingStatusCommand extends Command
     public function __construct(
         private MetadataRepository $metadataRepository,
         private MetadataManager $metadataManager,
-        string $name
+        string $name,
     ) {
         parent::__construct($name);
     }

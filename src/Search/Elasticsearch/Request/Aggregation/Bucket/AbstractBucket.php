@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -53,7 +54,7 @@ abstract class AbstractBucket implements BucketInterface
         array $childAggregations = [],
         ?string $nestedPath = null,
         ?QueryInterface $filter = null,
-        ?QueryInterface $nestedFilter = null
+        ?QueryInterface $nestedFilter = null,
     ) {
         $this->name = $name;
         $this->field = $field;

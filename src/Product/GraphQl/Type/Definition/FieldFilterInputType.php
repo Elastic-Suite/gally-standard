@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -34,7 +35,7 @@ class FieldFilterInputType extends BaseFieldFilterInputType
         private BoolFilterInputType $boolFilterInputType,
         private MetadataRepository $metadataRepository,
         private LoggerInterface $logger,
-        protected string $nestingSeparator
+        protected string $nestingSeparator,
     ) {
         parent::__construct($availableTypes, $filterQueryBuilder, $nestingSeparator);
         $this->name = self::NAME;

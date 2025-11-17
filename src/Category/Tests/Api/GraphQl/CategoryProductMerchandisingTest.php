@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -71,7 +72,7 @@ class CategoryProductMerchandisingTest extends AbstractTestCase
         ?int $localizedCatalogId,
         ?string $positions,
         ?string $expectedError,
-        int $expectedStatus
+        int $expectedStatus,
     ): void {
         $this->modifyPositions(
             $this->getUser(Role::ROLE_ADMIN),
@@ -154,7 +155,7 @@ class CategoryProductMerchandisingTest extends AbstractTestCase
         string $positions,
         array $expectedPositions,
         ?string $expectedError,
-        int $expectedStatus
+        int $expectedStatus,
     ): void {
         $this->modifyPositions($user, $categoryId, $catalogId, $localizedCatalogId, $positions, $expectedPositions, $expectedError, $expectedStatus);
     }
@@ -170,7 +171,7 @@ class CategoryProductMerchandisingTest extends AbstractTestCase
         ?string $positions,
         array $expectedPositions,
         ?string $expectedError,
-        int $expectedStatus
+        int $expectedStatus,
     ): void {
         $localizedCatalogIdArg = $localizedCatalogId ?? 'null';
         $catalogIdArg = $catalogId ?? 'null';
@@ -829,7 +830,7 @@ class CategoryProductMerchandisingTest extends AbstractTestCase
         string $positions,
         array $expectedPositions,
         ?string $expectedError,
-        int $expectedStatus
+        int $expectedStatus,
     ): void {
         $this->getPositions($user, $categoryId, $catalogId, $localizedCatalogId, $positions, $expectedPositions, $expectedError, $expectedStatus);
     }
@@ -842,7 +843,7 @@ class CategoryProductMerchandisingTest extends AbstractTestCase
         string $positions,
         array $expectedPositions,
         ?string $expectedError,
-        int $expectedStatus
+        int $expectedStatus,
     ): void {
         $positions = addslashes($positions);
 

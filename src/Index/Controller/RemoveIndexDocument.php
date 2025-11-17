@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -22,7 +23,7 @@ use Symfony\Component\HttpKernel\Attribute\AsController;
 class RemoveIndexDocument extends AbstractController
 {
     public function __construct(
-        private DocumentRepositoryInterface $documentRepository
+        private DocumentRepositoryInterface $documentRepository,
     ) {
     }
 

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -70,7 +71,7 @@ class SpanNearTest extends KernelTestCase
         int $slop,
         bool $inOrder,
         ?string $name = null,
-        float $boost = 1
+        float $boost = 1,
     ): void {
         // TODO: use reflection to build mapping ?
         $queryParams = [

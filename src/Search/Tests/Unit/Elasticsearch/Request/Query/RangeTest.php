@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -64,7 +65,7 @@ class RangeTest extends KernelTestCase
         string $field,
         array $bounds,
         ?string $name,
-        ?float $boost
+        ?float $boost,
     ): void {
         // TODO: use reflection to build mapping ?
         $queryParams = [

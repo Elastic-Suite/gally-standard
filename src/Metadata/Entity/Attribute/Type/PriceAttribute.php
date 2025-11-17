@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -27,7 +28,7 @@ class PriceAttribute extends AbstractStructuredAttribute implements AttributeInt
     public function __construct(
         string $attributeCode,
         mixed $value,
-        protected SearchContext $searchContext
+        protected SearchContext $searchContext,
     ) {
         parent::__construct($attributeCode, $value);
     }

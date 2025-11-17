@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -63,7 +64,7 @@ class Boolean implements QueryInterface
         int $minimumShouldMatch = 1,
         ?string $name = null,
         float $boost = QueryInterface::DEFAULT_BOOST_VALUE,
-        bool $cached = false
+        bool $cached = false,
     ) {
         $this->must = $must;
         $this->should = $should;

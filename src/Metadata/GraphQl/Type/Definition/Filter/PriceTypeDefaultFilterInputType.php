@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -34,7 +35,7 @@ class PriceTypeDefaultFilterInputType extends FloatTypeFilterInputType
         QueryFactory $queryFactory,
         protected SearchContext $searchContext,
         protected ReverseSourceFieldProvider $reverseSourceFieldProvider,
-        string $nestingSeparator
+        string $nestingSeparator,
     ) {
         parent::__construct($filterQueryBuilder, $queryFactory, $nestingSeparator);
     }

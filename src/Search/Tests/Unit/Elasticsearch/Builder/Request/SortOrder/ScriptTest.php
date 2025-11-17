@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -32,7 +33,7 @@ class ScriptTest extends KernelTestCase
         ?string $missing,
         string $expectedDirection,
         string $expectedMissing,
-        array $expectedScript
+        array $expectedScript,
     ): void {
         $params = [
             'scriptType' => $scriptType,

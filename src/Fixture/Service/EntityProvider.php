@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -18,7 +19,7 @@ use Doctrine\ORM\EntityManager;
 class EntityProvider
 {
     public function __construct(
-        private EntityManager $entityManager
+        private EntityManager $entityManager,
     ) {
     }
 

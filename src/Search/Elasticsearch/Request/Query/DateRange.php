@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -35,7 +36,7 @@ class DateRange extends Range
         array $bounds = [],
         ?string $name = null,
         float $boost = QueryInterface::DEFAULT_BOOST_VALUE,
-        string $format = 'yyyy-MM-dd'
+        string $format = 'yyyy-MM-dd',
     ) {
         parent::__construct($field, $bounds, $name, $boost);
         $this->format = $format;

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -85,7 +86,7 @@ class SortOrderBuilderTest extends AbstractTestCase
     public function testBuildSortOrders(
         string $entityType,
         array $sortOrders,
-        array $expectedSortOrderCollection
+        array $expectedSortOrderCollection,
     ): void {
         $metadata = self::$metadataRepository->findByEntity($entityType);
         $this->assertNotNull($metadata);

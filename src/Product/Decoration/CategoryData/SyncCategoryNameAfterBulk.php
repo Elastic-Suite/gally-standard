@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -21,7 +22,7 @@ class SyncCategoryNameAfterBulk implements MutationResolverInterface
 {
     public function __construct(
         private MutationResolverInterface $decorated,
-        private CategoryNameUpdater $categoryNameUpdater
+        private CategoryNameUpdater $categoryNameUpdater,
     ) {
     }
 

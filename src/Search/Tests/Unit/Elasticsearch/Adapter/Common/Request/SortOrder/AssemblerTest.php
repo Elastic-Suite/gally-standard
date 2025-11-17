@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -80,7 +81,7 @@ class AssemblerTest extends AbstractTestCase
         string $entityType,
         array $sortOrders,
         array $expectedBuiltSortOrders,
-        array $expectedAssembledSortOrders
+        array $expectedAssembledSortOrders,
     ): void {
         $metadata = self::$metadataRepository->findByEntity($entityType);
         $this->assertNotNull($metadata);

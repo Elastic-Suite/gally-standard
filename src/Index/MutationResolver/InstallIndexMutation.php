@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -23,7 +24,7 @@ class InstallIndexMutation implements MutationResolverInterface
 {
     public function __construct(
         private IndexOperation $indexOperation,
-        private IndexRepositoryInterface $indexRepository
+        private IndexRepositoryInterface $indexRepository,
     ) {
     }
 

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -24,7 +25,7 @@ class MappingStatusProvider implements ProviderInterface
 {
     public function __construct(
         private MetadataRepository $metadataRepository,
-        private MetadataManager $metadataManager
+        private MetadataManager $metadataManager,
     ) {
     }
 

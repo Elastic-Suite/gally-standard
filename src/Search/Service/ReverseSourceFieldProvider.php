@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -21,7 +22,7 @@ class ReverseSourceFieldProvider
     private array $sourceFieldByField = [];
 
     public function __construct(
-        private string $nestingSeparator
+        private string $nestingSeparator,
     ) {
     }
 

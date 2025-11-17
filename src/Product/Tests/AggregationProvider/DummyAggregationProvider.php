@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -25,7 +26,7 @@ class DummyAggregationProvider implements AggregationProviderInterface
         ContainerConfigurationInterface $containerConfiguration,
         $query = null,
         $filters = [],
-        $queryFilters = []
+        $queryFilters = [],
     ): array {
         return [];
     }

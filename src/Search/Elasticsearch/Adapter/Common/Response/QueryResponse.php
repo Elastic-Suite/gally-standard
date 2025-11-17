@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -51,7 +52,7 @@ class QueryResponse implements ResponseInterface
     public function __construct(
         array $searchRequest,
         array $searchResponse,
-        AggregationBuilder $aggregationBuilder
+        AggregationBuilder $aggregationBuilder,
     ) {
         $this->prepareDocuments($searchResponse);
         $this->prepareAggregations($searchRequest, $searchResponse, $aggregationBuilder);

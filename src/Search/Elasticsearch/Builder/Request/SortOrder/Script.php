@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -60,7 +61,7 @@ class Script implements SortOrderInterface
         array $params = [],
         ?string $direction = self::SORT_ASC,
         ?string $name = null,
-        ?string $missing = null
+        ?string $missing = null,
     ) {
         $this->name = $name;
         $this->missing = $missing ?? (self::SORT_ASC === $direction ? self::MISSING_LAST : self::MISSING_FIRST);

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -57,7 +58,7 @@ class Field implements FieldInterface
         string $name,
         string $type = self::FIELD_TYPE_KEYWORD,
         ?string $nestedPath = null,
-        array $fieldConfig = []
+        array $fieldConfig = [],
     ) {
         $this->name = $name;
         $this->type = $type;

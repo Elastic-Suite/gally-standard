@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -29,7 +30,7 @@ abstract class AbstractFilter extends InputObjectType implements TypeInterface, 
     public function __construct(
         protected FilterQueryBuilder $filterQueryBuilder,
         protected QueryFactory $queryFactory,
-        protected string $nestingSeparator
+        protected string $nestingSeparator,
     ) {
         parent::__construct($this->getConfig());
     }

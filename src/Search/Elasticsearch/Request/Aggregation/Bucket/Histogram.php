@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -42,7 +43,7 @@ class Histogram extends AbstractBucket
         ?QueryInterface $filter = null,
         ?QueryInterface $nestedFilter = null,
         private int|string $interval = 1,
-        private int $minDocCount = 0
+        private int $minDocCount = 0,
     ) {
         parent::__construct($name, $field, $childAggregations, $nestedPath, $filter, $nestedFilter);
     }

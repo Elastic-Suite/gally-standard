@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -25,7 +26,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
 class AddProxyCacheTagsSubscriber implements EventSubscriberInterface
 {
     public function __construct(
-        private ProxyCacheManager $proxyCacheManager
+        private ProxyCacheManager $proxyCacheManager,
     ) {
     }
 

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -19,7 +20,7 @@ use Gally\Configuration\Service\ConfigurationManager;
 class TagCollector implements TagCollectorInterface
 {
     public function __construct(
-        private ConfigurationManager $configManager
+        private ConfigurationManager $configManager,
     ) {
     }
 

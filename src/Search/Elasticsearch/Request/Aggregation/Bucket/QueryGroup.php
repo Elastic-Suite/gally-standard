@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -38,7 +39,7 @@ class QueryGroup extends AbstractBucket
         array $childAggregations = [],
         ?string $nestedPath = null,
         ?QueryInterface $filter = null,
-        ?QueryInterface $nestedFilter = null
+        ?QueryInterface $nestedFilter = null,
     ) {
         parent::__construct($name, $name, $childAggregations, $nestedPath, $filter, $nestedFilter);
     }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -28,7 +29,7 @@ class CreateCommand extends Command
     public function __construct(
         private UserManager $userManager,
         private CmdValidator $cmdValidator,
-        private CmdQuestionBuilder $cmdQuestionBuilder
+        private CmdQuestionBuilder $cmdQuestionBuilder,
     ) {
         parent::__construct();
     }

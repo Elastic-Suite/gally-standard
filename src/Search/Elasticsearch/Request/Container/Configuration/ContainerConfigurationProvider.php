@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -36,7 +37,7 @@ class ContainerConfigurationProvider
     public function addContainerConfigFactory(
         string $requestType,
         ContainerConfigurationFactoryInterface $configurationFactory,
-        string $entityCode = 'generic'
+        string $entityCode = 'generic',
     ): void {
         $this->containerConfigFactories[$entityCode][$requestType] = $configurationFactory;
     }

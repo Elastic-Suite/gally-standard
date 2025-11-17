@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -53,7 +54,7 @@ class GeoDistance implements QueryInterface
         string $distanceType = self::DISTANCE_TYPE_ARC,
         string $validationMethod = self::VALIDATION_METHOD_STRICT,
         ?string $name = null,
-        float $boost = QueryInterface::DEFAULT_BOOST_VALUE
+        float $boost = QueryInterface::DEFAULT_BOOST_VALUE,
     ) {
         $this->field = $field;
         $this->distance = $distance;

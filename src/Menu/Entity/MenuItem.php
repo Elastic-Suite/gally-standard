@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -21,7 +22,7 @@ class MenuItem
         private ?int $order = null,
         private ?string $cssClass = null,
         private ?string $path = null,
-        private array $children = []
+        private array $children = [],
     ) {
         ksort($this->children);
     }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -32,7 +33,7 @@ abstract class AbstractEntityTestWithUpdate extends AbstractEntityTestCase
         array $data,
         int $responseCode,
         ?string $message = null,
-        ?string $validRegex = null
+        ?string $validRegex = null,
     ): ResponseInterface {
         return $this->update('PATCH', $user, $id, $data, $responseCode, ['Content-Type' => 'application/merge-patch+json'], $message, $validRegex);
     }
@@ -48,7 +49,7 @@ abstract class AbstractEntityTestWithUpdate extends AbstractEntityTestCase
         array $data,
         int $responseCode,
         ?string $message = null,
-        ?string $validRegex = null
+        ?string $validRegex = null,
     ): ResponseInterface {
         return $this->update('PUT', $user, $id, $data, $responseCode, ['Content-Type' => 'application/ld+json'], $message, $validRegex);
     }
@@ -88,7 +89,7 @@ abstract class AbstractEntityTestWithUpdate extends AbstractEntityTestCase
         int $responseCode,
         array $headers = [],
         ?string $message = null,
-        ?string $validRegex = null
+        ?string $validRegex = null,
     ): ResponseInterface {
         $request = new RequestToTest($method, "{$this->getApiPath()}/{$id}", $user, $data, $headers);
         $expectedResponse = new ExpectedResponse(

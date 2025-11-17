@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -38,7 +39,7 @@ class EmailSender
         array $context = [],
         ?string $cc = null,
         ?string $replyTo = null,
-        ?string $bcc = null
+        ?string $bcc = null,
     ): void {
         $email = (new TemplatedEmail())
             ->subject($subject)

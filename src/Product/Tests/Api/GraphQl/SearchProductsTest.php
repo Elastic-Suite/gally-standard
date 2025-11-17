@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -122,7 +123,7 @@ class SearchProductsTest extends AbstractTestCase
         ?int $expectedItemsPerPage,
         ?int $expectedLastPage,
         ?string $expectedIndexAlias,
-        ?float $expectedScore
+        ?float $expectedScore,
     ): void {
         $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
 
@@ -315,7 +316,7 @@ class SearchProductsTest extends AbstractTestCase
         string $priceGroupId = '0',
         ?string $currentCategoryId = null,
         ?string $currentCategoryConfiguration = null,
-        ?string $referenceLocation = null
+        ?string $referenceLocation = null,
     ): void {
         $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
 
@@ -584,7 +585,7 @@ class SearchProductsTest extends AbstractTestCase
         int $currentPage,
         array $sortOrders,
         string $expectedSortOrderField,
-        string $expectedSortOrderDirection
+        string $expectedSortOrderDirection,
     ): void {
         $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
 
@@ -848,7 +849,7 @@ class SearchProductsTest extends AbstractTestCase
         int $currentPage,
         string $searchQuery,
         string $documentIdentifier,
-        array $expectedOrderedDocIds
+        array $expectedOrderedDocIds,
     ): void {
         $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
 
@@ -1022,7 +1023,7 @@ class SearchProductsTest extends AbstractTestCase
     public function testFilteredSearchProductsGraphQlValidation(
         string $catalogId,
         string $filter,
-        string $errorMessage
+        string $errorMessage,
     ): void {
         $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
         $arguments = \sprintf('requestType: product_catalog, localizedCatalog: "%s", filter: {%s}', $catalogId, $filter);
@@ -1491,7 +1492,7 @@ class SearchProductsTest extends AbstractTestCase
         array $sortOrders,
         string $categoryId,
         string $documentIdentifier,
-        array $expectedOrderedDocIds
+        array $expectedOrderedDocIds,
     ): void {
         $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
         $arguments = \sprintf(

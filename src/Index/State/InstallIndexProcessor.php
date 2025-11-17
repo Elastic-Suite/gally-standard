@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -27,7 +28,7 @@ class InstallIndexProcessor implements ProcessorInterface
     public function __construct(
         private IndexOperation $indexOperation,
         private IndexRepositoryInterface $indexRepository,
-        private SerializerInterface $serializer
+        private SerializerInterface $serializer,
     ) {
     }
 

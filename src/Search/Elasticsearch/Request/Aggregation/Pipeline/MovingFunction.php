@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -35,7 +36,7 @@ class MovingFunction extends AbstractPipeline
         array|string|null $bucketsPath,
         private string $script,
         private int $window = 10,
-        private string $gapPolicy = self::GAP_POLICY_SKIP
+        private string $gapPolicy = self::GAP_POLICY_SKIP,
     ) {
         parent::__construct($name, $bucketsPath);
     }

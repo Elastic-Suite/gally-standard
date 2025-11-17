@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -18,7 +19,7 @@ use Gally\Search\Service\SortingOptionsProvider;
 class ProductsSortingOptionsProvider
 {
     public function __construct(
-        private SortingOptionsProvider $sortingOptionsProvider
+        private SortingOptionsProvider $sortingOptionsProvider,
     ) {
     }
 

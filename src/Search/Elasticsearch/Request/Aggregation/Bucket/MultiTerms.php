@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -49,7 +50,7 @@ class MultiTerms extends Terms
         string|array $sortOrder = BucketInterface::SORT_ORDER_COUNT,
         array $include = [],
         array $exclude = [],
-        ?int $minDocCount = null
+        ?int $minDocCount = null,
     ) {
         parent::__construct(
             $name,

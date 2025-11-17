@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -28,7 +29,7 @@ class StandardTest extends KernelTestCase
         ?string $name,
         ?string $missing,
         string $expectedDirection,
-        string $expectedMissing
+        string $expectedMissing,
     ): void {
         $params = [
             'field' => $field,

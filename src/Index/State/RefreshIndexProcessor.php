@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -25,7 +26,7 @@ class RefreshIndexProcessor implements ProcessorInterface
 {
     public function __construct(
         private IndexRepositoryInterface $indexRepository,
-        private SerializerInterface $serializer
+        private SerializerInterface $serializer,
     ) {
     }
 

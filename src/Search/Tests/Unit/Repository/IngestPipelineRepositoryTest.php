@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -114,7 +115,7 @@ class IngestPipelineRepositoryTest extends AbstractTestCase
      */
     public function testGet(
         string $name,
-        array $expectedProcessors
+        array $expectedProcessors,
     ): void {
         $ingestPipelineRepository = static::getContainer()->get(PipelineRepository::class);
         $pipeline = $ingestPipelineRepository->get($name);

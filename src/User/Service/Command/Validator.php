@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -19,7 +20,7 @@ use Symfony\Component\Console\Question\Question;
 class Validator
 {
     public function __construct(
-        private CmdValidation $cmdValidation
+        private CmdValidation $cmdValidation,
     ) {
     }
 

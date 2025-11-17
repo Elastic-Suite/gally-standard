@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -42,7 +43,7 @@ class NestedTest extends KernelTestCase
         ?string $missing,
         string $expectedDirection,
         string $expectedMissing,
-        string $expectedScoreMode
+        string $expectedScoreMode,
     ): void {
         $nestedFilterQuery = $nestedFilter;
         if (\is_array($nestedFilter)) {

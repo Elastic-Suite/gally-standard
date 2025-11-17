@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -44,7 +45,7 @@ class MatchPhrasePrefix implements QueryInterface
         string $field,
         int $maxExpansions = 10,
         ?string $name = null,
-        float $boost = QueryInterface::DEFAULT_BOOST_VALUE
+        float $boost = QueryInterface::DEFAULT_BOOST_VALUE,
     ) {
         $this->name = $name;
         $this->queryText = $queryText;
