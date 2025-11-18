@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -30,7 +31,7 @@ class SyncCategoryDataAfterInstallRest implements ProcessorInterface
         private InstallIndexProcessor $decorated,
         private CategorySynchronizer $synchronizer,
         private CategoryProductPositionManager $categoryProductPositionManager,
-        private SerializerInterface $serializer
+        private SerializerInterface $serializer,
     ) {
     }
 

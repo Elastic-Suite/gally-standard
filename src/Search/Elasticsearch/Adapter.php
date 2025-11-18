@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -25,7 +26,7 @@ class Adapter
         private Request\Mapper $requestMapper,
         private Client $client,
         private AggregationBuilder $aggregationBuilder,
-        private LoggerInterface $logger
+        private LoggerInterface $logger,
     ) {
     }
 

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -49,7 +50,7 @@ class QueryBuilder
         ContainerConfigurationInterface $containerConfiguration,
         string|array|QueryInterface|null $query,
         array $filters,
-        int $spellingType = SpellcheckerInterface::SPELLING_TYPE_EXACT
+        int $spellingType = SpellcheckerInterface::SPELLING_TYPE_EXACT,
     ): QueryInterface {
         $queryParams = [];
 
@@ -90,7 +91,7 @@ class QueryBuilder
     public function createFulltextQuery(
         ContainerConfigurationInterface $containerConfiguration,
         string $queryText,
-        int $spellingType
+        int $spellingType,
     ): QueryInterface {
         return $this->fulltextQueryBuilder->create($containerConfiguration, $queryText, $spellingType);
     }

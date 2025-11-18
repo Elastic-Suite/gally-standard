@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -180,7 +181,7 @@ class StitchingFieldsBuilder implements FieldsBuilderEnumInterface
         ?string $description = null,
         array $args = [],
         ?callable $resolve = null,
-        ?string $deprecationReason = null
+        ?string $deprecationReason = null,
     ): array {
         // This part has been inspired by the function \ApiPlatform\GraphQl\Type\FieldsBuilder::getResourceFieldConfiguration.
         /** @var GraphQlAttributeInterface $attributeClassType */

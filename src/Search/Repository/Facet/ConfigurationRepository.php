@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -37,7 +38,7 @@ class ConfigurationRepository extends ServiceEntityRepository
     private ?string $sourceFieldCode = null;
 
     public function __construct(
-        ManagerRegistry $registry
+        ManagerRegistry $registry,
     ) {
         parent::__construct($registry, Facet\Configuration::class);
     }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -27,7 +28,7 @@ class IndexOperation
     public function __construct(
         protected IndexRepositoryInterface $indexRepository,
         protected IndexSettingsInterface $indexSettings,
-        protected MetadataManager $metadataManager
+        protected MetadataManager $metadataManager,
     ) {
     }
 

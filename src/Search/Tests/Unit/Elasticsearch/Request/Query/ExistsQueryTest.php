@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -60,7 +61,7 @@ class ExistsQueryTest extends KernelTestCase
     public function testCreate(
         string $field,
         ?string $name,
-        float $boost
+        float $boost,
     ): void {
         $this->performCreateParamsTests($field, $name, $boost);
     }
@@ -97,7 +98,7 @@ class ExistsQueryTest extends KernelTestCase
     private function performCreateParamsTests(
         string $field,
         ?string $name,
-        float $boost
+        float $boost,
     ): void {
         // TODO: use reflection to build mapping ?
         $queryParams = [

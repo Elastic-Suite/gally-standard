@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -21,6 +22,6 @@ interface ContainerConfigurationFactoryInterface
     public function create(
         string $requestType,
         Metadata $metadata,
-        LocalizedCatalog $localizedCatalog
+        LocalizedCatalog $localizedCatalog,
     ): ContainerConfigurationInterface;
 }

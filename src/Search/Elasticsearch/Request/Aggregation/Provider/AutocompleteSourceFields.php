@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -40,7 +41,7 @@ class AutocompleteSourceFields implements AggregationProviderInterface
         ContainerConfigurationInterface $containerConfig,
         $query = null,
         $filters = [],
-        $queryFilters = []
+        $queryFilters = [],
     ): array {
         $sourceFields = $this->sourceFieldRepository->findBy(['isUsedInAutocomplete' => true, 'metadata' => $containerConfig->getMetadata()]);
 

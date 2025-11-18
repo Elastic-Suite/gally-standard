@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -65,7 +66,7 @@ class BooleanQueryTest extends KernelTestCase
         int $minimumShouldMatch,
         ?string $name,
         float $boost,
-        bool $cached
+        bool $cached,
     ): void {
         $this->performCreateParamsTests($must, $should, $mustNot, $minimumShouldMatch, $name, $boost, $cached);
     }
@@ -171,7 +172,7 @@ class BooleanQueryTest extends KernelTestCase
         int $minimumShouldMatch,
         ?string $name,
         float $boost,
-        bool $cached
+        bool $cached,
     ): void {
         // TODO: use reflection to build mapping ?
         $queryParams = [

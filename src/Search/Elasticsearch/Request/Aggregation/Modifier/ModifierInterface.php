@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -36,7 +37,7 @@ interface ModifierInterface
         array $facetConfigs,
         QueryInterface|string|null $query,
         array $filters,
-        array $queryFilters
+        array $queryFilters,
     ): array;
 
     /**
@@ -51,6 +52,6 @@ interface ModifierInterface
         array $aggregations,
         QueryInterface|string|null $query,
         array $filters,
-        array $queryFilters
+        array $queryFilters,
     ): array;
 }

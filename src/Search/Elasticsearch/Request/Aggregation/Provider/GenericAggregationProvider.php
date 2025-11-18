@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -24,7 +25,7 @@ class GenericAggregationProvider implements AggregationProviderInterface
         ContainerConfigurationInterface $containerConfig,
         $query = null,
         $filters = [],
-        $queryFilters = []
+        $queryFilters = [],
     ): array {
         return [];
     }

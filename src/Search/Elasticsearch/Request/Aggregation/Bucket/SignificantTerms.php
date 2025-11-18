@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -52,7 +53,7 @@ class SignificantTerms extends AbstractBucket
         ?QueryInterface $nestedFilter = null,
         private int $size = 0,
         private int $minDocCount = 5,
-        private string $algorithm = self::ALGORITHM_GND
+        private string $algorithm = self::ALGORITHM_GND,
     ) {
         parent::__construct($name, $field, $childAggregations, $nestedPath, $filter, $nestedFilter);
 

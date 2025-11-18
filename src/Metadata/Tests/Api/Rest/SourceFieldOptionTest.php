@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -129,7 +130,7 @@ class SourceFieldOptionTest extends AbstractEntityTestWithUpdate
         array $data,
         int $responseCode,
         ?string $message = null,
-        ?string $validRegex = null
+        ?string $validRegex = null,
     ): ResponseInterface {
         $response = parent::testPutUpdate($user, $id, $data, $responseCode, $message, $validRegex);
 
@@ -200,7 +201,7 @@ class SourceFieldOptionTest extends AbstractEntityTestWithUpdate
         array $expectedOptionCountBySourceField,
         array $expectedResponseData,
         int $responseCode,
-        ?string $message = null
+        ?string $message = null,
     ): void {
         $request = new RequestToTest('POST', "{$this->getApiPath()}/bulk", $user, $options);
         $expectedResponse = new ExpectedResponse(

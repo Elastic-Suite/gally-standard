@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -60,7 +61,7 @@ class Catalog
     #[Groups('catalog:read')]
     private ?string $name;
 
-    /** @var \Doctrine\Common\Collections\Collection&iterable<\Gally\Catalog\Entity\LocalizedCatalog> */
+    /** @var Collection&iterable<LocalizedCatalog> */
     #[Groups('catalog:read')]
     private Collection $localizedCatalogs;
 

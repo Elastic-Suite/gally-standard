@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -79,7 +80,7 @@ class SearchDocumentsTest extends AbstractTestCase
         ?int $expectedItemsPerPage,
         ?int $expectedLastPage,
         ?string $expectedIndexAlias,
-        ?float $expectedScore
+        ?float $expectedScore,
     ): void {
         $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
 
@@ -307,7 +308,7 @@ class SearchDocumentsTest extends AbstractTestCase
         string $documentIdentifier,
         array $expectedOrderedDocIds,
         string $priceGroupId = '0',
-        string $referenceLocation = '48.913066, 2.298293'
+        string $referenceLocation = '48.913066, 2.298293',
     ): void {
         $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
 
@@ -577,7 +578,7 @@ class SearchDocumentsTest extends AbstractTestCase
         int $currentPage,
         array $sortOrders,
         string $expectedSortOrderField,
-        string $expectedSortOrderDirection
+        string $expectedSortOrderDirection,
     ): void {
         $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
 
@@ -1381,7 +1382,7 @@ class SearchDocumentsTest extends AbstractTestCase
         string $entityType,
         string $catalogId,
         string $filter,
-        string $errorMessage
+        string $errorMessage,
     ): void {
         $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
 

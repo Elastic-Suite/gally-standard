@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -19,7 +20,7 @@ use Gally\RuleEngine\Service\RuleEngineManager;
 class RuleEngineOperatorsResolver
 {
     public function __construct(
-        private RuleEngineManager $ruleEngineManager
+        private RuleEngineManager $ruleEngineManager,
     ) {
     }
 

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -45,7 +46,7 @@ class CategoryConfigurationRepository extends ServiceEntityRepository
     public function findOneMergedByContext(
         Category $category,
         ?Catalog $catalog,
-        ?LocalizedCatalog $localizedCatalog
+        ?LocalizedCatalog $localizedCatalog,
     ): ?Category\Configuration {
         $mergeExpr = $this->getMergeExpr($catalog, $localizedCatalog);
 

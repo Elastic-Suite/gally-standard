@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -23,7 +24,7 @@ class GeoDistanceAggregationConfigResolver implements FieldAggregationConfigReso
 {
     public function __construct(
         private SearchContext $searchContext,
-        private ConfigurationManager $configurationManager
+        private ConfigurationManager $configurationManager,
     ) {
     }
 

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -61,7 +62,7 @@ class MissingTest extends KernelTestCase
     public function testCreateComplexParams(
         string $field,
         ?string $name,
-        ?float $boost
+        ?float $boost,
     ): void {
         $queryParams = [
             'field' => $field,

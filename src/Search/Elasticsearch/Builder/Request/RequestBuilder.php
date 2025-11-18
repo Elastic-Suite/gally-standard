@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -68,7 +69,7 @@ class RequestBuilder
         array $sortOrders = [],
         array $filters = [],
         array $queryFilters = [],
-        ?array $facets = []
+        ?array $facets = [],
     ): RequestInterface {
         $facetFilters = array_intersect_key($filters, $facets ?? []);
         $facets = \is_array($facets)

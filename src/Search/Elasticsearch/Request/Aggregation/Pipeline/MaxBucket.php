@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -30,7 +31,7 @@ class MaxBucket extends AbstractPipeline
         string $name,
         array|string|null $bucketsPath,
         private string $gapPolicy = self::GAP_POLICY_SKIP,
-        private string $format = ''
+        private string $format = '',
     ) {
         parent::__construct($name, $bucketsPath);
     }

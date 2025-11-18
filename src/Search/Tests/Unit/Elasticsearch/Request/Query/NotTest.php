@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -86,7 +87,7 @@ class NotTest extends KernelTestCase
     private function performCreateComplexParams(
         ?QueryInterface $originalQuery,
         ?string $name,
-        ?float $boost
+        ?float $boost,
     ): void {
         // TODO: use reflection to build mapping ?
         $queryParams = [

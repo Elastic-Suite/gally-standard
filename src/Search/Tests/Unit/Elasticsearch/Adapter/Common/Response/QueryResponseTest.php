@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -114,7 +115,7 @@ class QueryResponseTest extends KernelTestCase
         int $expectedDocsCount,
         array $expectedDocuments,
         array $expectedAggregations,
-        int $expectedTotalItems
+        int $expectedTotalItems,
     ): void {
         $response = new Response\QueryResponse($searchRequest, $searchResponse, new AggregationBuilder());
         $this->assertContainsOnlyInstancesOf(DocumentInterface::class, $response);

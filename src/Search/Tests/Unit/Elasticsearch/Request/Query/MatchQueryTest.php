@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -67,7 +68,7 @@ class MatchQueryTest extends KernelTestCase
         string $field,
         ?string $minimumShouldMatch,
         ?string $name,
-        ?float $boost
+        ?float $boost,
     ): void {
         $queryParams = [
             'queryText' => $queryText,

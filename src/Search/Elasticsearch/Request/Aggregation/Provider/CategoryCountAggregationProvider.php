@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -26,7 +27,7 @@ class CategoryCountAggregationProvider implements AggregationProviderInterface
         ContainerConfigurationInterface $containerConfig,
         QueryInterface|string|null $query = null,
         array $filters = [],
-        array $queryFilters = []
+        array $queryFilters = [],
     ): array {
         return [
             [

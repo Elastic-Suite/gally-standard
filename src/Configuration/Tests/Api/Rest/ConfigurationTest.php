@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -50,7 +51,7 @@ class ConfigurationTest extends AbstractEntityTestWithUpdate
         array $data,
         int $responseCode = 201,
         ?string $message = null,
-        ?string $validRegex = null
+        ?string $validRegex = null,
     ): void {
         parent::testCreate($user, $data, $responseCode, $message, $validRegex);
     }
@@ -371,7 +372,7 @@ DETAIL:  Key (path, scope_type, scope_code)=(gally.base_url.media, localized_cat
         array $expectedResponseData,
         array $expectedSearchValues,
         int $responseCode,
-        ?string $message = null
+        ?string $message = null,
     ): void {
         $request = new RequestToTest('POST', "{$this->getApiPath()}/bulk", $user, $configurations);
         $expectedResponse = new ExpectedResponse(

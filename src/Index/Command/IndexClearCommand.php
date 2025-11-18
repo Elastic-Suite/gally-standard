@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -28,7 +29,7 @@ class IndexClearCommand extends Command
      */
     public function __construct(
         private IndexRepositoryInterface $indexRepository,
-        ?string $name = null
+        ?string $name = null,
     ) {
         parent::__construct($name);
     }

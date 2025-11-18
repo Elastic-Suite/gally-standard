@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -60,7 +61,7 @@ class CoverageTest extends AbstractTestCase
      */
     public function testModifySourceFields(
         bool $coverageUseIndexFieldsProperty,
-        array $expectedAggregations
+        array $expectedAggregations,
     ): void {
         $containerConfigurationProvider = static::getContainer()->get(ContainerConfigurationProvider::class);
         \assert(static::getContainer()->get(ContainerConfigurationProvider::class) instanceof ContainerConfigurationProvider);

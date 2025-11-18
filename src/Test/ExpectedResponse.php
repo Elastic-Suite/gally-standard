@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -24,7 +25,7 @@ class ExpectedResponse
         private int $responseCode,
         ?callable $validateResponseCallback = null,
         private ?string $message = null,
-        private bool $isValidateErrorResponse = false
+        private bool $isValidateErrorResponse = false,
     ) {
         $this->validateResponseCallback = $validateResponseCallback
             ? $validateResponseCallback(...)

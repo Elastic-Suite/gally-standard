@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -48,7 +49,7 @@ class CategoryConfigurationTest extends AbstractEntityTestWithUpdate
         array $data,
         int $responseCode = 201,
         ?string $message = null,
-        ?string $validRegex = null
+        ?string $validRegex = null,
     ): void {
         if (isset($data['catalog'])) {
             $catalogRepository = static::getContainer()->get(CatalogRepository::class);

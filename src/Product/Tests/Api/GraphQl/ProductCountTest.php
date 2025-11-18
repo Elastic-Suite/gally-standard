@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -61,7 +62,7 @@ class ProductCountTest extends AbstractTestCase
         string $search,
         string $filters,
         int $totalCount,
-        array $categoryCount
+        array $categoryCount,
     ): void {
         $arguments = \sprintf(
             'requestType: product_category_count, localizedCatalog: "%s", search: "%s", filter: {%s}, pageSize: 0, currentPage: 1',

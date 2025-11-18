@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -41,7 +42,7 @@ class Range implements QueryInterface
         string $field,
         array $bounds = [],
         ?string $name = null,
-        float $boost = QueryInterface::DEFAULT_BOOST_VALUE
+        float $boost = QueryInterface::DEFAULT_BOOST_VALUE,
     ) {
         $this->name = $name;
         $this->boost = $boost;

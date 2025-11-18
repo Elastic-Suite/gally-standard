@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -20,7 +21,7 @@ use Gally\Catalog\Repository\LocalizedCatalogRepository;
 class DefaultCatalogProvider
 {
     public function __construct(
-        private LocalizedCatalogRepository $localizedCatalogRepository
+        private LocalizedCatalogRepository $localizedCatalogRepository,
     ) {
     }
 

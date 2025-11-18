@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -45,7 +46,7 @@ class Nested extends Standard
         ?string $direction = self::SORT_ASC,
         ?string $scoreMode = self::SCORE_MODE_MIN,
         ?string $name = null,
-        ?string $missing = null
+        ?string $missing = null,
     ) {
         parent::__construct($field, $direction, $name, $missing);
 

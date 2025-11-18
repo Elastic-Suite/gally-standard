@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -22,7 +23,7 @@ use Gally\Index\Repository\Index\IndexRepositoryInterface;
 class IndexProcessor implements ProcessorInterface
 {
     public function __construct(
-        private IndexRepositoryInterface $indexRepository
+        private IndexRepositoryInterface $indexRepository,
     ) {
     }
 

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -99,7 +100,7 @@ final class Bulk extends HttpOperation implements CollectionOperationInterface
         ?OptionsInterface $stateOptions = null,
         array|Parameters|null $parameters = null,
         array $extraProperties = [],
-        private ?string $itemUriTemplate = null
+        private ?string $itemUriTemplate = null,
     ) {
         parent::__construct(
             method: 'POST',

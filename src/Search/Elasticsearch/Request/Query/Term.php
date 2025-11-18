@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -40,7 +41,7 @@ class Term implements QueryInterface
         string|bool|int|float $value,
         string $field,
         ?string $name = null,
-        float $boost = QueryInterface::DEFAULT_BOOST_VALUE
+        float $boost = QueryInterface::DEFAULT_BOOST_VALUE,
     ) {
         $this->name = $name;
         $this->value = $value;

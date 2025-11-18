@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -19,7 +20,7 @@ use Gally\Index\Service\SelfReindexOperation;
 class SelfReindexMutation implements MutationResolverInterface
 {
     public function __construct(
-        private SelfReindexOperation $reindexOperation
+        private SelfReindexOperation $reindexOperation,
     ) {
     }
 

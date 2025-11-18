@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -25,7 +26,7 @@ class Validation
 
     public function __construct(
         private UserManager $userManager,
-        private ValidatorInterface $validator
+        private ValidatorInterface $validator,
     ) {
     }
 

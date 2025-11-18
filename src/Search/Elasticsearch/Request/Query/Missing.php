@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -36,7 +37,7 @@ class Missing implements QueryInterface
     public function __construct(
         string $field,
         ?string $name = null,
-        float $boost = QueryInterface::DEFAULT_BOOST_VALUE
+        float $boost = QueryInterface::DEFAULT_BOOST_VALUE,
     ) {
         $this->name = $name;
         $this->boost = $boost;

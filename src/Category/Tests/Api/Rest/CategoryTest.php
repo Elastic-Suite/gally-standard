@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -43,7 +44,7 @@ class CategoryTest extends AbstractEntityTestWithUpdate
         array $data,
         int $responseCode = 201,
         ?string $message = null,
-        ?string $validRegex = null
+        ?string $validRegex = null,
     ): void {
         // Category can't be created via api.
         $this->assertTrue(true);

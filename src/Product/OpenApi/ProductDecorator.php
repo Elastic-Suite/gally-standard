@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -21,7 +22,7 @@ final class ProductDecorator implements OpenApiFactoryInterface
 {
     public function __construct(
         private DocumentationHelper $documentationHelper,
-        private OpenApiFactoryInterface $decorated
+        private OpenApiFactoryInterface $decorated,
     ) {
     }
 

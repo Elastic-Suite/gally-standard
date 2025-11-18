@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -65,7 +66,7 @@ class SimpleRequestBuilder
         array $sortOrders = [],
         array $filters = [],
         array $queryFilters = [],
-        ?array $facets = []
+        ?array $facets = [],
     ): RequestInterface {
         $facets = \is_array($facets)
             ? array_merge($facets, $containerConfig->getAggregations($query, $filters, $queryFilters))

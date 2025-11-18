@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -48,7 +49,7 @@ class Terms extends AbstractBucket
         private string|array $sortOrder = BucketInterface::SORT_ORDER_COUNT,
         private array $include = [],
         private array $exclude = [],
-        private ?int $minDocCount = null
+        private ?int $minDocCount = null,
     ) {
         parent::__construct($name, $field, $childAggregations, $nestedPath, $filter, $nestedFilter);
 
