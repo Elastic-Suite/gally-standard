@@ -22,7 +22,7 @@ jobs:
 
         env:
             ref: "main" # ${{ github.base_ref }} cannot work on pushes.
-            last_published_version: "2.2.0"
+            last_published_version: "2.2.1"
             gally-directory: ${{ github.workspace }}/gally
             package-directory: ${{ github.workspace }}/gally/api/packages/${{ github.event.repository.name }}
 
