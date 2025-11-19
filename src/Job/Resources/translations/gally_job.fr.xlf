@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" version="2.0"
+       srcLang="en-US" trgLang="fr-FR">
+    <file id="gally_job.fr">
+        <unit id="import_error_file_not_found">
+            <segment>
+                <source>import.error.file_not_found</source>
+                <target>Fichier d'import introuvable</target>
+            </segment>
+        </unit>
+        <unit id="import_error_file_not_readable">
+            <segment>
+                <source>import.error.file_not_readable</source>
+                <target>Le fichier d'import n'est pas lisible</target>
+            </segment>
+        </unit>
+        <unit id="import_error_cannot_open_file">
+            <segment>
+                <source>import.error.cannot_open_file</source>
+                <target>Impossible d'ouvrir le fichier d'import</target>
+            </segment>
+        </unit>
+        <unit id="import_error_column_count_mismatch">
+            <segment>
+                <source>import.error.column_count_mismatch</source>
+                <target>Nombre de colonnes incorrect à la ligne %line%. %expected% colonnes attendues, %actual% trouvées</target>
+            </segment>
+        </unit>
+        <unit id="import_error_missing_columns">
+            <segment>
+                <source>import.error.missing_columns</source>
+                <target>Colonnes obligatoires manquantes à la ligne %line% : %missing_columns%</target>
+            </segment>
+        </unit>
+        <unit id="import_error_invalid_headers">
+            <segment>
+                <source>import.error.invalid_headers</source>
+                <target>En-têtes CSV invalides. Attendus : %expected%</target>
+            </segment>
+        </unit>
+        <unit id="import_error_validation_failed">
+            <segment>
+                <source>import.error.validation_failed</source>
+                <target>La validation du fichier s'est terminée avec des erreurs, voir ci-dessus</target>
+            </segment>
+        </unit>
+        <unit id="import_validation_completed">
+            <segment>
+                <source>import.validation.completed</source>
+                <target>La validation du fichier s'est terminée avec succès</target>
+            </segment>
+        </unit>
+        <unit id="job_error_unsupported_type">
+            <segment>
+                <source>job.error.unsupported_type</source>
+                <target>Type de job non supporté "%type%" (Job id: %id%)</target>
+            </segment>
+        </unit>
+        <unit id="job_error_cannot_be_launched">
+            <segment>
+                <source>job.error.cannot_be_launched</source>
+                <target>Le job avec l'id "%id%" ne peut pas être lancé car son statut actuel est "%status%"</target>
+            </segment>
+        </unit>
+        <unit id="job_error_no_import_handler">
+            <segment>
+                <source>job.error.no_import_handler</source>
+                <target>Aucun gestionnaire d'import trouvé pour le profil "%profile%" (Job id: %id%)</target>
+            </segment>
+        </unit>
+        <unit id="job_error_no_export_handler">
+            <segment>
+                <source>job.error.no_export_handler</source>
+                <target>Aucun gestionnaire d'export trouvé pour le profil "%profile%" (Job id: %id%)</target>
+            </segment>
+        </unit>
+        <unit id="job_error_execution_failed">
+            <segment>
+                <source>job.error.execution_failed</source>
+                <target>Une erreur s'est produite lors de l'exécution du job.</target>
+            </segment>
+        </unit>
+        <unit id="job_start">
+            <segment>
+                <source>job.start</source>
+                <target>Début du Job</target>
+            </segment>
+        </unit>
+        <unit id="job_end">
+            <segment>
+                <source>job.end</source>
+                <target>Fin du Job</target>
+            </segment>
+        </unit>
+        <unit id="job_error_not_found">
+            <segment>
+                <source>job.error.not_found</source>
+                <target>Le job avec l'id '%id%' n'a pas été trouvé</target>
+            </segment>
+        </unit>
+        <unit id="job_error_current_job_not_set">
+            <segment>
+                <source>job.error.current_job_not_set</source>
+                <target>Le job courant doit être défini avant d'utiliser ce service d'import.</target>
+            </segment>
+        </unit>
+        <unit id="job_status_new_label">
+            <segment>
+                <source>job.status.new.label</source>
+                <target>Nouveau</target>
+            </segment>
+        </unit>
+        <unit id="job_status_processing_label">
+            <segment>
+                <source>job.status.processing.label</source>
+                <target>En cours</target>
+            </segment>
+        </unit>
+        <unit id="job_status_finished_label">
+            <segment>
+                <source>job.status.finished.label</source>
+                <target>Terminé</target>
+            </segment>
+        </unit>
+        <unit id="job_status_failed_label">
+            <segment>
+                <source>job.status.failed.label</source>
+                <target>Échoué</target>
+            </segment>
+        </unit>
+        <unit id="job_type_import_label">
+            <segment>
+                <source>job.type.import.label</source>
+                <target>Import</target>
+            </segment>
+        </unit>
+        <unit id="job_type_export_label">
+            <segment>
+                <source>job.type.export.label</source>
+                <target>Export</target>
+            </segment>
+        </unit>
+    </file>
+</xliff>

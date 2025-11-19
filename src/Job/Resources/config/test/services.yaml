@@ -1,0 +1,17 @@
+services:
+    Gally\Job\Tests\Job\DummyImport:
+        arguments:
+            - '@Gally\Job\Service\JobManager'
+            - '@Gally\Doctrine\Service\EntityManagerFactory'
+            - '@translator'
+        tags:
+            - { name: gally.job.import, priority: 100000 }
+
+    Gally\Job\Tests\Job\DummyExport:
+        arguments:
+            - '@Gally\Job\Service\JobManager'
+            - '@Gally\Doctrine\Service\EntityManagerFactory'
+            - '@translator'
+            - '@filesystem'
+        tags:
+            - { name: gally.job.export, priority: 100000 }
