@@ -37,6 +37,7 @@ class GallyExtension extends Extension
         $this->loadGallyStandardConfigFile($container, 'api_platform.yaml', 'api_platform');
         $this->loadGallyStandardConfigFile($container, 'translation.yaml', 'framework');
         $this->loadGallyStandardConfigFile($container, 'nelmio_cors.yaml', 'nelmio_cors');
+        $this->loadGallyStandardConfigFile($container, 'messenger.yaml', 'framework');
 
         $container->prependExtensionConfig(
             'api_platform',

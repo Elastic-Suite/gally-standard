@@ -21,7 +21,6 @@ use Gally\Index\Dto\CreateDataStreamDto;
 use Gally\Index\Entity\DataStream;
 use Gally\Index\Repository\DataStream\DataStreamRepositoryInterface;
 use Gally\Metadata\Repository\MetadataRepository;
-use Psr\Log\LoggerInterface;
 
 class CreateDataStreamProcessor implements ProcessorInterface
 {

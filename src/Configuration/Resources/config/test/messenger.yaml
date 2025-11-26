@@ -1,0 +1,6 @@
+framework:
+    messenger:
+        transports:
+            tracking:
+                dsn: 'in-memory://'
+                options: []
