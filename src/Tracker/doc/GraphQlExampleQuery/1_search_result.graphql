@@ -1,0 +1,66 @@
+mutation searchResultView {
+    createTrackingEvent(
+        input: {
+            eventType: "search"
+            metadataCode: "product"
+            localizedCatalogCode: "com_fr"
+
+            sessionUid: "2a9c9f2d-0aff-5c1c-b0a8-98cb6460a1d2"
+            sessionVid: "55779ebd-9f1f-3ca8-dabf-0d2d83306f32"
+
+            payload: """{
+                "search": {
+                    "is_spellchecked": false,
+                    "query_text": "dress"
+                },
+                "product_list": {
+                    "item_count": 72,
+                    "current_page": 1,
+                    "page_count": 6,
+                    "sort_order": "position",
+                    "sort_direction": "asc",
+                    "filters": [
+                        { "name": "fashion_material__value", "value": "47" }
+                    ]
+                }
+            }"""
+        }
+    ) {
+        trackingEvent {
+            id
+            createdAt
+        }
+    }
+}
+
+mutation searchProductDisplay {
+    createTrackingEvent(
+        input: {
+            eventType: "display"
+            metadataCode: "product"
+            localizedCatalogCode: "com_fr"
+
+            sourceEventType: "search"
+            sourceMetadataCode: "product"
+            contextType: "search"
+            contextCode: "dress"
+
+            sessionUid: "2a9c9f2d-0aff-5c1c-b0a8-98cb6460a1d2"
+            sessionVid: "55779ebd-9f1f-3ca8-dabf-0d2d83306f32"
+
+            payload: """{
+                "items": [
+                    { "entityCode": "VD01", "display": { "position": 1 }},
+                    { "entityCode": "VD07", "display": { "position": 2 }},
+                    { "entityCode": "VD08", "display": { "position": 3 }}
+                ]
+            }"""
+        }
+    ) {
+        trackingEvent {
+            id
+            createdAt
+        }
+    }
+}
+

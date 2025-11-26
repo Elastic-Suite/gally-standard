@@ -1,0 +1,18 @@
+
+services:
+    Gally\Tracker\State\TrackingEventProcessor:
+        arguments:
+            - '@messenger.default_bus'
+            - '@Gally\Metadata\Service\PriceGroupProvider'
+        tags:
+            - { name: api_platform.state_processor }
+        
+    Gally\Tracker\MessageHandler\TrackingEventHandler:
+        arguments:
+            $validators: !tagged_iterator gally.tracker.validator
+        tags:
+            - { name: messenger.message_handler }
+
+    Gally\Tracker\Validator\EventTypeValidator:
+        tags:
+            - { name: gally.tracker.validator }
