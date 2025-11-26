@@ -1,0 +1,46 @@
+mutation orderProduct {
+    createTrackingEvent(
+        input: {
+            eventType: "order"
+            metadataCode: "product"
+            localizedCatalogCode: "com_fr"
+
+            sourceEventType: "view"
+            sourceMetadataCode: "product"
+            contextType: "search"
+            contextCode: "dress"
+
+            sessionUid: "2a9c9f2d-0aff-5c1c-b0a8-98cb6460a1d2"
+            sessionVid: "55779ebd-9f1f-3ca8-dabf-0d2d83306f32"
+
+            payload: """{
+                "order": {
+                    "order_id": "125",
+                    "total": 52.5
+                },
+                "items": [
+                    {
+                        "entityCode": "VD01",
+                        "order": {
+                            "price": 12.5,
+                            "qty": 3,
+                            "row_total": 37.5
+                        }
+                    },
+                    {
+                        "entityCode": "VD06",
+                        "order": {
+                            "price": 15,
+                            "qty": 1,
+                            "row_total": 15
+                        }
+                    }
+                ]
+            }"""
+        }
+    ) {
+        trackingEvent {
+            createdAt
+        }
+    }
+}
