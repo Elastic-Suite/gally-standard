@@ -56,5 +56,23 @@
                 </target>
             </segment>
         </unit>
+        <unit id="gally_configuration.gally_ism_settings_prefix.label">
+            <segment>
+                <source>gally_configuration.gally_ism_settings_prefix.label</source>
+                <target>Préfixe ISM</target>
+            </segment>
+        </unit>
+        <unit id="gally_configuration.gally_ism_settings_rollover_after.label">
+            <segment>
+                <source>gally_configuration.gally_ism_settings_rollover_after.label</source>
+                <target>Rollover après (jours)</target>
+            </segment>
+        </unit>
+        <unit id="gally_configuration.gally_ism_settings_delete_after.label">
+            <segment>
+                <source>gally_configuration.gally_ism_settings_delete_after.label</source>
+                <target>Supprimer après (jours)</target>
+            </segment>
+        </unit>
     </file>
 </xliff>
