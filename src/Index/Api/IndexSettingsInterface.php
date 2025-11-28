@@ -37,6 +37,14 @@ interface IndexSettingsInterface
     public function createIndexNameFromIdentifier(string $indexIdentifier, LocalizedCatalog|int|string $localizedCatalog): string;
 
     /**
+     * Create a new ism name for an identifier (eg. product) by localized catalog.
+     *
+     * @param string           $identifier       Ism identifier
+     * @param LocalizedCatalog $localizedCatalog Localized catalog
+     */
+    public function createIsmNameFromIdentifier(string $identifier, LocalizedCatalog $localizedCatalog): string;
+
+    /**
      * Return the index aliases to set to a newly created index for an identifier (eg. product) by catalog.
      *
      * @param string                      $indexIdentifier  An index identifier
@@ -118,4 +126,20 @@ interface IndexSettingsInterface
      * Check if index is obsolete.
      */
     public function isObsolete(Index $index): bool;
+
+    /**
+     * Get the ISM rollover_after value from the configuration.
+     *
+     * @param LocalizedCatalog $localizedCatalog Localized catalog
+     * @param Metadata|null    $metadata         Optional metadata to check for entity-specific configuration
+     */
+    public function getIsmRolloverAfter(LocalizedCatalog $localizedCatalog, ?Metadata $metadata = null): ?int;
+
+    /**
+     * Get the ISM delete_after value from the configuration.
+     *
+     * @param LocalizedCatalog $localizedCatalog Localized catalog
+     * @param Metadata|null    $metadata         Optional metadata to check for entity-specific configuration
+     */
+    public function getIsmDeleteAfter(LocalizedCatalog $localizedCatalog, ?Metadata $metadata = null): ?int;
 }
