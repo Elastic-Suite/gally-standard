@@ -14,6 +14,12 @@
                 <target>General</target>
             </segment>
         </unit>
+        <unit id="gally_configuration.group.index.fieldset.ism.label">
+            <segment>
+                <source>gally_configuration.group.index.fieldset.ism.label</source>
+                <target>Index State Management</target>
+            </segment>
+        </unit>
         <unit id="gally_configuration.gally_indices_settings_prefix.label">
             <segment>
                 <source>gally_configuration.gally_indices_settings_prefix.label</source>
@@ -53,6 +59,30 @@
                     reindexing duration of the more complex index of your platform (usually a catalog_product/product
                     search index). Defaults to 172,800 seconds (2 days), minimum value: 3600 (1 hour).
                 </target>
+            </segment>
+        </unit>
+        <unit id="gally_configuration.gally_ism_settings_prefix.label">
+            <segment>
+                <source>gally_configuration.gally_ism_settings_prefix.label</source>
+                <target>ISM prefix</target>
+            </segment>
+        </unit>
+        <unit id="gally_configuration.gally_ism_settings_rollover_after.label">
+            <segment>
+                <source>gally_configuration.gally_ism_settings_rollover_after.label</source>
+                <target>Rollover after (days)</target>
+            </segment>
+        </unit>
+        <unit id="gally_configuration.gally_ism_settings_delete_after.label">
+            <segment>
+                <source>gally_configuration.gally_ism_settings_delete_after.label</source>
+                <target>Delete after (days)</target>
+            </segment>
+        </unit>
+        <unit id="gally_configuration.gally_ism_settings_delete_after.tooltip">
+            <segment>
+                <source>gally_configuration.gally_ism_settings_delete_after.tooltip</source>
+                <target>Older data will be deleted daily.</target>
             </segment>
         </unit>
     </file>

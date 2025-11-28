@@ -14,6 +14,12 @@
                 <target>Général</target>
             </segment>
         </unit>
+        <unit id="gally_configuration.group.index.fieldset.ism.label">
+            <segment>
+                <source>gally_configuration.group.index.fieldset.ism.label</source>
+                <target>Index State Management</target>
+            </segment>
+        </unit>
         <unit id="gally_configuration.gally_indices_settings_prefix.label">
             <segment>
                 <source>gally_configuration.gally_indices_settings_prefix.label</source>
@@ -54,6 +60,30 @@
                     de votre plateforme (généralement un index catalog_product/de recherche produits). Valeur par
                     défaut: 172 800 secondes (2 jours), valeur minimum: 3600 (1 heure).
                 </target>
+            </segment>
+        </unit>
+        <unit id="gally_configuration.gally_ism_settings_prefix.label">
+            <segment>
+                <source>gally_configuration.gally_ism_settings_prefix.label</source>
+                <target>Préfixe ISM</target>
+            </segment>
+        </unit>
+        <unit id="gally_configuration.gally_ism_settings_rollover_after.label">
+            <segment>
+                <source>gally_configuration.gally_ism_settings_rollover_after.label</source>
+                <target>Rollover après (jours)</target>
+            </segment>
+        </unit>
+        <unit id="gally_configuration.gally_ism_settings_delete_after.label">
+            <segment>
+                <source>gally_configuration.gally_ism_settings_delete_after.label</source>
+                <target>Délais de retention (jours)</target>
+            </segment>
+        </unit>
+        <unit id="gally_configuration.gally_ism_settings_delete_after.tooltip">
+            <segment>
+                <source>gally_configuration.gally_ism_settings_delete_after.tooltip</source>
+                <target>Les données les plus anciennes seront supprimées tous les jours.</target>
             </segment>
         </unit>
     </file>

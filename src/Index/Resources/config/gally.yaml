@@ -5,3 +5,7 @@ gally:
         number_of_shards: 1
         number_of_replicas: 0
         time_before_ghost: 3600
+    ism_settings:
+        prefix: gally
+        rollover_after: 30
+        delete_after: 365
