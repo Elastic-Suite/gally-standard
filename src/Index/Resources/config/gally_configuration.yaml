@@ -31,3 +31,20 @@ gally:
                                 infoTooltipKey: 'gally_configuration.gally_indices_settings_time_before_ghost.tooltip'
                                 position: 10
                                 input: 'number'
+                    ism:
+                        labelKey: 'gally_configuration.group.index.fieldset.ism.label'
+                        position: 20
+                        fields:
+                            gally.ism_settings.prefix:
+                                labelKey: 'gally_configuration.gally_ism_settings_prefix.label'
+                                position: 20
+                                input: 'string'
+                            gally.ism_settings.rollover_after:
+                                labelKey: 'gally_configuration.gally_ism_settings_rollover_after.label'
+                                position: 21
+                                input: 'number'
+                            gally.ism_settings.delete_after:
+                                labelKey: 'gally_configuration.gally_ism_settings_delete_after.label'
+                                infoTooltipKey: 'gally_configuration.gally_ism_settings_delete_after.tooltip'
+                                position: 22
+                                input: 'number'
