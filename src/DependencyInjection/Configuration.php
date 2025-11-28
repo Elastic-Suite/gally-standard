@@ -141,6 +141,15 @@ class Configuration implements GallyConfigurationInterface
                     ->end()
                 ->end()
 
+                // ISM setting config
+                ->arrayNode('ism_settings')
+                    ->children()
+                        ->scalarNode('prefix')
+                            ->isRequired()
+                        ->end()
+                    ->end()
+                ->end()
+
                 // Rename graphQL query
                 ->arrayNode('graphql_query_renaming')
                     ->useAttributeAsKey('ressource_class')

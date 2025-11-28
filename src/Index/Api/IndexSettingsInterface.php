@@ -47,6 +47,11 @@ interface IndexSettingsInterface
     public function getNewIndexMetadataAliases(string $indexIdentifier, LocalizedCatalog|int|string $localizedCatalog): array;
 
     /**
+     * Get the ISM prefix from the configuration.
+     */
+    public function getIsmPrefix(): string;
+
+    /**
      * Load analysis settings by catalog.
      *
      * @param int|string|LocalizedCatalog $localizedCatalog Localized catalog

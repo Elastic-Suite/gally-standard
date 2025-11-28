@@ -1,4 +1,14 @@
 
+todo demain
+
+- Creer une entité ISM géré par api platform
+- Ajouter une property optionnel pour ISM dans index
+- 
+
+
+
+
+
 h1. Todo
 
 Check how to build tracked data structure according to the structure that existing in elasticsuite.

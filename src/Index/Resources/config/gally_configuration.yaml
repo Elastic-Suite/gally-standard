@@ -31,3 +31,7 @@ gally:
                                 infoTooltipKey: 'gally_configuration.gally_indices_settings_time_before_ghost.tooltip'
                                 position: 10
                                 input: 'number'
+                            gally.ism_settings.prefix:
+                                labelKey: 'gally_configuration.gally_ism_settings_prefix.label'
+                                position: 20
+                                input: 'string'

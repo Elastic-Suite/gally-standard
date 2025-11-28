@@ -302,6 +302,14 @@ class IndexSettings implements IndexSettingsInterface
     }
 
     /**
+     * Get the ISM prefix from the configuration.
+     */
+    public function getIsmPrefix(): string
+    {
+        return $this->configurationManager->getScopedConfigValue('gally.ism_settings.prefix');
+    }
+
+    /**
      * Get index name suffix.
      *
      * @param \DateTime $date Date

@@ -56,5 +56,11 @@
                 </target>
             </segment>
         </unit>
+        <unit id="gally_configuration.gally_ism_settings_prefix.label">
+            <segment>
+                <source>gally_configuration.gally_ism_settings_prefix.label</source>
+                <target>Préfixe ISM</target>
+            </segment>
+        </unit>
     </file>
 </xliff>

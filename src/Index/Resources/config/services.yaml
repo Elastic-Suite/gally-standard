@@ -13,6 +13,12 @@ services:
         arguments:
             - '@Gally\Index\Repository\Index\IndexRepository'
 
+    Gally\Index\Repository\IndexStateManagement\IndexStateManagementRepositoryInterface: '@Gally\Index\Repository\IndexStateManagement\IndexStateManagementRepository'
+    Gally\Index\Repository\IndexStateManagement\IndexStateManagementRepository:
+        arguments:
+            - '@OpenSearch\Client'
+            - '@Gally\Index\Api\IndexSettingsInterface'
+
     Gally\Index\State\DocumentProcessor:
         arguments:
             - '@Gally\Index\Repository\Document\DocumentRepositoryInterface'
