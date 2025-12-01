@@ -25,6 +25,8 @@ use Gally\Search\Elasticsearch\Request\BucketInterface;
 use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface;
 use Gally\Search\Elasticsearch\Request\QueryFactory;
 use Gally\Search\Elasticsearch\Request\QueryInterface;
+use Gally\Search\Repository\Facet\ConfigurationRepository;
+use Gally\Search\Service\ReverseSourceFieldProvider;
 use Gally\Search\Service\SearchContext;
 use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -204,6 +206,8 @@ class AggregationBuilderTest extends KernelTestCase
             $queryFactory,
             static::getContainer()->get(SearchContext::class),
             static::getContainer()->get(ConfigurationManager::class),
+            static::getContainer()->get(ReverseSourceFieldProvider::class),
+            static::getContainer()->get(ConfigurationRepository::class),
         );
     }
 
