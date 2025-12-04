@@ -86,7 +86,7 @@ runs:
            working-directory: ${{ inputs.gally-directory }}
            shell: bash
            run: |
-               COMPOSER_MIRROR_PATH_REPOS=1 composer require "gally/${{ inputs.package-name }}:${{ inputs.version }} as ${{ inputs.last_published_version }}" "gally/gally-sample-data:${{ inputs.version }} as ${{ inputs.last_published_version }}" --working-dir=api
+               composer require "gally/${{ inputs.package-name }}:${{ inputs.version }} as ${{ inputs.last_published_version }}" "gally/gally-sample-data:${{ inputs.version }} as ${{ inputs.last_published_version }}" --working-dir=api
 
 
 
