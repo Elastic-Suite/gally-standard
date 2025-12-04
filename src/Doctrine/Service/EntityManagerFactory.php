@@ -13,7 +13,9 @@ declare(strict_types=1);
 
 namespace Gally\Doctrine\Service;
 
+use Doctrine\DBAL\Configuration as DBALConfiguration;
 use Doctrine\DBAL\DriverManager;
+use Doctrine\DBAL\Schema\DefaultSchemaManagerFactory;
 use Doctrine\ORM\EntityManager;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -31,7 +33,12 @@ class EntityManagerFactory
 
         // Get connection parameters
         $connectionParams = $entityManager->getConnection()->getParams();
-        $isolatedConnection = DriverManager::getConnection($connectionParams);
+
+        // Create DBAL configuration with schema manager factory
+        $dbalConfig = new DBALConfiguration();
+        $dbalConfig->setSchemaManagerFactory(new DefaultSchemaManagerFactory());
+
+        $isolatedConnection = DriverManager::getConnection($connectionParams, $dbalConfig);
 
         // Clone configuration to preserve all listeners and extensions
         $config = clone $entityManager->getConfiguration();

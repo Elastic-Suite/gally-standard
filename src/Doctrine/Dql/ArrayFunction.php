@@ -27,7 +27,7 @@ class ArrayFunction extends FunctionNode
 {
     public $params = [];
 
-    public function parse(Parser $parser)
+    public function parse(Parser $parser): void
     {
         // Match 'ARRAY('
         $parser->match(TokenType::T_IDENTIFIER); // ARRAY
