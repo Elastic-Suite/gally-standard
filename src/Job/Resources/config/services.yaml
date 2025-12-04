@@ -2,7 +2,6 @@ services:
     Gally\Job\Serializer\JobFileNormalizer:
         arguments:
             - '@api_platform.jsonld.normalizer.item'
-            - '@Vich\UploaderBundle\Storage\StorageInterface'
         tags:
             - { name: serializer.normalizer }
 
