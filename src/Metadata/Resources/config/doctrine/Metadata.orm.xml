@@ -9,6 +9,7 @@
             <generator strategy="SEQUENCE"/>
         </id>
         <field name="entity" type="string" length="255" nullable="false" unique="true" />
+        <field name="isTimeSeriesData" type="boolean" nullable="true" default="false"/>
 
         <one-to-many field="sourceFields" target-entity="Gally\Metadata\Entity\SourceField" mapped-by="metadata">
             <order-by>

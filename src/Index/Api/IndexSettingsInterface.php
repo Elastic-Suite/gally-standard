@@ -16,6 +16,7 @@ namespace Gally\Index\Api;
 
 use Gally\Catalog\Entity\LocalizedCatalog;
 use Gally\Index\Entity\Index;
+use Gally\Index\Entity\IndexTemplate;
 use Gally\Metadata\Entity\Metadata;
 
 interface IndexSettingsInterface
@@ -43,6 +44,14 @@ interface IndexSettingsInterface
      * @param LocalizedCatalog $localizedCatalog Localized catalog
      */
     public function createIsmNameFromIdentifier(string $identifier, LocalizedCatalog $localizedCatalog): string;
+
+    /**
+     * Create a new index template name for an identifier (eg. product) by localized catalog.
+     *
+     * @param string           $identifier       Index template identifier
+     * @param LocalizedCatalog $localizedCatalog Localized catalog
+     */
+    public function createIndexTemplateNameFromIdentifier(string $identifier, LocalizedCatalog $localizedCatalog): string;
 
     /**
      * Return the index aliases to set to a newly created index for an identifier (eg. product) by catalog.
@@ -103,14 +112,14 @@ interface IndexSettingsInterface
     /**
      * Extract original entity from index metadata aliases.
      */
-    public function extractEntityFromAliases(Index $index): ?string;
+    public function extractEntityFromAliases(Index|IndexTemplate $index): ?string;
 
     /**
      * Extract original catalog id from index metadata aliases.
      *
      * @throws \Exception
      */
-    public function extractCatalogFromAliases(Index $index): ?LocalizedCatalog;
+    public function extractCatalogFromAliases(Index|IndexTemplate $index): ?LocalizedCatalog;
 
     /**
      * Check if index name follow the naming convention.
