@@ -19,6 +19,12 @@
                 <target>Résultats</target>
             </segment>
         </unit>
+        <unit id="gally.menu.analyze_import_export.label">
+            <segment>
+                <source>gally.menu.analyze_import_export.label</source>
+                <target>Import / Export</target>
+            </segment>
+        </unit>
         <unit id="gally.menu.analyze_search_usage.label">
             <segment>
                 <source>gally.menu.analyze_search_usage.label</source>
