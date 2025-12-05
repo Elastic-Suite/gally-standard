@@ -9,3 +9,5 @@ gally:
         prefix: gally
         rollover_after: 30
         delete_after: 365
+    index_template_settings:
+        prefix: gally

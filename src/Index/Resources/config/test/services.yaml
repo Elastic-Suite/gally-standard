@@ -11,3 +11,6 @@ services:
     Gally\Index\Repository\IndexStateManagement\IndexStateManagementRepositoryInterface:
         alias: Gally\Index\Repository\IndexStateManagement\IndexStateManagementRepository
         public: true
+    Gally\Index\Repository\IndexTemplate\IndexTemplateRepositoryInterface:
+        alias: Gally\Index\Repository\IndexTemplate\IndexTemplateRepository
+        public: true

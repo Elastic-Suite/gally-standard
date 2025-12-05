@@ -20,6 +20,12 @@
                 <target>Index State Management</target>
             </segment>
         </unit>
+        <unit id="gally_configuration.group.index.fieldset.template.label">
+            <segment>
+                <source>gally_configuration.group.index.fieldset.teamplte.label</source>
+                <target>Index Template</target>
+            </segment>
+        </unit>
         <unit id="gally_configuration.gally_indices_settings_prefix.label">
             <segment>
                 <source>gally_configuration.gally_indices_settings_prefix.label</source>
@@ -84,6 +90,12 @@
             <segment>
                 <source>gally_configuration.gally_ism_settings_delete_after.tooltip</source>
                 <target>Les données les plus anciennes seront supprimées tous les jours.</target>
+            </segment>
+        </unit>
+        <unit id="gally_configuration.gally_index_template_settings_prefix.label">
+            <segment>
+                <source>gally_configuration.gally_index_template_settings_prefix.label</source>
+                <target>Préfixe des index templates</target>
             </segment>
         </unit>
     </file>

@@ -288,7 +288,7 @@ class IndexStateManagementRepositoryTest extends AbstractTestCase
         $namesEn = array_map(fn ($p) => $p->getName(), $policiesEn);
 
         $this->assertContains('product', $namesFr);
-        $this->assertContains('event', $namesEn);
+        $this->assertContains('tracking_event', $namesEn);
         $this->assertContains('dummy-2', $namesEn);
         $this->assertContains('dummy-3', $namesEn);
     }

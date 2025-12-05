@@ -71,3 +71,18 @@ Gally\Metadata\Entity\SourceField:
         metadata: '@product'
         code: 'brand'
         type: 'select'
+    event_id:
+        metadata: '@event'
+        code: 'id'
+        type: 'reference'
+        isSystem: true
+    event_timestamp:
+        metadata: '@event'
+        code: '\@timestamp'
+        type: 'date'
+        isSystem: true
+    event_type:
+        metadata: '@event'
+        code: 'event_type'
+        type: 'reference'
+        isSystem: true
