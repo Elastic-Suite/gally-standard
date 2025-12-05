@@ -1,3 +1,4 @@
+
 imports:
     - { resource: conversion/sourcefield_to_mapping.yaml }
 
@@ -18,6 +19,13 @@ services:
         arguments:
             - '@OpenSearch\Client'
             - '@Gally\Index\Api\IndexSettingsInterface'
+
+    Gally\Index\Repository\IndexTemplate\IndexTemplateRepositoryInterface: '@Gally\Index\Repository\IndexTemplate\IndexTemplateRepository'
+    Gally\Index\Repository\IndexTemplate\IndexTemplateRepository:
+        arguments:
+            - '@OpenSearch\Client'
+            - '@Gally\Index\Api\IndexSettingsInterface'
+            - '@Gally\Index\Service\MetadataManager'
 
     Gally\Index\State\DocumentProcessor:
         arguments:
@@ -40,6 +48,7 @@ services:
 
     Gally\Index\Service\MetadataManager:
         arguments:
+            - '@Gally\Metadata\Repository\SourceFieldRepository'
             - !tagged_iterator { tag: 'gally.mapping.source_field_converter' }
 
     Gally\Index\Api\IndexSettingsInterface: '@Gally\Index\Service\IndexSettings'
@@ -199,3 +208,14 @@ services:
             - { name: doctrine.event_listener, event: postPersist }
             - { name: doctrine.event_listener, event: postUpdate }
             - { name: kernel.cache_warmer }
+
+    Gally\Index\EventSubscriber\UpdateIndexTemplateMapping:
+        arguments:
+            - '@Gally\Index\Service\MetadataManager'
+            - '@Gally\Catalog\Repository\LocalizedCatalogRepository'
+            - '@Gally\Index\Repository\IndexTemplate\IndexTemplateRepositoryInterface'
+            - '@logger'
+        tags:
+            - { name: doctrine.event_listener, event: postPersist }
+            - { name: doctrine.event_listener, event: postUpdate }
+            - { name: doctrine.event_listener, event: postFlush }
