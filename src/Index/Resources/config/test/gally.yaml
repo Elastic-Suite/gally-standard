@@ -8,3 +8,5 @@ gally:
             event:
                 rollover_after: 1
                 delete_after: 1
+    index_template_settings :
+        prefix: gally_test__gally

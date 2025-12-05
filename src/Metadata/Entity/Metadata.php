@@ -54,6 +54,8 @@ class Metadata
     private int $id;
     #[Groups(['metadata:read', 'metadata:write'])]
     private string $entity;
+    #[Groups(['metadata:read', 'metadata:write'])]
+    private ?bool $isTimeSeriesData;
 
     /** @var Collection<SourceField> */
     private Collection $sourceFields;
@@ -65,6 +67,7 @@ class Metadata
     public function __construct()
     {
         $this->sourceFields = new ArrayCollection();
+        $this->isTimeSeriesData = false;
     }
 
     public function getId(): ?int
@@ -80,6 +83,18 @@ class Metadata
     public function setEntity(string $entity): self
     {
         $this->entity = $entity;
+
+        return $this;
+    }
+
+    public function isTimeSeriesData(): bool
+    {
+        return $this->isTimeSeriesData ?? false;
+    }
+
+    public function setIsTimeSeriesData(bool $isTimeSeriesData): self
+    {
+        $this->isTimeSeriesData = $isTimeSeriesData;
 
         return $this;
     }

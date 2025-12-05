@@ -169,6 +169,15 @@ class Configuration implements GallyConfigurationInterface
                     ->end()
                 ->end()
 
+                // Index template setting config
+                ->arrayNode('index_template_settings')
+                    ->children()
+                        ->scalarNode('prefix')
+                            ->isRequired()
+                        ->end()
+                    ->end()
+                ->end()
+
                 // Rename graphQL query
                 ->arrayNode('graphql_query_renaming')
                     ->useAttributeAsKey('ressource_class')
