@@ -16,6 +16,7 @@ namespace Gally\Index\Api;
 
 use Gally\Catalog\Entity\LocalizedCatalog;
 use Gally\Index\Entity\Index;
+use Gally\Index\Entity\IndexTemplate;
 use Gally\Metadata\Entity\Metadata;
 
 interface IndexSettingsInterface
@@ -37,6 +38,14 @@ interface IndexSettingsInterface
     public function createIndexNameFromIdentifier(string $indexIdentifier, LocalizedCatalog|int|string $localizedCatalog): string;
 
     /**
+     * Create a new index template name for an identifier (eg. product) by loicalized catalog.
+     *
+     * @param string                      $indexIdentifier  Index identifier
+     * @param int|string|LocalizedCatalog $localizedCatalog Localized catalog
+     */
+    public function createIndexTemplaceNameFromIdentifier(string $indexIdentifier, LocalizedCatalog|int|string $localizedCatalog): string;
+
+    /**
      * Return the index aliases to set to a newly created index for an identifier (eg. product) by catalog.
      *
      * @param string                      $indexIdentifier  An index identifier
@@ -50,6 +59,11 @@ interface IndexSettingsInterface
      * Get the ISM prefix from the configuration.
      */
     public function getIsmPrefix(): string;
+
+    /**
+     * Get the index template prefix from the configuration.
+     */
+    public function getIndexTemplatePrefix(): string;
 
     /**
      * Load analysis settings by catalog.
@@ -100,14 +114,14 @@ interface IndexSettingsInterface
     /**
      * Extract original entity from index metadata aliases.
      */
-    public function extractEntityFromAliases(Index $index): ?string;
+    public function extractEntityFromAliases(Index|IndexTemplate $index): ?string;
 
     /**
      * Extract original catalog id from index metadata aliases.
      *
      * @throws \Exception
      */
-    public function extractCatalogFromAliases(Index $index): ?LocalizedCatalog;
+    public function extractCatalogFromAliases(Index|IndexTemplate $index): ?LocalizedCatalog;
 
     /**
      * Check if index name follow the naming convention.

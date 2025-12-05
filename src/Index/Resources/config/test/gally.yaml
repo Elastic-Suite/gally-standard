@@ -4,3 +4,5 @@ gally:
         time_before_ghost: 31557600 # one year
     ism_settings:
         prefix: gally_test__gally
+    index_template_settings :
+        prefix: gally_test__gally

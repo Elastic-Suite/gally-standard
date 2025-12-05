@@ -122,7 +122,7 @@ class IndexStateManagementRepository implements IndexStateManagementRepositoryIn
         $ism = new IndexStateManagement(
             name: preg_replace("/{$prefix}_/", '', $data['_id']),
             indexPattern: $ismTemplate['index_patterns'][0] ?? '',
-            priority: array_key_exists('priority', $ismTemplate) ? (int) $ismTemplate['priority'] : null,
+            priority: \array_key_exists('priority', $ismTemplate) ? (int) $ismTemplate['priority'] : null,
             description: $policyData['description'] ?? '',
             deleteAfter: $deleteAfter,
         );

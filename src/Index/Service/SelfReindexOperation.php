@@ -52,7 +52,7 @@ class SelfReindexOperation
             }
             $metadataToReindex = [$metadata];
         } else {
-            $metadataToReindex = $this->metadataRepository->findAll();
+            $metadataToReindex = $this->metadataRepository->findBy(['isTimeSeriesData' => false]);
         }
 
         $selfReindex = new SelfReindex();

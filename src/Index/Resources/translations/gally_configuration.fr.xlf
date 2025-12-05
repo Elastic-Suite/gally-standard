@@ -62,5 +62,11 @@
                 <target>Préfixe ISM</target>
             </segment>
         </unit>
+        <unit id="gally_configuration.gally_index_template_settings_prefix.label">
+            <segment>
+                <source>gally_configuration.gally_index_template_settings_prefix.label</source>
+                <target>Préfixe des index templates</target>
+            </segment>
+        </unit>
     </file>
 </xliff>

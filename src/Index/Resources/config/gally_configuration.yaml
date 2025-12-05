@@ -35,3 +35,7 @@ gally:
                                 labelKey: 'gally_configuration.gally_ism_settings_prefix.label'
                                 position: 20
                                 input: 'string'
+                            gally.index_template_settings.prefix:
+                                labelKey: 'gally_configuration.gally_index_template_settings_prefix.label'
+                                position: 30
+                                input: 'string'

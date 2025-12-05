@@ -19,6 +19,13 @@ services:
             - '@OpenSearch\Client'
             - '@Gally\Index\Api\IndexSettingsInterface'
 
+    Gally\Index\Repository\IndexTemplate\IndexTemplateRepositoryInterface: '@Gally\Index\Repository\IndexTemplate\IndexTemplateRepository'
+    Gally\Index\Repository\IndexTemplate\IndexTemplateRepository:
+        arguments:
+            - '@OpenSearch\Client'
+            - '@Gally\Index\Api\IndexSettingsInterface'
+            - '@Gally\Index\Service\MetadataManager'
+
     Gally\Index\State\DocumentProcessor:
         arguments:
             - '@Gally\Index\Repository\Document\DocumentRepositoryInterface'

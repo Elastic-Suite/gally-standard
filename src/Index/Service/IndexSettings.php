@@ -20,6 +20,7 @@ use Gally\Catalog\Repository\LocalizedCatalogRepository;
 use Gally\Configuration\Service\ConfigurationManager;
 use Gally\Index\Api\IndexSettingsInterface;
 use Gally\Index\Entity\Index;
+use Gally\Index\Entity\IndexTemplate;
 use Gally\Metadata\Entity\Metadata;
 use Gally\Metadata\Repository\SourceFieldRepository;
 use Gally\Search\Repository\Ingest\PipelineRepositoryInterface;
@@ -87,6 +88,19 @@ class IndexSettings implements IndexSettingsInterface
         $indexNameSuffix = $this->getIndexNameSuffix(new \DateTime());
 
         return \sprintf('%s_%s', $this->getIndexAliasFromIdentifier($indexIdentifier, $localizedCatalog), $indexNameSuffix);
+    }
+
+    /**
+     * Create a new index name for a given entity/index identifier (eg. product) and catalog including current date.
+     *
+     * @param string                      $indexIdentifier  Index identifier
+     * @param int|string|LocalizedCatalog $localizedCatalog The catalog
+     */
+    public function createIndexTemplaceNameFromIdentifier(string $indexIdentifier, LocalizedCatalog|int|string $localizedCatalog): string
+    {
+        $catalogCode = strtolower((string) $this->getCatalogCode($localizedCatalog));
+
+        return \sprintf('%s_%s_%s', $this->getIndexTemplatePrefix(), $catalogCode, $indexIdentifier);
     }
 
     /**
@@ -222,7 +236,7 @@ class IndexSettings implements IndexSettingsInterface
     /**
      * Extract original entity from index metadata aliases.
      */
-    public function extractEntityFromAliases(Index $index): ?string
+    public function extractEntityFromAliases(Index|IndexTemplate $index): ?string
     {
         $entityType = preg_filter('#^\.entity_(.+)$#', '$1', $index->getAliases(), 1);
         if (!empty($entityType)) {
@@ -241,7 +255,7 @@ class IndexSettings implements IndexSettingsInterface
      *
      * @throws \Exception
      */
-    public function extractCatalogFromAliases(Index $index): ?LocalizedCatalog
+    public function extractCatalogFromAliases(Index|IndexTemplate $index): ?LocalizedCatalog
     {
         $localizedCatalogId = preg_filter('#^\.catalog_(.+)$#', '$1', $index->getAliases(), 1);
         if (!empty($localizedCatalogId)) {
@@ -307,6 +321,14 @@ class IndexSettings implements IndexSettingsInterface
     public function getIsmPrefix(): string
     {
         return $this->configurationManager->getScopedConfigValue('gally.ism_settings.prefix');
+    }
+
+    /**
+     * Get the index template prefix from the configuration.
+     */
+    public function getIndexTemplatePrefix(): string
+    {
+        return $this->configurationManager->getScopedConfigValue('gally.index_template_settings.prefix');
     }
 
     /**
