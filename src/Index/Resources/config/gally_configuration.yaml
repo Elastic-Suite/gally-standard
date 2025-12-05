@@ -48,3 +48,11 @@ gally:
                                 infoTooltipKey: 'gally_configuration.gally_ism_settings_delete_after.tooltip'
                                 position: 22
                                 input: 'number'
+                    template:
+                        labelKey: 'gally_configuration.group.index.fieldset.template.label'
+                        position: 30
+                        fields:
+                            gally.index_template_settings.prefix:
+                                labelKey: 'gally_configuration.gally_index_template_settings_prefix.label'
+                                position: 30
+                                input: 'string'
