@@ -73,5 +73,11 @@
                 <target>Delete after (days)</target>
             </segment>
         </unit>
+        <unit id="gally_configuration.gally_index_template_settings_prefix.label">
+            <segment>
+                <source>gally_configuration.gally_index_template_settings_prefix.label</source>
+                <target>Index template prefix</target>
+            </segment>
+        </unit>
     </file>
 </xliff>

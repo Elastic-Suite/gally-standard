@@ -1,13 +1,22 @@
 
-todo demain
+---
 
-- Creer une entité ISM géré par api platform
-- Ajouter une property optionnel pour ISM dans index
-- 
+### Todo demain
 
-
+- Bug, self reindex va creer des index pour mon entité, il faut exclure les time serie
 
 
+### Questions
+
+- Migration pour créer l'ISM ?
+  - à la creation de l'index
+
+- Metadata pour les events ?
+  - pas exposé au public (voter)
+  - simplifier la génération du mapping
+  - quelles utilitées
+
+---
 
 h1. Todo
 
