@@ -110,25 +110,6 @@ class Job
     #[Groups(['job:read', 'job:write'])]
     private ?int $id = null;
 
-    #[ApiProperty(
-        extraProperties: [
-            'hydra:supportedProperty' => [
-                'hydra:property' => [
-                    'rdfs:label' => 'Type',
-                ],
-                'gally' => [
-                    'visible' => true,
-                    'editable' => false,
-                    'position' => 10,
-                    'input' => 'select',
-                    'options' => [
-                        'api_rest' => '/job_type_options',
-                        'api_graphql' => 'jobTypeOptions',
-                    ],
-                ],
-            ],
-        ],
-    )]
     #[Groups(['job:read', 'job:write'])]
     private string $type;
 
@@ -238,6 +219,25 @@ class Job
         return $this;
     }
 
+    #[ApiProperty(
+        extraProperties: [
+            'hydra:supportedProperty' => [
+                'hydra:property' => [
+                    'rdfs:label' => 'Logs',
+                ],
+                'gally' => [
+                    'visible' => true,
+                    'editable' => false,
+                    'position' => 70,
+                    'input' => 'logs',
+                    'options' => [
+                        'api_rest' => '/job_logs',
+                        'api_graphql' => 'jobLog',
+                    ],
+                ],
+            ],
+        ],
+    )]
     public function getLogs(): Collection
     {
         return $this->logs;
@@ -250,6 +250,25 @@ class Job
         return $this;
     }
 
+    #[ApiProperty(
+        extraProperties: [
+            'hydra:supportedProperty' => [
+                'hydra:property' => [
+                    'rdfs:label' => 'File',
+                ],
+                'gally' => [
+                    'visible' => true,
+                    'editable' => false,
+                    'position' => 60,
+                    'input' => 'jobfile',
+                    'options' => [
+                        'api_rest' => '/job_files',
+                        'api_graphql' => 'jobFile',
+                    ],
+                ],
+            ],
+        ],
+    )]
     public function getFile(): ?File
     {
         return $this->file;
@@ -262,6 +281,41 @@ class Job
         return $this;
     }
 
+    #[ApiProperty(
+        extraProperties: [
+            'hydra:supportedProperty' => [
+                'hydra:property' => [
+                    'rdfs:label' => 'Created at',
+                ],
+                'gally' => [
+                    'visible' => true,
+                    'editable' => false,
+                    'position' => 40,
+                    'input' => 'date',
+                ],
+            ],
+        ],
+    )]
+    public function getCreatedAt(): ?\DateTime
+    {
+        return $this->createdAt;
+    }
+
+    #[ApiProperty(
+        extraProperties: [
+            'hydra:supportedProperty' => [
+                'hydra:property' => [
+                    'rdfs:label' => 'Finished at',
+                ],
+                'gally' => [
+                    'visible' => true,
+                    'editable' => false,
+                    'position' => 50,
+                    'input' => 'date',
+                ],
+            ],
+        ],
+    )]
     public function getFinishedAt(): ?\DateTime
     {
         return $this->finishedAt;
