@@ -292,6 +292,27 @@ class IndexManagerTest extends AbstractTestCase
                     ],
                 ],
             ],
+            [
+                'event',
+                [
+                    'properties' => [
+                        'id' => [
+                            'type' => 'text',
+                            'analyzer' => 'keyword',
+                            'norms' => false,
+                        ],
+                        '@timestamp' => [
+                            'type' => 'date',
+                            'format' => 'yyyy-MM-dd HH:mm:ss||yyyy-MM-dd',
+                        ],
+                        'event_type' => [
+                            'type' => 'text',
+                            'analyzer' => 'keyword',
+                            'norms' => false,
+                        ],
+                    ],
+                ],
+            ],
         ];
     }
 }
