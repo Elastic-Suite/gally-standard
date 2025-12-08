@@ -27,7 +27,7 @@ class IndexStateManagementRepositoryTest extends AbstractTestCase
 
     private static array $testPolicies = [
         'gally_test__gally_b2c_fr_product',
-        'gally_test__gally_b2c_en_event',
+        'gally_test__gally_b2c_en_tracking_event',
         'gally_test__gally_b2c_fr_dummy-1',
         'gally_test__gally_b2c_en_dummy-2',
         'gally_test__gally_b2c_en_dummy-3',
@@ -89,9 +89,9 @@ class IndexStateManagementRepositoryTest extends AbstractTestCase
         ];
 
         yield 'event policy' => [
-            'event',
+            'tracking_event',
             'b2c_en',
-            ['id' => 'gally_test__gally_b2c_en_event', 'name' => 'event', 'description' => '', 'indexPatterns' => ['gally_test__gally_b2c_en_event'], 'rolloverAfter' => 1, 'deleteAfter' => 1],
+            ['id' => 'gally_test__gally_b2c_en_tracking_event', 'name' => 'tracking_event', 'description' => '', 'indexPatterns' => ['gally_test__gally_b2c_en_tracking_event'], 'rolloverAfter' => 1, 'deleteAfter' => 1],
         ];
     }
 
@@ -167,13 +167,13 @@ class IndexStateManagementRepositoryTest extends AbstractTestCase
         ];
 
         yield 'event policy' => [
-            'event',
+            'tracking_event',
             'b2c_en',
-            ['id' => 'gally_test__gally_b2c_en_event', 'name' => 'event', 'description' => '', 'indexPatterns' => ['gally_test__gally_b2c_en_event'], 'rolloverAfter' => 1, 'deleteAfter' => 1],
+            ['id' => 'gally_test__gally_b2c_en_tracking_event', 'name' => 'tracking_event', 'description' => '', 'indexPatterns' => ['gally_test__gally_b2c_en_tracking_event'], 'rolloverAfter' => 1, 'deleteAfter' => 1],
         ];
 
         yield 'missing event policy fr' => [
-            'event',
+            'tracking_event',
             'b2c_fr',
             null,
         ];
