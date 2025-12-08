@@ -14,7 +14,6 @@ declare(strict_types=1);
 
 namespace Gally\Fixture\Service;
 
-use Gally\Catalog\Entity\LocalizedCatalog;
 use Gally\Catalog\Repository\LocalizedCatalogRepository;
 use Gally\Index\Api\IndexSettingsInterface;
 use Gally\Index\Repository\Index\IndexRepositoryInterface;
@@ -23,6 +22,8 @@ use Gally\Metadata\Repository\MetadataRepository;
 
 class EntityIndicesFixtures implements EntityIndicesFixturesInterface
 {
+    use GetLocalizedCatalogs;
+
     public function __construct(
         private MetadataRepository $metadataRepository,
         private LocalizedCatalogRepository $localizedCatalogRepository,
@@ -57,25 +58,5 @@ class EntityIndicesFixtures implements EntityIndicesFixturesInterface
             );
             $this->indexRepository->delete($index->getName());
         }
-    }
-
-    /**
-     * Get all localized catalogs or a specific one based on an identifier.
-     *
-     * @param int|string|null $localizedCatalogIdentifier Catalog identifier (code or id)
-     *
-     * @return LocalizedCatalog[]
-     */
-    private function getLocalizedCatalogs(int|string|null $localizedCatalogIdentifier = null): array
-    {
-        $localizedCatalogs = [];
-
-        if (null !== $localizedCatalogIdentifier) {
-            $localizedCatalogs[] = $this->localizedCatalogRepository->findByCodeOrId($localizedCatalogIdentifier);
-        } else {
-            $localizedCatalogs = $this->localizedCatalogRepository->findAll();
-        }
-
-        return $localizedCatalogs;
     }
 }
