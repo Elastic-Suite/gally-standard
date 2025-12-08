@@ -35,7 +35,7 @@ api_platform:
             max_age: 0
             shared_max_age: 3600
         extra_properties:
-#            standard_put: true # The make all properties required, we can't update entities with partial data like 
+            standard_put: false # /!\ Upgrade API Platform 4, keep this value to false ? /!\ If true, make all properties required in a PUT, we can't update entities with partial data like 
 #               api/packages/gally-standard/src/Catalog/Tests/Api/Rest/LocalizedCatalogsTest.php:116
             rfc_7807_compliant_errors: true 
         pagination_client_enabled: true # Enabled by default because this value cannot be specified by GraphQL endpoint 
