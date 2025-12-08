@@ -16,19 +16,22 @@ namespace Gally\Index\Repository\Document;
 
 use ApiPlatform\Metadata\Exception\InvalidArgumentException;
 use Gally\Index\Dto\Bulk;
+use Gally\Index\Repository\DataStream\DataStreamRepository;
 use Gally\Index\Repository\Index\IndexRepository;
 
 class DocumentRepository implements DocumentRepositoryInterface
 {
     public function __construct(
         private IndexRepository $indexRepository,
+        private DataStreamRepository $dataStreamRepository,
     ) {
     }
 
     public function index(string $indexName, array $documents, bool $instantRefresh = false): void
     {
         $request = new Bulk\Request();
-        $index = $this->indexRepository->findByName($indexName);
+        $index = $this->dataStreamRepository->findById($indexName)
+            ?: $this->indexRepository->findByName($indexName);
         foreach ($documents as $document) {
             $documentData = json_decode($document, true);
             $identifier = $documentData['entity_id'] ?? $documentData['id'] ?? null;

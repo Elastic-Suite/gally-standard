@@ -293,7 +293,7 @@ class IndexManagerTest extends AbstractTestCase
                 ],
             ],
             [
-                'event',
+                'tracking_event',
                 [
                     'properties' => [
                         'id' => [

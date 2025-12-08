@@ -104,6 +104,21 @@ class IndexTemplateRepository implements IndexTemplateRepositoryInterface
         return null;
     }
 
+    public function findById(string $id): ?IndexTemplate
+    {
+        try {
+            $response = $this->client->indices()->getIndexTemplate(['name' => $id]);
+
+            if (!empty($response['index_templates'])) {
+                return $this->createFromResponse($response['index_templates'][0]);
+            }
+        } catch (\Exception $e) {
+            // Log exception if needed
+        }
+
+        return null;
+    }
+
     /**
      * @return IndexTemplate[]
      */
