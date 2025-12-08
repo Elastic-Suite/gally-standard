@@ -55,6 +55,8 @@ interface IndexTemplateRepositoryInterface
 
     public function findByName(string $name, LocalizedCatalog $localizedCatalog): ?IndexTemplate;
 
+    public function findById(string $id): ?IndexTemplate;
+
     /**
      * @return IndexTemplate[]
      */

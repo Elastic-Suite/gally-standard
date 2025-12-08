@@ -103,7 +103,7 @@ class IndexSettings implements IndexSettingsInterface
     }
 
     /**
-     * Create a new index name for a given entity/index identifier (eg. product) and catalog including current date.
+     * Create a new index template name for an identifier (eg. product) by localized catalog.
      *
      * @param string           $identifier       Index template identifier
      * @param LocalizedCatalog $localizedCatalog Localized catalog
@@ -344,6 +344,18 @@ class IndexSettings implements IndexSettingsInterface
     {
         return $this->configurationManager->getScopedConfigValue(
             'gally.index_template_settings.prefix',
+            Configuration::SCOPE_LOCALIZED_CATALOG,
+            $localizedCatalog->getCode()
+        );
+    }
+
+    /**
+     * Get the data stream prefix from the configuration.
+     */
+    protected function getDataStreamPrefix(LocalizedCatalog $localizedCatalog): string
+    {
+        return $this->configurationManager->getScopedConfigValue(
+            'gally.data_stream_settings.prefix',
             Configuration::SCOPE_LOCALIZED_CATALOG,
             $localizedCatalog->getCode()
         );
