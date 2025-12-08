@@ -327,6 +327,68 @@ class IndexTemplateRepositoryTest extends AbstractTestCase
 
     /**
      * @depends testFindByName
+     *
+     * @dataProvider findByIdDataProvider
+     */
+    public function testFindById(string $id, ?array $expectedData): void
+    {
+        $repository = static::getContainer()->get(IndexTemplateRepositoryInterface::class);
+        $foundTemplate = $repository->findById($id);
+
+        if (null === $expectedData) {
+            $this->assertNull($foundTemplate);
+
+            return;
+        }
+
+        $this->assertNotNull($foundTemplate);
+        $this->validateTemplate($expectedData, $foundTemplate);
+    }
+
+    public function findByIdDataProvider(): iterable
+    {
+        yield 'event template by id' => [
+            'gally_test__gally_b2c_fr_event',
+            [
+                'id' => 'gally_test__gally_b2c_fr_event',
+                'name' => 'event',
+                'indexPatterns' => ['gally_test__gally_b2c_fr_event'],
+                'entityType' => 'event',
+                'localizedCatalogCode' => 'b2c_fr',
+                'isDataStream' => true,
+            ],
+        ];
+
+        yield 'dummy-1 template by id' => [
+            'gally_test__gally_b2c_fr_dummy-1',
+            [
+                'id' => 'gally_test__gally_b2c_fr_dummy-1',
+                'name' => 'dummy-1',
+                'indexPatterns' => ['gally_product_*'],
+                'localizedCatalogCode' => 'b2c_fr',
+                'isDataStream' => false,
+            ],
+        ];
+
+        yield 'dummy-2 template by id' => [
+            'gally_test__gally_b2c_en_dummy-2',
+            [
+                'id' => 'gally_test__gally_b2c_en_dummy-2',
+                'name' => 'dummy-2',
+                'indexPatterns' => ['gally_category_*'],
+                'localizedCatalogCode' => 'b2c_en',
+                'isDataStream' => true,
+            ],
+        ];
+
+        yield 'non existent id' => [
+            'gally_test__non_existent_template',
+            null,
+        ];
+    }
+
+    /**
+     * @depends testFindById
      */
     public function testUpdate(): void
     {

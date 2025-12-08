@@ -3,7 +3,7 @@
 
 ### Todo demain
 
-- Bug, self reindex va creer des index pour mon entité, il faut exclure les time serie
+- Bug, self reindex va creer des index pour mon entité, il faut exclure les time serie --> OK
 
 
 ### Questions
