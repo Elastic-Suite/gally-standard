@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace Gally\Index\Dto\Bulk;
 
+use Gally\Index\Entity\DataStream;
 use Gally\Index\Entity\Index;
 
 /**
@@ -45,9 +46,11 @@ class Request
     /**
      * Add a single document to the index.
      */
-    public function addDocument(Index $index, string|int|null $docId, array $data): self
+    public function addDocument(Index|DataStream $index, string|int|null $docId, array $data): self
     {
-        $this->bulkData[] = ['index' => ['_index' => $index->getName(), '_id' => $docId]];
+        $this->bulkData[] = [
+            $index instanceof DataStream ? 'create' : 'index' => ['_index' => $index->getName(), '_id' => $docId],
+        ];
         $this->bulkData[] = $data;
 
         return $this;
@@ -56,7 +59,7 @@ class Request
     /**
      * Add a several documents to the index.
      */
-    public function addDocuments(Index $index, array $data): self
+    public function addDocuments(Index|DataStream $index, array $data): self
     {
         array_walk(
             $data,
@@ -109,7 +112,7 @@ class Request
     /**
      * Delete multiple documents from the index.
      */
-    public function deleteDocuments(Index $index, array $documentIds): self
+    public function deleteDocuments(Index|DataStream $index, array $documentIds): self
     {
         array_walk(
             $documentIds,

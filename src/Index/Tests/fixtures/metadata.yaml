@@ -3,7 +3,7 @@ Gally\Metadata\Entity\Metadata:
         entity: product
     category:
         entity: category
-    event:
-        entity: event
+    tracking_event:
+        entity: tracking_event
         isTimeSeriesData: true
 

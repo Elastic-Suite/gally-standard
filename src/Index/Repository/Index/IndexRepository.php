@@ -54,7 +54,7 @@ class IndexRepository implements IndexRepositoryInterface
         $item = null;
         $index = null;
         try {
-            $index = $this->client->cat()->indices(['index' => $indexName]);
+            $index = $this->client->cat()->indices(['index' => urldecode($indexName)]);
         } catch (\Exception $e) {
             // Todo: log exception.
         }
@@ -1224,7 +1224,7 @@ class IndexRepository implements IndexRepositoryInterface
     private function getIndex(array $indexData, array $indexAliases): Index
     {
         $index = new Index(
-            $indexData['index'],
+            str_replace('.', '%2E', $indexData['index']),
             $indexAliases,
             (int) $indexData['docs.count'],
             $indexData['store.size'],

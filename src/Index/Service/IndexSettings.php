@@ -103,7 +103,7 @@ class IndexSettings implements IndexSettingsInterface
     }
 
     /**
-     * Create a new index name for a given entity/index identifier (eg. product) and catalog including current date.
+     * Create a new index template name for an identifier (eg. product) by localized catalog.
      *
      * @param string           $identifier       Index template identifier
      * @param LocalizedCatalog $localizedCatalog Localized catalog

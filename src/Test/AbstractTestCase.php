@@ -25,6 +25,7 @@ use Doctrine\Migrations\Version\SortedMigrationPlanCalculator;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Tools\SchemaTool;
 use Gally\Fixture\Service\ElasticsearchFixtures;
+use Gally\Fixture\Service\EntityDataStreamsFixtures;
 use Gally\Fixture\Service\EntityIndicesFixturesInterface;
 use Gally\User\Tests\LoginTrait;
 use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
@@ -154,6 +155,12 @@ abstract class AbstractTestCase extends ApiTestCase
     {
         $entityIndicesFixtures = static::getContainer()->get(EntityIndicesFixturesInterface::class);
         $entityIndicesFixtures->createEntityElasticsearchIndices($entityType, $localizedCatalogIdentifier);
+    }
+
+    protected static function createEntityElasticsearchDataStream(string $entityType, string|int|null $localizedCatalogIdentifier = null)
+    {
+        $entityDataStreamsFixtures = static::getContainer()->get(EntityDataStreamsFixtures::class);
+        $entityDataStreamsFixtures->createEntityElasticsearchDataStreams($entityType, $localizedCatalogIdentifier);
     }
 
     protected static function deleteEntityElasticsearchIndices(string $entityType, string|int|null $localizedCatalogIdentifier = null)
