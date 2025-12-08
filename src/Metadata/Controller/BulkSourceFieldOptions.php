@@ -27,7 +27,7 @@ class BulkSourceFieldOptions extends AbstractController
     public function __construct(
         private SourceFieldOptionProcessor $sourceFieldOptionProcessor,
         private IriConverterInterface $iriConverter,
-        private PurgerInterface $purger,
+        private ?PurgerInterface $purger,
     ) {
     }
 
@@ -43,7 +43,7 @@ class BulkSourceFieldOptions extends AbstractController
             $tags[$iri] = $iri;
         }
 
-        $this->purger->purge(array_values($tags));
+        $this->purger?->purge(array_values($tags));
 
         return $sourceFieldOptionEntities;
     }

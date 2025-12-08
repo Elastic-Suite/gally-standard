@@ -99,7 +99,7 @@ services:
         arguments:
             - '@Gally\Metadata\State\SourceFieldProcessor'
             - '@api_platform.iri_converter'
-            - '@api_platform.http_cache.purger'
+            - '@?api_platform.http_cache.purger'
         calls:
             - [ setContainer, [ '@service_container' ] ]
         tags:
@@ -109,7 +109,7 @@ services:
         arguments:
             - '@Gally\Metadata\State\SourceFieldOptionProcessor'
             - '@api_platform.iri_converter'
-            - '@api_platform.http_cache.purger'
+            - '@?api_platform.http_cache.purger'
         calls:
             - [ setContainer, [ '@service_container' ] ]
         tags:
