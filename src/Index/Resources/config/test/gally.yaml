@@ -5,7 +5,7 @@ gally:
     ism_settings:
         prefix: gally_test__gally
         entities:
-            event:
+            tracking_event:
                 rollover_after: 1
                 delete_after: 1
     index_template_settings :

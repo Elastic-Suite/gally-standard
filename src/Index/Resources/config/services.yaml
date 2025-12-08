@@ -13,6 +13,7 @@ services:
     Gally\Index\Repository\Document\DocumentRepository:
         arguments:
             - '@Gally\Index\Repository\Index\IndexRepository'
+            - '@Gally\Index\Repository\DataStream\DataStreamRepository'
 
     Gally\Index\Repository\IndexStateManagement\IndexStateManagementRepositoryInterface: '@Gally\Index\Repository\IndexStateManagement\IndexStateManagementRepository'
     Gally\Index\Repository\IndexStateManagement\IndexStateManagementRepository:
@@ -26,6 +27,15 @@ services:
             - '@OpenSearch\Client'
             - '@Gally\Index\Api\IndexSettingsInterface'
             - '@Gally\Index\Service\MetadataManager'
+
+    Gally\Index\Repository\DataStream\DataStreamRepositoryInterface: '@Gally\Index\Repository\DataStream\DataStreamRepository'
+    Gally\Index\Repository\DataStream\DataStreamRepository:
+        arguments:
+            - '@OpenSearch\Client'
+            - '@Gally\Index\Api\IndexSettingsInterface'
+            - '@Gally\Index\Repository\IndexTemplate\IndexTemplateRepositoryInterface'
+            - '@Gally\Index\Repository\IndexStateManagement\IndexStateManagementRepositoryInterface'
+            - '@Gally\Index\Repository\Index\IndexRepositoryInterface'
 
     Gally\Index\State\DocumentProcessor:
         arguments:
@@ -45,6 +55,28 @@ services:
         tags:
             - { name: api_platform.state_provider }
             - { name: api_platform.collection_data_provider }
+
+    Gally\Index\State\DataStreamProvider:
+        arguments:
+            - '@Gally\Index\Repository\DataStream\DataStreamRepositoryInterface'
+        tags:
+            - { name: api_platform.state_provider }
+            - { name: api_platform.collection_data_provider }
+
+    Gally\Index\State\DataStreamProcessor:
+        arguments:
+            - '@Gally\Index\Repository\DataStream\DataStreamRepositoryInterface'
+        tags:
+            - { name: api_platform.state_processor }
+    
+    Gally\Index\State\CreateDataStreamProcessor:
+        arguments:
+            - '@Gally\Catalog\Repository\LocalizedCatalogRepository'
+            - '@Gally\Metadata\Repository\MetadataRepository'
+            - '@Gally\Index\Repository\DataStream\DataStreamRepositoryInterface'
+            - '@logger'
+        tags:
+            - { name: api_platform.state_processor }
 
     Gally\Index\Service\MetadataManager:
         arguments:
@@ -112,6 +144,14 @@ services:
     Gally\Index\MutationResolver\SelfReindexMutation:
         arguments:
             - '@Gally\Index\Service\SelfReindexOperation'
+        tags:
+            - { name: api_platform.graphql.mutation_resolver }
+
+    Gally\Index\MutationResolver\CreateDataStreamMutation:
+        arguments:
+            - '@Gally\Catalog\Repository\LocalizedCatalogRepository'
+            - '@Gally\Metadata\Repository\MetadataRepository'
+            - '@Gally\Index\Repository\DataStream\DataStreamRepositoryInterface'
         tags:
             - { name: api_platform.graphql.mutation_resolver }
 
