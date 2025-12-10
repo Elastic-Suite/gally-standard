@@ -19,14 +19,19 @@ use Gally\DependencyInjection\GenericFactory;
 use Gally\Index\Entity\Index\Mapping;
 use Gally\Index\Entity\Index\Mapping\Field;
 use Gally\Index\Entity\Index\Mapping\FieldInterface;
+use Gally\Metadata\Entity\Metadata;
+use Gally\Metadata\Entity\SourceField;
 use Gally\Search\Elasticsearch\Builder\Request\Query\Filter\FilterQueryBuilder;
 use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface;
 use Gally\Search\Elasticsearch\Request\QueryFactory;
 use Gally\Search\Elasticsearch\Request\QueryInterface;
+use Gally\Search\Entity\Facet\Configuration;
+use Gally\Search\Repository\Facet\ConfigurationRepository;
+use Gally\Search\Service\ReverseSourceFieldProvider;
 use Gally\Search\Service\SearchContext;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Gally\Test\AbstractTestCase;
 
-class FilterQueryBuilderTest extends KernelTestCase
+class FilterQueryBuilderTest extends AbstractTestCase
 {
     private array $mockedQueryTypes = [
         QueryInterface::TYPE_TERMS,
@@ -44,16 +49,23 @@ class FilterQueryBuilderTest extends KernelTestCase
     {
         parent::setUpBeforeClass();
 
+        static::loadFixture([
+            __DIR__ . '/../../../../../../fixtures/facet_configuration.yaml',
+            __DIR__ . '/../../../../../../fixtures/categories.yaml',
+            __DIR__ . '/../../../../../../fixtures/source_field.yaml',
+            __DIR__ . '/../../../../../../fixtures/metadata.yaml',
+        ]);
+
         self::$fields = [
             new Field('id', FieldInterface::FIELD_TYPE_INTEGER),
             new Field('simpleTextField', FieldInterface::FIELD_TYPE_KEYWORD),
             new Field('analyzedField', FieldInterface::FIELD_TYPE_TEXT, null, ['is_searchable' => true, 'is_filterable' => false]),
             new Field('nested.child', FieldInterface::FIELD_TYPE_KEYWORD, 'nested'),
             new Field(
-                'filterableLogicalAnd',
+                'color.value',
                 FieldInterface::FIELD_TYPE_KEYWORD,
                 null,
-                ['is_filterable' => true, 'filter_logical_operator' => FieldInterface::FILTER_LOGICAL_OPERATOR_AND]
+                ['is_filterable' => true, 'filter_logical_operator' => Configuration::FILTER_LOGICAL_OPERATOR_AND]
             ),
         ];
     }
@@ -117,7 +129,7 @@ class FilterQueryBuilderTest extends KernelTestCase
      */
     public function testMultipleValuesLogicalAndQueryFilter(string|array $innerConditionValue, string $expectedQueryType): void
     {
-        $query = $this->buildQuery(['filterableLogicalAnd' => $innerConditionValue]);
+        $query = $this->buildQuery(['color.value' => $innerConditionValue]);
         $this->assertInstanceOf(QueryInterface::class, $query);
         $this->assertEquals($expectedQueryType, $query->getType());
     }
@@ -215,6 +227,8 @@ class FilterQueryBuilderTest extends KernelTestCase
             $this->getQueryFactory($this->mockedQueryTypes),
             static::getContainer()->get(SearchContext::class),
             static::getContainer()->get(ConfigurationManager::class),
+            static::getContainer()->get(ReverseSourceFieldProvider::class),
+            static::getContainer()->get(ConfigurationRepository::class),
         );
         $config = $this->getContainerConfigMock(self::$fields);
 
@@ -253,10 +267,30 @@ class FilterQueryBuilderTest extends KernelTestCase
         $config = $this->getMockBuilder(ContainerConfigurationInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
+        $metadata = $this->getMockBuilder(Metadata::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $colorSourceField = new SourceField();
+        $colorSourceField->setId(17);
+        $colorSourceField->setCode('color');
+        $colorSourceField->setType(SourceField\Type::TYPE_SELECT);
+
+        $metadata->method('getEntity')->willReturn('product_document');
+        $metadata->method('getSourceFieldByCodes')->willReturnMap(
+            [
+                [['simpleTextField', 'simpleTextField'], []],
+                [['id', 'id'], []],
+                [['analyzedField', 'analyzedField'], []],
+                [['nested.child', 'nested'], []],
+                [['color.value', 'color'], [$colorSourceField]],
+            ]
+        );
 
         $mapping = new Mapping($fields);
 
         $config->method('getMapping')->willReturn($mapping);
+        $config->method('getMetadata')->willReturn($metadata);
 
         return $config;
     }
