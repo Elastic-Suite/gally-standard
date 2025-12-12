@@ -59,12 +59,19 @@ use Symfony\Component\Serializer\Annotation\Groups;
             ]
         ),
         new Delete(security: "is_granted('" . Role::ROLE_ADMIN . "')"),
-        new GetCollection(security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
+        new GetCollection(
+            security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
+            order: ['createdAt' => 'DESC']
+        ),
         new Post(security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
     ],
     graphQlOperations: [
         new Query(name: 'item_query', security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
-        new QueryCollection(name: 'collection_query', security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
+        new QueryCollection(
+            name: 'collection_query',
+            security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
+            order: ['createdAt' => 'DESC']
+        ),
         new Mutation(name: 'create', security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
         new Mutation(name: 'delete', security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
     ],
@@ -110,25 +117,6 @@ class Job
     #[Groups(['job:read', 'job:write'])]
     private ?int $id = null;
 
-    #[ApiProperty(
-        extraProperties: [
-            'hydra:supportedProperty' => [
-                'hydra:property' => [
-                    'rdfs:label' => 'Type',
-                ],
-                'gally' => [
-                    'visible' => true,
-                    'editable' => false,
-                    'position' => 10,
-                    'input' => 'select',
-                    'options' => [
-                        'api_rest' => '/job_type_options',
-                        'api_graphql' => 'jobTypeOptions',
-                    ],
-                ],
-            ],
-        ],
-    )]
     #[Groups(['job:read', 'job:write'])]
     private string $type;
 
@@ -139,6 +127,7 @@ class Job
                     'rdfs:label' => 'Profile',
                 ],
                 'gally' => [
+                    // TODO: hide this while there is only one type of profile (thesaurus)
                     'visible' => true,
                     'editable' => false,
                     'position' => 20,
@@ -146,6 +135,22 @@ class Job
                     'options' => [
                         'api_rest' => '/job_profile_options',
                         'api_graphql' => 'jobProfileOptions',
+                    ],
+                    'context' => [
+                        // TODO: create specific import endpoint
+                        'importexport_import' => [
+                            'options' => [
+                                'api_rest' => '/job_profile_options',
+                                'api_graphql' => 'jobProfileOptions',
+                            ],
+                        ],
+                        // TODO: create specific export endpoint
+                        'importexport_export' => [
+                            'options' => [
+                                'api_rest' => '/job_profile_options',
+                                'api_graphql' => 'jobProfileOptions',
+                            ],
+                        ],
                     ],
                 ],
             ],
@@ -162,9 +167,9 @@ class Job
                 ],
                 'gally' => [
                     'visible' => true,
-                    'editable' => false,
+                    'editable' => true,
                     'position' => 30,
-                    'input' => 'select',
+                    'input' => 'status',
                     'options' => [
                         'api_rest' => '/job_status_options',
                         'api_graphql' => 'jobStatusOptions',
@@ -238,6 +243,25 @@ class Job
         return $this;
     }
 
+    #[ApiProperty(
+        extraProperties: [
+            'hydra:supportedProperty' => [
+                'hydra:property' => [
+                    'rdfs:label' => 'Logs',
+                ],
+                'gally' => [
+                    'visible' => true,
+                    'editable' => false,
+                    'position' => 70,
+                    'input' => 'logs',
+                    'options' => [
+                        'api_rest' => '/job_logs',
+                        'api_graphql' => 'jobLog',
+                    ],
+                ],
+            ],
+        ],
+    )]
     public function getLogs(): Collection
     {
         return $this->logs;
@@ -250,6 +274,25 @@ class Job
         return $this;
     }
 
+    #[ApiProperty(
+        extraProperties: [
+            'hydra:supportedProperty' => [
+                'hydra:property' => [
+                    'rdfs:label' => 'File',
+                ],
+                'gally' => [
+                    'visible' => true,
+                    'editable' => false,
+                    'position' => 60,
+                    'input' => 'jobfile',
+                    'options' => [
+                        'api_rest' => '/job_files',
+                        'api_graphql' => 'jobFile',
+                    ],
+                ],
+            ],
+        ],
+    )]
     public function getFile(): ?File
     {
         return $this->file;
@@ -262,6 +305,41 @@ class Job
         return $this;
     }
 
+    #[ApiProperty(
+        extraProperties: [
+            'hydra:supportedProperty' => [
+                'hydra:property' => [
+                    'rdfs:label' => 'Created at',
+                ],
+                'gally' => [
+                    'visible' => true,
+                    'editable' => false,
+                    'position' => 40,
+                    'input' => 'date',
+                ],
+            ],
+        ],
+    )]
+    public function getCreatedAt(): ?\DateTime
+    {
+        return $this->createdAt;
+    }
+
+    #[ApiProperty(
+        extraProperties: [
+            'hydra:supportedProperty' => [
+                'hydra:property' => [
+                    'rdfs:label' => 'Finished at',
+                ],
+                'gally' => [
+                    'visible' => true,
+                    'editable' => false,
+                    'position' => 50,
+                    'input' => 'date',
+                ],
+            ],
+        ],
+    )]
     public function getFinishedAt(): ?\DateTime
     {
         return $this->finishedAt;
