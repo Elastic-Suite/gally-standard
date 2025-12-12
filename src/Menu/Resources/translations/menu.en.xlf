@@ -19,12 +19,6 @@
                 <target>Results</target>
             </segment>
         </unit>
-        <unit id="gally.menu.analyze_import_export.label">
-            <segment>
-                <source>gally.menu.analyze_import_export.label</source>
-                <target>Import / Export</target>
-            </segment>
-        </unit>
         <unit id="gally.menu.analyze_search_usage.label">
             <segment>
                 <source>gally.menu.analyze_search_usage.label</source>
@@ -215,6 +209,12 @@
             <segment>
                 <source>gally.menu.optimizer.label</source>
                 <target>Optimizer</target>
+            </segment>
+        </unit>
+        <unit id="gally.menu.import_export.label">
+            <segment>
+                <source>gally.menu.import_export.label</source>
+                <target>Import / Export</target>
             </segment>
         </unit>
     </file>

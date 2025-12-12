@@ -59,12 +59,19 @@ use Symfony\Component\Serializer\Annotation\Groups;
             ]
         ),
         new Delete(security: "is_granted('" . Role::ROLE_ADMIN . "')"),
-        new GetCollection(security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
+        new GetCollection(
+            security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
+            order: ['createdAt' => 'DESC']
+        ),
         new Post(security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
     ],
     graphQlOperations: [
         new Query(name: 'item_query', security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
-        new QueryCollection(name: 'collection_query', security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
+        new QueryCollection(
+            name: 'collection_query',
+            security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
+            order: ['createdAt' => 'DESC']
+        ),
         new Mutation(name: 'create', security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
         new Mutation(name: 'delete', security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
     ],
@@ -120,6 +127,7 @@ class Job
                     'rdfs:label' => 'Profile',
                 ],
                 'gally' => [
+                    // TODO: hide this while there is only one type of profile (thesaurus)
                     'visible' => true,
                     'editable' => false,
                     'position' => 20,
@@ -127,6 +135,22 @@ class Job
                     'options' => [
                         'api_rest' => '/job_profile_options',
                         'api_graphql' => 'jobProfileOptions',
+                    ],
+                    'context' => [
+                        // TODO: create specific import endpoint
+                        'importexport_import' => [
+                            'options' => [
+                                'api_rest' => '/job_profile_options',
+                                'api_graphql' => 'jobProfileOptions',
+                            ],
+                        ],
+                        // TODO: create specific export endpoint
+                        'importexport_export' => [
+                            'options' => [
+                                'api_rest' => '/job_profile_options',
+                                'api_graphql' => 'jobProfileOptions',
+                            ],
+                        ],
                     ],
                 ],
             ],
@@ -143,9 +167,9 @@ class Job
                 ],
                 'gally' => [
                     'visible' => true,
-                    'editable' => false,
+                    'editable' => true,
                     'position' => 30,
-                    'input' => 'select',
+                    'input' => 'status',
                     'options' => [
                         'api_rest' => '/job_status_options',
                         'api_graphql' => 'jobStatusOptions',
