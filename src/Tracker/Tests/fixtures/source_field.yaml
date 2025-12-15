@@ -1,0 +1,245 @@
+Gally\Metadata\Entity\SourceField:
+    tracking_event_id:
+        metadata: '@tracking_event'
+        code: 'id'
+        type: 'keyword'
+        isSystem: true
+        isSortable: true
+        isFilterable: true
+        isUsedForRules: false
+        
+    tracking_event_timestamp:
+        metadata: '@tracking_event'
+        code: '\@timestamp'
+        type: 'date'
+        isSystem: true
+        isSortable: true
+        isFilterable: true
+        isUsedForRules: false
+    
+    tracking_event_type:
+        metadata: '@tracking_event'
+        code: 'event_type'
+        type: 'keyword'
+        isSystem: true
+        isFilterable: true
+        isUsedForRules: true
+        isSortable: false
+    
+    tracking_event_metadata_code:
+        metadata: '@tracking_event'
+        code: 'metadata_code'
+        type: 'keyword'
+        isSystem: true
+        isFilterable: true
+        isUsedForRules: true
+        isSortable: false
+    
+    tracking_event_localized_catalog_code:
+        metadata: '@tracking_event'
+        code: 'localized_catalog_code'
+        type: 'keyword'
+        isSystem: true
+        isFilterable: true
+        isUsedForRules: true
+        isSortable: false
+    
+    tracking_event_entity_code:
+        metadata: '@tracking_event'
+        code: 'entity_code'
+        type: 'keyword'
+        isSystem: true
+        isFilterable: true
+        isUsedForRules: true
+        isSortable: false
+    
+    tracking_event_source_event_type:
+        metadata: '@tracking_event'
+        code: 'source.event_type'
+        type: 'keyword'
+        isSystem: true
+        isFilterable: true
+        isUsedForRules: true
+        isSortable: false
+
+    tracking_event_source_metadata_code:
+        metadata: '@tracking_event'
+        code: 'source.metadata_code'
+        type: 'keyword'
+        isSystem: true
+        isFilterable: true
+        isUsedForRules: true
+        isSortable: false
+
+    tracking_event_context_type:
+        metadata: '@tracking_event'
+        code: 'context.type'
+        type: 'keyword'
+        isSystem: true
+        isFilterable: true
+        isUsedForRules: true
+        isSortable: false
+
+    tracking_event_context_code:
+        metadata: '@tracking_event'
+        code: 'context.code'
+        type: 'keyword'
+        isSystem: true
+        isFilterable: true
+        isUsedForRules: true
+        isSortable: false
+    
+    tracking_event_session_uid:
+        metadata: '@tracking_event'
+        code: 'session.uid'
+        type: 'keyword'
+        isSystem: true
+        isFilterable: true
+        isUsedForRules: false
+        isSortable: false
+    
+    tracking_event_session_vid:
+        metadata: '@tracking_event'
+        code: 'session.vid'
+        type: 'keyword'
+        isSystem: true
+        isFilterable: true
+        isUsedForRules: false
+        isSortable: false
+    
+    tracking_event_group_id:
+        metadata: '@tracking_event'
+        code: 'group_id'
+        type: 'keyword'
+        isFilterable: true
+        isUsedForRules: true
+        isSortable: false
+    
+    tracking_event_search_is_spellchecked:
+        metadata: '@tracking_event'
+        code: 'search_query.is_spellchecked'
+        type: 'boolean'
+        isFilterable: true
+        isUsedForRules: false
+        isSortable: false
+    
+    tracking_event_search_query_text:
+        metadata: '@tracking_event'
+        code: 'search_query.query_text'
+        type: 'text'
+        isSearchable: true
+        isFilterable: false
+        isUsedForRules: false
+        isSortable: false
+    
+    tracking_event_product_list_item_count:
+        metadata: '@tracking_event'
+        code: 'product_list.item_count'
+        type: 'integer'
+        isFilterable: true
+        isUsedForRules: false
+        isSortable: true
+    
+    tracking_event_product_list_current_page:
+        metadata: '@tracking_event'
+        code: 'product_list.current_page'
+        type: 'integer'
+        isFilterable: true
+        isUsedForRules: false
+        isSortable: false
+    
+    tracking_event_product_list_page_count:
+        metadata: '@tracking_event'
+        code: 'product_list.page_count'
+        type: 'integer'
+        isFilterable: true
+        isUsedForRules: false
+        isSortable: false
+    
+    tracking_event_product_list_sort_order:
+        metadata: '@tracking_event'
+        code: 'product_list.sort_order'
+        type: 'keyword'
+        isFilterable: true
+        isUsedForRules: false
+        isSortable: false
+    
+    tracking_event_product_list_sort_direction:
+        metadata: '@tracking_event'
+        code: 'product_list.sort_direction'
+        type: 'keyword'
+        isFilterable: true
+        isUsedForRules: false
+        isSortable: false
+    
+    tracking_event_product_list_filters_name:
+        metadata: '@tracking_event'
+        code: 'product_list.filters.name'
+        type: 'keyword'
+        isFilterable: true
+        isUsedForRules: false
+        isSortable: false
+    
+    tracking_event_product_list_filters_value:
+        metadata: '@tracking_event'
+        code: 'product_list.filters.value'
+        type: 'keyword'
+        isFilterable: true
+        isUsedForRules: false
+        isSortable: false
+    
+    tracking_event_cart_qty:
+        metadata: '@tracking_event'
+        code: 'cart.qty'
+        type: 'integer'
+        isFilterable: true
+        isUsedForRules: false
+        isSortable: false
+    
+    tracking_event_display_position:
+        metadata: '@tracking_event'
+        code: 'display.position'
+        type: 'integer'
+        isFilterable: true
+        isUsedForRules: false
+        isSortable: true
+    
+    tracking_event_order_order_id:
+        metadata: '@tracking_event'
+        code: 'order.order_id'
+        type: 'integer'
+        isFilterable: true
+        isUsedForRules: false
+        isSortable: false
+    
+    tracking_event_order_total:
+        metadata: '@tracking_event'
+        code: 'order.total'
+        type: 'float'
+        isFilterable: true
+        isUsedForRules: false
+        isSortable: false
+    
+    tracking_event_order_price:
+        metadata: '@tracking_event'
+        code: 'order.price'
+        type: 'float'
+        isFilterable: true
+        isUsedForRules: false
+        isSortable: false
+    
+    tracking_event_order_qty:
+        metadata: '@tracking_event'
+        code: 'order.qty'
+        type: 'float'
+        isFilterable: true
+        isUsedForRules: false
+        isSortable: false
+    
+    tracking_event_order_row_total:
+        metadata: '@tracking_event'
+        code: 'order.row_total'
+        type: 'float'
+        isFilterable: true
+        isUsedForRules: false
+        isSortable: false
