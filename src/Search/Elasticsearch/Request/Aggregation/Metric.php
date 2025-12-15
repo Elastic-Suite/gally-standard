@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace Gally\Search\Elasticsearch\Request\Aggregation;
 
 use Gally\Search\Elasticsearch\Request\MetricInterface;
+use Gally\Search\Elasticsearch\Request\QueryInterface;
 
 /**
  * Metrics aggregation.
@@ -32,6 +33,8 @@ class Metric implements MetricInterface
         private string $field,
         private string $type = MetricInterface::TYPE_STATS,
         private array $config = [],
+        private ?string $nestedPath = null,
+        private ?QueryInterface $nestedFilter = null,
     ) {
     }
 
@@ -53,5 +56,20 @@ class Metric implements MetricInterface
     public function getConfig(): array
     {
         return $this->config;
+    }
+
+    public function isNested(): bool
+    {
+        return null !== $this->nestedPath;
+    }
+
+    public function getNestedPath(): ?string
+    {
+        return $this->nestedPath;
+    }
+
+    public function getNestedFilter(): ?QueryInterface
+    {
+        return $this->nestedFilter;
     }
 }

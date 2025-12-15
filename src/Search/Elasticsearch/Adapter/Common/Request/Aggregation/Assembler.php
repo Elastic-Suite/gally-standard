@@ -17,6 +17,7 @@ namespace Gally\Search\Elasticsearch\Adapter\Common\Request\Aggregation;
 use Gally\Search\Elasticsearch\Adapter\Common\Request\Query;
 use Gally\Search\Elasticsearch\Request\AggregationInterface;
 use Gally\Search\Elasticsearch\Request\BucketInterface;
+use Gally\Search\Elasticsearch\Request\MetricInterface;
 
 /**
  * Assemble Elasticsearch aggregations from search request AggregationInterface queries.
@@ -81,6 +82,18 @@ class Assembler implements AssemblerInterface
                         'aggregations' => [$aggregation->getName() => $esAggregation],
                     ];
                 }
+            } elseif ($aggregation instanceof MetricInterface && $aggregation->isNested()) {
+                if ($aggregation->getNestedFilter()) {
+                    $esAggregation = [
+                        'filter' => $this->queryAssembler->assembleQuery($aggregation->getNestedFilter()),
+                        'aggregations' => [$aggregation->getName() => $esAggregation],
+                    ];
+                }
+
+                $esAggregation = [
+                    'nested' => ['path' => $aggregation->getNestedPath()],
+                    'aggregations' => [$aggregation->getName() => $esAggregation],
+                ];
             }
 
             $esAggregations[$aggregation->getName()] = $esAggregation;
