@@ -41,4 +41,19 @@ interface MetricInterface extends AggregationInterface
      * Metric extra config.
      */
     public function getConfig(): array;
+
+    /**
+     * Indicates if the aggregation is nested.
+     */
+    public function isNested(): bool;
+
+    /**
+     * Nested path for nested aggregations.
+     */
+    public function getNestedPath(): ?string;
+
+    /**
+     * Optional filter for nested filters (eg. filter by customer group for price).
+     */
+    public function getNestedFilter(): ?QueryInterface;
 }
