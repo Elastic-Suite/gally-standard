@@ -1,0 +1,7 @@
+services:
+    gally.container_configuration.tracking_kpi.factory:
+        parent: 'Gally\Search\Elasticsearch\Request\Container\Configuration\GenericContainerConfigurationFactory'
+        arguments:
+            $aggregationProvider: '@Gally\Tracker\Elasticsearch\Request\Aggregation\Provider\KpiAggregationProvider'
+        tags:
+            - { name: gally.container_configuration.factory, requestType: tracking_kpi, metadata: tracking_event }
