@@ -37,6 +37,8 @@ class TrackingEventProcessor implements ProcessorInterface
             $this->bus->dispatch($message);
         }
 
+        // Todo return all splitted messages or OK !
+
         return $data;
     }
 
@@ -44,9 +46,11 @@ class TrackingEventProcessor implements ProcessorInterface
     {
         $messages = [];
 
-        $items = $data->getItems();
-        if (\is_string($items)) {
-            $items = json_decode($items, true);
+        $payload = $data->getPayload();
+        if (\is_string($payload)) {
+            $payload = json_decode($payload, true);
+            $items = $payload['items']?? [];
+            unset($payload['items']);
         }
 
         if (empty($items)) {
@@ -59,18 +63,11 @@ class TrackingEventProcessor implements ProcessorInterface
                 // Todo validate entityCode ??
                 if (isset($item['entityCode'])) {
                     $clonedData->setEntityCode($item['entityCode']);
+                    unset($item['entityCode']);
                 }
 
-                // Merge item data into payload
-                $payloadData = [];
-                if ($clonedData->getPayload()) {
-                    $payloadData = json_decode($clonedData->getPayload(), true) ?? [];
-                }
-
-                $itemData = array_diff_key($item, ['entityCode' => null]);
-                $payloadData = array_merge_recursive($payloadData, $itemData);
+                $payloadData = array_merge_recursive($payload, $item);
                 $clonedData->setPayload(json_encode($payloadData));
-                $clonedData->setItems(null);
 
                 $messages[] = $clonedData;
             }

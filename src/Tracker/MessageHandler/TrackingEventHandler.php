@@ -13,6 +13,11 @@ declare(strict_types=1);
 
 namespace Gally\Tracker\MessageHandler;
 
+use Gally\Catalog\Repository\LocalizedCatalogRepository;
+use Gally\Index\Dto\DataStreamBulk;
+use Gally\Index\Entity\DataStream;
+use Gally\Index\Repository\DataStream\DataStreamRepositoryInterface;
+use Gally\Metadata\Repository\MetadataRepository;
 use Gally\Tracker\Entity\TrackingEvent;
 use Symfony\Component\Messenger\Handler\Acknowledger;
 use Symfony\Component\Messenger\Handler\BatchHandlerInterface;
@@ -26,6 +31,9 @@ class TrackingEventHandler implements BatchHandlerInterface
     private const BATCH_SIZE = 100;
 
     public function __construct(
+        private DataStreamRepositoryInterface $dataStreamRepository,
+        private MetadataRepository $metadataRepository,
+        private LocalizedCatalogRepository $localizedCatalogRepository,
         private iterable $validators,
     ) {
     }
@@ -50,7 +58,6 @@ class TrackingEventHandler implements BatchHandlerInterface
         return \count($this->jobs);
     }
 
-    // Set a custom limit
     protected function shouldFlush(): bool
     {
         return self::BATCH_SIZE <= \count($this->jobs);
@@ -58,34 +65,36 @@ class TrackingEventHandler implements BatchHandlerInterface
 
     private function process(array $jobs): void
     {
-        $originalMessageAckMap = []; // Map original message ID => ack
-        $documents = [];
+        $originalMessageAckMap = [];
+        $bulkRequest = new DataStreamBulk\Request();
 
-        /**
-         * @var TrackingEvent $message
-         */
+        /** @var TrackingEvent $message */
         foreach ($jobs as [$message, $ack]) {
             echo 'Processing event: ' . $message->getId() . \PHP_EOL;
             $originalMessageAckMap[$message->getId()] = $ack;
-
-            $doc = $message->toArray();
-            $documents[] = $doc;
+            $dataStream = $this->getDataStream($message);
+            $bulkRequest->addDocument($dataStream, $message->toArray());
         }
 
-        echo 'Bulk size: ' . \count($documents) . \PHP_EOL;
+        echo 'Bulk size: ' . \count($bulkRequest->getOperations()) . \PHP_EOL;
+        $response = $this->dataStreamRepository->bulk($bulkRequest);
 
-        $response = $this->bulkToOpenSearch($documents);
+        if ($response->hasErrors()) {
+            foreach ($response->aggregateErrorsByReason() as $error) {
+                echo 'Bulk error: ' . $error['reason'] . ' (count: ' . $error['count'] . ')' . \PHP_EOL;
+            }
 
-        // Track which messages failed and nack them
-        foreach ($response['items'] as $item) {
-            $docId = $item['index']['_id'];
+            // Track which messages failed and nack them
+            foreach ($response['items'] as $item) {
+                $docId = $item['index']['_id'];
 
-            if (isset($item['index']['error'])) {
-                if (isset($originalMessageAckMap[$docId])) {
-                    echo 'Rejecting event: ' . $docId . ', error: ' . $item['index']['error']['reason'] . \PHP_EOL;
-                    $ack = $originalMessageAckMap[$docId];
-                    $ack->nack(new \Exception($item['index']['error']['reason']));
-                    unset($originalMessageAckMap[$docId]);
+                if (isset($item['index']['error'])) {
+                    if (isset($originalMessageAckMap[$docId])) {
+                        echo 'Rejecting event: ' . $docId . ', error: ' . $item['index']['error']['reason'] . \PHP_EOL;
+                        $ack = $originalMessageAckMap[$docId];
+                        $ack->nack(new \Exception($item['index']['error']['reason']));
+                        unset($originalMessageAckMap[$docId]);
+                    }
                 }
             }
         }
@@ -111,50 +120,18 @@ class TrackingEventHandler implements BatchHandlerInterface
         return $violations ?? new \Symfony\Component\Validator\ConstraintViolationList();
     }
 
-    private function bulkToOpenSearch(array $documents): array
+    private function getDataStream(TrackingEvent $event): DataStream
     {
-        $params = ['body' => []];
+        $localizedCatalog = $this->localizedCatalogRepository->findByCodeOrId($event->getLocalizedCatalogCode());
+        // Todo manage missing localize dcatalog
 
-        foreach ($documents as $document) {
-            $params['body'][] = [
-                'index' => [
-                    '_index' => 'tracking_events',
-                    '_id' => $document['event']['id'],
-                ],
-            ];
-            $params['body'][] = $document;
+        $metadata = $this->metadataRepository->findOneBy(['entity' => 'tracking_event']);
+
+        $dataStream = $this->dataStreamRepository->findByMetadata($metadata, $localizedCatalog);
+        if (!$dataStream) {
+            $dataStream = $this->dataStreamRepository->createForEntity($metadata, $localizedCatalog);
         }
 
-        return $this->mockBulkResponse($params);
-    }
-
-    private function mockBulkResponse(array $params): array
-    {
-        $items = [];
-        $body = $params['body'];
-
-        for ($i = 0; $i < \count($body); $i += 2) {
-            $meta = $body[$i]['index'];
-            $document = $body[$i + 1];
-
-            $item = [
-                'index' => [
-                    '_id' => $meta['_id'],
-                    '_index' => $meta['_index'],
-                ],
-            ];
-
-            // Fail if entityCode is 'error'
-            if (isset($document['entity_code']) && 'error' === $document['entity_code']) {
-                $item['index']['error'] = [
-                    'type' => 'invalid_entity_code',
-                    'reason' => 'Entity code "error" is not allowed',
-                ];
-            }
-
-            $items[] = $item;
-        }
-
-        return ['items' => $items, 'errors' => \count(array_filter($items, fn ($i) => isset($i['index']['error']))) > 0];
+        return $dataStream;
     }
 }

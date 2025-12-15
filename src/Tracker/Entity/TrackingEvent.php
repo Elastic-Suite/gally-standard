@@ -72,9 +72,6 @@ class TrackingEvent
     #[Groups(['tracking_event:read', 'tracking_event:write'])]
     private ?string $payload = null;
 
-    #[Groups(['tracking_event:read', 'tracking_event:write'])]
-    private ?string $items = null;
-
     #[Groups(['tracking_event:read'])]
     private \DateTimeImmutable $createdAt;
 
@@ -219,18 +216,6 @@ class TrackingEvent
         return $this;
     }
 
-    public function getItems(): string
-    {
-        return $this->items ?? '[]';
-    }
-
-    public function setItems(?string $items): self
-    {
-        $this->items = $items;
-
-        return $this;
-    }
-
     public function getCreatedAt(): \DateTimeImmutable
     {
         return $this->createdAt;
@@ -253,7 +238,7 @@ class TrackingEvent
 
         return array_merge(
             [
-                '@timestamp' => $this->createdAt->format('c'),
+                '@timestamp' => $this->createdAt->format('Y-m-d H:i:s'),
                 'event_type' => $this->getEventType(),
                 'metadata_code' => $this->getMetadataCode(),
                 'localized_catalog_code' => $this->getLocalizedCatalogCode(),
@@ -265,7 +250,6 @@ class TrackingEvent
                     'vid' => $this->getSessionVid(),
                 ],
                 'group_id' => $this->getGroupId(),
-                'items' => $this->getItems(),
             ],
             $payloadData
         );

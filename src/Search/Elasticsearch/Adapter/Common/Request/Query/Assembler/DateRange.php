@@ -30,7 +30,7 @@ class DateRange implements AssemblerInterface
         /** @var \Gally\Search\Elasticsearch\Request\Query\DateRange $query */
         $queryParams = $query->getBounds();
 
-        $queryParams['format'] = $query->getFormat();
+        //        $queryParams['format'] = $query->getFormat();
         $queryParams['boost'] = $query->getBoost();
 
         $searchQuery = ['range' => [$query->getField() => $queryParams]];
