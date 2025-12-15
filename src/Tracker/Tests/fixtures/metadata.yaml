@@ -5,3 +5,4 @@ Gally\Metadata\Entity\Metadata:
         entity: category
     tracking_event:
         entity: tracking_event
+        is_time_series_data: true
