@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Gally\Job\Entity;
 
+use ApiPlatform\Doctrine\Orm\Filter\DateFilter;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiProperty;
@@ -79,6 +80,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     normalizationContext: ['groups' => ['job:read']],
 )]
 #[ApiFilter(filterClass: SearchFilter::class, properties: ['type' => 'exact', 'profile' => 'exact', 'status' => 'exact'])]
+#[ApiFilter(filterClass: DateFilter::class, properties: ['finishedAt'])]
 class Job
 {
     use TimestampableEntity;
@@ -191,7 +193,7 @@ class Job
     #[Groups(['job:read'])]
     protected $createdAt;
 
-    #[Groups(['boost:read'])]
+    #[Groups(['job:read'])]
     protected $updatedAt;
 
     #[Groups(['job:read'])]
@@ -284,7 +286,7 @@ class Job
                     'visible' => true,
                     'editable' => false,
                     'position' => 60,
-                    'input' => 'jobfile',
+                    'input' => 'jobFile',
                     'options' => [
                         'api_rest' => '/job_files',
                         'api_graphql' => 'jobFile',
