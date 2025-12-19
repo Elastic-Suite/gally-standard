@@ -66,7 +66,11 @@ class CategoryTreeBuilder
             $this->productCategoryCount = $this->getCategoryProductCount($localizedCatalog);
         }
 
-        return new CategoryTree($catalogId, $localizedCatalogId, $this->buildCategoryTree($sortedCategories));
+        return new CategoryTree(
+            $catalogId,
+            $localizedCatalogId,
+            $this->buildCategoryTree($sortedCategories, 1, 'root', null !== $localizedCatalogId),
+        );
     }
 
     private function getSortedCategories(?Catalog $catalog, ?LocalizedCatalog $localizedCatalog): array
@@ -118,24 +122,32 @@ class CategoryTreeBuilder
         return $sortedCategories;
     }
 
-    private function buildCategoryTree(array $sortedCategories, int $level = 1, string $parentId = 'root'): array
-    {
+    private function buildCategoryTree(
+        array $sortedCategories,
+        int $level = 1,
+        string $parentId = 'root',
+        bool $includeProductCount = false
+    ): array {
         $tree = [];
 
         foreach ($sortedCategories[$level][$parentId] ?? [] as $categoryConfiguration) {
-            $tree[] = $this->buildCategoryNode($sortedCategories, $categoryConfiguration);
+            $tree[] = $this->buildCategoryNode($sortedCategories, $categoryConfiguration, $includeProductCount);
         }
 
         return $tree;
     }
 
-    private function buildCategoryNode(array $sortedCategories, Category\Configuration $categoryConfiguration): array
-    {
+    private function buildCategoryNode(
+        array $sortedCategories,
+        Category\Configuration $categoryConfiguration,
+        bool $includeProductCount
+    ): array {
         $category = $categoryConfiguration->getCategory();
         $children = $this->buildCategoryTree(
             $sortedCategories,
             $category->getLevel() + 1,
-            $category->getId()
+            $category->getId(),
+            $includeProductCount
         );
 
         $node = [
@@ -143,9 +155,12 @@ class CategoryTreeBuilder
             'name' => $categoryConfiguration->getName(),
             'level' => $category->getLevel(),
             'path' => $category->getPath(),
-            'count' => $this->productCategoryCount[$category->getId()] ?? 0,
             'isVirtual' => $categoryConfiguration->getIsVirtual(),
         ];
+
+        if ($includeProductCount) {
+            $node['count'] = $this->productCategoryCount[$category->getId()] ?? 0;
+        }
 
         if (!empty($children)) {
             $node['children'] = $children;
