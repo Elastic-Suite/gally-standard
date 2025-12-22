@@ -18,6 +18,7 @@ use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\GraphQl\QueryCollection;
+use ApiPlatform\OpenApi\Model;
 use Gally\Metadata\Entity\SourceField;
 use Gally\Search\Resolver\DummyResolver;
 use Gally\Search\State\SortingOptionProvider;
@@ -26,11 +27,16 @@ use Gally\Search\State\SortingOptionProvider;
     operations: [
         new GetCollection(
             paginationEnabled: false,
-            openapiContext: [
-                'parameters' => [
-                    ['name' => 'entityType', 'in' => 'query', 'type' => 'string', 'required' => true],
+            openapi: new Model\Operation(
+                parameters: [
+                    new Model\Parameter(
+                        name: 'entityType',
+                        in: 'query',
+                        required: true,
+                        schema: ['type' => 'string'],
+                    ),
                 ],
-            ]
+            )
         ),
     ],
     graphQlOperations: [

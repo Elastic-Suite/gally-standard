@@ -21,7 +21,7 @@ use Gally\Index\Repository\DataStream\DataStreamRepositoryInterface;
 class DataStreamProvider implements ProviderInterface
 {
     public function __construct(
-        private DataStreamRepositoryInterface $dataStreamRepository
+        private DataStreamRepositoryInterface $dataStreamRepository,
     ) {
     }
 

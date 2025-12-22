@@ -1,6 +1,7 @@
 services:
     Gally\User\Repository\UserRepository:
         arguments:
+            - '@doctrine.orm.entity_manager'
             - '@Doctrine\Persistence\ManagerRegistry'
         tags:
             - { name: doctrine.repository_service }

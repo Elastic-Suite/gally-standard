@@ -24,7 +24,7 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
 class LanguageOptionTest extends AbstractTestCase
 {
     protected const USED_LANGUAGE_COUNT = 2;
-    protected const UNUSED_LANGUAGE_COUNT = 139;
+    protected const UNUSED_LANGUAGE_COUNT = 142;
 
     public static function setUpBeforeClass(): void
     {

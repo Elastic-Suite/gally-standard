@@ -26,7 +26,7 @@ interface DataStreamRepositoryInterface
      */
     public function createForEntity(
         Metadata $metadata,
-        LocalizedCatalog $localizedCatalog
+        LocalizedCatalog $localizedCatalog,
     ): DataStream;
 
     /**
@@ -34,7 +34,7 @@ interface DataStreamRepositoryInterface
      */
     public function create(
         string $identifier,
-        LocalizedCatalog $localizedCatalog
+        LocalizedCatalog $localizedCatalog,
     ): DataStream;
 
     /**

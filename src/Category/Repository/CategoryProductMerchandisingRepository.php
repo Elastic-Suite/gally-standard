@@ -49,7 +49,7 @@ class CategoryProductMerchandisingRepository extends ServiceEntityRepository
             ->leftJoin(
                 Category\Configuration::class,
                 'cc',
-                Join::WITH,
+                Join::ON,
                 $exprBuilder->andX(
                     $exprBuilder->eq('cc.localizedCatalog', 'lc'),
                 )
@@ -57,7 +57,7 @@ class CategoryProductMerchandisingRepository extends ServiceEntityRepository
             ->leftJoin(
                 $this->getClassName(),
                 'cp',
-                Join::WITH,
+                Join::ON,
                 $exprBuilder->andX(
                     $exprBuilder->eq('cp.localizedCatalog', 'lc'),
                     $exprBuilder->eq('cp.catalog', ':catalog'),
@@ -88,7 +88,7 @@ class CategoryProductMerchandisingRepository extends ServiceEntityRepository
             ->innerJoin(
                 Category\Configuration::class,
                 'cc',
-                Join::WITH,
+                Join::ON,
                 $exprBuilder->andX(
                     $exprBuilder->eq('cc.localizedCatalog', 'lc'),
                 )
@@ -96,7 +96,7 @@ class CategoryProductMerchandisingRepository extends ServiceEntityRepository
             ->leftJoin(
                 $this->getClassName(),
                 'cp',
-                Join::WITH,
+                Join::ON,
                 $exprBuilder->andX(
                     $exprBuilder->eq('cp.localizedCatalog', 'lc'),
                     $exprBuilder->eq('cp.category', ':category'),
@@ -121,7 +121,7 @@ class CategoryProductMerchandisingRepository extends ServiceEntityRepository
             ->leftJoin(
                 Category\ProductMerchandising::class,
                 'cp',
-                Join::WITH,
+                Join::ON,
                 $exprBuilder->andX(
                     $exprBuilder->eq('cp.catalog', 'catalog'),
                 )
@@ -184,7 +184,7 @@ class CategoryProductMerchandisingRepository extends ServiceEntityRepository
             ->leftJoin(
                 Category\Configuration::class,
                 'cc',
-                Join::WITH,
+                Join::ON,
                 $exprBuilder->andX(
                     $exprBuilder->eq('cc.category', 'cpm.category '),
                 )
@@ -192,7 +192,7 @@ class CategoryProductMerchandisingRepository extends ServiceEntityRepository
             ->leftJoin(
                 $this->getClassName(),
                 'lc',
-                Join::WITH,
+                Join::ON,
                 $exprBuilder->andX(
                     $exprBuilder->eq('lc.category', 'cpm.category'),
                     $exprBuilder->eq('lc.productId', 'cpm.productId'),
@@ -202,7 +202,7 @@ class CategoryProductMerchandisingRepository extends ServiceEntityRepository
             ->leftJoin(
                 $this->getClassName(),
                 'c',
-                Join::WITH,
+                Join::ON,
                 $exprBuilder->andX(
                     $exprBuilder->eq('c.category', 'cpm.category'),
                     $exprBuilder->eq('c.productId', 'cpm.productId'),
@@ -213,7 +213,7 @@ class CategoryProductMerchandisingRepository extends ServiceEntityRepository
             ->leftJoin(
                 $this->getClassName(),
                 'g',
-                Join::WITH,
+                Join::ON,
                 $exprBuilder->andX(
                     $exprBuilder->eq('g.category', 'cpm.category'),
                     $exprBuilder->eq('g.productId', 'cpm.productId'),

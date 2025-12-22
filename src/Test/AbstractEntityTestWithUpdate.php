@@ -51,6 +51,8 @@ abstract class AbstractEntityTestWithUpdate extends AbstractEntityTestCase
         ?string $message = null,
         ?string $validRegex = null,
     ): ResponseInterface {
+        $data['@id'] = $this->getUri($this->getApiPath(), $id);
+
         return $this->update('PUT', $user, $id, $data, $responseCode, ['Content-Type' => 'application/ld+json'], $message, $validRegex);
     }
 
@@ -76,10 +78,7 @@ abstract class AbstractEntityTestWithUpdate extends AbstractEntityTestCase
      * - (optional) string $message: expected error message
      * - (optional) string $validRegex: a regexp used to validate generated id.
      */
-    public function putUpdateDataProvider(): iterable
-    {
-        return $this->patchUpdateDataProvider();
-    }
+    abstract public function putUpdateDataProvider(): iterable;
 
     protected function update(
         string $method,

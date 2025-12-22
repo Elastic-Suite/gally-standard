@@ -28,7 +28,7 @@ class TrackingEventTest extends GraphQlTrackingEventTest
      */
     public function testCreateTrackingEvent(
         array $data,
-        array $expectedEvents = []
+        array $expectedEvents = [],
     ): void {
         $this->validateApiCall(
             new RequestToTest(

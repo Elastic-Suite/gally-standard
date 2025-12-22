@@ -24,7 +24,7 @@ use Gally\Index\Repository\DataStream\DataStreamRepositoryInterface;
 class DataStreamProcessor implements ProcessorInterface
 {
     public function __construct(
-        private DataStreamRepositoryInterface $dataStreamRepository
+        private DataStreamRepositoryInterface $dataStreamRepository,
     ) {
     }
 
@@ -41,7 +41,7 @@ class DataStreamProcessor implements ProcessorInterface
         }
         if ('bulk' == $operation->getName()) {
             $request = new Bulk\Request();
-            $request->addDocuments($data, json_decode($context['args']['input']['data'], true) ?? []); // @phpstan-ignore-line
+            $request->addDocuments($data, json_decode($context['args']['input']['data'], true) ?? []);
             $this->runBulkQuery($data, $request);
         }
 

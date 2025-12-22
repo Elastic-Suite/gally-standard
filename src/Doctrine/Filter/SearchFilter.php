@@ -14,8 +14,6 @@ declare(strict_types=1);
 
 namespace Gally\Doctrine\Filter;
 
-use ApiPlatform\Api\IdentifiersExtractorInterface as LegacyIdentifiersExtractorInterface;
-use ApiPlatform\Api\IriConverterInterface as LegacyIriConverterInterface;
 use ApiPlatform\Doctrine\Common\Filter\SearchFilterInterface;
 use ApiPlatform\Doctrine\Common\Filter\SearchFilterTrait;
 use ApiPlatform\Doctrine\Orm\Filter\AbstractFilter;
@@ -45,7 +43,7 @@ class SearchFilter extends AbstractFilter implements SearchFilterInterface
 
     public const DOCTRINE_INTEGER_TYPE = Types::INTEGER;
 
-    public function __construct(ManagerRegistry $managerRegistry, IriConverterInterface|LegacyIriConverterInterface $iriConverter, ?PropertyAccessorInterface $propertyAccessor = null, ?LoggerInterface $logger = null, ?array $properties = null, IdentifiersExtractorInterface|LegacyIdentifiersExtractorInterface|null $identifiersExtractor = null, ?NameConverterInterface $nameConverter = null)
+    public function __construct(ManagerRegistry $managerRegistry, IriConverterInterface $iriConverter, ?PropertyAccessorInterface $propertyAccessor = null, ?LoggerInterface $logger = null, ?array $properties = null, ?IdentifiersExtractorInterface $identifiersExtractor = null, ?NameConverterInterface $nameConverter = null)
     {
         parent::__construct($managerRegistry, $logger, $properties, $nameConverter);
 
@@ -54,7 +52,7 @@ class SearchFilter extends AbstractFilter implements SearchFilterInterface
         $this->propertyAccessor = $propertyAccessor ?: PropertyAccess::createPropertyAccessor();
     }
 
-    protected function getIriConverter(): IriConverterInterface|LegacyIriConverterInterface
+    protected function getIriConverter(): IriConverterInterface
     {
         return $this->iriConverter;
     }
@@ -64,7 +62,7 @@ class SearchFilter extends AbstractFilter implements SearchFilterInterface
         return $this->propertyAccessor;
     }
 
-    protected function filterProperty(string $property, $value, QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, string $resourceClass, ?Operation $operation = null, array $context = []): void
+    protected function filterProperty(string $property, mixed $value, QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, string $resourceClass, ?Operation $operation = null, array $context = []): void
     {
         if (
             null === $value

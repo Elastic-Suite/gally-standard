@@ -41,6 +41,7 @@ services:
             - '@Gally\Metadata\Repository\SourceFieldRepository'
             - '@Gally\Metadata\Repository\SourceFieldLabelRepository'
             - '@Gally\Metadata\Validator\SourceFieldDataValidator'
+            - '@api_platform.doctrine.orm.state.persist_processor'
             - '@api_platform.doctrine.orm.state.remove_processor'
             - '%route_prefix%'
         tags:

@@ -14,8 +14,8 @@ declare(strict_types=1);
 
 namespace Gally\Metadata\Repository;
 
-use ApiPlatform\Exception\ResourceClassNotFoundException;
 use ApiPlatform\Metadata\Exception\InvalidArgumentException;
+use ApiPlatform\Metadata\Exception\ResourceClassNotFoundException;
 use ApiPlatform\Metadata\Resource\Factory\ResourceMetadataCollectionFactoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;

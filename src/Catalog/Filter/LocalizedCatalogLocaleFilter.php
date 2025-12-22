@@ -21,7 +21,6 @@ use Doctrine\ORM\QueryBuilder;
 use Gally\Catalog\Entity\LocalizedCatalog;
 use Gally\Doctrine\Filter\SearchFilter as GallySearchFilter;
 use Gally\Exception\LogicException;
-use Symfony\Component\PropertyInfo\Type;
 
 /**
  * Filters the collection on localizedCatalogs and the locale related to localizedCatalogs.
@@ -107,7 +106,7 @@ class LocalizedCatalogLocaleFilter extends GallySearchFilter
         foreach ($this->properties as $property => $strategy) {
             $description[$this->normalizePropertyName($property)] = [
                 'property' => $property,
-                'type' => Type::BUILTIN_TYPE_STRING,
+                'type' => 'string',
                 'required' => false,
                 'strategy' => self::STRATEGY_EXACT,
                 'is_collection' => false,
@@ -116,7 +115,7 @@ class LocalizedCatalogLocaleFilter extends GallySearchFilter
 
             $description[$this->normalizePropertyName($property) . '[]'] = [
                 'property' => $property,
-                'type' => Type::BUILTIN_TYPE_ARRAY,
+                'type' => 'array',
                 'required' => false,
                 'strategy' => self::STRATEGY_EXACT,
                 'is_collection' => true,

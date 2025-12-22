@@ -104,4 +104,15 @@ class CategoryTest extends AbstractEntityTestWithUpdate
             [$this->getUser(Role::ROLE_ADMIN), 'one', ['level' => 1], 200, null, $validRegex],
         ];
     }
+
+    public function putUpdateDataProvider(): iterable
+    {
+        $validRegex = '~^.*/' . $this->getApiPath() . '/\S+$~';
+
+        return [
+            [null, 'one', ['level' => 2], 401],
+            [$this->getUser(Role::ROLE_CONTRIBUTOR), 'one', ['level' => 1], 200, null, $validRegex],
+            [$this->getUser(Role::ROLE_ADMIN), 'one', ['level' => 1], 200, null, $validRegex],
+        ];
+    }
 }

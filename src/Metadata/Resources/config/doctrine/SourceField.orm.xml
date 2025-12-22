@@ -40,7 +40,7 @@
             <join-column name="metadata_id" referenced-column-name="id" nullable="false" on-delete="CASCADE" on-update="CASCADE"/>
         </many-to-one>
 
-        <one-to-many field="labels" target-entity="Gally\Metadata\Entity\SourceFieldLabel" mapped-by="sourceField">
+        <one-to-many field="labels" target-entity="Gally\Metadata\Entity\SourceFieldLabel" mapped-by="sourceField" orphan-removal="true">
             <order-by>
                 <order-by-field name="id" direction="ASC" />
             </order-by>

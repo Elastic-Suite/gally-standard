@@ -17,9 +17,7 @@ namespace Gally\Doctrine\Filter;
 use ApiPlatform\Doctrine\Orm\Filter\AbstractFilter;
 use ApiPlatform\Doctrine\Orm\Util\QueryNameGeneratorInterface;
 use ApiPlatform\Metadata\Operation;
-use Doctrine\DBAL\Connection;
 use Doctrine\ORM\QueryBuilder;
-use Symfony\Component\PropertyInfo\Type;
 
 class JsonFilter extends AbstractFilter
 {
@@ -66,7 +64,7 @@ class JsonFilter extends AbstractFilter
         foreach ($properties as $property => $propertyData) {
             $description[$this->normalizePropertyName($property)] = [
                 'property' => $property,
-                'type' => Type::BUILTIN_TYPE_STRING,
+                'type' => 'string',
                 'required' => false,
                 'is_collection' => false,
                 'description' => 'Filter JSON fields containing arrays of values.',
@@ -74,7 +72,7 @@ class JsonFilter extends AbstractFilter
 
             $description[$this->normalizePropertyName($property) . '[]'] = [
                 'property' => $property,
-                'type' => Type::BUILTIN_TYPE_ARRAY,
+                'type' => 'array',
                 'required' => false,
                 'is_collection' => true,
                 'description' => 'Filter JSON fields containing arrays of values.',

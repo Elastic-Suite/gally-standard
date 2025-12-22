@@ -126,7 +126,7 @@ class CategoryTreeBuilder
         array $sortedCategories,
         int $level = 1,
         string $parentId = 'root',
-        bool $includeProductCount = false
+        bool $includeProductCount = false,
     ): array {
         $tree = [];
 
@@ -140,7 +140,7 @@ class CategoryTreeBuilder
     private function buildCategoryNode(
         array $sortedCategories,
         Category\Configuration $categoryConfiguration,
-        bool $includeProductCount
+        bool $includeProductCount,
     ): array {
         $category = $categoryConfiguration->getCategory();
         $children = $this->buildCategoryTree(

@@ -14,7 +14,6 @@ declare(strict_types=1);
 
 namespace Gally\Search\State;
 
-// use ApiPlatform\Core\Bridge\Elasticsearch\Serializer\ItemNormalizer;
 use ApiPlatform\State\Pagination\PaginatorInterface;
 use Gally\Search\Elasticsearch\Adapter\Common\Response\AggregationInterface;
 use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface;

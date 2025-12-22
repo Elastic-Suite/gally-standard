@@ -49,10 +49,10 @@ class SourceFieldDataValidator
             // Call function computeChangeSets to get the entity changes from the function getEntityChangeSet.
             $this->entityManager->getUnitOfWork()->computeChangeSets();
             $changeSet = $this->entityManager->getUnitOfWork()->getEntityChangeSet($sourceField);
-            // Prevent computed change set to take labels in account.
 
-            foreach ($sourceField->getLabels() as $label) {
-                $this->entityManager->getUnitOfWork()->detach($label);
+            // Prevent computed change set to take labels in account.
+            if (isset($changeSet['labels'])) {
+                unset($changeSet['labels']);
             }
 
             foreach ($this->updatableProperties as $updatableProperty) {

@@ -14,10 +14,10 @@ declare(strict_types=1);
 
 namespace Gally\Product\Entity;
 
-use ApiPlatform\Action\NotFoundAction;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GraphQl\QueryCollection;
+use ApiPlatform\Symfony\Action\NotFoundAction;
 use Gally\Metadata\Entity\Attribute\AttributeInterface;
 use Gally\Product\State\ProductProvider;
 use Gally\Search\Entity\Document;

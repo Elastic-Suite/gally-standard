@@ -18,6 +18,7 @@ use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GraphQl\Query;
+use ApiPlatform\OpenApi\Model;
 use Gally\Category\Controller\GetCategoryTree;
 use Gally\Category\Resolver\CategoryTreeResolver;
 
@@ -27,12 +28,22 @@ use Gally\Category\Resolver\CategoryTreeResolver;
             uriTemplate: '/categoryTree',
             controller: GetCategoryTree::class,
             read: false,
-            openapiContext: [
-                'parameters' => [
-                    ['name' => 'catalogId', 'in' => 'query', 'type' => 'int'],
-                    ['name' => 'localizedCatalogId', 'in' => 'query', 'type' => 'int'],
+            openapi: new Model\Operation(
+                parameters: [
+                    new Model\Parameter(
+                        name: 'catalogId',
+                        in: 'query',
+                        required: false,
+                        schema: ['type' => 'integer'],
+                    ),
+                    new Model\Parameter(
+                        name: 'localizedCatalogId',
+                        in: 'query',
+                        required: false,
+                        schema: ['type' => 'integer'],
+                    ),
                 ],
-            ],
+            ),
         ),
     ],
     graphQlOperations: [

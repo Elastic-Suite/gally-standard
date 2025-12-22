@@ -26,6 +26,7 @@ use ApiPlatform\Metadata\GraphQl\Query;
 use ApiPlatform\Metadata\GraphQl\QueryCollection;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
+use ApiPlatform\OpenApi\Model;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Gally\Metadata\Controller\BulkSourceFieldOptions;
@@ -48,11 +49,11 @@ use Symfony\Component\Serializer\Annotation\Groups;
             write: false,
             serialize: true,
             status: 200,
-            openapiContext: [
-                'summary' => 'Add source field options.',
-                'description' => 'Add source field options.',
-                'requestBody' => [
-                    'content' => [
+            openapi: new Model\Operation(
+                summary: 'Add source field options.',
+                description: 'Add source field options.',
+                requestBody: new Model\RequestBody(
+                    content: new \ArrayObject([
                         'application/json' => [
                             'schema' => ['type' => 'array', 'items' => ['type' => 'string']],
                             'example' => [
@@ -76,9 +77,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
                                 ],
                             ],
                         ],
-                    ],
-                ],
-            ]
+                    ])
+                ),
+            )
         ),
         new GetCollection(security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
         new Post(security: "is_granted('" . Role::ROLE_ADMIN . "')"),

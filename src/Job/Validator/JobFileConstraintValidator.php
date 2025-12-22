@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -20,7 +21,7 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 
 class JobFileConstraintValidator extends ConstraintValidator
 {
-    public function validate($value, Constraint $constraint): void
+    public function validate(mixed $value, Constraint $constraint): void
     {
         $job = $value;
         if (!$job instanceof Job) {

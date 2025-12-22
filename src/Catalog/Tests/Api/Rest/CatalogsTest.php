@@ -137,9 +137,18 @@ class CatalogsTest extends AbstractEntityTestWithUpdate
     public function patchUpdateDataProvider(): iterable
     {
         return [
-            [null, 1, ['name' => 'B2C Test Catalog PATCH/PUT'], 401],
-            [$this->getUser(Role::ROLE_CONTRIBUTOR), 1, ['name' => 'B2C Test Catalog PATCH/PUT'], 403],
-            [$this->getUser(Role::ROLE_ADMIN), 1, ['name' => 'B2C Test Catalog PATCH/PUT'], 200],
+            [null, 1, ['name' => 'B2C Test Catalog PATCH'], 401],
+            [$this->getUser(Role::ROLE_CONTRIBUTOR), 1, ['name' => 'B2C Test Catalog PATCH'], 403],
+            [$this->getUser(Role::ROLE_ADMIN), 1, ['name' => 'B2C Test Catalog PATCH'], 200],
+        ];
+    }
+
+    public function putUpdateDataProvider(): iterable
+    {
+        return [
+            [null, 1, ['code' => 'b2c_test', 'name' => 'B2C Test Catalog PUT'], 401],
+            [$this->getUser(Role::ROLE_CONTRIBUTOR), 1, ['code' => 'b2c_test', 'name' => 'B2C Test Catalog PUT'], 403],
+            [$this->getUser(Role::ROLE_ADMIN), 1, ['code' => 'b2c_test', 'name' => 'B2C Test Catalog PUT'], 200],
         ];
     }
 }

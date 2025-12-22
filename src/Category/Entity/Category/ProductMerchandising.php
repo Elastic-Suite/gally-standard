@@ -14,13 +14,14 @@ declare(strict_types=1);
 
 namespace Gally\Category\Entity\Category;
 
-use ApiPlatform\Action\NotFoundAction;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GraphQl\Mutation;
 use ApiPlatform\Metadata\GraphQl\Query;
 use ApiPlatform\Metadata\Link;
 use ApiPlatform\Metadata\Post;
+use ApiPlatform\OpenApi\Model;
+use ApiPlatform\Symfony\Action\NotFoundAction;
 use Gally\Catalog\Entity\Catalog;
 use Gally\Catalog\Entity\LocalizedCatalog;
 use Gally\Category\Controller\CategoryProductPositionGet;
@@ -50,14 +51,25 @@ use Symfony\Component\Serializer\Annotation\Groups;
             serialize: true,
             status: Response::HTTP_OK,
             normalizationContext: ['groups' => ['category_product_merchandising_result:read']],
-            openapiContext: [
-                'summary' => 'Get product positions in a category.',
-                'description' => 'Get product positions in a category.',
-                'parameters' => [
-                    ['name' => 'categoryId', 'in' => 'path', 'type' => 'string', 'required' => true],
-                    ['name' => 'localizedCatalogId', 'in' => 'path', 'type' => 'int', 'required' => true],
+            openapi: new Model\Operation(
+                summary: 'Get product positions in a category.',
+                description: 'Get product positions in a category.',
+                parameters: [
+                    new Model\Parameter(
+                        name: 'categoryId',
+                        in: 'path',
+                        required: true,
+                        schema: ['type' => 'string'],
+                    ),
+                    new Model\Parameter(
+                        name: 'localizedCatalogId',
+                        in: 'path',
+                        required: true,
+                        schema: ['type' => 'integer'],
+                    ),
                 ],
-            ]),
+            )
+        ),
         new Post(
             security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
             uriTemplate: '/category_product_merchandisings/savePositions/{categoryId}',
@@ -75,14 +87,19 @@ use Symfony\Component\Serializer\Annotation\Groups;
             serialize: true,
             status: Response::HTTP_OK,
             normalizationContext: ['groups' => ['category_product_merchandising_result:read']],
-            openapiContext: [
-                'summary' => 'Save product positions in a category.',
-                'description' => 'Save product positions in a category.',
-                'parameters' => [
-                    ['name' => 'categoryId', 'in' => 'path', 'type' => 'Category', 'required' => true],
+            openapi: new Model\Operation(
+                summary: 'Save product positions in a category.',
+                description: 'Save product positions in a category.',
+                parameters: [
+                    new Model\Parameter(
+                        name: 'categoryId',
+                        in: 'path',
+                        required: true,
+                        schema: ['type' => 'string'],
+                    ),
                 ],
-                'requestBody' => [
-                    'content' => [
+                requestBody: new Model\RequestBody(
+                    content: new \ArrayObject([
                         'application/json' => [
                             'schema' => [
                                 'type' => 'object',
@@ -98,9 +115,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
                                 'positions' => '[{"productId": 1, "position": 10}, {"productId": 2, "position": 20}]',
                             ],
                         ],
-                    ],
-                ],
-            ]
+                    ])
+                ),
+            )
         )],
     graphQlOperations: [
         new Mutation(

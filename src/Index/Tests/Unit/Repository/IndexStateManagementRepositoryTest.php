@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -58,7 +59,7 @@ class IndexStateManagementRepositoryTest extends AbstractTestCase
         string $entityCode,
         string $localizedCatalogCode,
         array $expectedData,
-        ?string $expectedExceptionMessage = null
+        ?string $expectedExceptionMessage = null,
     ) {
         if ($expectedExceptionMessage) {
             $this->expectExceptionMessage($expectedExceptionMessage);

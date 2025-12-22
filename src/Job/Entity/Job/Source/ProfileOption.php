@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -17,6 +18,7 @@ use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\GraphQl\QueryCollection;
+use ApiPlatform\OpenApi\Model;
 use Gally\Job\State\Source\ProfileOptionProvider;
 use Gally\User\Constant\Role;
 
@@ -25,11 +27,15 @@ use Gally\User\Constant\Role;
         new GetCollection(
             security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
             paginationEnabled: false,
-            openapiContext: [
-                'parameters' => [
-                    ['name' => 'jobType', 'in' => 'query', 'type' => 'string'],
+            openapi: new Model\Operation(
+                parameters: [
+                    new Model\Parameter(
+                        name: 'jobType',
+                        in: 'query',
+                        schema: ['type' => 'string'],
+                    ),
                 ],
-            ],
+            ),
         ),
     ],
     graphQlOperations: [

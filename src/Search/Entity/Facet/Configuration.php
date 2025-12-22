@@ -24,7 +24,6 @@ use ApiPlatform\Metadata\GraphQl\Mutation;
 use ApiPlatform\Metadata\GraphQl\Query;
 use ApiPlatform\Metadata\GraphQl\QueryCollection;
 use ApiPlatform\Metadata\Patch;
-use ApiPlatform\Metadata\Put;
 use Gally\Category\Entity\Category;
 use Gally\Doctrine\Filter\RangeFilterWithDefault;
 use Gally\Doctrine\Filter\SearchFilterWithDefault;
@@ -39,28 +38,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ApiResource(
     operations: [
-        new Get(
-            security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
-            provider: ConfigurationItemProvider::class,
-        ),
-        new Put(
-            security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
-            normalizationContext: [
-                'groups' => ['facet_configuration:read'],
-            ],
-            denormalizationContext: [
-                'groups' => ['facet_configuration:write'],
-            ],
-        ),
-        new Patch(
-            security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
-            normalizationContext: [
-                'groups' => ['facet_configuration:read'],
-            ],
-            denormalizationContext: [
-                'groups' => ['facet_configuration:write'],
-            ]
-        ),
+        new Get(security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
+        new Patch(security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
         new Delete(security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
         new GetCollection(
             security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
@@ -140,7 +119,7 @@ class Configuration
         extraProperties: [
             'hydra:supportedProperty' => [
                 'hydra:property' => [
-                    'rdfs:label' => 'Display',
+                    'label' => 'Display',
                 ],
                 'gally' => [
                     'visible' => true,
@@ -165,7 +144,7 @@ class Configuration
         extraProperties: [
             'hydra:supportedProperty' => [
                 'hydra:property' => [
-                    'rdfs:label' => 'Coverage',
+                    'label' => 'Coverage',
                 ],
                 'gally' => [
                     'visible' => true,
@@ -187,7 +166,7 @@ class Configuration
         extraProperties: [
             'hydra:supportedProperty' => [
                 'hydra:property' => [
-                    'rdfs:label' => 'Max size',
+                    'label' => 'Max size',
                 ],
                 'gally' => [
                     'visible' => true,
@@ -207,7 +186,7 @@ class Configuration
         extraProperties: [
             'hydra:supportedProperty' => [
                 'hydra:property' => [
-                    'rdfs:label' => 'Sort order',
+                    'label' => 'Sort order',
                 ],
                 'gally' => [
                     'visible' => true,
@@ -236,7 +215,7 @@ class Configuration
         extraProperties: [
             'hydra:supportedProperty' => [
                 'hydra:property' => [
-                    'rdfs:label' => 'Facet recommenders',
+                    'label' => 'Facet recommenders',
                 ],
                 'gally' => [
                     'visible' => false,
@@ -253,7 +232,7 @@ class Configuration
         extraProperties: [
             'hydra:supportedProperty' => [
                 'hydra:property' => [
-                    'rdfs:label' => 'Virtual attributes',
+                    'label' => 'Virtual attributes',
                 ],
                 'gally' => [
                     'visible' => false,
@@ -270,7 +249,7 @@ class Configuration
         extraProperties: [
             'hydra:supportedProperty' => [
                 'hydra:property' => [
-                    'rdfs:label' => 'Facet internal logic',
+                    'label' => 'Facet internal logic',
                 ],
                 'gally' => [
                     'visible' => true,
@@ -297,7 +276,7 @@ class Configuration
         extraProperties: [
             'hydra:supportedProperty' => [
                 'hydra:property' => [
-                    'rdfs:label' => 'Position',
+                    'label' => 'Position',
                 ],
                 'gally' => [
                     'visible' => true,
@@ -494,7 +473,7 @@ class Configuration
         extraProperties: [
             'hydra:supportedProperty' => [
                 'hydra:property' => [
-                    'rdfs:label' => 'Attribute code',
+                    'label' => 'Attribute code',
                 ],
                 'gally' => [
                     'visible' => true,
@@ -516,7 +495,7 @@ class Configuration
         extraProperties: [
             'hydra:supportedProperty' => [
                 'hydra:property' => [
-                    'rdfs:label' => 'Attribute label',
+                    'label' => 'Attribute label',
                 ],
                 'gally' => [
                     'visible' => true,

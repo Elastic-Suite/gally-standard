@@ -162,9 +162,18 @@ class CategoryConfigurationTest extends AbstractEntityTestWithUpdate
     public function patchUpdateDataProvider(): iterable
     {
         return [
-            [null, 1, ['name' => 'One PATCH/PUT'], 401],
-            [$this->getUser(Role::ROLE_CONTRIBUTOR), 1, ['name' => 'One PATCH/PUT'], 200],
-            [$this->getUser(Role::ROLE_ADMIN), 1, ['name' => 'One PATCH/PUT Admin'], 200],
+            [null, 1, ['name' => 'One PATCH'], 401],
+            [$this->getUser(Role::ROLE_CONTRIBUTOR), 1, ['name' => 'One PATCH'], 200],
+            [$this->getUser(Role::ROLE_ADMIN), 1, ['name' => 'One PATCH Admin'], 200],
+        ];
+    }
+
+    public function putUpdateDataProvider(): iterable
+    {
+        return [
+            [null, 1, ['name' => 'One PUT'], 401],
+            [$this->getUser(Role::ROLE_CONTRIBUTOR), 1, ['name' => 'One PUT'], 200],
+            [$this->getUser(Role::ROLE_ADMIN), 1, ['name' => 'One PUT Admin'], 200],
         ];
     }
 }

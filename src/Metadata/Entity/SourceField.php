@@ -24,8 +24,10 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\GraphQl\Mutation;
 use ApiPlatform\Metadata\GraphQl\Query;
 use ApiPlatform\Metadata\GraphQl\QueryCollection;
+use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
+use ApiPlatform\OpenApi\Model;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Gally\Doctrine\Filter\BooleanFilter;
@@ -44,6 +46,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     operations: [
         new Get(security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
         new Put(security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
+        new Patch(security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
         new Delete(security: "is_granted('" . Role::ROLE_ADMIN . "')"),
         new Bulk(
             security: "is_granted('" . Role::ROLE_ADMIN . "')",
@@ -55,11 +58,11 @@ use Symfony\Component\Serializer\Annotation\Groups;
             write: false,
             serialize: true,
             status: 200,
-            openapiContext: [
-                'summary' => 'Add source fields.',
-                'description' => 'Add source fields.',
-                'requestBody' => [
-                    'content' => [
+            openapi: new Model\Operation(
+                summary: 'Add source fields.',
+                description: 'Add source fields.',
+                requestBody: new Model\RequestBody(
+                    content: new \ArrayObject([
                         'application/json' => [
                             'schema' => [
                                 'type' => 'array',
@@ -88,9 +91,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
                                 ],
                             ],
                         ],
-                    ],
-                ],
-            ]
+                    ])
+                ),
+            )
         ),
         new GetCollection(security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
         new Post(security: "is_granted('" . Role::ROLE_ADMIN . "')")],
@@ -117,7 +120,7 @@ class SourceField
         extraProperties: [
             'hydra:supportedProperty' => [
                 'hydra:property' => [
-                    'rdfs:label' => 'Attribute code',
+                    'label' => 'Attribute code',
                 ],
                 'gally' => [
                     'visible' => true,
@@ -134,7 +137,7 @@ class SourceField
         extraProperties: [
             'hydra:supportedProperty' => [
                 'hydra:property' => [
-                    'rdfs:label' => 'Attribute label',
+                    'label' => 'Attribute label',
                 ],
                 'gally' => [
                     'visible' => true,
@@ -151,7 +154,7 @@ class SourceField
         extraProperties: [
             'hydra:supportedProperty' => [
                 'hydra:property' => [
-                    'rdfs:label' => 'Attribute type',
+                    'label' => 'Attribute type',
                 ],
                 'gally' => [
                     'visible' => true,
@@ -177,7 +180,7 @@ class SourceField
         extraProperties: [
             'hydra:supportedProperty' => [
                 'hydra:property' => [
-                    'rdfs:label' => 'Filterable',
+                    'label' => 'Filterable',
                 ],
                 'gally' => [
                     'visible' => true,
@@ -199,7 +202,7 @@ class SourceField
         extraProperties: [
             'hydra:supportedProperty' => [
                 'hydra:property' => [
-                    'rdfs:label' => 'Searchable',
+                    'label' => 'Searchable',
                 ],
                 'gally' => [
                     'visible' => true,
@@ -221,7 +224,7 @@ class SourceField
         extraProperties: [
             'hydra:supportedProperty' => [
                 'hydra:property' => [
-                    'rdfs:label' => 'Sortable',
+                    'label' => 'Sortable',
                 ],
                 'gally' => [
                     'visible' => true,
@@ -243,7 +246,7 @@ class SourceField
         extraProperties: [
             'hydra:supportedProperty' => [
                 'hydra:property' => [
-                    'rdfs:label' => 'Use in rule engine',
+                    'label' => 'Use in rule engine',
                 ],
                 'gally' => [
                     'visible' => true,
@@ -265,7 +268,7 @@ class SourceField
         extraProperties: [
             'hydra:supportedProperty' => [
                 'hydra:property' => [
-                    'rdfs:label' => 'Search weight',
+                    'label' => 'Search weight',
                 ],
                 'gally' => [
                     'visible' => false,
@@ -291,7 +294,7 @@ class SourceField
         extraProperties: [
             'hydra:supportedProperty' => [
                 'hydra:property' => [
-                    'rdfs:label' => 'Used in spellcheck',
+                    'label' => 'Used in spellcheck',
                 ],
                 'gally' => [
                     'visible' => false,
@@ -313,7 +316,7 @@ class SourceField
         extraProperties: [
             'hydra:supportedProperty' => [
                 'hydra:property' => [
-                    'rdfs:label' => 'Displayed in autocomplete',
+                    'label' => 'Displayed in autocomplete',
                 ],
                 'gally' => [
                     'visible' => true,
@@ -335,7 +338,7 @@ class SourceField
         extraProperties: [
             'hydra:supportedProperty' => [
                 'hydra:property' => [
-                    'rdfs:label' => 'Use for span queries',
+                    'label' => 'Use for span queries',
                 ],
                 'gally' => [
                     'visible' => false,
@@ -357,7 +360,7 @@ class SourceField
         extraProperties: [
             'hydra:supportedProperty' => [
                 'hydra:property' => [
-                    'rdfs:label' => 'Analyzer',
+                    'label' => 'Analyzer',
                 ],
                 'gally' => [
                     'visible' => false,
@@ -688,6 +691,8 @@ class SourceField
         if (!$this->labels->contains($label)) {
             $this->labels[] = $label;
             $label->setSourceField($this);
+            // Reset array keys to keep labels as a json array during the normalization.
+            $this->labels = new ArrayCollection($this->labels->getValues());
         }
 
         return $this;
@@ -695,7 +700,11 @@ class SourceField
 
     public function removeLabel(SourceFieldLabel $label): self
     {
-        $this->labels->removeElement($label);
+        if ($this->labels->contains($label)) {
+            $this->labels->removeElement($label);
+            // Reset array keys to keep labels as a json array during the normalization.
+            $this->labels = new ArrayCollection($this->labels->getValues());
+        }
 
         return $this;
     }

@@ -100,9 +100,18 @@ class LocalizedCatalogsTest extends AbstractEntityTestWithUpdate
     public function patchUpdateDataProvider(): iterable
     {
         return [
-            [null, 1, ['name' => 'B2C French Store View PATCH/PUT'], 401],
-            [$this->getUser(Role::ROLE_CONTRIBUTOR), 1, ['name' => 'B2C French Store View PATCH/PUT'], 403],
-            [$this->getUser(Role::ROLE_ADMIN), 1, ['name' => 'B2C French Store View PATCH/PUT'], 200],
+            [null, 1, ['name' => 'B2C French Store View PATCH'], 401],
+            [$this->getUser(Role::ROLE_CONTRIBUTOR), 1, ['name' => 'B2C French Store View PATCH'], 403],
+            [$this->getUser(Role::ROLE_ADMIN), 1, ['name' => 'B2C French Store View PATCH'], 200],
+        ];
+    }
+
+    public function putUpdateDataProvider(): iterable
+    {
+        return [
+            [null, 1, ['code' => 'b2c_fr', 'locale' => 'fr_FR', 'currency' => 'EUR', 'name' => 'B2C French Store View PUT', 'isDefault' => true], 401],
+            [$this->getUser(Role::ROLE_CONTRIBUTOR), 1, ['code' => 'b2c_fr', 'locale' => 'fr_FR', 'currency' => 'EUR', 'name' => 'B2C French Store View PUT', 'isDefault' => true], 403],
+            [$this->getUser(Role::ROLE_ADMIN), 1, ['code' => 'b2c_fr', 'locale' => 'fr_FR', 'currency' => 'EUR', 'name' => 'B2C French Store View PUT', 'isDefault' => true], 200],
         ];
     }
 
@@ -114,7 +123,7 @@ class LocalizedCatalogsTest extends AbstractEntityTestWithUpdate
     public function testUpdateIsDefault()
     {
         $user = $this->getUser(Role::ROLE_ADMIN);
-        $this->update('PUT', $user, 2, ['isDefault' => true], 200, ['Content-Type' => 'application/ld+json']);
+        $this->update('PATCH', $user, 2, ['isDefault' => true], 200, ['Content-Type' => 'application/merge-patch+json']);
 
         $entityManager = static::getContainer()->get('doctrine')->getManager();
         $entityManager->clear();
