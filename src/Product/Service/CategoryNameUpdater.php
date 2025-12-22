@@ -102,7 +102,7 @@ class CategoryNameUpdater
         $updatedCategoriesData = [];
         $hasUpdatedData = false;
 
-        if (\array_key_exists('category', $productData)) {
+        if (\array_key_exists('category', $productData) && \is_array($productData['category'])) {
             $categoriesData = &$productData['category'];
 
             foreach ($categoriesData as $categoryData) {

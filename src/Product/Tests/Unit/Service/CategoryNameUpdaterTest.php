@@ -54,6 +54,7 @@ class CategoryNameUpdaterTest extends KernelTestCase
             ['id' => 37, 'name' => 'Product 37', 'category' => [['id' => 'one']]], // No expected update.
             ['id' => 121, 'name' => 'Product 121', 'category' => [['id' => 'one'], ['id' => 'two', 'name' => 'Two (Bulk name)']]],
             ['id' => 2, 'name' => 'Product 2', 'category' => [['id' => 'two', 'name' => 'Two (Bulk name)'], ['id' => 'three']]],
+            ['id' => 42, 'name' => 'Product 42', 'category' => null],
         ];
 
         $expectedUpdateBulkRequest = new Bulk\Request();
