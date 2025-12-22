@@ -34,11 +34,11 @@ class LocaleGroupOptionTest extends GraphQlLocaleGroupOptionTest
                 function (ResponseInterface $response) use ($expectedData) {
                     if ($response->getStatusCode() < 400) {
                         $responseData = $response->toArray();
-                        $this->assertJsonContains(['hydra:member' => $expectedData]);
-                        $this->assertCount(self::USED_LOCALE_COUNT, $responseData['hydra:member'][0]['options']);
-                        $this->assertCount(self::UNUSED_LOCALE_COUNT, $responseData['hydra:member'][1]['options']);
+                        $this->assertJsonContains(['member' => $expectedData]);
+                        $this->assertCount(self::USED_LOCALE_COUNT, $responseData['member'][0]['options']);
+                        $this->assertCount(self::UNUSED_LOCALE_COUNT, $responseData['member'][1]['options']);
                     } else {
-                        $this->assertJsonContains(['@context' => $this->getRoute('contexts/LocaleGroupOption'), '@type' => 'hydra:Collection']);
+                        $this->assertJsonContains(['@context' => $this->getRoute('contexts/LocaleGroupOption'), '@type' => 'Collection']);
                     }
                 }
             )

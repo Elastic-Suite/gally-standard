@@ -65,8 +65,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ApiProperty(
         required: true,
         extraProperties: [
-            'hydra:supportedProperty' => [
-                'hydra:property' => [
+            'supportedProperty' => [
+                'property' => [
                     'rdfs:label' => 'First name',
                 ],
                 'gally' => [
@@ -88,8 +88,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ApiProperty(
         required: true,
         extraProperties: [
-            'hydra:supportedProperty' => [
-                'hydra:property' => [
+            'supportedProperty' => [
+                'property' => [
                     'rdfs:label' => 'Last name',
                 ],
                 'gally' => [
@@ -111,8 +111,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ApiProperty(
         required: true,
         extraProperties: [
-            'hydra:supportedProperty' => [
-                'hydra:property' => [
+            'supportedProperty' => [
+                'property' => [
                     'rdfs:label' => 'E-mail',
                 ],
                 'gally' => [
@@ -142,8 +142,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         required: true,
         types: 'array',
         extraProperties: [
-            'hydra:supportedProperty' => [
-                'hydra:property' => [
+            'supportedProperty' => [
+                'property' => [
                     'rdfs:label' => 'Role(s)',
                     'range' => 'xmls:array',
                 ],
@@ -174,8 +174,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ApiProperty(
         required: true,
         extraProperties: [
-            'hydra:supportedProperty' => [
-                'hydra:property' => [
+            'supportedProperty' => [
+                'property' => [
                     'rdfs:label' => 'Enable',
                 ],
                 'gally' => [
@@ -277,8 +277,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ApiProperty(
         extraProperties: [
-            'hydra:supportedProperty' => [
-                'hydra:property' => [
+            'supportedProperty' => [
+                'property' => [
                     'rdfs:label' => 'Password',
                 ],
                 'gally' => [

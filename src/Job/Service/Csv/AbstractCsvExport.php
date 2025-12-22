@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -40,7 +41,7 @@ abstract class AbstractCsvExport extends AbstractCsv implements JobExportInterfa
         return match ($type) {
             self::SYNONYM_TYPE => self::SYNONYM_TYPE,
             self::EXPANSION_TYPE => self::EXPANSION_TYPE,
-            default => $type
+            default => $type,
         };
     }
 
@@ -49,7 +50,7 @@ abstract class AbstractCsvExport extends AbstractCsv implements JobExportInterfa
         return match ($scopeType) {
             self::SCOPE_TYPE_LOCALIZED_CATALOG => self::SCOPE_TYPE_LOCALIZED_CATALOG,
             self::SCOPE_TYPE_LOCALE => self::SCOPE_TYPE_LOCALE,
-            default => $scopeType
+            default => $scopeType,
         };
     }
 

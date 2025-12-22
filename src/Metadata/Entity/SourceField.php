@@ -26,6 +26,7 @@ use ApiPlatform\Metadata\GraphQl\Query;
 use ApiPlatform\Metadata\GraphQl\QueryCollection;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
+use ApiPlatform\OpenApi\Model;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Gally\Doctrine\Filter\BooleanFilter;
@@ -55,11 +56,11 @@ use Symfony\Component\Serializer\Annotation\Groups;
             write: false,
             serialize: true,
             status: 200,
-            openapiContext: [
-                'summary' => 'Add source fields.',
-                'description' => 'Add source fields.',
-                'requestBody' => [
-                    'content' => [
+            openapi: new Model\Operation(
+                summary: 'Add source fields.',
+                description: 'Add source fields.',
+                requestBody: new Model\RequestBody(
+                    content: new \ArrayObject([
                         'application/json' => [
                             'schema' => [
                                 'type' => 'array',
@@ -88,9 +89,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
                                 ],
                             ],
                         ],
-                    ],
-                ],
-            ]
+                    ])
+                ),
+            )
         ),
         new GetCollection(security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
         new Post(security: "is_granted('" . Role::ROLE_ADMIN . "')")],
@@ -115,8 +116,8 @@ class SourceField
 
     #[ApiProperty(
         extraProperties: [
-            'hydra:supportedProperty' => [
-                'hydra:property' => [
+            'supportedProperty' => [
+                'property' => [
                     'rdfs:label' => 'Attribute code',
                 ],
                 'gally' => [
@@ -132,8 +133,8 @@ class SourceField
 
     #[ApiProperty(
         extraProperties: [
-            'hydra:supportedProperty' => [
-                'hydra:property' => [
+            'supportedProperty' => [
+                'property' => [
                     'rdfs:label' => 'Attribute label',
                 ],
                 'gally' => [
@@ -149,8 +150,8 @@ class SourceField
 
     #[ApiProperty(
         extraProperties: [
-            'hydra:supportedProperty' => [
-                'hydra:property' => [
+            'supportedProperty' => [
+                'property' => [
                     'rdfs:label' => 'Attribute type',
                 ],
                 'gally' => [
@@ -175,8 +176,8 @@ class SourceField
 
     #[ApiProperty(
         extraProperties: [
-            'hydra:supportedProperty' => [
-                'hydra:property' => [
+            'supportedProperty' => [
+                'property' => [
                     'rdfs:label' => 'Filterable',
                 ],
                 'gally' => [
@@ -197,8 +198,8 @@ class SourceField
 
     #[ApiProperty(
         extraProperties: [
-            'hydra:supportedProperty' => [
-                'hydra:property' => [
+            'supportedProperty' => [
+                'property' => [
                     'rdfs:label' => 'Searchable',
                 ],
                 'gally' => [
@@ -219,8 +220,8 @@ class SourceField
 
     #[ApiProperty(
         extraProperties: [
-            'hydra:supportedProperty' => [
-                'hydra:property' => [
+            'supportedProperty' => [
+                'property' => [
                     'rdfs:label' => 'Sortable',
                 ],
                 'gally' => [
@@ -241,8 +242,8 @@ class SourceField
 
     #[ApiProperty(
         extraProperties: [
-            'hydra:supportedProperty' => [
-                'hydra:property' => [
+            'supportedProperty' => [
+                'property' => [
                     'rdfs:label' => 'Use in rule engine',
                 ],
                 'gally' => [
@@ -263,8 +264,8 @@ class SourceField
 
     #[ApiProperty(
         extraProperties: [
-            'hydra:supportedProperty' => [
-                'hydra:property' => [
+            'supportedProperty' => [
+                'property' => [
                     'rdfs:label' => 'Search weight',
                 ],
                 'gally' => [
@@ -289,8 +290,8 @@ class SourceField
 
     #[ApiProperty(
         extraProperties: [
-            'hydra:supportedProperty' => [
-                'hydra:property' => [
+            'supportedProperty' => [
+                'property' => [
                     'rdfs:label' => 'Used in spellcheck',
                 ],
                 'gally' => [
@@ -311,8 +312,8 @@ class SourceField
 
     #[ApiProperty(
         extraProperties: [
-            'hydra:supportedProperty' => [
-                'hydra:property' => [
+            'supportedProperty' => [
+                'property' => [
                     'rdfs:label' => 'Displayed in autocomplete',
                 ],
                 'gally' => [
@@ -333,8 +334,8 @@ class SourceField
 
     #[ApiProperty(
         extraProperties: [
-            'hydra:supportedProperty' => [
-                'hydra:property' => [
+            'supportedProperty' => [
+                'property' => [
                     'rdfs:label' => 'Use for span queries',
                 ],
                 'gally' => [
@@ -355,8 +356,8 @@ class SourceField
 
     #[ApiProperty(
         extraProperties: [
-            'hydra:supportedProperty' => [
-                'hydra:property' => [
+            'supportedProperty' => [
+                'property' => [
                     'rdfs:label' => 'Analyzer',
                 ],
                 'gally' => [

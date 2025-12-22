@@ -121,7 +121,7 @@ class CategoryConfigurationRepository extends ServiceEntityRepository
         $queryBuilder->leftJoin(
             Category::class,
             'category',
-            Join::WITH,
+            Join::ON,
             $exprBuilder->andX(
                 $exprBuilder->eq('category', 'lc.category'),
             )
@@ -160,7 +160,7 @@ class CategoryConfigurationRepository extends ServiceEntityRepository
             ->leftJoin(
                 $this->getClassName(),
                 'defaultName',
-                Join::WITH,
+                Join::ON,
                 $exprBuilder->andX(
                     $exprBuilder->eq('defaultName.category', 'lc.category'),
                     $exprBuilder->eq('defaultName.localizedCatalog', ':localizedCatalogForName'),
@@ -194,7 +194,7 @@ class CategoryConfigurationRepository extends ServiceEntityRepository
                         ->join(
                             $this->getClassName(),
                             'localized_catalog_conf',
-                            Join::WITH,
+                            Join::ON,
                             $exprBuilder->eq('category', 'localized_catalog_conf.category')
                         )
                         ->where($exprBuilder->isNotNull('localized_catalog_conf.localizedCatalog'))
@@ -227,7 +227,7 @@ class CategoryConfigurationRepository extends ServiceEntityRepository
                         ->join(
                             $this->getClassName(),
                             'localized_catalog_conf',
-                            Join::WITH,
+                            Join::ON,
                             $exprBuilder->eq('category', 'localized_catalog_conf.category')
                         )
                         ->where($exprBuilder->isNotNull('localized_catalog_conf.catalog'))
@@ -275,7 +275,7 @@ class CategoryConfigurationRepository extends ServiceEntityRepository
             ->leftJoin(
                 $this->getClassName(),
                 'c',
-                Join::WITH,
+                Join::ON,
                 $exprBuilder->andX(
                     $exprBuilder->eq('c.category', 'lc.category'),
                     $exprBuilder->eq('c.catalog', 'lc.catalog'),
@@ -285,7 +285,7 @@ class CategoryConfigurationRepository extends ServiceEntityRepository
             ->leftJoin(
                 $this->getClassName(),
                 'g',
-                Join::WITH,
+                Join::ON,
                 $exprBuilder->andX(
                     $exprBuilder->eq('g.category', 'lc.category'),
                     $exprBuilder->isNull('g.catalog'),

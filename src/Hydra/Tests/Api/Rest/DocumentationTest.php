@@ -25,17 +25,17 @@ class DocumentationTest extends AbstractTestCase
 
         $response = json_decode($response->getContent(), true);
 
-        $classKey = array_search('SourceField', array_column($response['hydra:supportedClass'] ?? [], 'hydra:title'), true);
-        $this->assertNotFalse($classKey, "Class 'SourceField' is missing in 'hydra:supportedClass' node in docs.jsonld.");
+        $classKey = array_search('SourceField', array_column($response['supportedClass'] ?? [], 'title'), true);
+        $this->assertNotFalse($classKey, "Class 'SourceField' is missing in 'supportedClass' node in docs.jsonld.");
 
-        $propertyTypeKey = array_search('type', array_column($response['hydra:supportedClass'][$classKey]['hydra:supportedProperty'] ?? [], 'hydra:title'), true);
+        $propertyTypeKey = array_search('type', array_column($response['supportedClass'][$classKey]['supportedProperty'] ?? [], 'title'), true);
         $this->assertNotFalse($propertyTypeKey, "Property 'type' for the class 'SourceField' is missing in docs.jsonld.");
 
         // The goal of this test, is to check that the documentation added on ApiResource properties metadata are added in docs.jsonld
         static::assertArraySubset(
             [
-                'hydra:title' => 'type',
-                'hydra:property' => [
+                'title' => 'type',
+                'property' => [
                     '@id' => '#SourceField/type',
                     'rdfs:label' => 'Attribute type',
                 ],
@@ -50,7 +50,7 @@ class DocumentationTest extends AbstractTestCase
                     ],
                 ],
             ],
-            $response['hydra:supportedClass'][$classKey]['hydra:supportedProperty'][$propertyTypeKey]
+            $response['supportedClass'][$classKey]['supportedProperty'][$propertyTypeKey]
         );
     }
 }

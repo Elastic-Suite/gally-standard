@@ -68,7 +68,7 @@ class DocumentationNormalizer implements NormalizerInterface
     private function updateHydraProperties(array &$documentation, string $resourceClass, ApiResource $resourceMetadata, string $shortName, string $prefixedShortName, array $context): void
     {
         // We get the key of the class "$shortName" from documentation array.
-        $classKey = array_search($shortName, array_column($documentation['hydra:supportedClass'] ?? [], 'hydra:title'), true);
+        $classKey = array_search($shortName, array_column($documentation['supportedClass'] ?? [], 'title'), true);
         if (false === $classKey) {
             return;
         }
@@ -100,14 +100,14 @@ class DocumentationNormalizer implements NormalizerInterface
         foreach ($classes as $class) {
             // Add gally documentation at class level.
             $classDoc = array_replace_recursive(
-                $documentation['hydra:supportedClass'][$classKey],
-                $resourceMetadata->getExtraProperties()['hydra:supportedClass'] ?? [],
+                $documentation['supportedClass'][$classKey],
+                $resourceMetadata->getExtraProperties()['supportedClass'] ?? [],
             );
-            $documentation['hydra:supportedClass'][$classKey] = $classDoc;
+            $documentation['supportedClass'][$classKey] = $classDoc;
 
             foreach ($this->propertyNameCollectionFactory->create($class, $this->getPropertyMetadataFactoryContext($resourceMetadata)[0]) as $propertyName) {
                 $propertyMetadata = $this->propertyMetadataFactory->create($class, $propertyName);
-                $hydraSupportedProperty = $propertyMetadata->getExtraProperties()['hydra:supportedProperty'] ?? null;
+                $hydraSupportedProperty = $propertyMetadata->getExtraProperties()['supportedProperty'] ?? null;
                 if (!\is_array($hydraSupportedProperty)) {
                     continue;
                 }
@@ -123,15 +123,15 @@ class DocumentationNormalizer implements NormalizerInterface
                 }
 
                 // We get the key of the property "$propertyName" from documentation array.
-                $propertyKey = array_search($propertyName, array_column($documentation['hydra:supportedClass'][$classKey]['hydra:supportedProperty'] ?? [], 'hydra:title'), true);
+                $propertyKey = array_search($propertyName, array_column($documentation['supportedClass'][$classKey]['supportedProperty'] ?? [], 'title'), true);
                 if (false !== $propertyKey) {
                     // Add gally documentation at property level.
                     // In $documentation, we add the documentation get from the metadata property on the ApiResource.
                     $propertyDoc = array_replace_recursive(
-                        $documentation['hydra:supportedClass'][$classKey]['hydra:supportedProperty'][$propertyKey],
+                        $documentation['supportedClass'][$classKey]['supportedProperty'][$propertyKey],
                         $hydraSupportedProperty
                     );
-                    $documentation['hydra:supportedClass'][$classKey]['hydra:supportedProperty'][$propertyKey] = $propertyDoc;
+                    $documentation['supportedClass'][$classKey]['supportedProperty'][$propertyKey] = $propertyDoc;
                 }
             }
         }

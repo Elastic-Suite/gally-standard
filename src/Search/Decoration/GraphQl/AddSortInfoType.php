@@ -25,7 +25,7 @@ use Gally\Search\GraphQl\Type\Definition\SortOptionType;
 use GraphQL\Type\Definition\InterfaceType;
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type as GraphQLType;
-use Symfony\Component\PropertyInfo\Type;
+use Symfony\Component\PropertyInfo\Type as LegacyType;
 
 class AddSortInfoType implements ContextAwareTypeBuilderInterface
 {
@@ -74,7 +74,7 @@ class AddSortInfoType implements ContextAwareTypeBuilderInterface
         return $this->decorated->getNodeInterface();
     }
 
-    public function isCollection(Type $type): bool
+    public function isCollection(LegacyType $type): bool
     {
         return $this->decorated->isCollection($type);
     }

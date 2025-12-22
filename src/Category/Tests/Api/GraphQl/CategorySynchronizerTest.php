@@ -17,7 +17,7 @@ namespace Gally\Category\Tests\Api\GraphQl;
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Exception\ORMException;
+use Doctrine\ORM\UnexpectedResultException;
 use Gally\Catalog\Entity\Catalog;
 use Gally\Catalog\Repository\CatalogRepository;
 use Gally\Catalog\Repository\LocalizedCatalogRepository;
@@ -336,7 +336,7 @@ class CategorySynchronizerTest extends AbstractTestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $exception = new ORMException('error test message');
+        $exception = new UnexpectedResultException('error test message');
 
         $connectionMock->method('getConfiguration')->willReturn($configurationMock);
         $entityManagerMock->method('getConnection')->willReturn($connectionMock);

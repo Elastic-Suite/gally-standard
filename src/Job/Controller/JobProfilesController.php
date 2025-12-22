@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -20,7 +21,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class JobProfilesController extends AbstractController
 {
     public function __construct(
-        private JobManager $jobManager
+        private JobManager $jobManager,
     ) {
     }
 

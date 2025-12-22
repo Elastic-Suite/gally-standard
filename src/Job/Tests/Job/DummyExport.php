@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -28,7 +29,7 @@ class DummyExport extends AbstractCsvExport
         protected EntityManagerFactory $entityManagerFactory,
         protected TranslatorInterface $translator,
         protected Filesystem $filesystem,
-        private int $batchSize = 100
+        private int $batchSize = 100,
     ) {
         parent::__construct($translator, $jobManager, $entityManagerFactory, $filesystem, self::JOB_PROFILE);
     }

@@ -32,7 +32,7 @@ class LocaleGroupOptionTest extends GraphQlLocaleGroupOptionTest
             new ExpectedResponse(
                 200,
                 function (ResponseInterface $response) use ($expectedData) {
-                    $this->assertJsonContains(['hydra:member' => $expectedData]);
+                    $this->assertJsonContains(['member' => $expectedData]);
                 }
             )
         );

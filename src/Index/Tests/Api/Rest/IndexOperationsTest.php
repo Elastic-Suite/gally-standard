@@ -324,7 +324,7 @@ class IndexOperationsTest extends AbstractEntityTestCase
 
     protected function getJsonGetCollectionValidation(): array
     {
-        return ['hydra:totalItems' => self::$initialIndicesCount + 11];
+        return ['totalItems' => self::$initialIndicesCount + 11];
     }
 
     /**

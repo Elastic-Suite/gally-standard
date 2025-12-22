@@ -134,7 +134,7 @@ class ConfigurationRepository extends ServiceEntityRepository
     {
         $queryBuilder = $this->createQueryBuilder('c');
         $conditions = ['c.scopeCode IS NULL'];
-        $parameters = ['paths' => \is_string($paths) ? $paths . '%' : $paths];
+        $queryBuilder->setParameter('paths', \is_string($paths) ? $paths . '%' : $paths);
         $priorityExpr = [];
 
         if (isset($scopeCodeContext[Configuration::SCOPE_LOCALE])
@@ -148,8 +148,8 @@ class ConfigurationRepository extends ServiceEntityRepository
         foreach ($this->getScopePriority() as $scopeType => $priority) {
             if (isset($scopeCodeContext[$scopeType])) {
                 $conditions[] = $queryBuilder->expr()->andX("c.scopeType = :type$scopeType", "c.scopeCode = :$scopeType");
-                $parameters["type$scopeType"] = $scopeType;
-                $parameters["$scopeType"] = $scopeCodeContext[$scopeType];
+                $queryBuilder->setParameter("type$scopeType", $scopeType);
+                $queryBuilder->setParameter($scopeType, $scopeCodeContext[$scopeType]);
                 $priorityExpr[] = "WHEN c.scopeType = '$scopeType' THEN $priority";
             }
         }
@@ -165,8 +165,7 @@ class ConfigurationRepository extends ServiceEntityRepository
                     ? '(CASE ' . implode(' ', $priorityExpr) . ' ELSE 10 END) AS HIDDEN scopePriority'
                     : '10 AS HIDDEN scopePriority'
             )
-            ->orderBy('scopePriority', 'ASC')
-            ->setParameters($parameters);
+            ->orderBy('scopePriority', 'ASC');
 
         return $queryBuilder->getQuery()->getResult();
     }

@@ -446,8 +446,8 @@ class FacetConfigurationTest extends AbstractTestCase
                             [
                                 '@context' => $this->getRoute("contexts/$shortName"),
                                 '@id' => $this->getRoute('facet_configurations'),
-                                '@type' => 'hydra:Collection',
-                                'hydra:totalItems' => \count($items),
+                                '@type' => 'Collection',
+                                'totalItems' => \count($items),
                             ]
                         );
 
@@ -455,7 +455,7 @@ class FacetConfigurationTest extends AbstractTestCase
 
                         foreach ($items as $item) {
                             $expectedItem = $this->completeContent($item);
-                            $item = $this->getById($expectedItem['id'], $responseData['hydra:member']);
+                            $item = $this->getById($expectedItem['id'], $responseData['member']);
                             $this->assertEquals($expectedItem, $item);
                         }
                     } else {

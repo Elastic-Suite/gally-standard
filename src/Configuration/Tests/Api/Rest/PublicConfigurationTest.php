@@ -60,7 +60,7 @@ class PublicConfigurationTest extends AbstractTestCase
             new ExpectedResponse(
                 $expectedResponseCode,
                 function (ResponseInterface $response) use ($expectedConfigurations) {
-                    $this->assertJsonContains(['hydra:member' => $expectedConfigurations]);
+                    $this->assertJsonContains(['member' => $expectedConfigurations]);
                 }
             )
         );

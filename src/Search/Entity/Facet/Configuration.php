@@ -138,8 +138,8 @@ class Configuration
 
     #[ApiProperty(
         extraProperties: [
-            'hydra:supportedProperty' => [
-                'hydra:property' => [
+            'supportedProperty' => [
+                'property' => [
                     'rdfs:label' => 'Display',
                 ],
                 'gally' => [
@@ -163,8 +163,8 @@ class Configuration
 
     #[ApiProperty(
         extraProperties: [
-            'hydra:supportedProperty' => [
-                'hydra:property' => [
+            'supportedProperty' => [
+                'property' => [
                     'rdfs:label' => 'Coverage',
                 ],
                 'gally' => [
@@ -185,8 +185,8 @@ class Configuration
 
     #[ApiProperty(
         extraProperties: [
-            'hydra:supportedProperty' => [
-                'hydra:property' => [
+            'supportedProperty' => [
+                'property' => [
                     'rdfs:label' => 'Max size',
                 ],
                 'gally' => [
@@ -205,8 +205,8 @@ class Configuration
 
     #[ApiProperty(
         extraProperties: [
-            'hydra:supportedProperty' => [
-                'hydra:property' => [
+            'supportedProperty' => [
+                'property' => [
                     'rdfs:label' => 'Sort order',
                 ],
                 'gally' => [
@@ -234,8 +234,8 @@ class Configuration
 
     #[ApiProperty(
         extraProperties: [
-            'hydra:supportedProperty' => [
-                'hydra:property' => [
+            'supportedProperty' => [
+                'property' => [
                     'rdfs:label' => 'Facet recommenders',
                 ],
                 'gally' => [
@@ -251,8 +251,8 @@ class Configuration
 
     #[ApiProperty(
         extraProperties: [
-            'hydra:supportedProperty' => [
-                'hydra:property' => [
+            'supportedProperty' => [
+                'property' => [
                     'rdfs:label' => 'Virtual attributes',
                 ],
                 'gally' => [
@@ -268,8 +268,8 @@ class Configuration
 
     #[ApiProperty(
         extraProperties: [
-            'hydra:supportedProperty' => [
-                'hydra:property' => [
+            'supportedProperty' => [
+                'property' => [
                     'rdfs:label' => 'Facet internal logic',
                 ],
                 'gally' => [
@@ -295,8 +295,8 @@ class Configuration
 
     #[ApiProperty(
         extraProperties: [
-            'hydra:supportedProperty' => [
-                'hydra:property' => [
+            'supportedProperty' => [
+                'property' => [
                     'rdfs:label' => 'Position',
                 ],
                 'gally' => [
@@ -493,8 +493,8 @@ class Configuration
 
     #[ApiProperty(
         extraProperties: [
-            'hydra:supportedProperty' => [
-                'hydra:property' => [
+            'supportedProperty' => [
+                'property' => [
                     'rdfs:label' => 'Attribute code',
                 ],
                 'gally' => [
@@ -515,8 +515,8 @@ class Configuration
 
     #[ApiProperty(
         extraProperties: [
-            'hydra:supportedProperty' => [
-                'hydra:property' => [
+            'supportedProperty' => [
+                'property' => [
                     'rdfs:label' => 'Attribute label',
                 ],
                 'gally' => [

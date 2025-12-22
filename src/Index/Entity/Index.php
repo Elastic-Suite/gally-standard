@@ -24,6 +24,7 @@ use ApiPlatform\Metadata\GraphQl\Query;
 use ApiPlatform\Metadata\GraphQl\QueryCollection;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
+use ApiPlatform\OpenApi\Model;
 use Gally\Catalog\Entity\LocalizedCatalog;
 use Gally\Index\Dto\CreateIndexDto;
 use Gally\Index\Dto\InstallIndexDto;
@@ -52,10 +53,10 @@ use Symfony\Component\Serializer\Annotation\Groups;
             security: "is_granted('" . Role::ROLE_ADMIN . "')"
         ),
         new Put(
-            openapiContext: [
-                'description' => 'Installs an Index resource',
-                'summary' => 'Installs an Index resource',
-            ],
+            openapi: new Model\Operation(
+                description: 'Installs an Index resource',
+                summary: 'Installs an Index resource',
+            ),
             serialize: false,
             uriTemplate: '/indices/install/{name}',
             input: InstallIndexDto::class,
@@ -63,10 +64,10 @@ use Symfony\Component\Serializer\Annotation\Groups;
             security: "is_granted('" . Role::ROLE_ADMIN . "')",
         ),
         new Put(
-            openapiContext: [
-                'description' => 'Refreshes an Index resource',
-                'summary' => 'Refreshes an Index resource',
-            ],
+            openapi: new Model\Operation(
+                description: 'Refreshes an Index resource',
+                summary: 'Refreshes an Index resource',
+            ),
             uriTemplate: '/indices/refresh/{name}',
             serialize: false,
             input: RefreshIndexDto::class,
