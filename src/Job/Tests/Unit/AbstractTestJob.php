@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -86,8 +87,8 @@ class AbstractTestJob extends AbstractTestCase
      */
     protected function assertCsvEquals(string $actualPath, string $expectedPath): void
     {
-        $actual = array_map('str_getcsv', file($actualPath));
-        $expected = array_map('str_getcsv', file($expectedPath));
+        $actual = array_map(fn ($line) => str_getcsv($line, escape: '\\'), file($actualPath));
+        $expected = array_map(fn ($line) => str_getcsv($line, escape: '\\'), file($expectedPath));
 
         $this->assertCount(\count($expected), $actual, 'CSV files have different number of rows');
 

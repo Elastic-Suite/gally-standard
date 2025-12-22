@@ -170,8 +170,12 @@ class FacetConfigurationTest extends AbstractTestCase
      */
     public function testUpdateValue(?User $user, string $id, array $newData, int $expectedStatus, ?string $expectedMessage)
     {
+        $updateData = array_merge(
+            ['sourceField' => $this->getUri('source_fields', explode('-', $id)[0])],
+            $newData,
+        );
         $this->validateApiCall(
-            new RequestToTest('PUT', "{$this->getApiPath()}/$id", $user, $newData),
+            new RequestToTest('PUT', "{$this->getApiPath()}/$id", $user, $updateData, ['Content-Type' => 'application/ld+json']),
             new ExpectedResponse($expectedStatus, null, $expectedMessage)
         );
 

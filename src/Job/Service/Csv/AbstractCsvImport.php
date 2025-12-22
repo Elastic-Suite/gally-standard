@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -62,14 +63,14 @@ abstract class AbstractCsvImport extends AbstractCsv implements JobImportInterfa
 
         try {
             // Validate CSV headers
-            $headers = fgetcsv($handle);
+            $headers = fgetcsv($handle, escape: '\\');
             if (!$headers || array_diff($this->csvHeader, $headers) || array_diff($headers, $this->csvHeader)) {
                 throw new JobException($this->translator->trans('import.error.invalid_headers', ['%expected%' => implode(', ', $this->csvHeader)], 'gally_job'));
             }
 
             $errors = false;
             $lineNumber = 1;
-            while (($data = fgetcsv($handle)) !== false) {
+            while (($data = fgetcsv($handle, escape: '\\')) !== false) {
                 ++$lineNumber;
                 if (\count($data) !== \count($headers)) {
                     $this->logInfo(

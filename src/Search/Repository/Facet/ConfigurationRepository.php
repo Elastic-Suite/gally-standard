@@ -122,25 +122,25 @@ class ConfigurationRepository extends ServiceEntityRepository
                 "(case when {$alias}.position IS NOT NULL then {$alias}.position else default.position end) AS position",
             ])
             ->from(SourceField::class, 'sf', $indexBy)
-            ->leftJoin(Metadata::class, 'metadata', Join::WITH, 'sf.metadata = metadata.id')
+            ->leftJoin(Metadata::class, 'metadata', Join::ON, 'sf.metadata = metadata.id')
             ->where('sf.isFilterable = true')
             ->orderBy('position', 'ASC')
             ->setParameter('category', $category);
 
         if ($category) {
             $queryBuilder->leftJoin(
-                $this->_entityName,
+                $this->getClassName(),
                 $alias,
-                Join::WITH,
+                Join::ON,
                 "sf.id = {$alias}.sourceField and {$alias}.category = :category"
             )
-                ->leftJoin(Category::class, 'category', Join::WITH, "{$alias}.category = category.id")
+                ->leftJoin(Category::class, 'category', Join::ON, "{$alias}.category = category.id")
                 ->addSelect("CONCAT('', :category) as category_id");
         } else {
             $queryBuilder->leftJoin(
-                $this->_entityName,
+                $this->getClassName(),
                 $alias,
-                Join::WITH,
+                Join::ON,
                 "sf.id = {$alias}.sourceField and {$alias}.category is NULL"
             );
         }
@@ -162,9 +162,9 @@ class ConfigurationRepository extends ServiceEntityRepository
 
         $queryBuilder
             ->leftJoin(
-                $this->_entityName,
+                $this->getClassName(),
                 'default',
-                Join::WITH,
+                Join::ON,
                 'sf.id = default.sourceField and default.category is NULL'
             )
             ->addSelect('default');

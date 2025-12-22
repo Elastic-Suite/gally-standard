@@ -83,9 +83,18 @@ class MetadataTest extends AbstractEntityTestWithUpdate
     public function patchUpdateDataProvider(): iterable
     {
         return [
-            [null, 5, ['entity' => 'article PATCH/PUT'], 401],
-            [$this->getUser(Role::ROLE_CONTRIBUTOR), 5, ['entity' => 'article PATCH/PUT'], 403],
-            [$this->getUser(Role::ROLE_ADMIN), 5, ['entity' => 'article PATCH/PUT'], 200],
+            [null, 5, ['entity' => 'article PATCH'], 401],
+            [$this->getUser(Role::ROLE_CONTRIBUTOR), 5, ['entity' => 'article PATCH'], 403],
+            [$this->getUser(Role::ROLE_ADMIN), 5, ['entity' => 'article PATCH'], 200],
+        ];
+    }
+
+    public function putUpdateDataProvider(): iterable
+    {
+        return [
+            [null, 5, ['entity' => 'article PUT'], 401],
+            [$this->getUser(Role::ROLE_CONTRIBUTOR), 5, ['entity' => 'article PUT'], 403],
+            [$this->getUser(Role::ROLE_ADMIN), 5, ['entity' => 'article PUT'], 200],
         ];
     }
 }

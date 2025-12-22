@@ -14,11 +14,11 @@ declare(strict_types=1);
 
 namespace Gally\Security\Entity;
 
-use ApiPlatform\Action\NotFoundAction;
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GraphQl\Mutation;
+use ApiPlatform\Symfony\Action\NotFoundAction;
 use Gally\Security\Resolver\AuthenticationMutationResolver;
 
 #[ApiResource(

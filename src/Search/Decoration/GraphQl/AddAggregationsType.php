@@ -24,7 +24,8 @@ use Gally\Search\Entity\Document;
 use GraphQL\Type\Definition\InterfaceType;
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type as GraphQLType;
-use Symfony\Component\PropertyInfo\Type;
+use Symfony\Component\PropertyInfo\Type as LegacyType;
+use Symfony\Component\TypeInfo\Type;
 
 /**
  * Add aggregations in graphql search document response type.
@@ -75,7 +76,7 @@ class AddAggregationsType implements ContextAwareTypeBuilderInterface
         return $this->decorated->getNodeInterface();
     }
 
-    public function isCollection(Type $type): bool
+    public function isCollection(LegacyType $type): bool
     {
         return $this->decorated->isCollection($type);
     }

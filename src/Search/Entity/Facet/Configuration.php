@@ -39,28 +39,16 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ApiResource(
     operations: [
-        new Get(
-            security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
-            provider: ConfigurationItemProvider::class,
-        ),
+        new Get(security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",),
         new Put(
             security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
-            normalizationContext: [
-                'groups' => ['facet_configuration:read'],
-            ],
-            denormalizationContext: [
-                'groups' => ['facet_configuration:write'],
-            ],
-        ),
-        new Patch(
-            security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
-            normalizationContext: [
-                'groups' => ['facet_configuration:read'],
-            ],
-            denormalizationContext: [
-                'groups' => ['facet_configuration:write'],
+            extraProperties: [
+                'standard_put' => false, // We can't use standard_put for this entity because
+                // it can reference a phantom entity (i.e. a configuration for a given sourceField
+                // has never been saved), so normalization would fail in this case.
             ]
         ),
+        new Patch(security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",),
         new Delete(security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
         new GetCollection(
             security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
