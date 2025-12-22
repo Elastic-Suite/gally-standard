@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace Gally\Configuration\State\Source;
 
-use ApiPlatform\Api\IriConverterInterface;
+use ApiPlatform\Metadata\IriConverterInterface;
 use ApiPlatform\Metadata\Operation;
 use Gally\Catalog\Repository\CatalogRepository;
 use Gally\Catalog\State\Source\LocalizedCatalogGroupOptionProvider as BaseLocalizedCatalogGroupOptionProvider;

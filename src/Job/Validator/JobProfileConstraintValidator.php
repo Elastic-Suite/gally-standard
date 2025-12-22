@@ -26,7 +26,7 @@ class JobProfileConstraintValidator extends ConstraintValidator
     ) {
     }
 
-    public function validate($value, Constraint $constraint): void
+    public function validate(mixed $value, Constraint $constraint): void
     {
         $job = $value;
         if (!$job instanceof Job) {

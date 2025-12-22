@@ -32,7 +32,7 @@ class DefaultSortingFieldConstraintValidator extends ConstraintValidator
      *
      * @return void
      */
-    public function validate($value, Constraint $constraint)
+    public function validate(mixed $value, Constraint $constraint): void
     {
         if (!$constraint instanceof DefaultSortingFieldConstraint) {
             throw new UnexpectedTypeException($constraint, DefaultSortingFieldConstraint::class); // @codeCoverageIgnore

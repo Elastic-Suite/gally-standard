@@ -208,14 +208,14 @@ abstract class AbstractEntityTestCase extends AbstractTestCase
                             [
                                 '@context' => $this->getRoute("contexts/$shortName"),
                                 '@id' => $this->getRoute($this->getApiPath()),
-                                '@type' => 'hydra:Collection',
-                                'hydra:totalItems' => $expectedItemNumber,
+                                '@type' => 'Collection',
+                                'totalItems' => $expectedItemNumber,
                             ],
                             $this->getJsonGetCollectionValidation()
                         )
                     );
                 } else {
-                    $this->assertJsonContains(['@context' => $this->getRoute("contexts/$shortName"), '@type' => 'hydra:Collection']);
+                    $this->assertJsonContains(['@context' => $this->getRoute("contexts/$shortName"), '@type' => 'Collection']);
                 }
             }
         );

@@ -33,7 +33,7 @@ class RequestTypeOptionTest extends GraphQlRequestTypeOptionTest
                 $responseCode,
                 function (ResponseInterface $response) use ($expectedData, $responseCode) {
                     if (200 === $responseCode) {
-                        $this->assertJsonContains(['hydra:member' => $expectedData]);
+                        $this->assertJsonContains(['member' => $expectedData]);
                     }
                 }
             )

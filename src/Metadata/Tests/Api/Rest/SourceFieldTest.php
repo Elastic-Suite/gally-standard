@@ -357,8 +357,8 @@ class SourceFieldTest extends AbstractEntityTestWithUpdate
                     [
                         '@context' => $this->getRoute("contexts/$shortName"),
                         '@id' => $this->getRoute($this->getApiPath()),
-                        '@type' => 'hydra:Collection',
-                        'hydra:totalItems' => $expectedItemNumber,
+                        '@type' => 'Collection',
+                        'totalItems' => $expectedItemNumber,
                     ],
                 );
             }
@@ -392,7 +392,7 @@ class SourceFieldTest extends AbstractEntityTestWithUpdate
         $expectedResponse = new ExpectedResponse(
             $responseCode,
             function (ResponseInterface $response) use ($sourceFields, $expectedSourceFieldNumber, $expectedResponseData, $expectedSearchValues) {
-                $this->assertJsonContains(['hydra:member' => $expectedResponseData]);
+                $this->assertJsonContains(['member' => $expectedResponseData]);
                 $sourceFieldRepository = static::getContainer()->get(SourceFieldRepository::class);
                 $existingSourceFields = $sourceFieldRepository->findAll();
                 $this->assertCount($expectedSourceFieldNumber, $existingSourceFields);

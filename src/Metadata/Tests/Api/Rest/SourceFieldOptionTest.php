@@ -207,7 +207,7 @@ class SourceFieldOptionTest extends AbstractEntityTestWithUpdate
         $expectedResponse = new ExpectedResponse(
             $responseCode,
             function (ResponseInterface $response) use ($expectedOptionCountBySourceField, $expectedResponseData, $options) {
-                $this->assertJsonContains(['hydra:member' => $expectedResponseData]);
+                $this->assertJsonContains(['member' => $expectedResponseData]);
                 $sourceFieldRepository = static::getContainer()->get(SourceFieldRepository::class);
                 $optionRepository = static::getContainer()->get(SourceFieldOptionRepository::class);
                 foreach ($options as $optionData) {

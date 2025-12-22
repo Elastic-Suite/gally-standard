@@ -30,8 +30,8 @@ class ExtraBundleTest extends AbstractTestCase
                 $this->assertJsonContains([
                     '@context' => $this->getRoute('contexts/ExtraBundle'),
                     '@id' => $this->getRoute('extra_bundles'),
-                    '@type' => 'hydra:Collection',
-                    'hydra:member' => [],
+                    '@type' => 'Collection',
+                    'member' => [],
                 ]);
             }
         );

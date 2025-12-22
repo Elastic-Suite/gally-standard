@@ -24,6 +24,7 @@ use ApiPlatform\Metadata\GraphQl\Mutation;
 use ApiPlatform\Metadata\GraphQl\Query;
 use ApiPlatform\Metadata\GraphQl\QueryCollection;
 use ApiPlatform\Metadata\Post;
+use ApiPlatform\OpenApi\Model;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Gally\Job\Controller\DownloadJobFile;
@@ -46,17 +47,22 @@ use Symfony\Component\Serializer\Annotation\Groups;
             security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
             read: true,
             output: false,
-            openapiContext: [
-                'summary' => 'Download job file',
-                'responses' => [
-                    '200' => [
-                        'description' => 'File downloaded',
-                        'content' => [
-                            'text/csv' => ['schema' => ['type' => 'string', 'format' => 'binary']],
-                        ],
-                    ],
+            openapi: new Model\Operation(
+                summary: 'Download job file',
+                responses: [
+                    '200' => new Model\Response(
+                        description: 'File downloaded',
+                        content: new \ArrayObject([
+                            'text/csv' => [
+                                'schema' => [
+                                    'type' => 'string',
+                                    'format' => 'binary',
+                                ],
+                            ],
+                        ])
+                    ),
                 ],
-            ]
+            )
         ),
         new Delete(security: "is_granted('" . Role::ROLE_ADMIN . "')"),
         new GetCollection(security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),

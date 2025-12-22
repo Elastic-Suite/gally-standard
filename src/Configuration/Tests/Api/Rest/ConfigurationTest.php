@@ -302,15 +302,15 @@ DETAIL:  Key (path, scope_type, scope_code)=(gally.base_url.media, localized_cat
                             [
                                 '@context' => $this->getRoute("contexts/$shortName"),
                                 '@id' => $this->getRoute($this->getApiPath()),
-                                '@type' => 'hydra:Collection',
+                                '@type' => 'Collection',
                             ],
                             $this->getJsonGetCollectionValidation()
                         )
                     );
                     $data = $response->toArray();
-                    $this->assertGreaterThanOrEqual($expectedItemNumber, $data['hydra:totalItems']);
+                    $this->assertGreaterThanOrEqual($expectedItemNumber, $data['totalItems']);
                 } else {
-                    $this->assertJsonContains(['@context' => $this->getRoute("contexts/$shortName"), '@type' => 'hydra:Collection']);
+                    $this->assertJsonContains(['@context' => $this->getRoute("contexts/$shortName"), '@type' => 'Collection']);
                 }
             }
         );
@@ -355,7 +355,7 @@ DETAIL:  Key (path, scope_type, scope_code)=(gally.base_url.media, localized_cat
             new ExpectedResponse(
                 $expectedResponseCode,
                 function (ResponseInterface $response) use ($expectedConfigurations) {
-                    $this->assertJsonContains(['hydra:member' => $expectedConfigurations]);
+                    $this->assertJsonContains(['member' => $expectedConfigurations]);
                 }
             )
         );
@@ -379,7 +379,7 @@ DETAIL:  Key (path, scope_type, scope_code)=(gally.base_url.media, localized_cat
         $expectedResponse = new ExpectedResponse(
             $responseCode,
             function (ResponseInterface $response) use ($configurations, $expectedConfigurationsNumber, $expectedResponseData, $expectedSearchValues) {
-                $this->assertJsonContains(['hydra:member' => $expectedResponseData]);
+                $this->assertJsonContains(['member' => $expectedResponseData]);
                 $configurationRepository = static::getContainer()->get(ConfigurationRepository::class);
                 $existingConfigurations = $configurationRepository->findAll();
                 $this->assertCount($expectedConfigurationsNumber, $existingConfigurations);

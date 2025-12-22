@@ -292,7 +292,7 @@ services:
 
     Gally\Search\Resolver\DummyResolver:
         tags:
-            - { name: api_platform.graphql.query_resolver }
+            - { name: api_platform.graphql.resolver }
             
     Gally\Search\Decoration\GraphQl\AddAggregationsType:
         decorates: api_platform.graphql.type_builder

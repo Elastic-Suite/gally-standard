@@ -8,7 +8,7 @@ services:
         arguments:
             - '@Gally\Menu\Service\MenuBuilder'
         tags:
-            - { name: api_platform.graphql.query_resolver } 
+            - { name: api_platform.graphql.resolver } 
     
     Gally\Menu\Controller\MenuController:
         arguments:

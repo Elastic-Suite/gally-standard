@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace Gally\Product\Entity\Facet;
 
-use ApiPlatform\Action\NotFoundAction;
+use ApiPlatform\Symfony\Action\NotFoundAction;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GraphQl\QueryCollection;

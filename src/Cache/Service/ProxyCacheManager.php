@@ -14,8 +14,8 @@ declare(strict_types=1);
 
 namespace Gally\Cache\Service;
 
-use ApiPlatform\Api\IriConverterInterface;
-use ApiPlatform\Api\UrlGeneratorInterface;
+use ApiPlatform\Metadata\IriConverterInterface;
+use ApiPlatform\Metadata\UrlGeneratorInterface;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Resource\Factory\ResourceMetadataCollectionFactoryInterface;
 use Gally\ResourceMetadata\Service\ResourceMetadataManager;

@@ -34,11 +34,11 @@ class LanguageOptionTest extends GraphQlLanguageOptionTest
                 function (ResponseInterface $response) use ($expectedData) {
                     if ($response->getStatusCode() < 400) {
                         $responseData = $response->toArray();
-                        $this->assertJsonContains(['hydra:member' => $expectedData]);
-                        $this->assertCount(self::USED_LANGUAGE_COUNT, $responseData['hydra:member'][0]['options']);
-                        $this->assertCount(self::UNUSED_LANGUAGE_COUNT, $responseData['hydra:member'][1]['options']);
+                        $this->assertJsonContains(['member' => $expectedData]);
+                        $this->assertCount(self::USED_LANGUAGE_COUNT, $responseData['member'][0]['options']);
+                        $this->assertCount(self::UNUSED_LANGUAGE_COUNT, $responseData['member'][1]['options']);
                     } else {
-                        $this->assertJsonContains(['@context' => $this->getRoute('contexts/LanguageOption'), '@type' => 'hydra:Collection']);
+                        $this->assertJsonContains(['@context' => $this->getRoute('contexts/LanguageOption'), '@type' => 'Collection']);
                     }
                 }
             )
