@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace Gally\User\Repository;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Gally\User\Entity\User;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
@@ -29,8 +30,10 @@ use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
  */
 class UserRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
 {
-    public function __construct(ManagerRegistry $registry)
-    {
+    public function __construct(
+        private EntityManagerInterface $entityManager,
+        ManagerRegistry $registry,
+    ) {
         parent::__construct($registry, User::class);
     }
 
@@ -44,7 +47,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         }
 
         $user->setPassword($newHashedPassword);
-        $this->_em->persist($user);
-        $this->_em->flush();
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
     }
 }

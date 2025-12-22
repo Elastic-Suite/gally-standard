@@ -64,7 +64,7 @@ services:
         arguments:
             - '@Gally\Job\Service\JobManager'
         tags:
-            - { name: api_platform.graphql.query_resolver }
+            - { name: api_platform.graphql.resolver }
 
     Gally\Job\Validator\JobProfileConstraintValidator:
         arguments:

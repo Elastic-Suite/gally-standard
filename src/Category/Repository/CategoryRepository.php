@@ -55,7 +55,7 @@ class CategoryRepository extends ServiceEntityRepository
                         ->join(
                             Category\Configuration::class,
                             'localized_catalog_conf',
-                            Join::WITH,
+                            Join::ON,
                             $exprBuilder->eq('category_with_config', 'localized_catalog_conf.category')
                         )
                         ->distinct()

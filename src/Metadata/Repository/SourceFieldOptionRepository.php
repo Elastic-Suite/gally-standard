@@ -52,7 +52,7 @@ class SourceFieldOptionRepository extends ServiceEntityRepository
                     array_map(fn ($field) => "sfo.$field", array_keys($this->entityFields))
                 )
             )
-            ->join(SourceField::class, 'sf', Join::WITH, $exprBuilder->eq('sfo.sourceField', 'sf'))
+            ->join(SourceField::class, 'sf', Join::ON, $exprBuilder->eq('sfo.sourceField', 'sf'))
             ->where('sf.id IN (:sourceFieldIds)')
             ->andWhere('sfo.code IN (:optionCodes)')
             ->setParameter('sourceFieldIds', $sourceFieldIds, Connection::PARAM_INT_ARRAY)

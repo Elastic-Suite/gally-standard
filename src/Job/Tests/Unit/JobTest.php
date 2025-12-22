@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -16,7 +17,7 @@ namespace Gally\Job\Tests\Unit;
 use Gally\Exception\LogicException;
 use Gally\Job\Message\ProcessJob;
 use Gally\Job\Tests\Job\DummyImport;
-use Symfony\Component\Messenger\Transport\InMemoryTransport;
+use Symfony\Component\Messenger\Transport\InMemory\InMemoryTransport;
 
 class JobTest extends AbstractTestJob
 {

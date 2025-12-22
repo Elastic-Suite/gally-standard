@@ -67,7 +67,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         extraProperties: [
             'hydra:supportedProperty' => [
                 'hydra:property' => [
-                    'rdfs:label' => 'First name',
+                    'label' => 'First name',
                 ],
                 'gally' => [
                     'visible' => true,
@@ -90,7 +90,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         extraProperties: [
             'hydra:supportedProperty' => [
                 'hydra:property' => [
-                    'rdfs:label' => 'Last name',
+                    'label' => 'Last name',
                 ],
                 'gally' => [
                     'visible' => true,
@@ -113,7 +113,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         extraProperties: [
             'hydra:supportedProperty' => [
                 'hydra:property' => [
-                    'rdfs:label' => 'E-mail',
+                    'label' => 'E-mail',
                 ],
                 'gally' => [
                     'visible' => true,
@@ -144,7 +144,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         extraProperties: [
             'hydra:supportedProperty' => [
                 'hydra:property' => [
-                    'rdfs:label' => 'Role(s)',
+                    'label' => 'Role(s)',
                     'range' => 'xmls:array',
                 ],
                 'gally' => [
@@ -176,7 +176,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         extraProperties: [
             'hydra:supportedProperty' => [
                 'hydra:property' => [
-                    'rdfs:label' => 'Enable',
+                    'label' => 'Enable',
                 ],
                 'gally' => [
                     'visible' => true,
@@ -279,7 +279,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         extraProperties: [
             'hydra:supportedProperty' => [
                 'hydra:property' => [
-                    'rdfs:label' => 'Password',
+                    'label' => 'Password',
                 ],
                 'gally' => [
                     'infoTooltip' => 'An email will be sent to the user allowing them to set their password.',
@@ -338,6 +338,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @see UserInterface
      */
+    #[\Deprecated]
     public function eraseCredentials(): void
     {
         // If you store any temporary, sensitive data on the user, clear it here

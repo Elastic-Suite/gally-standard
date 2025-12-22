@@ -37,7 +37,7 @@ class DocumentationTest extends AbstractTestCase
                 'hydra:title' => 'type',
                 'hydra:property' => [
                     '@id' => '#SourceField/type',
-                    'rdfs:label' => 'Attribute type',
+                    'label' => 'Attribute type',
                 ],
                 'gally' => [
                     'visible' => true,

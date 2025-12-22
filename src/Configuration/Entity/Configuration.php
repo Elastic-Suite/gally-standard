@@ -23,6 +23,7 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\GraphQl\QueryCollection;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
+use ApiPlatform\OpenApi\Model;
 use Gally\Configuration\Controller\BulkConfigurations;
 use Gally\Configuration\State\ConfigurationProcessor;
 use Gally\Configuration\State\ConfigurationProvider;
@@ -49,11 +50,11 @@ use Symfony\Component\Serializer\Attribute\SerializedName;
             validate: false,
             write: false,
             serialize: true,
-            openapiContext: [
-                'summary' => 'Add configurations.',
-                'description' => 'Add configurations.',
-                'requestBody' => [
-                    'content' => [
+            openapi: new Model\Operation(
+                summary: 'Add configurations.',
+                description: 'Add configurations.',
+                requestBody: new Model\RequestBody(
+                    content: new \ArrayObject([
                         'application/json' => [
                             'schema' => [
                                 'type' => 'array',
@@ -73,9 +74,9 @@ use Symfony\Component\Serializer\Attribute\SerializedName;
                                 ],
                             ],
                         ],
-                    ],
-                ],
-            ]
+                    ])
+                ),
+            )
         ),
     ],
     graphQlOperations: [

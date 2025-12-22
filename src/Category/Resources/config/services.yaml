@@ -100,7 +100,7 @@ services:
             - '@Gally\Catalog\Repository\LocalizedCatalogRepository'
             - '@Gally\Category\Repository\CategoryRepository'
         tags:
-            - { name: api_platform.graphql.query_resolver }
+            - { name: api_platform.graphql.resolver }
     
     Gally\Category\Service\CategoryTreeBuilder:
         arguments:
@@ -118,7 +118,7 @@ services:
         arguments:
             - '@Gally\Category\Service\CategoryTreeBuilder'
         tags:
-            - { name: api_platform.graphql.query_resolver }
+            - { name: api_platform.graphql.resolver }
     
     Gally\Category\Controller\GetCategoryTree:
         arguments:
@@ -171,7 +171,7 @@ services:
             - '@Gally\Category\Service\CategoryProductPositionManager'
             - '@Gally\Category\Repository\CategoryRepository'
         tags:
-            - { name: api_platform.graphql.mutation_resolver }
+            - { name: api_platform.graphql.resolver }
     
     Gally\Category\Resolver\PositionGetResolver:
         arguments:
@@ -179,7 +179,7 @@ services:
             - '@Gally\Category\Service\CategoryProductPositionManager'
             - '@Gally\Category\Repository\CategoryRepository'
         tags:
-            - { name: api_platform.graphql.query_resolver }
+            - { name: api_platform.graphql.resolver }
 
     Gally\Category\Repository\CategoryProductPositionIndexer\CategoryProductPositionIndexerRepositoryInterface: '@Gally\Category\Repository\CategoryProductPositionIndexer\CategoryProductPositionIndexerRepository'
     Gally\Category\Repository\CategoryProductPositionIndexer\CategoryProductPositionIndexerRepository:

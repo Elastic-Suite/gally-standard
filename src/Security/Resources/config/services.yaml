@@ -13,4 +13,4 @@ services:
             - '@Symfony\Component\Validator\Validator\ValidatorInterface'
             - '@Symfony\Contracts\Translation\TranslatorInterface'
         tags:
-            - { name: api_platform.graphql.mutation_resolver }
+            - { name: api_platform.graphql.resolver }

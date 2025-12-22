@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -25,6 +26,7 @@ use ApiPlatform\Metadata\GraphQl\Mutation;
 use ApiPlatform\Metadata\GraphQl\Query;
 use ApiPlatform\Metadata\GraphQl\QueryCollection;
 use ApiPlatform\Metadata\Post;
+use ApiPlatform\OpenApi\Model;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Gally\Job\Controller\DownloadJobFile;
@@ -47,17 +49,22 @@ use Symfony\Component\Serializer\Annotation\Groups;
             security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
             read: true,
             output: false,
-            openapiContext: [
-                'summary' => 'Download job file',
-                'responses' => [
-                    '200' => [
-                        'description' => 'File downloaded',
-                        'content' => [
-                            'text/csv' => ['schema' => ['type' => 'string', 'format' => 'binary']],
-                        ],
-                    ],
+            openapi: new Model\Operation(
+                summary: 'Download job file',
+                responses: [
+                    '200' => new Model\Response(
+                        description: 'File downloaded',
+                        content: new \ArrayObject([
+                            'text/csv' => [
+                                'schema' => [
+                                    'type' => 'string',
+                                    'format' => 'binary',
+                                ],
+                            ],
+                        ])
+                    ),
                 ],
-            ]
+            )
         ),
         new Delete(security: "is_granted('" . Role::ROLE_ADMIN . "')"),
         new GetCollection(
@@ -126,7 +133,7 @@ class Job
         extraProperties: [
             'hydra:supportedProperty' => [
                 'hydra:property' => [
-                    'rdfs:label' => 'Profile',
+                    'label' => 'Profile',
                 ],
                 'gally' => [
                     'visible' => true,
@@ -160,7 +167,7 @@ class Job
         extraProperties: [
             'hydra:supportedProperty' => [
                 'hydra:property' => [
-                    'rdfs:label' => 'Status',
+                    'label' => 'Status',
                 ],
                 'gally' => [
                     'visible' => true,
@@ -181,7 +188,7 @@ class Job
     #[Groups(['job:read', 'job:write'])]
     private ?File $file = null;
 
-    /** @var \Doctrine\Common\Collections\Collection&iterable<Log> */
+    /** @var Collection&iterable<Log> */
     #[Groups(['job:read'])]
     private Collection $logs;
 
@@ -189,7 +196,7 @@ class Job
         extraProperties: [
             'hydra:supportedProperty' => [
                 'hydra:property' => [
-                    'rdfs:label' => 'Created at',
+                    'label' => 'Created at',
                 ],
                 'gally' => [
                     'visible' => true,
@@ -210,7 +217,7 @@ class Job
         extraProperties: [
             'hydra:supportedProperty' => [
                 'hydra:property' => [
-                    'rdfs:label' => 'Finished at',
+                    'label' => 'Finished at',
                 ],
                 'gally' => [
                     'visible' => true,
@@ -274,7 +281,7 @@ class Job
         extraProperties: [
             'hydra:supportedProperty' => [
                 'hydra:property' => [
-                    'rdfs:label' => 'Logs',
+                    'label' => 'Logs',
                 ],
                 'gally' => [
                     'visible' => true,
@@ -305,7 +312,7 @@ class Job
         extraProperties: [
             'hydra:supportedProperty' => [
                 'hydra:property' => [
-                    'rdfs:label' => 'File',
+                    'label' => 'File',
                 ],
                 'gally' => [
                     'visible' => true,

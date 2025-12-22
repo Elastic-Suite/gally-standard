@@ -52,9 +52,9 @@ class SourceFieldOptionLabelRepository extends ServiceEntityRepository
                     'sfo.code',
                 ]
             )
-            ->join(SourceFieldOption::class, 'sfo', Join::WITH, $exprBuilder->eq('ol.sourceFieldOption', 'sfo'))
-            ->join(SourceField::class, 'sf', Join::WITH, $exprBuilder->eq('sfo.sourceField', 'sf'))
-            ->join(LocalizedCatalog::class, 'lc', Join::WITH, $exprBuilder->eq('ol.localizedCatalog', 'lc'))
+            ->join(SourceFieldOption::class, 'sfo', Join::ON, $exprBuilder->eq('ol.sourceFieldOption', 'sfo'))
+            ->join(SourceField::class, 'sf', Join::ON, $exprBuilder->eq('sfo.sourceField', 'sf'))
+            ->join(LocalizedCatalog::class, 'lc', Join::ON, $exprBuilder->eq('ol.localizedCatalog', 'lc'))
             ->where('sf.id IN (:sourceFieldIds)')
             ->andWhere('sfo.code IN (:optionCodes)')
             ->setParameter('sourceFieldIds', $sourceFieldIds, Connection::PARAM_INT_ARRAY)

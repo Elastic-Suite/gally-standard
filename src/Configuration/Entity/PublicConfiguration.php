@@ -18,6 +18,8 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\GraphQl\QueryCollection;
 use Gally\Configuration\State\PublicConfigurationProvider;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Attribute\SerializedName;
 
 #[ApiResource(
     operations: [
@@ -32,4 +34,17 @@ use Gally\Configuration\State\PublicConfigurationProvider;
 )]
 class PublicConfiguration extends Configuration
 {
+    #[SerializedName('value')]
+    #[Groups(['configuration:graphql'])]
+    public function getPublicValue(): string
+    {
+        return parent::getValue();
+    }
+
+    #[SerializedName('value')]
+    #[Groups(['configuration:read'])]
+    public function getPublicDecodedValue(): mixed
+    {
+        return parent::getDecodedValue();
+    }
 }

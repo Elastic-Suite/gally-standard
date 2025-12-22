@@ -24,7 +24,7 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
 class LocaleGroupOptionTest extends AbstractTestCase
 {
     protected const USED_LOCALE_COUNT = 2;
-    protected const UNUSED_LOCALE_COUNT = 497;
+    protected const UNUSED_LOCALE_COUNT = 527;
 
     public static function setUpBeforeClass(): void
     {

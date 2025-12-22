@@ -27,6 +27,7 @@ use ApiPlatform\Metadata\Link;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
+use ApiPlatform\OpenApi\Model;
 use Gally\Catalog\Entity\Catalog;
 use Gally\Catalog\Entity\LocalizedCatalog;
 use Gally\Category\Controller\CategoryConfigurationGet;
@@ -49,13 +50,28 @@ use Gally\User\Constant\Role;
             controller: CategoryConfigurationGet::class,
             read: false,
             serialize: false,
-            openapiContext: [
-                'parameters' => [
-                    ['name' => 'categoryId', 'in' => 'path', 'type' => 'Category', 'required' => true],
-                    ['name' => 'catalogId', 'in' => 'query', 'type' => 'int'],
-                    ['name' => 'localizedCatalogId', 'in' => 'query', 'type' => 'int'],
+            openapi: new Model\Operation(
+                parameters: [
+                    new Model\Parameter(
+                        name: 'categoryId',
+                        in: 'path',
+                        required: true,
+                        schema: ['type' => 'string'],
+                    ),
+                    new Model\Parameter(
+                        name: 'catalogId',
+                        in: 'query',
+                        required: false,
+                        schema: ['type' => 'integer'],
+                    ),
+                    new Model\Parameter(
+                        name: 'localizedCatalogId',
+                        in: 'query',
+                        required: false,
+                        schema: ['type' => 'integer'],
+                    ),
                 ],
-            ],
+            ),
         ),
         new Put(security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
         new Patch(security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),

@@ -18,7 +18,6 @@ use ApiPlatform\Metadata\DeleteOperationInterface;
 use ApiPlatform\Metadata\Exception\InvalidArgumentException;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\DBAL\Exception;
 use Doctrine\ORM\EntityManagerInterface;
 use Gally\Catalog\Service\DefaultCatalogProvider;
@@ -43,6 +42,7 @@ class SourceFieldProcessor implements ProcessorInterface
         private SourceFieldRepository $sourceFieldRepository,
         private SourceFieldLabelRepository $sourceFieldLabelRepository,
         private SourceFieldDataValidator $validator,
+        private ProcessorInterface $persistProcessor,
         private ProcessorInterface $removeProcessor,
         string $routePrefix,
     ) {
@@ -64,36 +64,9 @@ class SourceFieldProcessor implements ProcessorInterface
             return $this->removeProcessor->process($data, $operation, $uriVariables, $context);
         }
 
-        return $this->persist($data);
-    }
+        $this->validator->validateObject($data);
 
-    /**
-     * Persist source field.
-     *
-     * @param SourceField $data
-     *
-     * @throws Exception
-     */
-    public function persist($data): SourceField
-    {
-        $sourceField = $data;
-
-        try {
-            $this->entityManager->beginTransaction();
-            $this->validator->validateObject($sourceField);
-            $this->replaceLabels($sourceField);
-
-            $this->entityManager->persist($sourceField);
-            $this->entityManager->flush();
-            $this->entityManager->getConnection()->commit();
-        } catch (\Exception $e) {
-            $this->entityManager->getConnection()->rollBack();
-            throw $e;
-        }
-
-        $this->entityManager->clear();
-
-        return $data;
+        return $this->persistProcessor->process($data, $operation, $uriVariables, $context);
     }
 
     /**
@@ -117,54 +90,6 @@ class SourceFieldProcessor implements ProcessorInterface
                 'metadata' => $this->metadataIds,
             ]
         );
-    }
-
-    /**
-     * Replace sourceField labels by the ones provided in the request.
-     *
-     * To avoid 'Unique violation' error  from database on labels,
-     * we have to delete all the label rows related to $sourceField and add them again.
-     *
-     * For example:
-     * If we have these rows in source_field_label table: [id => 1, source_field_id => 1, localized_catalog_id => '1', 'label' => 'Name']
-     * and we try to update them via a PUT endpoint by these data : [id => 1, source_field_id => 1, localized_catalog_id => '1', 'label' => 'Names']
-     * during the save process API Platform will run an update query for the first row, but it will raise a 'Unique violation' error because there is already a label row (id => 1) with the localized catalog 1 related to $sourceField.
-     * To avoid this error we remove the labels related to $sourceField and we add them again if it's necessary.
-     */
-    protected function replaceLabels(SourceField $sourceField): void
-    {
-        // Retrieve original label from label repository in order to avoid entity manager cache issue.
-        // And index them by localized catalog.
-        $originalLabels = [];
-        foreach ($this->sourceFieldLabelRepository->findBy(['sourceField' => $sourceField]) as $originalLabel) {
-            $originalLabels[$originalLabel->getLocalizedCatalog()->getId()] = $originalLabel;
-        }
-
-        $newLabels = [];
-        foreach ($sourceField->getLabels() as $label) {
-            $localizedCatalogId = $label->getLocalizedCatalog()->getId();
-            if (\array_key_exists($localizedCatalogId, $originalLabels)) {
-                $newLabel = $originalLabels[$localizedCatalogId];
-                $newLabel->setLabel($label->getLabel());
-                $newLabels[] = $newLabel;
-                $sourceField->removeLabel($label);
-                unset($originalLabels[$localizedCatalogId]);
-            } else {
-                $newLabels[] = $label;
-            }
-        }
-
-        foreach ($originalLabels as $labelToRemove) {
-            $this->entityManager->remove($labelToRemove);
-        }
-
-        // Force remove old labels before persist new ones.
-        $this->entityManager->flush();
-
-        $sourceField->setLabels(new ArrayCollection());
-        foreach ($newLabels as $newLabel) {
-            $sourceField->addLabel($newLabel);
-        }
     }
 
     /**

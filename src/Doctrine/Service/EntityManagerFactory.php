@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -22,7 +23,7 @@ use Doctrine\Persistence\ManagerRegistry;
 class EntityManagerFactory
 {
     public function __construct(
-        private ManagerRegistry $managerRegistry
+        private ManagerRegistry $managerRegistry,
     ) {
     }
 

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -31,7 +32,7 @@ class DummyImport extends AbstractCsvImport
         protected JobManager $jobManager,
         protected EntityManagerFactory $entityManagerFactory,
         protected TranslatorInterface $translator,
-        private int $batchSize = 100000
+        private int $batchSize = 100000,
     ) {
         parent::__construct($translator, $jobManager, $entityManagerFactory, self::JOB_PROFILE, self::CSV_HEADERS);
     }

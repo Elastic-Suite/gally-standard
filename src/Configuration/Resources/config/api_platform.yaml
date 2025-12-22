@@ -4,9 +4,9 @@ api_platform:
     show_webby: false
     formats:
         jsonld: [ 'application/ld+json' ]
+        json: [ 'application/json' ]
         multipart: [ 'multipart/form-data' ]
         csv: [ 'text/csv' ]
-        
     docs_formats:
         jsonld: [ 'application/ld+json' ]
         jsonopenapi: [ 'application/vnd.openapi+json' ]
@@ -16,6 +16,11 @@ api_platform:
             JWT:
                 name: Authorization
                 type: header
+        swagger_ui_extra_configuration:
+            tagsSorter: alpha
+            operationsSorter: alpha
+    serializer:
+        hydra_prefix: true
     exception_to_status:
         # The 4 following handlers are registered by default, keep those lines to prevent unexpected side effects
         Symfony\Component\Serializer\Exception\ExceptionInterface: 400 # Use a raw status code (recommended)
@@ -35,9 +40,7 @@ api_platform:
             max_age: 0
             shared_max_age: 3600
         extra_properties:
-            standard_put: false # /!\ Upgrade API Platform 4, keep this value to false ? /!\ If true, make all properties required in a PUT, we can't update entities with partial data like 
-#               api/packages/gally-standard/src/Catalog/Tests/Api/Rest/LocalizedCatalogsTest.php:116
-            rfc_7807_compliant_errors: true 
+            standard_put: true
         pagination_client_enabled: true # Enabled by default because this value cannot be specified by GraphQL endpoint 
         pagination_client_items_per_page: true # Enabled by default because this value cannot be specified by GraphQL endpoint
         pagination_items_per_page: 20
@@ -48,9 +51,7 @@ api_platform:
             page_parameter_name: currentPage
             items_per_page_parameter_name: pageSize
     # change this to true if you use controllers
-    use_symfony_listeners: true
-    # We need to keep legacy inflector because symfony one will pluralize thesaurus as thesauri and index as indexes
-    keep_legacy_inflector: true 
+    use_symfony_listeners: true 
     http_cache:
         public: true
     graphql:

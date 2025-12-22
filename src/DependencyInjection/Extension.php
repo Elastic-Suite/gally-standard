@@ -20,9 +20,9 @@ namespace Gally\DependencyInjection;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Exception\LogicException;
+use Symfony\Component\DependencyInjection\Extension\Extension as BaseExtension;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
-use Symfony\Component\HttpKernel\DependencyInjection\Extension as BaseExtension;
 use Symfony\Component\Yaml\Parser as YamlParser;
 use Symfony\Component\Yaml\Yaml;
 

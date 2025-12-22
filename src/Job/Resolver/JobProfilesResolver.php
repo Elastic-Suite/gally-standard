@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -19,7 +20,7 @@ use Gally\Job\Service\JobManager;
 class JobProfilesResolver
 {
     public function __construct(
-        private JobManager $jobManager
+        private JobManager $jobManager,
     ) {
     }
 

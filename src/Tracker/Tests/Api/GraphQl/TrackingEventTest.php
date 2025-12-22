@@ -28,7 +28,7 @@ class TrackingEventTest extends AbstractTestCase
      */
     public function testCreateTrackingEvent(
         array $data,
-        array $expectedEvents = []
+        array $expectedEvents = [],
     ): void {
         $strData = '';
         foreach ($data as $key => $value) {

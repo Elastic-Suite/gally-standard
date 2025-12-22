@@ -14,11 +14,12 @@ declare(strict_types=1);
 
 namespace Gally\RuleEngine\Entity;
 
-use ApiPlatform\Action\NotFoundAction;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GraphQl\Query;
 use ApiPlatform\Metadata\Post;
+use ApiPlatform\OpenApi\Model;
+use ApiPlatform\Symfony\Action\NotFoundAction;
 use Gally\RuleEngine\Controller\RuleEngineGraphQlFiltersController;
 use Gally\RuleEngine\Resolver\RuleEngineGraphQlFiltersResolver;
 use Gally\User\Constant\Role;
@@ -37,9 +38,9 @@ use Gally\User\Constant\Role;
             deserialize: false,
             controller: RuleEngineGraphQlFiltersController::class,
             status: 200,
-            openapiContext: [
-                'requestBody' => [
-                    'content' => [
+            openapi: new Model\Operation(
+                requestBody: new Model\RequestBody(
+                    content: new \ArrayObject([
                         'application/json' => [
                             'schema' => [
                                 'type' => 'object',
@@ -51,9 +52,9 @@ use Gally\User\Constant\Role;
                                 'rule' => '{"type": "combination", "operator": "all", "value": "true", "children": [{"type": "attribute", "field": "id", "operator": "eq", "attribute_type": "int", "value": 1}]}',
                             ],
                         ],
-                    ],
-                ],
-            ],
+                    ])
+                ),
+            ),
         ),
     ],
     graphQlOperations: [

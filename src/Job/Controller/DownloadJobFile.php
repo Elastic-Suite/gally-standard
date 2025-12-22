@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -24,7 +25,7 @@ use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 class DownloadJobFile extends AbstractController
 {
     public function __construct(
-        private JobManager $jobManager
+        private JobManager $jobManager,
     ) {
     }
 

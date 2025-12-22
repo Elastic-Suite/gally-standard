@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -120,5 +121,10 @@ class FileTest extends AbstractEntityTestWithUpdate
             [$this->getUser(Role::ROLE_CONTRIBUTOR), 2, ['filePath' => 'not_possible.csv'], 405],
             [$this->getUser(Role::ROLE_ADMIN), 2, ['filePath' => 'not_possible.csv'], 405],
         ];
+    }
+
+    public function putUpdateDataProvider(): iterable
+    {
+        return $this->patchUpdateDataProvider();
     }
 }

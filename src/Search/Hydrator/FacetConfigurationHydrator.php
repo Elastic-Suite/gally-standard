@@ -15,7 +15,7 @@ declare(strict_types=1);
 namespace Gally\Search\Hydrator;
 
 use Doctrine\ORM\Internal\Hydration\ObjectHydrator;
-use Doctrine\ORM\Mapping\ClassMetadataInfo;
+use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\UnitOfWork;
 use Gally\Search\Entity\Facet\Configuration;
 
@@ -34,12 +34,12 @@ final class FacetConfigurationHydrator extends ObjectHydrator
         }
 
         // Force fetching the sub-entity to avoid proxy error in graphql request
-        unset($this->_hints[UnitOfWork::HINT_DEFEREAGERLOAD]);
-        $this->_hints['fetchMode'] = [
+        unset($this->hints[UnitOfWork::HINT_DEFEREAGERLOAD]);
+        $this->hints['fetchMode'] = [
             Configuration::class => [
-                'sourceField' => ClassMetadataInfo::FETCH_EAGER,
-                'category' => ClassMetadataInfo::FETCH_EAGER,
-                'metadata' => ClassMetadataInfo::FETCH_EAGER,
+                'sourceField' => ClassMetadata::FETCH_EAGER,
+                'category' => ClassMetadata::FETCH_EAGER,
+                'metadata' => ClassMetadata::FETCH_EAGER,
             ],
         ];
     }
@@ -66,7 +66,7 @@ final class FacetConfigurationHydrator extends ObjectHydrator
             $defaultValues['id'] = $defaultValues['id'] ?? 'hydrator-default-id';
 
             /** @var Configuration $default */
-            $default = $this->_uow->createEntity(Configuration::class, $defaultValues, $this->_hints);
+            $default = $this->uow->createEntity(Configuration::class, $defaultValues, $this->hints);
 
             // Remove default configuration id.
             unset($defaultValues['id']);
@@ -78,7 +78,7 @@ final class FacetConfigurationHydrator extends ObjectHydrator
             );
 
             /** @var Configuration $obj */
-            $obj = $this->_uow->createEntity(Configuration::class, $data, $this->_hints);
+            $obj = $this->uow->createEntity(Configuration::class, $data, $this->hints);
 
             $obj->initDefaultValue($default);
 
