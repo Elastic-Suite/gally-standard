@@ -58,7 +58,7 @@ class DataStreamTest extends AbstractTestCase
         ?string $role,
         string $entityType,
         string $localizedCatalogCode,
-        array $expectedData = []
+        array $expectedData = [],
     ): void {
         $user = $role ? $this->getUser($role) : null;
 

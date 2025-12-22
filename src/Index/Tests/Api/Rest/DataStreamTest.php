@@ -28,7 +28,7 @@ class DataStreamTest extends GraphQlDataStreamTest
         ?string $role,
         string $entityType,
         string $localizedCatalogCode,
-        array $expectedData = []
+        array $expectedData = [],
     ): void {
         $user = $role ? $this->getUser($role) : null;
         $localizedCatalog = self::$localizedCatalogRepository->findOneBy(['code' => $localizedCatalogCode]);

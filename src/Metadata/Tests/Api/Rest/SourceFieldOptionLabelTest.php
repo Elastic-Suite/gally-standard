@@ -138,4 +138,9 @@ class SourceFieldOptionLabelTest extends AbstractEntityTestWithUpdate
             [$this->getUser(Role::ROLE_ADMIN), 1, ['label' => 'Brand 1 PATCH/PUT'], 200],
         ];
     }
+
+    public function putUpdateDataProvider(): iterable
+    {
+        return $this->patchUpdateDataProvider();
+    }
 }

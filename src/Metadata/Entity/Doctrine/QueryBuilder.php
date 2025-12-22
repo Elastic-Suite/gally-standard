@@ -43,10 +43,7 @@ class QueryBuilder extends BaseQueryBuilder
         $this->forcedRootAliases = $forcedRootAliases;
     }
 
-    /**
-     * @return Query
-     */
-    public function getQuery()
+    public function getQuery(): Query
     {
         $query = parent::getQuery();
         $query->setHydrationMode($this->getHydratationMode());

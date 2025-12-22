@@ -125,7 +125,7 @@ class SourceFieldRepository extends ServiceEntityRepository
                     array_map(fn ($field) => "sf.$field", array_keys($this->entityFields))
                 )
             )
-            ->join(Metadata::class, 'm', Join::WITH, $exprBuilder->eq('sf.metadata', 'm'))
+            ->join(Metadata::class, 'm', Join::ON, $exprBuilder->eq('sf.metadata', 'm'))
             ->where('m.id IN (:metadataIds)')
             ->andWhere('sf.code IN (:sourceFieldCodes)')
             ->setParameter('metadataIds', $metadataIds, Connection::PARAM_INT_ARRAY)

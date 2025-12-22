@@ -52,9 +52,9 @@ class SourceFieldLabelRepository extends ServiceEntityRepository
                     'sf.code',
                 ]
             )
-            ->join(SourceField::class, 'sf', Join::WITH, $exprBuilder->eq('l.sourceField', 'sf'))
-            ->join(Metadata::class, 'm', Join::WITH, $exprBuilder->eq('sf.metadata', 'm'))
-            ->join(LocalizedCatalog::class, 'lc', Join::WITH, $exprBuilder->eq('l.localizedCatalog', 'lc'))
+            ->join(SourceField::class, 'sf', Join::ON, $exprBuilder->eq('l.sourceField', 'sf'))
+            ->join(Metadata::class, 'm', Join::ON, $exprBuilder->eq('sf.metadata', 'm'))
+            ->join(LocalizedCatalog::class, 'lc', Join::ON, $exprBuilder->eq('l.localizedCatalog', 'lc'))
             ->where('m.id IN (:metadataIds)')
             ->andWhere('sf.code IN (:sourceFieldCodes)')
             ->setParameter('metadataIds', $metadataIds, Connection::PARAM_INT_ARRAY)

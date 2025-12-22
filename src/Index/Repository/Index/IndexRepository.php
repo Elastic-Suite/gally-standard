@@ -1136,7 +1136,9 @@ class IndexRepository implements IndexRepositoryInterface
 
     public function getIndexAliases(string $indexName, string $alias = '*'): array
     {
-        $aliases = $this->client->indices()->getAlias(['name' => $alias, 'index' => $indexName]);
+        $aliases = $this->client->indices()->getAlias(
+            '*' === $alias ? ['index' => $indexName] : ['name' => $alias, 'index' => $indexName]
+        );
         if (!empty($aliases)) {
             $aliases = $aliases[$indexName]['aliases'] ?? [];
             $aliases = array_keys($aliases);
