@@ -80,7 +80,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     normalizationContext: ['groups' => ['job:read']],
 )]
 #[ApiFilter(filterClass: SearchFilter::class, properties: ['type' => 'exact', 'profile' => 'exact', 'status' => 'exact'])]
-#[ApiFilter(filterClass: DateFilter::class, properties: ['finishedAt'])]
+#[ApiFilter(filterClass: DateFilter::class, properties: ['createdAt', 'finishedAt'])]
 class Job
 {
     use TimestampableEntity;
@@ -190,12 +190,42 @@ class Job
     #[Groups(['job:read'])]
     private Collection $logs;
 
+    #[ApiProperty(
+        extraProperties: [
+            'hydra:supportedProperty' => [
+                'hydra:property' => [
+                    'rdfs:label' => 'Created at',
+                ],
+                'gally' => [
+                    'visible' => true,
+                    'editable' => false,
+                    'position' => 40,
+                    'input' => 'date',
+                ],
+            ],
+        ],
+    )]
     #[Groups(['job:read'])]
     protected $createdAt;
 
     #[Groups(['job:read'])]
     protected $updatedAt;
 
+    #[ApiProperty(
+        extraProperties: [
+            'hydra:supportedProperty' => [
+                'hydra:property' => [
+                    'rdfs:label' => 'Finished at',
+                ],
+                'gally' => [
+                    'visible' => true,
+                    'editable' => false,
+                    'position' => 50,
+                    'input' => 'date',
+                ],
+            ],
+        ],
+    )]
     #[Groups(['job:read'])]
     protected ?\DateTime $finishedAt;
 
@@ -307,41 +337,11 @@ class Job
         return $this;
     }
 
-    #[ApiProperty(
-        extraProperties: [
-            'hydra:supportedProperty' => [
-                'hydra:property' => [
-                    'rdfs:label' => 'Created at',
-                ],
-                'gally' => [
-                    'visible' => true,
-                    'editable' => false,
-                    'position' => 40,
-                    'input' => 'date',
-                ],
-            ],
-        ],
-    )]
     public function getCreatedAt(): ?\DateTime
     {
         return $this->createdAt;
     }
 
-    #[ApiProperty(
-        extraProperties: [
-            'hydra:supportedProperty' => [
-                'hydra:property' => [
-                    'rdfs:label' => 'Finished at',
-                ],
-                'gally' => [
-                    'visible' => true,
-                    'editable' => false,
-                    'position' => 50,
-                    'input' => 'date',
-                ],
-            ],
-        ],
-    )]
     public function getFinishedAt(): ?\DateTime
     {
         return $this->finishedAt;
