@@ -67,10 +67,16 @@
                 <target>Recommendations manuelles</target>
             </segment>
         </unit>
-        <unit id="gally.menu.merchandize_recommender_auto_recommenders.label">
+        <unit id="gally.menu.merchandize_recommender_auto_recommender.label">
             <segment>
-                <source>gally.menu.merchandize_recommender_auto_recommenders.label</source>
+                <source>gally.menu.merchandize_recommender_auto_recommender.label</source>
                 <target>Recommendations automatiques</target>
+            </segment>
+        </unit>
+        <unit id="gally.menu.merchandize_recommender_recommender_type.label">
+            <segment>
+                <source>gally.menu.merchandize_recommender_recommender_type.label</source>
+                <target>Types de recommendations</target>
             </segment>
         </unit>
         <unit id="gally.menu.merchandize_recommender_behavioral_recommenders.label">
