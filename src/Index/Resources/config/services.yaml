@@ -74,7 +74,6 @@ services:
             - '@Gally\Catalog\Repository\LocalizedCatalogRepository'
             - '@Gally\Metadata\Repository\MetadataRepository'
             - '@Gally\Index\Repository\DataStream\DataStreamRepositoryInterface'
-            - '@logger'
         tags:
             - { name: api_platform.state_processor }
 
