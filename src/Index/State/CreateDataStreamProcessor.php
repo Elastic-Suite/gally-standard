@@ -28,7 +28,6 @@ class CreateDataStreamProcessor implements ProcessorInterface
         private LocalizedCatalogRepository $localizedCatalogRepository,
         private MetadataRepository $metadataRepository,
         private DataStreamRepositoryInterface $dataStreamRepository,
-        private LoggerInterface $logger,
     ) {
     }
 

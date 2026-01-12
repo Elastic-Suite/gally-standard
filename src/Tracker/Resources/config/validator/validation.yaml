@@ -1,0 +1,28 @@
+Gally\Tracker\Entity\TrackingEvent:
+    properties:
+        eventType:
+            - NotBlank: ~
+            - Choice: ['view', 'search', 'add_to_cart', 'display', 'order']
+        metadataCode:
+            - NotBlank: ~
+            - Gally\Tracker\Validator\Metadata: ~
+        localizedCatalogCode:
+            - NotBlank: ~
+            - Gally\Tracker\Validator\LocalizedCatalogCode: ~
+        sourceMetadataCode:
+            - Gally\Tracker\Validator\Metadata: ~            
+        sourceEventType:
+            - Choice: ['view', 'search', 'order']
+        contextType:
+            - Choice: ['search', 'category']
+        sessionUid:
+            - NotBlank: ~
+        sessionVid:
+            - NotBlank: ~
+    constraints:
+        - Gally\Tracker\Validator\EventCategoryView: ~
+        - Gally\Tracker\Validator\EventProductDisplay: ~
+        - Gally\Tracker\Validator\EventSearchResult: ~
+        - Gally\Tracker\Validator\EventProductView: ~
+        - Gally\Tracker\Validator\EventAddToCart: ~
+        - Gally\Tracker\Validator\EventOrder: ~
