@@ -46,12 +46,12 @@ class EventSearchResultValidator extends AbstractEventValidator
         $payload = $this->getPayload($event, $constraint);
         $this->validateProductListData($payload, $constraint);
 
-        if (!$this->validateDataType($payload, ['search' => 'array'], $constraint)) {
+        if (!$this->validateDataType($payload, ['search_query' => 'array'], $constraint)) {
             return;
         }
 
         $this->validateDataType(
-            $payload['search'],
+            $payload['search_query'],
             ['is_spellchecked' => 'bool', 'query_text' => 'string'],
             $constraint
         );

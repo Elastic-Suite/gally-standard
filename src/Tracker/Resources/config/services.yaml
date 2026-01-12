@@ -1,3 +1,5 @@
+imports:
+    - { resource: elasticsearch/request_type.yaml }
 
 services:
     Gally\Tracker\State\TrackingEventProcessor:
@@ -9,10 +11,59 @@ services:
         
     Gally\Tracker\MessageHandler\TrackingEventHandler:
         arguments:
-            $validators: !tagged_iterator gally.tracker.validator
+            - '@Gally\Index\Repository\DataStream\DataStreamRepositoryInterface'
+            - '@Gally\Metadata\Repository\MetadataRepository'
+            - '@Gally\Catalog\Repository\LocalizedCatalogRepository'
+            - '@api_platform.validator'
         tags:
             - { name: messenger.message_handler }
 
-    Gally\Tracker\Validator\EventTypeValidator:
+    Gally\Tracker\Validator\MetadataValidator:
+        arguments:
+            - '@Gally\Metadata\Repository\MetadataRepository'
         tags:
-            - { name: gally.tracker.validator }
+            - { name: validator.constraint_validator }
+
+    Gally\Tracker\Validator\LocalizedCatalogCodeValidator:
+        arguments:
+            - '@Gally\Catalog\Repository\LocalizedCatalogRepository'
+        tags:
+            - { name: validator.constraint_validator }
+
+    Gally\Tracker\Validator\EventCategoryViewValidator:
+        tags:
+            - { name: validator.constraint_validator }
+
+
+    Gally\Tracker\Validator\EventProductDisplayValidator:
+        tags:
+            - { name: validator.constraint_validator }
+
+
+    Gally\Tracker\Validator\EventSearchResultValidator:
+        tags:
+            - { name: validator.constraint_validator }
+
+    Gally\Tracker\Validator\EventProductViewValidator:
+        tags:
+            - { name: validator.constraint_validator }
+
+    Gally\Tracker\Validator\EventAddToCartValidator:
+        tags:
+            - { name: validator.constraint_validator }
+
+    Gally\Tracker\Validator\EventOrderValidator:
+        tags:
+            - { name: validator.constraint_validator }
+
+    Gally\Tracker\Elasticsearch\Request\Aggregation\Provider\KpiAggregationProvider: ~
+
+    Gally\Tracker\State\KpiProvider:
+        arguments:
+            - '@Gally\Search\Elasticsearch\Builder\Request\SimpleRequestBuilder'
+            - '@Gally\Search\Elasticsearch\Request\Container\Configuration\ContainerConfigurationProvider'
+            - '@Gally\Search\Elasticsearch\Adapter'
+            - '@Gally\Metadata\Repository\MetadataRepository'
+            - '@Gally\Catalog\Repository\LocalizedCatalogRepository'
+        tags:
+            - { name: api_platform.state_provider }

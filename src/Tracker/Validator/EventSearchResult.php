@@ -13,10 +13,8 @@ declare(strict_types=1);
 
 namespace Gally\Tracker\Validator;
 
-use Gally\Tracker\Entity\TrackingEvent;
-use Symfony\Component\Validator\ConstraintViolationListInterface;
-
-interface TrackingEventValidatorInterface
+#[\Attribute]
+class EventSearchResult extends AbstractEventConstraint
 {
-    public function validate(TrackingEvent $event): ConstraintViolationListInterface;
+    public string $entityCodeAtTopLevelMessage = 'For search result event, no entity code should be provided.';
 }

@@ -1,0 +1,2 @@
+schema: https://gally.localhost/api/graphql
+documents: 'api/packages/gally-standard/src/Tracker/doc/GraphQlExample/Query/*.graphql'
