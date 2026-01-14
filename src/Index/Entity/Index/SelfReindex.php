@@ -21,7 +21,6 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GraphQl\Mutation;
 use ApiPlatform\Metadata\Post;
 use Gally\Index\Dto\SelfReindexDto;
-use Gally\Index\Entity\Index;
 use Gally\Index\MutationResolver\SelfReindexMutation;
 use Gally\Index\State\SelfReIndexProcessor;
 use Gally\User\Constant\Role;
