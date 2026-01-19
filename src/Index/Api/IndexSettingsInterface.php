@@ -87,6 +87,16 @@ interface IndexSettingsInterface
     public function getInstallIndexSettings(): array;
 
     /**
+     * Get number of shards from the configuration.
+     */
+    public function getNumberOfShards(): int;
+
+    /**
+     * Get number of replicas from the configuration.
+     */
+    public function getNumberOfReplicas(): int;
+
+    /**
      * Returns the list of the available indices declared in gally_indices.xml.
      *
      * @return array<mixed>
