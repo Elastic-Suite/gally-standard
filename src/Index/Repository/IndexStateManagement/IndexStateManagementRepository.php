@@ -157,6 +157,23 @@ class IndexStateManagementRepository implements IndexStateManagementRepositoryIn
             $params['if_primary_term'] = $policy->getPrimaryTerm();
         }
 
+        // Create an index template to force lock and ism index to be created with a valid replica number value.
+        $this->client->indices()->putIndexTemplate([
+            'name' => 'ism_index_template',
+            'body' => [
+                'index_patterns' => [
+                    '.opendistro-job-scheduler-lock',
+                    '.opendistro-ism-config',
+                ],
+                'priority' => 100,
+                'template' => [
+                    'settings' => [
+                        'number_of_shards' => '1',
+                        'number_of_replicas' => $this->indexSettings->getNumberOfReplicas(),
+                    ],
+                ],
+            ],
+        ]);
         $reponse = $this->performRequest(
             'PUT',
             "/{$policyId}",
