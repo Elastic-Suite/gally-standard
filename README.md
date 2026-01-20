@@ -9,3 +9,5 @@ This repository is the home of the "gally-standard" package which contains all t
 This repository is meant to receive Pull Request on the PHP sources.
 
 If you want to know more about Gally or install it to your project, you can go to our [template repository](https://github.com/Elastic-Suite/gally)
+
+Blop
