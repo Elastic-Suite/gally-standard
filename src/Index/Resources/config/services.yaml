@@ -13,6 +13,12 @@ services:
         arguments:
             - '@Gally\Index\Repository\Index\IndexRepository'
 
+    Gally\Index\Repository\IndexStateManagement\IndexStateManagementRepositoryInterface: '@Gally\Index\Repository\IndexStateManagement\IndexStateManagementRepository'
+    Gally\Index\Repository\IndexStateManagement\IndexStateManagementRepository:
+        arguments:
+            - '@OpenSearch\Client'
+            - '@Gally\Index\Api\IndexSettingsInterface'
+
     Gally\Index\State\DocumentProcessor:
         arguments:
             - '@Gally\Index\Repository\Document\DocumentRepositoryInterface'
@@ -181,3 +187,11 @@ services:
         tags:
             - { name: doctrine.event_listener, event: postPersist }
             - { name: doctrine.event_listener, event: postUpdate }
+
+    Gally\Index\EventSubscriber\UpdateISMConfiguration:
+        arguments:
+            - '@Gally\Metadata\Repository\MetadataRepository'
+            - '@Gally\Catalog\Repository\LocalizedCatalogRepository'
+            - '@Gally\Index\Repository\IndexStateManagement\IndexStateManagementRepositoryInterface'
+            - '@Gally\Index\Api\IndexSettingsInterface'
+            - '@logger'
