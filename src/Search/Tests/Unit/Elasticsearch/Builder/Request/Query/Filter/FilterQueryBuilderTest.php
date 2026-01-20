@@ -272,7 +272,7 @@ class FilterQueryBuilderTest extends AbstractTestCase
             ->getMock();
 
         $colorSourceField = new SourceField();
-        $colorSourceField->setId(17);
+        $colorSourceField->setId(46);
         $colorSourceField->setCode('color');
         $colorSourceField->setType(SourceField\Type::TYPE_SELECT);
 

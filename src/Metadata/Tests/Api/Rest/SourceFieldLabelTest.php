@@ -40,27 +40,27 @@ class SourceFieldLabelTest extends AbstractEntityTestWithUpdate
         $adminUser = $this->getUser(Role::ROLE_ADMIN);
 
         return [
-            [null, ['localizedCatalog' => $this->getUri('localized_catalogs', '1'), 'sourceField' => $this->getUri('source_fields', '19'), 'label' => 'Prix'], 401],
-            [$this->getUser(Role::ROLE_CONTRIBUTOR), ['localizedCatalog' => $this->getUri('localized_catalogs', '1'), 'sourceField' => $this->getUri('source_fields', '19'), 'label' => 'Prix'], 403],
-            [$adminUser, ['localizedCatalog' => $this->getUri('localized_catalogs', '1'), 'sourceField' => $this->getUri('source_fields', '19'), 'label' => 'Prix'], 201],
-            [$adminUser, ['localizedCatalog' => $this->getUri('localized_catalogs', '2'), 'sourceField' => $this->getUri('source_fields', '19'), 'label' => 'Price'], 201],
-            [$adminUser, ['localizedCatalog' => $this->getUri('localized_catalogs', '1'), 'sourceField' => $this->getUri('source_fields', '15'), 'label' => 'Nom'], 201],
-            [$adminUser, ['localizedCatalog' => $this->getUri('localized_catalogs', '2'), 'sourceField' => $this->getUri('source_fields', '15'), 'label' => 'Name'], 201],
+            [null, ['localizedCatalog' => $this->getUri('localized_catalogs', '1'), 'sourceField' => $this->getUri('source_fields', '48'), 'label' => 'Prix'], 401],
+            [$this->getUser(Role::ROLE_CONTRIBUTOR), ['localizedCatalog' => $this->getUri('localized_catalogs', '1'), 'sourceField' => $this->getUri('source_fields', '48'), 'label' => 'Prix'], 403],
+            [$adminUser, ['localizedCatalog' => $this->getUri('localized_catalogs', '1'), 'sourceField' => $this->getUri('source_fields', '48'), 'label' => 'Prix'], 201],
+            [$adminUser, ['localizedCatalog' => $this->getUri('localized_catalogs', '2'), 'sourceField' => $this->getUri('source_fields', '48'), 'label' => 'Price'], 201],
+            [$adminUser, ['localizedCatalog' => $this->getUri('localized_catalogs', '1'), 'sourceField' => $this->getUri('source_fields', '44'), 'label' => 'Nom'], 201],
+            [$adminUser, ['localizedCatalog' => $this->getUri('localized_catalogs', '2'), 'sourceField' => $this->getUri('source_fields', '44'), 'label' => 'Name'], 201],
             [
                 $adminUser,
-                ['localizedCatalog' => $this->getUri('localized_catalogs', '1'), 'sourceField' => $this->getUri('source_fields', '22')],
+                ['localizedCatalog' => $this->getUri('localized_catalogs', '1'), 'sourceField' => $this->getUri('source_fields', '51')],
                 422,
                 'label: This value should not be blank.',
             ],
             [
                 $adminUser,
-                ['localizedCatalog' => $this->getUri('localized_catalogs', '1'), 'sourceField' => $this->getUri('source_fields', '15'), 'label' => 'Titre'],
+                ['localizedCatalog' => $this->getUri('localized_catalogs', '1'), 'sourceField' => $this->getUri('source_fields', '44'), 'label' => 'Titre'],
                 422,
                 'sourceField: A label is already defined for this field and this localized catalog.',
             ],
             [
                 $adminUser,
-                ['sourceField' => $this->getUri('source_fields', '22'), 'label' => 'Marque'],
+                ['sourceField' => $this->getUri('source_fields', '51'), 'label' => 'Marque'],
                 422,
                 'localizedCatalog: This value should not be blank.',
             ],
@@ -72,7 +72,7 @@ class SourceFieldLabelTest extends AbstractEntityTestWithUpdate
             ],
             [
                 $adminUser,
-                ['localizedCatalog' => $this->getUri('localized_catalogs', 'NotExist'), 'sourceField' => $this->getUri('source_fields', '22'), 'label' => 'Marque'],
+                ['localizedCatalog' => $this->getUri('localized_catalogs', 'NotExist'), 'sourceField' => $this->getUri('source_fields', '51'), 'label' => 'Marque'],
                 400,
                 'Item not found for "' . $this->getUri('localized_catalogs', 'NotExist') . '".',
             ],
