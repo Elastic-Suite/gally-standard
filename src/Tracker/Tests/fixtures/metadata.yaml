@@ -1,0 +1,8 @@
+Gally\Metadata\Entity\Metadata:
+    product:
+        entity: product
+    category:
+        entity: category
+    tracking_event:
+        entity: tracking_event
+        is_time_series_data: true

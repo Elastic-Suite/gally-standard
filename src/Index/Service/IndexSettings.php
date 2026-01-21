@@ -17,9 +17,11 @@ namespace Gally\Index\Service;
 use Gally\Analysis\Service\Config;
 use Gally\Catalog\Entity\LocalizedCatalog;
 use Gally\Catalog\Repository\LocalizedCatalogRepository;
+use Gally\Configuration\Entity\Configuration;
 use Gally\Configuration\Service\ConfigurationManager;
 use Gally\Index\Api\IndexSettingsInterface;
 use Gally\Index\Entity\Index;
+use Gally\Index\Entity\IndexTemplate;
 use Gally\Metadata\Entity\Metadata;
 use Gally\Metadata\Repository\SourceFieldRepository;
 use Gally\Search\Repository\Ingest\PipelineRepositoryInterface;
@@ -87,6 +89,28 @@ class IndexSettings implements IndexSettingsInterface
         $indexNameSuffix = $this->getIndexNameSuffix(new \DateTime());
 
         return \sprintf('%s_%s', $this->getIndexAliasFromIdentifier($indexIdentifier, $localizedCatalog), $indexNameSuffix);
+    }
+
+    /**
+     * Create a new ism name for an identifier (eg. product) by localized catalog.
+     *
+     * @param string           $identifier       Ism identifier
+     * @param LocalizedCatalog $localizedCatalog Localized catalog
+     */
+    public function createIsmNameFromIdentifier(string $identifier, LocalizedCatalog $localizedCatalog): string
+    {
+        return \sprintf('%s_%s_%s', $this->getIsmPrefix($localizedCatalog), $localizedCatalog->getCode(), $identifier);
+    }
+
+    /**
+     * Create a new index template name for an identifier (eg. product) by localized catalog.
+     *
+     * @param string           $identifier       Index template identifier
+     * @param LocalizedCatalog $localizedCatalog Localized catalog
+     */
+    public function createIndexTemplateNameFromIdentifier(string $identifier, LocalizedCatalog $localizedCatalog): string
+    {
+        return \sprintf('%s_%s_%s', $this->getIndexTemplatePrefix($localizedCatalog), $localizedCatalog->getCode(), $identifier);
     }
 
     /**
@@ -222,7 +246,7 @@ class IndexSettings implements IndexSettingsInterface
     /**
      * Extract original entity from index metadata aliases.
      */
-    public function extractEntityFromAliases(Index $index): ?string
+    public function extractEntityFromAliases(Index|IndexTemplate $index): ?string
     {
         $entityType = preg_filter('#^\.entity_(.+)$#', '$1', $index->getAliases(), 1);
         if (!empty($entityType)) {
@@ -241,7 +265,7 @@ class IndexSettings implements IndexSettingsInterface
      *
      * @throws \Exception
      */
-    public function extractCatalogFromAliases(Index $index): ?LocalizedCatalog
+    public function extractCatalogFromAliases(Index|IndexTemplate $index): ?LocalizedCatalog
     {
         $localizedCatalogId = preg_filter('#^\.catalog_(.+)$#', '$1', $index->getAliases(), 1);
         if (!empty($localizedCatalogId)) {
@@ -299,6 +323,30 @@ class IndexSettings implements IndexSettingsInterface
     protected function getIndexNamePrefix(): string
     {
         return $this->getIndicesSettingsConfigParam('prefix');
+    }
+
+    /**
+     * Get the ISM prefix from the configuration.
+     */
+    protected function getIsmPrefix(LocalizedCatalog $localizedCatalog): string
+    {
+        return $this->configurationManager->getScopedConfigValue(
+            'gally.ism_settings.prefix',
+            Configuration::SCOPE_LOCALIZED_CATALOG,
+            $localizedCatalog->getCode()
+        );
+    }
+
+    /**
+     * Get the index template prefix from the configuration.
+     */
+    protected function getIndexTemplatePrefix(LocalizedCatalog $localizedCatalog): string
+    {
+        return $this->configurationManager->getScopedConfigValue(
+            'gally.index_template_settings.prefix',
+            Configuration::SCOPE_LOCALIZED_CATALOG,
+            $localizedCatalog->getCode()
+        );
     }
 
     /**
@@ -406,5 +454,64 @@ class IndexSettings implements IndexSettingsInterface
         }
 
         return $settings;
+    }
+
+    /**
+     * Get the ISM rollover_after value from the configuration.
+     *
+     * @param LocalizedCatalog $localizedCatalog Localized catalog
+     * @param Metadata|null    $metadata         Optional metadata to check for entity-specific configuration
+     */
+    public function getIsmRolloverAfter(LocalizedCatalog $localizedCatalog, ?Metadata $metadata = null): ?int
+    {
+        if ($metadata) {
+            $entityCode = $metadata->getEntity();
+            $entityConfig = $this->configurationManager->getScopedConfigValue(
+                'gally.ism_settings.entities',
+                Configuration::SCOPE_LOCALIZED_CATALOG,
+                $localizedCatalog->getCode()
+            );
+            $entityConfig = $entityConfig[$entityCode]['rollover_after'] ?? null;
+            if (null !== $entityConfig) {
+                return (int) $entityConfig;
+            }
+        }
+
+        $rolloverAfter = $this->configurationManager->getScopedConfigValue(
+            'gally.ism_settings.rollover_after',
+            Configuration::SCOPE_LOCALIZED_CATALOG,
+            $localizedCatalog->getCode()
+        );
+
+        return null !== $rolloverAfter ? (int) $rolloverAfter : null;
+    }
+
+    /**
+     * Get the ISM delete_after value from the configuration.
+     *
+     * @param LocalizedCatalog $localizedCatalog Localized catalog
+     * @param Metadata|null    $metadata         Optional metadata to check for entity-specific configuration
+     */
+    public function getIsmDeleteAfter(LocalizedCatalog $localizedCatalog, ?Metadata $metadata = null): ?int
+    {
+        if ($metadata) {
+            $entityCode = $metadata->getEntity();
+            $entityConfig = $this->configurationManager->getScopedConfigValue(
+                'gally.ism_settings.entities',
+                Configuration::SCOPE_LOCALIZED_CATALOG,
+                $localizedCatalog->getCode()
+            );
+            $entityConfig = $entityConfig[$entityCode]['delete_after'] ?? null;
+            if (null !== $entityConfig) {
+                return (int) $entityConfig;
+            }
+        }
+
+        $deleteAfter = $this->configurationManager->getScopedConfigValue(
+            'gally.ism_settings.delete_after',
+            Configuration::SCOPE_LOCALIZED_CATALOG,
+            $localizedCatalog->getCode());
+
+        return null !== $deleteAfter ? (int) $deleteAfter : null;
     }
 }

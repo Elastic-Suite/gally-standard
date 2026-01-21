@@ -53,6 +53,18 @@ interface BucketInterface extends AggregationInterface
     public function getField(): string;
 
     /**
+     * Optional filter for filtered aggregations.
+     */
+    public function getFilter(): ?QueryInterface;
+
+    /**
+     * Returns child aggregations.
+     *
+     * @return AggregationInterface[]
+     */
+    public function getChildAggregations(): array;
+
+    /**
      * Indicates if the aggregation is nested.
      */
     public function isNested(): bool;
@@ -66,16 +78,4 @@ interface BucketInterface extends AggregationInterface
      * Optional filter for nested filters (eg. filter by customer group for price).
      */
     public function getNestedFilter(): ?QueryInterface;
-
-    /**
-     * Optional filter for filtered aggregations.
-     */
-    public function getFilter(): ?QueryInterface;
-
-    /**
-     * Returns child aggregations.
-     *
-     * @return AggregationInterface[]
-     */
-    public function getChildAggregations(): array;
 }

@@ -50,11 +50,11 @@ class MetadataTest extends AbstractEntityTestWithUpdate
         $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
 
         return [
-            [null, 3, ['id' => 3, 'entity' => 'product'], 401],
-            [$this->getUser(Role::ROLE_ADMIN), 3, ['id' => 3, 'entity' => 'product'], 200],
-            [$user, 3, ['id' => 3, 'entity' => 'product'], 200],
-            [$user, 5, ['id' => 5, 'entity' => 'article'], 200],
-            [$user, 7, [], 404],
+            [null, 4, ['id' => 4, 'entity' => 'product'], 401],
+            [$this->getUser(Role::ROLE_ADMIN), 4, ['id' => 4, 'entity' => 'product'], 200],
+            [$user, 4, ['id' => 4, 'entity' => 'product'], 200],
+            [$user, 6, ['id' => 6, 'entity' => 'article'], 200],
+            [$user, 8, [], 404],
         ];
     }
 
@@ -63,11 +63,11 @@ class MetadataTest extends AbstractEntityTestWithUpdate
         $adminUser = $this->getUser(Role::ROLE_ADMIN);
 
         return [
-            [null, 3, 401],
-            [$this->getUser(Role::ROLE_CONTRIBUTOR), 3, 403],
-            [$adminUser, 3, 204],
-            [$adminUser, 5, 204],
-            [$adminUser, 7, 404],
+            [null, 4, 401],
+            [$this->getUser(Role::ROLE_CONTRIBUTOR), 4, 403],
+            [$adminUser, 4, 204],
+            [$adminUser, 6, 204],
+            [$adminUser, 8, 404],
         ];
     }
 

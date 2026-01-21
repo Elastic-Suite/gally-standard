@@ -18,6 +18,14 @@ services:
             - '@Gally\Index\Repository\Index\IndexRepositoryInterface'
             - '@Gally\Index\Api\IndexSettingsInterface'
         public: true
+
+    Gally\Fixture\Service\EntityDataStreamsFixturesInterface: '@Gally\Fixture\Service\EntityDataStreamsFixtures'
+    Gally\Fixture\Service\EntityDataStreamsFixtures:
+        arguments:
+            - '@Gally\Metadata\Repository\MetadataRepository'
+            - '@Gally\Catalog\Repository\LocalizedCatalogRepository'
+            - '@Gally\Index\Repository\DataStream\DataStreamRepositoryInterface'
+        public: true
         
     Gally\Fixture\Service\ORMPsqlSequenceProvider:
         arguments:

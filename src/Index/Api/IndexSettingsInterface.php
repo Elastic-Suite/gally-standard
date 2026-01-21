@@ -16,6 +16,7 @@ namespace Gally\Index\Api;
 
 use Gally\Catalog\Entity\LocalizedCatalog;
 use Gally\Index\Entity\Index;
+use Gally\Index\Entity\IndexTemplate;
 use Gally\Metadata\Entity\Metadata;
 
 interface IndexSettingsInterface
@@ -35,6 +36,22 @@ interface IndexSettingsInterface
      * @param int|string|LocalizedCatalog $localizedCatalog Localized catalog
      */
     public function createIndexNameFromIdentifier(string $indexIdentifier, LocalizedCatalog|int|string $localizedCatalog): string;
+
+    /**
+     * Create a new ism name for an identifier (eg. product) by localized catalog.
+     *
+     * @param string           $identifier       Ism identifier
+     * @param LocalizedCatalog $localizedCatalog Localized catalog
+     */
+    public function createIsmNameFromIdentifier(string $identifier, LocalizedCatalog $localizedCatalog): string;
+
+    /**
+     * Create a new index template name for an identifier (eg. product) by localized catalog.
+     *
+     * @param string           $identifier       Index template identifier
+     * @param LocalizedCatalog $localizedCatalog Localized catalog
+     */
+    public function createIndexTemplateNameFromIdentifier(string $identifier, LocalizedCatalog $localizedCatalog): string;
 
     /**
      * Return the index aliases to set to a newly created index for an identifier (eg. product) by catalog.
@@ -70,6 +87,16 @@ interface IndexSettingsInterface
     public function getInstallIndexSettings(): array;
 
     /**
+     * Get number of shards from the configuration.
+     */
+    public function getNumberOfShards(): int;
+
+    /**
+     * Get number of replicas from the configuration.
+     */
+    public function getNumberOfReplicas(): int;
+
+    /**
      * Returns the list of the available indices declared in gally_indices.xml.
      *
      * @return array<mixed>
@@ -95,14 +122,14 @@ interface IndexSettingsInterface
     /**
      * Extract original entity from index metadata aliases.
      */
-    public function extractEntityFromAliases(Index $index): ?string;
+    public function extractEntityFromAliases(Index|IndexTemplate $index): ?string;
 
     /**
      * Extract original catalog id from index metadata aliases.
      *
      * @throws \Exception
      */
-    public function extractCatalogFromAliases(Index $index): ?LocalizedCatalog;
+    public function extractCatalogFromAliases(Index|IndexTemplate $index): ?LocalizedCatalog;
 
     /**
      * Check if index name follow the naming convention.
@@ -118,4 +145,20 @@ interface IndexSettingsInterface
      * Check if index is obsolete.
      */
     public function isObsolete(Index $index): bool;
+
+    /**
+     * Get the ISM rollover_after value from the configuration.
+     *
+     * @param LocalizedCatalog $localizedCatalog Localized catalog
+     * @param Metadata|null    $metadata         Optional metadata to check for entity-specific configuration
+     */
+    public function getIsmRolloverAfter(LocalizedCatalog $localizedCatalog, ?Metadata $metadata = null): ?int;
+
+    /**
+     * Get the ISM delete_after value from the configuration.
+     *
+     * @param LocalizedCatalog $localizedCatalog Localized catalog
+     * @param Metadata|null    $metadata         Optional metadata to check for entity-specific configuration
+     */
+    public function getIsmDeleteAfter(LocalizedCatalog $localizedCatalog, ?Metadata $metadata = null): ?int;
 }
