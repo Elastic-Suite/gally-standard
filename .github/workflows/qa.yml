@@ -51,7 +51,6 @@ jobs:
               working-directory: ${{ env.gally-directory }}
               run: |
                   cd api
-                  mkdir -p var/cache/dev/Symfony/Config
                   # do PHPstan with current phpstan.neon.dist file from current branch or PR
                   cp -rf ${{ env.package-directory }}/phpstan.neon.dist phpstan.neon.dist
                   ./vendor/bin/phpstan analyse
