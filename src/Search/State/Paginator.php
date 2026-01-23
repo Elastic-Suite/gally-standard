@@ -15,19 +15,17 @@ declare(strict_types=1);
 namespace Gally\Search\State;
 
 // use ApiPlatform\Core\Bridge\Elasticsearch\Serializer\ItemNormalizer;
-use ApiPlatform\Elasticsearch\Serializer\ItemNormalizer;
 use ApiPlatform\State\Pagination\PaginatorInterface;
 use Gally\Search\Elasticsearch\Adapter\Common\Response\AggregationInterface;
-use Gally\Search\Elasticsearch\DocumentInterface;
 use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface;
 use Gally\Search\Elasticsearch\Request\SortOrderInterface;
 use Gally\Search\Elasticsearch\RequestInterface;
 use Gally\Search\Elasticsearch\ResponseInterface;
-use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 
 class Paginator implements \IteratorAggregate, PaginatorInterface
 {
+    use PaginatorTrait;
     protected array $cachedDenormalizedDocuments = [];
 
     public function __construct(
@@ -77,32 +75,7 @@ class Paginator implements \IteratorAggregate, PaginatorInterface
 
     public function getIterator(): \Traversable
     {
-        $denormalizationContext = array_merge([AbstractNormalizer::ALLOW_EXTRA_ATTRIBUTES => true], $this->denormalizationContext);
-
-        /** @var DocumentInterface $document */
-        foreach ($this->response->getIterator() as $document) {
-            $cacheKey = null;
-            if (!empty($document->getIndex()) && !empty($document->getInternalId())) {
-                $cacheKey = md5(\sprintf('%s_%s', $document->getIndex(), $document->getInternalId()));
-            }
-
-            if ($cacheKey && \array_key_exists($cacheKey, $this->cachedDenormalizedDocuments)) {
-                $object = $this->cachedDenormalizedDocuments[$cacheKey];
-            } else {
-                $object = $this->denormalizer->denormalize(
-                    $document,
-                    $this->resourceClass,
-                    ItemNormalizer::FORMAT,
-                    $denormalizationContext
-                );
-
-                if ($cacheKey) {
-                    $this->cachedDenormalizedDocuments[$cacheKey] = $object;
-                }
-            }
-
-            yield $object;
-        }
+        return $this->getPaginatorIterator($this->response->getIterator());
     }
 
     /**

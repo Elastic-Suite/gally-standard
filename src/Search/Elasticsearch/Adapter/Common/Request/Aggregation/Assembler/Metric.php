@@ -32,6 +32,7 @@ class Metric implements AssemblerInterface
         MetricInterface::TYPE_PERCENTILES => 'percentiles',
         MetricInterface::TYPE_STATS => 'stats',
         MetricInterface::TYPE_SUM => 'sum',
+        MetricInterface::TYPE_TOP_HITS => 'top_hits',
     ];
 
     public function assembleAggregation(AggregationInterface $aggregation): array
@@ -41,7 +42,7 @@ class Metric implements AssemblerInterface
         }
 
         $metricDefinition = array_merge(['field' => $aggregation->getField()], $aggregation->getConfig());
-        if (isset($metricDefinition['script'])) {
+        if (isset($metricDefinition['script']) || MetricInterface::TYPE_TOP_HITS === $aggregation->getType()) {
             unset($metricDefinition['field']);
         }
 
