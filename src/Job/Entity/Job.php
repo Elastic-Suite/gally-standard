@@ -129,7 +129,6 @@ class Job
                     'rdfs:label' => 'Profile',
                 ],
                 'gally' => [
-                    // TODO: hide this while there is only one type of profile (thesaurus)
                     'visible' => true,
                     'editable' => false,
                     'position' => 20,
@@ -139,18 +138,14 @@ class Job
                         'api_graphql' => 'jobProfileOptions',
                     ],
                     'context' => [
-                        // TODO: create specific import endpoint
                         'importexport_import' => [
                             'options' => [
-                                'api_rest' => '/job_profile_options',
-                                'api_graphql' => 'jobProfileOptions',
+                                'api_rest' => '/job_profile_options?jobType=' . self::TYPE_IMPORT,
                             ],
                         ],
-                        // TODO: create specific export endpoint
                         'importexport_export' => [
                             'options' => [
-                                'api_rest' => '/job_profile_options',
-                                'api_graphql' => 'jobProfileOptions',
+                                'api_rest' => '/job_profile_options?jobType=' . self::TYPE_EXPORT,
                             ],
                         ],
                     ],
