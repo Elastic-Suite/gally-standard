@@ -35,6 +35,8 @@ class ProfileOptionProvider implements ProviderInterface
             return $this->itemProvider->provide($operation, $uriVariables, $context);
         }
 
-        return $this->jobManager->getProfileOptions();
+        $jobType = $context['args']['jobType'] ?? (isset($context['request']) ? $context['request']->get('jobType') : null);
+
+        return $this->jobManager->getProfileOptions($jobType);
     }
 }
