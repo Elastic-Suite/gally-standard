@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Gally\Job\Tests\Api\GraphQl\Job\Source;
 
+use Gally\Job\Entity\Job;
 use Gally\Job\Service\JobManager;
 use Gally\Test\AbstractTestCase;
 use Gally\Test\ExpectedResponse;
@@ -33,13 +34,14 @@ class ProfileOptionTest extends AbstractTestCase
     /**
      * @dataProvider getCollectionDataProvider
      */
-    public function testGetCollection(?User $user, array $expectedData, int $responseCode): void
+    public function testGetCollection(?User $user, array $expectedData, int $responseCode, ?string $jobType = null): void
     {
+        $parameters = $jobType ? \sprintf('(jobType: "%s") ', $jobType) : '';
         $this->validateApiCall(
             new RequestGraphQlToTest(
                 <<<GQL
                     {
-                      jobProfileOptions {
+                      jobProfileOptions $parameters{
                         id
                         value
                         label
@@ -75,6 +77,8 @@ class ProfileOptionTest extends AbstractTestCase
             [null, ['error' => 'Access Denied.'], 401],
             [$this->getUser(Role::ROLE_CONTRIBUTOR), $profileOptions, 200],
             [$this->getUser(Role::ROLE_ADMIN), $profileOptions, 200],
+            [$this->getUser(Role::ROLE_CONTRIBUTOR), $jobManager->getProfileOptions(Job::TYPE_IMPORT), 200, Job::TYPE_IMPORT],
+            [$this->getUser(Role::ROLE_CONTRIBUTOR), $jobManager->getProfileOptions(Job::TYPE_EXPORT), 200, Job::TYPE_EXPORT],
         ];
     }
 }

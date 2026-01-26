@@ -24,10 +24,10 @@ class ProfileOptionTest extends GraphQlProfileOptionTest
     /**
      * @dataProvider getCollectionDataProvider
      */
-    public function testGetCollection(?User $user, array $expectedData, int $responseCode): void
+    public function testGetCollection(?User $user, array $expectedData, int $responseCode, ?string $jobType = null): void
     {
         $this->validateApiCall(
-            new RequestToTest('GET', 'job_profile_options', $user),
+            new RequestToTest('GET', 'job_profile_options' . ($jobType ? "?jobType={$jobType}" : ''), $user),
             new ExpectedResponse(
                 $responseCode,
                 function (ResponseInterface $response) use ($expectedData, $responseCode) {

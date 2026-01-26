@@ -15,6 +15,9 @@
         <field name="createdAt" type="datetime" nullable="false">
             <gedmo:timestampable on="create"/>
         </field>
+        <field name="updatedAt" type="datetime" nullable="false">
+            <gedmo:timestampable on="create"/>
+        </field>
         <field name="finishedAt" type="datetime" nullable="true" />
 
         <one-to-one field="file" target-entity="Gally\Job\Entity\Job\File" fetch="EAGER">
