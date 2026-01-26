@@ -205,16 +205,20 @@ class JobManager
         return $profiles;
     }
 
-    public function getProfileOptions(): array
+    public function getProfileOptions(?string $jobType = null): array
     {
         $profiles = [];
-        foreach ($this->getProfiles() as $profilesGrouped) {
-            foreach ($profilesGrouped as $profile) {
-                $profiles[] = [
-                    'id' => $profile['profile'],
-                    'value' => $profile['profile'],
-                    'label' => $profile['label'],
-                ];
+
+        $jobTypeFilter = \in_array($jobType, Job::getTypes(), true) ? $jobType : null;
+        foreach ($this->getProfiles() as $jobType => $profilesGrouped) {
+            if (null === $jobTypeFilter || $jobType === $jobTypeFilter) {
+                foreach ($profilesGrouped as $profile) {
+                    $profiles[] = [
+                        'id' => $profile['profile'],
+                        'value' => $profile['profile'],
+                        'label' => $profile['label'],
+                    ];
+                }
             }
         }
 

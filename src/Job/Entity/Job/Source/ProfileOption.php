@@ -24,14 +24,22 @@ use Gally\User\Constant\Role;
     operations: [
         new GetCollection(
             security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
-            paginationEnabled: false
+            paginationEnabled: false,
+            openapiContext: [
+                'parameters' => [
+                    ['name' => 'jobType', 'in' => 'query', 'type' => 'string'],
+                ],
+            ],
         ),
     ],
     graphQlOperations: [
         new QueryCollection(
             name: 'collection_query',
             security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
-            paginationEnabled: false
+            paginationEnabled: false,
+            args: [
+                'jobType' => ['type' => 'String'],
+            ],
         ),
     ],
     provider: ProfileOptionProvider::class,
