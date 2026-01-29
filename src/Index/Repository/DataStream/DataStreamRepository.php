@@ -24,6 +24,7 @@ use Gally\Index\Repository\IndexStateManagement\IndexStateManagementRepositoryIn
 use Gally\Index\Repository\IndexTemplate\IndexTemplateRepositoryInterface;
 use Gally\Metadata\Entity\Metadata;
 use OpenSearch\Client;
+use Psr\Log\LoggerInterface;
 
 class DataStreamRepository implements DataStreamRepositoryInterface
 {
@@ -33,6 +34,7 @@ class DataStreamRepository implements DataStreamRepositoryInterface
         private IndexTemplateRepositoryInterface $indexTemplateRepository,
         private IndexStateManagementRepositoryInterface $ismRepository,
         private IndexRepositoryInterface $indexRepository,
+        private LoggerInterface $logger,
     ) {
     }
 
@@ -93,8 +95,8 @@ class DataStreamRepository implements DataStreamRepositoryInterface
             if (!empty($response['data_streams'])) {
                 return $this->createFromResponse($response['data_streams'][0]);
             }
-        } catch (\Exception $e) {
-            // Log exception if needed
+        } catch (\Exception) {
+            // Data stream not found, no need to log.
         }
 
         return null;
@@ -110,8 +112,8 @@ class DataStreamRepository implements DataStreamRepositoryInterface
             foreach ($response['data_streams'] as $dataStreamData) {
                 $dataStreams[] = $this->createFromResponse($dataStreamData);
             }
-        } catch (\Exception $e) {
-            // Log exception if needed
+        } catch (\Exception $exception) {
+            $this->logger->error($exception);
         }
 
         return $dataStreams;

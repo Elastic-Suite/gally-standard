@@ -29,15 +29,15 @@ class MappingStatusProvider implements ProviderInterface
     ) {
     }
 
-    public function __invoke(mixed $item, array $context): ?Status
+    public function __invoke(mixed $item, array $context): Status
     {
         return $this->provide(new Get(), ['id' => $context['args']['entityType']], $context);
     }
 
-    public function provide(Operation $operation, array $uriVariables = [], array $context = []): ?Status
+    public function provide(Operation $operation, array $uriVariables = [], array $context = []): Status
     {
         $metadata = $this->metadataRepository->findByEntity($uriVariables['id']);
 
-        return $metadata ? $this->metadataManager->getMappingStatus($metadata) : null;
+        return $this->metadataManager->getMappingStatus($metadata);
     }
 }

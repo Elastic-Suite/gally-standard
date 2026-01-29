@@ -14,7 +14,6 @@ declare(strict_types=1);
 
 namespace Gally\Index\State;
 
-use ApiPlatform\Metadata\Exception\InvalidArgumentException;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
 use Gally\Catalog\Repository\LocalizedCatalogRepository;
@@ -41,19 +40,8 @@ class CreateIndexProcessor implements ProcessorInterface
     {
         $entityType = $data->entityType;
         $localizedCatalogCode = $data->localizedCatalog;
-
         $metadata = $this->metadataRepository->findByEntity($entityType);
-        if (!$metadata) {
-            throw new InvalidArgumentException(\sprintf('Entity type [%s] does not exist', $entityType));
-        }
-        if (null === $metadata->getEntity()) {
-            throw new InvalidArgumentException(\sprintf('Entity type [%s] is not defined', $entityType));
-        }
-
         $catalog = $this->localizedCatalogRepository->findByCodeOrId($localizedCatalogCode);
-        if (null === $catalog) {
-            throw new InvalidArgumentException(\sprintf('Localized catalog of ID or code [%s] does not exist', $localizedCatalogCode));
-        }
 
         try {
             $index = $this->indexOperation->createEntityIndex($metadata, $catalog);

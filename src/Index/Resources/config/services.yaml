@@ -20,6 +20,7 @@ services:
         arguments:
             - '@OpenSearch\Client'
             - '@Gally\Index\Api\IndexSettingsInterface'
+            - '@logger'
 
     Gally\Index\Repository\IndexTemplate\IndexTemplateRepositoryInterface: '@Gally\Index\Repository\IndexTemplate\IndexTemplateRepository'
     Gally\Index\Repository\IndexTemplate\IndexTemplateRepository:
@@ -27,6 +28,7 @@ services:
             - '@OpenSearch\Client'
             - '@Gally\Index\Api\IndexSettingsInterface'
             - '@Gally\Index\Service\MetadataManager'
+            - '@logger'
 
     Gally\Index\Repository\DataStream\DataStreamRepositoryInterface: '@Gally\Index\Repository\DataStream\DataStreamRepository'
     Gally\Index\Repository\DataStream\DataStreamRepository:
@@ -36,6 +38,7 @@ services:
             - '@Gally\Index\Repository\IndexTemplate\IndexTemplateRepositoryInterface'
             - '@Gally\Index\Repository\IndexStateManagement\IndexStateManagementRepositoryInterface'
             - '@Gally\Index\Repository\Index\IndexRepositoryInterface'
+            - '@logger'
 
     Gally\Index\State\DocumentProcessor:
         arguments:
@@ -246,6 +249,7 @@ services:
         tags:
             - { name: doctrine.event_listener, event: postPersist }
             - { name: doctrine.event_listener, event: postUpdate }
+            - { name: doctrine.event_listener, event: postFlush }
             - { name: kernel.cache_warmer }
 
     Gally\Index\EventSubscriber\UpdateIndexTemplateMapping:

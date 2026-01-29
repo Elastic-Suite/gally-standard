@@ -111,7 +111,7 @@ class KpiTest extends AbstractTestCase
         ];
 
         yield 'one visitor one session' => [
-            Role::ROLE_CONTRIBUTOR,
+            Role::ROLE_ADMIN,
             'b2c_en',
             '2025-01-01',
             '2025-01-31',
@@ -128,7 +128,7 @@ class KpiTest extends AbstractTestCase
         ];
 
         yield 'one visitor multiple session' => [
-            Role::ROLE_CONTRIBUTOR,
+            Role::ROLE_ADMIN,
             'b2c_en',
             '2025-01-01',
             '2025-02-31',
@@ -145,7 +145,7 @@ class KpiTest extends AbstractTestCase
         ];
 
         yield 'multiple visitor multiple session' => [
-            Role::ROLE_CONTRIBUTOR,
+            Role::ROLE_ADMIN,
             'b2c_en',
             '2025-02-01',
             '2025-03-31',
@@ -162,7 +162,7 @@ class KpiTest extends AbstractTestCase
         ];
 
         yield 'all event' => [
-            Role::ROLE_CONTRIBUTOR,
+            Role::ROLE_ADMIN,
             'b2c_en',
             '2025-01-01',
             '2025-03-31',
@@ -179,7 +179,7 @@ class KpiTest extends AbstractTestCase
         ];
 
         yield 'other store' => [
-            Role::ROLE_CONTRIBUTOR,
+            Role::ROLE_ADMIN,
             'b2b_en',
             '2025-01-01',
             '2025-03-31',

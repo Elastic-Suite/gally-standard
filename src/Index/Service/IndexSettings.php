@@ -328,7 +328,7 @@ class IndexSettings implements IndexSettingsInterface
     /**
      * Get the ISM prefix from the configuration.
      */
-    protected function getIsmPrefix(LocalizedCatalog $localizedCatalog): string
+    protected function getIsmPrefix(LocalizedCatalog $localizedCatalog): ?string
     {
         return $this->configurationManager->getScopedConfigValue(
             'gally.ism_settings.prefix',

@@ -15,9 +15,12 @@ namespace Gally\Migrations;
 
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
+use Gally\Migrations\Trait\TrackingEventSourceFieldPersistorTrait;
 
 final class Version20260107143005_Add_Tracker_Event_Source_Field extends AbstractMigration
 {
+    use TrackingEventSourceFieldPersistorTrait;
+
     public function getDescription(): string
     {
         return 'Add tracker event entity source field.';
@@ -25,8 +28,6 @@ final class Version20260107143005_Add_Tracker_Event_Source_Field extends Abstrac
 
     public function up(Schema $schema): void
     {
-        $metadataIds = $this->connection->executeQuery('SELECT entity, id FROM metadata')->fetchAllAssociativeIndexed();
-
         $trackingEventSourceFields = [
             'id' => 'keyword',
             '@timestamp' => 'date',
@@ -60,36 +61,8 @@ final class Version20260107143005_Add_Tracker_Event_Source_Field extends Abstrac
         ];
 
         foreach ($trackingEventSourceFields as $code => $type) {
-            $this->addInsertTrackingEventSourceFieldSql(
-                $metadataIds['tracking_event']['id'], $code, $type
-            );
+            $this->addInsertTrackingEventSourceFieldSql($code, $type);
         }
-    }
-
-    private function addInsertTrackingEventSourceFieldSql(int $metadataId, string $code, string $type)
-    {
-        $this->addSql("
-            INSERT INTO public.source_field
-            (id, metadata_id, code, default_label, type, weight, is_searchable, is_filterable, is_sortable, is_spellchecked, is_used_for_rules, is_system, search, is_used_in_autocomplete, is_spannable, default_search_analyzer)
-            VALUES (
-                nextval('source_field_id_seq'),
-                $metadataId,
-                '$code',
-                null,
-                '$type',
-                1,
-                null,
-                null,
-                null,
-                null,
-                null,
-                true,
-                '$code',
-                null,
-                null,
-                'standard'
-            );"
-        );
     }
 
     public function down(Schema $schema): void

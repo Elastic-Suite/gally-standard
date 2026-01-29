@@ -19,13 +19,15 @@ use Gally\Index\Entity\IndexTemplate;
 use Gally\Index\Service\MetadataManager;
 use Gally\Metadata\Entity\Metadata;
 use OpenSearch\Client;
+use Psr\Log\LoggerInterface;
 
 class IndexTemplateRepository implements IndexTemplateRepositoryInterface
 {
     public function __construct(
         private Client $client,
         private IndexSettingsInterface $indexSettings,
-        protected MetadataManager $metadataManager,
+        private MetadataManager $metadataManager,
+        private LoggerInterface $logger,
     ) {
     }
 
@@ -90,18 +92,9 @@ class IndexTemplateRepository implements IndexTemplateRepositoryInterface
 
     public function findByName(string $name, LocalizedCatalog $localizedCatalog): ?IndexTemplate
     {
-        try {
-            $templateId = $this->indexSettings->createIndexTemplateNameFromIdentifier($name, $localizedCatalog);
-            $response = $this->client->indices()->getIndexTemplate(['name' => $templateId]);
+        $templateId = $this->indexSettings->createIndexTemplateNameFromIdentifier($name, $localizedCatalog);
 
-            if (!empty($response['index_templates'])) {
-                return $this->createFromResponse($response['index_templates'][0]);
-            }
-        } catch (\Exception $e) {
-            // Log exception if needed
-        }
-
-        return null;
+        return $this->findById($templateId);
     }
 
     public function findById(string $id): ?IndexTemplate
@@ -112,8 +105,8 @@ class IndexTemplateRepository implements IndexTemplateRepositoryInterface
             if (!empty($response['index_templates'])) {
                 return $this->createFromResponse($response['index_templates'][0]);
             }
-        } catch (\Exception $e) {
-            // Log exception if needed
+        } catch (\Exception $exception) {
+            $this->logger->error($exception);
         }
 
         return null;

@@ -16,7 +16,7 @@ namespace Gally\Fixture\Service;
 
 use Gally\Catalog\Entity\LocalizedCatalog;
 
-trait GetLocalizedCatalogs
+trait GetLocalizedCatalogsTrait
 {
     /**
      * Get all localized catalogs or a specific one based on an identifier.

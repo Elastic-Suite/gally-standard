@@ -22,7 +22,7 @@ use Gally\Metadata\Repository\MetadataRepository;
 
 class EntityIndicesFixtures implements EntityIndicesFixturesInterface
 {
-    use GetLocalizedCatalogs;
+    use GetLocalizedCatalogsTrait;
 
     public function __construct(
         private MetadataRepository $metadataRepository,
