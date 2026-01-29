@@ -29,6 +29,8 @@ use Symfony\Component\HttpKernel\CacheWarmer\CacheWarmerInterface;
  */
 class UpdateISMConfiguration implements CacheWarmerInterface
 {
+    private bool $needUpdate = false;
+
     public function __construct(
         private MetadataRepository $metadataRepository,
         private LocalizedCatalogRepository $localizedCatalogRepository,
@@ -39,7 +41,7 @@ class UpdateISMConfiguration implements CacheWarmerInterface
     }
 
     /**
-     * Update ISM conf on configuration created/update from gally configuration screen in BO.
+     * Define ISM conf on configuration created/update from gally configuration screen in BO.
      */
     public function postPersist(PostPersistEventArgs $args): void
     {
@@ -49,7 +51,7 @@ class UpdateISMConfiguration implements CacheWarmerInterface
         }
 
         if (str_starts_with($conf->getPath(), 'gally.ism_settings.')) {
-            $this->updateIndexTemplateMapping();
+            $this->needUpdate = true;
         }
     }
 
@@ -64,6 +66,16 @@ class UpdateISMConfiguration implements CacheWarmerInterface
         }
 
         if (str_starts_with($conf->getPath(), 'gally.ism_settings.')) {
+            $this->needUpdate = true;
+        }
+    }
+
+    /**
+     * Update ISM configuration in OpenSearch when the corresponding Gally configuration is updated.
+     */
+    public function postFlush(): void
+    {
+        if ($this->needUpdate) {
             $this->updateIndexTemplateMapping();
         }
     }

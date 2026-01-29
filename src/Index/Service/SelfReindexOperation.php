@@ -14,7 +14,6 @@ declare(strict_types=1);
 
 namespace Gally\Index\Service;
 
-use ApiPlatform\Metadata\Exception\InvalidArgumentException;
 use Gally\Catalog\Repository\LocalizedCatalogRepository;
 use Gally\Index\Entity\Index;
 use Gally\Index\Entity\Index\SelfReindex;
@@ -47,9 +46,6 @@ class SelfReindexOperation
     {
         if (!empty($entityType)) {
             $metadata = $this->metadataRepository->findByEntity($entityType);
-            if (!$metadata) {
-                throw new InvalidArgumentException(\sprintf('Entity type [%s] does not exist', $entityType));
-            }
             $metadataToReindex = [$metadata];
         } else {
             $metadataToReindex = $this->metadataRepository->findBy(['isTimeSeriesData' => false]);

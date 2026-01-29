@@ -98,22 +98,21 @@ class SerializerService
         if (!isset($this->sourceFieldsStitchingCache[$cacheKey])) {
             $sourceFieldsTypes = [];
 
-            if ($metadata = $this->metadataRepository->findByEntity($entityType)) {
-                $sourceFields = !empty($sourceFieldCodes)
-                    ? $metadata->getSourceFieldByCodes($sourceFieldCodes) // Loading only the provided list of source fields.
-                    : $metadata->getSourceFields();
+            $metadata = $this->metadataRepository->findByEntity($entityType);
+            $sourceFields = !empty($sourceFieldCodes)
+                ? $metadata->getSourceFieldByCodes($sourceFieldCodes) // Loading only the provided list of source fields.
+                : $metadata->getSourceFields();
 
-                foreach ($sourceFields as $sourceField) {
-                    $sourceFieldCode = $sourceField->getCode();
-                    if (!\in_array($sourceField->getType(), array_keys(SourceFieldAttributeMapping::TYPES), true)) {
-                        continue;
-                    }
-                    if ($sourceField->isNested()) {
-                        [$path, $field] = [$sourceField->getNestedPath(), $sourceField->getNestedCode()];
-                        $sourceFieldsTypes[$path][$field] = SourceFieldAttributeMapping::TYPES[$sourceField->getType()];
-                    } else {
-                        $sourceFieldsTypes[$sourceFieldCode] = SourceFieldAttributeMapping::TYPES[$sourceField->getType()];
-                    }
+            foreach ($sourceFields as $sourceField) {
+                $sourceFieldCode = $sourceField->getCode();
+                if (!\in_array($sourceField->getType(), array_keys(SourceFieldAttributeMapping::TYPES), true)) {
+                    continue;
+                }
+                if ($sourceField->isNested()) {
+                    [$path, $field] = [$sourceField->getNestedPath(), $sourceField->getNestedCode()];
+                    $sourceFieldsTypes[$path][$field] = SourceFieldAttributeMapping::TYPES[$sourceField->getType()];
+                } else {
+                    $sourceFieldsTypes[$sourceFieldCode] = SourceFieldAttributeMapping::TYPES[$sourceField->getType()];
                 }
             }
 

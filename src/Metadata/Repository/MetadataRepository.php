@@ -39,7 +39,7 @@ class MetadataRepository extends ServiceEntityRepository
         parent::__construct($registry, Metadata::class);
     }
 
-    public function findByEntity(string $entityType, $withCache = true): ?Metadata
+    public function findByEntity(string $entityType, $withCache = true): Metadata
     {
         if (!$withCache || !isset($this->cache[$entityType])) {
             $metadata = $this->findOneBy(['entity' => $entityType]);
@@ -55,7 +55,7 @@ class MetadataRepository extends ServiceEntityRepository
         return $this->cache[$entityType];
     }
 
-    public function findByRessourceClass(string $resourceClass): ?Metadata
+    public function findByRessourceClass(string $resourceClass): Metadata
     {
         $resourceMetadata = $this->resourceMetadataCollectionFactory->create($resourceClass);
         $entityType = $this->resourceMetadataManager->getMetadataEntity($resourceMetadata);

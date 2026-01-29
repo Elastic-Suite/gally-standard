@@ -18,11 +18,9 @@ use ApiPlatform\GraphQl\Type\FieldsBuilderEnumInterface;
 use ApiPlatform\GraphQl\Type\TypesContainerInterface;
 use ApiPlatform\Metadata\GraphQl\Operation;
 use ApiPlatform\Metadata\Resource\Factory\ResourceMetadataCollectionFactoryInterface;
-use Doctrine\ORM\EntityNotFoundException;
 use Gally\Metadata\Constant\SourceFieldAttributeMapping;
 use Gally\Metadata\Entity\Attribute\GraphQlAttributeInterface;
 use Gally\Metadata\Entity\Attribute\StructuredAttributeInterface;
-use Gally\Metadata\Entity\Metadata;
 use Gally\Metadata\Entity\SourceField;
 use Gally\Metadata\Repository\MetadataRepository;
 use Gally\ResourceMetadata\Service\ResourceMetadataManager;
@@ -67,9 +65,6 @@ class StitchingFieldsBuilder implements FieldsBuilderEnumInterface
         }
 
         $metadata = $this->metadataRepository->findByEntity($metadataEntity);
-        if (null === $metadata) {
-            throw new EntityNotFoundException(\sprintf("Entity of type '%s' for entity '%s' was not found. You should probably run migrations or fixtures?", Metadata::class, $metadataEntity));
-        }
 
         unset($fields[$stitchingProperty]);
         $basicNestedFields = [];

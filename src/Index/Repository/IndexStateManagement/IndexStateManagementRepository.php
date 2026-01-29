@@ -19,12 +19,14 @@ use Gally\Index\Api\IndexSettingsInterface;
 use Gally\Index\Entity\IndexStateManagement;
 use Gally\Metadata\Entity\Metadata;
 use OpenSearch\Client;
+use Psr\Log\LoggerInterface;
 
 class IndexStateManagementRepository implements IndexStateManagementRepositoryInterface
 {
     public function __construct(
         private Client $client,
         private IndexSettingsInterface $indexSettings,
+        private LoggerInterface $logger,
     ) {
     }
 
@@ -76,8 +78,8 @@ class IndexStateManagementRepository implements IndexStateManagementRepositoryIn
             $response = $this->performRequest('GET', "/{$policyId}");
 
             return $this->createFromResponse($response, $localizedCatalog);
-        } catch (\Exception $e) {
-            // Log exception if needed
+        } catch (\Exception $exception) {
+            // ISM not found, no need to log.
         }
 
         return null;
@@ -96,8 +98,8 @@ class IndexStateManagementRepository implements IndexStateManagementRepositoryIn
                     $policies[] = $this->createFromResponse($policy, $localizedCatalog);
                 }
             }
-        } catch (\Exception $e) {
-            // Log exception if needed
+        } catch (\Exception $exception) {
+            $this->logger->error($exception);
         }
 
         return $policies;

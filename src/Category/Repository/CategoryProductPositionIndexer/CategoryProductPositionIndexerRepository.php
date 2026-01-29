@@ -76,10 +76,6 @@ class CategoryProductPositionIndexerRepository implements CategoryProductPositio
     public function reindexByProducts(array $products, LocalizedCatalog $localizedCatalog): void
     {
         $metadata = $this->metadataRepository->findByEntity('product');
-        // Can be empty  during the execution of the fixtures.
-        if (!$metadata) {
-            return;
-        }
         $indexAlias = $this->indexSettings->getIndexAliasFromIdentifier($metadata->getEntity(), $localizedCatalog);
 
         // Can be possible during the execution of the fixtures.

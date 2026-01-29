@@ -20,7 +20,7 @@ use Gally\Metadata\Repository\MetadataRepository;
 
 class EntityDataStreamsFixtures implements EntityDataStreamsFixturesInterface
 {
-    use GetLocalizedCatalogs;
+    use GetLocalizedCatalogsTrait;
 
     public function __construct(
         private MetadataRepository $metadataRepository,

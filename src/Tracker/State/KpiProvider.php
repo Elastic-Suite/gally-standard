@@ -45,15 +45,7 @@ class KpiProvider implements ProviderInterface
         }
 
         $localizedCatalog = $this->localizedCatalogRepository->findByCodeOrId($localizedCatalogCode);
-        if (!$localizedCatalog) {
-            throw new \InvalidArgumentException("Localized catalog not found: {$localizedCatalogCode}");
-        }
-
-        $metadata = $this->metadataRepository->findOneBy(['entity' => 'tracking_event']);
-        if (!$metadata) {
-            throw new \InvalidArgumentException('Metadata tracking_event not found');
-        }
-
+        $metadata = $this->metadataRepository->findByEntity('tracking_event');
         $containerConfig = $this->containerConfigurationProvider->get(
             $metadata,
             $localizedCatalog,

@@ -44,7 +44,7 @@ class LocalizedCatalogRepository extends ServiceEntityRepository
             ->execute();
     }
 
-    public function findByCodeOrId(int|string $identifier): ?LocalizedCatalog
+    public function findByCodeOrId(int|string $identifier): LocalizedCatalog
     {
         if (!isset($this->cache[$identifier])) {
             if (is_numeric($identifier)) {
