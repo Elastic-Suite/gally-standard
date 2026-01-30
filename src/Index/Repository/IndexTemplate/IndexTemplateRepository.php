@@ -106,7 +106,7 @@ class IndexTemplateRepository implements IndexTemplateRepositoryInterface
                 return $this->createFromResponse($response['index_templates'][0]);
             }
         } catch (\Exception $exception) {
-            $this->logger->error($exception);
+            // Index template not found, no need to log.
         }
 
         return null;
@@ -118,10 +118,14 @@ class IndexTemplateRepository implements IndexTemplateRepositoryInterface
     public function findAll(): array
     {
         $templates = [];
-        $response = $this->client->indices()->getIndexTemplate();
+        try {
+            $response = $this->client->indices()->getIndexTemplate();
 
-        foreach ($response['index_templates'] as $templateData) {
-            $templates[] = $this->createFromResponse($templateData);
+            foreach ($response['index_templates'] as $templateData) {
+                $templates[] = $this->createFromResponse($templateData);
+            }
+        } catch (\Exception $exception) {
+            $this->logger->error($exception);
         }
 
         return $templates;

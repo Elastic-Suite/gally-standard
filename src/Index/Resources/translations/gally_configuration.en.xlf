@@ -22,7 +22,7 @@
         </unit>
         <unit id="gally_configuration.group.index.fieldset.template.label">
             <segment>
-                <source>gally_configuration.group.index.fieldset.teamplte.label</source>
+                <source>gally_configuration.group.index.fieldset.template.label</source>
                 <target>Index Template</target>
             </segment>
         </unit>
