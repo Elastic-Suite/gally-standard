@@ -14,8 +14,8 @@ declare(strict_types=1);
 
 namespace Gally\Product\State;
 
-use ApiPlatform\Exception\ResourceClassNotFoundException;
 use ApiPlatform\Metadata\CollectionOperationInterface;
+use ApiPlatform\Metadata\Exception\ResourceClassNotFoundException;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\Pagination\Pagination;
 use ApiPlatform\State\Pagination\PartialPaginatorInterface;

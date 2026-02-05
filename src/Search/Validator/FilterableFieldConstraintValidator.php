@@ -23,10 +23,8 @@ class FilterableFieldConstraintValidator extends ConstraintValidator
 {
     /**
      * @param ?SourceField $value
-     *
-     * @return void
      */
-    public function validate($value, Constraint $constraint)
+    public function validate(mixed $value, Constraint $constraint): void
     {
         if (!$constraint instanceof FilterableFieldConstraint) {
             throw new UnexpectedTypeException($constraint, FilterableFieldConstraint::class);

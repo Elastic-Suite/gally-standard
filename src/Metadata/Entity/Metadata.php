@@ -60,9 +60,9 @@ class Metadata
     /** @var Collection<SourceField> */
     private Collection $sourceFields;
 
-    private array $filterableSourceFields;
-    private array $filterableInAggregationSourceFields;
-    private array $sortableSourceFields;
+    private ?array $filterableSourceFields = null;
+    private ?array $filterableInAggregationSourceFields = null;
+    private ?array $sortableSourceFields = null;
 
     public function __construct()
     {

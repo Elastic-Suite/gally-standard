@@ -17,6 +17,7 @@ namespace Gally\Configuration\Entity\Source;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\GraphQl\QueryCollection;
+use ApiPlatform\OpenApi\Model;
 use Gally\Catalog\Entity\Catalog;
 use Gally\Catalog\Entity\LocalizedCatalog;
 use Gally\Catalog\Entity\Source\LocalizedCatalogGroupOption as BaseLocalizedCatalogGroupOption;
@@ -26,11 +27,15 @@ use Gally\Configuration\State\Source\LocalizedCatalogGroupOptionProvider;
     operations: [
         new GetCollection(
             paginationEnabled: false,
-            openapiContext: [
-                'parameters' => [
-                    ['name' => 'keyToGetOnValue', 'in' => 'query', 'type' => 'string'],
+            openapi: new Model\Operation(
+                parameters: [
+                    new Model\Parameter(
+                        name: 'keyToGetOnValue',
+                        in: 'query',
+                        schema: ['type' => 'string'],
+                    ),
                 ],
-            ],
+            ),
         ),
     ],
     graphQlOperations: [new QueryCollection(

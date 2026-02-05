@@ -116,38 +116,38 @@ services:
             - '@Gally\Index\Service\IndexOperation'
             - '@logger'
         tags:
-            - { name: api_platform.graphql.mutation_resolver }
+            - { name: api_platform.graphql.resolver }
 
     Gally\Index\MutationResolver\BulkIndexMutation:
         arguments:
             - '@Gally\Index\Repository\Index\IndexRepositoryInterface'
         tags:
-            - { name: api_platform.graphql.mutation_resolver }
+            - { name: api_platform.graphql.resolver }
 
     Gally\Index\MutationResolver\BulkDeleteIndexMutation:
         arguments:
             - '@Gally\Index\Repository\Index\IndexRepositoryInterface'
         tags:
-            - { name: api_platform.graphql.mutation_resolver }
+            - { name: api_platform.graphql.resolver }
 
     Gally\Index\MutationResolver\InstallIndexMutation:
         arguments:
             - '@Gally\Index\Service\IndexOperation'
             - '@Gally\Index\Repository\Index\IndexRepositoryInterface'
         tags:
-            - { name: api_platform.graphql.mutation_resolver }
+            - { name: api_platform.graphql.resolver }
 
     Gally\Index\MutationResolver\RefreshIndexMutation:
         arguments:
             - '@Gally\Index\Repository\Index\IndexRepositoryInterface'
         tags:
-            - { name: api_platform.graphql.mutation_resolver }
+            - { name: api_platform.graphql.resolver }
 
     Gally\Index\MutationResolver\SelfReindexMutation:
         arguments:
             - '@Gally\Index\Service\SelfReindexOperation'
         tags:
-            - { name: api_platform.graphql.mutation_resolver }
+            - { name: api_platform.graphql.resolver }
 
     Gally\Index\MutationResolver\CreateDataStreamMutation:
         arguments:
@@ -155,7 +155,7 @@ services:
             - '@Gally\Metadata\Repository\MetadataRepository'
             - '@Gally\Index\Repository\DataStream\DataStreamRepositoryInterface'
         tags:
-            - { name: api_platform.graphql.mutation_resolver }
+            - { name: api_platform.graphql.resolver }
 
     Gally\Index\State\CreateIndexProcessor:
         arguments:
@@ -216,7 +216,7 @@ services:
             - '@Gally\Index\Service\MetadataManager'
         tags:
             - { name: api_platform.state_provider }
-            - { name: api_platform.graphql.query_resolver }
+            - { name: api_platform.graphql.resolver }
 
     Gally\Index\OpenApi\IndexDecorator:
         decorates: api_platform.openapi.factory

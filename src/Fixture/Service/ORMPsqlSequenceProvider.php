@@ -28,6 +28,6 @@ class ORMPsqlSequenceProvider
     {
         $sequenceGenerator = new SequenceGenerator($name, 1);
 
-        return $sequenceGenerator->generate($this->entityManager, null);
+        return $sequenceGenerator->generateId($this->entityManager, null);
     }
 }

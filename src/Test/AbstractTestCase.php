@@ -41,12 +41,17 @@ abstract class AbstractTestCase extends ApiTestCase
 {
     use LoginTrait;
 
+    // Force kernel to always boot because api test always need symfony to be initiated.
+    protected static ?bool $alwaysBootKernel = true;
+
     protected static function loadFixture(array $paths): void
     {
         /** @var EntityManagerInterface $entityManager */
         $entityManager = static::getContainer()->get('doctrine')->getManager();
         $databaseTool = static::getContainer()->get(DatabaseToolCollection::class)->get();
         $dependencyFactory = static::getContainer()->get('doctrine.migrations.dependency_factory');
+
+        $entityManager->clear();
 
         $schemaTool = new SchemaTool($entityManager);
         try {
@@ -224,7 +229,7 @@ abstract class AbstractTestCase extends ApiTestCase
         } elseif ($expectedResponse->getResponseCode() >= 400) {
             $errorType = 'hydra:Error';
             if (\array_key_exists('violations', $response->toArray(false))) {
-                $errorType = 'ConstraintViolationList';
+                $errorType = 'ConstraintViolation';
             }
 
             if ($expectedResponse->getMessage()) {

@@ -14,12 +14,13 @@ declare(strict_types=1);
 
 namespace Gally\Index\Entity\Index;
 
-use ApiPlatform\Action\NotFoundAction;
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GraphQl\Mutation;
 use ApiPlatform\Metadata\Post;
+use ApiPlatform\OpenApi\Model;
+use ApiPlatform\Symfony\Action\NotFoundAction;
 use Gally\Index\Dto\SelfReindexDto;
 use Gally\Index\MutationResolver\SelfReindexMutation;
 use Gally\Index\State\SelfReIndexProcessor;
@@ -42,10 +43,10 @@ use Symfony\Component\Uid\Uuid;
             read: false,
             write: true,
             serialize: true,
-            openapiContext: [
-                'description' => 'Reindex indices of one or all entities',
-                'summary' => 'Reindex locally one or more entity indices',
-            ],
+            openapi: new Model\Operation(
+                description: 'Reindex indices of one or all entities',
+                summary: 'Reindex locally one or more entity indices',
+            ),
             security: "is_granted('" . Role::ROLE_ADMIN . "')",
         ),
     ],

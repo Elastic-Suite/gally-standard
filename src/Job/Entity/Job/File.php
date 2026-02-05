@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -23,7 +24,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Gally\User\Constant\Role;
 use Symfony\Component\HttpFoundation\File\File as SfFile;
 use Symfony\Component\Serializer\Annotation\Groups;
-use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Vich\UploaderBundle\Mapping\Attribute as Vich;
 
 #[Vich\Uploadable]
 #[ORM\Entity]

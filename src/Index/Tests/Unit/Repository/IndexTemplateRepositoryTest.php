@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -58,7 +59,7 @@ class IndexTemplateRepositoryTest extends AbstractTestCase
     public function testCreateForEntity(
         string $entityCode,
         string $localizedCatalogCode,
-        array $expectedData
+        array $expectedData,
     ): void {
         $repository = static::getContainer()->get(IndexTemplateRepositoryInterface::class);
 
