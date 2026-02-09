@@ -16,7 +16,7 @@ namespace Gally\RuleEngine\EventSubscriber;
 
 use Doctrine\ORM\Event\PostRemoveEventArgs;
 use Doctrine\ORM\Event\PostUpdateEventArgs;
-use Gally\Cache\Service\CacheManagerInterface;
+use Gally\Cache\Service\CacheInvalidatorInterface;
 use Gally\Metadata\Entity\SourceField;
 use Gally\Metadata\Entity\SourceFieldOption;
 use Gally\RuleEngine\Service\RuleEngineManager;
@@ -28,7 +28,7 @@ class ClearRuleCache
 {
     public function __construct(
         private RuleEngineManager $ruleEngineManager,
-        private CacheManagerInterface $cache,
+        private CacheInvalidatorInterface $cacheInvalidator,
     ) {
     }
 
@@ -50,7 +50,7 @@ class ClearRuleCache
                 || ($entity instanceof SourceFieldOption && 'product' === $entity->getSourceField()->getMetadata()->getEntity())
             )
         ) {
-            $this->cache->clearTags($this->ruleEngineManager->getRuleCacheTags());
+            $this->cacheInvalidator->clearTags($this->ruleEngineManager->getRuleCacheTags());
         }
     }
 }
