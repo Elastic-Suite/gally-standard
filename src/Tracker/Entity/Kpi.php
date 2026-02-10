@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -17,6 +18,7 @@ use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\GraphQl\QueryCollection;
+use ApiPlatform\OpenApi\Model;
 use Gally\Tracker\State\KpiProvider;
 use Gally\User\Constant\Role;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -24,13 +26,25 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ApiResource(
     operations: [
         new GetCollection(
-            openapiContext: [
-                'parameters' => [
-                    ['name' => 'localizedCatalog', 'in' => 'query', 'type' => 'string'],
-                    ['name' => 'startDate', 'in' => 'query', 'type' => 'string'],
-                    ['name' => 'endDate', 'in' => 'query', 'type' => 'string'],
+            openapi: new Model\Operation(
+                parameters: [
+                    new Model\Parameter(
+                        name: 'localizedCatalog',
+                        in: 'query',
+                        schema: ['type' => 'string'],
+                    ),
+                    new Model\Parameter(
+                        name: 'startDate',
+                        in: 'query',
+                        schema: ['type' => 'string'],
+                    ),
+                    new Model\Parameter(
+                        name: 'endDate',
+                        in: 'query',
+                        schema: ['type' => 'string'],
+                    ),
                 ],
-            ],
+            ),
         ),
     ],
     graphQlOperations: [

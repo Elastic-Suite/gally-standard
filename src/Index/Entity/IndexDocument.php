@@ -14,13 +14,14 @@ declare(strict_types=1);
 
 namespace Gally\Index\Entity;
 
-use ApiPlatform\Action\NotFoundAction;
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GraphQl\Mutation;
 use ApiPlatform\Metadata\Post;
+use ApiPlatform\OpenApi\Model;
+use ApiPlatform\Symfony\Action\NotFoundAction;
 use Gally\Index\Controller\RemoveIndexDocument;
 use Gally\Index\State\DocumentProcessor;
 use Gally\User\Constant\Role;
@@ -36,16 +37,17 @@ use Gally\User\Constant\Role;
             security: "is_granted('" . Role::ROLE_ADMIN . "')",
             controller: RemoveIndexDocument::class,
             read: false,
-            openapiContext: [
-                'parameters' => [
-                    [
-                        'name' => 'indexName',
-                        'in' => 'path', 'type' => 'string',
-                        'required' => true,
-                    ],
+            openapi: new Model\Operation(
+                parameters: [
+                    new Model\Parameter(
+                        name: 'indexName',
+                        in: 'path',
+                        required: true,
+                        schema: ['type' => 'string'],
+                    ),
                 ],
-                'requestBody' => [
-                    'content' => [
+                requestBody: new Model\RequestBody(
+                    content: new \ArrayObject([
                         'application/json' => [
                             'schema' => [
                                 'type' => 'object',
@@ -59,9 +61,9 @@ use Gally\User\Constant\Role;
                                 'document_ids' => ['1', '2', '3'],
                             ],
                         ],
-                    ],
-                ],
-            ],
+                    ])
+                ),
+            ),
             name: 'remove'
         ),
         new Post(

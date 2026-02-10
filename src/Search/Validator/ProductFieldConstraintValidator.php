@@ -23,10 +23,8 @@ class ProductFieldConstraintValidator extends ConstraintValidator
 {
     /**
      * @param ?SourceField $value
-     *
-     * @return void
      */
-    public function validate($value, Constraint $constraint)
+    public function validate(mixed $value, Constraint $constraint): void
     {
         if (!$constraint instanceof ProductFieldConstraint) {
             throw new UnexpectedTypeException($constraint, ProductFieldConstraint::class);

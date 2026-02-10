@@ -99,9 +99,18 @@ class UserTest extends AbstractEntityTestWithUpdate
     public function patchUpdateDataProvider(): iterable
     {
         return [
-            [null, 4, ['firstName' => 'John PATCH/PUT'], 401],
-            [$this->getUser(Role::ROLE_CONTRIBUTOR), 4, ['firstName' => 'John PATCH/PUT'], 403],
-            [$this->getUser(Role::ROLE_ADMIN), 4, ['firstName' => 'John PATCH/PUT'], 200],
+            [null, 4, ['firstName' => 'John PATCH'], 401],
+            [$this->getUser(Role::ROLE_CONTRIBUTOR), 4, ['firstName' => 'John PATCH'], 403],
+            [$this->getUser(Role::ROLE_ADMIN), 4, ['firstName' => 'John PATCH'], 200],
+        ];
+    }
+
+    public function putUpdateDataProvider(): iterable
+    {
+        return [
+            [null, 4, ['email' => 'admin@example.com', 'isActive' => true, 'firstName' => 'John PUT', 'lastName' => 'Doe', 'roles' => [Role::ROLE_ADMIN, Role::ROLE_CONTRIBUTOR]], 401],
+            [$this->getUser(Role::ROLE_CONTRIBUTOR), 4, ['email' => 'admin@example.com', 'isActive' => true, 'firstName' => 'John PUT', 'lastName' => 'Doe', 'roles' => [Role::ROLE_ADMIN, Role::ROLE_CONTRIBUTOR]], 403],
+            [$this->getUser(Role::ROLE_ADMIN), 4, ['email' => 'admin@example.com', 'isActive' => true, 'firstName' => 'John PUT', 'lastName' => 'Doe', 'roles' => [Role::ROLE_ADMIN, Role::ROLE_CONTRIBUTOR]], 200],
         ];
     }
 }

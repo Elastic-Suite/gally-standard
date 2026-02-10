@@ -24,8 +24,10 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\GraphQl\Mutation;
 use ApiPlatform\Metadata\GraphQl\Query;
 use ApiPlatform\Metadata\GraphQl\QueryCollection;
+use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
+use ApiPlatform\OpenApi\Model;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Gally\Doctrine\Filter\BooleanFilter;
@@ -44,6 +46,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     operations: [
         new Get(security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
         new Put(security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
+        new Patch(security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
         new Delete(security: "is_granted('" . Role::ROLE_ADMIN . "')"),
         new Bulk(
             security: "is_granted('" . Role::ROLE_ADMIN . "')",
@@ -55,11 +58,11 @@ use Symfony\Component\Serializer\Annotation\Groups;
             write: false,
             serialize: true,
             status: 200,
-            openapiContext: [
-                'summary' => 'Add source fields.',
-                'description' => 'Add source fields.',
-                'requestBody' => [
-                    'content' => [
+            openapi: new Model\Operation(
+                summary: 'Add source fields.',
+                description: 'Add source fields.',
+                requestBody: new Model\RequestBody(
+                    content: new \ArrayObject([
                         'application/json' => [
                             'schema' => [
                                 'type' => 'array',
@@ -88,9 +91,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
                                 ],
                             ],
                         ],
-                    ],
-                ],
-            ]
+                    ])
+                ),
+            )
         ),
         new GetCollection(security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
         new Post(security: "is_granted('" . Role::ROLE_ADMIN . "')")],

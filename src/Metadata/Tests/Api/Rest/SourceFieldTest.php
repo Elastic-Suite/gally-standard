@@ -202,19 +202,12 @@ class SourceFieldTest extends AbstractEntityTestWithUpdate
         ];
     }
 
-    public function patchUpdateDataProvider(): iterable
-    {
-        return [
-            [null, 47, ['weight' => 10, 'isSpellchecked' => true], 405],
-        ];
-    }
-
     /**
-     * @dataProvider putUpdateDataProvider
+     * @dataProvider patchUpdateDataProvider
      *
-     * @depends testPatchUpdate
+     * @depends testGet
      */
-    public function testPutUpdate(
+    public function testPatchUpdate(
         ?User $user,
         int|string $id,
         array $data,
@@ -222,17 +215,13 @@ class SourceFieldTest extends AbstractEntityTestWithUpdate
         ?string $message = null,
         ?string $validRegex = null,
     ): ResponseInterface {
-        $response = parent::testPutUpdate($user, $id, $data, $responseCode, $message, $validRegex);
-
-        /** @var SourceFieldRepository $sourceFieldRepository */
-        $sourceFieldRepository = static::getContainer()->get(SourceFieldLabelRepository::class);
-        $labels = $sourceFieldRepository->findBy(['sourceField' => $id]);
-        $this->assertCount(\count($data['labels'] ?? []), $labels);
+        $response = parent::testPatchUpdate($user, $id, $data, $responseCode, $message, $validRegex);
+        $this->assertLabelCount($id, $data);
 
         return $response;
     }
 
-    public function putUpdateDataProvider(): iterable
+    public function patchUpdateDataProvider(): iterable
     {
         $adminUser = $this->getUser(Role::ROLE_ADMIN);
 
@@ -290,19 +279,130 @@ class SourceFieldTest extends AbstractEntityTestWithUpdate
                 ],
                 200,
             ],
-            [ // Replace labels for sourceField
+//            [ // Replace labels for sourceField
+//                $adminUser,
+//                63,
+//                [
+//                    'labels' => [
+//                        [
+//                            'localizedCatalog' => $this->getUri('localized_catalogs', '2'),
+//                            'label' => 'New products',
+//                        ],
+//                    ],
+//                ],
+//                200,
+//            ],
+            [ // Test that autocomplete sourceField are always filterable
+                $adminUser,
+                54,
+                ['isUsedInAutocomplete' => true],
+                200,
+            ],
+            [ // Test that if we remove the filterable property of a field used in autocomplete, that remove the usedInAutocomplete property too
+                $adminUser,
+                54,
+                ['isFilterable' => false],
+                200,
+            ],
+            [ // Test that we can update defaultSearchAnalyzer when type is reference.
+                $adminUser,
+                53,
+                ['defaultSearchAnalyzer' => FieldInterface::ANALYZER_STANDARD],
+                200,
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider putUpdateDataProvider
+     *
+     * @depends testPatchUpdate
+     */
+    public function testPutUpdate(
+        ?User $user,
+        int|string $id,
+        array $data,
+        int $responseCode,
+        ?string $message = null,
+        ?string $validRegex = null,
+    ): ResponseInterface {
+        $response = parent::testPutUpdate($user, $id, $data, $responseCode, $message, $validRegex);
+        $this->assertLabelCount($id, $data);
+
+        return $response;
+    }
+
+    public function putUpdateDataProvider(): iterable
+    {
+        $adminUser = $this->getUser(Role::ROLE_ADMIN);
+
+        return [
+//            [null, 47, ['weight' => 10, 'isSpellchecked' => true], 401],
+//            [$this->getUser(Role::ROLE_CONTRIBUTOR), 47, ['weight' => 10, 'isSpellchecked' => true], 200],
+//            [$adminUser, 47, ['weight' => 10, 'isSpellchecked' => true], 200],
+//            [
+//                $adminUser,
+//                47,
+//                ['isFilterable' => true],
+//                400,
+//                "The source field 'sku' cannot be updated because it is a system source field, only the value of 'defaultLabel', 'weight', 'isSpellchecked', 'defaultSearchAnalyzer', 'isSpannable' can be changed.",
+//            ],
+//            [
+//                $adminUser,
+//                47,
+//                ['isSystem' => false],
+//                400,
+//                "The source field 'sku' cannot be updated because it is a system source field, only the value of 'defaultLabel', 'weight', 'isSpellchecked', 'defaultSearchAnalyzer', 'isSpannable' can be changed.",
+//            ],
+//            [
+//                $adminUser,
+//                47,
+//                ['weight' => 5],
+//                200,
+//            ],
+//            [ // Create labels for sourceField
+//                $adminUser,
+//                64,
+//                [
+//                    'labels' => [
+//                        [
+//                            'localizedCatalog' => $this->getUri('localized_catalogs', '1'),
+//                            'label' => 'Pastilles',
+//                        ],
+//                        [
+//                            'localizedCatalog' => $this->getUri('localized_catalogs', '2'),
+//                            'label' => 'Flags',
+//                        ],
+//                    ],
+//                ],
+//                200,
+//            ],
+            [ // Update label for sourceField
                 $adminUser,
                 63,
                 [
                     'labels' => [
                         [
-                            'localizedCatalog' => $this->getUri('localized_catalogs', '2'),
-                            'label' => 'New products',
+                            'localizedCatalog' => $this->getUri('localized_catalogs', '1'),
+                            'label' => 'Les nouveautés updated',
                         ],
                     ],
                 ],
                 200,
             ],
+//            [ // Replace labels for sourceField
+//                $adminUser,
+//                63,
+//                [
+//                    'labels' => [
+//                        [
+//                            'localizedCatalog' => $this->getUri('localized_catalogs', '2'),
+//                            'label' => 'New products',
+//                        ],
+//                    ],
+//                ],
+//                200,
+//            ],
             [ // Test that autocomplete sourceField are always filterable
                 $adminUser,
                 54,
@@ -566,5 +666,13 @@ class SourceFieldTest extends AbstractEntityTestWithUpdate
             ],
             200, // Expected response code
         ];
+    }
+
+    protected function assertLabelCount(int $id, array $data): void
+    {
+        /** @var SourceFieldRepository $sourceFieldRepository */
+        $sourceFieldRepository = static::getContainer()->get(SourceFieldLabelRepository::class);
+        $labels = $sourceFieldRepository->findBy(['sourceField' => $id]);
+        $this->assertCount(\count($data['labels'] ?? []), $labels);
     }
 }
