@@ -40,14 +40,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ApiResource(
     operations: [
         new Get(security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
-        new Put(
-            security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
-            extraProperties: [
-                'standard_put' => false, // We can't use standard_put for this entity because
-                // it can reference a phantom entity (i.e. a configuration for a given sourceField
-                // has never been saved), so normalization would fail in this case.
-            ]
-        ),
         new Patch(security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
         new Delete(security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
         new GetCollection(

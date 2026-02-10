@@ -28,11 +28,21 @@ use Symfony\Component\Serializer\Annotation\Groups;
         new GetCollection(
             openapi: new Model\Operation(
                 parameters: [
-                    'parameters' => [
-                        ['name' => 'localizedCatalog', 'in' => 'query', 'type' => 'string'],
-                        ['name' => 'startDate', 'in' => 'query', 'type' => 'string'],
-                        ['name' => 'endDate', 'in' => 'query', 'type' => 'string'],
-                    ],
+                    new Model\Parameter(
+                        name: 'localizedCatalog',
+                        in: 'query',
+                        schema: ['type' => 'string'],
+                    ),
+                    new Model\Parameter(
+                        name: 'startDate',
+                        in: 'query',
+                        schema: ['type' => 'string'],
+                    ),
+                    new Model\Parameter(
+                        name: 'endDate',
+                        in: 'query',
+                        schema: ['type' => 'string'],
+                    ),
                 ],
             ),
         ),

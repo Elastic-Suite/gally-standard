@@ -176,7 +176,7 @@ class FacetConfigurationTest extends AbstractTestCase
         );
         $this->validateApiCall(
             new RequestToTest('PUT', "{$this->getApiPath()}/$id", $user, $updateData, ['Content-Type' => 'application/ld+json']),
-            new ExpectedResponse($expectedStatus, null, $expectedMessage)
+            new ExpectedResponse(405, null, $expectedMessage)
         );
 
         $this->validateApiCall(

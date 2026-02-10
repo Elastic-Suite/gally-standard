@@ -24,6 +24,7 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\GraphQl\Mutation;
 use ApiPlatform\Metadata\GraphQl\Query;
 use ApiPlatform\Metadata\GraphQl\QueryCollection;
+use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
 use ApiPlatform\OpenApi\Model;
@@ -45,6 +46,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     operations: [
         new Get(security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
         new Put(security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
+        new Patch(security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
         new Delete(security: "is_granted('" . Role::ROLE_ADMIN . "')"),
         new Bulk(
             security: "is_granted('" . Role::ROLE_ADMIN . "')",
