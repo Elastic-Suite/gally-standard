@@ -303,7 +303,6 @@ class Configuration
                     'visible' => true,
                     'editable' => true,
                     'position' => 90,
-                    'input' => 'text',
                 ],
             ],
         ],

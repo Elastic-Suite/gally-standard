@@ -52,7 +52,7 @@
         <unit id="gally.menu.merchandize_recommender.label">
             <segment>
                 <source>gally.menu.merchandize_recommender.label</source>
-                <target>Recommendations</target>
+                <target>Recommandations</target>
             </segment>
         </unit>
         <unit id="gally.menu.merchandize_recommender_configuration.label">
@@ -64,25 +64,25 @@
         <unit id="gally.menu.merchandize_recommender_manual_recommenders.label">
             <segment>
                 <source>gally.menu.merchandize_recommender_manual_recommenders.label</source>
-                <target>Recommendations manuelles</target>
+                <target>Recommandations manuelles</target>
             </segment>
         </unit>
         <unit id="gally.menu.merchandize_recommender_auto_recommender.label">
             <segment>
                 <source>gally.menu.merchandize_recommender_auto_recommender.label</source>
-                <target>Recommendations automatiques</target>
+                <target>Recommandations automatiques</target>
             </segment>
         </unit>
         <unit id="gally.menu.merchandize_recommender_recommender_type.label">
             <segment>
                 <source>gally.menu.merchandize_recommender_recommender_type.label</source>
-                <target>Types de recommendations</target>
+                <target>Types de recommandations</target>
             </segment>
         </unit>
         <unit id="gally.menu.merchandize_recommender_behavioral_recommenders.label">
             <segment>
                 <source>gally.menu.merchandize_recommender_behavioral_recommenders.label</source>
-                <target>Recommendations comportementales</target>
+                <target>Recommandations comportementales</target>
             </segment>
         </unit>
         <unit id="gally.menu.merchandize_boosts.label">
