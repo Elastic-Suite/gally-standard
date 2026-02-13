@@ -34,6 +34,7 @@ class GenericContainerConfiguration implements ContainerConfigurationInterface
         private RelevanceConfigurationInterface $relevanceConfiguration,
         private AggregationProviderInterface $aggregationProvider,
         private ?DefaultSortingOptionProviderInterface $defaultSortingOptionProvider,
+        private ?string $searchAlias,
     ) {
     }
 
@@ -95,5 +96,10 @@ class GenericContainerConfiguration implements ContainerConfigurationInterface
     public function getAggregationProvider(): AggregationProviderInterface
     {
         return $this->aggregationProvider;
+    }
+
+    public function getSearchAlias(): ?string
+    {
+        return $this->searchAlias;
     }
 }

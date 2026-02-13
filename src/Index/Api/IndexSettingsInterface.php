@@ -125,11 +125,11 @@ interface IndexSettingsInterface
     public function extractEntityFromAliases(Index|IndexTemplate $index): ?string;
 
     /**
-     * Extract original catalog id from index metadata aliases.
+     * Extract original localized catalog id from index metadata aliases.
      *
      * @throws \Exception
      */
-    public function extractCatalogFromAliases(Index|IndexTemplate $index): ?LocalizedCatalog;
+    public function extractLocalizedCatalogFromAliases(Index|IndexTemplate $index): ?LocalizedCatalog;
 
     /**
      * Check if index name follow the naming convention.

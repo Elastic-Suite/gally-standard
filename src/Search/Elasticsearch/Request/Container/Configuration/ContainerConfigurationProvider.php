@@ -59,11 +59,16 @@ class ContainerConfigurationProvider
      * @param Metadata         $metadata         Search request target entity metadata
      * @param LocalizedCatalog $localizedCatalog Search request target catalog
      * @param string|null      $requestType      Search request type
+     * @param string|null      $searchAlias      Search alias: override the index name to search on a custom alias
      *
      * @throws \LogicException Thrown when the search container is not found into the configuration
      */
-    public function get(Metadata $metadata, LocalizedCatalog $localizedCatalog, ?string $requestType = null): ContainerConfigurationInterface
-    {
+    public function get(
+        Metadata $metadata,
+        LocalizedCatalog $localizedCatalog,
+        ?string $requestType = null,
+        ?string $searchAlias = null,
+    ): ContainerConfigurationInterface {
         $requestType = $requestType ?: 'generic';
         $entityCode = $metadata->getEntity();
 
@@ -80,7 +85,8 @@ class ContainerConfigurationProvider
             $containerConfig = $this->containerConfigFactories[$entityCode][$requestType]->create(
                 $requestType,
                 $metadata,
-                $localizedCatalog
+                $localizedCatalog,
+                $searchAlias,
             );
 
             return $this->cache[$entityCode][$localizedCatalog->getCode()][$requestType] = $containerConfig;
@@ -91,7 +97,8 @@ class ContainerConfigurationProvider
             $containerConfig = $this->containerConfigFactories['generic'][$requestType]->create(
                 $requestType,
                 $metadata,
-                $localizedCatalog
+                $localizedCatalog,
+                $searchAlias,
             );
 
             return $this->cache[$entityCode][$localizedCatalog->getCode()][$requestType] = $containerConfig;

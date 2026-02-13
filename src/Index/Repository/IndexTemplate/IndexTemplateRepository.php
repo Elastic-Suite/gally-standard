@@ -182,7 +182,7 @@ class IndexTemplateRepository implements IndexTemplateRepositoryInterface
         $entity = $this->indexSettings->extractEntityFromAliases($template);
         $template->setName($entity ?? $data['name']);
         try {
-            $template->setLocalizedCatalog($this->indexSettings->extractCatalogFromAliases($template));
+            $template->setLocalizedCatalog($this->indexSettings->extractLocalizedCatalogFromAliases($template));
         } catch (\InvalidArgumentException $exception) {
             // Ignore missing localized catalog because of unit test.
         }

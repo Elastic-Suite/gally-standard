@@ -36,6 +36,11 @@ interface ContainerConfigurationInterface
     public function getIndexName(): string;
 
     /**
+     * Search alias that will replace index name in the query building if provided.
+     */
+    public function getSearchAlias(): ?string;
+
+    /**
      * Search request container label.
      */
     public function getLabel(): string;

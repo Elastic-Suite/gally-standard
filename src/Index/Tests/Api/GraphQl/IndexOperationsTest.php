@@ -28,8 +28,6 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
 
 class IndexOperationsTest extends AbstractTestCase
 {
-    private LocalizedCatalogRepository $catalogRepository;
-
     private static IndexRepositoryInterface $indexRepository;
 
     private static IndexSettingsInterface $indexSettings;
@@ -103,7 +101,7 @@ class IndexOperationsTest extends AbstractTestCase
             __DIR__ . '/../../fixtures/metadata.yaml',
             __DIR__ . '/../../fixtures/catalogs.yaml',
         ]);
-        $this->catalogRepository = static::getContainer()->get(LocalizedCatalogRepository::class);
+        $localizedCatalogRepository = static::getContainer()->get(LocalizedCatalogRepository::class);
         $admin = $this->getUser(Role::ROLE_ADMIN);
 
         yield [
@@ -120,23 +118,33 @@ class IndexOperationsTest extends AbstractTestCase
             ['error' => 'Access Denied.'],
         ];
 
-        foreach ($this->catalogRepository->findAll() as $catalog) {
+        foreach ($localizedCatalogRepository->findAll() as $localizedCatalog) {
             yield [
                 $admin,
                 'product',
-                (int) $catalog->getId(),
+                (int) $localizedCatalog->getId(),
                 [
-                    'name' => "gally_test__gally_{$catalog->getCode()}_product",
-                    'aliases' => ['.entity_product', ".catalog_{$catalog->getId()}"],
+                    'name' => "gally_test__gally_{$localizedCatalog->getCode()}_product",
+                    'aliases' => [
+                        '.entity_product',
+                        ".catalog_{$localizedCatalog->getCatalog()->getCode()}",
+                        ".localized_catalog_{$localizedCatalog->getCode()}",
+                        ".locale_{$localizedCatalog->getLocale()}",
+                    ],
                 ],
             ];
             yield [
                 $admin,
                 'category',
-                (int) $catalog->getId(),
+                (int) $localizedCatalog->getId(),
                 [
-                    'name' => "gally_test__gally_{$catalog->getCode()}_category",
-                    'aliases' => ['.entity_category', ".catalog_{$catalog->getId()}"],
+                    'name' => "gally_test__gally_{$localizedCatalog->getCode()}_category",
+                    'aliases' => [
+                        '.entity_category',
+                        ".catalog_{$localizedCatalog->getCatalog()->getCode()}",
+                        ".localized_catalog_{$localizedCatalog->getCode()}",
+                        ".locale_{$localizedCatalog->getLocale()}",
+                    ],
                 ],
             ];
         }
@@ -196,7 +204,7 @@ class IndexOperationsTest extends AbstractTestCase
             __DIR__ . '/../../fixtures/metadata.yaml',
             __DIR__ . '/../../fixtures/catalogs.yaml',
         ]);
-        $this->catalogRepository = static::getContainer()->get(LocalizedCatalogRepository::class);
+        $localizedCatalogRepository = static::getContainer()->get(LocalizedCatalogRepository::class);
         $admin = $this->getUser(Role::ROLE_ADMIN);
 
         yield [
@@ -211,7 +219,7 @@ class IndexOperationsTest extends AbstractTestCase
             ['error' => 'Access Denied.'],
         ];
 
-        foreach ($this->catalogRepository->findAll() as $catalog) {
+        foreach ($localizedCatalogRepository->findAll() as $catalog) {
             yield [
                 $admin,
                 "gally_test__gally_{$catalog->getCode()}_product",

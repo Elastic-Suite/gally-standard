@@ -82,7 +82,12 @@ class IndexTemplateRepositoryTest extends AbstractTestCase
                 'indexPatterns' => ['gally_test__gally_b2c_fr_tracking_event'],
                 'entityType' => 'tracking_event',
                 'localizedCatalogCode' => 'b2c_fr',
-                'aliases' => ['.entity_tracking_event', '.catalog_1'],
+                'aliases' => [
+                    '.entity_tracking_event',
+                    '.catalog_b2c',
+                    '.localized_catalog_b2c_fr',
+                    '.locale_fr_FR',
+                ],
                 'mappings' => [
                     'id' => ['type' => 'text', 'norms' => false, 'analyzer' => 'keyword'],
                     '@timestamp' => ['type' => 'date', 'format' => 'yyyy-MM-dd HH:mm:ss||yyyy-MM-dd'],
@@ -106,7 +111,12 @@ class IndexTemplateRepositoryTest extends AbstractTestCase
                 'indexPatterns' => ['gally_test__gally_b2c_en_product'],
                 'entityType' => 'product',
                 'localizedCatalogCode' => 'b2c_en',
-                'aliases' => ['.entity_product', '.catalog_2'],
+                'aliases' => [
+                    '.entity_product',
+                    '.catalog_b2c',
+                    '.localized_catalog_b2c_en',
+                    '.locale_en_US',
+                ],
                 'mappings' => [
                     'id' => [
                         'type' => 'text',

@@ -136,11 +136,13 @@ class IndexSettings implements IndexSettingsInterface
      */
     public function getNewIndexMetadataAliases(string $indexIdentifier, LocalizedCatalog|int|string $localizedCatalog): array
     {
-        $catalog = $this->getLocalizedCatalog($localizedCatalog);
+        $localizedCatalog = $this->getLocalizedCatalog($localizedCatalog);
 
         return [
             \sprintf('.entity_%s', $indexIdentifier),
-            \sprintf('.catalog_%d', $catalog->getId()),
+            \sprintf('.catalog_%s', $localizedCatalog->getCatalog()->getCode()),
+            \sprintf('.locale_%s', $localizedCatalog->getLocale()),
+            \sprintf('.localized_catalog_%s', $localizedCatalog->getCode()),
         ];
     }
 
@@ -265,15 +267,14 @@ class IndexSettings implements IndexSettingsInterface
      *
      * @throws \Exception
      */
-    public function extractCatalogFromAliases(Index|IndexTemplate $index): ?LocalizedCatalog
+    public function extractLocalizedCatalogFromAliases(Index|IndexTemplate $index): ?LocalizedCatalog
     {
-        $localizedCatalogId = preg_filter('#^\.catalog_(.+)$#', '$1', $index->getAliases(), 1);
-        if (!empty($localizedCatalogId)) {
-            if (\is_array($localizedCatalogId)) {
-                $localizedCatalogId = current($localizedCatalogId);
+        $localizedCatalogCode = preg_filter('#^\.localized_catalog_(.+)$#', '$1', $index->getAliases(), 1);
+        if (!empty($localizedCatalogCode)) {
+            if (\is_array($localizedCatalogCode)) {
+                $localizedCatalogCode = current($localizedCatalogCode);
             }
-            $localizedCatalogId = (int) $localizedCatalogId;
-            $catalog = $this->getLocalizedCatalog($localizedCatalogId);
+            $catalog = $this->getLocalizedCatalog($localizedCatalogCode);
         } else {
             $catalog = null;
         }

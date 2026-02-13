@@ -38,8 +38,8 @@ class EntityIndicesFixtures implements EntityIndicesFixturesInterface
         $metadata = $this->metadataRepository->findByEntity($entityType, false);
         $localizedCatalogs = $this->getLocalizedCatalogs($localizedCatalogIdentifier);
 
-        foreach ($localizedCatalogs as $catalog) {
-            $index = $this->indexOperation->createEntityIndex($metadata, $catalog);
+        foreach ($localizedCatalogs as $localizedCatalog) {
+            $index = $this->indexOperation->createEntityIndex($metadata, $localizedCatalog);
             $this->indexOperation->installIndexByName($index->getName());
         }
     }
@@ -49,11 +49,11 @@ class EntityIndicesFixtures implements EntityIndicesFixturesInterface
         $metadata = $this->metadataRepository->findByEntity($entityType, false);
         $localizedCatalogs = $this->getLocalizedCatalogs($localizedCatalogIdentifier);
 
-        foreach ($localizedCatalogs as $catalog) {
+        foreach ($localizedCatalogs as $localizedCatalog) {
             $index = $this->indexRepository->findByName(
                 $this->indexSettings->getIndexAliasFromIdentifier(
                     $metadata->getEntity(),
-                    $catalog->getId()
+                    $localizedCatalog->getId()
                 )
             );
             $this->indexRepository->delete($index->getName());

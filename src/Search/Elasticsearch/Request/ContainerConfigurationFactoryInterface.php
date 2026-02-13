@@ -23,5 +23,6 @@ interface ContainerConfigurationFactoryInterface
         string $requestType,
         Metadata $metadata,
         LocalizedCatalog $localizedCatalog,
+        ?string $searchAlias
     ): ContainerConfigurationInterface;
 }
