@@ -65,7 +65,7 @@ class IndexDocumentTest extends AbstractTestCase
     public function createDataProvider(): iterable
     {
         $data = [
-            'indexName' => 'gally_test__gally_b2c_fr_product',
+            'indexName' => 'gally_test__gally_localized_catalog_b2c_fr_product',
             'documents' => [json_encode(['entity_id' => 1, 'name' => 'Product 1'])],
         ];
 
@@ -103,10 +103,10 @@ class IndexDocumentTest extends AbstractTestCase
     public function deleteDataProvider(): iterable
     {
         return [
-            [null, 'gally_test__gally_b2c_fr_product', [], 401, 'Access Denied.'],
-            [$this->getUser(Role::ROLE_CONTRIBUTOR), 'gally_test__gally_b2c_fr_product', [], 403, 'Access Denied.'],
+            [null, 'gally_test__gally_localized_catalog_b2c_fr_product', [], 401, 'Access Denied.'],
+            [$this->getUser(Role::ROLE_CONTRIBUTOR), 'gally_test__gally_localized_catalog_b2c_fr_product', [], 403, 'Access Denied.'],
             [$this->getUser(Role::ROLE_ADMIN), 'wrong_index_name', ['1'], 400, 'The index wrong_index_name does not exist.'],
-            [$this->getUser(Role::ROLE_ADMIN), 'gally_test__gally_b2c_fr_product', ['1']],
+            [$this->getUser(Role::ROLE_ADMIN), 'gally_test__gally_localized_catalog_b2c_fr_product', ['1']],
         ];
     }
 }

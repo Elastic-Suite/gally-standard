@@ -78,7 +78,14 @@ class IndexTemplateRepository implements IndexTemplateRepositoryInterface
             $isDataStream
         );
 
-        $template->setAliases($this->indexSettings->getNewIndexMetadataAliases($indexIdentifier, $localizedCatalog));
+        $aliases = $this->indexSettings->getNewIndexMetadataAliases($indexIdentifier, $localizedCatalog);
+        if ($isDataStream) {
+            $aliases = array_merge(
+                $aliases,
+                $this->indexSettings->getIndexSecondaryAliasesFromIdentifier($indexIdentifier, $localizedCatalog)
+            );
+        }
+        $template->setAliases($aliases);
         $template->setSettings($this->indexSettings->getCreateIndexSettings() + $indexSettings);
         $template->setMappings($mappings);
         $template->setLocalizedCatalog($localizedCatalog);
@@ -183,7 +190,7 @@ class IndexTemplateRepository implements IndexTemplateRepositoryInterface
         $entity = $this->indexSettings->extractEntityFromAliases($template);
         $template->setName($entity ?? $data['name']);
         try {
-            $template->setLocalizedCatalog($this->indexSettings->extractCatalogFromAliases($template));
+            $template->setLocalizedCatalog($this->indexSettings->extractLocalizedCatalogFromAliases($template));
         } catch (\InvalidArgumentException $exception) {
             // Ignore missing localized catalog because of unit test.
         }

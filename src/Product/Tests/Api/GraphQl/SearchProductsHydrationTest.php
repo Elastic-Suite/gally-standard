@@ -2030,7 +2030,7 @@ class SearchProductsHydrationTest extends AbstractTestCase
                 14,     // expected total count.
                 10,     // expected items per page.
                 2,      // expected last page.
-                ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_b2c_en_product', // expected index alias.
+                ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_localized_catalog_b2c_en_product', // expected index alias.
                 1.0,    // expected score.
                 $productData['b2c_en'], // expected product data.
             ],
@@ -2044,7 +2044,7 @@ class SearchProductsHydrationTest extends AbstractTestCase
                 14,     // expected total count.
                 10,     // expected items per page.
                 2,      // expected last page.
-                ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_b2c_en_product', // expected index alias.
+                ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_localized_catalog_b2c_en_product', // expected index alias.
                 1.0,    // expected score.
                 $productData['b2c_en'], // expected product data.
             ],
@@ -2058,7 +2058,7 @@ class SearchProductsHydrationTest extends AbstractTestCase
                 14,     // expected total count.
                 10,     // expected items per page.
                 2,      // expected last page.
-                ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_b2c_en_product', // expected index alias.
+                ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_localized_catalog_b2c_en_product', // expected index alias.
                 1.0,    // expected score.
                 $productData['b2c_en'], // expected product data.
             ],
@@ -2072,7 +2072,7 @@ class SearchProductsHydrationTest extends AbstractTestCase
                 12,     // expected total count.
                 30,     // expected items per page.
                 1,      // expected last page.
-                ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_b2c_fr_product', // expected index alias.
+                ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_localized_catalog_b2c_fr_product', // expected index alias.
                 1.0,    // expected score.
                 $productData['b2c_fr'], // expected product data.
             ],
@@ -2086,7 +2086,7 @@ class SearchProductsHydrationTest extends AbstractTestCase
                 12,     // expected total count.
                 5,      // expected items per page.
                 3,      // expected last page.
-                ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_b2c_fr_product', // expected index alias.
+                ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_localized_catalog_b2c_fr_product', // expected index alias.
                 1.0,    // expected score.
                 $productData['b2c_fr'], // expected product data.
             ],
@@ -2100,7 +2100,7 @@ class SearchProductsHydrationTest extends AbstractTestCase
                 12,     // expected total count.
                 5,      // expected items per page.
                 3,      // expected last page.
-                ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_b2c_fr_product', // expected index alias.
+                ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_localized_catalog_b2c_fr_product', // expected index alias.
                 1.0,    // expected score.
                 $productData['b2c_fr'], // expected product data.
                 '0', // price group id
@@ -2115,7 +2115,7 @@ class SearchProductsHydrationTest extends AbstractTestCase
                 12,     // expected total count.
                 5,      // expected items per page.
                 3,      // expected last page.
-                ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_b2c_fr_product', // expected index alias.
+                ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_localized_catalog_b2c_fr_product', // expected index alias.
                 1.0,    // expected score.
                 $productData['b2c_fr_price_group_1'], // expected product data.
                 '1', // price group id
@@ -2130,7 +2130,7 @@ class SearchProductsHydrationTest extends AbstractTestCase
                 12,     // expected total count.
                 5,      // expected items per page.
                 3,      // expected last page.
-                ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_b2c_fr_product', // expected index alias.
+                ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_localized_catalog_b2c_fr_product', // expected index alias.
                 1.0,    // expected score.
                 $productData['b2c_fr_fake_price_group_id'], // expected product data.
                 'fake_price_group_id', // price group id
@@ -2145,7 +2145,7 @@ class SearchProductsHydrationTest extends AbstractTestCase
                 12,     // expected total count.
                 100,    // expected items per page.
                 1,      // expected last page.
-                ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_b2c_fr_product', // expected indexalias.
+                ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_localized_catalog_b2c_fr_product', // expected indexalias.
                 1.0,    // expected score.
                 $productData['b2c_fr'], // expected product data.
             ],
