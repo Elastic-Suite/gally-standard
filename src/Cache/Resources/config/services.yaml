@@ -3,53 +3,35 @@ services:
     Gally\Cache\Service\CacheManager:
         arguments:
             - '@gally.cache'
+        tags:
+            - { name: kernel.cache_clearer }
+        
+    Gally\Cache\Service\CacheInvalidatorInterface: '@Gally\Cache\Service\CacheInvalidator'
+    Gally\Cache\Service\CacheInvalidator:
+        arguments:
+            - !tagged_iterator kernel.cache_clearer
+            - !tagged_iterator cache.taggable
             - '@?ApiPlatform\Core\HttpCache\PurgerInterface'
+            - 'kernel.cache_dir'
 
     ApiPlatform\Core\HttpCache\PurgerInterface: '@api_platform.http_cache.purger.varnish'
 
-    # Declare gally.cache cache pool
     gally.cache:
         parent: cache.app.taggable
-        # If true, will not be directly usable nor listed through cache:pool:list
-        abstract: false
         tags:
-            # Allowed: "clearer", "provider", "name", "namespace", "default_lifetime", "early_expiration_message_bus" and "reset"
-            - { name: cache.pool, namespace: 'gally' }
-    
-    # Declare command gally:cache:clear-tags
-    Gally\Cache\Command\ClearTagsCommand:
-        arguments:
-            - '@Gally\Cache\Service\CacheManagerInterface'
-            - null
-        tags:
-            - { name: console.command }
+            - { name: cache.pool }
+            - { name: cache.taggable }
 
-    # Declare command gally:cache:create-cache-object
-    Gally\Cache\Command\CreateCacheObjectCommand:
-        arguments:
-            - '@Gally\Cache\Service\CacheManagerInterface'
-            - null
-        tags:
-            - { name: console.command }
-
-    # Declare command gally:cache:clear-all
-    Gally\Cache\Command\ClearAllCommand:
-        arguments:
-            - '@Gally\Cache\Service\CacheManagerInterface'
-            - null
-        tags:
-            - { name: console.command }
- 
     Gally\Cache\EventSubscriber\ResponseSubscriber:
         tags:
             - { name: kernel.event_subscriber }
-    
+
     Gally\Cache\EventSubscriber\AddProxyCacheTagsSubscriber:
         arguments:
             - '@Gally\Cache\Service\ProxyCacheManager'
         tags:
             - { name: kernel.event_subscriber }
-                
+
     Gally\Cache\Service\ProxyCacheManager:
         arguments:
             - '@request_stack'
