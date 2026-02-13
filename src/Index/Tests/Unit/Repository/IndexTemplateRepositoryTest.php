@@ -26,9 +26,9 @@ class IndexTemplateRepositoryTest extends AbstractTestCase
     private static MetadataRepository $metadataRepository;
 
     private static array $testTemplates = [
-        'gally_test__gally_b2c_fr_event',
-        'gally_test__gally_b2c_fr_dummy-1',
-        'gally_test__gally_b2c_en_dummy-2',
+        'gally_test__gally_localized_catalog_b2c_fr_event',
+        'gally_test__gally_localized_catalog_b2c_fr_dummy-1',
+        'gally_test__gally_localized_catalog_b2c_en_dummy-2',
     ];
 
     public static function setUpBeforeClass(): void
@@ -78,12 +78,17 @@ class IndexTemplateRepositoryTest extends AbstractTestCase
             'tracking_event',
             'b2c_fr',
             [
-                'id' => 'gally_test__gally_b2c_fr_tracking_event',
+                'id' => 'gally_test__gally_localized_catalog_b2c_fr_tracking_event',
                 'name' => 'tracking_event',
-                'indexPatterns' => ['gally_test__gally_b2c_fr_tracking_event'],
+                'indexPatterns' => ['gally_test__gally_localized_catalog_b2c_fr_tracking_event'],
                 'entityType' => 'tracking_event',
                 'localizedCatalogCode' => 'b2c_fr',
-                'aliases' => ['.entity_tracking_event', '.catalog_1'],
+                'aliases' => [
+                    '.entity_tracking_event',
+                    '.catalog_b2c',
+                    '.localized_catalog_b2c_fr',
+                    '.locale_fr_FR',
+                ],
                 'mappings' => [
                     'id' => ['type' => 'text', 'norms' => false, 'analyzer' => 'keyword'],
                     '@timestamp' => ['type' => 'date', 'format' => 'yyyy-MM-dd HH:mm:ss||yyyy-MM-dd'],
@@ -102,12 +107,17 @@ class IndexTemplateRepositoryTest extends AbstractTestCase
             'product',
             'b2c_en',
             [
-                'id' => 'gally_test__gally_b2c_en_product',
+                'id' => 'gally_test__gally_localized_catalog_b2c_en_product',
                 'name' => 'product',
-                'indexPatterns' => ['gally_test__gally_b2c_en_product'],
+                'indexPatterns' => ['gally_test__gally_localized_catalog_b2c_en_product'],
                 'entityType' => 'product',
                 'localizedCatalogCode' => 'b2c_en',
-                'aliases' => ['.entity_product', '.catalog_2'],
+                'aliases' => [
+                    '.entity_product',
+                    '.catalog_b2c',
+                    '.localized_catalog_b2c_en',
+                    '.locale_en_US',
+                ],
                 'mappings' => [
                     'id' => [
                         'type' => 'text',
@@ -184,7 +194,7 @@ class IndexTemplateRepositoryTest extends AbstractTestCase
         yield 'dummy-1 template' => [
             [
                 'identifier' => 'dummy-1',
-                'id' => 'gally_test__gally_b2c_fr_dummy-1',
+                'id' => 'gally_test__gally_localized_catalog_b2c_fr_dummy-1',
                 'name' => 'dummy-1',
                 'indexPatterns' => ['gally_product_*'],
                 'settings' => ['number_of_shards' => 1],
@@ -196,7 +206,7 @@ class IndexTemplateRepositoryTest extends AbstractTestCase
         yield 'dummy-2 template' => [
             [
                 'identifier' => 'dummy-2',
-                'id' => 'gally_test__gally_b2c_en_dummy-2',
+                'id' => 'gally_test__gally_localized_catalog_b2c_en_dummy-2',
                 'name' => 'dummy-2',
                 'indexPatterns' => ['gally_category_*'],
                 'localizedCatalogCode' => 'b2c_en',
@@ -235,9 +245,9 @@ class IndexTemplateRepositoryTest extends AbstractTestCase
             'tracking_event',
             'b2c_fr',
             [
-                'id' => 'gally_test__gally_b2c_fr_tracking_event',
+                'id' => 'gally_test__gally_localized_catalog_b2c_fr_tracking_event',
                 'name' => 'tracking_event',
-                'indexPatterns' => ['gally_test__gally_b2c_fr_tracking_event'],
+                'indexPatterns' => ['gally_test__gally_localized_catalog_b2c_fr_tracking_event'],
                 'entityType' => 'tracking_event',
                 'localizedCatalogCode' => 'b2c_fr',
                 'isDataStream' => true,
@@ -286,9 +296,9 @@ class IndexTemplateRepositoryTest extends AbstractTestCase
             'tracking_event',
             'b2c_fr',
             [
-                'id' => 'gally_test__gally_b2c_fr_tracking_event',
+                'id' => 'gally_test__gally_localized_catalog_b2c_fr_tracking_event',
                 'name' => 'tracking_event',
-                'indexPatterns' => ['gally_test__gally_b2c_fr_tracking_event'],
+                'indexPatterns' => ['gally_test__gally_localized_catalog_b2c_fr_tracking_event'],
                 'entityType' => 'tracking_event',
                 'localizedCatalogCode' => 'b2c_fr',
                 'isDataStream' => true,
@@ -299,7 +309,7 @@ class IndexTemplateRepositoryTest extends AbstractTestCase
             'dummy-1',
             'b2c_fr',
             [
-                'id' => 'gally_test__gally_b2c_fr_dummy-1',
+                'id' => 'gally_test__gally_localized_catalog_b2c_fr_dummy-1',
                 'name' => 'dummy-1',
                 'indexPatterns' => ['gally_product_*'],
                 'localizedCatalogCode' => 'b2c_fr',
@@ -311,7 +321,7 @@ class IndexTemplateRepositoryTest extends AbstractTestCase
             'dummy-2',
             'b2c_en',
             [
-                'id' => 'gally_test__gally_b2c_en_dummy-2',
+                'id' => 'gally_test__gally_localized_catalog_b2c_en_dummy-2',
                 'name' => 'dummy-2',
                 'indexPatterns' => ['gally_category_*'],
                 'localizedCatalogCode' => 'b2c_en',
@@ -349,11 +359,11 @@ class IndexTemplateRepositoryTest extends AbstractTestCase
     public function findByIdDataProvider(): iterable
     {
         yield 'tracking_event template by id' => [
-            'gally_test__gally_b2c_fr_tracking_event',
+            'gally_test__gally_localized_catalog_b2c_fr_tracking_event',
             [
-                'id' => 'gally_test__gally_b2c_fr_tracking_event',
+                'id' => 'gally_test__gally_localized_catalog_b2c_fr_tracking_event',
                 'name' => 'tracking_event',
-                'indexPatterns' => ['gally_test__gally_b2c_fr_tracking_event'],
+                'indexPatterns' => ['gally_test__gally_localized_catalog_b2c_fr_tracking_event'],
                 'entityType' => 'tracking_event',
                 'localizedCatalogCode' => 'b2c_fr',
                 'isDataStream' => true,
@@ -361,9 +371,9 @@ class IndexTemplateRepositoryTest extends AbstractTestCase
         ];
 
         yield 'dummy-1 template by id' => [
-            'gally_test__gally_b2c_fr_dummy-1',
+            'gally_test__gally_localized_catalog_b2c_fr_dummy-1',
             [
-                'id' => 'gally_test__gally_b2c_fr_dummy-1',
+                'id' => 'gally_test__gally_localized_catalog_b2c_fr_dummy-1',
                 'name' => 'dummy-1',
                 'indexPatterns' => ['gally_product_*'],
                 'localizedCatalogCode' => 'b2c_fr',
@@ -372,9 +382,9 @@ class IndexTemplateRepositoryTest extends AbstractTestCase
         ];
 
         yield 'dummy-2 template by id' => [
-            'gally_test__gally_b2c_en_dummy-2',
+            'gally_test__gally_localized_catalog_b2c_en_dummy-2',
             [
-                'id' => 'gally_test__gally_b2c_en_dummy-2',
+                'id' => 'gally_test__gally_localized_catalog_b2c_en_dummy-2',
                 'name' => 'dummy-2',
                 'indexPatterns' => ['gally_category_*'],
                 'localizedCatalogCode' => 'b2c_en',
@@ -406,7 +416,7 @@ class IndexTemplateRepositoryTest extends AbstractTestCase
 
         $this->validateTemplate(
             [
-                'id' => 'gally_test__gally_b2c_fr_dummy-1',
+                'id' => 'gally_test__gally_localized_catalog_b2c_fr_dummy-1',
                 'name' => 'dummy-1',
                 'indexPatterns' => ['gally_product_*'],
                 'settings' => ['number_of_shards' => 2],
@@ -422,7 +432,7 @@ class IndexTemplateRepositoryTest extends AbstractTestCase
     public function testDelete(): void
     {
         $repository = static::getContainer()->get(IndexTemplateRepositoryInterface::class);
-        $repository->delete('gally_test__gally_b2c_fr_dummy-1');
+        $repository->delete('gally_test__gally_localized_catalog_b2c_fr_dummy-1');
 
         $deletedTemplate = $repository->findByName(
             'dummy-1',
@@ -443,8 +453,8 @@ class IndexTemplateRepositoryTest extends AbstractTestCase
         $this->assertGreaterThanOrEqual(2, \count($templates));
 
         $ids = array_map(fn ($t) => $t->getId(), $templates);
-        $this->assertContains('gally_test__gally_b2c_fr_tracking_event', $ids);
-        $this->assertContains('gally_test__gally_b2c_en_dummy-2', $ids);
+        $this->assertContains('gally_test__gally_localized_catalog_b2c_fr_tracking_event', $ids);
+        $this->assertContains('gally_test__gally_localized_catalog_b2c_en_dummy-2', $ids);
     }
 
     private static function cleanupTestTemplates(): void

@@ -27,11 +27,11 @@ class IndexStateManagementRepositoryTest extends AbstractTestCase
     private static MetadataRepository $metadataRepository;
 
     private static array $testPolicies = [
-        'gally_test__gally_b2c_fr_product',
-        'gally_test__gally_b2c_en_tracking_event',
-        'gally_test__gally_b2c_fr_dummy-1',
-        'gally_test__gally_b2c_en_dummy-2',
-        'gally_test__gally_b2c_en_dummy-3',
+        'gally_test__gally_localized_catalog_b2c_fr_product',
+        'gally_test__gally_localized_catalog_b2c_en_tracking_event',
+        'gally_test__gally_localized_catalog_b2c_fr_dummy-1',
+        'gally_test__gally_localized_catalog_b2c_en_dummy-2',
+        'gally_test__gally_localized_catalog_b2c_en_dummy-3',
     ];
 
     public static function setUpBeforeClass(): void
@@ -86,13 +86,13 @@ class IndexStateManagementRepositoryTest extends AbstractTestCase
         yield 'product policy' => [
             'product',
             'b2c_fr',
-            ['id' => 'gally_test__gally_b2c_fr_product', 'name' => 'product', 'description' => '', 'indexPatterns' => ['gally_test__gally_b2c_fr_product'], 'rolloverAfter' => 30, 'deleteAfter' => 365],
+            ['id' => 'gally_test__gally_localized_catalog_b2c_fr_product', 'name' => 'product', 'description' => '', 'indexPatterns' => ['gally_test__gally_localized_catalog_b2c_fr_product'], 'rolloverAfter' => 30, 'deleteAfter' => 365],
         ];
 
         yield 'event policy' => [
             'tracking_event',
             'b2c_en',
-            ['id' => 'gally_test__gally_b2c_en_tracking_event', 'name' => 'tracking_event', 'description' => '', 'indexPatterns' => ['gally_test__gally_b2c_en_tracking_event'], 'rolloverAfter' => 1, 'deleteAfter' => 1],
+            ['id' => 'gally_test__gally_localized_catalog_b2c_en_tracking_event', 'name' => 'tracking_event', 'description' => '', 'indexPatterns' => ['gally_test__gally_localized_catalog_b2c_en_tracking_event'], 'rolloverAfter' => 1, 'deleteAfter' => 1],
         ];
     }
 
@@ -122,17 +122,17 @@ class IndexStateManagementRepositoryTest extends AbstractTestCase
     public function createDataProvider(): iterable
     {
         yield 'complete policy with all fields' => [
-            ['id' => 'gally_test__gally_b2c_fr_dummy-1', 'name' => 'dummy-1', 'description' => 'Test ism', 'indexPatterns' => ['gally_product_*'], 'deleteAfter' => 365, 'rolloverAfter' => 30],
+            ['id' => 'gally_test__gally_localized_catalog_b2c_fr_dummy-1', 'name' => 'dummy-1', 'description' => 'Test ism', 'indexPatterns' => ['gally_product_*'], 'deleteAfter' => 365, 'rolloverAfter' => 30],
             'b2c_fr',
         ];
 
         yield 'policy without description' => [
-            ['id' => 'gally_test__gally_b2c_en_dummy-2', 'name' => 'dummy-2', 'indexPatterns' => ['gally_category_*'], 'deleteAfter' => 180],
+            ['id' => 'gally_test__gally_localized_catalog_b2c_en_dummy-2', 'name' => 'dummy-2', 'indexPatterns' => ['gally_category_*'], 'deleteAfter' => 180],
             'b2c_en',
         ];
 
         yield 'policy with rollover' => [
-            ['id' => 'gally_test__gally_b2c_en_dummy-3', 'name' => 'dummy-3', 'description' => 'Policy with rollover', 'indexPatterns' => ['gally_logs_*'], 'rolloverAfter' => 7, 'deleteAfter' => 90],
+            ['id' => 'gally_test__gally_localized_catalog_b2c_en_dummy-3', 'name' => 'dummy-3', 'description' => 'Policy with rollover', 'indexPatterns' => ['gally_logs_*'], 'rolloverAfter' => 7, 'deleteAfter' => 90],
             'b2c_en',
         ];
     }
@@ -164,13 +164,13 @@ class IndexStateManagementRepositoryTest extends AbstractTestCase
         yield 'product policy' => [
             'product',
             'b2c_fr',
-            ['id' => 'gally_test__gally_b2c_fr_product', 'name' => 'product', 'description' => '', 'indexPatterns' => ['gally_test__gally_b2c_fr_product'], 'rolloverAfter' => 30, 'deleteAfter' => 365],
+            ['id' => 'gally_test__gally_localized_catalog_b2c_fr_product', 'name' => 'product', 'description' => '', 'indexPatterns' => ['gally_test__gally_localized_catalog_b2c_fr_product'], 'rolloverAfter' => 30, 'deleteAfter' => 365],
         ];
 
         yield 'event policy' => [
             'tracking_event',
             'b2c_en',
-            ['id' => 'gally_test__gally_b2c_en_tracking_event', 'name' => 'tracking_event', 'description' => '', 'indexPatterns' => ['gally_test__gally_b2c_en_tracking_event'], 'rolloverAfter' => 1, 'deleteAfter' => 1],
+            ['id' => 'gally_test__gally_localized_catalog_b2c_en_tracking_event', 'name' => 'tracking_event', 'description' => '', 'indexPatterns' => ['gally_test__gally_localized_catalog_b2c_en_tracking_event'], 'rolloverAfter' => 1, 'deleteAfter' => 1],
         ];
 
         yield 'missing event policy fr' => [
@@ -213,19 +213,19 @@ class IndexStateManagementRepositoryTest extends AbstractTestCase
         yield 'complete policy with all fields' => [
             'dummy-1',
             'b2c_fr',
-            ['id' => 'gally_test__gally_b2c_fr_dummy-1', 'name' => 'dummy-1', 'description' => 'Test ism', 'indexPatterns' => ['gally_product_*'], 'deleteAfter' => 365, 'rolloverAfter' => 30],
+            ['id' => 'gally_test__gally_localized_catalog_b2c_fr_dummy-1', 'name' => 'dummy-1', 'description' => 'Test ism', 'indexPatterns' => ['gally_product_*'], 'deleteAfter' => 365, 'rolloverAfter' => 30],
         ];
 
         yield 'policy without description' => [
             'dummy-2',
             'b2c_en',
-            ['id' => 'gally_test__gally_b2c_en_dummy-2', 'name' => 'dummy-2', 'indexPatterns' => ['gally_category_*'], 'deleteAfter' => 180],
+            ['id' => 'gally_test__gally_localized_catalog_b2c_en_dummy-2', 'name' => 'dummy-2', 'indexPatterns' => ['gally_category_*'], 'deleteAfter' => 180],
         ];
 
         yield 'policy with rollover' => [
             'dummy-3',
             'b2c_en',
-            ['id' => 'gally_test__gally_b2c_en_dummy-3', 'name' => 'dummy-3', 'description' => 'Policy with rollover', 'indexPatterns' => ['gally_logs_*'], 'rolloverAfter' => 7, 'deleteAfter' => 90],
+            ['id' => 'gally_test__gally_localized_catalog_b2c_en_dummy-3', 'name' => 'dummy-3', 'description' => 'Policy with rollover', 'indexPatterns' => ['gally_logs_*'], 'rolloverAfter' => 7, 'deleteAfter' => 90],
         ];
 
         yield 'non_existent' => [
@@ -252,7 +252,7 @@ class IndexStateManagementRepositoryTest extends AbstractTestCase
         $updatedPolicy = self::$repository->update($policy);
 
         $this->validatePolicy(
-            ['id' => 'gally_test__gally_b2c_fr_dummy-1', 'name' => 'dummy-1', 'description' => 'Updated description', 'indexPatterns' => ['gally_product_*'], 'deleteAfter' => 365, 'rolloverAfter' => 45],
+            ['id' => 'gally_test__gally_localized_catalog_b2c_fr_dummy-1', 'name' => 'dummy-1', 'description' => 'Updated description', 'indexPatterns' => ['gally_product_*'], 'deleteAfter' => 365, 'rolloverAfter' => 45],
             $updatedPolicy
         );
     }
@@ -262,7 +262,7 @@ class IndexStateManagementRepositoryTest extends AbstractTestCase
      */
     public function testDeletePolicy(): void
     {
-        self::$repository->delete('gally_test__gally_b2c_fr_dummy-1');
+        self::$repository->delete('gally_test__gally_localized_catalog_b2c_fr_dummy-1');
 
         $deletedPolicy = self::$repository->findByName(
             'dummy-1',

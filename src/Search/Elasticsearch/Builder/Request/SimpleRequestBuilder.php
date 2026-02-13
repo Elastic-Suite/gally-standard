@@ -82,7 +82,7 @@ class SimpleRequestBuilder
 
         $requestParams = [
             'name' => $containerConfig->getName(),
-            'indexName' => $containerConfig->getIndexName(),
+            'indexName' => $containerConfig->getSearchAlias() ?? $containerConfig->getIndexName(),
             'from' => $from,
             'size' => $size,
             'query' => $this->queryBuilder->createQuery($containerConfig, $query, $queryFilters, $spellingType),

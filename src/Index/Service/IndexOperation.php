@@ -133,9 +133,19 @@ class IndexOperation
         $this->indexRepository->putSettings($indexName, $this->indexSettings->getInstallIndexSettings());
         $this->indexRepository->forceMerge($indexName);
 
-        $indexAlias = $this->getInstalledIndexAlias($indexName);
-        if (!empty($indexAlias)) {
-            $this->proceedInstallIndex($indexName, $indexAlias);
+        $mainInstallAlias = null;
+        $secondaryAliases = [];
+
+        $index = $this->indexRepository->findByName($indexName);
+        $entityType = $index->getEntityType();
+        $localizedCatalog = $index->getLocalizedCatalog();
+        if (!empty($entityType) && !empty($localizedCatalog)) {
+            $mainInstallAlias = $this->indexSettings->getIndexAliasFromIdentifier($entityType, $localizedCatalog);
+            $secondaryAliases = $this->indexSettings->getIndexSecondaryAliasesFromIdentifier($entityType, $localizedCatalog);
+        }
+
+        if (!empty($mainInstallAlias)) {
+            $this->proceedInstallIndex($indexName, $mainInstallAlias, $secondaryAliases);
         }
         // TODO else throw an error ?
     }
@@ -145,12 +155,18 @@ class IndexOperation
      *  1) First switch the alias to the new index
      *  2) Remove old indices.
      *
-     * @param string $indexName  Real index name
-     * @param string $indexAlias Index alias (must include catalog identifier)
+     * @param string $indexName        Real index name
+     * @param string $indexAlias       Index alias (must include localized catalog identifier)
+     * @param array  $secondaryAliases Secondary index aliases (must include catalog and locale identifiers)
      */
-    public function proceedInstallIndex(string $indexName, string $indexAlias): void
+    public function proceedInstallIndex(string $indexName, string $indexAlias, array $secondaryAliases): void
     {
-        $this->indexRepository->updateAliases(['add' => ['index' => $indexName, 'alias' => $indexAlias]]);
+        $actions = [['add' => ['index' => $indexName, 'alias' => $indexAlias]]];
+        foreach ($secondaryAliases as $secondaryAlias) {
+            $actions[] = ['add' => ['index' => $indexName, 'alias' => $secondaryAlias]];
+        }
+
+        $this->indexRepository->updateAliases($actions);
 
         $this->deleteIndicesByAlias($indexAlias, [$indexName]);
     }
@@ -180,24 +196,5 @@ class IndexOperation
         foreach ($indicesToDeleteClean as $toDeleteIndex) {
             $this->indexRepository->delete($toDeleteIndex);
         }
-    }
-
-    /**
-     * Return the index alias to apply to the installed index.
-     *
-     * @param string $indexName Index name
-     */
-    protected function getInstalledIndexAlias(string $indexName): ?string
-    {
-        $installIndexAlias = null;
-
-        $index = $this->indexRepository->findByName($indexName);
-        $entityType = $index->getEntityType();
-        $localizedCatalog = $index->getLocalizedCatalog();
-        if (!empty($entityType) && !empty($localizedCatalog)) {
-            $installIndexAlias = $this->indexSettings->getIndexAliasFromIdentifier($entityType, $localizedCatalog);
-        }
-
-        return $installIndexAlias;
     }
 }
