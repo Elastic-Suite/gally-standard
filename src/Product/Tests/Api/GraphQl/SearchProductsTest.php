@@ -229,7 +229,7 @@ class SearchProductsTest extends AbstractTestCase
                 14,     // expected total count.
                 10,     // expected items per page.
                 2,      // expected last page.
-                ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_b2c_en_product', // expected index alias.
+                ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_localized_catalog_b2c_en_product', // expected index alias.
                 1.0,    // expected score.
             ],
             [
@@ -241,7 +241,7 @@ class SearchProductsTest extends AbstractTestCase
                 14,     // expected total count.
                 10,     // expected items per page.
                 2,      // expected last page.
-                ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_b2c_en_product', // expected index alias.
+                ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_localized_catalog_b2c_en_product', // expected index alias.
                 1.0,    // expected score.
             ],
             [
@@ -253,7 +253,7 @@ class SearchProductsTest extends AbstractTestCase
                 14,     // expected total count.
                 10,     // expected items per page.
                 2,      // expected last page.
-                ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_b2c_en_product', // expected index alias.
+                ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_localized_catalog_b2c_en_product', // expected index alias.
                 1.0,    // expected score.
             ],
             [
@@ -265,7 +265,7 @@ class SearchProductsTest extends AbstractTestCase
                 12,     // expected total count.
                 30,     // expected items per page.
                 1,      // expected last page.
-                ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_b2c_fr_product', // expected index alias.
+                ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_localized_catalog_b2c_fr_product', // expected index alias.
                 1.0,    // expected score.
             ],
             [
@@ -277,7 +277,7 @@ class SearchProductsTest extends AbstractTestCase
                 12,     // expected total count.
                 5,      // expected items per page.
                 3,      // expected last page.
-                ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_b2c_fr_product', // expected index alias.
+                ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_localized_catalog_b2c_fr_product', // expected index alias.
                 1.0,    // expected score.
             ],
             [
@@ -289,7 +289,7 @@ class SearchProductsTest extends AbstractTestCase
                 12,     // expected total count.
                 100,    // expected items per page.
                 1,      // expected last page.
-                ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_b2c_fr_product', // expected indexalias.
+                ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_localized_catalog_b2c_fr_product', // expected indexalias.
                 1.0,    // expected score.
             ],
         ];

@@ -78,7 +78,7 @@ class SyncCategoryProductMerchandisingDataTest extends AbstractTestCase
         $positions = $categoryProductMerchandisingRepository->findBy(['productId' => $productIds, 'localizedCatalog' => $localizedCatalogB2cFr]);
         $this->assertGreaterThan(0, \count($positions));
 
-        $indexNameTest = ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_b2c_fr_product';
+        $indexNameTest = ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_localized_catalog_b2c_fr_product';
         $this->bulkDeleteIndex($indexNameTest, $productIds);
         $positions = $categoryProductMerchandisingRepository->findBy(['productId' => $productIds, 'localizedCatalog' => $localizedCatalogB2cFr]);
         $this->assertCount(0, $positions);
@@ -141,7 +141,7 @@ class SyncCategoryProductMerchandisingDataTest extends AbstractTestCase
 
         return [
             [
-                'gally_b2c_fr_product',
+                'gally_localized_catalog_b2c_fr_product',
                 [
                     $localizedCatalogIdB2cFr => [
                         $productId1 => [$categoryIdOne => ['position' => 1], $categoryIdTwo => ['position' => 2]],
@@ -152,7 +152,7 @@ class SyncCategoryProductMerchandisingDataTest extends AbstractTestCase
                 ],
             ],
             [
-                'gally_b2c_en_product',
+                'gally_localized_catalog_b2c_en_product',
                 [
                     $localizedCatalogIdB2cEn => [
                         $productId1 => [$categoryIdOne => ['position' => 10], $categoryIdTwo => []],
@@ -163,7 +163,7 @@ class SyncCategoryProductMerchandisingDataTest extends AbstractTestCase
                 ],
             ],
             [
-                'gally_b2b_en_product',
+                'gally_localized_catalog_b2b_en_product',
                 [
                     $localizedCatalogIdb2bEn => [
                         $productId1 => [$categoryIdOne => [], $categoryIdTwo => []],

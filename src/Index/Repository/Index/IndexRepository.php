@@ -1237,7 +1237,7 @@ class IndexRepository implements IndexRepositoryInterface
                 $index->setStatus(Index::STATUS_EXTERNAL);
             } else {
                 $index->setEntityType($this->indexSettings->extractEntityFromAliases($index));
-                $index->setLocalizedCatalog($this->indexSettings->extractCatalogFromAliases($index));
+                $index->setLocalizedCatalog($this->indexSettings->extractLocalizedCatalogFromAliases($index));
                 if ($this->indexSettings->isInstalled($index)) {
                     $index->setStatus(Index::STATUS_LIVE);
                 } elseif ($this->indexSettings->isObsolete($index)) {

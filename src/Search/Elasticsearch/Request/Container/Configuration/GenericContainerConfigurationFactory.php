@@ -35,8 +35,12 @@ class GenericContainerConfigurationFactory implements ContainerConfigurationFact
     ) {
     }
 
-    public function create(string $requestType, Metadata $metadata, LocalizedCatalog $localizedCatalog): ContainerConfigurationInterface
-    {
+    public function create(
+        string $requestType,
+        Metadata $metadata,
+        LocalizedCatalog $localizedCatalog,
+        ?string $searchAlias,
+    ): ContainerConfigurationInterface {
         $indexName = $this->indexSettings->getIndexAliasFromIdentifier(
             $metadata->getEntity(),
             $localizedCatalog->getId()
@@ -52,6 +56,7 @@ class GenericContainerConfigurationFactory implements ContainerConfigurationFact
             $this->relevanceConfigurationFactory->create($localizedCatalog),
             $this->aggregationProvider,
             $this->defaultSortingOptionProvider,
+            $searchAlias,
         );
     }
 }

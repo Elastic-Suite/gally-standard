@@ -28,8 +28,6 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
 
 class IndexOperationsTest extends AbstractTestCase
 {
-    private LocalizedCatalogRepository $catalogRepository;
-
     private static IndexRepositoryInterface $indexRepository;
 
     private static IndexSettingsInterface $indexSettings;
@@ -103,7 +101,7 @@ class IndexOperationsTest extends AbstractTestCase
             __DIR__ . '/../../fixtures/metadata.yaml',
             __DIR__ . '/../../fixtures/catalogs.yaml',
         ]);
-        $this->catalogRepository = static::getContainer()->get(LocalizedCatalogRepository::class);
+        $localizedCatalogRepository = static::getContainer()->get(LocalizedCatalogRepository::class);
         $admin = $this->getUser(Role::ROLE_ADMIN);
 
         yield [
@@ -120,23 +118,33 @@ class IndexOperationsTest extends AbstractTestCase
             ['error' => 'Access Denied.'],
         ];
 
-        foreach ($this->catalogRepository->findAll() as $catalog) {
+        foreach ($localizedCatalogRepository->findAll() as $localizedCatalog) {
             yield [
                 $admin,
                 'product',
-                (int) $catalog->getId(),
+                (int) $localizedCatalog->getId(),
                 [
-                    'name' => "gally_test__gally_{$catalog->getCode()}_product",
-                    'aliases' => ['.entity_product', ".catalog_{$catalog->getId()}"],
+                    'name' => "gally_test__gally_localized_catalog_{$localizedCatalog->getCode()}_product",
+                    'aliases' => [
+                        '.entity_product',
+                        ".catalog_{$localizedCatalog->getCatalog()->getCode()}",
+                        ".localized_catalog_{$localizedCatalog->getCode()}",
+                        ".locale_{$localizedCatalog->getLocale()}",
+                    ],
                 ],
             ];
             yield [
                 $admin,
                 'category',
-                (int) $catalog->getId(),
+                (int) $localizedCatalog->getId(),
                 [
-                    'name' => "gally_test__gally_{$catalog->getCode()}_category",
-                    'aliases' => ['.entity_category', ".catalog_{$catalog->getId()}"],
+                    'name' => "gally_test__gally_localized_catalog_{$localizedCatalog->getCode()}_category",
+                    'aliases' => [
+                        '.entity_category',
+                        ".catalog_{$localizedCatalog->getCatalog()->getCode()}",
+                        ".localized_catalog_{$localizedCatalog->getCode()}",
+                        ".locale_{$localizedCatalog->getLocale()}",
+                    ],
                 ],
             ];
         }
@@ -176,9 +184,11 @@ class IndexOperationsTest extends AbstractTestCase
                     } else {
                         $responseData = $response->toArray();
 
-                        // Check that the index has the install index.
+                        // Check that the index has the install aliases.
                         $this->assertNotEmpty($responseData['data']['installIndex']['index']['aliases']);
-                        $this->assertContains($expectedData['alias'], $responseData['data']['installIndex']['index']['aliases']);
+                        foreach ($expectedData['aliases'] as $alias) {
+                            $this->assertContains(strtolower($alias), $responseData['data']['installIndex']['index']['aliases']);
+                        }
 
                         // Check that the index has the proper installed index settings.
                         $settings = self::$client->indices()->getSettings(['index' => $index->getName()]);
@@ -196,31 +206,43 @@ class IndexOperationsTest extends AbstractTestCase
             __DIR__ . '/../../fixtures/metadata.yaml',
             __DIR__ . '/../../fixtures/catalogs.yaml',
         ]);
-        $this->catalogRepository = static::getContainer()->get(LocalizedCatalogRepository::class);
+        $localizedCatalogRepository = static::getContainer()->get(LocalizedCatalogRepository::class);
         $admin = $this->getUser(Role::ROLE_ADMIN);
 
         yield [
             null,
-            'gally_test__gally_b2c_fr_product',
+            'gally_test__gally_localized_catalog_b2c_fr_product',
             ['error' => 'Access Denied.'],
         ];
 
         yield [
             $this->getUser(Role::ROLE_CONTRIBUTOR),
-            'gally_test__gally_b2c_fr_product',
+            'gally_test__gally_localized_catalog_b2c_fr_product',
             ['error' => 'Access Denied.'],
         ];
 
-        foreach ($this->catalogRepository->findAll() as $catalog) {
+        foreach ($localizedCatalogRepository->findAll() as $localizedCatalog) {
             yield [
                 $admin,
-                "gally_test__gally_{$catalog->getCode()}_product",
-                ['alias' => "gally_test__gally_{$catalog->getCode()}_product"],
+                "gally_test__gally_localized_catalog_{$localizedCatalog->getCode()}_product",
+                [
+                    'aliases' => [
+                        "gally_test__gally_localized_catalog_{$localizedCatalog->getCode()}_product",
+                        "gally_test__gally_catalog_{$localizedCatalog->getCatalog()->getCode()}_product",
+                        "gally_test__gally_locale_{$localizedCatalog->getLocale()}_product",
+                    ],
+                ],
             ];
             yield [
                 $admin,
-                "gally_test__gally_{$catalog->getCode()}_category",
-                ['alias' => "gally_test__gally_{$catalog->getCode()}_category"],
+                "gally_test__gally_localized_catalog_{$localizedCatalog->getCode()}_category",
+                [
+                    'aliases' => [
+                        "gally_test__gally_localized_catalog_{$localizedCatalog->getCode()}_category",
+                        "gally_test__gally_catalog_{$localizedCatalog->getCatalog()->getCode()}_category",
+                        "gally_test__gally_locale_{$localizedCatalog->getLocale()}_category",
+                    ],
+                ],
             ];
         }
     }
