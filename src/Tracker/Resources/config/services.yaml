@@ -1,6 +1,3 @@
-imports:
-    - { resource: elasticsearch/request_type.yaml }
-
 services:
     Gally\Tracker\State\TrackingEventProcessor:
         arguments:
@@ -55,15 +52,3 @@ services:
     Gally\Tracker\Validator\EventOrderValidator:
         tags:
             - { name: validator.constraint_validator }
-
-    Gally\Tracker\Elasticsearch\Request\Aggregation\Provider\KpiAggregationProvider: ~
-
-    Gally\Tracker\State\KpiProvider:
-        arguments:
-            - '@Gally\Search\Elasticsearch\Builder\Request\SimpleRequestBuilder'
-            - '@Gally\Search\Elasticsearch\Request\Container\Configuration\ContainerConfigurationProvider'
-            - '@Gally\Search\Elasticsearch\Adapter'
-            - '@Gally\Metadata\Repository\MetadataRepository'
-            - '@Gally\Catalog\Repository\LocalizedCatalogRepository'
-        tags:
-            - { name: api_platform.state_provider }
