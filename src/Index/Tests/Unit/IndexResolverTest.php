@@ -71,12 +71,12 @@ class IndexResolverTest extends AbstractTestCase
     public function indexAliasDataProvider(): array
     {
         return [
-            ['product', 'b2c_fr', 'gally_test__gally_b2c_fr_product'],
-            ['product', 'b2c_en', 'gally_test__gally_b2c_en_product'],
-            ['product', 'b2b_en', 'gally_test__gally_b2b_en_product'],
-            ['category', 'b2c_fr', 'gally_test__gally_b2c_fr_category'],
-            ['category', 'b2c_en', 'gally_test__gally_b2c_en_category'],
-            ['category', 'b2b_en', 'gally_test__gally_b2b_en_category'],
+            ['product', 'b2c_fr', 'gally_test__gally_localized_catalog_b2c_fr_product'],
+            ['product', 'b2c_en', 'gally_test__gally_localized_catalog_b2c_en_product'],
+            ['product', 'b2b_en', 'gally_test__gally_localized_catalog_b2b_en_product'],
+            ['category', 'b2c_fr', 'gally_test__gally_localized_catalog_b2c_fr_category'],
+            ['category', 'b2c_en', 'gally_test__gally_localized_catalog_b2c_en_category'],
+            ['category', 'b2b_en', 'gally_test__gally_localized_catalog_b2b_en_category'],
         ];
     }
 }

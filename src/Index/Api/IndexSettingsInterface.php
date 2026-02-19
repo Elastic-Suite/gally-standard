@@ -30,6 +30,14 @@ interface IndexSettingsInterface
     public function getIndexAliasFromIdentifier(string $indexIdentifier, LocalizedCatalog|int|string $localizedCatalog): string;
 
     /**
+     * Returns the index secondary aliases for an identifier (eg. product) by catalog.
+     *
+     * @param string                      $indexIdentifier  Index identifier
+     * @param int|string|LocalizedCatalog $localizedCatalog Localized catalog
+     */
+    public function getIndexSecondaryAliasesFromIdentifier(string $indexIdentifier, LocalizedCatalog|int|string $localizedCatalog): array;
+
+    /**
      * Create a new index for an identifier (eg. product) by catalog including current date.
      *
      * @param string                      $indexIdentifier  Index identifier
@@ -125,11 +133,11 @@ interface IndexSettingsInterface
     public function extractEntityFromAliases(Index|IndexTemplate $index): ?string;
 
     /**
-     * Extract original catalog id from index metadata aliases.
+     * Extract original localized catalog id from index metadata aliases.
      *
      * @throws \Exception
      */
-    public function extractCatalogFromAliases(Index|IndexTemplate $index): ?LocalizedCatalog;
+    public function extractLocalizedCatalogFromAliases(Index|IndexTemplate $index): ?LocalizedCatalog;
 
     /**
      * Check if index name follow the naming convention.

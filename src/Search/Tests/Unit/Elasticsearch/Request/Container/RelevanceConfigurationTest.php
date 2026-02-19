@@ -47,7 +47,7 @@ class RelevanceConfigurationTest extends AbstractTestCase
         $configurationFactory = static::getContainer()->get(GenericContainerConfigurationFactory::class);
 
         // Check relevance config for 'b2c_en_relevance' scope + 'generic' request type.
-        $containerConfig = $configurationFactory->create('generic', $metadata, $b2cEnRelevance);
+        $containerConfig = $configurationFactory->create('generic', $metadata, $b2cEnRelevance, null);
         $relevanceConfig = $containerConfig->getRelevanceConfig();
         $this->checkRelevanceConfig(
             $relevanceConfig,
@@ -64,7 +64,7 @@ class RelevanceConfigurationTest extends AbstractTestCase
         );
 
         // Check relevance config for 'b2c_en_relevance' scope (request type has no effect).
-        $containerConfig = $configurationFactory->create('product_search_relevance', $metadata, $b2cEnRelevance);
+        $containerConfig = $configurationFactory->create('product_search_relevance', $metadata, $b2cEnRelevance, null);
         $relevanceConfig = $containerConfig->getRelevanceConfig();
         $this->checkRelevanceConfig(
             $relevanceConfig,
@@ -81,7 +81,7 @@ class RelevanceConfigurationTest extends AbstractTestCase
         );
 
         // Check relevance config for 'b2c_fr_relevance' scope .
-        $containerConfig = $configurationFactory->create('product_catalog', $metadata, $b2cFrRelevance);
+        $containerConfig = $configurationFactory->create('product_catalog', $metadata, $b2cFrRelevance, null);
         $relevanceConfig = $containerConfig->getRelevanceConfig();
         $this->checkRelevanceConfig(
             $relevanceConfig,
@@ -98,7 +98,7 @@ class RelevanceConfigurationTest extends AbstractTestCase
         );
 
         // Check relevance config for 'b2b_en_relevance'scope  (request type has no effect).
-        $containerConfig = $configurationFactory->create('product_catalog', $metadata, $b2bEnRelevance);
+        $containerConfig = $configurationFactory->create('product_catalog', $metadata, $b2bEnRelevance, null);
         $relevanceConfig = $containerConfig->getRelevanceConfig();
         $this->checkRelevanceConfig(
             $relevanceConfig,

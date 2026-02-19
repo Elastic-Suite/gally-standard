@@ -1,6 +1,6 @@
 [
   {
-    "index_name": "gally_b2c_fr_product",
+    "index_name": "gally_localized_catalog_b2c_fr_product",
     "documents": [
       {
         "id": "p_1",
@@ -42,7 +42,7 @@
     ]
   },
   {
-    "index_name": "gally_b2c_en_product",
+    "index_name": "gally_localized_catalog_b2c_en_product",
     "documents": [
       {
         "id": "p_1",
@@ -79,7 +79,7 @@
     ]
   },
   {
-    "index_name": "gally_b2b_en_product",
+    "index_name": "gally_localized_catalog_b2b_en_product",
     "documents": [
       {
         "id": "p_1",

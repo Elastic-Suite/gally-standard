@@ -99,7 +99,7 @@ class IndexSettings implements IndexSettingsInterface
      */
     public function createIsmNameFromIdentifier(string $identifier, LocalizedCatalog $localizedCatalog): string
     {
-        return \sprintf('%s_%s_%s', $this->getIsmPrefix($localizedCatalog), $localizedCatalog->getCode(), $identifier);
+        return \sprintf('%s_localized_catalog_%s_%s', $this->getIsmPrefix($localizedCatalog), $localizedCatalog->getCode(), $identifier);
     }
 
     /**
@@ -110,7 +110,7 @@ class IndexSettings implements IndexSettingsInterface
      */
     public function createIndexTemplateNameFromIdentifier(string $identifier, LocalizedCatalog $localizedCatalog): string
     {
-        return \sprintf('%s_%s_%s', $this->getIndexTemplatePrefix($localizedCatalog), $localizedCatalog->getCode(), $identifier);
+        return \sprintf('%s_localized_catalog_%s_%s', $this->getIndexTemplatePrefix($localizedCatalog), $localizedCatalog->getCode(), $identifier);
     }
 
     /**
@@ -121,9 +121,29 @@ class IndexSettings implements IndexSettingsInterface
      */
     public function getIndexAliasFromIdentifier(string $indexIdentifier, int|string|LocalizedCatalog $localizedCatalog): string
     {
-        $catalogCode = strtolower((string) $this->getCatalogCode($localizedCatalog));
+        $localizedCatalog = $this->getLocalizedCatalog($localizedCatalog);
+        $localizedCatalogCode = strtolower((string) $localizedCatalog->getCode());
 
-        return \sprintf('%s_%s_%s', $this->getIndexNamePrefix(), $catalogCode, $indexIdentifier);
+        return \sprintf('%s_localized_catalog_%s_%s', $this->getIndexNamePrefix(), $localizedCatalogCode, $indexIdentifier);
+    }
+
+    /**
+     * Returns the index alias for an identifier (eg. product) by catalog.
+     *
+     * @param string                      $indexIdentifier  An index identifier
+     * @param int|string|LocalizedCatalog $localizedCatalog The localized catalog
+     */
+    public function getIndexSecondaryAliasesFromIdentifier(string $indexIdentifier, int|string|LocalizedCatalog $localizedCatalog): array
+    {
+        $localizedCatalog = $this->getLocalizedCatalog($localizedCatalog);
+        $catalogCode = strtolower((string) $localizedCatalog->getCatalog()->getCode());
+        $localeCode = strtolower((string) $localizedCatalog->getLocale());
+
+        return [
+            \sprintf('%s_catalog_%s_%s', $this->getIndexNamePrefix(), $catalogCode, $indexIdentifier),
+            \sprintf('%s_locale_%s_%s', $this->getIndexNamePrefix(), $localeCode, $indexIdentifier),
+            \sprintf('%s_entity_%s', $this->getIndexNamePrefix(), $indexIdentifier),
+        ];
     }
 
     /**
@@ -136,11 +156,13 @@ class IndexSettings implements IndexSettingsInterface
      */
     public function getNewIndexMetadataAliases(string $indexIdentifier, LocalizedCatalog|int|string $localizedCatalog): array
     {
-        $catalog = $this->getLocalizedCatalog($localizedCatalog);
+        $localizedCatalog = $this->getLocalizedCatalog($localizedCatalog);
 
         return [
             \sprintf('.entity_%s', $indexIdentifier),
-            \sprintf('.catalog_%d', $catalog->getId()),
+            \sprintf('.catalog_%s', $localizedCatalog->getCatalog()->getCode()),
+            \sprintf('.locale_%s', $localizedCatalog->getLocale()),
+            \sprintf('.localized_catalog_%s', $localizedCatalog->getCode()),
         ];
     }
 
@@ -265,15 +287,14 @@ class IndexSettings implements IndexSettingsInterface
      *
      * @throws \Exception
      */
-    public function extractCatalogFromAliases(Index|IndexTemplate $index): ?LocalizedCatalog
+    public function extractLocalizedCatalogFromAliases(Index|IndexTemplate $index): ?LocalizedCatalog
     {
-        $localizedCatalogId = preg_filter('#^\.catalog_(.+)$#', '$1', $index->getAliases(), 1);
-        if (!empty($localizedCatalogId)) {
-            if (\is_array($localizedCatalogId)) {
-                $localizedCatalogId = current($localizedCatalogId);
+        $localizedCatalogCode = preg_filter('#^\.localized_catalog_(.+)$#', '$1', $index->getAliases(), 1);
+        if (!empty($localizedCatalogCode)) {
+            if (\is_array($localizedCatalogCode)) {
+                $localizedCatalogCode = current($localizedCatalogCode);
             }
-            $localizedCatalogId = (int) $localizedCatalogId;
-            $catalog = $this->getLocalizedCatalog($localizedCatalogId);
+            $catalog = $this->getLocalizedCatalog($localizedCatalogCode);
         } else {
             $catalog = null;
         }
@@ -382,18 +403,6 @@ class IndexSettings implements IndexSettingsInterface
     private function getIndicesSettingsConfigParam(string $configField): mixed
     {
         return $this->configurationManager->getScopedConfigValue('gally.indices_settings.' . $configField);
-    }
-
-    /**
-     * Retrieve the catalog code from object or catalog id.
-     *
-     * @param int|string|LocalizedCatalog $localizedCatalog The localized catalog or its id or its code
-     *
-     * @throws \Exception
-     */
-    private function getCatalogCode(int|string|LocalizedCatalog $localizedCatalog): ?string
-    {
-        return $this->getLocalizedCatalog($localizedCatalog)->getCode();
     }
 
     /**

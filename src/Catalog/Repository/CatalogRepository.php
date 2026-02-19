@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace Gally\Catalog\Repository;
 
+use ApiPlatform\Metadata\Exception\InvalidArgumentException;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Gally\Catalog\Entity\Catalog;
@@ -26,8 +27,27 @@ use Gally\Catalog\Entity\Catalog;
  */
 class CatalogRepository extends ServiceEntityRepository
 {
+    private array $cache;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Catalog::class);
+    }
+
+    public function findByCodeOrId(int|string $identifier): Catalog
+    {
+        if (!isset($this->cache[$identifier])) {
+            if (is_numeric($identifier)) {
+                $catalog = $this->find($identifier);
+            } else {
+                $catalog = $this->findOneBy(['code' => $identifier]);
+            }
+            if (null === $catalog) {
+                throw new InvalidArgumentException(\sprintf('Missing catalog [%s]', $identifier));
+            }
+            $this->cache[$identifier] = $catalog;
+        }
+
+        return $this->cache[$identifier];
     }
 }

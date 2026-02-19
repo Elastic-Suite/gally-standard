@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace Gally\Index\Tests\Api\Rest;
 
+use Gally\Catalog\Repository\LocalizedCatalogRepository;
 use Gally\Fixture\Service\ElasticsearchFixturesInterface;
 use Gally\Index\Entity\Index;
 use Gally\Index\Repository\Index\IndexRepositoryInterface;
@@ -70,11 +71,6 @@ class IndexOperationsTest extends AbstractEntityTestCase
     public function createDataProvider(): iterable
     {
         $adminUser = $this->getUser(Role::ROLE_ADMIN);
-        $localizedCatalogs = [
-            1 => 'b2c_fr',
-            2 => 'b2c_en',
-            3 => 'b2b_en',
-        ];
         $data = [
             [null, ['entityType' => 'product', 'localizedCatalog' => '1'], 401],
             [null, ['entityType' => 'category', 'localizedCatalog' => '1'], 401],
@@ -82,20 +78,23 @@ class IndexOperationsTest extends AbstractEntityTestCase
             [$this->getUser(Role::ROLE_CONTRIBUTOR), ['entityType' => 'category', 'localizedCatalog' => '1'], 403],
         ];
 
-        foreach ($localizedCatalogs as $localizedCatalogId => $localizedCatalogCode) {
+        $localizedCatalogRepository = static::getContainer()->get(LocalizedCatalogRepository::class);
+        foreach ($localizedCatalogRepository->findAll() as $localizedCatalog) {
+            $localizedCatalogId = $localizedCatalog->getId();
+            $localizedCatalogCode = $localizedCatalog->getCode();
             $data[] = [
                 $adminUser,
                 ['entityType' => 'product', 'localizedCatalog' => "$localizedCatalogId"],
                 201,
                 null,
-                "#^.*/{$this->getApiPath()}/gally_test__gally_{$localizedCatalogCode}_product_[0-9]{8}_[0-9]{6}$#",
+                "#^.*/{$this->getApiPath()}/gally_test__gally_localized_catalog_{$localizedCatalogCode}_product_[0-9]{8}_[0-9]{6}$#",
             ];
             $data[] = [
                 $adminUser,
                 ['entityType' => 'category', 'localizedCatalog' => "$localizedCatalogId"],
                 201,
                 null,
-                "#^.*/{$this->getApiPath()}/gally_test__gally_{$localizedCatalogCode}_category_[0-9]{8}_[0-9]{6}$#",
+                "#^.*/{$this->getApiPath()}/gally_test__gally_localized_catalog_{$localizedCatalogCode}_category_[0-9]{8}_[0-9]{6}$#",
             ];
         }
 
@@ -111,10 +110,15 @@ class IndexOperationsTest extends AbstractEntityTestCase
 
     protected function getJsonCreationValidation(array $expectedData): array
     {
+        $localizedCatalogRepository = static::getContainer()->get(LocalizedCatalogRepository::class);
+        $localizedCatalog = $localizedCatalogRepository->find($expectedData['localizedCatalog']);
+
         return [
             'aliases' => [
-                '.catalog_' . $expectedData['localizedCatalog'],
+                '.catalog_' . $localizedCatalog->getCatalog()->getCode(),
                 '.entity_' . $expectedData['entityType'],
+                '.locale_' . $localizedCatalog->getLocale(),
+                '.localized_catalog_' . $localizedCatalog->getCode(),
             ],
         ];
     }
@@ -125,13 +129,13 @@ class IndexOperationsTest extends AbstractEntityTestCase
 
         return [
             [$user, 'wrong_id', [], 404],
-            [null, ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_test_fr_product_20990429_153000', [], 401],
+            [null, ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_localized_catalog_test_fr_product_20990429_153000', [], 401],
             [
                 $this->getUser(Role::ROLE_ADMIN),
-                ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_test_fr_product_20990429_153000',
+                ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_localized_catalog_test_fr_product_20990429_153000',
                 [
-                    'id' => ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_test_fr_product_20990429_153000',
-                    'name' => ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_test_fr_product_20990429_153000',
+                    'id' => ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_localized_catalog_test_fr_product_20990429_153000',
+                    'name' => ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_localized_catalog_test_fr_product_20990429_153000',
                     'aliases' => [],
                     'docsCount' => 2,
                     'entityType' => 'product',
@@ -176,10 +180,10 @@ class IndexOperationsTest extends AbstractEntityTestCase
             ],
             [
                 $user,
-                ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_test_fr_category_20220429_173000',
+                ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_localized_catalog_test_fr_category_20220429_173000',
                 [
-                    'id' => ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_test_fr_category_20220429_173000',
-                    'name' => ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_test_fr_category_20220429_173000',
+                    'id' => ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_localized_catalog_test_fr_category_20220429_173000',
+                    'name' => ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_localized_catalog_test_fr_category_20220429_173000',
                     'aliases' => [],
                     'docsCount' => 0,
                     'entityType' => 'category',
@@ -206,10 +210,10 @@ class IndexOperationsTest extends AbstractEntityTestCase
             ],
             [
                 $user,
-                ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_test_fr_category_20210429_173000',
+                ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_localized_catalog_test_fr_category_20210429_173000',
                 [
-                    'id' => ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_test_fr_category_20210429_173000',
-                    'name' => ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_test_fr_category_20210429_173000',
+                    'id' => ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_localized_catalog_test_fr_category_20210429_173000',
+                    'name' => ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_localized_catalog_test_fr_category_20210429_173000',
                     'aliases' => [],
                     'docsCount' => 0,
                     'entityType' => 'category',
@@ -236,10 +240,10 @@ class IndexOperationsTest extends AbstractEntityTestCase
             ],
             [
                 $user,
-                ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_test_fr_category_20220429_000000',
+                ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_localized_catalog_test_fr_category_20220429_000000',
                 [
-                    'id' => ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_test_fr_category_20220429_000000',
-                    'name' => ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_test_fr_category_20220429_000000',
+                    'id' => ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_localized_catalog_test_fr_category_20220429_000000',
+                    'name' => ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_localized_catalog_test_fr_category_20220429_000000',
                     'aliases' => [],
                     'docsCount' => 0,
                     'entityType' => 'category',
@@ -306,9 +310,9 @@ class IndexOperationsTest extends AbstractEntityTestCase
         $adminUser = $this->getUser(Role::ROLE_ADMIN);
 
         return [
-            [null, ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_test_fr_product_20990429_153000', 401],
-            [$this->getUser(Role::ROLE_CONTRIBUTOR), ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_test_fr_product_20990429_153000', 403],
-            [$adminUser, ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_test_fr_product_20990429_153000', 204],
+            [null, ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_localized_catalog_test_fr_product_20990429_153000', 401],
+            [$this->getUser(Role::ROLE_CONTRIBUTOR), ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_localized_catalog_test_fr_product_20990429_153000', 403],
+            [$adminUser, ElasticsearchFixturesInterface::PREFIX_TEST_INDEX . 'gally_localized_catalog_test_fr_product_20990429_153000', 204],
             [$adminUser, 'wrong_id', 404],
         ];
     }
@@ -316,15 +320,15 @@ class IndexOperationsTest extends AbstractEntityTestCase
     public function getCollectionDataProvider(): iterable
     {
         return [
-            [null, 11, 401],
-            [$this->getUser(Role::ROLE_CONTRIBUTOR), 11, 200],
-            [$this->getUser(Role::ROLE_ADMIN), 11, 200],
+            [null, 13, 401],
+            [$this->getUser(Role::ROLE_CONTRIBUTOR), 13, 200],
+            [$this->getUser(Role::ROLE_ADMIN), 13, 200],
         ];
     }
 
     protected function getJsonGetCollectionValidation(): array
     {
-        return ['hydra:totalItems' => self::$initialIndicesCount + 11];
+        return ['hydra:totalItems' => self::$initialIndicesCount + 13];
     }
 
     /**
@@ -411,8 +415,8 @@ class IndexOperationsTest extends AbstractEntityTestCase
         $catalogs = ['b2c_fr', 'b2c_en', 'b2b_en'];
 
         foreach ($catalogs as $catalogCode) {
-            $data[] = ["gally_test__gally_{$catalogCode}_product"];
-            $data[] = ["gally_test__gally_{$catalogCode}_category"];
+            $data[] = ["gally_test__gally_localized_catalog_{$catalogCode}_product"];
+            $data[] = ["gally_test__gally_localized_catalog_{$catalogCode}_category"];
         }
 
         return $data;
