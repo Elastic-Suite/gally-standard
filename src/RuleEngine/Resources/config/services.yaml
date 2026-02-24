@@ -61,7 +61,7 @@ services:
     Gally\RuleEngine\EventSubscriber\ClearRuleCache:
         arguments:
             - '@Gally\RuleEngine\Service\RuleEngineManager'
-            - '@Gally\Cache\Service\CacheManager'
+            - '@Gally\Cache\Service\CacheInvalidatorInterface'
         tags:
             - { name: doctrine.event_listener, event: postUpdate }
             - { name: doctrine.event_listener, event: postRemove }
