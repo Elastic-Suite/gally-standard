@@ -54,4 +54,27 @@ trait TrackingEventSourceFieldPersistorTrait
             );"
         );
     }
+
+    public function addUpdateTrackingEventSourceFieldSql(string $code, array $valuesToUpdate): void
+    {
+        $metadataId = $this->getTrackingEventMetadataId();
+
+        $setClause = implode(', ', array_map(
+            fn ($key, $value) => match (\gettype($value)) {
+                'boolean' => "$key = " . ($value ? 'true' : 'false'),
+                'integer' => "$key = $value",
+                'string' => "$key = '$value'",
+                default => "$key = null",
+            },
+            array_keys($valuesToUpdate),
+            array_values($valuesToUpdate)
+        ));
+
+        $this->addSql("
+            UPDATE public.source_field
+            SET $setClause
+            WHERE code like '$code' AND metadata_id = '$metadataId'
+            ;"
+        );
+    }
 }

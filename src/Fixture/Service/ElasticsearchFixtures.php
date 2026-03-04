@@ -76,12 +76,17 @@ class ElasticsearchFixtures implements ElasticsearchFixturesInterface
     /**
      * Create documents from data in $pathFiles.
      */
-    public function loadFixturesDocumentFiles(array $pathFiles): void
+    public function loadFixturesDocumentFiles(array $pathFiles, ?\DateTime $referenceDate = null): void
     {
         $this->validateFilesFormat($pathFiles);
+        $referenceDate = $referenceDate ?? new \DateTime('now', new \DateTimeZone('UTC'));
 
         foreach ($pathFiles as $file) {
             $documents = file_get_contents($file);
+
+            $datePatterns = $this->extractDatePatterns($documents, $referenceDate);
+            $documents = str_replace(array_keys($datePatterns), array_values($datePatterns), $documents);
+
             $documents = json_decode($documents, true);
             foreach ($documents as $document) {
                 $this->documentRepository->index(
@@ -115,6 +120,30 @@ class ElasticsearchFixtures implements ElasticsearchFixturesInterface
     public function getTestAliasName(string $aliasName): string
     {
         return $this->isTestMode() ? self::PREFIX_TEST_INDEX . $aliasName : $aliasName;
+    }
+
+    /**
+     * Extract and generate date patterns only for dates that exist in the JSON string.
+     */
+    private function extractDatePatterns(string $jsonContent, \DateTime $referenceDate): array
+    {
+        preg_match_all('/@now:([+-]?\d+)d/', $jsonContent, $matches);
+
+        if (empty($matches[1])) {
+            return [];
+        }
+
+        $patterns = [];
+        $uniqueDays = array_unique($matches[1]);
+
+        foreach ($uniqueDays as $dayString) {
+            $days = (int) $dayString;
+            $date = clone $referenceDate;
+            $date->modify(\sprintf('%+d days', $days));
+            $patterns[\sprintf('@now:%sd', $dayString)] = $date->format('Y-m-d H:i:s');
+        }
+
+        return $patterns;
     }
 
     /**
