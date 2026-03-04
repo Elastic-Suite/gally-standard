@@ -24,7 +24,7 @@ final class Version20260107143005_Add_Tracker_Event_Source_Field extends Abstrac
 
     public function getDescription(): string
     {
-        return 'Add tracker event entity source field.';
+        return 'Add tracker event entity source field';
     }
 
     public function up(Schema $schema): void
