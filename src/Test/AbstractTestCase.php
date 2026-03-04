@@ -168,6 +168,12 @@ abstract class AbstractTestCase extends ApiTestCase
         $entityDataStreamsFixtures->createEntityElasticsearchDataStreams($entityType, $localizedCatalogIdentifier);
     }
 
+    protected static function deleteEntityElasticsearchDataStreams(string $entityType, string|int|null $localizedCatalogIdentifier = null)
+    {
+        $entityDataStreamsFixtures = static::getContainer()->get(EntityDataStreamsFixtures::class);
+        $entityDataStreamsFixtures->deleteEntityElasticsearchDataStreams($entityType, $localizedCatalogIdentifier);
+    }
+
     protected static function deleteEntityElasticsearchIndices(string $entityType, string|int|null $localizedCatalogIdentifier = null)
     {
         $entityIndicesFixtures = static::getContainer()->get(EntityIndicesFixturesInterface::class);
