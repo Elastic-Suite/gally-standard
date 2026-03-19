@@ -36,7 +36,7 @@ class SearchDocumentsTest extends AbstractTestCase
             __DIR__ . '/../../fixtures/source_field_option.yaml',
             __DIR__ . '/../../fixtures/source_field_label.yaml',
             __DIR__ . '/../../fixtures/source_field_search_documents.yaml',
-            __DIR__ . '/../../fixtures/source_field.yaml',
+            __DIR__ . '/../../fixtures/source_field_search.yaml',
             __DIR__ . '/../../fixtures/category_configurations.yaml',
             __DIR__ . '/../../fixtures/categories.yaml',
             __DIR__ . '/../../fixtures/catalogs.yaml',
