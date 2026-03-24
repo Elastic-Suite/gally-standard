@@ -17,6 +17,7 @@ namespace Gally\Product\GraphQl\Type\Definition;
 use ApiPlatform\Metadata\Exception\InvalidArgumentException;
 use Gally\Metadata\GraphQl\Type\Definition\Filter\BoolFilterInputType;
 use Gally\Metadata\GraphQl\Type\Definition\Filter\EntityFilterInterface;
+use Gally\Metadata\GraphQl\Type\Definition\Filter\ScopedFilterInputType;
 use Gally\Metadata\Repository\MetadataRepository;
 use Gally\Search\Elasticsearch\Builder\Request\Query\Filter\FilterQueryBuilder;
 use Gally\Search\GraphQl\Type\Definition\FieldFilterInputType as BaseFieldFilterInputType;
@@ -33,6 +34,7 @@ class FieldFilterInputType extends BaseFieldFilterInputType
         FilterQueryBuilder $filterQueryBuilder,
         private iterable $availableTypes,
         private BoolFilterInputType $boolFilterInputType,
+        private ScopedFilterInputType $scopedFilterInputType,
         private MetadataRepository $metadataRepository,
         private LoggerInterface $logger,
         protected string $nestingSeparator,
@@ -43,7 +45,10 @@ class FieldFilterInputType extends BaseFieldFilterInputType
 
     public function getConfig(): array
     {
-        $fields = ['boolFilter' => ['type' => $this->boolFilterInputType]];
+        $fields = [
+            'boolFilter' => ['type' => $this->boolFilterInputType],
+            'scopedFilter' => ['type' => $this->scopedFilterInputType],
+        ];
         try {
             $metadata = $this->metadataRepository->findByEntity('product');
 

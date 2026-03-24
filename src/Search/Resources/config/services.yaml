@@ -255,6 +255,14 @@ services:
             - '@Gally\Search\Service\DateFormatUtils'
         tags:
             - { name: api_platform.graphql.type }
+    
+    Gally\Search\GraphQl\Type\Definition\Filter\ScopedFilterInputType:
+        lazy: true
+        arguments:
+            - '@Gally\Search\GraphQl\Type\Definition\FieldFilterInputType'
+            - '@Gally\Search\Elasticsearch\Request\QueryFactory'
+#        tags:
+#            - { name: api_platform.graphql.type }
 
     Gally\Search\GraphQl\Type\Definition\RequestTypeEnumType:
         arguments:

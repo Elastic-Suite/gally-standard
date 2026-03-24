@@ -235,6 +235,14 @@ services:
         arguments:
             - '@Gally\RequestContext\Service\RequestContextManager'
             - '@Gally\Configuration\Service\ConfigurationManager'
+                
+    Gally\Metadata\GraphQl\Type\Definition\Filter\ScopedFilterInputType:
+        lazy: true
+        arguments:
+            - '@Gally\Product\GraphQl\Type\Definition\FieldFilterInputType'
+            - '@Gally\Search\Elasticsearch\Request\QueryFactory'
+#        tags:
+#            - { name: api_platform.graphql.type }
 
     Gally\Metadata\Service\ReferenceLocationProvider:
         arguments:

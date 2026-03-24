@@ -76,6 +76,7 @@ services:
             - '@Gally\Search\Elasticsearch\Builder\Request\Query\Filter\FilterQueryBuilder'
             - !tagged_iterator { tag: 'gally.entity_api.filter' }
             - '@Gally\Metadata\GraphQl\Type\Definition\Filter\BoolFilterInputType'
+            - '@Gally\Metadata\GraphQl\Type\Definition\Filter\ScopedFilterInputType'
             - '@Gally\Metadata\Repository\MetadataRepository'
             - '@logger'
             - '%api_platform.graphql.nesting_separator%'

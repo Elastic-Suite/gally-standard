@@ -62,7 +62,11 @@ abstract class AbstractFilter extends InputObjectType implements TypeInterface, 
                 : $this->queryFactory->create(QueryInterface::TYPE_BOOL, ['mustNot' => [$existQuery]]);
         }
 
-        return $this->filterQueryBuilder->create($containerConfig, $this->getFilterData($inputFilter));
+        return $this->filterQueryBuilder->create(
+            $containerConfig,
+            $this->getFilterData($inputFilter),
+            $filterContext['currentPath'] ?? null,
+        );
     }
 
     protected function getFilterData(array $inputFilter): array
