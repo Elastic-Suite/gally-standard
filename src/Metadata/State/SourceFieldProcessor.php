@@ -104,6 +104,9 @@ class SourceFieldProcessor implements ProcessorInterface
      */
     private function validateAndFormatData(array $rawData): void
     {
+        $this->sourceFieldData = [];
+        $this->labelsData = [];
+
         $this->metadataIds = array_unique(array_filter(
             array_map(
                 fn ($item) => \array_key_exists('metadata', $item)
