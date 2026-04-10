@@ -134,7 +134,7 @@ class CategoryProductPositionIndexerRepository implements CategoryProductPositio
     protected function getCategoriesWithUpdatedData(array $productCategories, array $newPositionsByCategory): array
     {
         foreach ($newPositionsByCategory as $categoryId => $newPositionByCategory) {
-            $key = array_search($categoryId, array_column($productCategories, 'id'), true);
+            $key = array_search((string) $categoryId, array_column($productCategories, 'id'), true);
             if (false !== $key) {
                 $productCategories[$key]['id'] = $categoryId;
                 $productCategories[$key]['position'] = $newPositionByCategory['position'];

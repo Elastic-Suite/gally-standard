@@ -65,6 +65,9 @@ class Request
             $data,
             function ($documentData) use ($index) {
                 $identifier = $documentData['entity_id'] ?? $documentData['id'] ?? null;
+                // Force identifier to be string
+                $identifier = (string) $identifier;
+                $documentData['id'] = $identifier;
                 $this->addDocument($index, $identifier, $documentData);
             }
         );
