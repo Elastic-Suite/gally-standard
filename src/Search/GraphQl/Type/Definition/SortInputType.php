@@ -76,6 +76,11 @@ class SortInputType extends InputObjectType implements TypeInterface
             }
 
             if (Type::TYPE_CATEGORY == $sourceField?->getType()) {
+                $categoryId = $this->searchContext->getCategory()?->getId();
+                // if category not set in search context, sort on categories cannot be applied.
+                if (null === $categoryId) {
+                    unset($sortOrders[$sortField]);
+                }
                 $sortParams['nestedPath'] = $sourceField->getCode();
                 $sortParams['nestedFilter'] = [$sourceField->getCode() . '.id' => $this->searchContext->getCategory()?->getId()];
             }
