@@ -534,6 +534,28 @@ class SearchProductsTest extends AbstractTestCase
                 'cat_1',
             ],
             [
+                'b2c_fr',   // catalog ID.
+                10,     // page size.
+                1,      // current page.
+                ['category__position' => SortOrderInterface::SORT_DESC], // sort order specifications.
+                'entity_id', // document data identifier.
+                // test products are sorted by category__position.
+                ['1', 'p_02'],    // expected ordered document IDs
+                '0',
+                'cat_1',
+            ],
+            [
+                'b2c_fr',   // catalog ID.
+                10,     // page size.
+                1,      // current page.
+                ['category__position' => SortOrderInterface::SORT_DESC], // sort order specifications.
+                'entity_id', // document data identifier.
+                // test products are sorted by score if sort is category__position but current category is empty.
+                ['1', 'p_12', 'p_11', 'p_10', 'p_09', 'p_08', 'p_07', 'p_06', 'p_05', 'p_04'], // expected ordered document IDs
+                '0',  // Price group id
+                null, // Current category.
+            ],
+            [
                 'b2c_en',   // catalog ID.
                 10,     // page size.
                 1,      // current page.
