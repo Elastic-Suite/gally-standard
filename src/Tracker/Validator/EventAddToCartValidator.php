@@ -34,9 +34,11 @@ class EventAddToCartValidator extends AbstractEventValidator
         $this->validateEntityCode($event, $constraint);
 
         $payload = $this->getPayload($event, $constraint);
-        if ($payload) {
-            $this->validateDataType($payload, ['cart' => 'array'], $constraint);
-            $this->validateDataType($payload['cart'] ?? [], ['qty' => 'numeric'], $constraint);
+        $this->validateDataType($payload, ['child_sku' => 'string'], $constraint);
+        if (!$this->validateDataType($payload, ['cart' => 'array'], $constraint)) {
+            return;
         }
+
+        $this->validateDataType($payload['cart'], ['qty' => 'numeric'], $constraint);
     }
 }

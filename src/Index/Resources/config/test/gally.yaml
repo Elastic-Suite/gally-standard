@@ -3,10 +3,7 @@ gally:
         prefix: gally_test__gally
         time_before_ghost: 31557600 # one year
     ism_settings:
-        prefix: gally_test__gally
         entities:
             tracking_event:
                 rollover_after: 1
                 delete_after: 1
-    index_template_settings :
-        prefix: gally_test__gally
