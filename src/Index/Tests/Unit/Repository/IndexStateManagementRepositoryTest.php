@@ -44,6 +44,12 @@ class IndexStateManagementRepositoryTest extends AbstractTestCase
         \assert(static::getContainer()->get(MetadataRepository::class) instanceof MetadataRepository);
         self::$metadataRepository = static::getContainer()->get(MetadataRepository::class);
         self::cleanupTestPolicies();
+
+        self::loadFixture([
+            __DIR__ . '/../../fixtures/catalogs_with_uppercase.yaml',
+            __DIR__ . '/../../fixtures/source_field.yaml',
+            __DIR__ . '/../../fixtures/metadata.yaml',
+        ]);
     }
 
     public static function tearDownAfterClass(): void
@@ -78,14 +84,14 @@ class IndexStateManagementRepositoryTest extends AbstractTestCase
     {
         yield 'invalid policy' => [
             'fake_entity',
-            'b2c_fr',
+            'B2C_FR',
             [],
             'Entity type [fake_entity] does not exist',
         ];
 
         yield 'product policy' => [
             'product',
-            'b2c_fr',
+            'B2C_FR',
             ['id' => 'gally_test__gally_localized_catalog_b2c_fr_product', 'name' => 'product', 'description' => '', 'indexPatterns' => ['gally_test__gally_localized_catalog_b2c_fr_product'], 'rolloverAfter' => 30, 'deleteAfter' => 365],
         ];
 
@@ -123,7 +129,7 @@ class IndexStateManagementRepositoryTest extends AbstractTestCase
     {
         yield 'complete policy with all fields' => [
             ['id' => 'gally_test__gally_localized_catalog_b2c_fr_dummy-1', 'name' => 'dummy-1', 'description' => 'Test ism', 'indexPatterns' => ['gally_product_*'], 'deleteAfter' => 365, 'rolloverAfter' => 30],
-            'b2c_fr',
+            'B2C_FR',
         ];
 
         yield 'policy without description' => [
@@ -163,7 +169,7 @@ class IndexStateManagementRepositoryTest extends AbstractTestCase
     {
         yield 'product policy' => [
             'product',
-            'b2c_fr',
+            'B2C_FR',
             ['id' => 'gally_test__gally_localized_catalog_b2c_fr_product', 'name' => 'product', 'description' => '', 'indexPatterns' => ['gally_test__gally_localized_catalog_b2c_fr_product'], 'rolloverAfter' => 30, 'deleteAfter' => 365],
         ];
 
@@ -175,13 +181,13 @@ class IndexStateManagementRepositoryTest extends AbstractTestCase
 
         yield 'missing event policy fr' => [
             'tracking_event',
-            'b2c_fr',
+            'B2C_FR',
             null,
         ];
 
         yield 'missing category policy' => [
             'category',
-            'b2c_fr',
+            'B2C_FR',
             null,
         ];
     }
@@ -212,7 +218,7 @@ class IndexStateManagementRepositoryTest extends AbstractTestCase
     {
         yield 'complete policy with all fields' => [
             'dummy-1',
-            'b2c_fr',
+            'B2C_FR',
             ['id' => 'gally_test__gally_localized_catalog_b2c_fr_dummy-1', 'name' => 'dummy-1', 'description' => 'Test ism', 'indexPatterns' => ['gally_product_*'], 'deleteAfter' => 365, 'rolloverAfter' => 30],
         ];
 
@@ -230,7 +236,7 @@ class IndexStateManagementRepositoryTest extends AbstractTestCase
 
         yield 'non_existent' => [
             'non_existent',
-            'b2c_fr',
+            'B2C_FR',
             null,
         ];
     }
@@ -242,7 +248,7 @@ class IndexStateManagementRepositoryTest extends AbstractTestCase
     {
         $policy = self::$repository->findByName(
             'dummy-1',
-            self::$localizedCatalogRepository->findOneBy(['code' => 'b2c_fr']),
+            self::$localizedCatalogRepository->findOneBy(['code' => 'B2C_FR']),
         );
 
         $this->assertNotNull($policy);
@@ -266,7 +272,7 @@ class IndexStateManagementRepositoryTest extends AbstractTestCase
 
         $deletedPolicy = self::$repository->findByName(
             'dummy-1',
-            self::$localizedCatalogRepository->findOneBy(['code' => 'b2c_fr']),
+            self::$localizedCatalogRepository->findOneBy(['code' => 'B2C_FR']),
         );
         $this->assertNull($deletedPolicy);
     }
@@ -276,7 +282,7 @@ class IndexStateManagementRepositoryTest extends AbstractTestCase
      */
     public function testFindAll(): void
     {
-        $b2cFrCatalog = self::$localizedCatalogRepository->findOneBy(['code' => 'b2c_fr']);
+        $b2cFrCatalog = self::$localizedCatalogRepository->findOneBy(['code' => 'B2C_FR']);
         $b2cEnCatalog = self::$localizedCatalogRepository->findOneBy(['code' => 'b2c_en']);
 
         $policiesFr = self::$repository->findAll($b2cFrCatalog);

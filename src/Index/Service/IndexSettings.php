@@ -100,7 +100,7 @@ class IndexSettings implements IndexSettingsInterface
      */
     public function createIsmNameFromIdentifier(string $identifier, LocalizedCatalog $localizedCatalog): string
     {
-        return \sprintf('%s_localized_catalog_%s_%s', $this->getIsmPrefix($localizedCatalog), $localizedCatalog->getCode(), $identifier);
+        return $this->getIndexAliasFromIdentifier($identifier, $localizedCatalog);
     }
 
     /**
@@ -111,7 +111,7 @@ class IndexSettings implements IndexSettingsInterface
      */
     public function createIndexTemplateNameFromIdentifier(string $identifier, LocalizedCatalog $localizedCatalog): string
     {
-        return \sprintf('%s_localized_catalog_%s_%s', $this->getIndexTemplatePrefix($localizedCatalog), $localizedCatalog->getCode(), $identifier);
+        return $this->getIndexAliasFromIdentifier($identifier, $localizedCatalog);
     }
 
     /**
@@ -375,30 +375,6 @@ class IndexSettings implements IndexSettingsInterface
     protected function getIndexNamePrefix(): string
     {
         return $this->getIndicesSettingsConfigParam('prefix');
-    }
-
-    /**
-     * Get the ISM prefix from the configuration.
-     */
-    protected function getIsmPrefix(LocalizedCatalog $localizedCatalog): ?string
-    {
-        return $this->configurationManager->getScopedConfigValue(
-            'gally.ism_settings.prefix',
-            Configuration::SCOPE_LOCALIZED_CATALOG,
-            $localizedCatalog->getCode()
-        );
-    }
-
-    /**
-     * Get the index template prefix from the configuration.
-     */
-    protected function getIndexTemplatePrefix(LocalizedCatalog $localizedCatalog): string
-    {
-        return $this->configurationManager->getScopedConfigValue(
-            'gally.index_template_settings.prefix',
-            Configuration::SCOPE_LOCALIZED_CATALOG,
-            $localizedCatalog->getCode()
-        );
     }
 
     /**

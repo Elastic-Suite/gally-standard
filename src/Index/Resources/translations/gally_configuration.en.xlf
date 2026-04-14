@@ -20,12 +20,6 @@
                 <target>Index State Management</target>
             </segment>
         </unit>
-        <unit id="gally_configuration.group.index.fieldset.template.label">
-            <segment>
-                <source>gally_configuration.group.index.fieldset.template.label</source>
-                <target>Index Template</target>
-            </segment>
-        </unit>
         <unit id="gally_configuration.gally_indices_settings_prefix.label">
             <segment>
                 <source>gally_configuration.gally_indices_settings_prefix.label</source>
@@ -59,18 +53,12 @@
         <unit id="gally_configuration.gally_indices_settings_time_before_ghost.tooltip">
             <segment>
                 <source>gally_configuration.gally_indices_settings_time_before_ghost.tooltip</source>
-                <target>Elasticsuite derelict indices resulting from a failed full reindex are considered ghost after
+                <target>Gally derelict indices resulting from a failed full reindex are considered ghost after
                     this amount of time (in seconds) has elapsed since their creation. You can reduce this amount of
                     time to speed up ghost indices cleanup, but take care to add a safety on top of the maximum
                     reindexing duration of the more complex index of your platform (usually a catalog_product/product
                     search index). Defaults to 172,800 seconds (2 days), minimum value: 3600 (1 hour).
                 </target>
-            </segment>
-        </unit>
-        <unit id="gally_configuration.gally_ism_settings_prefix.label">
-            <segment>
-                <source>gally_configuration.gally_ism_settings_prefix.label</source>
-                <target>ISM prefix</target>
             </segment>
         </unit>
         <unit id="gally_configuration.gally_ism_settings_rollover_after.label">
@@ -89,12 +77,6 @@
             <segment>
                 <source>gally_configuration.gally_ism_settings_delete_after.tooltip</source>
                 <target>Older data will be deleted daily.</target>
-            </segment>
-        </unit>
-        <unit id="gally_configuration.gally_index_template_settings_prefix.label">
-            <segment>
-                <source>gally_configuration.gally_index_template_settings_prefix.label</source>
-                <target>Index template prefix</target>
             </segment>
         </unit>
     </file>

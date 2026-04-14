@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace Gally\Metadata\Tests\Unit;
 
+use ApiPlatform\Validator\ValidatorInterface;
 use Gally\Index\Repository\DataStream\DataStreamRepositoryInterface;
 use Gally\Test\AbstractTestCase;
 use Gally\Tracker\Entity\TrackingEvent;
@@ -22,6 +23,8 @@ use Gally\Tracker\MessageHandler\TrackingEventHandler;
 class TrackingEventHandlerTest extends AbstractTestCase
 {
     protected TrackingEventHandler $eventHandler;
+
+    protected ValidatorInterface $validator;
 
     public static function setUpBeforeClass(): void
     {
@@ -38,6 +41,7 @@ class TrackingEventHandlerTest extends AbstractTestCase
     protected function setUp(): void
     {
         parent::setUp();
+        $this->validator = self::getContainer()->get(ValidatorInterface::class);
 
         if (!isset($this->eventHandler)) {
             /** @var DataStreamRepositoryInterface $dataStreamRepoMock */
@@ -61,7 +65,7 @@ class TrackingEventHandlerTest extends AbstractTestCase
     public function testHandleIncompleteTrackingEvent(TrackingEvent $event, ?string $expectedErrorMessage = null): void
     {
         $this->expectExceptionMessage($expectedErrorMessage);
-        $this->eventHandler->__invoke($event);
+        $this->validator->validate($event);
     }
 
     protected function handleIncompleteTrackingEventDataProvider(): iterable
@@ -75,7 +79,7 @@ sessionUid: This value should not be blank.
 sessionVid: This value should not be blank.',
         ];
 
-        yield 'Event with invalide data' => [
+        yield 'Event with invalid data' => [
             $this->buildEventObject([
                 'eventType' => 'fake',
                 'metadataCode' => 'fake',
@@ -138,12 +142,22 @@ The field product_list is missing from payload data.
 The field search_query is missing from payload data.',
         ];
 
+        yield 'Incomplete add to cart' => [
+            $this->buildEventObject([
+                'eventType' => 'add_to_cart',
+                'entityCode' => 'skuA',
+            ]),
+            'The field child_sku is missing from payload data.
+The field cart is missing from payload data.',
+        ];
+
         yield 'Incomplete order' => [
             $this->buildEventObject([
                 'eventType' => 'order',
                 'entityCode' => 'fake',
             ]),
-            'The field order is missing from payload data.',
+            'The field child_sku is missing from payload data.
+The field order is missing from payload data.',
         ];
     }
 
@@ -155,6 +169,7 @@ The field search_query is missing from payload data.',
     public function testHandleTrackingEvent(TrackingEvent $event): void
     {
         $this->expectNotToPerformAssertions();
+        $this->validator->validate($event);
         $this->eventHandler->__invoke($event);
     }
 
@@ -177,7 +192,6 @@ The field search_query is missing from payload data.',
                     ],
                 ],
             ]),
-            null,
         ];
 
         yield 'Display products' => [
@@ -190,7 +204,6 @@ The field search_query is missing from payload data.',
                 'contextCode' => 'cat_14',
                 'payload' => ['display' => ['position' => 1]],
             ]),
-            null,
         ];
 
         yield 'Search result' => [
@@ -230,8 +243,13 @@ The field search_query is missing from payload data.',
             $this->buildEventObject([
                 'eventType' => 'add_to_cart',
                 'entityCode' => 'skuA',
+                'payload' => [
+                    'child_sku' => 'skuA',
+                    'cart' => [
+                        'qty' => 1,
+                    ],
+                ],
             ]),
-            null,
         ];
 
         yield 'Order' => [
@@ -239,6 +257,7 @@ The field search_query is missing from payload data.',
                 'eventType' => 'order',
                 'entityCode' => 'VD01',
                 'payload' => [
+                    'child_sku' => 'VD01',
                     'order' => [
                         'order_id' => '125',
                         'total' => 52.5,
@@ -248,7 +267,6 @@ The field search_query is missing from payload data.',
                     ],
                 ],
             ]),
-            null,
         ];
     }
 

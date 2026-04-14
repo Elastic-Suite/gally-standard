@@ -29,6 +29,8 @@ class IndexTemplateRepositoryTest extends AbstractTestCase
         'gally_test__gally_localized_catalog_b2c_fr_event',
         'gally_test__gally_localized_catalog_b2c_fr_dummy-1',
         'gally_test__gally_localized_catalog_b2c_en_dummy-2',
+        'gally_test__gally_localized_catalog_b2c_en_product',
+        'gally_test__gally_localized_catalog_b2c_fr_tracking_event',
     ];
 
     public static function setUpBeforeClass(): void
@@ -41,7 +43,7 @@ class IndexTemplateRepositoryTest extends AbstractTestCase
 
         self::cleanupTestTemplates();
         self::loadFixture([
-            __DIR__ . '/../../fixtures/catalogs.yaml',
+            __DIR__ . '/../../fixtures/catalogs_with_uppercase.yaml',
             __DIR__ . '/../../fixtures/source_field.yaml',
             __DIR__ . '/../../fixtures/metadata.yaml',
         ]);
@@ -76,17 +78,17 @@ class IndexTemplateRepositoryTest extends AbstractTestCase
     {
         yield 'event template' => [
             'tracking_event',
-            'b2c_fr',
+            'B2C_FR',
             [
                 'id' => 'gally_test__gally_localized_catalog_b2c_fr_tracking_event',
                 'name' => 'tracking_event',
                 'indexPatterns' => ['gally_test__gally_localized_catalog_b2c_fr_tracking_event'],
                 'entityType' => 'tracking_event',
-                'localizedCatalogCode' => 'b2c_fr',
+                'localizedCatalogCode' => 'B2C_FR',
                 'aliases' => [
                     '.entity_tracking_event',
                     '.catalog_b2c',
-                    '.localized_catalog_b2c_fr',
+                    '.localized_catalog_B2C_FR',
                     '.locale_fr_FR',
                 ],
                 'mappings' => [
@@ -198,9 +200,9 @@ class IndexTemplateRepositoryTest extends AbstractTestCase
                 'name' => 'dummy-1',
                 'indexPatterns' => ['gally_product_*'],
                 'settings' => ['number_of_shards' => 1],
-                'localizedCatalogCode' => 'b2c_fr',
+                'localizedCatalogCode' => 'B2C_FR',
             ],
-            'b2c_fr',
+            'B2C_FR',
         ];
 
         yield 'dummy-2 template' => [
@@ -243,20 +245,20 @@ class IndexTemplateRepositoryTest extends AbstractTestCase
     {
         yield 'tracking_event template found' => [
             'tracking_event',
-            'b2c_fr',
+            'B2C_FR',
             [
                 'id' => 'gally_test__gally_localized_catalog_b2c_fr_tracking_event',
                 'name' => 'tracking_event',
                 'indexPatterns' => ['gally_test__gally_localized_catalog_b2c_fr_tracking_event'],
                 'entityType' => 'tracking_event',
-                'localizedCatalogCode' => 'b2c_fr',
+                'localizedCatalogCode' => 'B2C_FR',
                 'isDataStream' => true,
             ],
         ];
 
         yield 'category template not found (not created)' => [
             'category',
-            'b2c_fr',
+            'B2C_FR',
             null,
         ];
 
@@ -294,25 +296,25 @@ class IndexTemplateRepositoryTest extends AbstractTestCase
     {
         yield 'tracking_event template' => [
             'tracking_event',
-            'b2c_fr',
+            'B2C_FR',
             [
                 'id' => 'gally_test__gally_localized_catalog_b2c_fr_tracking_event',
                 'name' => 'tracking_event',
                 'indexPatterns' => ['gally_test__gally_localized_catalog_b2c_fr_tracking_event'],
                 'entityType' => 'tracking_event',
-                'localizedCatalogCode' => 'b2c_fr',
+                'localizedCatalogCode' => 'B2C_FR',
                 'isDataStream' => true,
             ],
         ];
 
         yield 'dummy-1 template' => [
             'dummy-1',
-            'b2c_fr',
+            'B2C_FR',
             [
                 'id' => 'gally_test__gally_localized_catalog_b2c_fr_dummy-1',
                 'name' => 'dummy-1',
                 'indexPatterns' => ['gally_product_*'],
-                'localizedCatalogCode' => 'b2c_fr',
+                'localizedCatalogCode' => 'B2C_FR',
                 'isDataStream' => false,
             ],
         ];
@@ -331,7 +333,7 @@ class IndexTemplateRepositoryTest extends AbstractTestCase
 
         yield 'non existent' => [
             'non_existent',
-            'b2c_fr',
+            'B2C_FR',
             null,
         ];
     }
@@ -365,7 +367,7 @@ class IndexTemplateRepositoryTest extends AbstractTestCase
                 'name' => 'tracking_event',
                 'indexPatterns' => ['gally_test__gally_localized_catalog_b2c_fr_tracking_event'],
                 'entityType' => 'tracking_event',
-                'localizedCatalogCode' => 'b2c_fr',
+                'localizedCatalogCode' => 'B2C_FR',
                 'isDataStream' => true,
             ],
         ];
@@ -376,7 +378,7 @@ class IndexTemplateRepositoryTest extends AbstractTestCase
                 'id' => 'gally_test__gally_localized_catalog_b2c_fr_dummy-1',
                 'name' => 'dummy-1',
                 'indexPatterns' => ['gally_product_*'],
-                'localizedCatalogCode' => 'b2c_fr',
+                'localizedCatalogCode' => 'B2C_FR',
                 'isDataStream' => false,
             ],
         ];
@@ -406,7 +408,7 @@ class IndexTemplateRepositoryTest extends AbstractTestCase
         $repository = static::getContainer()->get(IndexTemplateRepositoryInterface::class);
         $template = $repository->findByName(
             'dummy-1',
-            self::$localizedCatalogRepository->findOneBy(['code' => 'b2c_fr']),
+            self::$localizedCatalogRepository->findOneBy(['code' => 'B2C_FR']),
         );
 
         $this->assertNotNull($template);
@@ -420,7 +422,7 @@ class IndexTemplateRepositoryTest extends AbstractTestCase
                 'name' => 'dummy-1',
                 'indexPatterns' => ['gally_product_*'],
                 'settings' => ['number_of_shards' => 2],
-                'localizedCatalogCode' => 'b2c_fr',
+                'localizedCatalogCode' => 'B2C_FR',
             ],
             $updatedTemplate
         );
@@ -436,7 +438,7 @@ class IndexTemplateRepositoryTest extends AbstractTestCase
 
         $deletedTemplate = $repository->findByName(
             'dummy-1',
-            self::$localizedCatalogRepository->findOneBy(['code' => 'b2c_fr']),
+            self::$localizedCatalogRepository->findOneBy(['code' => 'B2C_FR']),
         );
         $this->assertNull($deletedTemplate);
     }

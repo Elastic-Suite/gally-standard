@@ -34,6 +34,7 @@ class EventOrderValidator extends AbstractEventValidator
         $this->validateEntityCode($event, $constraint);
 
         $payload = $this->getPayload($event, $constraint);
+        $this->validateDataType($payload, ['child_sku' => 'string'], $constraint);
         if (!$this->validateDataType($payload, ['order' => 'array'], $constraint)) {
             return;
         }

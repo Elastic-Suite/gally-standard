@@ -144,9 +144,6 @@ class Configuration implements GallyConfigurationInterface
                 // ISM setting config
                 ->arrayNode('ism_settings')
                     ->children()
-                        ->scalarNode('prefix')
-                            ->isRequired()
-                        ->end()
                         ->integerNode('rollover_after')
                             ->min(1)
                         ->end()
@@ -165,15 +162,6 @@ class Configuration implements GallyConfigurationInterface
                                     ->end()
                                 ->end()
                             ->end()
-                        ->end()
-                    ->end()
-                ->end()
-
-                // Index template setting config
-                ->arrayNode('index_template_settings')
-                    ->children()
-                        ->scalarNode('prefix')
-                            ->isRequired()
                         ->end()
                     ->end()
                 ->end()
