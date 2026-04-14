@@ -126,15 +126,28 @@ class DataStreamRepository implements DataStreamRepositoryInterface
         return new Bulk\Response($this->client->bulk($data));
     }
 
-    public function delete(string $id): void
+    public function delete(string|DataStream $dataStreamId): void
     {
-        $dataStream = $this->findById($id);
+        if (!$dataStreamId instanceof DataStream) {
+            $dataStream = $this->findById($dataStreamId);
+        } else {
+            $dataStream = $dataStreamId;
+            $dataStreamId = $dataStream->getName();
+        }
         $this->client->indices()->deleteDataStream(['name' => $dataStream->getName()]);
 
-        $this->ismRepository->delete($id);
+        $this->ismRepository->delete($dataStreamId);
 
         if ($dataStream->getTemplate()) {
             $this->indexTemplateRepository->delete($dataStream->getTemplate()->getId());
+        }
+    }
+
+    public function deleteAll(): void
+    {
+        $dataStreams = $this->findAll();
+        foreach ($dataStreams as $dataStream) {
+            $this->delete($dataStream->getName());
         }
     }
 
