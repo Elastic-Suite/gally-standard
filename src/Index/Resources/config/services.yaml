@@ -190,6 +190,7 @@ services:
     Gally\Index\Command\IndexClearCommand:
         arguments:
             - '@Gally\Index\Repository\Index\IndexRepositoryInterface'
+            - '@Gally\Index\Repository\DataStream\DataStreamRepositoryInterface'
             - null
         tags:
             - { name: console.command }

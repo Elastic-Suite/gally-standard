@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace Gally\Index\Command;
 
+use Gally\Index\Repository\DataStream\DataStreamRepositoryInterface;
 use Gally\Index\Repository\Index\IndexRepositoryInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -29,6 +30,7 @@ class IndexClearCommand extends Command
      */
     public function __construct(
         private IndexRepositoryInterface $indexRepository,
+        private DataStreamRepositoryInterface $dataStreamRepository,
         ?string $name = null,
     ) {
         parent::__construct($name);
@@ -47,7 +49,8 @@ class IndexClearCommand extends Command
         }
 
         $this->indexRepository->delete('gally*');
-        $ui->writeln('Elasticsearch indices have been deleted.');
+        $this->dataStreamRepository->deleteAll();
+        $ui->writeln('Elasticsearch indices and data streams have been deleted.');
 
         return Command::SUCCESS;
     }

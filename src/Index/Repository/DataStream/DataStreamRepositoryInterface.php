@@ -71,5 +71,10 @@ interface DataStreamRepositoryInterface
      *
      * @param string $id data stream id
      */
-    public function delete(string $id): void;
+    public function delete(string|DataStream $id): void;
+
+    /**
+     * Delete all data streams.
+     */
+    public function deleteAll(): void;
 }
