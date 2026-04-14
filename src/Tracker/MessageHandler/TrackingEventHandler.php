@@ -29,6 +29,7 @@ class TrackingEventHandler implements BatchHandlerInterface
     use BatchHandlerTrait;
 
     private const BATCH_SIZE = 1000;
+    private int $invalidMessageCount = 0;
 
     public function __construct(
         private DataStreamRepositoryInterface $dataStreamRepository,
@@ -40,7 +41,15 @@ class TrackingEventHandler implements BatchHandlerInterface
 
     public function __invoke(TrackingEvent $event, ?Acknowledger $ack = null): mixed
     {
-        $this->validator->validate($event);
+        try {
+            $this->validator->validate($event);
+        } catch (\Throwable $e) {
+            ++$this->invalidMessageCount;
+            $ack?->nack($e);
+
+            return \count($this->jobs);
+        }
+
         $this->handle($event, $ack);
 
         return \count($this->jobs);
@@ -48,11 +57,12 @@ class TrackingEventHandler implements BatchHandlerInterface
 
     protected function shouldFlush(): bool
     {
-        return self::BATCH_SIZE <= \count($this->jobs);
+        return self::BATCH_SIZE <= (\count($this->jobs) + $this->invalidMessageCount);
     }
 
     protected function process(array $jobs): void
     {
+        $this->invalidMessageCount = 0;
         $originalMessageAckMap = [];
         $bulkRequest = new Bulk\Request();
         $metadata = $this->metadataRepository->findOneBy(['entity' => 'tracking_event']);
