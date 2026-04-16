@@ -133,7 +133,7 @@ class SyncCategoryProductMerchandisingDataTest extends AbstractTestCase
         $productId4 = 'p_4';
         $categoryIdOne = 'one';
         $categoryIdTwo = 'two';
-        $categoryIdThree = 'three';
+        $categoryIdThree = '3';
         $categoryIdFive = 'five';
         $localizedCatalogIdB2cFr = 1;
         $localizedCatalogIdB2cEn = 2;

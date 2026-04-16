@@ -95,8 +95,8 @@ class CategorySynchronizerTest extends AbstractTestCase
         $localizedCatalog3 = $localizedCatalogRepository->findOneBy(['code' => 'b2b_fr']);
         $category1Data = ['id' => 1, 'parentId' => null, 'level' => 1, 'name' => 'One'];
         $category2Data = ['id' => 'two', 'parentId' => null, 'level' => 1, 'name' => 'Two'];
-        $category3Data = ['id' => 'three', 'parentId' => 'one', 'level' => 2, 'name' => 'Three'];
-        $category4Data = ['id' => 'four', 'parentId' => 'three', 'level' => 3, 'name' => 'Four'];
+        $category3Data = ['id' => '3', 'parentId' => 'one', 'level' => 2, 'name' => 'Three'];
+        $category4Data = ['id' => 'four', 'parentId' => '3', 'level' => 3, 'name' => 'Four'];
 
         $this->validateCategoryCount(0, 0);
 
@@ -116,12 +116,12 @@ class CategorySynchronizerTest extends AbstractTestCase
         $this->validateCategoryCount(2, 2);
 
         // Add new documents in installed index.
-        $this->bulkIndex($indexName, ['three' => $category3Data, 'four' => $category4Data]);
+        $this->bulkIndex($indexName, ['3' => $category3Data, 'four' => $category4Data]);
         $this->validateCategoryCount(4, 4);
 
         // Create an index for other catalogs.
-        $this->prepareIndex($localizedCatalog2->getId(), ['one' => $category1Data, 'three' => $category3Data]);
-        $this->prepareIndex($localizedCatalog3->getId(), ['one' => $category1Data, 'three' => $category3Data]);
+        $this->prepareIndex($localizedCatalog2->getId(), ['one' => $category1Data, '3' => $category3Data]);
+        $this->prepareIndex($localizedCatalog3->getId(), ['one' => $category1Data, '3' => $category3Data]);
         $this->validateCategoryCount(4, 8);
 
         // Remove documents.
@@ -132,7 +132,7 @@ class CategorySynchronizerTest extends AbstractTestCase
         $entityManager = static::getContainer()->get('doctrine')->getManager();
         $categoryRepository = static::getContainer()->get(CategoryRepository::class);
         $categoryConfigurationRepository = static::getContainer()->get(CategoryConfigurationRepository::class);
-        $category3 = $categoryRepository->find('three');
+        $category3 = $categoryRepository->find('3');
         $categoryConfigCatalog1 = $categoryConfigurationRepository->findOneBy(
             ['category' => $category3, 'localizedCatalog' => $localizedCatalog1]
         );
@@ -144,10 +144,10 @@ class CategorySynchronizerTest extends AbstractTestCase
         $category3Data['name'] = 'ThreeUpdated';
         $category3Data['parentId'] = '';
         $category3Data['level'] = 1;
-        $this->bulkIndex($indexName, ['three' => $category3Data]);
+        $this->bulkIndex($indexName, ['3' => $category3Data]);
 
         $this->validateCategoryCount(3, 7);
-        $category3 = $categoryRepository->find('three');
+        $category3 = $categoryRepository->find('3');
         $this->assertSame(1, $category3->getLevel());
         $category3ConfigCatalog1 = $categoryConfigurationRepository->findOneBy(
             ['category' => $category3, 'localizedCatalog' => $localizedCatalog1]
@@ -165,7 +165,7 @@ class CategorySynchronizerTest extends AbstractTestCase
         $category2Data['name'] = 'TwoUpdated';
         sleep(1); // Avoid creating two indexes at the same second, to delete after the ticket #1321031 will be done
         $newIndexName = $this->createIndex('category', $localizedCatalog1->getId());
-        $this->bulkIndex($newIndexName, ['one' => $category1Data, 'two' => $category2Data, 'three' => $category3Data]);
+        $this->bulkIndex($newIndexName, ['one' => $category1Data, 'two' => $category2Data, '3' => $category3Data]);
         $this->installIndex($newIndexName);
 
         $this->validateCategoryCount(3, 7);
@@ -180,7 +180,7 @@ class CategorySynchronizerTest extends AbstractTestCase
         $categoryRepository = static::getContainer()->get(CategoryRepository::class);
         $category1 = $categoryRepository->find('1');
         $category2 = $categoryRepository->find('two');
-        $category3 = $categoryRepository->find('three');
+        $category3 = $categoryRepository->find('3');
         $catalog1 = $catalogRepository->findOneBy(['code' => 'b2c']);
         $catalog2 = $catalogRepository->findOneBy(['code' => 'b2b']);
         $entityManager->persist($this->createConfiguration($category1, null));
@@ -196,8 +196,8 @@ class CategorySynchronizerTest extends AbstractTestCase
         sleep(1); // Avoid creating two indexes at the same second, to delete after the ticket #1321031 will be done
         // Create new index for catalog1 without category three
         $this->prepareIndex($localizedCatalog1->getId(), ['one' => $category1Data]);
-        $this->prepareIndex($localizedCatalog2->getId(), ['three' => $category3Data]);
-        $this->prepareIndex($localizedCatalog3->getId(), ['three' => $category3Data, 'four' => $category4Data]);
+        $this->prepareIndex($localizedCatalog2->getId(), ['3' => $category3Data]);
+        $this->prepareIndex($localizedCatalog3->getId(), ['3' => $category3Data, 'four' => $category4Data]);
         $this->validateCategoryCount(3, 7);
     }
 
@@ -224,7 +224,7 @@ class CategorySynchronizerTest extends AbstractTestCase
 
         sleep(1); // Avoid creating two indexes at the same second, to delete after the ticket #1321031 will be done
         $indexName = $this->createIndex('category', $localizedCatalog1->getId());
-        $this->bulkIndex($indexName, ['five' => ['id' => 'four', 'parentId' => 'three', 'level' => 3]]);
+        $this->bulkIndex($indexName, ['five' => ['id' => 'four', 'parentId' => '3', 'level' => 3]]);
         $this->validateApiCall(
             new RequestGraphQlToTest(
                 <<<GQL
