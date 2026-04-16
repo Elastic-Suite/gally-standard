@@ -8,15 +8,15 @@ Gally\Category\Entity\Category:
         level: 1
         path: two
     categ3:
-        id: three
+        id: "3"
         parentId: one
         level: 2
-        path: one/three
+        path: one/3
     categ4:
         id: four
-        parentId: three
+        parentId: "3"
         level: 3
-        path: one/three/four
+        path: one/3/four
     categ5:
         id: five
         level: 1

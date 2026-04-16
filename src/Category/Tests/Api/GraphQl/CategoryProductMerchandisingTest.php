@@ -226,7 +226,7 @@ class CategoryProductMerchandisingTest extends AbstractTestCase
         $productId4 = 'p_4';
         $categoryIdOne = 'one';
         $categoryIdTwo = 'two';
-        $categoryIdThree = 'three';
+        $categoryIdThree = '3';
         $catalogIdB2c = 1;
         $catalogIdB2b = 2;
         $localizedCatalogIdB2cFr = 1;

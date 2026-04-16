@@ -94,7 +94,7 @@ class CategoryConfigurationTest extends AbstractEntityTestWithUpdate
             ],
             [
                 $adminUser,
-                ['category' => 'three', 'catalog' => 'b2c', 'localizedCatalog' => 'b2c_fr', 'name' => 'Three', 'defaultSorting' => 'invalidSort'],
+                ['category' => '3', 'catalog' => 'b2c', 'localizedCatalog' => 'b2c_fr', 'name' => 'Three', 'defaultSorting' => 'invalidSort'],
                 422,
                 'defaultSorting: The option "invalidSort" is not a valid option for sorting.',
             ],

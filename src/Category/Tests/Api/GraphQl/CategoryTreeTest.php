@@ -58,10 +58,10 @@ class CategoryTreeTest extends AbstractTestCase
                     'count' => 2,
                     'children' => [
                         [
-                            'id' => 'three',
+                            'id' => '3',
                             'name' => 'Trois',
                             'level' => 2,
-                            'path' => 'one/three',
+                            'path' => 'one/3',
                             'isVirtual' => false,
                             'count' => 1,
                         ],
@@ -82,10 +82,10 @@ class CategoryTreeTest extends AbstractTestCase
                     'count' => 2,
                     'children' => [
                         [
-                            'id' => 'three',
+                            'id' => '3',
                             'name' => 'Three',
                             'level' => 2,
-                            'path' => 'one/three',
+                            'path' => 'one/3',
                             'isVirtual' => false,
                             'count' => 0,
                         ],
@@ -140,10 +140,10 @@ class CategoryTreeTest extends AbstractTestCase
                     'isVirtual' => true,
                     'children' => [
                         [
-                            'id' => 'three',
+                            'id' => '3',
                             'name' => 'Trois',
                             'level' => 2,
-                            'path' => 'one/three',
+                            'path' => 'one/3',
                             'isVirtual' => false,
                         ],
                     ],

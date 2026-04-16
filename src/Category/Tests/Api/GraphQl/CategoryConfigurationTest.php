@@ -148,7 +148,7 @@ class CategoryConfigurationTest extends AbstractTestCase
             $user,
         ];
         yield [
-            'three',
+            '3',
             'b2c',
             'b2c_fr',
             [

@@ -250,6 +250,7 @@ class DataStreamTest extends AbstractTestCase
                     if (\array_key_exists('error', $expectedData)) {
                         $this->assertGraphQlError($expectedData['error']);
                     } else {
+                        $this->assertNoGraphQlError($response->toArray());
                         $this->assertJsonContains(['data' => ['bulkDataStream' => $expectedData]]);
                     }
                 }
