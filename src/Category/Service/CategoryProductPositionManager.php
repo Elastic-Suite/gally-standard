@@ -50,6 +50,26 @@ class CategoryProductPositionManager
     ) {
     }
 
+    /**
+     * Reindex the position of a product merchandising entry in Elasticsearch based on its scope.
+     *
+     * /!\/!\/!\/!\/!\
+     * When a position is saved at the localized catalog scope, only the associated index is updated.
+     * When a position is saved at the catalog scope, all indexes associated with its localized catalogs are updated.
+     *
+     * Due to this behavior and the way scopes are managed in front, saving positions cannot be made scopable
+     * (i.e., limiting the save to the selected scope without propagating to child scopes), as this could
+     * lead to functional inconsistencies.
+     *
+     * For example: if a user positions product A at position 1 from the localized catalog scope "com_en",
+     * and then positions product B at position 1 from the catalog scope "com", this configuration will be
+     * applied to all its localized catalogs ("com_fr" and "com_en"). As a result, on "com_en", both product A
+     * and product B would end up at position 1, because positions are not fully replaced (delete + add)
+     * but only added.
+     * /!\/!\/!\/!\/!\
+     *
+     * @param ProductMerchandising $productMerchandising The product merchandising entry to reindex
+     */
     public function reindexPosition(ProductMerchandising $productMerchandising): void
     {
         // Localized catalog  scope.
