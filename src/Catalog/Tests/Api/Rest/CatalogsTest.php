@@ -46,6 +46,7 @@ class CatalogsTest extends AbstractEntityTestWithUpdate
             [$adminUser, ['code' => '', 'name' => 'Empty Code'], 422, 'code: This value should not be blank.'],
             [$adminUser, ['code' => ''], 422, 'code: This value should not be blank.'],
             [$adminUser, ['name' => 'Missing Code'], 422, 'code: This value should not be blank.'],
+            [$adminUser, ['code' => 'VALID_CODE', 'name' => 'B2C Catalog'], 422, 'code: This catalog code already exists.'],
         ];
     }
 

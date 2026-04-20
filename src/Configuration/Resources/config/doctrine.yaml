@@ -2,8 +2,10 @@ doctrine:
     dbal:
         types:
             jsonb: Gally\Doctrine\Type\JsonbType
+            citext: Gally\Doctrine\Type\CitextType
         mapping_types:
             jsonb: jsonb
+            citext: string
     orm:
         dql:
             datetime_functions:
