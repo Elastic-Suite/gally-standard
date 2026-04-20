@@ -2,6 +2,11 @@ Gally\Catalog\Entity\Catalog:
     properties:
         code:
             - NotBlank: ~
+    constraints:
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
+              fields: [code]
+              errorPath: code
+              message: 'This catalog code already exists.'
 
 Gally\Catalog\Entity\LocalizedCatalog:
     properties:
@@ -20,6 +25,10 @@ Gally\Catalog\Entity\LocalizedCatalog:
             - NotBlank: ~
             - Currency: ~
     constraints:
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
+              fields: [code]
+              errorPath: code
+              message: 'This localized catalog code already exists.'
         - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
               fields: [code, locale]
               errorPath: locale

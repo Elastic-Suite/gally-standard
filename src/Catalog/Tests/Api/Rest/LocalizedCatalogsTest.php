@@ -45,7 +45,7 @@ class LocalizedCatalogsTest extends AbstractEntityTestWithUpdate
             [null, ['catalog' => $this->getUri('catalogs', '1'), 'code' => 'valid_code', 'name' => 'Unauthorized user', 'locale' => 'fr_FR', 'currency' => 'EUR'], 401],
             [$this->getUser(Role::ROLE_CONTRIBUTOR), ['catalog' => $this->getUri('catalogs', '1'), 'code' => 'valid_code', 'name' => 'Unauthorized user', 'locale' => 'fr_FR', 'currency' => 'EUR'], 403],
             [$adminUser, ['code' => 'no_catalog', 'name' => 'B2C French catalog', 'locale' => 'fr_FR', 'currency' => 'EUR'], 422, 'catalog: This value should not be blank.'],
-            [$adminUser, ['catalog' => $this->getUri('catalogs', '2'), 'code' => 'valid_code', 'locale' => 'fr_FR', 'currency' => 'EUR', 'name' => 'Empty Code'], 422, 'locale: This code and locale couple already exists.'],
+            [$adminUser, ['catalog' => $this->getUri('catalogs', '2'), 'code' => 'VALID_CODE', 'locale' => 'fr_FR', 'currency' => 'EUR', 'name' => 'Empty Code'], 422, "code: This localized catalog code already exists.\nlocale: This code and locale couple already exists."],
             [$adminUser, ['catalog' => $this->getUri('catalogs', '1'), 'code' => '', 'locale' => 'en_US', 'currency' => 'USD', 'name' => 'Empty Code'], 422, 'code: This value should not be blank.'],
             [$adminUser, ['catalog' => $this->getUri('catalogs', '1'), 'code' => '', 'locale' => 'en_US', 'currency' => 'USD'], 422, 'code: This value should not be blank.'],
             [$adminUser, ['catalog' => $this->getUri('catalogs', '1'), 'locale' => 'en_US', 'currency' => 'USD', 'name' => 'Missing Code'], 422, 'code: This value should not be blank.'],
