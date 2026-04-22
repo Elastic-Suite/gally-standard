@@ -9,9 +9,14 @@ Gally\Metadata\Entity\SourceField:
     properties:
         code:
             - NotBlank: ~
+            - Regex:
+                pattern: '/^\d+$/'
+                match: false
+                message: 'The code cannot be a numeric value.'
         metadata:
             - NotBlank: ~
         type:
+            - NotBlank: ~
             - Choice: { callback: [Gally\Metadata\Entity\SourceField\Type, getAvailableTypes] }
         weight:
             - Choice: { callback: [Gally\Metadata\Entity\SourceField\Weight, getValidWeight] }

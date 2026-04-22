@@ -77,6 +77,6 @@ class Type
 
     public static function getAvailableTypes(): array
     {
-        return [null, ...self::AVAILABLE_TYPES];
+        return self::AVAILABLE_TYPES;
     }
 }
