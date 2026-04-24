@@ -23,10 +23,22 @@ use OpenSearch\Client;
 
 class IndexRepository implements IndexRepositoryInterface
 {
+    private array $futureBulks = [];
+
     public function __construct(
         private Client $client,
         private IndexSettingsInterface $indexSettings,
     ) {
+    }
+
+    /**
+     * Resolve future bulks on object destruction.
+     * This would also be done by the Elasticsearch client through the Guzzle MultiCurl handler,
+     * but would prevent having any bulk errors shown in the logs.
+     */
+    public function __destruct()
+    {
+        $this->resolveFutureBulks();
     }
 
     public function findAll(): array
@@ -1119,6 +1131,33 @@ class IndexRepository implements IndexRepositoryInterface
         }
 
         return new Bulk\Response($this->client->bulk($data));
+    }
+
+    public function bulkAsync(Bulk\Request $bulkRequest): void
+    {
+        $params = [
+            'body' => $bulkRequest->getOperations(),
+            'client' => ['future' => 'lazy'],
+        ];
+
+        $this->futureBulks[] = $this->client->bulk($params);
+    }
+
+    public function resolveFutureBulks(): array
+    {
+        $responses = [];
+        foreach ($this->futureBulks as $future) {
+            $responses[] = new Bulk\Response(
+                [
+                    'items' => $future['items'],  // Implicit resolution of the promise.
+                    'errors' => $future['errors'], // Implicit resolution of the promise.
+                ]
+            );
+        }
+
+        $this->futureBulks = [];
+
+        return $responses;
     }
 
     public function refresh(array|string $indexName): void

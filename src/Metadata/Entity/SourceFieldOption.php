@@ -192,6 +192,17 @@ class SourceFieldOption
         return $this;
     }
 
+    public function getLabel(int $localizedCatalogId): string
+    {
+        foreach ($this->getLabels() as $label) {
+            if ($localizedCatalogId === $label->getLocalizedCatalog()->getId()) {
+                return $label->getLabel();
+            }
+        }
+
+        return $this->getDefaultLabel();
+    }
+
     public function addLabel(SourceFieldOptionLabel $label): self
     {
         if (!$this->labels->contains($label)) {
