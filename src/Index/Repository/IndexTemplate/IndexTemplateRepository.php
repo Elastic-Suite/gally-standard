@@ -86,7 +86,10 @@ class IndexTemplateRepository implements IndexTemplateRepositoryInterface
             );
         }
         $template->setAliases($aliases);
-        $template->setSettings($this->indexSettings->getCreateIndexSettings() + $indexSettings);
+        $template->setSettings(
+            array_merge($this->indexSettings->getCreateIndexSettings(), $this->indexSettings->getInstallIndexSettings()) +
+            $indexSettings
+        );
         $template->setMappings($mappings);
         $template->setLocalizedCatalog($localizedCatalog);
 
