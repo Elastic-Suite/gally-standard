@@ -168,6 +168,9 @@ class SourceFieldOptionProcessor implements ProcessorInterface
      */
     private function validateAndFormatData(array $rawData)
     {
+        $this->optionsData = [];
+        $this->labelsData = [];
+
         $this->sourceFieldIds = array_unique(array_filter(
             array_map(
                 fn ($item) => \array_key_exists('sourceField', $item)

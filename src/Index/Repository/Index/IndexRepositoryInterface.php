@@ -50,6 +50,16 @@ interface IndexRepositoryInterface
     public function bulk(Bulk\Request $request, bool $instantRefresh = false): Bulk\Response;
 
     /**
+     * Send asynchronous bulk to index.
+     */
+    public function bulkAsync(Bulk\Request $bulkRequest): void;
+
+    /**
+     * Wait for all pending bulk.
+     */
+    public function resolveFutureBulks(): array;
+
+    /**
      * Refresh an index or a list of indices.
      *
      * @param string[]|string $indexName One or several indices names
