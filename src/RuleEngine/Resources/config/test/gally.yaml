@@ -1,0 +1,4 @@
+gally:
+    graphql_excluded_resources:
+        Gally\RuleEngine\Entity\RuleEngineGraphQlFilters: false
+        Gally\RuleEngine\Entity\RuleEngineOperators: false

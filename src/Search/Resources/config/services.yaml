@@ -80,6 +80,7 @@ services:
         arguments:
             - '@Gally\Search\Repository\Facet\ConfigurationRepository'
             - '@Gally\Search\Service\SearchContext'
+            - '@Gally\Cache\Service\CacheManagerInterface'
             - !tagged_iterator { tag: 'gally.search.aggregation.resolver' }
             - {
                 coverageModifier: '@Gally\Search\Elasticsearch\Request\Aggregation\Modifier\Coverage',
@@ -314,6 +315,7 @@ services:
             - '@Gally\Search\Service\ReverseSourceFieldProvider'
             - '@Gally\Category\Repository\CategoryConfigurationRepository'
             - '@Gally\Metadata\Repository\SourceFieldRepository'
+            - '@Gally\Metadata\Repository\SourceFieldOptionRepository'
             - '@Symfony\Contracts\Translation\TranslatorInterface'
             - '@Gally\Configuration\Service\ConfigurationManager'
             - !tagged_iterator { tag: 'gally.entity_api.filter' }
@@ -357,12 +359,21 @@ services:
         tags:
             - { name: doctrine.event_listener, event: prePersist, priority: 20 }
 
+    Gally\Search\EventSubscriber\InvalidateFacetConfigurationCache:
+        arguments:
+            - '@Gally\Cache\Service\CacheManagerInterface'
+        tags:
+            - { name: doctrine.event_listener, event: postPersist }
+            - { name: doctrine.event_listener, event: postUpdate }
+            - { name: doctrine.event_listener, event: postRemove }
+
     Gally\Search\Service\SearchSettingsProvider:
         arguments:
             - '@Gally\Configuration\Service\ConfigurationManager'
 
     Gally\Search\Service\ReverseSourceFieldProvider:
         arguments:
+            - '@Gally\Metadata\Service\MetadataSourceFieldProviderCache'
             - '%api_platform.graphql.nesting_separator%'
 
     Gally\Search\Elasticsearch\Request\Aggregation\CoverageProvider:
@@ -380,6 +391,7 @@ services:
             - '@Gally\Search\Elasticsearch\Request\QueryFactory'
             - '@Gally\Search\Service\SearchSettingsProvider'
             - '@Gally\Search\Service\SearchContext'
+            - '@Gally\Metadata\Service\MetadataSourceFieldProviderCache'
 
     Gally\Search\Elasticsearch\Request\Aggregation\Provider\CategoryCountAggregationProvider: ~
 
@@ -461,6 +473,7 @@ services:
     Gally\Search\Service\SortingOptionsProvider:
         arguments:
             - '@Gally\Metadata\Repository\MetadataRepository'
+            - '@Gally\Metadata\Service\MetadataSourceFieldProviderCache'
             - !tagged_iterator { tag: 'gally.api.sort_order_provider', index_by: 'provider_name' }
 
     Gally\Search\State\SortingOptionProvider:

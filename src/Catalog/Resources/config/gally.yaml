@@ -1,0 +1,3 @@
+gally:
+    graphql_excluded_resources:
+        Gally\Catalog\Entity\Source\LocalizedCatalogGroupOption: ~

@@ -26,6 +26,7 @@ use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
 use Gally\User\Constant\Role;
 use Symfony\Component\Serializer\Annotation\Groups;
 
@@ -57,7 +58,7 @@ class Metadata
     #[Groups(['metadata:read', 'metadata:write'])]
     private ?bool $isTimeSeriesData;
 
-    /** @var Collection<SourceField> */
+    /** @var ArrayCollection<int, SourceField> */
     private Collection $sourceFields;
 
     private ?array $filterableSourceFields = null;
@@ -125,12 +126,7 @@ class Metadata
     public function getFilterableSourceFields(): array
     {
         if (!isset($this->filterableSourceFields)) {
-            $this->filterableSourceFields = [];
-            foreach ($this->getSourceFields() as $field) {
-                if ($field->getIsFilterable() || $field->getIsUsedForRules()) {
-                    $this->filterableSourceFields[] = $field;
-                }
-            }
+            $this->buildSourceFieldCaches();
         }
 
         return $this->filterableSourceFields;
@@ -142,12 +138,7 @@ class Metadata
     public function getFilterableInAggregationSourceFields(): array
     {
         if (!isset($this->filterableInAggregationSourceFields)) {
-            $this->filterableInAggregationSourceFields = [];
-            foreach ($this->getFilterableSourceFields() as $field) {
-                if ($field->getIsFilterable()) {
-                    $this->filterableInAggregationSourceFields[] = $field;
-                }
-            }
+            $this->buildSourceFieldCaches();
         }
 
         return $this->filterableInAggregationSourceFields;
@@ -159,15 +150,44 @@ class Metadata
     public function getSortableSourceFields(): array
     {
         if (!isset($this->sortableSourceFields)) {
-            $this->sortableSourceFields = [];
-            foreach ($this->getSourceFields() as $field) {
-                if ($field->getIsSortable()) {
-                    $this->sortableSourceFields[] = $field;
-                }
-            }
+            $this->buildSourceFieldCaches();
         }
 
         return $this->sortableSourceFields;
+    }
+
+    private function buildSourceFieldCaches(): void
+    {
+        $this->filterableSourceFields = [];
+        $this->filterableInAggregationSourceFields = [];
+        $this->sortableSourceFields = [];
+
+        $criteria = (new Criteria(firstResult: 0, accessRawFieldValues: true))
+            ->where(
+                Criteria::expr()->orX(
+                    Criteria::expr()->eq('isFilterable', true),
+                    Criteria::expr()->eq('isUsedForRules', true),
+                    Criteria::expr()->eq('isSortable', true),
+                )
+            );
+
+        foreach ($this->sourceFields->matching($criteria) as $field) {
+            $isFilterable = $field->getIsFilterable();
+            $isUsedForRules = $field->getIsUsedForRules();
+            $isSortable = $field->getIsSortable();
+
+            if ($isFilterable || $isUsedForRules) {
+                $this->filterableSourceFields[] = $field;
+            }
+
+            if ($isFilterable) {
+                $this->filterableInAggregationSourceFields[] = $field;
+            }
+
+            if ($isSortable) {
+                $this->sortableSourceFields[] = $field;
+            }
+        }
     }
 
     public function addSourceField(SourceField $sourceField): self

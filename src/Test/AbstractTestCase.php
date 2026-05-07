@@ -24,6 +24,7 @@ use Doctrine\Migrations\MigratorConfiguration;
 use Doctrine\Migrations\Version\SortedMigrationPlanCalculator;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Tools\SchemaTool;
+use Gally\Cache\Service\CacheManagerInterface;
 use Gally\Fixture\Service\ElasticsearchFixtures;
 use Gally\Fixture\Service\EntityDataStreamsFixtures;
 use Gally\Fixture\Service\EntityIndicesFixturesInterface;
@@ -95,6 +96,9 @@ abstract class AbstractTestCase extends ApiTestCase
         // Load alice fixtures with append
         $databaseTool->loadAliceFixture(array_merge(static::getUserFixtures(), $paths), true);
         $entityManager->clear();
+
+        // Invalidate all Gally Redis caches that depend on DB data, since the DB was just recreated.
+        static::getContainer()->get(CacheManagerInterface::class)->clearAll();
     }
 
     protected static function createDatabaseIfNotExists(): void

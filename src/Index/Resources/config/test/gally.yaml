@@ -1,4 +1,8 @@
 gally:
+    graphql_excluded_resources:
+        Gally\Index\Entity\DataStream: false
+        Gally\Index\Entity\Index\Mapping\Status: false
+        Gally\Index\Entity\Index\SelfReindex: false
     indices_settings:
         prefix: gally_test__gally
         time_before_ghost: 31557600 # one year

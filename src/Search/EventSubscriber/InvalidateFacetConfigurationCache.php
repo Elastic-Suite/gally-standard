@@ -12,43 +12,43 @@
 
 declare(strict_types=1);
 
-namespace Gally\Index\EventSubscriber;
+namespace Gally\Search\EventSubscriber;
 
 use Doctrine\ORM\Event\PostPersistEventArgs;
 use Doctrine\ORM\Event\PostRemoveEventArgs;
 use Doctrine\ORM\Event\PostUpdateEventArgs;
-use Gally\Index\Service\MetadataManager;
-use Gally\Metadata\Entity\SourceField;
-use Gally\Metadata\Entity\SourceFieldLabel;
+use Gally\Cache\Service\CacheManagerInterface;
+use Gally\Search\Elasticsearch\Request\Aggregation\Provider\FilterableSourceFields;
+use Gally\Search\Entity\Facet\Configuration;
 
-class CleanMetadataCache
+class InvalidateFacetConfigurationCache
 {
     public function __construct(
-        private MetadataManager $metadataManager,
+        private CacheManagerInterface $cacheManager,
     ) {
     }
 
     public function postPersist(PostPersistEventArgs $args): void
     {
-        $this->cleanMetadataCache($args->getObject());
+        $this->invalidate($args->getObject());
     }
 
     public function postUpdate(PostUpdateEventArgs $args): void
     {
-        $this->cleanMetadataCache($args->getObject());
+        $this->invalidate($args->getObject());
     }
 
     public function postRemove(PostRemoveEventArgs $args): void
     {
-        $this->cleanMetadataCache($args->getObject());
+        $this->invalidate($args->getObject());
     }
 
-    private function cleanMetadataCache(object $entity): void
+    private function invalidate(object $entity): void
     {
-        if (!$entity instanceof SourceField && !$entity instanceof SourceFieldLabel) {
+        if (!$entity instanceof Configuration) {
             return;
         }
 
-        $this->metadataManager->invalidateMappingCache();
+        $this->cacheManager->clearTags([FilterableSourceFields::CACHE_TAG_FACET_CONFIG]);
     }
 }

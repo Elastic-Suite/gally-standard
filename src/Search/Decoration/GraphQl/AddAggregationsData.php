@@ -22,6 +22,7 @@ use Gally\Configuration\Service\ConfigurationManager;
 use Gally\Metadata\Entity\SourceField;
 use Gally\Metadata\Entity\SourceField\Type;
 use Gally\Metadata\Repository\MetadataRepository;
+use Gally\Metadata\Repository\SourceFieldOptionRepository;
 use Gally\Metadata\Repository\SourceFieldRepository;
 use Gally\Search\Elasticsearch\Adapter\Common\Response\AggregationInterface;
 use Gally\Search\Elasticsearch\Adapter\Common\Response\BucketValueInterface;
@@ -59,6 +60,7 @@ class AddAggregationsData implements ProcessorInterface
         private ReverseSourceFieldProvider $reverseSourceFieldProvider,
         private CategoryConfigurationRepository $categoryConfigurationRepository,
         private SourceFieldRepository $sourceFieldRepository,
+        private SourceFieldOptionRepository $sourceFieldOptionRepository,
         private TranslatorInterface $translator,
         private ConfigurationManager $configurationManager,
         private iterable $availableFilterTypes,
@@ -230,7 +232,7 @@ class AddAggregationsData implements ProcessorInterface
                 ], true
             )
         ) {
-            $sourceFieldOptions = $sourceField->getOptions()->toArray();
+            $sourceFieldOptions = $this->sourceFieldOptionRepository->findBy(['sourceField' => $sourceField]);
             $sourceFieldOptions = array_combine(
                 array_map(fn ($option) => $option->getCode(), $sourceFieldOptions),
                 $sourceFieldOptions

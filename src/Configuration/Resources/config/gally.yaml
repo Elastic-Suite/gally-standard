@@ -2,3 +2,10 @@ gally:
     base_url: 
         media: '%env(GALLY_CATALOG_MEDIA_URL)%'
         gally_front: '%env(GALLY_FRONT_URL)%'
+    graphql_excluded_resources:
+        Gally\Configuration\Entity\Configuration: ~
+        Gally\Configuration\Entity\ConfigurationTree: ~
+        Gally\Configuration\Entity\Source\LanguageOption: ~
+        Gally\Configuration\Entity\Source\LocaleGroupOption: ~
+        Gally\Configuration\Entity\Source\LocalizedCatalogGroupOption: ~
+        Gally\Configuration\Entity\Source\RequestTypeOption: ~

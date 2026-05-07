@@ -1,22 +1,28 @@
 services:
+    Gally\Cache\Service\ContainerBuildTimeProvider:
+        arguments:
+            - '%kernel.container_class%'
+            - '%kernel.cache_dir%'
+
     Gally\Configuration\Service\ConfigurationManager:
         arguments:
             - '@Gally\Configuration\Repository\ConfigurationRepository'
             - '@kernel'
             - '@parameter_bag'
-            - '@Gally\Cache\Service\CacheManagerInterface'
-    
+            - '@Gally\Cache\Service\CacheManager'
+            - '@Gally\Cache\Service\ContainerBuildTimeProvider'
+
     Gally\Configuration\Service\ConfigurationTreeBuilder:
         arguments:
             - '%gally.configuration%'
             - '@Symfony\Contracts\Translation\TranslatorInterface'
-    
+
     Gally\Configuration\Repository\ConfigurationRepository:
         arguments:
             - '@Doctrine\Persistence\ManagerRegistry'
         tags:
             - { name: doctrine.repository_service }
-    
+
     Gally\Configuration\State\ConfigurationProvider:
         arguments:
             - '@Gally\Configuration\Service\ConfigurationManager'
@@ -24,13 +30,13 @@ services:
         tags:
             - { name: api_platform.state_provider }
             - { name: doctrine.repository_service }
-    
+
     Gally\Configuration\State\PublicConfigurationProvider:
         arguments:
             - '@Gally\Configuration\State\ConfigurationProvider'
         tags:
             - { name: api_platform.state_provider }
-    
+
     Gally\Configuration\State\ConfigurationProcessor:
         arguments:
             - '@api_platform.doctrine.orm.state.persist_processor'
@@ -40,13 +46,13 @@ services:
             - '@doctrine.orm.entity_manager'
         tags:
             - { name: api_platform.state_processor }
-    
+
     Gally\Configuration\Validator\ConfigurationDataValidator:
         arguments:
             - '@Gally\Catalog\Repository\LocalizedCatalogRepository'
             - '@Gally\Search\Elasticsearch\Request\Container\Configuration\ContainerConfigurationProvider'
             - '@Gally\Configuration\Repository\ConfigurationRepository'
-    
+
     Gally\Configuration\Controller\BulkConfigurations:
         arguments:
             - '@Gally\Configuration\State\ConfigurationProcessor'
@@ -54,7 +60,7 @@ services:
             - [ setContainer, [ '@service_container' ] ]
         tags:
             - { name: controller.service_arguments }
-    
+
     Gally\Configuration\Controller\ConfigurationTreeController:
         arguments:
             - '@Gally\Configuration\Service\ConfigurationTreeBuilder'
@@ -62,7 +68,7 @@ services:
             - [ setContainer, [ '@service_container' ] ]
         tags:
             - { name: controller.service_arguments }
-    
+
     Gally\Configuration\Resolver\ConfigurationTreeResolver:
         arguments:
             - '@Gally\Configuration\Service\ConfigurationTreeBuilder'
@@ -79,7 +85,7 @@ services:
             - '@Symfony\Contracts\Translation\TranslatorInterface'
         tags:
             - { name: api_platform.state_provider }
-    
+
     Gally\Configuration\State\Source\LocaleGroupOptionProvider:
         arguments:
             - '@Gally\Catalog\Repository\LocalizedCatalogRepository'
@@ -102,3 +108,11 @@ services:
             - '@Symfony\Contracts\Translation\TranslatorInterface'
         tags:
             - { name: api_platform.state_provider }
+
+    Gally\Configuration\EventSubscriber\InvalidateConfigurationCache:
+        arguments:
+            - '@Gally\Cache\Service\CacheManager'
+        tags:
+            - { name: doctrine.event_listener, event: postPersist }
+            - { name: doctrine.event_listener, event: postUpdate }
+            - { name: doctrine.event_listener, event: postRemove }

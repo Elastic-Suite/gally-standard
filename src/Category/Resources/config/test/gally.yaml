@@ -1,0 +1,4 @@
+gally:
+    graphql_excluded_resources:
+        Gally\Category\Entity\Category: false
+        Gally\Category\Entity\Category\Configuration: false

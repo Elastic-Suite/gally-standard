@@ -178,6 +178,23 @@ class Configuration implements GallyConfigurationInterface
                     ->end()
                 ->end()
 
+                // Excluded resources from GraphQl schema
+                ->arrayNode('graphql_excluded_resources')
+                    ->useAttributeAsKey('resource_class')
+                    ->beforeNormalization()
+                        ->always(static function (array $resources): array {
+                            foreach ($resources as $resourceClass => $excluded) {
+                                if (null === $excluded) {
+                                    $resources[$resourceClass] = true;
+                                }
+                            }
+
+                            return $resources;
+                        })
+                    ->end()
+                    ->booleanPrototype()->end()
+                ->end()
+
                 // Indices setting config
                 ->arrayNode('search_settings')
                     ->children()

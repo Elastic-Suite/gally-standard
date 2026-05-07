@@ -1,0 +1,6 @@
+gally:
+    graphql_excluded_resources:
+        Gally\Job\Entity\Job\Profiles: false
+        Gally\Job\Entity\Job\Source\ProfileOption: false
+        Gally\Job\Entity\Job\Source\StatusOption: false
+        Gally\Job\Entity\Job\Source\TypeOption: false

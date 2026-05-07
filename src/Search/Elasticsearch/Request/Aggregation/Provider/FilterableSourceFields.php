@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace Gally\Search\Elasticsearch\Request\Aggregation\Provider;
 
+use Gally\Cache\Service\CacheManagerInterface;
 use Gally\Search\Elasticsearch\Request\Aggregation\ConfigResolver\FieldAggregationConfigResolverInterface;
 use Gally\Search\Elasticsearch\Request\Aggregation\Modifier\ModifierInterface;
 use Gally\Search\Elasticsearch\Request\BucketInterface;
@@ -27,6 +28,8 @@ use Gally\Search\Service\SearchContext;
  */
 class FilterableSourceFields implements AggregationProviderInterface
 {
+    public const CACHE_TAG_FACET_CONFIG = 'gally_facet_configuration';
+
     /**
      * @param ConfigurationRepository                   $facetConfigRepository facet configuration repository
      * @param SearchContext                             $searchContext         Search context
@@ -36,6 +39,7 @@ class FilterableSourceFields implements AggregationProviderInterface
     public function __construct(
         private ConfigurationRepository $facetConfigRepository,
         private SearchContext $searchContext,
+        private CacheManagerInterface $cacheManager,
         private iterable $aggregationResolvers,
         private iterable $modifiersPool = [],
     ) {
@@ -48,9 +52,23 @@ class FilterableSourceFields implements AggregationProviderInterface
         $queryFilters = [],
     ): array {
         $currentCategory = $this->searchContext->getCategory();
-        $this->facetConfigRepository->setCategoryId($currentCategory?->getId());
-        $this->facetConfigRepository->setMetadata($containerConfig->getMetadata());
-        $facetConfigs = $this->facetConfigRepository->findAll();
+
+        $cacheKey = \sprintf(
+            'gally_facet_configuration_%s_%s',
+            $containerConfig->getMetadata()->getEntity(),
+            $currentCategory?->getId() ?? 'null',
+        );
+
+        $facetConfigs = $this->cacheManager->get(
+            $cacheKey,
+            function (&$tags, &$ttl) use ($currentCategory, $containerConfig): array {
+                $this->facetConfigRepository->setCategoryId($currentCategory?->getId());
+                $this->facetConfigRepository->setMetadata($containerConfig->getMetadata());
+
+                return $this->facetConfigRepository->findAll();
+            },
+            [self::CACHE_TAG_FACET_CONFIG],
+        );
 
         foreach ($this->modifiersPool as $modifier) {
             $facetConfigs = $modifier->modifyFacetConfigs($containerConfig, $facetConfigs, $query, $filters, $queryFilters);

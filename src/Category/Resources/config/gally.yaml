@@ -3,3 +3,6 @@ gally:
         Gally\Category\Entity\Source\CategorySortingOption:
             renamings:
                 getCategorySortingOptions: categorySortingOptions
+    graphql_excluded_resources:
+        Gally\Category\Entity\Category: ~
+        Gally\Category\Entity\Category\Configuration: ~

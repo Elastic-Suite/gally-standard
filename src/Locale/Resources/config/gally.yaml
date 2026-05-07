@@ -1,0 +1,4 @@
+gally:
+    graphql_excluded_resources:
+        Gally\Locale\Entity\Source\LanguageOption: ~
+        Gally\Locale\Entity\Source\LocaleGroupOption: ~

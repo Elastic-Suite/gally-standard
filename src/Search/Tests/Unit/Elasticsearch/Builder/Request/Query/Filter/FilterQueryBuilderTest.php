@@ -21,6 +21,7 @@ use Gally\Index\Entity\Index\Mapping\Field;
 use Gally\Index\Entity\Index\Mapping\FieldInterface;
 use Gally\Metadata\Entity\Metadata;
 use Gally\Metadata\Entity\SourceField;
+use Gally\Metadata\Service\MetadataSourceFieldProviderCache;
 use Gally\Search\Elasticsearch\Builder\Request\Query\Filter\FilterQueryBuilder;
 use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface;
 use Gally\Search\Elasticsearch\Request\QueryFactory;
@@ -223,14 +224,33 @@ class FilterQueryBuilderTest extends AbstractTestCase
      */
     private function buildQuery(array $conditions, ?string $nestedPath = null): QueryInterface
     {
+        $colorSourceField = new SourceField();
+        $colorSourceField->setId(46);
+        $colorSourceField->setCode('color');
+        $colorSourceField->setType(SourceField\Type::TYPE_SELECT);
+
+        $metadata = $this->getMockBuilder(Metadata::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $metadata->method('getEntity')->willReturn('product_document');
+
+        $cache = $this->createMock(MetadataSourceFieldProviderCache::class);
+        $cache->method('getSourceFieldByCodes')->willReturnMap([
+            [$metadata, ['simpleTextField', 'simpleTextField'], []],
+            [$metadata, ['id', 'id'], []],
+            [$metadata, ['analyzedField', 'analyzedField'], []],
+            [$metadata, ['nested.child', 'nested'], []],
+            [$metadata, ['color.value', 'color'], [$colorSourceField]],
+        ]);
+
         $builder = new FilterQueryBuilder(
             $this->getQueryFactory($this->mockedQueryTypes),
             static::getContainer()->get(SearchContext::class),
             static::getContainer()->get(ConfigurationManager::class),
-            static::getContainer()->get(ReverseSourceFieldProvider::class),
+            new ReverseSourceFieldProvider($cache, '_'),
             static::getContainer()->get(ConfigurationRepository::class),
         );
-        $config = $this->getContainerConfigMock(self::$fields);
+        $config = $this->getContainerConfigMock(self::$fields, $metadata);
 
         return $builder->create($config, $conditions, $nestedPath);
     }
@@ -260,32 +280,14 @@ class FilterQueryBuilderTest extends AbstractTestCase
     /**
      * Mock the configuration used by the query builder.
      *
-     * @param FieldInterface[] $fields mapping fields
+     * @param FieldInterface[] $fields   mapping fields
+     * @param Metadata         $metadata metadata mock
      */
-    private function getContainerConfigMock(array $fields): ContainerConfigurationInterface
+    private function getContainerConfigMock(array $fields, Metadata $metadata): ContainerConfigurationInterface
     {
         $config = $this->getMockBuilder(ContainerConfigurationInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
-        $metadata = $this->getMockBuilder(Metadata::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $colorSourceField = new SourceField();
-        $colorSourceField->setId(46);
-        $colorSourceField->setCode('color');
-        $colorSourceField->setType(SourceField\Type::TYPE_SELECT);
-
-        $metadata->method('getEntity')->willReturn('product_document');
-        $metadata->method('getSourceFieldByCodes')->willReturnMap(
-            [
-                [['simpleTextField', 'simpleTextField'], []],
-                [['id', 'id'], []],
-                [['analyzedField', 'analyzedField'], []],
-                [['nested.child', 'nested'], []],
-                [['color.value', 'color'], [$colorSourceField]],
-            ]
-        );
 
         $mapping = new Mapping($fields);
 

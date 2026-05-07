@@ -82,7 +82,8 @@ services:
 
     Gally\Index\Service\MetadataManager:
         arguments:
-            - '@Gally\Metadata\Repository\SourceFieldRepository'
+            - '@Gally\Cache\Service\CacheManagerInterface'
+            - '@Gally\Metadata\Service\MetadataSourceFieldProviderCache'
             - !tagged_iterator { tag: 'gally.mapping.source_field_converter' }
 
     Gally\Index\Api\IndexSettingsInterface: '@Gally\Index\Service\IndexSettings'
@@ -239,6 +240,7 @@ services:
         tags:
             - { name: doctrine.event_listener, event: postPersist }
             - { name: doctrine.event_listener, event: postUpdate }
+            - { name: doctrine.event_listener, event: postRemove }
 
     Gally\Index\EventSubscriber\UpdateISMConfiguration:
         arguments:
