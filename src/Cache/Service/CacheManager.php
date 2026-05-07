@@ -30,7 +30,7 @@ use Symfony\Contracts\Cache\TagAwareCacheInterface;
 class CacheManager implements CacheManagerInterface, SymfonyCacheClearerInterface
 {
     public function __construct(
-        private CacheInterface $pool,
+        private CacheInterface&CacheItemPoolInterface $pool,
         private ?HttpPurgerInterface $httpPurger,
     ) {
     }
@@ -56,7 +56,7 @@ class CacheManager implements CacheManagerInterface, SymfonyCacheClearerInterfac
 
     public function delete(string $cacheKey): bool
     {
-        return $this->pool->deleteItem($cacheKey); // @phpstan-ignore-line
+        return $this->pool->deleteItem($cacheKey);
     }
 
     public function clearTags(array $tags): bool
@@ -72,11 +72,7 @@ class CacheManager implements CacheManagerInterface, SymfonyCacheClearerInterfac
 
     public function clearAll(): bool
     {
-        if ($this->pool instanceof CacheItemPoolInterface) {
-            return $this->pool->clear();
-        }
-
-        return false;
+        return $this->pool->clear();
     }
 
     public function prune(): bool

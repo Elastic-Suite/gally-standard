@@ -23,6 +23,8 @@ use Gally\Configuration\Service\ConfigurationManager;
  */
 class RenameGraphQlQuery implements FieldsBuilderEnumInterface
 {
+    protected mixed $graphqlQueryRenamings = null;
+
     public function __construct(
         private ConfigurationManager $configurationManager,
         private FieldsBuilderEnumInterface $decorated,
@@ -32,35 +34,15 @@ class RenameGraphQlQuery implements FieldsBuilderEnumInterface
     public function getCollectionQueryFields(string $resourceClass, Operation $operation, array $configuration): array
     {
         $fields = $this->decorated->getCollectionQueryFields($resourceClass, $operation, $configuration);
-        $graphqlQueryRenamings = $this->configurationManager->getScopedConfigValue('gally.graphql_query_renaming');
 
-        if (\array_key_exists($resourceClass, $graphqlQueryRenamings)) {
-            foreach ($graphqlQueryRenamings[$resourceClass]['renamings'] as $oldName => $newName) {
-                if (\array_key_exists($oldName, $fields)) {
-                    $fields[$newName] = $fields[$oldName];
-                    unset($fields[$oldName]);
-                }
-            }
-        }
-
-        return $fields;
+        return $this->renameFields($resourceClass, $fields);
     }
 
     public function getItemQueryFields(string $resourceClass, Operation $operation, array $configuration): array
     {
         $fields = $this->decorated->getItemQueryFields($resourceClass, $operation, $configuration);
-        $graphqlQueryRenamings = $this->configurationManager->getScopedConfigValue('gally.graphql_query_renaming');
 
-        if (\array_key_exists($resourceClass, $graphqlQueryRenamings)) {
-            foreach ($graphqlQueryRenamings[$resourceClass]['renamings'] as $oldName => $newName) {
-                if (\array_key_exists($oldName, $fields)) {
-                    $fields[$newName] = $fields[$oldName];
-                    unset($fields[$oldName]);
-                }
-            }
-        }
-
-        return $fields;
+        return $this->renameFields($resourceClass, $fields);
     }
 
     public function getNodeQueryFields(): array
@@ -91,5 +73,23 @@ class RenameGraphQlQuery implements FieldsBuilderEnumInterface
     public function getEnumFields(string $enumClass): array
     {
         return $this->decorated->getEnumFields($enumClass);
+    }
+
+    private function renameFields(string $resourceClass, array $fields): array
+    {
+        if (null === $this->graphqlQueryRenamings) {
+            $this->graphqlQueryRenamings = $this->configurationManager->getScopedConfigValue('gally.graphql_query_renaming');
+        }
+
+        if (\array_key_exists($resourceClass, $this->graphqlQueryRenamings)) {
+            foreach ($this->graphqlQueryRenamings[$resourceClass]['renamings'] as $oldName => $newName) {
+                if (\array_key_exists($oldName, $fields)) {
+                    $fields[$newName] = $fields[$oldName];
+                    unset($fields[$oldName]);
+                }
+            }
+        }
+
+        return $fields;
     }
 }

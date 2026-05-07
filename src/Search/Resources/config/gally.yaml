@@ -6,6 +6,9 @@ gally:
         Gally\Search\Entity\Source\SortingOption:
             renamings:
                 getSortingOptions: sortingOptions
+    graphql_excluded_resources:
+        Gally\Search\Entity\Facet\Configuration: ~
+        Gally\Search\Entity\Source\RequestTypeOption: ~
     autocomplete_settings:
         document_attribute:
             max_size: 3
@@ -15,7 +18,7 @@ gally:
         aggregations:
             coverage_use_indexed_fields_property: false
             default_date_range_interval: '1y'
-            default_distance_ranges: 
+            default_distance_ranges:
                 - {to: 1}
                 - {from: 1, to: 5}
                 - {from: 5, to: 10}

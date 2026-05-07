@@ -1,5 +1,8 @@
 gally:
     pipeline_prefix: 'test-gally-llm-pipeline-'
+    graphql_excluded_resources:
+        Gally\Search\Entity\Facet\Configuration: false
+        Gally\Search\Entity\Source\RequestTypeOption: false
     search_settings:
         default_date_field_format: 'yyyy-MM'
         aggregations:

@@ -21,3 +21,13 @@ services:
         arguments:
             - '@logger'
             - '@.inner'
+    # Override api-platform SchemaBuilder to restrict schema building to Gally resources only (perf optimization).
+    api_platform.graphql.schema_builder:
+        class: Gally\GraphQl\Decoration\Type\SchemaBuilder
+        arguments:
+            - '@api_platform.metadata.resource.name_collection_factory'
+            - '@api_platform.metadata.resource.metadata_collection_factory'
+            - '@api_platform.graphql.types_factory'
+            - '@api_platform.graphql.types_container'
+            - '@api_platform.graphql.fields_builder'
+            - '@Gally\Configuration\Service\ConfigurationManager'

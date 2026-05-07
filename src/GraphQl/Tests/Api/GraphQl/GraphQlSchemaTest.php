@@ -42,9 +42,8 @@ class GraphQlSchemaTest extends AbstractTestCase
             new ExpectedResponse(
                 200,
                 function (ResponseInterface $response) {
-                    $this->assertJsonContains([
-                        'errors' => [],
-                    ]);
+                    $data = $response->toArray();
+                    $this->assertArrayHasKey('errors', $data);
                 }
             )
         );

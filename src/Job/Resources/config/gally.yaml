@@ -1,0 +1,9 @@
+gally:
+    graphql_excluded_resources:
+        Gally\Job\Entity\Job: ~
+        Gally\Job\Entity\Job\File: ~
+        Gally\Job\Entity\Job\Log: ~
+        Gally\Job\Entity\Job\Profiles: ~
+        Gally\Job\Entity\Job\Source\ProfileOption: ~
+        Gally\Job\Entity\Job\Source\StatusOption: ~
+        Gally\Job\Entity\Job\Source\TypeOption: ~

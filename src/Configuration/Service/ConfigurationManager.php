@@ -16,6 +16,7 @@ namespace Gally\Configuration\Service;
 
 use Gally\Bundle\Entity\ExtraBundle;
 use Gally\Cache\Service\CacheManagerInterface;
+use Gally\Cache\Service\ContainerBuildTimeProvider;
 use Gally\Configuration\Entity\Configuration;
 use Gally\Configuration\Repository\ConfigurationRepository;
 use Gally\DependencyInjection\Extension;
@@ -29,13 +30,16 @@ use Symfony\Component\HttpKernel\KernelInterface;
  */
 class ConfigurationManager
 {
-    private $configTree;
+    public const CACHE_TAG_GALLY_CONFIGURATION = 'gally_configuration';
+
+    private array $configTree;
 
     public function __construct(
         private ConfigurationRepository $configurationRepository,
         private KernelInterface $kernel,
         private ParameterBagInterface $parameters,
         private CacheManagerInterface $cacheManager,
+        private ContainerBuildTimeProvider $containerBuildTimeProvider,
     ) {
         $this->configTree = $this->buildConfigTree();
     }
@@ -46,15 +50,30 @@ class ConfigurationManager
      */
     public function getScopedConfigValue(string $path, ?string $scopeType = null, ?string $scopeValue = null): mixed
     {
-        $configs = $this->getMultiScopedConfigurations($path, [$scopeType => $scopeValue]);
-        if (0 === \count($configs)) {
-            return null;
-        }
-        if (\count($configs) > 1) {
-            throw new LogicException('Multiple configurations have been found for the given path.');
-        }
+        $cacheKey = \sprintf(
+            'gally_configuration_scoped_value_%s_%s_%s_%s',
+            $path,
+            $scopeType,
+            $scopeValue,
+            $this->containerBuildTimeProvider->getBuildTime(),
+        );
 
-        return reset($configs)->getDecodedValue();
+        return $this->cacheManager->get(
+            $cacheKey,
+            function (&$tags, &$ttl) use ($path, $scopeType, $scopeValue): mixed {
+                $configs = $this->getMultiScopedConfigurations($path, [$scopeType => $scopeValue]);
+                if (0 === \count($configs)) {
+                    return null;
+                }
+
+                if (\count($configs) > 1) {
+                    throw new LogicException('Multiple configurations have been found for the given path.');
+                }
+
+                return reset($configs)->getDecodedValue();
+            },
+            [self::CACHE_TAG_GALLY_CONFIGURATION],
+        );
     }
 
     /**
@@ -62,14 +81,28 @@ class ConfigurationManager
      */
     public function getScopedConfigValues(string $path, ?string $scopeType = null, ?string $scopeValue = null): array
     {
-        $configurations = $this->getMultiScopedConfigurations($path, [$scopeType => $scopeValue]);
-        $values = [];
+        $cacheKey = \sprintf(
+            'gally_configuration_scoped_values_%s_%s_%s_%s',
+            $path,
+            $scopeType,
+            $scopeValue,
+            $this->containerBuildTimeProvider->getBuildTime(),
+        );
 
-        foreach ($configurations as $config) {
-            $values[str_replace("$path.", '', $config->getPath())] = $config->getDecodedValue();
-        }
+        return $this->cacheManager->get(
+            $cacheKey,
+            function (&$tags, &$ttl) use ($path, $scopeType, $scopeValue): mixed {
+                $configurations = $this->getMultiScopedConfigurations($path, [$scopeType => $scopeValue]);
+                $values = [];
 
-        return $values;
+                foreach ($configurations as $config) {
+                    $values[str_replace("$path.", '', $config->getPath())] = $config->getDecodedValue();
+                }
+
+                return $values;
+            },
+            [self::CACHE_TAG_GALLY_CONFIGURATION],
+        );
     }
 
     /**
@@ -100,11 +133,15 @@ class ConfigurationManager
             if ($this->parameters->has($key)) {
                 $values = $this->parameters->get($key);
                 $defaultConfigurations += $this->cacheManager->get(
-                    'gally_flatten_default_configurations_' . $key . '_' . $this->kernel->getEnvironment(),
+                    \sprintf(
+                        'gally_flatten_default_configurations_%s_%s',
+                        $key,
+                        $this->containerBuildTimeProvider->getBuildTime(),
+                    ),
                     function (&$tags, &$ttl) use ($key, $node, $values): array {
                         return $this->getFlattenDefaultConfigurations($key, $node, $values[$key]);
                     },
-                    ['gally_flatten_configuration'],
+                    [self::CACHE_TAG_GALLY_CONFIGURATION],
                 );
             }
         }

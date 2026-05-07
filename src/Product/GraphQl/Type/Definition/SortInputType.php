@@ -16,9 +16,11 @@ namespace Gally\Product\GraphQl\Type\Definition;
 
 use ApiPlatform\GraphQl\Type\Definition\TypeInterface;
 use ApiPlatform\Metadata\Exception\InvalidArgumentException;
+use Gally\Cache\Service\CacheManagerInterface;
 use Gally\Metadata\Entity\Metadata;
 use Gally\Metadata\Repository\MetadataRepository;
 use Gally\Metadata\Repository\SourceFieldRepository;
+use Gally\Metadata\Service\MetadataSourceFieldProviderCache;
 use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface;
 use Gally\Search\Elasticsearch\Request\SortOrderInterface;
 use Gally\Search\GraphQl\Type\Definition\SortInputType as SearchSortInputType;
@@ -39,7 +41,9 @@ class SortInputType extends SearchSortInputType
         private iterable $sortOrderProviders,
         protected ReverseSourceFieldProvider $reverseSourceFieldProvider,
         private LoggerInterface $logger,
+        private CacheManagerInterface $cacheManager,
         private string $nestingSeparator,
+        private MetadataSourceFieldProviderCache $metadataSourceFieldProviderCache,
     ) {
         parent::__construct($this->sortEnumType, $this->searchContext, $this->reverseSourceFieldProvider);
         $this->name = self::NAME;
@@ -50,23 +54,39 @@ class SortInputType extends SearchSortInputType
         $fields = [];
 
         try {
-            $metadata = $this->metadataRepository->findByEntity('product');
-            $labels = $this->sourceFieldRepository->getLabelsBySourceFields($metadata->getSortableSourceFields());
+            $sortableFields = $this->cacheManager->get(
+                'product_sortable_source_fields',
+                function (&$tags, &$ttl): array {
+                    $metadata = $this->metadataRepository->findByEntity('product');
+                    $sortableSourceFields = $this->metadataSourceFieldProviderCache->getSortableSourceFields($metadata);
+                    $labels = $this->sourceFieldRepository->getLabelsBySourceFields($sortableSourceFields);
+                    $result = [];
 
-            foreach ($metadata->getSortableSourceFields() as $sortableField) {
-                /** @var SortOrderProviderInterface $sortOrderProvider */
-                foreach ($this->sortOrderProviders as $sortOrderProvider) {
-                    if ($sortOrderProvider->supports($sortableField)) {
-                        $fieldName = $sortOrderProvider->getSortOrderField($sortableField);
-                        $fields[$fieldName] = [
-                            'type' => $this->sortEnumType,
-                            'description' => $sortOrderProvider->getLabel(
-                                $sortableField->getCode(),
-                                $labels[$sortableField->getId()]['label'] ?? ucfirst($sortableField->getCode())
-                            ),
-                        ];
+                    foreach ($sortableSourceFields as $sortableField) {
+                        /** @var SortOrderProviderInterface $sortOrderProvider */
+                        foreach ($this->sortOrderProviders as $sortOrderProvider) {
+                            if ($sortOrderProvider->supports($sortableField)) {
+                                $fieldName = $sortOrderProvider->getSortOrderField($sortableField);
+                                $result[$fieldName] = [
+                                    'description' => $sortOrderProvider->getLabel(
+                                        $sortableField->getCode(),
+                                        $labels[$sortableField->getId()]['label'] ?? ucfirst($sortableField->getCode())
+                                    ),
+                                ];
+                            }
+                        }
                     }
-                }
+
+                    return $result;
+                },
+                [MetadataSourceFieldProviderCache::getEntityTag('product')],
+            );
+
+            foreach ($sortableFields as $fieldName => $fieldData) {
+                $fields[$fieldName] = [
+                    'type' => $this->sortEnumType,
+                    'description' => $fieldData['description'],
+                ];
             }
         } catch (InvalidArgumentException $exception) {
             // Metadata product doesn't exist.

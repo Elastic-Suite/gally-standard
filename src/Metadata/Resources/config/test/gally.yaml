@@ -1,0 +1,8 @@
+gally:
+    graphql_excluded_resources:
+        Gally\Metadata\Entity\Metadata: false
+        Gally\Metadata\Entity\SourceField: false
+        Gally\Metadata\Entity\SourceFieldLabel: false
+        Gally\Metadata\Entity\SourceFieldOption: false
+        Gally\Metadata\Entity\SourceFieldOptionLabel: false
+        Gally\Metadata\Entity\Source\SourceFieldType: false

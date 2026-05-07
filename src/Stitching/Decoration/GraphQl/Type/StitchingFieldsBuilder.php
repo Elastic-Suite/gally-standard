@@ -22,7 +22,7 @@ use Gally\Metadata\Constant\SourceFieldAttributeMapping;
 use Gally\Metadata\Entity\Attribute\GraphQlAttributeInterface;
 use Gally\Metadata\Entity\Attribute\StructuredAttributeInterface;
 use Gally\Metadata\Entity\SourceField;
-use Gally\Metadata\Repository\MetadataRepository;
+use Gally\Metadata\Service\MetadataSourceFieldProviderCache;
 use Gally\ResourceMetadata\Service\ResourceMetadataManager;
 use GraphQL\Type\Definition\ObjectType;
 use GraphQL\Type\Definition\Type as GraphQLType;
@@ -35,10 +35,10 @@ use GraphQL\Type\Definition\Type as GraphQLType;
 class StitchingFieldsBuilder implements FieldsBuilderEnumInterface
 {
     public function __construct(
-        private MetadataRepository $metadataRepository,
         private ResourceMetadataCollectionFactoryInterface $resourceMetadataCollectionFactory,
         private ResourceMetadataManager $resourceMetadataManager,
         private TypesContainerInterface $typesContainer,
+        private MetadataSourceFieldProviderCache $metadataSourceFieldProviderCache,
         private FieldsBuilderEnumInterface $decorated,
     ) {
     }
@@ -64,13 +64,14 @@ class StitchingFieldsBuilder implements FieldsBuilderEnumInterface
             return $fields;
         }
 
-        $metadata = $this->metadataRepository->findByEntity($metadataEntity);
+        $sourceFields = $this->metadataSourceFieldProviderCache->getSourceFields($metadataEntity);
 
         unset($fields[$stitchingProperty]);
         $basicNestedFields = [];
         $structuredFields = [];
+
         /** @var SourceField $sourceField */
-        foreach ($metadata->getSourceFields() as $sourceField) {
+        foreach ($sourceFields as $sourceField) {
             if (!isset($fields[$sourceField->getCode()])) {
                 /** @var GraphQlAttributeInterface|string|null $attributeClassType */
                 $attributeClassType = SourceFieldAttributeMapping::TYPES[$sourceField->getType()] ?? null;

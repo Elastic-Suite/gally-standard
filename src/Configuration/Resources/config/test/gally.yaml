@@ -1,3 +1,10 @@
 gally:
     base_url:
         media: 'test_value_file'
+    graphql_excluded_resources:
+        Gally\Configuration\Entity\Configuration: false
+        Gally\Configuration\Entity\ConfigurationTree: false
+        Gally\Configuration\Entity\Source\LanguageOption: false
+        Gally\Configuration\Entity\Source\LocaleGroupOption: false
+        Gally\Configuration\Entity\Source\LocalizedCatalogGroupOption: false
+        Gally\Configuration\Entity\Source\RequestTypeOption: false

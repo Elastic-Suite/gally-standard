@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace Gally\Analysis\Tests\Unit;
 
 use Gally\Analysis\Service\Config;
+use Gally\Cache\Service\ContainerBuildTimeProvider;
 use Gally\Configuration\Repository\ConfigurationRepository;
 use Gally\Configuration\Service\ConfigurationManager;
 use Gally\Test\AbstractTestCase;
@@ -48,6 +49,7 @@ class ConfigTest extends AbstractTestCase
                 static::getContainer()->get(KernelInterface::class),
                 new ParameterBag(['gally' => ['gally' => $processor->processConfiguration($configurationFormat, $configData)]]),
                 new CacheManagerMock(),
+                static::getContainer()->get(ContainerBuildTimeProvider::class),
             ),
             new CacheManagerMock(),
         );

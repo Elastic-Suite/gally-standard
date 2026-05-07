@@ -14,22 +14,27 @@ declare(strict_types=1);
 
 namespace Gally\Index\Service;
 
+use Gally\Cache\Service\CacheManagerInterface;
 use Gally\Index\Converter\SourceField\SourceFieldConverterInterface;
 use Gally\Index\Entity\Index\Mapping;
 use Gally\Index\Entity\Index\Mapping\FieldInterface;
 use Gally\Metadata\Entity\Metadata;
 use Gally\Metadata\Entity\SourceField;
-use Gally\Metadata\Repository\SourceFieldRepository;
+use Gally\Metadata\Service\MetadataSourceFieldProviderCache;
 
 class MetadataManager
 {
-    private array $cache = [];
+    public const CACHE_TAG_METADATA_MAPPING = 'gally_metadata_mapping';
+
+    /** @var Mapping[] */
+    private array $localCache = [];
 
     /**
      * @param SourceFieldConverterInterface[] $sourceFieldConverters Source field converters
      */
     public function __construct(
-        private SourceFieldRepository $sourceFieldRepository,
+        private CacheManagerInterface $cacheManager,
+        private MetadataSourceFieldProviderCache $metadataSourceFieldProviderCache,
         private iterable $sourceFieldConverters = [],
     ) {
         $sourceFieldConverters = ($sourceFieldConverters instanceof \Traversable) ? iterator_to_array($sourceFieldConverters) : $sourceFieldConverters;
@@ -42,27 +47,30 @@ class MetadataManager
      */
     public function getMapping(Metadata $metadata): Mapping
     {
-        if (!isset($this->cache[$metadata->getEntity()])) {
-            $fields = [];
+        $entity = $metadata->getEntity();
 
-            // Dynamic fields
-            $sourceFields = $metadata->getSourceFields();
-
-            // During some update operations (such as tests with Alice fixtures), it can happen that the SourceField
-            // collection in the Metadata entity is empty, even if some SourceFields attached to the Metadata exist
-            // in the database. To avoid errors in such cases, if the SourceField collection is empty in the Metadata
-            // entity, we try to retrieve the SourceFields directly from the SourceField repository.
-            if (0 === $sourceFields->count()) {
-                $sourceFields = $this->sourceFieldRepository->findBy(['metadata' => $metadata]);
-            }
-            foreach ($sourceFields as $sourceField) {
-                $fields = $this->getFields($sourceField) + $fields;
-            }
-
-            $this->cache[$metadata->getEntity()] = new Mapping($fields);
+        if (!isset($this->localCache[$entity])) {
+            $this->localCache[$entity] = $this->cacheManager->get(
+                'gally_metadata_mapping_' . md5($entity),
+                function (&$tags, &$ttl) use ($metadata): Mapping {
+                    return $this->buildMapping($metadata);
+                },
+                [self::CACHE_TAG_METADATA_MAPPING],
+            );
         }
 
-        return $this->cache[$metadata->getEntity()];
+        return $this->localCache[$entity];
+    }
+
+    private function buildMapping(Metadata $metadata): Mapping
+    {
+        $fields = [];
+
+        foreach ($this->metadataSourceFieldProviderCache->getSourceFields($metadata) as $sourceField) {
+            $fields = $this->getFields($sourceField) + $fields;
+        }
+
+        return new Mapping($fields);
     }
 
     /**
@@ -93,8 +101,10 @@ class MetadataManager
         return new Mapping\Status($metadata->getEntity(), Mapping\Status::Green);
     }
 
-    public function cleanLocalCache(): void
+    public function invalidateMappingCache(): void
     {
-        $this->cache = [];
+        $this->localCache = [];
+        $this->cacheManager->clearTags([self::CACHE_TAG_METADATA_MAPPING]);
+        $this->metadataSourceFieldProviderCache->invalidateAll();
     }
 }

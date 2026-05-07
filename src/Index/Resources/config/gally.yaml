@@ -8,3 +8,7 @@ gally:
     ism_settings: 
         rollover_after: 30
         delete_after: 365
+    graphql_excluded_resources:
+        Gally\Index\Entity\DataStream: ~
+        Gally\Index\Entity\Index\Mapping\Status: ~
+        Gally\Index\Entity\Index\SelfReindex: ~

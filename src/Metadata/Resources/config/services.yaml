@@ -231,6 +231,20 @@ services:
             - { name: api_platform.graphql.type }
             - { name: gally.entity_api.filter }
 
+    Gally\Metadata\Service\MetadataSourceFieldProviderCache:
+        arguments:
+            - '@Gally\Cache\Service\CacheManagerInterface'
+            - '@Gally\Metadata\Repository\MetadataRepository'
+            - '@Gally\Metadata\Repository\SourceFieldRepository'
+
+    Gally\Metadata\EventSubscriber\InvalidateMetadataSourceFieldCache:
+        arguments:
+            - '@Gally\Metadata\Service\MetadataSourceFieldProviderCache'
+        tags:
+            - { name: doctrine.event_listener, event: prePersist }
+            - { name: doctrine.event_listener, event: postUpdate }
+            - { name: doctrine.event_listener, event: postRemove }
+
     Gally\Metadata\Service\PriceGroupProvider:
         arguments:
             - '@Gally\RequestContext\Service\RequestContextManager'

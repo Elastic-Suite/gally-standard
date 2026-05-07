@@ -2,10 +2,10 @@ services:
     Gally\Stitching\Decoration\GraphQl\Type\StitchingFieldsBuilder:
         decorates: api_platform.graphql.fields_builder
         arguments:
-            - '@Gally\Metadata\Repository\MetadataRepository'
             - '@ApiPlatform\Metadata\Resource\Factory\ResourceMetadataCollectionFactoryInterface'
             - '@Gally\ResourceMetadata\Service\ResourceMetadataManager'
             - '@api_platform.graphql.types_container'
+            - '@Gally\Metadata\Service\MetadataSourceFieldProviderCache'
             - '@.inner'
 
     Gally\Stitching\Serializer\GraphQl\StitchingNormalizer:
@@ -20,3 +20,4 @@ services:
     Gally\Stitching\Service\SerializerService:
         arguments:
             - '@Gally\Metadata\Repository\MetadataRepository'
+            - '@Gally\Metadata\Service\MetadataSourceFieldProviderCache'
