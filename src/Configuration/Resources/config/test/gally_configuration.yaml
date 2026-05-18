@@ -27,6 +27,7 @@ gally:
                                 labelKey: 'gally_configuration.gally_base_url_media.label'
                                 position: 10
                                 input: 'string'
+                                numberType: 'float'
                                 visible: true
                                 editable: true
                                 placeholderKey: 'gally_configuration.gally_base_url_media.placeholder'
