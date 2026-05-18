@@ -31,6 +31,8 @@ class Configuration implements GallyConfigurationInterface
         'expansion', 'productInfo', 'boostPreview', 'positionEffect', 'proportionalToAttribute', 'email',
     ];
 
+    public const CONFIG_NUMBER_SUBTYPE = ['float'];
+
     public function getRootNodeConfig(): string
     {
         return self::ROOT_NODE_CONFIG;
@@ -417,6 +419,9 @@ class Configuration implements GallyConfigurationInterface
                                                             ->enumNode('input')
                                                                 ->isRequired()
                                                                 ->values(self::CONFIG_INPUT_TYPE)
+                                                            ->end()
+                                                            ->enumNode('numberType')
+                                                                ->values(self::CONFIG_NUMBER_SUBTYPE)
                                                             ->end()
                                                             ->scalarNode('infoTooltipKey')->end()
                                                             ->arrayNode('options')

@@ -90,6 +90,7 @@ class ConfigurationTreeTest extends AbstractTestCase
                                         'label' => 'Media base url',
                                         'position' => 10,
                                         'input' => 'string',
+                                        'numberType' => 'float',
                                         'visible' => true,
                                         'editable' => true,
                                         'placeholder' => 'gally_configuration.gally_base_url_media.placeholder',

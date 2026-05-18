@@ -87,6 +87,7 @@ gally:
                                 labelKey: 'gally_configuration.gally_relevance_cut_off_frequency_value.label'
                                 position: 10
                                 input: 'number'
+                                numberType: 'float'
                     fuzziness:
                         labelKey: 'gally_configuration.group.relevance.fieldset.fuzziness.label'
                         position: 40
