@@ -31,7 +31,7 @@ class Configuration implements GallyConfigurationInterface
         'expansion', 'productInfo', 'boostPreview', 'positionEffect', 'proportionalToAttribute', 'email',
     ];
 
-    public const CONFIG_NUMBER_SUBTYPE = ['float'];
+    public const CONFIG_NUMBER_SUBTYPE = ['float', 'integer'];
 
     public function getRootNodeConfig(): string
     {
