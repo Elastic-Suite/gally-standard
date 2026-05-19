@@ -34,10 +34,6 @@ gally:
                                 labelKey: 'gally_configuration.gally_search_settings_aggregations_default_date_range_interval.label'
                                 position: 40
                                 input: 'string'
-                            gally.search_settings.aggregations.default_distance_ranges:
-                                labelKey: 'gally_configuration.gally_search_settings_aggregations_default_distance_ranges.label'
-                                position: 50
-                                input: 'string'
                             gally.search_settings.sort.default_desc_sort_field:
                                 labelKey: 'gally_configuration.gally_search_settings_sort_default_desc_sort_field.label'
                                 position: 60
