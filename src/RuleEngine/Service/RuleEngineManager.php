@@ -41,7 +41,7 @@ class RuleEngineManager
 
     public function __construct(
         private FilterManager $filterManager,
-        private CacheManagerInterface $cache,
+        private CacheManagerInterface $cacheManager,
         private LoggerInterface $logger,
         private QueryFactory $queryFactory,
         private iterable $ruleTypeClasses,
@@ -122,7 +122,7 @@ class RuleEngineManager
         $cacheKey = $this->getRuleCacheKey($rule, $containerConfig->getLocalizedCatalog());
         $cacheTags = $this->getRuleCacheTags($containerConfig->getLocalizedCatalog());
 
-        return $this->cache->get(
+        return $this->cacheManager->get(
             $cacheKey,
             function (&$tags, &$ttl) use ($rule, $containerConfig, $filterContext): ?QueryInterface {
                 try {

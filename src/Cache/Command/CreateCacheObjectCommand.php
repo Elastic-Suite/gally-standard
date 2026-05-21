@@ -28,7 +28,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 #[AsCommand(name: 'gally:cache:create-cache-object')]
 class CreateCacheObjectCommand extends Command
 {
-    public function __construct(private CacheManagerInterface $cache, ?string $name = null)
+    public function __construct(private CacheManagerInterface $cacheManager, ?string $name = null)
     {
         parent::__construct($name);
     }
@@ -62,7 +62,7 @@ EOF
             $cacheTtl = (int) $input->getOption('ttl');
         }
 
-        $storedValue = $this->cache->get($cacheKey, function (&$tags, &$ttl) use ($output, $cacheValue) {
+        $storedValue = $this->cacheManager->get($cacheKey, function (&$tags, &$ttl) use ($output, $cacheValue) {
             $output->writeln('(Re)Creating cache object.');
             if (empty($tags)) {
                 $output->writeln('No tags, provided, adding the "no-tag" tag');
