@@ -15,7 +15,6 @@ declare(strict_types=1);
 namespace Gally\RuleEngine\Tests\Unit\EventSubscriber;
 
 use Doctrine\ORM\EntityManager;
-use Gally\Cache\Service\CacheInvalidatorInterface;
 use Gally\Cache\Service\CacheManagerInterface;
 use Gally\Catalog\Entity\LocalizedCatalog;
 use Gally\Catalog\Repository\LocalizedCatalogRepository;
@@ -36,9 +35,7 @@ class ClearRuleCache extends AbstractTestCase
 
     protected static RuleEngineManager $ruleEngineManager;
 
-    protected static CacheManagerInterface $cache;
-
-    protected static CacheInvalidatorInterface $cacheInvalidator;
+    protected static CacheManagerInterface $cacheManger;
 
     protected static SourceFieldRepository $sourceFieldRepository;
 
@@ -77,8 +74,7 @@ class ClearRuleCache extends AbstractTestCase
         static::loadCurrentFixtures();
 
         self::$ruleEngineManager = static::getContainer()->get(RuleEngineManager::class);
-        self::$cache = static::getContainer()->get(CacheManagerInterface::class);
-        self::$cacheInvalidator = static::getContainer()->get(CacheInvalidatorInterface::class);
+        self::$cacheManger = static::getContainer()->get(CacheManagerInterface::class);
         self::$sourceFieldRepository = static::getContainer()->get(SourceFieldRepository::class);
         self::$metadataRepository = static::getContainer()->get(MetadataRepository::class);
         self::$localizedCatalogRepository = static::getContainer()->get(LocalizedCatalogRepository::class);
@@ -204,7 +200,7 @@ class ClearRuleCache extends AbstractTestCase
         $cacheKey = self::$ruleEngineManager->getRuleCacheKey($rule, $localizedCatalog);
         $cacheTags = self::$ruleEngineManager->getRuleCacheTags($localizedCatalog);
 
-        return self::$cache->get(
+        return self::$cacheManger->get(
             $cacheKey,
             function (&$tags, &$ttl): mixed {
                 return self::DEFAULT_CACHE_VALUE;
@@ -216,7 +212,7 @@ class ClearRuleCache extends AbstractTestCase
     protected function clearCache(?LocalizedCatalog $localizedCatalog = null): void
     {
         $cacheTags = self::$ruleEngineManager->getRuleCacheTags($localizedCatalog);
-        self::$cacheInvalidator->clearTags($cacheTags);
+        self::$cacheManger->clearTags($cacheTags);
     }
 
     public function getContainerConfig(LocalizedCatalog $localizedCatalog, ?string $requestType = null): ContainerConfigurationInterface

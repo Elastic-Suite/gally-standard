@@ -25,7 +25,7 @@ class Config
 
     public function __construct(
         private ConfigurationManager $configManager,
-        private CacheManagerInterface $cache,
+        private CacheManagerInterface $cacheManager,
     ) {
     }
 
@@ -34,7 +34,7 @@ class Config
      */
     public function get(string $language = self::LANGUAGE_DEFAULT): array
     {
-        return $this->cache->get(
+        return $this->cacheManager->get(
             self::CACHE_KEY_PREFIX . $language,
             function (&$tags, &$ttl) use ($language) {
                 // @codeCoverageIgnoreStart

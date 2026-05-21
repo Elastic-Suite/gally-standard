@@ -19,7 +19,7 @@ services:
         lazy: true
         arguments:
             - '@Gally\Product\Service\GraphQl\FilterManager'
-            - '@Gally\Cache\Service\CacheManager'
+            - '@Gally\Cache\Service\CacheManagerInterface'
             - '@logger'
             - '@Gally\Search\Elasticsearch\Request\QueryFactory' 
             - !tagged_iterator { tag: 'gally.rule_engine.rule_type' }
@@ -61,7 +61,7 @@ services:
     Gally\RuleEngine\EventSubscriber\ClearRuleCache:
         arguments:
             - '@Gally\RuleEngine\Service\RuleEngineManager'
-            - '@Gally\Cache\Service\CacheInvalidatorInterface'
+            - '@Gally\Cache\Service\CacheManagerInterface'
         tags:
             - { name: doctrine.event_listener, event: postUpdate }
             - { name: doctrine.event_listener, event: postRemove }

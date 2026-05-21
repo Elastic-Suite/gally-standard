@@ -4,7 +4,7 @@ services:
             - '@Gally\Configuration\Repository\ConfigurationRepository'
             - '@kernel'
             - '@parameter_bag'
-            - '@Gally\Cache\Service\CacheManager'
+            - '@Gally\Cache\Service\CacheManagerInterface'
     
     Gally\Configuration\Service\ConfigurationTreeBuilder:
         arguments:

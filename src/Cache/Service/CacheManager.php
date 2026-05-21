@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace Gally\Cache\Service;
 
+use ApiPlatform\HttpCache\PurgerInterface as HttpPurgerInterface;
 use Psr\Cache\CacheItemPoolInterface;
 use Symfony\Component\Cache\PruneableInterface;
 use Symfony\Component\HttpKernel\CacheClearer\CacheClearerInterface as SymfonyCacheClearerInterface;
@@ -28,8 +29,10 @@ use Symfony\Contracts\Cache\TagAwareCacheInterface;
  */
 class CacheManager implements CacheManagerInterface, SymfonyCacheClearerInterface
 {
-    public function __construct(private CacheInterface $pool)
-    {
+    public function __construct(
+        private CacheInterface $pool,
+        private ?HttpPurgerInterface $httpPurger,
+    ) {
     }
 
     public function get(string $cacheKey, callable $callback, array $tags, $ttl = null): mixed
@@ -58,11 +61,13 @@ class CacheManager implements CacheManagerInterface, SymfonyCacheClearerInterfac
 
     public function clearTags(array $tags): bool
     {
-        if ($this->pool instanceof TagAwareCacheInterface) {
-            return $this->pool->invalidateTags($tags);
+        if (!$this->pool instanceof TagAwareCacheInterface || !$this->pool->invalidateTags($tags)) {
+            return false;
         }
 
-        return false;
+        $this->httpPurger?->purge($tags);
+
+        return true;
     }
 
     public function clearAll(): bool

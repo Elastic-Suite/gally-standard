@@ -3,16 +3,9 @@ services:
     Gally\Cache\Service\CacheManager:
         arguments:
             - '@gally.cache'
+            - '@?ApiPlatform\Core\HttpCache\PurgerInterface'
         tags:
             - { name: kernel.cache_clearer }
-
-    Gally\Cache\Service\CacheInvalidatorInterface: '@Gally\Cache\Service\CacheInvalidator'
-    Gally\Cache\Service\CacheInvalidator:
-        arguments:
-            - !tagged_iterator kernel.cache_clearer
-            - !tagged_iterator cache.taggable
-            - '@?ApiPlatform\Core\HttpCache\PurgerInterface'
-            - 'kernel.cache_dir'
 
     ApiPlatform\Core\HttpCache\PurgerInterface: '@api_platform.http_cache.purger.varnish'
 
