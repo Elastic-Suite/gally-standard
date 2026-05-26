@@ -58,7 +58,7 @@ class LocalizedCatalog
     private int $id;
 
     #[Groups(['localizedCatalog:read', 'catalog:read'])]
-    private ?string $name;
+    private string $name;
 
     #[Groups(['localizedCatalog:read', 'catalog:read', 'source_field_option:read'])]
     private string $code;
@@ -80,7 +80,7 @@ class LocalizedCatalog
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->name;
     }

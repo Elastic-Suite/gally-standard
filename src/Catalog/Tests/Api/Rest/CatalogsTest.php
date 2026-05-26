@@ -39,12 +39,12 @@ class CatalogsTest extends AbstractEntityTestWithUpdate
 
         return [
             [$adminUser, ['code' => 'valid_code', 'name' => 'B2C Catalog'], 201],
-            [$adminUser, ['code' => 'empty_name', 'name' => ''], 201],
-            [$adminUser, ['code' => 'missing_name'], 201],
             [null, ['code' => 'valid_code', 'name' => 'JWT Token not found'], 401],
             [$this->getUser(Role::ROLE_CONTRIBUTOR), ['code' => 'valid_code', 'name' => 'Unauthorized user'], 403],
+            [$adminUser, ['code' => 'empty_name', 'name' => ''], 422, 'name: This value should not be blank.'],
+            [$adminUser, ['code' => 'missing_name'], 422, 'name: This value should not be blank.'],
             [$adminUser, ['code' => '', 'name' => 'Empty Code'], 422, 'code: This value should not be blank.'],
-            [$adminUser, ['code' => ''], 422, 'code: This value should not be blank.'],
+            [$adminUser, ['code' => ''], 422, "code: This value should not be blank.\nname: This value should not be blank."],
             [$adminUser, ['name' => 'Missing Code'], 422, 'code: This value should not be blank.'],
             [$adminUser, ['code' => 'VALID_CODE', 'name' => 'B2C Catalog'], 422, 'code: This catalog code already exists.'],
         ];
@@ -106,9 +106,6 @@ class CatalogsTest extends AbstractEntityTestWithUpdate
                 200,
                 'fr_FR',
             ],
-            [null, 5, ['id' => 5, 'code' => 'missing_name'], 200],
-            [$user, 5, ['id' => 5, 'code' => 'missing_name'], 200],
-            [$this->getUser(Role::ROLE_ADMIN), 5, ['id' => 5, 'code' => 'missing_name'], 200],
             [$user, 10, [], 404],
         ];
     }
@@ -121,7 +118,6 @@ class CatalogsTest extends AbstractEntityTestWithUpdate
             [null, 1, 401],
             [$this->getUser(Role::ROLE_CONTRIBUTOR), 1, 403],
             [$adminUser, 1, 204],
-            [$adminUser, 5, 204],
             [$adminUser, 10, 404],
         ];
     }
@@ -129,9 +125,9 @@ class CatalogsTest extends AbstractEntityTestWithUpdate
     public function getCollectionDataProvider(): iterable
     {
         return [
-            [null, 3, 200],
-            [$this->getUser(Role::ROLE_CONTRIBUTOR), 3, 200],
-            [$this->getUser(Role::ROLE_ADMIN), 3, 200],
+            [null, 2, 200],
+            [$this->getUser(Role::ROLE_CONTRIBUTOR), 2, 200],
+            [$this->getUser(Role::ROLE_ADMIN), 2, 200],
         ];
     }
 

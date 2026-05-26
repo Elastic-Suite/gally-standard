@@ -59,7 +59,7 @@ class Catalog
     private string $code;
 
     #[Groups('catalog:read')]
-    private ?string $name;
+    private string $name;
 
     /** @var Collection&iterable<LocalizedCatalog> */
     #[Groups('catalog:read')]
@@ -87,7 +87,7 @@ class Catalog
         return $this;
     }
 
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->name;
     }

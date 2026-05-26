@@ -2,6 +2,8 @@ Gally\Catalog\Entity\Catalog:
     properties:
         code:
             - NotBlank: ~
+        name:
+            - NotBlank: ~
     constraints:
         - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
               fields: [code]
@@ -11,6 +13,8 @@ Gally\Catalog\Entity\Catalog:
 Gally\Catalog\Entity\LocalizedCatalog:
     properties:
         code:
+            - NotBlank: ~
+        name:
             - NotBlank: ~
         catalog:
             - NotBlank: ~
