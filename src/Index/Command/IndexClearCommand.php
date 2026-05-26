@@ -19,6 +19,7 @@ use Gally\Index\Repository\Index\IndexRepositoryInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
@@ -38,19 +39,31 @@ class IndexClearCommand extends Command
 
     protected function configure(): void
     {
-        $this->setDescription('Delete all elasticsearch indices');
+        $this
+            ->setDescription('Delete all elasticsearch indices')
+            ->addOption('with-data-streams', null, InputOption::VALUE_NONE, 'Also delete all data streams');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $withDataStreams = $input->getOption('with-data-streams');
         $ui = new SymfonyStyle($input, $output);
-        if (!$ui->confirm('Careful, all elasticsearch indices will be deleted. Do you want to continue?', !$input->isInteractive())) {
+
+        $confirmMessage = $withDataStreams
+            ? 'Careful, all elasticsearch indices and data streams will be deleted. Do you want to continue?'
+            : 'Careful, all elasticsearch indices will be deleted. Do you want to continue?';
+
+        if (!$ui->confirm($confirmMessage, !$input->isInteractive())) {
             return Command::SUCCESS;
         }
 
         $this->indexRepository->delete('gally*');
-        $this->dataStreamRepository->deleteAll();
-        $ui->writeln('Elasticsearch indices and data streams have been deleted.');
+        $ui->writeln('Elasticsearch indices have been deleted.');
+
+        if ($withDataStreams) {
+            $this->dataStreamRepository->deleteAll();
+            $ui->writeln('Data streams have been deleted.');
+        }
 
         return Command::SUCCESS;
     }
