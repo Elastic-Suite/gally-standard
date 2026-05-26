@@ -9,7 +9,7 @@
             <generator strategy="SEQUENCE"/>
         </id>
         <field name="code" type="string" length="255" nullable="false" unique="true" />
-        <field name="name" type="string" length="255" nullable="true" unique="false" />
+        <field name="name" type="string" length="255" nullable="false" unique="false" />
 
         <one-to-many field="localizedCatalogs" target-entity="Gally\Catalog\Entity\LocalizedCatalog" mapped-by="catalog" fetch="EAGER">
             <order-by>
