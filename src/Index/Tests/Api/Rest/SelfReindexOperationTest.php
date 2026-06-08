@@ -82,6 +82,12 @@ class SelfReindexOperationTest extends AbstractTestCase
             $this->getInstalledEntityIndices($expectedEntityTypes, $indexRepository, $indexSettings)
         );
 
+        /*
+         * Ensure the self-reindex creates a new index with a different timestamp,
+         * to avoid the Elasticsearch error "resource_already_exists_exception"
+         */
+        sleep(1);
+
         $this->validateApiCall(
             new RequestToTest(
                 'POST',
