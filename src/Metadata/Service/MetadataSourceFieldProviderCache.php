@@ -78,17 +78,27 @@ class MetadataSourceFieldProviderCache
 
     /**
      * Returns sortable source fields for the given metadata.
+     * Accepts either a Metadata object or a string entity name.
+     * Passing a string avoids a database round-trip when the result is already in local cache.
      *
      * @return SourceField[]
      */
-    public function getSortableSourceFields(Metadata $metadata): array
+    public function getSortableSourceFields(Metadata|string $metadata): array
     {
+        $entityName = $metadata instanceof Metadata ? $metadata->getEntity() : $metadata;
+
         return $this->getFromLocalCache(
-            'sortable_' . $metadata->getEntity(),
+            'sortable_' . $entityName,
             fn () => $this->cacheManager->get(
-                'gally_sf_sortable_' . $metadata->getEntity(),
-                fn (&$tags, &$ttl) => $metadata->getSortableSourceFields(),
-                [self::CACHE_TAG_SOURCE_FIELDS, $this->getEntityTag($metadata)],
+                'gally_sf_sortable_' . $entityName,
+                function (&$tags, &$ttl) use ($metadata, $entityName): array {
+                    if (!$metadata instanceof Metadata) {
+                        $metadata = $this->metadataRepository->findByEntity($entityName);
+                    }
+
+                    return $metadata->getSortableSourceFields();
+                },
+                [self::CACHE_TAG_SOURCE_FIELDS, $this->getEntityTag($entityName)],
             )
         );
     }

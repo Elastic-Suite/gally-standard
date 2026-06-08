@@ -25,8 +25,10 @@ class SortingOptionTest extends AbstractTestCase
     {
         parent::setUpBeforeClass();
         self::loadFixture([
+            __DIR__ . '/../../fixtures/source_field_label_sortable.yaml',
             __DIR__ . '/../../fixtures/source_field_sortable.yaml',
             __DIR__ . '/../../fixtures/metadata.yaml',
+            __DIR__ . '/../../fixtures/catalogs.yaml',
         ]);
     }
 
@@ -52,6 +54,42 @@ class SortingOptionTest extends AbstractTestCase
                     $this->assertSame(
                         [
                             ['code' => 'name', 'label' => 'Name', 'type' => 'text'],
+                            ['code' => 'category__position', 'label' => 'Category.position', 'type' => 'int'],
+                            ['code' => 'real_category__position', 'label' => 'Position', 'type' => 'category'],
+                            ['code' => 'price__price', 'label' => 'Price', 'type' => 'price'],
+                            ['code' => 'stock__status', 'label' => 'Stock status', 'type' => 'stock'],
+                            ['code' => 'manufacture_location', 'label' => 'Manufacture_location\'s distance', 'type' => 'location'],
+                            ['code' => '_score', 'label' => 'Relevance', 'type' => 'float'],
+                        ],
+                        $responseData['data']['sortingOptions']
+                    );
+                }
+            )
+        );
+    }
+
+    public function testGetCollectionWithLocalizedCatalog(): void
+    {
+        $this->validateApiCall(
+            new RequestGraphQlToTest(
+                <<<GQL
+                    {
+                      sortingOptions (entityType: "product_document", localizedCatalog: "b2b_fr") {
+                        code
+                        label
+                        type
+                      }
+                    }
+                GQL,
+                null
+            ),
+            new ExpectedResponse(
+                200,
+                function (ResponseInterface $response) {
+                    $responseData = $response->toArray();
+                    $this->assertSame(
+                        [
+                            ['code' => 'name', 'label' => 'Nom', 'type' => 'text'],
                             ['code' => 'category__position', 'label' => 'Category.position', 'type' => 'int'],
                             ['code' => 'real_category__position', 'label' => 'Position', 'type' => 'category'],
                             ['code' => 'price__price', 'label' => 'Price', 'type' => 'price'],

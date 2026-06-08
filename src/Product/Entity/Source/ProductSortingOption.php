@@ -17,16 +17,35 @@ namespace Gally\Product\Entity\Source;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\GraphQl\QueryCollection;
+use ApiPlatform\OpenApi\Model;
 use Gally\Metadata\Entity\SourceField;
 use Gally\Product\State\ProductSortingOptionProvider;
 use Gally\Search\Entity\Source\SortingOption;
 
 #[ApiResource(
     operations: [
-        new GetCollection(paginationEnabled: false),
+        new GetCollection(
+            paginationEnabled: false,
+            openapi: new Model\Operation(
+                parameters: [
+                    new Model\Parameter(
+                        name: 'localizedCatalog',
+                        in: 'query',
+                        required: false,
+                        schema: ['type' => 'string'],
+                    ),
+                ],
+            )
+        ),
     ],
     graphQlOperations: [
-        new QueryCollection(name: 'collection_query', paginationEnabled: false),
+        new QueryCollection(
+            name: 'collection_query',
+            paginationEnabled: false,
+            args: [
+                'localizedCatalog' => ['type' => 'String'],
+            ]
+        ),
     ],
     provider: ProductSortingOptionProvider::class,
     extraProperties: [

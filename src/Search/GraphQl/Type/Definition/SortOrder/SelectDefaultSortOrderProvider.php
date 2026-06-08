@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace Gally\Search\GraphQl\Type\Definition\SortOrder;
 
+use Gally\Catalog\Entity\LocalizedCatalog;
 use Gally\Metadata\Entity\SourceField;
 use Gally\Metadata\Entity\SourceField\Type;
 
@@ -42,8 +43,10 @@ class SelectDefaultSortOrderProvider implements SortOrderProviderInterface
         return \sprintf("Sorting by %s's label (%s)", $label, $code);
     }
 
-    public function getSimplifiedLabel(SourceField $sourceField): string
+    public function getSimplifiedLabel(SourceField $sourceField, ?LocalizedCatalog $localizedCatalog = null): string
     {
-        return $sourceField->getDefaultLabel();
+        return null !== $localizedCatalog
+            ? $sourceField->getLabel($localizedCatalog->getId())
+            : $sourceField->getDefaultLabel();
     }
 }

@@ -131,6 +131,7 @@ services:
     Gally\Product\State\ProductSortingOptionProvider:
         arguments:
             - '@Gally\Product\Service\ProductsSortingOptionsProvider'
+            - '@Gally\Catalog\Repository\LocalizedCatalogRepository'
             - '@api_platform.doctrine.orm.state.item_provider'
         tags:
             - { name: api_platform.state_provider }
