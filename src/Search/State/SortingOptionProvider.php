@@ -18,6 +18,7 @@ use ApiPlatform\Metadata\CollectionOperationInterface;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\Pagination\PartialPaginatorInterface;
 use ApiPlatform\State\ProviderInterface;
+use Gally\Catalog\Repository\LocalizedCatalogRepository;
 use Gally\Search\Entity\Source\SortingOption;
 use Gally\Search\Service\SortingOptionsProvider;
 
@@ -25,6 +26,7 @@ class SortingOptionProvider implements ProviderInterface
 {
     public function __construct(
         private SortingOptionsProvider $sortingOptionsProvider,
+        private LocalizedCatalogRepository $localizedCatalogRepository,
         protected ProviderInterface $provider,
     ) {
     }
@@ -38,8 +40,12 @@ class SortingOptionProvider implements ProviderInterface
             return $this->provider->provide($operation, $uriVariables, $context);
         }
 
-        $entityType = $context['filters']['entityType'] ?? null;
+        $entityType = $context['filters']['entityType'] ?? $context['args']['entityType'] ?? null;
+        $localizedCatalogCode = $context['filters']['localizedCatalog'] ?? $context['args']['localizedCatalog'] ?? null;
+        $localizedCatalog = $localizedCatalogCode
+            ? $this->localizedCatalogRepository->findByCodeOrId($localizedCatalogCode)
+            : null;
 
-        return $this->sortingOptionsProvider->getAllSortingOptions($entityType);
+        return $this->sortingOptionsProvider->getAllSortingOptions($entityType, $localizedCatalog);
     }
 }

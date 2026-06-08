@@ -35,6 +35,12 @@ use Gally\Search\State\SortingOptionProvider;
                         required: true,
                         schema: ['type' => 'string'],
                     ),
+                    new Model\Parameter(
+                        name: 'localizedCatalog',
+                        in: 'query',
+                        required: false,
+                        schema: ['type' => 'string'],
+                    ),
                 ],
             )
         ),
@@ -44,7 +50,11 @@ use Gally\Search\State\SortingOptionProvider;
             name: 'get',
             resolver: DummyResolver::class,
             paginationEnabled: false,
-            args: ['entityType' => ['type' => 'String']]),
+            args: [
+                'entityType' => ['type' => 'String'],
+                'localizedCatalog' => ['type' => 'String'],
+            ]
+        ),
     ],
     provider: SortingOptionProvider::class,
     extraProperties: [

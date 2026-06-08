@@ -472,13 +472,16 @@ services:
 
     Gally\Search\Service\SortingOptionsProvider:
         arguments:
-            - '@Gally\Metadata\Repository\MetadataRepository'
             - '@Gally\Metadata\Service\MetadataSourceFieldProviderCache'
             - !tagged_iterator { tag: 'gally.api.sort_order_provider', index_by: 'provider_name' }
+            - '@Gally\Metadata\Repository\SourceFieldLabelRepository'
+            - '@Gally\Catalog\Repository\LocalizedCatalogRepository'
+            - '@Gally\Cache\Service\CacheManagerInterface'
 
     Gally\Search\State\SortingOptionProvider:
         arguments:
             - '@Gally\Search\Service\SortingOptionsProvider'
+            - '@Gally\Catalog\Repository\LocalizedCatalogRepository'
             - '@api_platform.doctrine.orm.state.item_provider'
         tags:
             - { name: api_platform.state_provider }

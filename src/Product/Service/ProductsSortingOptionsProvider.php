@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace Gally\Product\Service;
 
+use Gally\Catalog\Entity\LocalizedCatalog;
 use Gally\Search\Service\SortingOptionsProvider;
 
 class ProductsSortingOptionsProvider
@@ -26,8 +27,8 @@ class ProductsSortingOptionsProvider
     /**
      * Return all products sorting options for categories.
      */
-    public function getAllSortingOptions(): array
+    public function getAllSortingOptions(?LocalizedCatalog $localizedCatalog = null): array
     {
-        return $this->sortingOptionsProvider->getAllSortingOptions('product');
+        return $this->sortingOptionsProvider->getAllSortingOptions('product', $localizedCatalog);
     }
 }

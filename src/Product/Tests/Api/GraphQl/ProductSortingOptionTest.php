@@ -25,8 +25,10 @@ class ProductSortingOptionTest extends AbstractTestCase
     {
         parent::setUpBeforeClass();
         self::loadFixture([
+            __DIR__ . '/../../fixtures/source_field_label.yaml',
             __DIR__ . '/../../fixtures/source_field.yaml',
             __DIR__ . '/../../fixtures/metadata.yaml',
+            __DIR__ . '/../../fixtures/catalogs.yaml',
         ]);
     }
 
@@ -55,6 +57,47 @@ class ProductSortingOptionTest extends AbstractTestCase
                             ['code' => 'name', 'label' => 'Name', 'type' => 'text'],
                             ['code' => 'brand__label', 'label' => 'Brand', 'type' => 'select'],
                             ['code' => 'size', 'label' => 'Size', 'type' => 'int'],
+                            ['code' => 'my_price__price', 'label' => 'Price', 'type' => 'price'],
+                            ['code' => 'price_as_nested__price', 'label' => 'Price_as_nested.price', 'type' => 'float'],
+                            ['code' => 'created_at', 'label' => 'Created_at', 'type' => 'date'],
+                            ['code' => 'category__position', 'label' => 'Position', 'type' => 'category'],
+                            ['code' => 'manufacture_location', 'label' => 'Manufacture_location\'s distance', 'type' => 'location'],
+                            ['code' => '_score', 'label' => 'Relevance', 'type' => 'float'],
+                        ],
+                        $responseData['data']['productSortingOptions']
+                    );
+                }
+            )
+        );
+    }
+
+    public function testGetCollectionWithLocalizedCatalog(): void
+    {
+        // b2c_fr has localized labels: size → 'Taille' (see source_field_label.yaml)
+        // Other sortable fields without a localized label fall back to getSimplifiedLabel().
+        $this->validateApiCall(
+            new RequestGraphQlToTest(
+                <<<GQL
+                    {
+                      productSortingOptions (localizedCatalog: "b2c_fr") {
+                        code
+                        label
+                        type
+                      }
+                    }
+                GQL,
+                null
+            ),
+            new ExpectedResponse(
+                200,
+                function (ResponseInterface $response) {
+                    $responseData = $response->toArray();
+                    $this->assertSame(
+                        [
+                            ['code' => 'my_stock__status', 'label' => 'Stock status', 'type' => 'stock'],
+                            ['code' => 'name', 'label' => 'Name', 'type' => 'text'],
+                            ['code' => 'brand__label', 'label' => 'Brand', 'type' => 'select'],
+                            ['code' => 'size', 'label' => 'Taille', 'type' => 'int'],
                             ['code' => 'my_price__price', 'label' => 'Price', 'type' => 'price'],
                             ['code' => 'price_as_nested__price', 'label' => 'Price_as_nested.price', 'type' => 'float'],
                             ['code' => 'created_at', 'label' => 'Created_at', 'type' => 'date'],
