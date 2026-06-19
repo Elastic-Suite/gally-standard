@@ -133,7 +133,7 @@ jobs:
             - uses: actions/upload-artifact@v4
               with:
                   name: coverage-report
-                  path: api/coverage/coverage.xml
+                  path: ${{ env.gally-directory }}/api/coverage/coverage.xml
 
             - name: e2e
               working-directory: ${{ env.gally-directory }}
@@ -143,7 +143,7 @@ jobs:
               if: ${{ always() }}
               with:
                 name: playwright-report
-                path: front/e2e/playwright-report
+                path: ${{ env.gally-directory }}/front/e2e/playwright-report
                 retention-days: 30
 
             - name: "[End] Job failed, gathering logs"
