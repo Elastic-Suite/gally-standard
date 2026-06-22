@@ -19,9 +19,11 @@ use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
 use Gally\Index\Dto\InstallIndexDto;
 use Gally\Index\Entity\Index;
+use Gally\Index\Event\AfterInstallIndexEvent;
 use Gally\Index\Repository\Index\IndexRepositoryInterface;
 use Gally\Index\Service\IndexOperation;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class InstallIndexProcessor implements ProcessorInterface
 {
@@ -29,6 +31,7 @@ class InstallIndexProcessor implements ProcessorInterface
         private IndexOperation $indexOperation,
         private IndexRepositoryInterface $indexRepository,
         private SerializerInterface $serializer,
+        private EventDispatcherInterface $eventDispatcher,
     ) {
     }
 
@@ -45,6 +48,8 @@ class InstallIndexProcessor implements ProcessorInterface
 
             // Reload the index to get updated aliases.
             $indexReloaded = $this->indexRepository->findByName($index->getName());
+
+            $this->eventDispatcher->dispatch(new AfterInstallIndexEvent($indexReloaded), AfterInstallIndexEvent::NAME);
 
             $request = $context['request'] ?? null;
             $format = $request?->getRequestFormat() ?? 'jsonld';

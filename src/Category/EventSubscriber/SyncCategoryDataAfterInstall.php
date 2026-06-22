@@ -12,32 +12,32 @@
 
 declare(strict_types=1);
 
-namespace Gally\Category\Decoration;
+namespace Gally\Category\EventSubscriber;
 
-use ApiPlatform\GraphQl\Resolver\MutationResolverInterface;
 use Gally\Category\Exception\SyncCategoryException;
 use Gally\Category\Service\CategoryProductPositionManager;
 use Gally\Category\Service\CategorySynchronizer;
-use Gally\Index\Entity\Index;
+use Gally\Index\Event\AfterInstallIndexEvent;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class SyncCategoryDataAfterInstall implements MutationResolverInterface
+class SyncCategoryDataAfterInstall implements EventSubscriberInterface
 {
     public function __construct(
-        private MutationResolverInterface $decorated,
-        private CategorySynchronizer $synchronizer,
-        private CategoryProductPositionManager $categoryProductPositionManager,
+        private readonly CategorySynchronizer $synchronizer,
+        private readonly CategoryProductPositionManager $categoryProductPositionManager,
     ) {
     }
 
-    /**
-     * @param Index|null $item
-     *
-     * @return Index
-     */
-    public function __invoke(?object $item, array $context): ?object
+    public static function getSubscribedEvents(): array
     {
-        /** @var Index $index */
-        $index = $this->decorated->__invoke($item, $context);
+        return [
+            AfterInstallIndexEvent::NAME => 'onAfterInstallIndex',
+        ];
+    }
+
+    public function onAfterInstallIndex(AfterInstallIndexEvent $event): void
+    {
+        $index = $event->getIndex();
 
         if ('category' === $index->getEntityType()) { // Synchronize sql data for category entity
             try {
@@ -51,7 +51,5 @@ class SyncCategoryDataAfterInstall implements MutationResolverInterface
         if ('product' === $index->getEntityType()) {
             $this->categoryProductPositionManager->reindexPositionsByIndex($index);
         }
-
-        return $index;
     }
 }

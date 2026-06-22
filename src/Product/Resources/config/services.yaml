@@ -38,19 +38,11 @@ services:
         tags:
             - { name: serializer.normalizer }
 
-    Gally\Product\Decoration\CategoryData\SyncCategoryNameAfterBulk:
-        decorates: Gally\Index\MutationResolver\BulkIndexMutation
+    Gally\Product\EventSubscriber\SyncCategoryNameAfterBulk:
         arguments:
-            - '@.inner'
             - '@Gally\Product\Service\CategoryNameUpdater'
-        decoration_priority: 200
-    Gally\Product\Decoration\CategoryData\SyncCategoryNameAfterBulkRest:
-        decorates: Gally\Index\State\DocumentProcessor
-        arguments:
-            - '@.inner'
-            - '@Gally\Index\Repository\Index\IndexRepository'
-            - '@Gally\Product\Service\CategoryNameUpdater'
-        decoration_priority: 200
+        tags:
+            - { name: kernel.event_subscriber }
 
     Gally\Product\Service\CategoryNameUpdater:
         arguments:

@@ -21,6 +21,7 @@ use Gally\Search\Elasticsearch\Request\SortOrderInterface;
 use Gally\Test\AbstractTestCase;
 use Gally\Test\ExpectedResponse;
 use Gally\Test\RequestGraphQlToTest;
+use Gally\Test\RequestToTest;
 use Gally\User\Constant\Role;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
@@ -2450,6 +2451,113 @@ class SearchDocumentsTest extends AbstractTestCase
                     }
                 }
             )
+        );
+    }
+
+    /**
+     * Bug regression: a non-filterable source field must NOT appear in aggregations,
+     * and must appear after being set to filterable and reindexed.
+     */
+    public function testFilterableSourceFieldAppearsInAggregationsAfterReindex(): void
+    {
+        $admin = $this->getUser(Role::ROLE_ADMIN);
+        $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
+
+        $response = $this->request(new RequestToTest('GET', 'source_fields?metadata.entity=product_document&code=manufacturer', $admin));
+        $manufacturerIri = $response->toArray()['hydra:member'][0]['@id'];
+        $manufacturerPath = substr($manufacturerIri, \strlen($this->getApiRoutePrefix()));
+
+        // Step 1: manufacturer filterable → reindex → IS in aggregations
+        $this->validateApiCall(
+            new RequestToTest('PATCH', $manufacturerPath, $admin, ['isFilterable' => true], ['Content-Type' => 'application/merge-patch+json']),
+            new ExpectedResponse(200)
+        );
+        self::deleteEntityElasticsearchIndices('product_document');
+        self::createEntityElasticsearchIndices('product_document');
+        self::loadElasticsearchDocumentFixtures([__DIR__ . '/../../fixtures/documents.json']);
+
+        $this->validateApiCall(
+            new RequestGraphQlToTest(
+                '{ documents(entityType: "product_document", localizedCatalog: "b2c_en") { collection {data} aggregations { field options { value } } } }',
+                $user
+            ),
+            new ExpectedResponse(200, function (ResponseInterface $response) {
+                $fields = array_column($response->toArray()['data']['documents']['aggregations'], 'field');
+                $this->assertContains('manufacturer__value', $fields);
+            })
+        );
+
+        // Step 2: manufacturer NOT filterable → reindex → NOT in aggregations
+        $this->validateApiCall(
+            new RequestToTest('PATCH', $manufacturerPath, $admin, ['isFilterable' => false], ['Content-Type' => 'application/merge-patch+json']),
+            new ExpectedResponse(200)
+        );
+        self::deleteEntityElasticsearchIndices('product_document');
+        self::createEntityElasticsearchIndices('product_document');
+        self::loadElasticsearchDocumentFixtures([__DIR__ . '/../../fixtures/documents.json']);
+
+        $this->validateApiCall(
+            new RequestGraphQlToTest(
+                '{ documents(entityType: "product_document", localizedCatalog: "b2c_en") { aggregations { field } } }',
+                $user
+            ),
+            new ExpectedResponse(200, function (ResponseInterface $response) {
+                $fields = array_column($response->toArray()['data']['documents']['aggregations'], 'field');
+                $this->assertNotContains('manufacturer__value', $fields);
+            })
+        );
+    }
+
+    /**
+     * Bug regression: a non-searchable source field must NOT yield results when searching by its option values,
+     * and must yield results after being set to searchable and reindexed.
+     */
+    public function testSearchableSourceFieldAllowsProductDiscoveryViaOptionsAfterReindex(): void
+    {
+        $admin = $this->getUser(Role::ROLE_ADMIN);
+        $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
+
+        // manufacturer is searchable by default; its label is "Acme Corp" (in documents.json)
+        $response = $this->request(new RequestToTest('GET', 'source_fields?metadata.entity=product_document&code=manufacturer', $admin));
+        $manufacturerIri = $response->toArray()['hydra:member'][0]['@id'];
+        $manufacturerPath = substr($manufacturerIri, \strlen($this->getApiRoutePrefix()));
+
+        // Step 1: manufacturer searchable → reindex → search "Acme Corp" yields results
+        $this->validateApiCall(
+            new RequestToTest('PATCH', $manufacturerPath, $admin, ['isSearchable' => true], ['Content-Type' => 'application/merge-patch+json']),
+            new ExpectedResponse(200)
+        );
+        self::deleteEntityElasticsearchIndices('product_document');
+        self::createEntityElasticsearchIndices('product_document');
+        self::loadElasticsearchDocumentFixtures([__DIR__ . '/../../fixtures/documents.json']);
+
+        $this->validateApiCall(
+            new RequestGraphQlToTest(
+                '{ documents(entityType: "product_document", localizedCatalog: "b2c_en", search: "Acme Corp") { collection { id } } }',
+                $user
+            ),
+            new ExpectedResponse(200, function (ResponseInterface $response) {
+                $this->assertGreaterThan(0, \count($response->toArray()['data']['documents']['collection']));
+            })
+        );
+
+        // Step 2: manufacturer NOT searchable → reindex → search "Acme Corp" yields 0 results
+        $this->validateApiCall(
+            new RequestToTest('PATCH', $manufacturerPath, $admin, ['isSearchable' => false], ['Content-Type' => 'application/merge-patch+json']),
+            new ExpectedResponse(200)
+        );
+        self::deleteEntityElasticsearchIndices('product_document');
+        self::createEntityElasticsearchIndices('product_document');
+        self::loadElasticsearchDocumentFixtures([__DIR__ . '/../../fixtures/documents.json']);
+
+        $this->validateApiCall(
+            new RequestGraphQlToTest(
+                '{ documents(entityType: "product_document", localizedCatalog: "b2c_en", search: "Acme Corp") { collection { id } } }',
+                $user
+            ),
+            new ExpectedResponse(200, function (ResponseInterface $response) {
+                $this->assertCount(0, $response->toArray()['data']['documents']['collection']);
+            })
         );
     }
 

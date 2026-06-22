@@ -21,20 +21,20 @@ use Doctrine\ORM\UnexpectedResultException;
 use Gally\Catalog\Entity\Catalog;
 use Gally\Catalog\Repository\CatalogRepository;
 use Gally\Catalog\Repository\LocalizedCatalogRepository;
-use Gally\Category\Decoration\SyncCategoryDataAfterBulk;
-use Gally\Category\Decoration\SyncCategoryDataAfterBulkDelete;
-use Gally\Category\Decoration\SyncCategoryDataAfterInstall;
 use Gally\Category\Entity\Category;
 use Gally\Category\Entity\Category\Configuration;
+use Gally\Category\EventSubscriber\SyncCategoryDataAfterBulk;
+use Gally\Category\EventSubscriber\SyncCategoryDataAfterBulkDelete;
+use Gally\Category\EventSubscriber\SyncCategoryDataAfterInstall;
 use Gally\Category\Exception\SyncCategoryException;
 use Gally\Category\Repository\CategoryConfigurationRepository;
 use Gally\Category\Repository\CategoryProductMerchandisingRepository;
 use Gally\Category\Repository\CategoryRepository;
 use Gally\Category\Service\CategoryProductPositionManager;
 use Gally\Category\Service\CategorySynchronizer;
-use Gally\Index\MutationResolver\BulkDeleteIndexMutation;
-use Gally\Index\MutationResolver\BulkIndexMutation;
-use Gally\Index\MutationResolver\InstallIndexMutation;
+use Gally\Index\Event\AfterBulkDeleteIndexEvent;
+use Gally\Index\Event\AfterBulkIndexEvent;
+use Gally\Index\Event\AfterInstallIndexEvent;
 use Gally\Index\Repository\Index\IndexRepository;
 use Gally\Index\Repository\Index\IndexRepositoryInterface;
 use Gally\Index\Service\IndexSettings;
@@ -250,7 +250,7 @@ class CategorySynchronizerTest extends AbstractTestCase
     /**
      * @dataProvider retryTestDataProvider
      */
-    public function testSynchronizeRetry(string $mutationClass, string $decorator, array $constructorParams = []): void
+    public function testSynchronizeRetry(string $subscriberClass, callable $eventFactory, array $constructorParams = []): void
     {
         $synchronizer = $this->getMockerSynchronizer(true);
         $catalogRepository = static::getContainer()->get(LocalizedCatalogRepository::class);
@@ -260,33 +260,41 @@ class CategorySynchronizerTest extends AbstractTestCase
         $this->installIndex($indexName);
         $index = $this->indexRepository->findByName($indexName);
 
-        $mutationMock = $this->getMockBuilder($mutationClass)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $mutationMock->method('__invoke')->willReturn($index);
-        $decorator = new $decorator(
-            $mutationMock,
+        $subscriber = new $subscriberClass(
             $synchronizer,
             ...array_map(fn ($serviceName) => static::getContainer()->get($serviceName), $constructorParams),
         );
 
-        $this->assertEquals($index, $decorator->__invoke(null, ['args' => ['input' => ['data' => '[]']]]));
+        // First call: sync fails once then succeeds on retry → no exception expected
+        $subscriber->{array_values($subscriberClass::getSubscribedEvents())[0]}($eventFactory($index));
 
+        // Second call: sync always fails → SyncCategoryException expected
         $synchronizer = $this->getMockerSynchronizer();
-        $decorator = new $decorator(
-            $mutationMock,
+        $subscriber = new $subscriberClass(
             $synchronizer,
             ...array_map(fn ($serviceName) => static::getContainer()->get($serviceName), $constructorParams),
         );
         $this->expectException(SyncCategoryException::class);
-        $decorator->__invoke(null, ['args' => ['input' => ['data' => '[]']]]);
+        $subscriber->{array_values($subscriberClass::getSubscribedEvents())[0]}($eventFactory($index));
     }
 
     public function retryTestDataProvider(): iterable
     {
-        yield [InstallIndexMutation::class, SyncCategoryDataAfterInstall::class, [CategoryProductPositionManager::class]];
-        yield [BulkIndexMutation::class, SyncCategoryDataAfterBulk::class, [IndexSettings::class, IndexRepository::class, CategoryProductPositionManager::class]];
-        yield [BulkDeleteIndexMutation::class, SyncCategoryDataAfterBulkDelete::class, [IndexSettings::class, IndexRepository::class, CategoryProductMerchandisingRepository::class]];
+        yield [
+            SyncCategoryDataAfterInstall::class,
+            fn ($index) => new AfterInstallIndexEvent($index),
+            [CategoryProductPositionManager::class],
+        ];
+        yield [
+            SyncCategoryDataAfterBulk::class,
+            fn ($index) => new AfterBulkIndexEvent($index, []),
+            [IndexSettings::class, IndexRepository::class, CategoryProductPositionManager::class],
+        ];
+        yield [
+            SyncCategoryDataAfterBulkDelete::class,
+            fn ($index) => new AfterBulkDeleteIndexEvent($index, []),
+            [IndexSettings::class, IndexRepository::class, CategoryProductMerchandisingRepository::class],
+        ];
     }
 
     protected function prepareIndex(int $catalogId, array $data): void

@@ -5,3 +5,11 @@ Gally\Metadata\Entity\SourceField:
         type: 'price'
         isFilterable: true
         isSortable: true
+    product_manufacturer:
+        metadata: '@product'
+        code: 'manufacturer'
+        type: 'select'
+        isFilterable: false
+        isSearchable: false
+        isSpellchecked: false
+        weight: 5

@@ -43,6 +43,8 @@ services:
     Gally\Index\State\DocumentProcessor:
         arguments:
             - '@Gally\Index\Repository\Document\DocumentRepositoryInterface'
+            - '@Gally\Index\Repository\Index\IndexRepositoryInterface'
+            - '@event_dispatcher'
         tags:
             - { name: api_platform.state_processor }
 
@@ -122,12 +124,14 @@ services:
     Gally\Index\MutationResolver\BulkIndexMutation:
         arguments:
             - '@Gally\Index\Repository\Index\IndexRepositoryInterface'
+            - '@event_dispatcher'
         tags:
             - { name: api_platform.graphql.resolver }
 
     Gally\Index\MutationResolver\BulkDeleteIndexMutation:
         arguments:
             - '@Gally\Index\Repository\Index\IndexRepositoryInterface'
+            - '@event_dispatcher'
         tags:
             - { name: api_platform.graphql.resolver }
 
@@ -135,6 +139,7 @@ services:
         arguments:
             - '@Gally\Index\Service\IndexOperation'
             - '@Gally\Index\Repository\Index\IndexRepositoryInterface'
+            - '@event_dispatcher'
         tags:
             - { name: api_platform.graphql.resolver }
 
@@ -172,6 +177,7 @@ services:
             - '@Gally\Index\Service\IndexOperation'
             - '@Gally\Index\Repository\Index\IndexRepository'
             - '@api_platform.serializer'
+            - '@event_dispatcher'
         tags:
             - { name: api_platform.state_processor }
 
@@ -229,6 +235,8 @@ services:
     Gally\Index\Controller\RemoveIndexDocument:
         arguments:
             - '@Gally\Index\Repository\Document\DocumentRepositoryInterface'
+            - '@Gally\Index\Repository\Index\IndexRepositoryInterface'
+            - '@event_dispatcher'
         calls:
             - [ setContainer, [ '@service_container' ] ]
         tags:
