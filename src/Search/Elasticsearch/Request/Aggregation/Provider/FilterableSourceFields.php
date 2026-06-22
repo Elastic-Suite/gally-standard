@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace Gally\Search\Elasticsearch\Request\Aggregation\Provider;
 
 use Gally\Cache\Service\CacheManagerInterface;
+use Gally\Metadata\Service\MetadataSourceFieldProviderCache;
 use Gally\Search\Elasticsearch\Request\Aggregation\ConfigResolver\FieldAggregationConfigResolverInterface;
 use Gally\Search\Elasticsearch\Request\Aggregation\Modifier\ModifierInterface;
 use Gally\Search\Elasticsearch\Request\BucketInterface;
@@ -67,7 +68,7 @@ class FilterableSourceFields implements AggregationProviderInterface
 
                 return $this->facetConfigRepository->findAll();
             },
-            [self::CACHE_TAG_FACET_CONFIG],
+            [self::CACHE_TAG_FACET_CONFIG, MetadataSourceFieldProviderCache::getEntityTag('product')],
         );
 
         foreach ($this->modifiersPool as $modifier) {
