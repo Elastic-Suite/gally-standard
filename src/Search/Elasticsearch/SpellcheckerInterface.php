@@ -19,6 +19,7 @@ namespace Gally\Search\Elasticsearch;
  */
 interface SpellcheckerInterface
 {
+    public const CACHE_TAG_SPELLING_TYPE = 'gally_spelling_type';
     public const SPELLING_TYPE_EXACT = 1;
     public const SPELLING_TYPE_MOST_EXACT = 2;
     public const SPELLING_TYPE_MOST_FUZZY = 3;

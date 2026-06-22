@@ -24,61 +24,31 @@ services:
             - '@doctrine.orm.entity_manager'
 
             
-    Gally\Category\Decoration\SyncCategoryDataAfterBulk:
-        decorates: Gally\Index\MutationResolver\BulkIndexMutation
+    Gally\Category\EventSubscriber\SyncCategoryDataAfterBulk:
         arguments:
-            - '@.inner'
             - '@Gally\Category\Service\CategorySynchronizer'
-            - '@Gally\Index\Service\IndexSettings'
-            - '@Gally\Index\Repository\Index\IndexRepository'
+            - '@Gally\Index\Api\IndexSettingsInterface'
+            - '@Gally\Index\Repository\Index\IndexRepositoryInterface'
             - '@Gally\Category\Service\CategoryProductPositionManager'
-        decoration_priority: 100
-    Gally\Category\Decoration\SyncCategoryDataAfterBulkRest:
-        decorates: Gally\Index\State\DocumentProcessor
-        arguments:
-            - '@.inner'
-            - '@Gally\Category\Service\CategorySynchronizer'
-            - '@Gally\Index\Service\IndexSettings'
-            - '@Gally\Index\Repository\Index\IndexRepository'
-            - '@Gally\Category\Service\CategoryProductPositionManager'
-        decoration_priority: 100
+        tags:
+            - { name: kernel.event_subscriber }
+
             
-    Gally\Category\Decoration\SyncCategoryDataAfterBulkDelete:
-        decorates: Gally\Index\MutationResolver\BulkDeleteIndexMutation
+    Gally\Category\EventSubscriber\SyncCategoryDataAfterBulkDelete:
         arguments:
-            - '@.inner'
             - '@Gally\Category\Service\CategorySynchronizer'
-            - '@Gally\Index\Service\IndexSettings'
-            - '@Gally\Index\Repository\Index\IndexRepository'
+            - '@Gally\Index\Api\IndexSettingsInterface'
+            - '@Gally\Index\Repository\Index\IndexRepositoryInterface'
             - '@Gally\Category\Repository\CategoryProductMerchandisingRepository'
-        decoration_priority: 100
-    Gally\Category\Decoration\SyncCategoryDataAfterBulkDeleteRest:
-        decorates: Gally\Index\Controller\RemoveIndexDocument
+        tags:
+            - { name: kernel.event_subscriber }
+
+    Gally\Category\EventSubscriber\SyncCategoryDataAfterInstall:
         arguments:
-            - '@.inner'
-            - '@Gally\Category\Service\CategorySynchronizer'
-            - '@Gally\Index\Service\IndexSettings'
-            - '@Gally\Index\Repository\Index\IndexRepository'
-            - '@Gally\Category\Repository\CategoryProductMerchandisingRepository'    
-        calls:
-            - [ setContainer, [ '@service_container' ] ]
-        decoration_priority: 100
-        
-    Gally\Category\Decoration\SyncCategoryDataAfterInstall:
-        decorates: Gally\Index\MutationResolver\InstallIndexMutation
-        arguments:
-            - '@.inner'
             - '@Gally\Category\Service\CategorySynchronizer'
             - '@Gally\Category\Service\CategoryProductPositionManager'
-        decoration_priority: 100            
-    Gally\Category\Decoration\SyncCategoryDataAfterInstallRest:
-        decorates: Gally\Index\State\InstallIndexProcessor
-        arguments:
-            - '@.inner'
-            - '@Gally\Category\Service\CategorySynchronizer'
-            - '@Gally\Category\Service\CategoryProductPositionManager'
-            - '@api_platform.serializer' 
-        decoration_priority: 100
+        tags:
+            - { name: kernel.event_subscriber }
 
     Gally\Category\Controller\CategoryConfigurationGet:
         arguments:

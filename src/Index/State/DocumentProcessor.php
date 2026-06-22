@@ -18,12 +18,17 @@ use ApiPlatform\Metadata\DeleteOperationInterface;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
 use Gally\Index\Entity\IndexDocument;
+use Gally\Index\Event\AfterBulkIndexEvent;
 use Gally\Index\Repository\Document\DocumentRepositoryInterface;
+use Gally\Index\Repository\Index\IndexRepositoryInterface;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class DocumentProcessor implements ProcessorInterface
 {
     public function __construct(
         private DocumentRepositoryInterface $documentRepository,
+        private IndexRepositoryInterface $indexRepository,
+        private EventDispatcherInterface $eventDispatcher,
     ) {
     }
 
@@ -34,6 +39,12 @@ class DocumentProcessor implements ProcessorInterface
     {
         if (!$operation instanceof DeleteOperationInterface) {
             $this->documentRepository->index($data->getIndexName(), $data->getDocuments());
+
+            $index = $this->indexRepository->findByName($data->getIndexName());
+            if ($index) {
+                $normalizedData = array_map(fn ($document) => json_decode($document, true), $data->getDocuments());
+                $this->eventDispatcher->dispatch(new AfterBulkIndexEvent($index, $normalizedData), AfterBulkIndexEvent::NAME);
+            }
 
             return $data;
         }

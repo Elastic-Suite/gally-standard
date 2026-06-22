@@ -18,12 +18,16 @@ use ApiPlatform\GraphQl\Resolver\MutationResolverInterface;
 use ApiPlatform\Metadata\Exception\InvalidArgumentException;
 use Gally\Index\Dto\Bulk;
 use Gally\Index\Entity\Index;
+use Gally\Index\Event\AfterBulkIndexEvent;
 use Gally\Index\Repository\Index\IndexRepositoryInterface;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class BulkIndexMutation implements MutationResolverInterface
 {
-    public function __construct(protected IndexRepositoryInterface $indexRepository)
-    {
+    public function __construct(
+        protected IndexRepositoryInterface $indexRepository,
+        protected EventDispatcherInterface $eventDispatcher,
+    ) {
     }
 
     /**
@@ -34,9 +38,10 @@ class BulkIndexMutation implements MutationResolverInterface
     public function __invoke(?object $item, array $context): ?object
     {
         $index = $this->getIndex($context);
+        $data = json_decode($context['args']['input']['data'], true) ?? [];
         $request = new Bulk\Request();
-        $request->addDocuments($index, json_decode($context['args']['input']['data'], true) ?? []);
-        $this->runBulkQuery($index, $request);
+        $request->addDocuments($index, $data);
+        $this->runBulkQuery($index, $request, $data);
 
         return $index;
     }
@@ -52,7 +57,7 @@ class BulkIndexMutation implements MutationResolverInterface
         return $index;
     }
 
-    protected function runBulkQuery(Index $index, Bulk\Request $request): Bulk\Response
+    protected function runBulkQuery(Index $index, Bulk\Request $request, array $data = [], bool $dispatchEvent = true): Bulk\Response
     {
         if ($request->isEmpty()) {
             throw new InvalidArgumentException('Can not execute empty bulk.');
@@ -75,6 +80,10 @@ class BulkIndexMutation implements MutationResolverInterface
             if (!empty($errorMessages)) {
                 throw new InvalidArgumentException(implode(' ', $errorMessages));
             }
+        }
+
+        if ($dispatchEvent) {
+            $this->eventDispatcher->dispatch(new AfterBulkIndexEvent($index, $data), AfterBulkIndexEvent::NAME);
         }
 
         return $response;

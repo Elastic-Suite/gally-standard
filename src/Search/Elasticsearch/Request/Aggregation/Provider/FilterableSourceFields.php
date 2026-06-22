@@ -68,7 +68,7 @@ class FilterableSourceFields implements AggregationProviderInterface
 
                 return $this->facetConfigRepository->findAll();
             },
-            [self::CACHE_TAG_FACET_CONFIG, MetadataSourceFieldProviderCache::getEntityTag('product')],
+            [self::CACHE_TAG_FACET_CONFIG, MetadataSourceFieldProviderCache::getEntityTag($containerConfig->getMetadata()->getEntity())],
         );
 
         foreach ($this->modifiersPool as $modifier) {

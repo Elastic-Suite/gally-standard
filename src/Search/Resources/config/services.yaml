@@ -359,6 +359,13 @@ services:
         tags:
             - { name: doctrine.event_listener, event: prePersist, priority: 20 }
 
+    Gally\Search\EventSubscriber\InvalidateSpellingTypeCache:
+        arguments:
+            - '@Gally\Cache\Service\CacheManagerInterface'
+            - '@Gally\Index\Api\IndexSettingsInterface'
+        tags:
+            - { name: kernel.event_subscriber }
+
     Gally\Search\EventSubscriber\InvalidateFacetConfigurationCache:
         arguments:
             - '@Gally\Cache\Service\CacheManagerInterface'
