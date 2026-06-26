@@ -2561,6 +2561,101 @@ class SearchDocumentsTest extends AbstractTestCase
         );
     }
 
+    /*
+     * @dataProvider categoryFilterContextProvider
+     *
+     * @param string      $entityType                  Entity type
+     * @param string      $catalogId                   Catalog ID or code
+     * @param string|null $categoryFilterValue         Category ID used as equalFilter value, or null for no filter
+     * @param array       $expectedCategoryAggregation Expected options for the category__id aggregation
+     */
+    public function testCategoryFilterSetsCategoryAggregationContext(
+        string $entityType,
+        string $catalogId,
+        ?string $categoryFilterValue,
+        array $expectedCategoryAggregation,
+    ): void {
+        $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
+
+        $arguments = \sprintf(
+            'entityType: "%s", localizedCatalog: "%s", pageSize: 10, currentPage: 1',
+            $entityType,
+            $catalogId
+        );
+        if (null !== $categoryFilterValue) {
+            $arguments .= \sprintf(', filter: [{equalFilter: {field: "category__id", eq: "%s"}}]', $categoryFilterValue);
+        }
+
+        $this->validateApiCall(
+            new RequestGraphQlToTest(
+                <<<GQL
+                    {
+                        documents({$arguments}) {
+                            aggregations {
+                              field
+                              options {
+                                label
+                                value
+                                count
+                              }
+                            }
+                        }
+                    }
+                GQL,
+                $user
+            ),
+            new ExpectedResponse(
+                200,
+                function (ResponseInterface $response) use ($expectedCategoryAggregation) {
+                    $responseData = $response->toArray();
+                    $this->assertIsArray($responseData['data']['documents']['aggregations']);
+
+                    $categoryAggregation = null;
+                    foreach ($responseData['data']['documents']['aggregations'] as $aggregation) {
+                        if ('category__id' === $aggregation['field']) {
+                            $categoryAggregation = $aggregation;
+                            break;
+                        }
+                    }
+
+                    $this->assertNotNull($categoryAggregation, 'The category__id aggregation should be present.');
+                    $this->assertEquals($expectedCategoryAggregation, $categoryAggregation['options'] ?? []);
+                }
+            )
+        );
+    }
+
+    public function categoryFilterContextProvider(): array
+    {
+        return [
+            'no category filter (shows level 1 categories)' => [
+                'product_document', // entity type.
+                'b2c_en',           // catalog ID.
+                null,               // no category filter: aggregation returns level 1 categories.
+                [                   // expected: level 1 categories present in indexed documents.
+                    ['label' => 'One', 'value' => 'cat_1', 'count' => 2],
+                    ['label' => 'Five', 'value' => 'cat_5', 'count' => 1],
+                ],
+            ],
+            'filter on level 1 category (shows level 2 children)' => [
+                'product_document', // entity type.
+                'b2c_en',           // catalog ID.
+                'cat_1',            // filter on cat_1 (level 1): context shifts to cat_1.
+                [                   // expected: children of cat_1 = cat_3 (level 2).
+                    ['label' => 'Three', 'value' => 'cat_3', 'count' => 2],
+                ],
+            ],
+            'filter on level 2 category (shows level 3 children)' => [
+                'product_document', // entity type.
+                'b2c_en',           // catalog ID.
+                'cat_3',            // filter on cat_3 (level 2, child of cat_1): context shifts to cat_3.
+                [                   // expected: children of cat_3 = cat_4 (level 3), present in 1 document.
+                    ['label' => 'Four', 'value' => 'cat_4', 'count' => 1],
+                ],
+            ],
+        ];
+    }
+
     private function addSortOrders(array $sortOrders, string &$arguments): void
     {
         if (!empty($sortOrders)) {

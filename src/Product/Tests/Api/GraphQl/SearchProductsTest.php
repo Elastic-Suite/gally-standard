@@ -62,7 +62,7 @@ class SearchProductsTest extends AbstractTestCase
             new RequestGraphQlToTest(
                 <<<GQL
                     {
-                        products: {$this->graphQlQuery}(requestType: product_catalog, localizedCatalog: "b2c_en") {
+                        products: {$this->graphQlQuery}(requestType: product_search, localizedCatalog: "b2c_en") {
                             collection {
                               id
                             }
@@ -99,6 +99,31 @@ class SearchProductsTest extends AbstractTestCase
         ];
     }
 
+    public function testValidationErrors(): void
+    {
+        $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
+
+        $this->validateApiCall(
+            new RequestGraphQlToTest(
+                <<<GQL
+                    {
+                        products: {$this->graphQlQuery}(requestType: product_catalog, localizedCatalog: "b2c_en") {
+                            collection { id }
+                        }
+                    }
+                GQL,
+                $user
+            ),
+            new ExpectedResponse(
+                200,
+                function (ResponseInterface $response) {
+                    $this->assertGraphQlError('The currentCategoryId argument is required for product_catalog request type.');
+                    $this->assertJsonContains(['data' => ['products' => null]]);
+                }
+            )
+        );
+    }
+
     /**
      * @dataProvider basicSearchProductsDataProvider
      *
@@ -128,7 +153,7 @@ class SearchProductsTest extends AbstractTestCase
         $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
 
         $arguments = \sprintf(
-            'requestType: product_catalog, localizedCatalog: "%s"',
+            'requestType: product_search, localizedCatalog: "%s"',
             $catalogId
         );
         if (null !== $pageSize) {
@@ -320,8 +345,10 @@ class SearchProductsTest extends AbstractTestCase
     ): void {
         $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
 
+        $requestType = $currentCategoryId ? 'product_catalog' : 'product_search';
         $arguments = \sprintf(
-            'requestType: product_catalog, localizedCatalog: "%s", pageSize: %d, currentPage: %d',
+            'requestType: %s, localizedCatalog: "%s", pageSize: %d, currentPage: %d',
+            $requestType,
             $catalogId,
             $pageSize,
             $currentPage
@@ -612,7 +639,7 @@ class SearchProductsTest extends AbstractTestCase
         $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
 
         $arguments = \sprintf(
-            'requestType: product_catalog, localizedCatalog: "%s", pageSize: %d, currentPage: %d',
+            'requestType: product_search, localizedCatalog: "%s", pageSize: %d, currentPage: %d',
             $catalogId,
             $pageSize,
             $currentPage
@@ -763,7 +790,7 @@ class SearchProductsTest extends AbstractTestCase
             new RequestGraphQlToTest(
                 <<<GQL
                     {
-                        products: {$this->graphQlQuery}(requestType: product_catalog, localizedCatalog: "b2c_fr", sort: { length: desc }) {
+                        products: {$this->graphQlQuery}(requestType: product_search, localizedCatalog: "b2c_fr", sort: { length: desc }) {
                             collection { id }
                         }
                     }
@@ -782,7 +809,7 @@ class SearchProductsTest extends AbstractTestCase
             new RequestGraphQlToTest(
                 <<<GQL
                     {
-                        products: {$this->graphQlQuery}(requestType: product_catalog, localizedCatalog: "b2c_fr", sort: { stock__qty: desc }) {
+                        products: {$this->graphQlQuery}(requestType: product_search, localizedCatalog: "b2c_fr", sort: { stock__qty: desc }) {
                             collection { id }
                         }
                     }
@@ -801,7 +828,7 @@ class SearchProductsTest extends AbstractTestCase
             new RequestGraphQlToTest(
                 <<<GQL
                     {
-                        products: {$this->graphQlQuery}(requestType: product_catalog, localizedCatalog: "b2c_fr", sort: { price__price: desc }) {
+                        products: {$this->graphQlQuery}(requestType: product_search, localizedCatalog: "b2c_fr", sort: { price__price: desc }) {
                             collection { id }
                         }
                     }
@@ -820,7 +847,7 @@ class SearchProductsTest extends AbstractTestCase
             new RequestGraphQlToTest(
                 <<<GQL
                     {
-                        products: {$this->graphQlQuery}(requestType: product_catalog, localizedCatalog: "b2c_fr", sort: { stock_as_nested__qty: desc }) {
+                        products: {$this->graphQlQuery}(requestType: product_search, localizedCatalog: "b2c_fr", sort: { stock_as_nested__qty: desc }) {
                             collection { id }
                         }
                     }
@@ -839,7 +866,7 @@ class SearchProductsTest extends AbstractTestCase
             new RequestGraphQlToTest(
                 <<<GQL
                     {
-                        products: {$this->graphQlQuery}(requestType: product_catalog, localizedCatalog: "b2c_fr", sort: { id: desc, size: asc }) {
+                        products: {$this->graphQlQuery}(requestType: product_search, localizedCatalog: "b2c_fr", sort: { id: desc, size: asc }) {
                             collection { id }
                         }
                     }
@@ -876,7 +903,7 @@ class SearchProductsTest extends AbstractTestCase
         $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
 
         $arguments = \sprintf(
-            'requestType: product_catalog, localizedCatalog: "%s", pageSize: %d, currentPage: %d, search: "%s"',
+            'requestType: product_search, localizedCatalog: "%s", pageSize: %d, currentPage: %d, search: "%s"',
             $catalogId,
             $pageSize,
             $currentPage,
@@ -1048,7 +1075,7 @@ class SearchProductsTest extends AbstractTestCase
         string $errorMessage,
     ): void {
         $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
-        $arguments = \sprintf('requestType: product_catalog, localizedCatalog: "%s", filter: {%s}', $catalogId, $filter);
+        $arguments = \sprintf('requestType: product_search, localizedCatalog: "%s", filter: {%s}', $catalogId, $filter);
         $this->validateApiCall(
             new RequestGraphQlToTest(
                 <<<GQL
@@ -1138,7 +1165,7 @@ class SearchProductsTest extends AbstractTestCase
     ): void {
         $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
         $arguments = \sprintf(
-            'requestType: product_catalog, localizedCatalog: "%s", pageSize: %d, currentPage: %d, filter: {%s}',
+            'requestType: product_search, localizedCatalog: "%s", pageSize: %d, currentPage: %d, filter: {%s}',
             $catalogId,
             10,
             1,
@@ -1674,7 +1701,7 @@ class SearchProductsTest extends AbstractTestCase
     {
         return [
             [
-                'product_catalog',
+                'product_search',
                 'b2c_en',   // catalog ID.
                 null, // Current category id.
                 10,     // page size.
@@ -1916,7 +1943,7 @@ class SearchProductsTest extends AbstractTestCase
                 ],
             ],
             [
-                'product_catalog',
+                'product_search',
                 'b2c_fr',   // catalog ID.
                 null,   // Current category id.
                 10,     // page size.
@@ -2253,14 +2280,14 @@ class SearchProductsTest extends AbstractTestCase
         $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
 
         $arguments = \sprintf(
-            'requestType: product_catalog, localizedCatalog: "%s", pageSize: %d, currentPage: %d',
+            'requestType: product_search, localizedCatalog: "%s", pageSize: %d, currentPage: %d',
             $catalogId,
             $pageSize,
             $currentPage,
         );
         if ($filter) {
             $arguments = \sprintf(
-                'requestType: product_catalog, localizedCatalog: "%s", pageSize: %d, currentPage: %d, filter: [%s]',
+                'requestType: product_search, localizedCatalog: "%s", pageSize: %d, currentPage: %d, filter: [%s]',
                 $catalogId,
                 $pageSize,
                 $currentPage,
@@ -2339,6 +2366,104 @@ class SearchProductsTest extends AbstractTestCase
         ];
     }
 
+    /**
+     * @dataProvider categoryFilterContextProvider
+     *
+     * @param string      $catalogId                   Catalog ID or code
+     * @param string      $requestType                 Request type
+     * @param string|null $categoryFilterValue         Category ID used as filter value, or null for no filter
+     * @param array       $expectedCategoryAggregation Expected options for the category__id aggregation
+     */
+    public function testCategoryFilterSetsCategoryAggregationContext(
+        string $catalogId,
+        string $requestType,
+        ?string $categoryFilterValue,
+        array $expectedCategoryAggregation,
+    ): void {
+        $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
+
+        $arguments = \sprintf(
+            'requestType: %s, localizedCatalog: "%s", pageSize: 10, currentPage: 1',
+            $requestType,
+            $catalogId
+        );
+        if (null !== $categoryFilterValue) {
+            if ('product_catalog' === $requestType) {
+                $arguments .= \sprintf(', currentCategoryId: "%s"', $categoryFilterValue);
+            }
+            $arguments .= \sprintf(', filter: {category__id: {eq: "%s"}}', $categoryFilterValue);
+        }
+
+        $this->validateApiCall(
+            new RequestGraphQlToTest(
+                <<<GQL
+                    {
+                        products: {$this->graphQlQuery}({$arguments}) {
+                            aggregations {
+                              field
+                              options {
+                                label
+                                value
+                                count
+                              }
+                            }
+                        }
+                    }
+                GQL,
+                $user
+            ),
+            new ExpectedResponse(
+                200,
+                function (ResponseInterface $response) use ($expectedCategoryAggregation) {
+                    $responseData = $response->toArray();
+                    $this->assertIsArray($responseData['data']['products']['aggregations']);
+
+                    $categoryAggregation = null;
+                    foreach ($responseData['data']['products']['aggregations'] as $aggregation) {
+                        if ('category__id' === $aggregation['field']) {
+                            $categoryAggregation = $aggregation;
+                            break;
+                        }
+                    }
+
+                    $this->assertNotNull($categoryAggregation, 'The category__id aggregation should be present.');
+                    $this->assertEquals($expectedCategoryAggregation, $categoryAggregation['options'] ?? []);
+                }
+            )
+        );
+    }
+
+    public function categoryFilterContextProvider(): array
+    {
+        return [
+            'no category filter (shows level 1 categories)' => [
+                'b2c_en',           // catalog ID.
+                'product_search',   // request type: no category context, use search mode.
+                null,               // no category filter: aggregation returns level 1 categories.
+                [                   // expected: level 1 categories present in indexed products.
+                    ['label' => 'One', 'value' => 'cat_1', 'count' => 2],
+                    ['label' => 'Five', 'value' => 'cat_5', 'count' => 1],
+                ],
+            ],
+            'filter on level 1 category (shows level 2 children)' => [
+                'b2c_en',           // catalog ID.
+                'product_catalog',  // request type.
+                'cat_1',            // filter on cat_1 (level 1): context shifts to cat_1.
+                [                   // expected: children of cat_1 = cat_3 (level 2).
+                    ['label' => 'Three', 'value' => 'cat_3', 'count' => 2],
+                ],
+            ],
+            'filter on level 2 category (shows level 3 children)' => [
+                'b2c_en',           // catalog ID.
+                'product_catalog',  // request type.
+                'cat_3',            // filter on cat_3 (level 2, child of cat_1): context shifts to cat_3.
+                [                   // expected: children of cat_3 = cat_4 (level 3), present in 1 product.
+                    ['label' => 'Four', 'value' => 'cat_4', 'count' => 1],
+                ],
+            ],
+        ];
+    }
+
     private function addSortOrders(array $sortOrders, string &$arguments): void
     {
         if (!empty($sortOrders)) {
@@ -2350,13 +2475,6 @@ class SearchProductsTest extends AbstractTestCase
         }
     }
 
-    /**
-     * Validate result in search products response.
-     *
-     * @param ResponseInterface $response              Api response to validate
-     * @param string            $documentIdentifier    Document identifier to check ordered results
-     * @param array             $expectedOrderedDocIds Expected ordered document identifiers
-     */
     private function validateExpectedResults(ResponseInterface $response, string $documentIdentifier, array $expectedOrderedDocIds): void
     {
         // Extra test on response structure because all exceptions might not throw an HTTP error code.

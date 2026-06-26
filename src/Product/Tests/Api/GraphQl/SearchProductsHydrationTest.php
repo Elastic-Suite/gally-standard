@@ -74,7 +74,7 @@ class SearchProductsHydrationTest extends AbstractTestCase
         $user = null;
 
         $arguments = \sprintf(
-            'requestType: product_catalog, localizedCatalog: "%s"',
+            'requestType: product_search, localizedCatalog: "%s"',
             $catalogId
         );
         if (null !== $pageSize) {
