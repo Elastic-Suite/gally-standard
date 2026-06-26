@@ -63,6 +63,16 @@ class DocumentProvider implements ProviderInterface
         }
 
         $searchQuery = $context['filters']['search'] ?? null;
+
+        foreach ($this->filterManager->getFiltersFromContext($context) as $filterGroup) {
+            if (isset($filterGroup['equalFilter'])
+                && 'category__id' === ($filterGroup['equalFilter']['field'] ?? '')
+                && isset($filterGroup['equalFilter']['eq'])) {
+                $this->currentCategoryProvider->setCurrentCategory($filterGroup['equalFilter']['eq']);
+                break;
+            }
+        }
+
         $this->initSearchContext($searchQuery);
 
         $metadata = $this->metadataRepository->findByEntity($context['filters']['entityType']);

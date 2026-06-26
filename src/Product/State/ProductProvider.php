@@ -75,6 +75,17 @@ class ProductProvider implements ProviderInterface
 
         $searchQuery = $context['filters']['search'] ?? null;
         $currentCategoryId = $context['filters']['currentCategoryId'] ?? null;
+        if (!$currentCategoryId) {
+            if ('product_catalog' === $context['filters']['requestType']) {
+                throw new \InvalidArgumentException('The currentCategoryId argument is required for product_catalog request type.');
+            }
+            foreach ($context['gally_filters']['filter'] ?? [] as $filterGroup) {
+                if (isset($filterGroup['category__id']['eq'])) {
+                    $currentCategoryId = $filterGroup['category__id']['eq'];
+                    break;
+                }
+            }
+        }
         if ($currentCategoryId) {
             $this->currentCategoryProvider->setCurrentCategory($currentCategoryId);
         }
