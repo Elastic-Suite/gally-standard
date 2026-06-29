@@ -2561,7 +2561,7 @@ class SearchDocumentsTest extends AbstractTestCase
         );
     }
 
-    /*
+    /**
      * @dataProvider categoryFilterContextProvider
      *
      * @param string      $entityType                  Entity type
