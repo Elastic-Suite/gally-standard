@@ -1,3 +1,4 @@
+Test
 <h1 align="center"><a href="https://elasticsuite.io"><img src="static/logo-gally.png" alt="Gally, engineered by Elasticsuite"/></a></h1>
 
 Meet Gally, the newborn of the Elasticsuite family. If you've been an user of [elasticsuite for Magento](https://github.com/Smile-SA/elasticsuite/), you'll fall in love with Gally as well.
