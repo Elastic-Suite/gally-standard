@@ -23,8 +23,7 @@ jobs:
         runs-on: ubuntu-latest
 
         env:
-            ref: "main" # ${{ github.base_ref }} cannot work on pushes.
-            last_published_version: "2.2.1"
+            ref: ${{ github.event_name == 'push' && github.ref_name || github.base_ref }}
             gally-directory: ${{ github.workspace }}/gally
             package-name: ${{ github.event.repository.name }} # PHP package name is equal to the repository name.
 
@@ -36,6 +35,17 @@ jobs:
               uses: actions/checkout@v3
               with:
                   path: actions
+
+            - name: Load version config from base branch
+              working-directory: actions
+              run: |
+                  git fetch origin ${{ env.ref }} --depth=1
+                  git show origin/${{ env.ref }}:.github/workflow.env >> $GITHUB_ENV
+
+            - name: Debug workflow variables
+              run: |
+                  echo "ref: ${{ env.ref }}"
+                  echo "last_published_version: ${{ env.last_published_version }}"
 
             - name: Init env
               uses: ./actions/.github/actions/init-env
