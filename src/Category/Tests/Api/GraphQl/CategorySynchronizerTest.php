@@ -94,7 +94,7 @@ class CategorySynchronizerTest extends AbstractTestCase
         $localizedCatalog2 = $localizedCatalogRepository->findOneBy(['code' => 'b2c_en']);
         $localizedCatalog3 = $localizedCatalogRepository->findOneBy(['code' => 'b2b_fr']);
         $category1Data = ['id' => 1, 'parentId' => null, 'level' => 1, 'name' => 'One'];
-        $category2Data = ['id' => 'two', 'parentId' => null, 'level' => 1, 'name' => 'Two'];
+        $category2Data = ['id' => 'two', 'parentId' => '1', 'level' => 2, 'name' => 'Two'];
         $category3Data = ['id' => '3', 'parentId' => 'one', 'level' => 2, 'name' => 'Three'];
         $category4Data = ['id' => 'four', 'parentId' => '3', 'level' => 3, 'name' => 'Four'];
 
@@ -142,7 +142,6 @@ class CategorySynchronizerTest extends AbstractTestCase
         $this->clearRepositoryCache();
 
         $category3Data['name'] = 'ThreeUpdated';
-        $category3Data['parentId'] = '';
         $category3Data['level'] = 1;
         $this->bulkIndex($indexName, ['3' => $category3Data]);
 
@@ -245,6 +244,89 @@ class CategorySynchronizerTest extends AbstractTestCase
                 }
             )
         );
+    }
+
+    /**
+     * The root-uniqueness check must run before the index is switched to its live alias: the
+     * install must fail and the index must never become readable through the API.
+     */
+    public function testErrorWithMultipleRootCategoriesForSameCatalog(): void
+    {
+        $localizedCatalogRepository = static::getContainer()->get(LocalizedCatalogRepository::class);
+        $localizedCatalog1 = $localizedCatalogRepository->findOneBy(['code' => 'b2c_fr']);
+
+        sleep(1); // Avoid creating two indexes at the same second, to delete after the ticket #1321031 will be done
+        $indexName = $this->createIndex('category', $localizedCatalog1->getId());
+        $this->bulkIndex($indexName, [
+            'root1' => ['id' => 'root1', 'parentId' => null, 'level' => 1, 'name' => 'Root 1'],
+            'root2' => ['id' => 'root2', 'parentId' => null, 'level' => 1, 'name' => 'Root 2'],
+        ]);
+        $this->validateApiCall(
+            new RequestGraphQlToTest(
+                <<<GQL
+                    mutation {
+                      installIndex(input: {
+                        name: "$indexName"
+                      }) {
+                        index { id name aliases }
+                      }
+                    }
+                GQL,
+                $this->getUser(Role::ROLE_ADMIN),
+            ),
+            new ExpectedResponse(
+                200,
+                function (ResponseInterface $response) {
+                    $this->assertGraphQlError('Catalog "b2c" cannot have more than one root category (found: root1, root2).');
+                }
+            )
+        );
+
+        // The index must not have been switched to its live alias: no category made it to SQL.
+        $this->validateCategoryCount(0, 0);
+    }
+
+    /**
+     * The root-uniqueness check must also run before a bulk is written to an already installed
+     * (ie. already live) index: adding a second root category must be rejected before it ever
+     * reaches Elasticsearch/OpenSearch, so the live category tree stays untouched.
+     */
+    public function testErrorWithSecondRootCategoryOnBulkToInstalledIndex(): void
+    {
+        $localizedCatalogRepository = static::getContainer()->get(LocalizedCatalogRepository::class);
+        $localizedCatalog1 = $localizedCatalogRepository->findOneBy(['code' => 'b2c_fr']);
+
+        sleep(1); // Avoid creating two indexes at the same second, to delete after the ticket #1321031 will be done
+        $indexName = $this->createIndex('category', $localizedCatalog1->getId());
+        $this->bulkIndex($indexName, ['root1' => ['id' => 'root1', 'parentId' => null, 'level' => 1, 'name' => 'Root 1']]);
+        $this->installIndex($indexName);
+        $this->validateCategoryCount(1, 1);
+
+        $this->validateApiCall(
+            new RequestGraphQlToTest(
+                <<<GQL
+                    mutation {
+                      bulkIndex(input: {
+                        indexName: "$indexName",
+                        data: "{\\"root2\\":{\\"id\\":\\"root2\\",\\"parentId\\":null,\\"level\\":1,\\"name\\":\\"Root 2\\"}}"
+                      }) {
+                        index { name }
+                      }
+                    }
+                GQL,
+                $this->getUser(Role::ROLE_ADMIN),
+            ),
+            new ExpectedResponse(
+                200,
+                function (ResponseInterface $response) {
+                    $this->assertGraphQlError('Catalog "b2c" cannot have more than one root category (found: root1, root2).');
+                }
+            )
+        );
+
+        // The bulk must have been rejected before reaching Elasticsearch/OpenSearch: no second
+        // root category made it to SQL, the live category tree is unchanged.
+        $this->validateCategoryCount(1, 1);
     }
 
     /**

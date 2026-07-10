@@ -1716,8 +1716,8 @@ class SearchProductsTest extends AbstractTestCase
                         'type' => 'category',
                         'options' => [
                             [
-                                'label' => 'One',
-                                'value' => 'cat_1',
+                                'label' => 'Three',
+                                'value' => 'cat_3',
                                 'count' => 2,
                             ],
                             [
@@ -1962,11 +1962,6 @@ class SearchProductsTest extends AbstractTestCase
                         'type' => 'category',
                         'options' => [
                             [
-                                'label' => 'Un',
-                                'value' => 'cat_1',
-                                'count' => 2,
-                            ],
-                            [
                                 'label' => 'Deux',
                                 'value' => 'cat_2',
                                 'count' => 1,
@@ -2197,8 +2192,8 @@ class SearchProductsTest extends AbstractTestCase
                         'hasMore' => false,
                         'options' => [
                             [
-                                'label' => 'One',
-                                'value' => 'cat_1',
+                                'label' => 'Three',
+                                'value' => 'cat_3',
                                 'count' => 2,
                             ],
                             [
@@ -2436,12 +2431,12 @@ class SearchProductsTest extends AbstractTestCase
     public function categoryFilterContextProvider(): array
     {
         return [
-            'no category filter (shows level 1 categories)' => [
+            'no category filter (shows the unique root\'s children, ie level 2 categories)' => [
                 'b2c_en',           // catalog ID.
                 'product_search',   // request type: no category context, use search mode.
-                null,               // no category filter: aggregation returns level 1 categories.
-                [                   // expected: level 1 categories present in indexed products.
-                    ['label' => 'One', 'value' => 'cat_1', 'count' => 2],
+                null,               // no category filter: aggregation returns the children of the catalog's unique level 1 category (cat_1).
+                [                   // expected: level 2 categories present in indexed products.
+                    ['label' => 'Three', 'value' => 'cat_3', 'count' => 2],
                     ['label' => 'Five', 'value' => 'cat_5', 'count' => 1],
                 ],
             ],
@@ -2449,8 +2444,9 @@ class SearchProductsTest extends AbstractTestCase
                 'b2c_en',           // catalog ID.
                 'product_catalog',  // request type.
                 'cat_1',            // filter on cat_1 (level 1): context shifts to cat_1.
-                [                   // expected: children of cat_1 = cat_3 (level 2).
+                [                   // expected: children of cat_1 = cat_3 and cat_5 (level 2).
                     ['label' => 'Three', 'value' => 'cat_3', 'count' => 2],
+                    ['label' => 'Five', 'value' => 'cat_5', 'count' => 1],
                 ],
             ],
             'filter on level 2 category (shows level 3 children)' => [

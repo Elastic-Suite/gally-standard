@@ -87,12 +87,8 @@ class CategorySynchronizer
                 $categoryDoc = $elasticCategories[$categoryId];
                 $category = $sqlCategories[$categoryId] ?? new Category();
 
-                if (!\array_key_exists('name', $categoryDoc->getSource())) {
-                    throw new \Exception(\sprintf('No name provided for category %s', $categoryDoc->getSource()['id']));
-                }
-
                 $category->setId((string) $categoryDoc->getSource()['id']);
-                $category->setParentId($categoryDoc->getSource()['parentId'] ?? '');
+                $category->setParentId($categoryDoc->getSource()['parentId'] ?? null);
                 $category->setLevel((int) ($categoryDoc->getSource()['level'] ?? 0));
                 $category->setPath($categoryDoc->getSource()['path'] ?? '');
 

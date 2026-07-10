@@ -19,9 +19,11 @@ use Gally\Exception\LogicException;
 use Gally\Index\Api\IndexSettingsInterface;
 use Gally\Index\Entity\Index;
 use Gally\Index\Entity\Index\Mapping\FieldInterface;
+use Gally\Index\Event\BeforeInstallIndexEvent;
 use Gally\Index\Repository\Index\IndexRepositoryInterface;
 use Gally\Metadata\Entity\Metadata;
 use OpenSearch\Common\Exceptions\Missing404Exception;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class IndexOperation
 {
@@ -29,6 +31,7 @@ class IndexOperation
         protected IndexRepositoryInterface $indexRepository,
         protected IndexSettingsInterface $indexSettings,
         protected MetadataManager $metadataManager,
+        protected EventDispatcherInterface $eventDispatcher,
     ) {
     }
 
@@ -145,6 +148,9 @@ class IndexOperation
         }
 
         if (!empty($mainInstallAlias)) {
+            // Dispatched before the alias switch
+            $this->eventDispatcher->dispatch(new BeforeInstallIndexEvent($index), BeforeInstallIndexEvent::NAME);
+
             $this->proceedInstallIndex($indexName, $mainInstallAlias, $secondaryAliases);
         }
         // TODO else throw an error ?
