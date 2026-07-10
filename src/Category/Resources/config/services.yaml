@@ -50,6 +50,14 @@ services:
         tags:
             - { name: kernel.event_subscriber }
 
+    Gally\Category\EventSubscriber\ValidateCategoryData:
+        arguments:
+            - '@Gally\Search\Elasticsearch\RequestFactoryInterface'
+            - '@Gally\Search\Elasticsearch\Adapter'
+            - '@Gally\Index\Api\IndexSettingsInterface'
+        tags:
+            - { name: kernel.event_subscriber }
+
     Gally\Category\Controller\CategoryConfigurationGet:
         arguments:
             - '@Gally\Category\Repository\CategoryConfigurationRepository'

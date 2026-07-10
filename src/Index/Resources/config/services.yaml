@@ -102,6 +102,7 @@ services:
             - '@Gally\Index\Repository\Index\IndexRepositoryInterface'
             - '@Gally\Index\Api\IndexSettingsInterface'
             - '@Gally\Index\Service\MetadataManager'
+            - '@event_dispatcher'
 
     Gally\Index\Service\SelfReindexOperation:
         arguments:

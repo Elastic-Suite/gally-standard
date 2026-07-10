@@ -19,6 +19,7 @@ use ApiPlatform\Metadata\Exception\InvalidArgumentException;
 use Gally\Index\Dto\Bulk;
 use Gally\Index\Entity\Index;
 use Gally\Index\Event\AfterBulkIndexEvent;
+use Gally\Index\Event\BeforeBulkIndexEvent;
 use Gally\Index\Repository\Index\IndexRepositoryInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
@@ -61,6 +62,10 @@ class BulkIndexMutation implements MutationResolverInterface
     {
         if ($request->isEmpty()) {
             throw new InvalidArgumentException('Can not execute empty bulk.');
+        }
+
+        if ($dispatchEvent) {
+            $this->eventDispatcher->dispatch(new BeforeBulkIndexEvent($index, $data), BeforeBulkIndexEvent::NAME);
         }
 
         $response = $this->indexRepository->bulk($request);
