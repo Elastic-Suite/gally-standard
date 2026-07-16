@@ -1,4 +1,11 @@
+imports:
+    - { resource: elasticsearch/request_type.yaml }
+
 services:
+    Gally\Tracker\Elasticsearch\Request\Aggregation\Provider\SessionAggregatorAggregationProvider:
+        arguments:
+            - '@Gally\Search\Elasticsearch\Request\QueryFactory'
+
     Gally\Tracker\State\TrackingEventProcessor:
         arguments:
             - '@messenger.default_bus'
