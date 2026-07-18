@@ -6,6 +6,19 @@ services:
         arguments:
             - '@Gally\Search\Elasticsearch\Request\QueryFactory'
 
+    Gally\Tracker\Command\BuildTrackingSessionIndexCommand:
+        arguments:
+            - '@Gally\Metadata\Repository\MetadataRepository'
+            - '@Gally\Catalog\Repository\LocalizedCatalogRepository'
+            - '@Gally\Search\Elasticsearch\Request\Container\Configuration\ContainerConfigurationProvider'
+            - '@Gally\Search\Elasticsearch\Builder\Request\SimpleRequestBuilder'
+            - '@Gally\Search\Elasticsearch\Adapter'
+            - '@Gally\Index\Service\IndexOperation'
+            - '@Gally\Index\Repository\Index\IndexRepositoryInterface'
+            - null
+        tags:
+            - { name: console.command }
+
     Gally\Tracker\State\TrackingEventProcessor:
         arguments:
             - '@messenger.default_bus'
