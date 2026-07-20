@@ -281,10 +281,8 @@ class TrackingEvent
                     'context_type' => $this->getContextType(),
                     'context_code' => $this->getContextCode(),
                 ]),
-                'session' => [
-                    'uid' => $this->getSessionUid(),
-                    'vid' => $this->getSessionVid(),
-                ],
+                'session_uid' => $this->getSessionUid(),
+                'session_vid' => $this->getSessionVid(),
             ]),
             [
                 'group_id' => $this->getGroupId(),
