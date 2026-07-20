@@ -1,0 +1,31 @@
+## Additional product source fields used only by the import/export job tests.
+## The shared fixtures/source_field.yaml has no filterable product field, so none of the facet
+## configuration branches of ProductSourceFieldImport would be reachable without these.
+
+Gally\Metadata\Entity\SourceField:
+    ## Filterable, with no facet configuration yet: exercises the create and "all default" skip paths.
+    product_color:
+        metadata: '@product'
+        code: 'color'
+        type: 'select'
+        isFilterable: true
+        isSearchable: true
+
+    ## Filterable, with an existing facet configuration: exercises the update path.
+    product_size:
+        metadata: '@product'
+        code: 'size'
+        type: 'select'
+        isFilterable: true
+
+Gally\Search\Entity\Facet\Configuration:
+    facet_config_size:
+        __construct:
+            sourceField: '@product_size'
+            category: ~
+        displayMode: !php/const Gally\Search\Entity\Facet\Configuration::DISPLAY_MODE_ALWAYS_DISPLAYED
+        coverageRate: 50
+        maxSize: 20
+        sortOrder: !php/const Gally\Search\Elasticsearch\Request\BucketInterface::SORT_ORDER_TERM
+        position: 5
+        booleanLogic: !php/const Gally\Search\Entity\Facet\Configuration::FILTER_LOGICAL_OPERATOR_AND

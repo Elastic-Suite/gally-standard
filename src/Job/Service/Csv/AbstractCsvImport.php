@@ -64,8 +64,14 @@ abstract class AbstractCsvImport extends AbstractCsv implements JobImportInterfa
         try {
             // Validate CSV headers
             $headers = fgetcsv($handle, escape: '\\');
-            if (!$headers || array_diff($this->csvHeader, $headers) || array_diff($headers, $this->csvHeader)) {
-                throw new JobException($this->translator->trans('import.error.invalid_headers', ['%expected%' => implode(', ', $this->csvHeader)], 'gally_job'));
+            $missingHeaders = $headers ? array_diff($this->csvHeader, $headers) : $this->csvHeader;
+            if (!$headers || !empty($missingHeaders)) {
+                throw new JobException($this->translator->trans('import.error.invalid_headers', ['%missing%' => implode(', ', $missingHeaders)], 'gally_job'));
+            }
+
+            $extraHeaders = array_diff($headers, $this->csvHeader);
+            if (!empty($extraHeaders)) {
+                $this->logInfo('import.warning.extra_columns_ignored', 'gally_job', ['%columns%' => implode(', ', $extraHeaders)]);
             }
 
             $errors = false;
@@ -90,8 +96,18 @@ abstract class AbstractCsvImport extends AbstractCsv implements JobImportInterfa
 
             $this->logInfo('import.validation.completed', 'gally_job');
         } finally {
+            $this->afterValidateLines();
             fclose($handle);
         }
+    }
+
+    /**
+     * Called once after every line has been passed to validateCsvLine(), whether validation
+     * succeeded, failed, or a line threw. Override to flush warnings accumulated per line into a
+     * single grouped log message instead of logging one line per occurrence.
+     */
+    protected function afterValidateLines(): void
+    {
     }
 
     protected function parseScopeCodes(string $scopeCodes): array
@@ -112,6 +128,11 @@ abstract class AbstractCsvImport extends AbstractCsv implements JobImportInterfa
     protected function parseBooleanValue(string $value): bool
     {
         return \in_array(strtolower($value), ['1', self::BOOLEAN_VALUE_TRUE], true);
+    }
+
+    protected function isValidBooleanValue(string $value): bool
+    {
+        return !empty($value) && !\in_array(strtolower($value), ['0', '1', self::BOOLEAN_VALUE_TRUE, self::BOOLEAN_VALUE_FALSE], true);
     }
 
     /**

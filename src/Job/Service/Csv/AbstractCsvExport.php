@@ -59,6 +59,11 @@ abstract class AbstractCsvExport extends AbstractCsv implements JobExportInterfa
         return $value ? self::BOOLEAN_VALUE_TRUE : self::BOOLEAN_VALUE_FALSE;
     }
 
+    protected function formatNullableBoolean(?bool $value): string
+    {
+        return $this->formatBoolean($value ?? false);
+    }
+
     protected function prepareExportFile(string $entityName): array
     {
         // Prepare export file path
