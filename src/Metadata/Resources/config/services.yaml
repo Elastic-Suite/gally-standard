@@ -261,3 +261,12 @@ services:
             - '@Gally\Metadata\Repository\SourceFieldRepository'
         tags:
             - { name: 'nelmio_alice.faker.provider' }
+
+    Gally\Metadata\Job\SourceFieldImport:
+        arguments:
+            - '@Gally\Job\Service\JobManager'
+            - '@Gally\Doctrine\Service\EntityManagerFactory'
+            - '@validator'
+            - '@translator'
+        tags:
+            - { name: gally.job.import, priority: 200 }

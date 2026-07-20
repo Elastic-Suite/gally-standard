@@ -97,6 +97,20 @@ class ConfigurationRepository extends ServiceEntityRepository
     }
 
     /**
+     * Get facet configuration by source field for default category
+     */
+    public function findOneBySourceFieldAndDefaultCategory(SourceField $sourceField): ?Facet\Configuration
+    {
+        $query = $this->createQueryBuilder('o')
+            ->andWhere('sf = :sourceField')
+            ->andWhere('o.category IS NULL')
+            ->setParameter('sourceField', $sourceField)
+            ->getQuery();
+
+        return $query->getOneOrNullResult($query->getHydrationMode());
+    }
+
+    /**
      * Get all facet configuration.
      *
      * @return Facet\Configuration[]

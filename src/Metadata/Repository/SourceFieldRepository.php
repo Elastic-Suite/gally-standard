@@ -80,6 +80,19 @@ class SourceFieldRepository extends ServiceEntityRepository
 
         return $query->getResult();
     }
+    
+    public function findByCodeAndMetadataEntity(string $code, string $entityType): ?SourceField
+    {
+        $query = $this->createQueryBuilder('s')
+            ->leftJoin('s.metadata', 'm')
+            ->where('s.code = :code')
+            ->andWhere('m.entity = :entityType')
+            ->setParameter('code', $code)
+            ->setParameter('entityType', $entityType)
+            ->getQuery();
+
+        return $query->getOneOrNullResult();
+    }
 
     /**
      * @return SourceField[]
