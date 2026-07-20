@@ -20,6 +20,7 @@ use Gally\Index\Repository\Index\IndexRepositoryInterface;
 use Gally\Index\Service\IndexOperation;
 use Gally\Metadata\Repository\MetadataRepository;
 use Gally\Search\Elasticsearch\Adapter;
+use Gally\Search\Elasticsearch\Adapter\Common\Response\AggregationInterface;
 use Gally\Search\Elasticsearch\Adapter\Common\Response\BucketValueInterface;
 use Gally\Search\Elasticsearch\Builder\Request\SimpleRequestBuilder;
 use Gally\Search\Elasticsearch\Request\Container\Configuration\ContainerConfigurationProvider;
@@ -86,9 +87,12 @@ class BuildTrackingSessionIndexCommand extends Command
 
         if ($input->getOption('dump-raw')) {
             $first = array_key_first($sessionBuckets);
-            $ui->writeln(sprintf('Raw session_root values for session "%s":', $first));
+            $ui->writeln(sprintf('Raw child aggregations for session "%s":', $first));
             $ui->writeln(json_encode(
-                $sessionBuckets[$first]?->getChildAggregation()['session_root']?->getValues() ?? [],
+                array_map(
+                    fn (AggregationInterface $agg) => $agg->getValues(),
+                    $sessionBuckets[$first]?->getChildAggregation() ?? []
+                ),
                 \JSON_PRETTY_PRINT
             ));
 
@@ -135,33 +139,91 @@ class BuildTrackingSessionIndexCommand extends Command
     private function buildSessionDocument(BucketValueInterface $sessionBucket, string $localizedCatalogCode): array
     {
         $sessionUid = $sessionBucket->getKey();
-        $raw = $sessionBucket->getChildAggregation()['session_root']?->getValues() ?? [];
+        $children = $sessionBucket->getChildAggregation();
 
         return [
             'id' => $sessionUid,
-            '@timestamp' => $this->readMetricValue($raw, 'end_time'),
+            '@timestamp' => $this->readMetricValue($children, 'end_time'),
             'localized_catalog_code' => $localizedCatalogCode,
-            'start_time' => $this->readMetricValue($raw, 'start_time'),
-            'end_time' => $this->readMetricValue($raw, 'end_time'),
-            'group_id' => $this->readFirstTermKey($raw, 'group_id'),
-            'session' => [
-                'uid' => $sessionUid,
-                'vid' => $this->readFirstTermKey($raw, 'visitor_id'),
-            ],
-            'views' => $this->readGroupedTerms($raw, 'views'),
-            'cart' => $this->readGroupedTerms($raw, 'cart'),
-            'order' => $this->readGroupedTerms($raw, 'order'),
-            'searches' => $this->readSearches($raw),
+            'start_time' => $this->readMetricValue($children, 'start_time'),
+            'end_time' => $this->readMetricValue($children, 'end_time'),
+            'group_id' => $this->readFirstTermKey($children, 'group_id'),
+            'session_uid' => $sessionUid,
+            'session_vid' => $this->readFirstTermKey($children, 'visitor_id'),
+            'views' => $this->readGroupedTerms($children, 'views'),
+            'cart' => $this->readGroupedTerms($children, 'cart'),
+            'order' => $this->readGroupedTerms($children, 'order'),
+            'searches' => $this->readSearches($children),
         ];
     }
 
     /**
-     * Gally's response Builder\Response\AggregationBuilder only auto-unwraps the
-     * nested/filter/reverse_nested envelope (same aggregation name repeated one level down) for
-     * aggregations it walks itself (buckets of a terms aggregation). The children of our own
-     * reverseNestedBucket ("session_root", "search_query_root") are handed back as raw,
-     * still-wrapped ES JSON -- this mirrors that same unwrap loop by hand.
+     * @param AggregationInterface[] $children
      */
+    private function readMetricValue(array $children, string $name): ?string
+    {
+        $values = $children[$name]?->getValues() ?? [];
+
+        return $values['value_as_string'] ?? (isset($values['value']) ? (string) $values['value'] : null);
+    }
+
+    /**
+     * @param AggregationInterface[] $children
+     */
+    private function readFirstTermKey(array $children, string $name): ?string
+    {
+        $buckets = $children[$name]?->getValues() ?? [];
+        $first = reset($buckets);
+
+        return $first instanceof BucketValueInterface ? (string) $first->getKey() : null;
+    }
+
+    /**
+     * @param AggregationInterface[] $children
+     */
+    private function readGroupedTerms(array $children, string $name): array
+    {
+        $buckets = $children[$name]?->getValues() ?? [];
+        $result = [];
+
+        foreach ($buckets as $bucket) {
+            $itemBuckets = $bucket->getChildAggregation()['items']?->getValues() ?? [];
+            $items = array_map(fn (BucketValueInterface $item) => (string) $item->getKey(), $itemBuckets);
+            $result[] = [
+                'metadata_code' => $bucket->getKey(),
+                'count' => \count($items),
+                'items' => array_values($items),
+            ];
+        }
+
+        return $result;
+    }
+
+    /**
+     * @param AggregationInterface[] $children
+     */
+    private function readSearches(array $children): array
+    {
+        $buckets = $children['searches']?->getValues() ?? [];
+        $result = [];
+
+        foreach ($buckets as $bucket) {
+            // search_query_root is a reverseNestedBucket with no "buckets" of its own: unlike a
+            // terms bucket, Gally's response AggregationBuilder does not recurse into its children,
+            // they come back as raw, still-wrapped (nested-envelope) ES JSON -- unwrap by hand.
+            $searchQueryRoot = $bucket->getChildAggregation()['search_query_root']?->getValues() ?? [];
+            $resultsCount = $this->unwrapSameKey('results_count', $searchQueryRoot['results_count'] ?? []);
+
+            $result[] = [
+                'metadata_code' => 'product',
+                'query' => (string) $bucket->getKey(),
+                'results_count' => (int) ($resultsCount['value'] ?? 0),
+            ];
+        }
+
+        return $result;
+    }
+
     private function unwrapSameKey(string $name, array $raw): array
     {
         while (\array_key_exists($name, $raw) && \is_array($raw[$name])) {
@@ -169,55 +231,5 @@ class BuildTrackingSessionIndexCommand extends Command
         }
 
         return $raw;
-    }
-
-    private function readMetricValue(array $raw, string $name): ?string
-    {
-        $data = $this->unwrapSameKey($name, $raw[$name] ?? []);
-
-        return $data['value_as_string'] ?? (isset($data['value']) ? (string) $data['value'] : null);
-    }
-
-    private function readFirstTermKey(array $raw, string $name): ?string
-    {
-        $data = $this->unwrapSameKey($name, $raw[$name] ?? []);
-
-        return $data['buckets'][0]['key'] ?? null;
-    }
-
-    private function readGroupedTerms(array $raw, string $name): array
-    {
-        $data = $this->unwrapSameKey($name, $raw[$name] ?? []);
-        $result = [];
-
-        foreach ($data['buckets'] ?? [] as $bucket) {
-            $items = array_column($bucket['items']['buckets'] ?? [], 'key');
-            $result[] = [
-                'metadata_code' => $bucket['key'],
-                'count' => \count($items),
-                'items' => $items,
-            ];
-        }
-
-        return $result;
-    }
-
-    private function readSearches(array $raw): array
-    {
-        $data = $this->unwrapSameKey('searches', $raw['searches'] ?? []);
-        $result = [];
-
-        foreach ($data['buckets'] ?? [] as $bucket) {
-            $resultsRaw = $this->unwrapSameKey('search_query_root', $bucket['search_query_root'] ?? []);
-            $resultsCount = $this->unwrapSameKey('results_count', $resultsRaw['results_count'] ?? []);
-
-            $result[] = [
-                'metadata_code' => 'product',
-                'query' => $bucket['key'],
-                'results_count' => (int) ($resultsCount['value'] ?? 0),
-            ];
-        }
-
-        return $result;
     }
 }

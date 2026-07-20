@@ -22,16 +22,17 @@ use Gally\Search\Elasticsearch\Request\QueryFactory;
 use Gally\Search\Elasticsearch\Request\QueryInterface;
 
 /**
- * Aggregates tracking_event documents into the tracking_session shape (one bucket per session.uid,
+ * Aggregates tracking_event documents into the tracking_session shape (one bucket per session_uid,
  * with array fields grouped by metadata_code: views/cart/order/searches), via a live _search --
  * used to validate the aggregation before it gets ported to an OpenSearch Transform.
  *
- * tracking_event nests "session", "search_query" and "product_list" as three SEPARATE first-level
- * nested objects (Gally nests the first dotted segment of any source_field code, unlike ElasticSuite
- * which groups everything under one shared "page" nested object). Because of that, moving from one
- * nested scope to another (or back to the root document) requires an explicit reverseNestedBucket --
- * there is no other example of this in the codebase yet, so double-check the generated query and its
- * response shape live once the stack is up.
+ * session_uid/session_vid are flat (no dot in the code, so no nested type in the mapping): an
+ * OpenSearch Transform cannot group_by (or natively aggregate) a nested field, so the session
+ * grouping key itself has to stay flat -- see TrackingEvent::getData(). search_query and
+ * product_list remain first-level nested objects (Gally nests the first dotted segment of any
+ * source_field code): reaching product_list.item_count from within the search_query nested scope
+ * still needs an explicit reverseNestedBucket, there is no other example of this in the codebase
+ * yet, so double-check the generated query and its response shape live once the stack is up.
  */
 class SessionAggregatorAggregationProvider implements AggregationProviderInterface
 {
@@ -77,78 +78,67 @@ class SessionAggregatorAggregationProvider implements AggregationProviderInterfa
             'session_id' => [
                 'name' => 'session_id',
                 'type' => BucketInterface::TYPE_TERMS,
-                'field' => 'session.uid',
-                'nestedPath' => 'session',
+                'field' => 'session_uid',
                 'size' => 10000,
                 'sortOrder' => BucketInterface::SORT_ORDER_COUNT,
                 'childAggregations' => [
-                    // Escape the "session" nested scope: everything below (root fields, or fields
-                    // nested under a DIFFERENT path) is not reachable directly from here.
-                    'session_root' => [
-                        'name' => 'session_root',
-                        'type' => BucketInterface::TYPE_REVERSE_NESTED,
-                        'field' => 'session.uid', // required by AbstractBucket, unused by this bucket type
+                    // Only the top (most frequent) bucket is kept -- these are expected to be
+                    // constant for the whole session, size:1 is enough and cheaper than 10000.
+                    'visitor_id' => [
+                        'name' => 'visitor_id',
+                        'type' => BucketInterface::TYPE_TERMS,
+                        'field' => 'session_vid',
+                        'size' => 1,
+                        'sortOrder' => BucketInterface::SORT_ORDER_COUNT,
+                    ],
+                    'group_id' => [
+                        'name' => 'group_id',
+                        'type' => BucketInterface::TYPE_TERMS,
+                        'field' => 'group_id',
+                        'size' => 1,
+                        'sortOrder' => BucketInterface::SORT_ORDER_COUNT,
+                    ],
+                    'views' => $groupedByMetadataCode('views', 'view'),
+                    'cart' => $groupedByMetadataCode('cart', 'add_to_cart'),
+                    'order' => $groupedByMetadataCode('order', 'order'),
+                    // category_sale (categories of sold items): no source data in tracking_event
+                    // today (Gally's "order" event only carries entity_code of the sold product,
+                    // not its categories) -- omitted.
+                    'searches' => [
+                        'name' => 'searches',
+                        'type' => BucketInterface::TYPE_TERMS,
+                        'field' => 'search_query.query_text.sortable',
+                        'nestedPath' => 'search_query',
+                        'size' => 10000,
+                        'sortOrder' => BucketInterface::SORT_ORDER_COUNT,
+                        'filter' => $eventTypeFilter('search'),
                         'childAggregations' => [
-                            // Only the top (most frequent) bucket is kept -- these are expected to be
-                            // constant for the whole session, size:1 is enough and cheaper than 10000.
-                            'visitor_id' => [
-                                'name' => 'visitor_id',
-                                'type' => BucketInterface::TYPE_TERMS,
-                                'field' => 'session.vid',
-                                'nestedPath' => 'session',
-                                'size' => 1,
-                                'sortOrder' => BucketInterface::SORT_ORDER_COUNT,
-                            ],
-                            'group_id' => [
-                                'name' => 'group_id',
-                                'type' => BucketInterface::TYPE_TERMS,
-                                'field' => 'group_id',
-                                'size' => 1,
-                                'sortOrder' => BucketInterface::SORT_ORDER_COUNT,
-                            ],
-                            'views' => $groupedByMetadataCode('views', 'view'),
-                            'cart' => $groupedByMetadataCode('cart', 'add_to_cart'),
-                            'order' => $groupedByMetadataCode('order', 'order'),
-                            // category_sale (categories of sold items): no source data in tracking_event
-                            // today (Gally's "order" event only carries entity_code of the sold product,
-                            // not its categories) -- omitted.
-                            'searches' => [
-                                'name' => 'searches',
-                                'type' => BucketInterface::TYPE_TERMS,
+                            // results_count lives under product_list, a sibling nested path
+                            // of search_query: escape back to root first.
+                            'search_query_root' => [
+                                'name' => 'search_query_root',
+                                'type' => BucketInterface::TYPE_REVERSE_NESTED,
                                 'field' => 'search_query.query_text.sortable',
-                                'nestedPath' => 'search_query',
-                                'size' => 10000,
-                                'sortOrder' => BucketInterface::SORT_ORDER_COUNT,
-                                'filter' => $eventTypeFilter('search'),
                                 'childAggregations' => [
-                                    // results_count lives under product_list, a sibling nested path
-                                    // of search_query: escape back to root first.
-                                    'search_query_root' => [
-                                        'name' => 'search_query_root',
-                                        'type' => BucketInterface::TYPE_REVERSE_NESTED,
-                                        'field' => 'search_query.query_text.sortable',
-                                        'childAggregations' => [
-                                            'results_count' => [
-                                                'name' => 'results_count',
-                                                'type' => MetricInterface::TYPE_SUM,
-                                                'field' => 'product_list.item_count',
-                                                'nestedPath' => 'product_list',
-                                            ],
-                                        ],
+                                    'results_count' => [
+                                        'name' => 'results_count',
+                                        'type' => MetricInterface::TYPE_SUM,
+                                        'field' => 'product_list.item_count',
+                                        'nestedPath' => 'product_list',
                                     ],
                                 ],
                             ],
-                            'start_time' => [
-                                'name' => 'start_time',
-                                'type' => MetricInterface::TYPE_MIN,
-                                'field' => '@timestamp',
-                            ],
-                            'end_time' => [
-                                'name' => 'end_time',
-                                'type' => MetricInterface::TYPE_MAX,
-                                'field' => '@timestamp',
-                            ],
                         ],
+                    ],
+                    'start_time' => [
+                        'name' => 'start_time',
+                        'type' => MetricInterface::TYPE_MIN,
+                        'field' => '@timestamp',
+                    ],
+                    'end_time' => [
+                        'name' => 'end_time',
+                        'type' => MetricInterface::TYPE_MAX,
+                        'field' => '@timestamp',
                     ],
                 ],
             ],

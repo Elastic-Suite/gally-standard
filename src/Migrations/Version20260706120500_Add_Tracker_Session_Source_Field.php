@@ -48,8 +48,8 @@ final class Version20260706120500_Add_Tracker_Session_Source_Field extends Abstr
             'order.count' => 'integer',
             'order.items' => 'keyword',
             'group_id' => 'keyword',
-            'session.uid' => 'keyword',
-            'session.vid' => 'keyword',
+            'session_uid' => 'keyword',
+            'session_vid' => 'keyword',
             'ab_campaigns.id' => 'integer',
             'ab_campaigns.scenario' => 'keyword',
         ];
