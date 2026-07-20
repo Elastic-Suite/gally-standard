@@ -544,4 +544,12 @@ class Configuration
             BucketInterface::SORT_ORDER_NATURAL_DESC,
         ];
     }
+
+    public static function getAvailableBooleanLogic(): array
+    {
+        return [
+            self::FILTER_LOGICAL_OPERATOR_AND,
+            self::FILTER_LOGICAL_OPERATOR_OR,
+        ];
+    }
 }

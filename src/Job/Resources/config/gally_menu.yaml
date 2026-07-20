@@ -1,0 +1,5 @@
+gally:
+    menu:
+        import_export:
+          order: 110
+          path: '/importexport/'

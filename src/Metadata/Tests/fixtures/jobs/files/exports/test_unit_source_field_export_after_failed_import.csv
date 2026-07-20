@@ -1,0 +1,13 @@
+code,label,type,weight,is_searchable,is_filterable,is_sortable,is_spellchecked,is_used_for_rules,is_used_in_autocomplete,is_spannable,analyzer,display_mode,coverage_rate,max_size,sort_order,position,boolean_logic
+size,Size,select,1,false,true,false,false,false,false,false,standard,hidden,80,15,_count,2,OR
+color,Color,select,1,true,true,false,false,false,false,false,standard,displayed,50,20,_term,3,AND
+name,Name,text,5,true,false,false,false,false,false,false,standard,auto,90,10,_count,,OR
+id,Id,reference,1,false,false,true,false,false,false,false,reference,auto,90,10,_count,,OR
+sku,Sku,reference,7,false,false,false,true,false,false,true,reference,auto,90,10,_count,,OR
+price,Price,price,1,false,false,false,false,false,false,false,standard,auto,90,10,_count,,OR
+stock.status,"Stock status",int,1,false,false,false,false,false,false,false,standard,auto,90,10,_count,,OR
+stock.qty,"Stock quantity",float,1,false,false,false,false,false,false,false,standard,auto,90,10,_count,,OR
+brand,Brand,select,99,true,false,false,false,false,false,false,standard,auto,90,10,_count,,OR
+category,Category,category,1,false,false,false,false,false,false,false,standard,auto,90,10,_count,,OR
+flag,Flag,text,1,false,false,false,false,false,false,false,standard,auto,90,10,_count,,OR
+material,Material,select,1,false,true,false,false,false,false,false,standard,auto,90,10,_count,,OR

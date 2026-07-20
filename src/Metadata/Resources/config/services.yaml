@@ -46,7 +46,7 @@ services:
             - '%route_prefix%'
         tags:
             - { name: api_platform.state_processor }
- 
+
     Gally\Metadata\State\SourceFieldOptionProcessor:
         arguments:
             - '@doctrine.orm.entity_manager'
@@ -58,7 +58,7 @@ services:
             - '%route_prefix%'
         tags:
             - { name: api_platform.state_processor }
-                
+
     Gally\Metadata\State\SourceFieldTypeProvider:
         tags:
             - { name: api_platform.state_provider }
@@ -113,7 +113,7 @@ services:
             - '@api_platform.iri_converter'
             - '@?api_platform.http_cache.purger'
         calls:
-            - [ setContainer, [ '@service_container' ] ]
+            - [setContainer, ['@service_container']]
         tags:
             - { name: controller.service_arguments }
 
@@ -123,22 +123,22 @@ services:
             - '@api_platform.iri_converter'
             - '@?api_platform.http_cache.purger'
         calls:
-            - [ setContainer, [ '@service_container' ] ]
+            - [setContainer, ['@service_container']]
         tags:
             - { name: controller.service_arguments }
 
-    Gally\Metadata\Validator\SourceFieldDataValidator: 
+    Gally\Metadata\Validator\SourceFieldDataValidator:
         arguments:
             - '@doctrine.orm.entity_manager'
             - '@Gally\Metadata\Repository\MetadataRepository'
             - '@Gally\Catalog\Repository\LocalizedCatalogRepository'
             - '%route_prefix%'
 
-    Gally\Metadata\Validator\SourceFieldOptionDataValidator: 
+    Gally\Metadata\Validator\SourceFieldOptionDataValidator:
         arguments:
             - '@Gally\Catalog\Repository\LocalizedCatalogRepository'
             - '%route_prefix%'
-                
+
     Gally\Metadata\GraphQl\Type\Definition\Filter\TextTypeFilterInputType:
         arguments:
             - '@Gally\Search\Elasticsearch\Builder\Request\Query\Filter\FilterQueryBuilder'
@@ -147,7 +147,7 @@ services:
         tags:
             - { name: api_platform.graphql.type }
             - { name: gally.entity_api.filter }
-    
+
     Gally\Metadata\GraphQl\Type\Definition\Filter\BoolTypeFilterInputType:
         arguments:
             - '@Gally\Search\Elasticsearch\Builder\Request\Query\Filter\FilterQueryBuilder'
@@ -156,7 +156,7 @@ services:
         tags:
             - { name: api_platform.graphql.type }
             - { name: gally.entity_api.filter }
-    
+
     Gally\Metadata\GraphQl\Type\Definition\Filter\IntegerTypeFilterInputType:
         arguments:
             - '@Gally\Search\Elasticsearch\Builder\Request\Query\Filter\FilterQueryBuilder'
@@ -165,7 +165,7 @@ services:
         tags:
             - { name: api_platform.graphql.type }
             - { name: gally.entity_api.filter }
-    
+
     Gally\Metadata\GraphQl\Type\Definition\Filter\FloatTypeFilterInputType:
         arguments:
             - '@Gally\Search\Elasticsearch\Builder\Request\Query\Filter\FilterQueryBuilder'
@@ -174,7 +174,7 @@ services:
         tags:
             - { name: api_platform.graphql.type }
             - { name: gally.entity_api.filter }
-    
+
     Gally\Metadata\GraphQl\Type\Definition\Filter\DateTypeFilterInputType:
         arguments:
             - '@Gally\Search\Elasticsearch\Builder\Request\Query\Filter\FilterQueryBuilder'
@@ -231,7 +231,7 @@ services:
             - '@Gally\Search\Elasticsearch\Request\QueryFactory'
         tags:
             - { name: api_platform.graphql.type }
-    
+
     Gally\Metadata\GraphQl\Type\Definition\Filter\LocationTypeFilterInputType:
         arguments:
             - '@Gally\Search\Elasticsearch\Builder\Request\Query\Filter\FilterQueryBuilder'
@@ -272,3 +272,22 @@ services:
             - '@Gally\Metadata\Repository\SourceFieldRepository'
         tags:
             - { name: 'nelmio_alice.faker.provider' }
+
+    Gally\Metadata\Job\Product\ProductSourceFieldImport:
+        arguments:
+            - '@Gally\Job\Service\JobManager'
+            - '@Gally\Doctrine\Service\EntityManagerFactory'
+            - '@validator'
+            - '@translator'
+            - '@Gally\Metadata\Validator\SourceFieldDataValidator'
+        tags:
+            - { name: gally.job.import, priority: 200 }
+
+    Gally\Metadata\Job\Product\ProductSourceFieldExport:
+        arguments:
+            - '@Gally\Job\Service\JobManager'
+            - '@Gally\Doctrine\Service\EntityManagerFactory'
+            - '@filesystem'
+            - '@translator'
+        tags:
+            - { name: gally.job.export, priority: 100 }
