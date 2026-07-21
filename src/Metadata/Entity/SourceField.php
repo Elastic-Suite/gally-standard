@@ -37,6 +37,7 @@ use Gally\Metadata\Controller\BulkSourceFields;
 use Gally\Metadata\Entity\SourceField\SearchAnalyzer;
 use Gally\Metadata\Entity\SourceField\Type;
 use Gally\Metadata\Entity\SourceField\Weight;
+use Gally\Metadata\Job\SourceFieldExport;
 use Gally\Metadata\Job\SourceFieldImport;
 use Gally\Metadata\Operation\Bulk;
 use Gally\Metadata\State\SourceFieldProcessor;
@@ -121,7 +122,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
                     'export_profile' => [
                         [
                             'label' => 'Export source field',
-                            'profile' => SourceFieldImport::JOB_PROFILE,
+                            'profile' => SourceFieldExport::JOB_PROFILE,
                         ],
                     ],
                 ],

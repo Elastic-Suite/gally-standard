@@ -32,6 +32,18 @@
                 <target>Mise à jour d'un attribut existant code: %code%</target>
             </segment>
         </unit>
+        <unit id="sourcefield_import_creating_default_facet_configuration">
+            <segment>
+                <source>sourcefield.import.creating.default_facet_configuration</source>
+                <target>Creation de la configuration de facette par défaut pour l'attribut code: "%code%"</target>
+            </segment>
+        </unit>
+        <unit id="sourcefield_import_updating_default_facet_configuration">
+            <segment>
+                <source>sourcefield.import.updating.default_facet_configuration</source>
+                <target>Mise à jour de la configuration de facette par défaut pour l'attribut code: "%code%"</target>
+            </segment>
+        </unit>
         <unit id="sourcefield_import_validation_completed">
             <segment>
                 <source>sourcefield.import.validation.completed</source>

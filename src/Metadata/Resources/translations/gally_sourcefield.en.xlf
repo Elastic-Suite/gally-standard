@@ -38,6 +38,18 @@
                 <target>Updating existing attribute code: %code%</target>
             </segment>
         </unit>
+        <unit id="sourcefield_import_creating_default_facet_configuration">
+            <segment>
+                <source>sourcefield.import.creating.default_facet_configuration</source>
+                <target>Creating default facet configuration for attribute with code: "%code%"</target>
+            </segment>
+        </unit>
+        <unit id="sourcefield_import_updating_default_facet_configuration">
+            <segment>
+                <source>sourcefield.import.updating.default_facet_configuration</source>
+                <target>Updating default facet configuration for attribute with code: "%code%"</target>
+            </segment>
+        </unit>
         <unit id="sourcefield_import_validation_completed">
             <segment>
                 <source>sourcefield.import.validation.completed</source>
