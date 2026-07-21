@@ -122,7 +122,40 @@ class ConfigurationRepository extends ServiceEntityRepository
         return $query->getResult($query->getHydrationMode());
     }
 
-    public function createQueryBuilder($alias, $indexBy = null): QueryBuilder|\Doctrine\ORM\QueryBuilder
+    /**
+     * Find facet configuration with source field data.
+     *
+     * @return Facet\Configuration[]
+     */
+    public function findByWithSourceFields(array $criteria = [], ?array $orderBy = null, $limit = null, $offset = null): array
+    {
+        $queryBuilder = $this->createQueryBuilder('o', null, true);
+
+        foreach ($criteria as $field => $value) {
+            $queryBuilder->andWhere("o.{$field} = :{$field}")
+                ->setParameter($field, $value);
+        }
+
+        if ($orderBy) {
+            foreach ($orderBy as $field => $direction) {
+                $queryBuilder->addOrderBy($field, $direction);
+            }
+        }
+
+        if (null !== $limit) {
+            $queryBuilder->setMaxResults($limit);
+        }
+
+        if (null !== $offset) {
+            $queryBuilder->setFirstResult($offset);
+        }
+
+        $query = $queryBuilder->getQuery();
+
+        return $query->getResult($query->getHydrationMode());
+    }
+
+    public function createQueryBuilder($alias, $indexBy = null, bool $includeNonFilterableSourceFields = false): QueryBuilder|\Doctrine\ORM\QueryBuilder
     {
         $category = $this->getCategoryId();
 
@@ -137,9 +170,12 @@ class ConfigurationRepository extends ServiceEntityRepository
             ])
             ->from(SourceField::class, 'sf', $indexBy)
             ->leftJoin(Metadata::class, 'metadata', Join::ON, 'sf.metadata = metadata.id')
-            ->where('sf.isFilterable = true')
             ->orderBy('position', 'ASC')
             ->setParameter('category', $category);
+
+        if (!$includeNonFilterableSourceFields) {
+            $queryBuilder->andWhere('sf.isFilterable = true');
+        }
 
         if ($category) {
             $queryBuilder->leftJoin(

@@ -98,7 +98,6 @@ class SourceFieldImport extends AbstractCsvImport
         $this->importEntityManager->getConnection()->setNestTransactionsWithSavepoints(true);
         try {
             $this->importEntityManager->getConnection()->beginTransaction();
-            // $this->reindexThesaurus->setReindexPending(true);
             // Skip headers
             fgetcsv($handle, escape: '\\');
 
@@ -134,7 +133,6 @@ class SourceFieldImport extends AbstractCsvImport
             if ($errorCount > 0) {
                 throw new JobException($this->translator->trans('sourcefield.import.error.failed', [], 'gally_sourcefield'));
             }
-            // $this->reindexThesaurus->setReindexPending(false);
             $this->importEntityManager->flush();
             $this->importEntityManager->clear(); // Clear memory
             $this->importEntityManager->getConnection()->commit();
@@ -156,7 +154,6 @@ class SourceFieldImport extends AbstractCsvImport
         $errors = [];
 
         try {
-            // Validate if source field exists
             if (empty($data['code'])) {
                 $errors[] = $this->translator->trans(
                     'sourcefield.import.error.attribute_code_empty',
@@ -185,7 +182,6 @@ class SourceFieldImport extends AbstractCsvImport
                 }
             }
 
-            // Validate weight is numeric
             if (!empty($data['weight']) && !is_numeric($data['weight'])) {
                 $errors[] = $this->translator->trans(
                     'sourcefield.import.error.invalid_weight',
@@ -194,7 +190,6 @@ class SourceFieldImport extends AbstractCsvImport
                 );
             }
 
-            // Validate analyzer value
             if (!empty($data['analyzer']) && !\in_array($data['analyzer'], SearchAnalyzer::SEARCH_ANALYZERS, true)) {
                 $errors[] = $this->translator->trans(
                     'sourcefield.import.error.invalid_analyzer',
@@ -203,7 +198,6 @@ class SourceFieldImport extends AbstractCsvImport
                 );
             }
 
-            // Validate facet configuration fields
             if (!empty($data['display_mode']) && !\in_array($data['display_mode'], Configuration::getAvailableDisplayModes(), true)) {
                 $this->logInfo(json_encode([
                     $data['display_mode'],
@@ -215,6 +209,7 @@ class SourceFieldImport extends AbstractCsvImport
                     'gally_sourcefield'
                 );
             }
+
             if (!empty($data['coverage_rate']) && (!is_numeric($data['coverage_rate']) || (int) $data['coverage_rate'] < 0 || (int) $data['coverage_rate'] > 100)) {
                 $errors[] = $this->translator->trans(
                     'sourcefield.import.error.invalid_coverage_rate',
@@ -222,6 +217,7 @@ class SourceFieldImport extends AbstractCsvImport
                     'gally_sourcefield'
                 );
             }
+
             if (!empty($data['max_size']) && (!is_numeric($data['max_size']) || (int) $data['max_size'] < 0)) {
                 $errors[] = $this->translator->trans(
                     'sourcefield.import.error.invalid_max_size',
@@ -229,6 +225,7 @@ class SourceFieldImport extends AbstractCsvImport
                     'gally_sourcefield'
                 );
             }
+
             if (!empty($data['sort_order']) && !\in_array($data['sort_order'], Configuration::getAvailableSortOrder(), true)) {
                 $this->logInfo(json_encode([
                     $data['display_mode'],
@@ -240,6 +237,7 @@ class SourceFieldImport extends AbstractCsvImport
                     'gally_sourcefield'
                 );
             }
+
             if (isset($data['position']) && $data['position'] !== '' && !is_numeric($data['position'])) {
                 $errors[] = $this->translator->trans(
                     'sourcefield.import.error.invalid_position',
@@ -247,6 +245,7 @@ class SourceFieldImport extends AbstractCsvImport
                     'gally_sourcefield'
                 );
             }
+
             if (!empty($data['boolean_logic']) && !\in_array(strtoupper($data['boolean_logic']), ['OR', 'AND'], true)) {
                 $errors[] = $this->translator->trans(
                     'sourcefield.import.error.invalid_boolean_logic',
@@ -303,16 +302,25 @@ class SourceFieldImport extends AbstractCsvImport
     private function upsertFacetConfigurationFromData(SourceField $sourceField, array $data): Configuration
     {
         $facetConfig = $this->facetConfigurationRepository->findOneBySourceFieldAndDefaultCategory($sourceField);
-
-        if (!$this->importEntityManager->contains($facetConfig)) {
-            // Ensure we can safely persist the new facetConfig because we are sure the source field already exists 
+        $this->logInfo(
+            json_encode($facetConfig), 
+            'gally_sourcefield', 
+        );
+        if (null === $facetConfig) {
             $sourceFieldReference = $this->importEntityManager->getReference(SourceField::class, $sourceField->getId());
             $facetConfig = new Configuration($sourceFieldReference, null);
             $this->importEntityManager->persist($facetConfig);
-
-            $this->logInfo('Inserting new facet configuration', 'gally_sourcefield', ['%job_id%' => $this->currentJob->getId()]);
+            $this->logInfo(
+                'sourcefield.import.creating.default_facet_configuration', 
+                'gally_sourcefield', 
+                ['%code%' => $sourceField->getCode()],
+            );
         } else {
-            $this->logInfo('Found existing default facet configuration' . $facetConfig->getId(), 'gally_sourcefield', ['%job_id%' => $this->currentJob->getId()]);
+            $this->logInfo(
+                'sourcefield.import.updating.default_facet_configuration', 
+                'gally_sourcefield', 
+                ['%code%' => $sourceField->getCode()],
+            );
         }
 
         $displayMode = $data['display_mode'] === $facetConfig->getDefaultDisplayMode() ? '' : $data['display_mode'];
@@ -320,7 +328,7 @@ class SourceFieldImport extends AbstractCsvImport
         $maxSize = (int) $data['max_size'] === $facetConfig->getDefaultMaxSize() ? null : ((int) $data['max_size']);
         $sortOrder = $data['sort_order'] === $facetConfig->getDefaultSortOrder() ? null : ($data['sort_order']);
         $position = $data['position'] === '' ? $facetConfig->getDefaultPosition() : (int) $data['position'];
-        $booleanLogic = strtoupper($data['boolean_logic']) === $facetConfig->getDefaultBooleanLogic() ? null : ($data['boolean_logic']);
+        $booleanLogic = strtoupper($data['boolean_logic']) === $facetConfig->getDefaultBooleanLogic() ? null : strtoupper($data['boolean_logic']);
 
         $facetConfig->setDisplayMode($displayMode);
         $facetConfig->setCoverageRate($coverageRate);
@@ -348,14 +356,16 @@ class SourceFieldImport extends AbstractCsvImport
 
         $sourceFieldViolations = $this->validator->validate($sourceField);
         $facetConfigurationViolations = $this->validator->validate($facetConfiguration);
-        
-        if (\count($sourceFieldViolations) > 0 || \count($facetConfigurationViolations) > 0) {
+        $violationCounts = \count($sourceFieldViolations) + \count($facetConfigurationViolations);
+
+        if ($violationCounts > 0) {
+            $allViolations = new \AppendIterator();
+            $allViolations->append($sourceFieldViolations->getIterator());
+            $allViolations->append($facetConfigurationViolations->getIterator());
+
             $errors = [];
-            foreach ($sourceFieldViolations as $sViolation) {
-                $errors[] = $sourceFieldViolations->getMessage();
-            }
-            foreach ($facetConfigurationViolations as $fViolation) {
-                $errors[] = $facetConfigurationViolations->getMessage();
+            foreach ($allViolations as $violation) {
+                $errors[] = $violation->getMessage();
             }
             throw new JobException($this->translator->trans('sourcefield.import.error.validation_failed', ['%errors%' => implode(', ', $errors)], 'gally_sourcefield'));
         }
