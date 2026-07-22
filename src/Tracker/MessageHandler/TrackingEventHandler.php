@@ -77,6 +77,7 @@ class TrackingEventHandler implements BatchHandlerInterface
                 if (!$dataStream) {
                     $dataStream = $this->dataStreamRepository->createForEntity($metadata, $localizedCatalog);
                 }
+                // ici
                 $dataStreamMapping[$message->getLocalizedCatalogCode()] = $dataStream;
             }
             $dataStream = $dataStreamMapping[$message->getLocalizedCatalogCode()];

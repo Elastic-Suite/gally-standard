@@ -22,6 +22,12 @@ services:
             - '@Gally\Index\Api\IndexSettingsInterface'
             - '@logger'
 
+    Gally\Index\Repository\Transform\TransformRepositoryInterface: '@Gally\Index\Repository\Transform\TransformRepository'
+    Gally\Index\Repository\Transform\TransformRepository:
+        arguments:
+            - '@OpenSearch\Client'
+            - '@logger'
+
     Gally\Index\Repository\IndexTemplate\IndexTemplateRepositoryInterface: '@Gally\Index\Repository\IndexTemplate\IndexTemplateRepository'
     Gally\Index\Repository\IndexTemplate\IndexTemplateRepository:
         arguments:
