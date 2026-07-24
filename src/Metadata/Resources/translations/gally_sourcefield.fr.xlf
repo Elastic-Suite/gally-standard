@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" version="2.0"
+       srcLang="en-US" trgLang="fr-FR">
+    <file id="gally_sourcefield.fr">
+        <unit id="sourcefield_import_label">
+            <segment>
+                <source>sourcefield.import.label</source>
+                <target>Attribut de produit</target>
+            </segment>
+        </unit>
+        <unit id="sourcefield_import_started">
+            <segment>
+                <source>sourcefield.import.started</source>
+                <target>Démarrage de l'import d'attributs pour le job id: %job_id%</target>
+            </segment>
+        </unit>
+        <unit id="sourcefield_import_completed">
+            <segment>
+                <source>sourcefield.import.completed</source>
+                <target>Import d'attributs terminé. Mis à jour: %updated%, Erreurs: %errors%</target>
+            </segment>
+        </unit>
+        <unit id="sourcefield_import_progress">
+            <segment>
+                <source>sourcefield.import.progress</source>
+                <target>%processed% entrées d'attributs traitées (Mises à jour: %updated%)</target>
+            </segment>
+        </unit>
+        <unit id="sourcefield_import_updating">
+            <segment>
+                <source>sourcefield.import.updating</source>
+                <target>Mise à jour d'un attribut existant code: %code%</target>
+            </segment>
+        </unit>
+        <unit id="sourcefield_import_creating_default_facet_configuration">
+            <segment>
+                <source>sourcefield.import.creating.default_facet_configuration</source>
+                <target>Creation de la configuration de facette par défaut pour l'attribut code: "%code%"</target>
+            </segment>
+        </unit>
+        <unit id="sourcefield_import_updating_default_facet_configuration">
+            <segment>
+                <source>sourcefield.import.updating.default_facet_configuration</source>
+                <target>Mise à jour de la configuration de facette par défaut pour l'attribut code: "%code%"</target>
+            </segment>
+        </unit>
+        <unit id="sourcefield_import_skipping_default_facet_configuration">
+            <segment>
+                <source>sourcefield.import.skipping.default_facet_configuration</source>
+                <target>Configuration de facette ignorée pour l'attribut "%code%" : %reason%</target>
+            </segment>
+        </unit>
+        <unit id="sourcefield_import_skip_reason_all_default">
+            <segment>
+                <source>sourcefield.import.skip_reason.all_default</source>
+                <target>toutes les valeurs sont par défaut</target>
+            </segment>
+        </unit>
+        <unit id="sourcefield_import_skip_reason_not_filterable">
+            <segment>
+                <source>sourcefield.import.skip_reason.not_filterable</source>
+                <target>l'attribut n'est pas filtrable</target>
+            </segment>
+        </unit>
+        <unit id="sourcefield_import_validation_completed">
+            <segment>
+                <source>sourcefield.import.validation.completed</source>
+                <target>La validation du fichier s'est terminée avec succès</target>
+            </segment>
+        </unit>
+        <unit id="sourcefield_import_error_invalid_columns">
+            <segment>
+                <source>sourcefield.import.error.invalid_columns</source>
+                <target>Ligne %line%: Nombre de colonnes invalide</target>
+            </segment>
+        </unit>
+        <unit id="sourcefield_import_error_name_required">
+            <segment>
+                <source>sourcefield.import.error.name_required</source>
+                <target>Ligne %line%: Le nom est obligatoire</target>
+            </segment>
+        </unit>
+        <unit id="sourcefield_import_error_validation_failed">
+            <segment>
+                <source>sourcefield.import.error.validation_failed</source>
+                <target>Erreurs de validation: %errors%</target>
+            </segment>
+        </unit>
+        <unit id="sourcefield_import_error_line_error">
+            <segment>
+                <source>sourcefield.import.line_error</source>
+                <target>Erreur à la ligne %line%: %error%</target>
+            </segment>
+        </unit>
+        <unit id="sourcefield_import_error_failed">
+            <segment>
+                <source>sourcefield.import.error.failed</source>
+                <target>L'import d'attributs a échoué, voir les erreurs ci-dessus</target>
+            </segment>
+        </unit>
+        <unit id="sourcefield_import_validation_errors">
+            <segment>
+                <source>sourcefield.import.validation_errors</source>
+                <target>Erreur(s) de validation à la ligne %line%: %errors%</target>
+            </segment>
+        </unit>
+        <unit id="sourcefield_import_line_validation_error">
+            <segment>
+                <source>sourcefield.import.line_validation_error</source>
+                <target>Erreur de validation à la ligne %line%: %error%</target>
+            </segment>
+        </unit>
+        <unit id="sourcefield_import_error_code_not_found">
+            <segment>
+                <source>sourcefield.import.error.code_not_found</source>
+                <target>Attribut avec le code "%code%" introuvable</target>
+            </segment>
+        </unit>
+        <unit id="sourcefield_import_error_attribute_code_empty">
+            <segment>
+                <source>sourcefield.import.error.attribute_code_empty</source>
+                <target>Le code attribut est obligatoire</target>
+            </segment>
+        </unit>
+        <unit id="sourcefield_import_error_invalid_boolean">
+            <segment>
+                <source>sourcefield.import.error.invalid_boolean</source>
+                <target>Valeur booléenne "%value%" invalide pour le champ "%field%"</target>
+            </segment>
+        </unit>
+        <unit id="sourcefield_import_error_invalid_weight">
+            <segment>
+                <source>sourcefield.import.error.invalid_weight</source>
+                <target>Valeur numérique "%value%" invalide pour le poids de recherche</target>
+            </segment>
+        </unit>
+        <unit id="sourcefield_import_error_invalid_analyzer">
+            <segment>
+                <source>sourcefield.import.error.invalid_analyzer</source>
+                <target>Analyseur "%value%" invalide. Valeurs autorisées : %allowed%</target>
+            </segment>
+        </unit>
+        <unit id="sourcefield_export_label">
+            <segment>
+                <source>sourcefield.export.label</source>
+                <target>Attribut de produit</target>
+            </segment>
+        </unit>
+        <unit id="sourcefield_export_no_data">
+            <segment>
+                <source>sourcefield.export.no_data</source>
+                <target>Aucun attribut trouvé à exporter.</target>
+            </segment>
+        </unit>
+        <unit id="sourcefield_export_started">
+            <segment>
+                <source>sourcefield.export.started</source>
+                <target>Démarrage de l'export d'attributs pour le job id: %job_id%</target>
+            </segment>
+        </unit>
+        <unit id="sourcefield_export_completed">
+            <segment>
+                <source>sourcefield.export.completed</source>
+                <target>Export d'attributs terminé. %count% entrées exportées vers %fileName%</target>
+            </segment>
+        </unit>
+        <unit id="sourcefield_export_progress">
+            <segment>
+                <source>sourcefield.export.progress</source>
+                <target>%processed%/%total% entrées d'attributs traitées</target>
+            </segment>
+        </unit>
+    </file>
+</xliff>

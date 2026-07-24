@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" version="2.0"
+       srcLang="en-US" trgLang="en-US">
+    <file id="gally_sourcefield.en">
+        <unit id="sourcefield_import_label">
+            <segment>
+                <source>sourcefield.import.label</source>
+                <target>Product attribute</target>
+            </segment>
+        </unit>
+        <unit id="sourcefield_import_started">
+            <segment>
+                <source>sourcefield.import.started</source>
+                <target>Starting attribute import for job id: %job_id%</target>
+            </segment>
+        </unit>
+        <unit id="sourcefield_import_completed">
+            <segment>
+                <source>sourcefield.import.completed</source>
+                <target>Attribute import completed. Updated: %updated%, Errors: %errors%</target>
+            </segment>
+        </unit>
+        <unit id="sourcefield_import_progress">
+            <segment>
+                <source>sourcefield.import.progress</source>
+                <target>Processed %processed% attribute entries (Updated: %updated%)</target>
+            </segment>
+        </unit>
+        <unit id="sourcefield_import_creating">
+            <segment>
+                <source>sourcefield.import.creating</source>
+                <target>Creating new attribute: %name%</target>
+            </segment>
+        </unit>
+        <unit id="sourcefield_import_updating">
+            <segment>
+                <source>sourcefield.import.updating</source>
+                <target>Updating existing attribute code: %code%</target>
+            </segment>
+        </unit>
+        <unit id="sourcefield_import_creating_default_facet_configuration">
+            <segment>
+                <source>sourcefield.import.creating.default_facet_configuration</source>
+                <target>Creating default facet configuration for attribute with code: "%code%"</target>
+            </segment>
+        </unit>
+        <unit id="sourcefield_import_updating_default_facet_configuration">
+            <segment>
+                <source>sourcefield.import.updating.default_facet_configuration</source>
+                <target>Updating default facet configuration for attribute with code: "%code%"</target>
+            </segment>
+        </unit>
+        <unit id="sourcefield_import_skipping_default_facet_configuration">
+            <segment>
+                <source>sourcefield.import.skipping.default_facet_configuration</source>
+                <target>Skipping facet configuration for attribute "%code%": %reason%</target>
+            </segment>
+        </unit>
+        <unit id="sourcefield_import_skip_reason_all_default">
+            <segment>
+                <source>sourcefield.import.skip_reason.all_default</source>
+                <target>all values are default</target>
+            </segment>
+        </unit>
+        <unit id="sourcefield_import_skip_reason_not_filterable">
+            <segment>
+                <source>sourcefield.import.skip_reason.not_filterable</source>
+                <target>source field is not filterable</target>
+            </segment>
+        </unit>
+        <unit id="sourcefield_import_validation_completed">
+            <segment>
+                <source>sourcefield.import.validation.completed</source>
+                <target>File validation completed successfully</target>
+            </segment>
+        </unit>
+        <unit id="sourcefield_import_error_invalid_columns">
+            <segment>
+                <source>sourcefield.import.error.invalid_columns</source>
+                <target>Line %line%: Invalid number of columns</target>
+            </segment>
+        </unit>
+        <unit id="sourcefield_import_error_name_required">
+            <segment>
+                <source>sourcefield.import.error.name_required</source>
+                <target>Line %line%: Name is required</target>
+            </segment>
+        </unit>
+        <unit id="sourcefield_import_error_validation_failed">
+            <segment>
+                <source>sourcefield.import.error.validation_failed</source>
+                <target>Validation errors: %errors%</target>
+            </segment>
+        </unit>
+        <unit id="sourcefield_import_error_line_error">
+            <segment>
+                <source>sourcefield.import.line_error</source>
+                <target>Error on line %line%: %error%</target>
+            </segment>
+        </unit>
+        <unit id="sourcefield_import_error_failed">
+            <segment>
+                <source>sourcefield.import.error.failed</source>
+                <target>Attribute import failed, see errors above</target>
+            </segment>
+        </unit>
+        <unit id="sourcefield_import_validation_errors">
+            <segment>
+                <source>sourcefield.import.validation_errors</source>
+                <target>Validation error(s) on line %line%: %errors%</target>
+            </segment>
+        </unit>
+        <unit id="sourcefield_import_line_validation_error">
+            <segment>
+                <source>sourcefield.import.line_validation_error</source>
+                <target>Validation error on line %line%: %error%</target>
+            </segment>
+        </unit>
+        <unit id="sourcefield_import_error_code_not_found">
+            <segment>
+                <source>sourcefield.import.error.code_not_found</source>
+                <target>Attribute with code "%code%" not found</target>
+            </segment>
+        </unit>
+        <unit id="sourcefield_import_error_attribute_code_empty">
+            <segment>
+                <source>sourcefield.import.error.attribute_code_empty</source>
+                <target>Attribute code is required</target>
+            </segment>
+        </unit>
+        <unit id="sourcefield_import_error_invalid_boolean">
+            <segment>
+                <source>sourcefield.import.error.invalid_boolean</source>
+                <target>Invalid boolean value "%value%" for field "%field%"</target>
+            </segment>
+        </unit>
+        <unit id="sourcefield_import_error_invalid_weight">
+            <segment>
+                <source>sourcefield.import.error.invalid_weight</source>
+                <target>Invalid numeric value "%value%" for search weight</target>
+            </segment>
+        </unit>
+        <unit id="sourcefield_import_error_invalid_analyzer">
+            <segment>
+                <source>sourcefield.import.error.invalid_analyzer</source>
+                <target>Invalid analyzer "%value%". Allowed values: %allowed%</target>
+            </segment>
+        </unit>
+        <unit id="sourcefield_export_label">
+            <segment>
+                <source>sourcefield.export.label</source>
+                <target>Product attribute</target>
+            </segment>
+        </unit>
+        <unit id="sourcefield_export_no_data">
+            <segment>
+                <source>sourcefield.export.no_data</source>
+                <target>No attribute found to export.</target>
+            </segment>
+        </unit>
+        <unit id="sourcefield_export_started">
+            <segment>
+                <source>sourcefield.export.started</source>
+                <target>Starting attribute export for job id: %job_id%</target>
+            </segment>
+        </unit>
+        <unit id="sourcefield_export_completed">
+            <segment>
+                <source>sourcefield.export.completed</source>
+                <target>Attribute export completed. %count% entries exported to %fileName%</target>
+            </segment>
+        </unit>
+        <unit id="sourcefield_export_progress">
+            <segment>
+                <source>sourcefield.export.progress</source>
+                <target>Processed %processed%/%total% attribute entries</target>
+            </segment>
+        </unit>
+    </file>
+</xliff>
