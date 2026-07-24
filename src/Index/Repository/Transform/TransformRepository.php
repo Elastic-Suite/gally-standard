@@ -14,8 +14,8 @@ declare(strict_types=1);
 
 namespace Gally\Index\Repository\Transform;
 
+use Gally\Index\Entity\Transform;
 use OpenSearch\Client;
-use Psr\Log\LoggerInterface;
 
 class TransformRepository implements TransformRepositoryInterface
 {
@@ -23,18 +23,17 @@ class TransformRepository implements TransformRepositoryInterface
 
     public function __construct(
         private Client $client,
-        private LoggerInterface $logger,
     ) {
     }
 
-    public function createOrUpdate(string $transformId, array $definition): void
+    public function createOrUpdate(Transform $transform): void
     {
         // OpenSearch requires if_seq_no/if_primary_term to PUT over an existing transform;
         // deleting first (stop is a prerequisite for delete) and recreating is simpler and
         // avoids having to fetch/track that version state ourselves.
-        $this->stopSilently($transformId);
-        $this->deleteSilently($transformId);
-        $this->performRequest('PUT', "/{$transformId}", [], ['transform' => $definition]);
+        $this->stopSilently($transform->getId());
+        $this->deleteSilently($transform->getId());
+        $this->performRequest('PUT', "/{$transform->getId()}", [], ['transform' => $transform->toArray()]);
     }
 
     public function start(string $transformId): void
@@ -55,6 +54,24 @@ class TransformRepository implements TransformRepositoryInterface
     public function explain(string $transformId): array
     {
         return (array) $this->performRequest('GET', "/{$transformId}/_explain");
+    }
+
+    public function findAll(): array
+    {
+        $response = (array) $this->performRequest('GET');
+
+        return array_map(
+            fn (array $item) => Transform::fromResponse($item['_id'], $item['transform']),
+            $response['transforms'] ?? []
+        );
+    }
+
+    public function deleteAll(): void
+    {
+        foreach ($this->findAll() as $transform) {
+            $this->stopSilently($transform->getId());
+            $this->delete($transform->getId());
+        }
     }
 
     private function stopSilently(string $transformId): void

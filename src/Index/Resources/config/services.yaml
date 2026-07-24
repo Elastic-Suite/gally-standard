@@ -26,7 +26,6 @@ services:
     Gally\Index\Repository\Transform\TransformRepository:
         arguments:
             - '@OpenSearch\Client'
-            - '@logger'
 
     Gally\Index\Repository\IndexTemplate\IndexTemplateRepositoryInterface: '@Gally\Index\Repository\IndexTemplate\IndexTemplateRepository'
     Gally\Index\Repository\IndexTemplate\IndexTemplateRepository:
@@ -205,6 +204,7 @@ services:
         arguments:
             - '@Gally\Index\Repository\Index\IndexRepositoryInterface'
             - '@Gally\Index\Repository\DataStream\DataStreamRepositoryInterface'
+            - '@Gally\Index\Repository\Transform\TransformRepositoryInterface'
             - null
         tags:
             - { name: console.command }
