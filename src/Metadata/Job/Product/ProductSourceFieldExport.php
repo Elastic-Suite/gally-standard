@@ -16,49 +16,29 @@ declare(strict_types=1);
 namespace Gally\Metadata\Job\Product;
 
 use Gally\Doctrine\Service\EntityManagerFactory;
-use Gally\Job\Entity\Job;
-use Gally\Job\Exception\JobException;
-use Gally\Job\Service\Csv\AbstractCsvExport;
 use Gally\Job\Service\JobManager;
-use Gally\Metadata\Entity\Metadata;
-use Gally\Metadata\Entity\SourceField;
-use Gally\Metadata\Repository\MetadataRepository;
-use Gally\Metadata\Repository\SourceFieldRepository;
+use Gally\Metadata\Job\AbstractSourceFieldExport;
 use Gally\Search\Entity\Facet\Configuration;
 use Gally\Search\Repository\Facet\ConfigurationRepository;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class ProductSourceFieldExport extends AbstractCsvExport
+class ProductSourceFieldExport extends AbstractSourceFieldExport
 {
     public const JOB_PROFILE = 'sourcefield_export';
     public const METADATA_ENTITY = 'product';
 
-    private SourceFieldRepository $sourceFieldRepository;
     private ConfigurationRepository $facetConfigRepository;
-    private Metadata $metadata;
 
     public const CSV_HEADERS = [
-        // Source field
-        'code',
-        'label',
-        'type',
-        'weight',
-        'is_searchable',
-        'is_filterable',
-        'is_sortable',
-        'is_spellchecked',
-        'is_used_for_rules',
-        'is_used_in_autocomplete',
-        'is_spannable', 
-        'analyzer',
+        ...parent::BASE_CSV_HEADERS,
         // Facet configuration
-        'display_mode', 
+        'display_mode',
         'coverage_rate',
         'max_size',
         'sort_order',
         'position',
-        'boolean_logic'
+        'boolean_logic',
     ];
 
     public function __construct(
@@ -68,108 +48,38 @@ class ProductSourceFieldExport extends AbstractCsvExport
         protected TranslatorInterface $translator,
         private int $batchSize = 100,
     ) {
-        parent::__construct($translator, $jobManager, $entityManagerFactory, $filesystem, self::JOB_PROFILE);
+        parent::__construct($jobManager, $entityManagerFactory, $filesystem, $translator, $this->batchSize);
     }
 
-    public function getLabel(): string
+    protected function initRepositories(): void
     {
-        return $this->translator->trans('sourcefield.export.label', [], 'gally_sourcefield');
-    }
-
-    public function process(): void
-    {
-        $this->exportEntityManager = $this->entityManagerFactory->createIsolatedEntityManager();
-        $this->sourceFieldRepository = $this->exportEntityManager->getRepository(SourceField::class);
-        /** @var MetadataRepository $metadataRepository */
-        $metadataRepository = $this->exportEntityManager->getRepository(Metadata::class);
-        $this->metadata = $metadataRepository->findByEntity(self::METADATA_ENTITY);
         $this->facetConfigRepository = $this->exportEntityManager->getRepository(Configuration::class);
         $this->facetConfigRepository->setMetadata($this->metadata);
-
-        $this->isCurrentJobSet();
-        $this->logInfo('sourcefield.export.started', 'gally_sourcefield', ['%job_id%' => $this->currentJob->getId()]);
-
-        $sourceFieldCount = $this->sourceFieldRepository->count(['metadata' => $this->metadata]);
-
-        if (0 === $sourceFieldCount) {
-            $this->logInfo('sourcefield.export.no_data', 'gally_sourcefield');
-
-            return;
-        }
-
-        [$filepath, $fileName] = $this->prepareExportFile('sourcefield');
-
-        $this->generateCsvExport($sourceFieldCount, $this->currentJob, $filepath);
-
-        $this->jobManager->updateJobFile($this->currentJob, $fileName);
-
-        $this->logInfo('sourcefield.export.completed', 'gally_sourcefield', [
-            '%count%' => $sourceFieldCount,
-            '%fileName%' => $fileName,
-        ]);
     }
 
-    protected function generateCsvExport(int $sourceFieldCount, Job $job, string $filepath): void
+    protected function getSourceFieldsBatch(int $totalCount): iterable
     {
-        $handle = fopen($filepath, 'w');
-        if (!$handle) {
-            throw new JobException('Unable to create export file: ' . $filepath);
+        for ($offset = 0; $offset < $totalCount; $offset += $this->batchSize) {
+            yield $this->facetConfigRepository->findByWithSourceFields([], ['id' => 'ASC'], $this->batchSize, $offset);
         }
-
-        fputcsv($handle, self::CSV_HEADERS, escape: '\\');
-
-        $processedCount = 0;
-        for ($offset = 0; $offset < $sourceFieldCount; $offset += $this->batchSize) {
-            // Instead of exporting source field directly, we export general facet configurations for all source fields
-            // Source fields that do not have any configuration will be given default general configuration
-            $sourceFieldsWithConfiguration = $this->facetConfigRepository->findByWithSourceFields([], ['id' => 'ASC'], $this->batchSize, $offset);
-
-            foreach ($sourceFieldsWithConfiguration as $sourceFieldWithConfig) {
-                fputcsv($handle, $this->formatSourceFieldLine($sourceFieldWithConfig), escape: '\\');
-                ++$processedCount;
-            }
-
-            $this->logInfo('sourcefield.export.progress', 'gally_sourcefield', [
-                '%processed%' => $processedCount,
-                '%total%' => $sourceFieldCount,
-            ]);
-            $this->exportEntityManager->clear();
-        }
-
-        fclose($handle);
     }
 
-    protected function formatSourceFieldLine(Configuration $sourceFieldWithConfig): array 
+    protected function formatSourceFieldLine(mixed $sourceFieldData): array
     {
+        /** @var Configuration $sourceFieldWithConfig */
+        $sourceFieldWithConfig = $sourceFieldData;
         $sourceField = $sourceFieldWithConfig->getSourceField();
-        return [
-            $sourceField->getCode(),
-            $sourceField->getDefaultLabel(),
-            $sourceField->getType(),
-            $sourceField->getWeight(),
-            $this->formatNullableBoolean($sourceField->getIsSearchable()),
-            $this->formatNullableBoolean($sourceField->getIsFilterable()),
-            $this->formatNullableBoolean($sourceField->getIsSortable()),
-            $this->formatNullableBoolean($sourceField->getIsSpellchecked()),
-            $this->formatNullableBoolean($sourceField->getIsUsedForRules()),
-            $this->formatNullableBoolean($sourceField->getIsUsedInAutocomplete()),
-            $this->formatNullableBoolean($sourceField->getIsSpannable()),
-            $sourceField->getDefaultSearchAnalyzer(),
-            $sourceFieldWithConfig->getDisplayMode(),
-            $sourceFieldWithConfig->getCoverageRate(),
-            $sourceFieldWithConfig->getMaxSize(),
-            $sourceFieldWithConfig->getSortOrder(),
-            $sourceFieldWithConfig->getPosition(),
-            $sourceFieldWithConfig->getBooleanLogic(),
-        ];
-    }
 
-    protected function formatNullableBoolean(?bool $value): string
-    {
-        if (null === $value) {
-            return '';
-        }
-
-        return $this->formatBoolean($value);
+        return array_merge(
+            $this->formatCoreSourceFieldData($sourceField),
+            [
+                $sourceFieldWithConfig->getDisplayMode(),
+                $sourceFieldWithConfig->getCoverageRate(),
+                $sourceFieldWithConfig->getMaxSize(),
+                $sourceFieldWithConfig->getSortOrder(),
+                $sourceFieldWithConfig->getPosition(),
+                $sourceFieldWithConfig->getBooleanLogic(),
+            ]
+        );
     }
 }
