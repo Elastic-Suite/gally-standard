@@ -35,7 +35,13 @@
         <unit id="import_error_invalid_headers">
             <segment>
                 <source>import.error.invalid_headers</source>
-                <target>Invalid CSV headers. Expected: %expected%</target>
+                <target>Invalid CSV headers. Missing required columns: %expected%</target>
+            </segment>
+        </unit>
+        <unit id="import_warning_extra_columns_ignored">
+            <segment>
+                <source>import.warning.extra_columns_ignored</source>
+                <target>Extra columns found in the file will be ignored: %columns%</target>
             </segment>
         </unit>
         <unit id="import_error_validation_failed">

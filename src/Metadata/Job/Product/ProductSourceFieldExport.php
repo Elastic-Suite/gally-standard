@@ -13,23 +13,30 @@
 
 declare(strict_types=1);
 
-namespace Gally\Metadata\Job;
+namespace Gally\Metadata\Job\Product;
 
 use Gally\Doctrine\Service\EntityManagerFactory;
 use Gally\Job\Entity\Job;
 use Gally\Job\Exception\JobException;
 use Gally\Job\Service\Csv\AbstractCsvExport;
 use Gally\Job\Service\JobManager;
+use Gally\Metadata\Entity\Metadata;
 use Gally\Metadata\Entity\SourceField;
+use Gally\Metadata\Repository\MetadataRepository;
 use Gally\Metadata\Repository\SourceFieldRepository;
 use Gally\Search\Entity\Facet\Configuration;
 use Gally\Search\Repository\Facet\ConfigurationRepository;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class SourceFieldExport extends AbstractCsvExport
+class ProductSourceFieldExport extends AbstractCsvExport
 {
     public const JOB_PROFILE = 'sourcefield_export';
+    public const METADATA_ENTITY = 'product';
+
+    private SourceFieldRepository $sourceFieldRepository;
+    private ConfigurationRepository $facetConfigRepository;
+    private Metadata $metadata;
 
     public const CSV_HEADERS = [
         // Source field
@@ -72,13 +79,17 @@ class SourceFieldExport extends AbstractCsvExport
     public function process(): void
     {
         $this->exportEntityManager = $this->entityManagerFactory->createIsolatedEntityManager();
+        $this->sourceFieldRepository = $this->exportEntityManager->getRepository(SourceField::class);
+        /** @var MetadataRepository $metadataRepository */
+        $metadataRepository = $this->exportEntityManager->getRepository(Metadata::class);
+        $this->metadata = $metadataRepository->findByEntity(self::METADATA_ENTITY);
+        $this->facetConfigRepository = $this->exportEntityManager->getRepository(Configuration::class);
+        $this->facetConfigRepository->setMetadata($this->metadata);
 
         $this->isCurrentJobSet();
         $this->logInfo('sourcefield.export.started', 'gally_sourcefield', ['%job_id%' => $this->currentJob->getId()]);
 
-        /** @var SourceFieldRepository $sourceFieldRepository */
-        $sourceFieldRepository = $this->exportEntityManager->getRepository(SourceField::class);
-        $sourceFieldCount = $sourceFieldRepository->count([]);
+        $sourceFieldCount = $this->sourceFieldRepository->count(['metadata' => $this->metadata]);
 
         if (0 === $sourceFieldCount) {
             $this->logInfo('sourcefield.export.no_data', 'gally_sourcefield');
@@ -107,14 +118,11 @@ class SourceFieldExport extends AbstractCsvExport
 
         fputcsv($handle, self::CSV_HEADERS, escape: '\\');
 
-        /** @var ConfigurationRepository $facetConfigRepository */
-        $facetConfigRepository = $this->exportEntityManager->getRepository(Configuration::class);
-
         $processedCount = 0;
         for ($offset = 0; $offset < $sourceFieldCount; $offset += $this->batchSize) {
             // Instead of exporting source field directly, we export general facet configurations for all source fields
             // Source fields that do not have any configuration will be given default general configuration
-            $sourceFieldsWithConfiguration = $facetConfigRepository->findByWithSourceFields([], ['id' => 'ASC'], $this->batchSize, $offset);
+            $sourceFieldsWithConfiguration = $this->facetConfigRepository->findByWithSourceFields([], ['id' => 'ASC'], $this->batchSize, $offset);
 
             foreach ($sourceFieldsWithConfiguration as $sourceFieldWithConfig) {
                 fputcsv($handle, $this->formatSourceFieldLine($sourceFieldWithConfig), escape: '\\');

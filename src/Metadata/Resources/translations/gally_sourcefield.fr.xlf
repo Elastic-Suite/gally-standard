@@ -5,7 +5,7 @@
         <unit id="sourcefield_import_label">
             <segment>
                 <source>sourcefield.import.label</source>
-                <target>Attribut</target>
+                <target>Attribut de produit</target>
             </segment>
         </unit>
         <unit id="sourcefield_import_started">
@@ -42,6 +42,24 @@
             <segment>
                 <source>sourcefield.import.updating.default_facet_configuration</source>
                 <target>Mise à jour de la configuration de facette par défaut pour l'attribut code: "%code%"</target>
+            </segment>
+        </unit>
+        <unit id="sourcefield_import_skipping_default_facet_configuration">
+            <segment>
+                <source>sourcefield.import.skipping.default_facet_configuration</source>
+                <target>Configuration de facette ignorée pour l'attribut "%code%" : %reason%</target>
+            </segment>
+        </unit>
+        <unit id="sourcefield_import_skip_reason_all_default">
+            <segment>
+                <source>sourcefield.import.skip_reason.all_default</source>
+                <target>toutes les valeurs sont par défaut</target>
+            </segment>
+        </unit>
+        <unit id="sourcefield_import_skip_reason_not_filterable">
+            <segment>
+                <source>sourcefield.import.skip_reason.not_filterable</source>
+                <target>l'attribut n'est pas filtrable</target>
             </segment>
         </unit>
         <unit id="sourcefield_import_validation_completed">
@@ -125,7 +143,7 @@
         <unit id="sourcefield_export_label">
             <segment>
                 <source>sourcefield.export.label</source>
-                <target>Attribut</target>
+                <target>Attribut de produit</target>
             </segment>
         </unit>
         <unit id="sourcefield_export_no_data">

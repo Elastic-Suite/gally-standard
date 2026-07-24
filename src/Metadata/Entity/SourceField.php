@@ -37,8 +37,8 @@ use Gally\Metadata\Controller\BulkSourceFields;
 use Gally\Metadata\Entity\SourceField\SearchAnalyzer;
 use Gally\Metadata\Entity\SourceField\Type;
 use Gally\Metadata\Entity\SourceField\Weight;
-use Gally\Metadata\Job\SourceFieldExport;
-use Gally\Metadata\Job\SourceFieldImport;
+use Gally\Metadata\Job\Product\ProductSourceFieldExport;
+use Gally\Metadata\Job\Product\ProductSourceFieldImport;
 use Gally\Metadata\Operation\Bulk;
 use Gally\Metadata\State\SourceFieldProcessor;
 use Gally\User\Constant\Role;
@@ -115,14 +115,14 @@ use Symfony\Component\Serializer\Annotation\Groups;
                 'jobs' => [
                     'import_profile' => [
                         [
-                            'label' => 'Import source field',
-                            'profile' => SourceFieldImport::JOB_PROFILE,
+                            'label' => 'Import product source field',
+                            'profile' => ProductSourceFieldImport::JOB_PROFILE,
                         ],
                     ],
                     'export_profile' => [
                         [
-                            'label' => 'Export source field',
-                            'profile' => SourceFieldExport::JOB_PROFILE,
+                            'label' => 'Export product source field',
+                            'profile' => ProductSourceFieldExport::JOB_PROFILE,
                         ],
                     ],
                 ],
