@@ -101,13 +101,7 @@ class ConfigurationRepository extends ServiceEntityRepository
      */
     public function findOneBySourceFieldAndDefaultCategory(SourceField $sourceField): ?Facet\Configuration
     {
-        $query = $this->createQueryBuilder('o')
-            ->andWhere('sf = :sourceField')
-            ->andWhere('o.category IS NULL')
-            ->setParameter('sourceField', $sourceField)
-            ->getQuery();
-
-        return $query->getOneOrNullResult($query->getHydrationMode());
+        return $this->findOneBy(['sourceField' => $sourceField, 'category' => null]);
     }
 
     /**

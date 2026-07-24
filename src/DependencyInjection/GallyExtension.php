@@ -111,6 +111,7 @@ class GallyExtension extends Extension
                 [
                     __DIR__ . '/../Catalog/Resources/config/gally_menu.yaml',
                     __DIR__ . '/../User/Resources/config/gally_menu.yaml',
+                    __DIR__ . '/../Job/Resources/config/gally_menu.yaml',
                     __DIR__ . '/../Menu/Resources/config/gally_menu.yaml',
                 ]
             );

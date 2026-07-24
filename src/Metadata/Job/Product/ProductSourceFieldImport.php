@@ -13,7 +13,7 @@
 
 declare(strict_types=1);
 
-namespace Gally\Metadata\Job;
+namespace Gally\Metadata\Job\Product;
 
 use Gally\Doctrine\Service\EntityManagerFactory;
 use Gally\Job\Exception\JobException;
@@ -27,9 +27,10 @@ use Gally\Search\Repository\Facet\ConfigurationRepository;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class SourceFieldImport extends AbstractCsvImport
+class ProductSourceFieldImport extends AbstractCsvImport
 {
     public const JOB_PROFILE = 'sourcefield_import';
+    public const METADATA_ENTITY = 'product';
 
     protected SourceFieldRepository $sourceFieldRepository;
     protected ConfigurationRepository $facetConfigurationRepository;
@@ -65,6 +66,8 @@ class SourceFieldImport extends AbstractCsvImport
         'is_spannable',
     ];
 
+    protected $actualCsvHeader = self::CSV_HEADERS;
+
     public function __construct(
         protected JobManager $jobManager,
         protected EntityManagerFactory $entityManagerFactory,
@@ -98,8 +101,7 @@ class SourceFieldImport extends AbstractCsvImport
         $this->importEntityManager->getConnection()->setNestTransactionsWithSavepoints(true);
         try {
             $this->importEntityManager->getConnection()->beginTransaction();
-            // Skip headers
-            fgetcsv($handle, escape: '\\');
+            $this->actualCsvHeader = fgetcsv($handle, escape: '\\');
 
             $lineNumber = 1;
             $updatedCount = 0;
@@ -161,7 +163,7 @@ class SourceFieldImport extends AbstractCsvImport
                     'gally_sourcefield'
                 );
             } else {
-                $existingSourceField = $this->sourceFieldRepository->findByCodeAndMetadataEntity($data['code'], 'product');
+                $existingSourceField = $this->sourceFieldRepository->findByCodeAndMetadataEntity($data['code'], self::METADATA_ENTITY);
                 if (!$existingSourceField) {
                     $errors[] = $this->translator->trans(
                         'sourcefield.import.error.code_not_found',
@@ -285,30 +287,62 @@ class SourceFieldImport extends AbstractCsvImport
         $sourceField->setIsSpannable($this->parseBooleanValue($data['is_spannable']));
         $sourceField->setDefaultSearchAnalyzer($data['analyzer']);
 
-        // TODO: check facet configuration default value handling (do we need to set default values)
-
         // TODO: what to do if the source field is not filterable but we import configuration ?
+        // - VALIDATOR PREVENTS THIS !
         // - If the attribute has facet config we export values regardless of the its is_filterable config
         // - Import the facet config regardless of the is filterable config
         // - How does default values is handled ? Do avoid insertion until necessary because of performance issues ?
-
-        // TODO: check facet configuration logic loading and saving order ?
 
         // TODO: create many sources fields to test large batch sizes
 
         return $sourceField;
     }
 
-    private function upsertFacetConfigurationFromData(SourceField $sourceField, array $data): Configuration
+    private function upsertFacetConfigurationFromData(SourceField $sourceField, array $data): ?Configuration
     {
         $facetConfig = $this->facetConfigurationRepository->findOneBySourceFieldAndDefaultCategory($sourceField);
-        $this->logInfo(
-            json_encode($facetConfig), 
-            'gally_sourcefield', 
-        );
+
+        $tempConfig = $facetConfig ?? new Configuration($this->importEntityManager->getReference(SourceField::class, $sourceField->getId()), null);
         if (null === $facetConfig) {
-            $sourceFieldReference = $this->importEntityManager->getReference(SourceField::class, $sourceField->getId());
-            $facetConfig = new Configuration($sourceFieldReference, null);
+            // Initialize default values from the static defaults for new facet config.
+            $tempConfig->initDefaultValue($tempConfig);
+        }
+
+        $displayMode = $data['display_mode'] === '' || $data['display_mode'] === $tempConfig->getDefaultDisplayMode() ? null : $data['display_mode'];
+        $coverageRate = $data['coverage_rate'] === '' || (int) $data['coverage_rate'] === $tempConfig->getDefaultCoverageRate() ? null : ((int) $data['coverage_rate']);
+        $maxSize = $data['max_size'] === '' || (int) $data['max_size'] === $tempConfig->getDefaultMaxSize() ? null : ((int) $data['max_size']);
+        $sortOrder = $data['sort_order'] === '' || $data['sort_order'] === $tempConfig->getDefaultSortOrder() ? null : ($data['sort_order']);
+        $position = $data['position'] === '' || (int) $data['position'] === $tempConfig->getDefaultPosition() ? null : (int) $data['position'];
+        $booleanLogic = $data['boolean_logic'] === '' || strtoupper($data['boolean_logic']) === $tempConfig->getDefaultBooleanLogic() ? null : strtoupper($data['boolean_logic']);
+
+        $allDefault = null === $displayMode
+            && null === $coverageRate
+            && null === $maxSize
+            && null === $sortOrder
+            && null === $position
+            && null === $booleanLogic;
+
+        // Skip creation if no config exists and all values are default/empty, or if not filterable.
+        $skipReasons = [];
+        if (null === $facetConfig && $allDefault) {
+            $skipReasons[] = $this->translator->trans('sourcefield.import.skip_reason.all_default', [], 'gally_sourcefield');
+        }
+        if (!$sourceField->getIsFilterable()) {
+            $skipReasons[] = $this->translator->trans('sourcefield.import.skip_reason.not_filterable', [], 'gally_sourcefield');
+        }
+
+        if (!empty($skipReasons)) {
+            $this->logInfo(
+                'sourcefield.import.skipping.default_facet_configuration',
+                'gally_sourcefield',
+                ['%code%' => $sourceField->getCode(), '%reason%' => implode(', ', $skipReasons)],
+            );
+
+            return null;
+        }
+
+        if (null === $facetConfig) {
+            $facetConfig = $tempConfig;
             $this->importEntityManager->persist($facetConfig);
             $this->logInfo(
                 'sourcefield.import.creating.default_facet_configuration', 
@@ -323,13 +357,6 @@ class SourceFieldImport extends AbstractCsvImport
             );
         }
 
-        $displayMode = $data['display_mode'] === $facetConfig->getDefaultDisplayMode() ? '' : $data['display_mode'];
-        $coverageRate = (int) $data['coverage_rate'] === $facetConfig->getDefaultCoverageRate() ? null : ((int) $data['coverage_rate']);
-        $maxSize = (int) $data['max_size'] === $facetConfig->getDefaultMaxSize() ? null : ((int) $data['max_size']);
-        $sortOrder = $data['sort_order'] === $facetConfig->getDefaultSortOrder() ? null : ($data['sort_order']);
-        $position = $data['position'] === '' ? $facetConfig->getDefaultPosition() : (int) $data['position'];
-        $booleanLogic = strtoupper($data['boolean_logic']) === $facetConfig->getDefaultBooleanLogic() ? null : strtoupper($data['boolean_logic']);
-
         $facetConfig->setDisplayMode($displayMode);
         $facetConfig->setCoverageRate($coverageRate);
         $facetConfig->setMaxSize($maxSize);
@@ -342,8 +369,8 @@ class SourceFieldImport extends AbstractCsvImport
 
     protected function processSourceFieldLine(array $data, int $lineNumber): void
     {
-        $associativeData = array_combine(self::CSV_HEADERS, $data);
-        $existingSourceField = $this->sourceFieldRepository->findByCodeAndMetadataEntity($associativeData['code'], 'product');
+        $associativeData = array_combine($this->actualCsvHeader, $data);
+        $existingSourceField = $this->sourceFieldRepository->findByCodeAndMetadataEntity($associativeData['code'], self::METADATA_ENTITY);
 
         if ($existingSourceField) {
             $this->logInfo('sourcefield.import.updating', 'gally_sourcefield', ['%code%' => $associativeData['code']]);
@@ -355,13 +382,15 @@ class SourceFieldImport extends AbstractCsvImport
         $facetConfiguration = $this->upsertFacetConfigurationFromData($sourceField, $associativeData);
 
         $sourceFieldViolations = $this->validator->validate($sourceField);
-        $facetConfigurationViolations = $this->validator->validate($facetConfiguration);
+        $facetConfigurationViolations = $facetConfiguration ? $this->validator->validate($facetConfiguration) : [];
         $violationCounts = \count($sourceFieldViolations) + \count($facetConfigurationViolations);
 
         if ($violationCounts > 0) {
             $allViolations = new \AppendIterator();
             $allViolations->append($sourceFieldViolations->getIterator());
-            $allViolations->append($facetConfigurationViolations->getIterator());
+            if ($facetConfiguration) {
+                $allViolations->append($facetConfigurationViolations->getIterator());
+            }
 
             $errors = [];
             foreach ($allViolations as $violation) {
