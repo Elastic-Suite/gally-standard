@@ -4,3 +4,8 @@ Gally\Search\Entity\Facet\Configuration:
             sourceField: '@product_my_price'
             category: ~
         coverageRate: 20
+    product_manufacturer_facet:
+        __construct:
+            sourceField: '@product_manufacturer'
+            category: ~
+        displayMode: 'displayed'

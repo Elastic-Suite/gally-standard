@@ -22,6 +22,12 @@
             "label": "Black"
           }
         ],
+        "manufacturer": [
+          {
+            "value": "acme",
+            "label": "Acme Corp"
+          }
+        ],
         "brand": [
           {
             "value": "brand_test",

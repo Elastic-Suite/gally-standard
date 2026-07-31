@@ -21,20 +21,20 @@ use Doctrine\ORM\UnexpectedResultException;
 use Gally\Catalog\Entity\Catalog;
 use Gally\Catalog\Repository\CatalogRepository;
 use Gally\Catalog\Repository\LocalizedCatalogRepository;
-use Gally\Category\Decoration\SyncCategoryDataAfterBulk;
-use Gally\Category\Decoration\SyncCategoryDataAfterBulkDelete;
-use Gally\Category\Decoration\SyncCategoryDataAfterInstall;
 use Gally\Category\Entity\Category;
 use Gally\Category\Entity\Category\Configuration;
+use Gally\Category\EventSubscriber\SyncCategoryDataAfterBulk;
+use Gally\Category\EventSubscriber\SyncCategoryDataAfterBulkDelete;
+use Gally\Category\EventSubscriber\SyncCategoryDataAfterInstall;
 use Gally\Category\Exception\SyncCategoryException;
 use Gally\Category\Repository\CategoryConfigurationRepository;
 use Gally\Category\Repository\CategoryProductMerchandisingRepository;
 use Gally\Category\Repository\CategoryRepository;
 use Gally\Category\Service\CategoryProductPositionManager;
 use Gally\Category\Service\CategorySynchronizer;
-use Gally\Index\MutationResolver\BulkDeleteIndexMutation;
-use Gally\Index\MutationResolver\BulkIndexMutation;
-use Gally\Index\MutationResolver\InstallIndexMutation;
+use Gally\Index\Event\AfterBulkDeleteIndexEvent;
+use Gally\Index\Event\AfterBulkIndexEvent;
+use Gally\Index\Event\AfterInstallIndexEvent;
 use Gally\Index\Repository\Index\IndexRepository;
 use Gally\Index\Repository\Index\IndexRepositoryInterface;
 use Gally\Index\Service\IndexSettings;
@@ -94,7 +94,7 @@ class CategorySynchronizerTest extends AbstractTestCase
         $localizedCatalog2 = $localizedCatalogRepository->findOneBy(['code' => 'b2c_en']);
         $localizedCatalog3 = $localizedCatalogRepository->findOneBy(['code' => 'b2b_fr']);
         $category1Data = ['id' => 1, 'parentId' => null, 'level' => 1, 'name' => 'One'];
-        $category2Data = ['id' => 'two', 'parentId' => null, 'level' => 1, 'name' => 'Two'];
+        $category2Data = ['id' => 'two', 'parentId' => '1', 'level' => 2, 'name' => 'Two'];
         $category3Data = ['id' => '3', 'parentId' => 'one', 'level' => 2, 'name' => 'Three'];
         $category4Data = ['id' => 'four', 'parentId' => '3', 'level' => 3, 'name' => 'Four'];
 
@@ -142,7 +142,6 @@ class CategorySynchronizerTest extends AbstractTestCase
         $this->clearRepositoryCache();
 
         $category3Data['name'] = 'ThreeUpdated';
-        $category3Data['parentId'] = '';
         $category3Data['level'] = 1;
         $this->bulkIndex($indexName, ['3' => $category3Data]);
 
@@ -248,9 +247,92 @@ class CategorySynchronizerTest extends AbstractTestCase
     }
 
     /**
+     * The root-uniqueness check must run before the index is switched to its live alias: the
+     * install must fail and the index must never become readable through the API.
+     */
+    public function testErrorWithMultipleRootCategoriesForSameCatalog(): void
+    {
+        $localizedCatalogRepository = static::getContainer()->get(LocalizedCatalogRepository::class);
+        $localizedCatalog1 = $localizedCatalogRepository->findOneBy(['code' => 'b2c_fr']);
+
+        sleep(1); // Avoid creating two indexes at the same second, to delete after the ticket #1321031 will be done
+        $indexName = $this->createIndex('category', $localizedCatalog1->getId());
+        $this->bulkIndex($indexName, [
+            'root1' => ['id' => 'root1', 'parentId' => null, 'level' => 1, 'name' => 'Root 1'],
+            'root2' => ['id' => 'root2', 'parentId' => null, 'level' => 1, 'name' => 'Root 2'],
+        ]);
+        $this->validateApiCall(
+            new RequestGraphQlToTest(
+                <<<GQL
+                    mutation {
+                      installIndex(input: {
+                        name: "$indexName"
+                      }) {
+                        index { id name aliases }
+                      }
+                    }
+                GQL,
+                $this->getUser(Role::ROLE_ADMIN),
+            ),
+            new ExpectedResponse(
+                200,
+                function (ResponseInterface $response) {
+                    $this->assertGraphQlError('Catalog "b2c" cannot have more than one root category (found: root1, root2).');
+                }
+            )
+        );
+
+        // The index must not have been switched to its live alias: no category made it to SQL.
+        $this->validateCategoryCount(0, 0);
+    }
+
+    /**
+     * The root-uniqueness check must also run before a bulk is written to an already installed
+     * (ie. already live) index: adding a second root category must be rejected before it ever
+     * reaches Elasticsearch/OpenSearch, so the live category tree stays untouched.
+     */
+    public function testErrorWithSecondRootCategoryOnBulkToInstalledIndex(): void
+    {
+        $localizedCatalogRepository = static::getContainer()->get(LocalizedCatalogRepository::class);
+        $localizedCatalog1 = $localizedCatalogRepository->findOneBy(['code' => 'b2c_fr']);
+
+        sleep(1); // Avoid creating two indexes at the same second, to delete after the ticket #1321031 will be done
+        $indexName = $this->createIndex('category', $localizedCatalog1->getId());
+        $this->bulkIndex($indexName, ['root1' => ['id' => 'root1', 'parentId' => null, 'level' => 1, 'name' => 'Root 1']]);
+        $this->installIndex($indexName);
+        $this->validateCategoryCount(1, 1);
+
+        $this->validateApiCall(
+            new RequestGraphQlToTest(
+                <<<GQL
+                    mutation {
+                      bulkIndex(input: {
+                        indexName: "$indexName",
+                        data: "{\\"root2\\":{\\"id\\":\\"root2\\",\\"parentId\\":null,\\"level\\":1,\\"name\\":\\"Root 2\\"}}"
+                      }) {
+                        index { name }
+                      }
+                    }
+                GQL,
+                $this->getUser(Role::ROLE_ADMIN),
+            ),
+            new ExpectedResponse(
+                200,
+                function (ResponseInterface $response) {
+                    $this->assertGraphQlError('Catalog "b2c" cannot have more than one root category (found: root1, root2).');
+                }
+            )
+        );
+
+        // The bulk must have been rejected before reaching Elasticsearch/OpenSearch: no second
+        // root category made it to SQL, the live category tree is unchanged.
+        $this->validateCategoryCount(1, 1);
+    }
+
+    /**
      * @dataProvider retryTestDataProvider
      */
-    public function testSynchronizeRetry(string $mutationClass, string $decorator, array $constructorParams = []): void
+    public function testSynchronizeRetry(string $subscriberClass, callable $eventFactory, array $constructorParams = []): void
     {
         $synchronizer = $this->getMockerSynchronizer(true);
         $catalogRepository = static::getContainer()->get(LocalizedCatalogRepository::class);
@@ -260,33 +342,41 @@ class CategorySynchronizerTest extends AbstractTestCase
         $this->installIndex($indexName);
         $index = $this->indexRepository->findByName($indexName);
 
-        $mutationMock = $this->getMockBuilder($mutationClass)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $mutationMock->method('__invoke')->willReturn($index);
-        $decorator = new $decorator(
-            $mutationMock,
+        $subscriber = new $subscriberClass(
             $synchronizer,
             ...array_map(fn ($serviceName) => static::getContainer()->get($serviceName), $constructorParams),
         );
 
-        $this->assertEquals($index, $decorator->__invoke(null, ['args' => ['input' => ['data' => '[]']]]));
+        // First call: sync fails once then succeeds on retry → no exception expected
+        $subscriber->{array_values($subscriberClass::getSubscribedEvents())[0]}($eventFactory($index));
 
+        // Second call: sync always fails → SyncCategoryException expected
         $synchronizer = $this->getMockerSynchronizer();
-        $decorator = new $decorator(
-            $mutationMock,
+        $subscriber = new $subscriberClass(
             $synchronizer,
             ...array_map(fn ($serviceName) => static::getContainer()->get($serviceName), $constructorParams),
         );
         $this->expectException(SyncCategoryException::class);
-        $decorator->__invoke(null, ['args' => ['input' => ['data' => '[]']]]);
+        $subscriber->{array_values($subscriberClass::getSubscribedEvents())[0]}($eventFactory($index));
     }
 
     public function retryTestDataProvider(): iterable
     {
-        yield [InstallIndexMutation::class, SyncCategoryDataAfterInstall::class, [CategoryProductPositionManager::class]];
-        yield [BulkIndexMutation::class, SyncCategoryDataAfterBulk::class, [IndexSettings::class, IndexRepository::class, CategoryProductPositionManager::class]];
-        yield [BulkDeleteIndexMutation::class, SyncCategoryDataAfterBulkDelete::class, [IndexSettings::class, IndexRepository::class, CategoryProductMerchandisingRepository::class]];
+        yield [
+            SyncCategoryDataAfterInstall::class,
+            fn ($index) => new AfterInstallIndexEvent($index),
+            [CategoryProductPositionManager::class],
+        ];
+        yield [
+            SyncCategoryDataAfterBulk::class,
+            fn ($index) => new AfterBulkIndexEvent($index, []),
+            [IndexSettings::class, IndexRepository::class, CategoryProductPositionManager::class],
+        ];
+        yield [
+            SyncCategoryDataAfterBulkDelete::class,
+            fn ($index) => new AfterBulkDeleteIndexEvent($index, []),
+            [IndexSettings::class, IndexRepository::class, CategoryProductMerchandisingRepository::class],
+        ];
     }
 
     protected function prepareIndex(int $catalogId, array $data): void

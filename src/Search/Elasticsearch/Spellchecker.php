@@ -44,7 +44,7 @@ class Spellchecker implements SpellcheckerInterface
         return $this->cacheManager->get(
             $this->getCacheKey($request),
             fn (&$tags, &$ttl) => $this->loadSpellingType($request),
-            [$request->getIndexName()]
+            [self::CACHE_TAG_SPELLING_TYPE]
         );
     }
 

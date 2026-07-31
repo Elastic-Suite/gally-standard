@@ -21,6 +21,7 @@ use Gally\Search\Elasticsearch\Request\SortOrderInterface;
 use Gally\Test\AbstractTestCase;
 use Gally\Test\ExpectedResponse;
 use Gally\Test\RequestGraphQlToTest;
+use Gally\Test\RequestToTest;
 use Gally\User\Constant\Role;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
@@ -836,8 +837,8 @@ class SearchDocumentsTest extends AbstractTestCase
                         'hasMore' => false,
                         'options' => [
                             [
-                                'label' => 'One',
-                                'value' => 'cat_1',
+                                'label' => 'Three',
+                                'value' => 'cat_3',
                                 'count' => 2,
                             ],
                             [
@@ -997,11 +998,6 @@ class SearchDocumentsTest extends AbstractTestCase
                         'hasMore' => false,
                         'options' => [
                             [
-                                'label' => 'Un',
-                                'value' => 'cat_1',
-                                'count' => 2,
-                            ],
-                            [
                                 'label' => 'Deux',
                                 'value' => 'cat_2',
                                 'count' => 1,
@@ -1113,11 +1109,6 @@ class SearchDocumentsTest extends AbstractTestCase
                         'hasMore' => false,
                         'options' => [
                             [
-                                'label' => 'Un',
-                                'value' => 'cat_1',
-                                'count' => 2,
-                            ],
-                            [
                                 'label' => 'Deux',
                                 'value' => 'cat_2',
                                 'count' => 1,
@@ -1228,11 +1219,6 @@ class SearchDocumentsTest extends AbstractTestCase
                         'type' => 'category',
                         'hasMore' => false,
                         'options' => [
-                            [
-                                'label' => 'Un',
-                                'value' => 'cat_1',
-                                'count' => 2,
-                            ],
                             [
                                 'label' => 'Deux',
                                 'value' => 'cat_2',
@@ -1349,8 +1335,8 @@ class SearchDocumentsTest extends AbstractTestCase
                         'hasMore' => false,
                         'options' => [
                             [
-                                'label' => 'One',
-                                'value' => 'cat_1',
+                                'label' => 'Three',
+                                'value' => 'cat_3',
                                 'count' => 2,
                             ],
                             [
@@ -2454,6 +2440,113 @@ class SearchDocumentsTest extends AbstractTestCase
     }
 
     /**
+     * Bug regression: a non-filterable source field must NOT appear in aggregations,
+     * and must appear after being set to filterable and reindexed.
+     */
+    public function testFilterableSourceFieldAppearsInAggregationsAfterReindex(): void
+    {
+        $admin = $this->getUser(Role::ROLE_ADMIN);
+        $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
+
+        $response = $this->request(new RequestToTest('GET', 'source_fields?metadata.entity=product_document&code=manufacturer', $admin));
+        $manufacturerIri = $response->toArray()['hydra:member'][0]['@id'];
+        $manufacturerPath = substr($manufacturerIri, \strlen($this->getApiRoutePrefix()));
+
+        // Step 1: manufacturer filterable → reindex → IS in aggregations
+        $this->validateApiCall(
+            new RequestToTest('PATCH', $manufacturerPath, $admin, ['isFilterable' => true], ['Content-Type' => 'application/merge-patch+json']),
+            new ExpectedResponse(200)
+        );
+        self::deleteEntityElasticsearchIndices('product_document');
+        self::createEntityElasticsearchIndices('product_document');
+        self::loadElasticsearchDocumentFixtures([__DIR__ . '/../../fixtures/documents.json']);
+
+        $this->validateApiCall(
+            new RequestGraphQlToTest(
+                '{ documents(entityType: "product_document", localizedCatalog: "b2c_en") { collection {data} aggregations { field options { value } } } }',
+                $user
+            ),
+            new ExpectedResponse(200, function (ResponseInterface $response) {
+                $fields = array_column($response->toArray()['data']['documents']['aggregations'], 'field');
+                $this->assertContains('manufacturer__value', $fields);
+            })
+        );
+
+        // Step 2: manufacturer NOT filterable → reindex → NOT in aggregations
+        $this->validateApiCall(
+            new RequestToTest('PATCH', $manufacturerPath, $admin, ['isFilterable' => false], ['Content-Type' => 'application/merge-patch+json']),
+            new ExpectedResponse(200)
+        );
+        self::deleteEntityElasticsearchIndices('product_document');
+        self::createEntityElasticsearchIndices('product_document');
+        self::loadElasticsearchDocumentFixtures([__DIR__ . '/../../fixtures/documents.json']);
+
+        $this->validateApiCall(
+            new RequestGraphQlToTest(
+                '{ documents(entityType: "product_document", localizedCatalog: "b2c_en") { aggregations { field } } }',
+                $user
+            ),
+            new ExpectedResponse(200, function (ResponseInterface $response) {
+                $fields = array_column($response->toArray()['data']['documents']['aggregations'], 'field');
+                $this->assertNotContains('manufacturer__value', $fields);
+            })
+        );
+    }
+
+    /**
+     * Bug regression: a non-searchable source field must NOT yield results when searching by its option values,
+     * and must yield results after being set to searchable and reindexed.
+     */
+    public function testSearchableSourceFieldAllowsProductDiscoveryViaOptionsAfterReindex(): void
+    {
+        $admin = $this->getUser(Role::ROLE_ADMIN);
+        $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
+
+        // manufacturer is searchable by default; its label is "Acme Corp" (in documents.json)
+        $response = $this->request(new RequestToTest('GET', 'source_fields?metadata.entity=product_document&code=manufacturer', $admin));
+        $manufacturerIri = $response->toArray()['hydra:member'][0]['@id'];
+        $manufacturerPath = substr($manufacturerIri, \strlen($this->getApiRoutePrefix()));
+
+        // Step 1: manufacturer searchable → reindex → search "Acme Corp" yields results
+        $this->validateApiCall(
+            new RequestToTest('PATCH', $manufacturerPath, $admin, ['isSearchable' => true], ['Content-Type' => 'application/merge-patch+json']),
+            new ExpectedResponse(200)
+        );
+        self::deleteEntityElasticsearchIndices('product_document');
+        self::createEntityElasticsearchIndices('product_document');
+        self::loadElasticsearchDocumentFixtures([__DIR__ . '/../../fixtures/documents.json']);
+
+        $this->validateApiCall(
+            new RequestGraphQlToTest(
+                '{ documents(entityType: "product_document", localizedCatalog: "b2c_en", search: "Acme Corp") { collection { id } } }',
+                $user
+            ),
+            new ExpectedResponse(200, function (ResponseInterface $response) {
+                $this->assertGreaterThan(0, \count($response->toArray()['data']['documents']['collection']));
+            })
+        );
+
+        // Step 2: manufacturer NOT searchable → reindex → search "Acme Corp" yields 0 results
+        $this->validateApiCall(
+            new RequestToTest('PATCH', $manufacturerPath, $admin, ['isSearchable' => false], ['Content-Type' => 'application/merge-patch+json']),
+            new ExpectedResponse(200)
+        );
+        self::deleteEntityElasticsearchIndices('product_document');
+        self::createEntityElasticsearchIndices('product_document');
+        self::loadElasticsearchDocumentFixtures([__DIR__ . '/../../fixtures/documents.json']);
+
+        $this->validateApiCall(
+            new RequestGraphQlToTest(
+                '{ documents(entityType: "product_document", localizedCatalog: "b2c_en", search: "Acme Corp") { collection { id } } }',
+                $user
+            ),
+            new ExpectedResponse(200, function (ResponseInterface $response) {
+                $this->assertCount(0, $response->toArray()['data']['documents']['collection']);
+            })
+        );
+    }
+
+    /**
      * @dataProvider categoryFilterContextProvider
      *
      * @param string      $entityType                  Entity type
@@ -2520,12 +2613,12 @@ class SearchDocumentsTest extends AbstractTestCase
     public function categoryFilterContextProvider(): array
     {
         return [
-            'no category filter (shows level 1 categories)' => [
+            'no category filter (shows the unique root\'s children, ie level 2 categories)' => [
                 'product_document', // entity type.
                 'b2c_en',           // catalog ID.
-                null,               // no category filter: aggregation returns level 1 categories.
-                [                   // expected: level 1 categories present in indexed documents.
-                    ['label' => 'One', 'value' => 'cat_1', 'count' => 2],
+                null,               // no category filter: aggregation returns the children of the catalog's unique level 1 category (cat_1).
+                [                   // expected: level 2 categories present in indexed documents.
+                    ['label' => 'Three', 'value' => 'cat_3', 'count' => 2],
                     ['label' => 'Five', 'value' => 'cat_5', 'count' => 1],
                 ],
             ],
@@ -2533,8 +2626,9 @@ class SearchDocumentsTest extends AbstractTestCase
                 'product_document', // entity type.
                 'b2c_en',           // catalog ID.
                 'cat_1',            // filter on cat_1 (level 1): context shifts to cat_1.
-                [                   // expected: children of cat_1 = cat_3 (level 2).
+                [                   // expected: children of cat_1 = cat_3 and cat_5 (level 2).
                     ['label' => 'Three', 'value' => 'cat_3', 'count' => 2],
+                    ['label' => 'Five', 'value' => 'cat_5', 'count' => 1],
                 ],
             ],
             'filter on level 2 category (shows level 3 children)' => [

@@ -38,14 +38,17 @@ class CategoryAggregationConfigResolver implements FieldAggregationConfigResolve
 
     /**
      * The category aggregation should return only the categories that are direct child of the current category.
-     * If no category are provided in context, the aggregation should return only first level categories.
+     * If no category are provided in context, the aggregation should return the children of the root category
+     * (the root category itself is a technical node, not relevant as a facet value).
      */
     public function getConfig(ContainerConfigurationInterface $containerConfig, SourceField $sourceField): array
     {
         $config = [];
 
         $currentCategory = $this->searchContext->getCategory();
-        $children = $this->categoryRepository->findBy(['parentId' => $currentCategory]);
+        $children = $currentCategory
+            ? $this->categoryRepository->findBy(['parentId' => $currentCategory])
+            : $this->categoryRepository->findBy(['level' => 2]);
         $queries = [];
 
         foreach ($children as $child) {

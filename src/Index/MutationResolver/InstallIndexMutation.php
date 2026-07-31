@@ -17,14 +17,17 @@ namespace Gally\Index\MutationResolver;
 use ApiPlatform\GraphQl\Resolver\MutationResolverInterface;
 use ApiPlatform\Metadata\Exception\InvalidArgumentException;
 use Gally\Index\Entity\Index;
+use Gally\Index\Event\AfterInstallIndexEvent;
 use Gally\Index\Repository\Index\IndexRepositoryInterface;
 use Gally\Index\Service\IndexOperation;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class InstallIndexMutation implements MutationResolverInterface
 {
     public function __construct(
         private IndexOperation $indexOperation,
         private IndexRepositoryInterface $indexRepository,
+        private EventDispatcherInterface $eventDispatcher,
     ) {
     }
 
@@ -43,6 +46,10 @@ class InstallIndexMutation implements MutationResolverInterface
         $this->indexOperation->installIndexByName($index->getName());
 
         // Reload the index to get updated aliases.
-        return $this->indexRepository->findByName($item->getName());
+        $index = $this->indexRepository->findByName($item->getName());
+
+        $this->eventDispatcher->dispatch(new AfterInstallIndexEvent($index), AfterInstallIndexEvent::NAME);
+
+        return $index;
     }
 }

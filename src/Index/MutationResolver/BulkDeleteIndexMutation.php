@@ -17,6 +17,7 @@ namespace Gally\Index\MutationResolver;
 use ApiPlatform\GraphQl\Resolver\MutationResolverInterface;
 use Gally\Index\Dto\Bulk;
 use Gally\Index\Entity\Index;
+use Gally\Index\Event\AfterBulkDeleteIndexEvent;
 
 class BulkDeleteIndexMutation extends BulkIndexMutation implements MutationResolverInterface
 {
@@ -28,10 +29,13 @@ class BulkDeleteIndexMutation extends BulkIndexMutation implements MutationResol
     public function __invoke(?object $item, array $context): ?object
     {
         $index = $this->getIndex($context);
+        $ids = $context['args']['input']['ids'] ?? [];
         $request = new Bulk\Request();
-        $request->deleteDocuments($index, $context['args']['input']['ids'] ?? []);
+        $request->deleteDocuments($index, $ids);
 
-        $this->runBulkQuery($index, $request);
+        $this->runBulkQuery($index, $request, [], false);
+
+        $this->eventDispatcher->dispatch(new AfterBulkDeleteIndexEvent($index, $ids), AfterBulkDeleteIndexEvent::NAME);
 
         return $index;
     }
