@@ -68,6 +68,27 @@ class SessionTransformProvisioner
         return $transformId;
     }
 
+    /**
+     * Whether the transform is actually running (or just started, about to run its first
+     * checkpoint) -- as opposed to missing, stopped, or auto-disabled by OpenSearch after a
+     * failure (e.g. a transient JVM circuit breaker). Index age alone (see
+     * SessionIndexRolloverManager) cannot catch this: a transform can silently die while its
+     * target index is still well within its rollover window.
+     */
+    public function isHealthy(LocalizedCatalog $localizedCatalog): bool
+    {
+        $transformId = self::TRANSFORM_ID_PREFIX . $localizedCatalog->getCode();
+
+        try {
+            $explain = $this->transformRepository->explain($transformId);
+            $status = $explain[$transformId]['transform_metadata']['status'] ?? null;
+        } catch (\Exception) {
+            return false;
+        }
+
+        return \in_array($status, ['started', 'init'], true);
+    }
+
     public function remove(LocalizedCatalog $localizedCatalog): void
     {
         $transformId = self::TRANSFORM_ID_PREFIX . $localizedCatalog->getCode();

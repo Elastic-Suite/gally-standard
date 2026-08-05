@@ -23,15 +23,22 @@ use Gally\Metadata\Repository\MetadataRepository;
 use Psr\Log\LoggerInterface;
 
 /**
- * Makes tracking_session follow the same rollover periodicity as tracking_event, automatically:
- * tracking_event's data stream rolls over based on IndexSettings::getIsmRolloverAfter(); this
- * reads that SAME configured value (never duplicated) and, if tracking_session's currently
- * installed index is older than it (or doesn't exist yet), (re)creates it and repoints the
- * OpenSearch Transform at the new physical index.
+ * Makes tracking_session follow the same rollover periodicity as tracking_event, automatically,
+ * and recovers the Transform if it silently died in between.
  *
- * tracking_session cannot itself be a data stream (see SessionTransformProvisioner: a Transform
- * destination must be upsertable, which data streams are not), so it can't get this rollover
- * "for free" the way tracking_event does -- this check drives it manually instead.
+ * Two independent triggers for the same corrective action (recreate the index if needed, then
+ * (re)provision the transform):
+ * - Rollover: tracking_event's data stream rolls over based on
+ *   IndexSettings::getIsmRolloverAfter(); this reads that SAME configured value (never
+ *   duplicated) and, if tracking_session's currently installed index is older than it (or
+ *   doesn't exist yet), (re)creates it and repoints the OpenSearch Transform at the new physical
+ *   index. tracking_session cannot itself be a data stream (see SessionTransformProvisioner: a
+ *   Transform destination must be upsertable, which data streams are not), so it can't get this
+ *   rollover "for free" the way tracking_event does -- this check drives it manually instead.
+ * - Health: the transform can be auto-disabled by OpenSearch after a failure (e.g. a transient
+ *   JVM circuit breaker) while tracking_session's index is still well within its rollover
+ *   window. Index age alone would never notice this and the transform could stay dead for up to
+ *   the whole rollover period, so it is checked independently of the index's age.
  */
 class SessionIndexRolloverManager
 {
@@ -57,15 +64,18 @@ class SessionIndexRolloverManager
 
         $targetAlias = $this->indexSettings->getIndexAliasFromIdentifier('tracking_session', $localizedCatalog);
         $currentIndex = $this->indexRepository->findByName($targetAlias);
+        $indexIsFresh = null !== $currentIndex && !$this->isOlderThanDays($currentIndex, $rolloverAfterDays);
 
-        if (null !== $currentIndex && !$this->isOlderThanDays($currentIndex, $rolloverAfterDays)) {
+        if ($indexIsFresh && $this->transformProvisioner->isHealthy($localizedCatalog)) {
             return;
         }
 
         try {
-            $sessionMetadata = $this->metadataRepository->findByEntity('tracking_session');
-            $newIndex = $this->indexOperation->createEntityIndex($sessionMetadata, $localizedCatalog);
-            $this->indexOperation->installIndexByName($newIndex->getName());
+            if (!$indexIsFresh) {
+                $sessionMetadata = $this->metadataRepository->findByEntity('tracking_session');
+                $newIndex = $this->indexOperation->createEntityIndex($sessionMetadata, $localizedCatalog);
+                $this->indexOperation->installIndexByName($newIndex->getName());
+            }
             $this->transformProvisioner->createOrUpdate($localizedCatalog);
         } catch (\Exception $exception) {
             $this->logger->error($exception);
