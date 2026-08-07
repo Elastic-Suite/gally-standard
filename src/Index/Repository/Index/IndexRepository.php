@@ -1297,12 +1297,16 @@ class IndexRepository implements IndexRepositoryInterface
         $index = $this->getIndex($indexData, $indexAliases);
         $mapping = [];
         $settings = [];
+        // Real OpenSearch calls need the raw name (dots and all, e.g. data stream backing indices
+        // like ".ds-..."), not $index->getName()'s %2E-escaped form -- that escaping exists only
+        // so a dotted name is safe to use as this Index API resource's identifier/route segment.
+        $rawIndexName = $indexData['index'];
 
         try {
-            $mapping = $this->client->indices()->getMapping(['index' => $index->getName()]);
-            $mapping = $mapping[$index->getName()]['mappings'];
-            $settings = $this->client->indices()->getSettings(['index' => $index->getName()]);
-            $settings = $settings[$index->getName()]['settings'];
+            $mapping = $this->client->indices()->getMapping(['index' => $rawIndexName]);
+            $mapping = $mapping[$rawIndexName]['mappings'];
+            $settings = $this->client->indices()->getSettings(['index' => $rawIndexName]);
+            $settings = $settings[$rawIndexName]['settings'];
         } catch (\Exception $e) {
             // Todo: log exception.
         }

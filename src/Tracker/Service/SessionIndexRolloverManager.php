@@ -17,7 +17,9 @@ namespace Gally\Tracker\Service;
 use Gally\Catalog\Entity\LocalizedCatalog;
 use Gally\Index\Api\IndexSettingsInterface;
 use Gally\Index\Entity\Index;
+use Gally\Index\Repository\DataStream\DataStreamRepositoryInterface;
 use Gally\Index\Service\IndexOperation;
+use Gally\Metadata\Entity\Metadata;
 use Gally\Metadata\Repository\MetadataRepository;
 use Psr\Log\LoggerInterface;
 
@@ -36,18 +38,22 @@ use Psr\Log\LoggerInterface;
  * see events but no sessions for them.
  *
  * Three independent things are checked on every call:
- * - Rollover: if the current (newest) tracking_session index is older than
- *   IndexSettings::getIsmRolloverAfter() (same configured value as tracking_event, never
- *   duplicated), a new one is created and added to the alias, and the Transform is repointed at
- *   it.
+ * - Rollover: tracking_event's own data stream is the source of truth for whether a rollover
+ *   happened -- not an independently-computed "should have rolled over by now" time estimate,
+ *   which could drift from reality (the ISM job runs periodically, not instantly, and
+ *   rollover_after is read live so a config change would desync it from what tracking_event
+ *   actually already did). If tracking_event's current backing index was created after
+ *   tracking_session's current index, a new one is created and added to the alias, and the
+ *   Transform is repointed at it.
  * - Health: the transform can be auto-disabled by OpenSearch after a failure (e.g. a transient
  *   JVM circuit breaker) while tracking_session's index is still well within its rollover window.
- *   Index age alone would never notice this and the transform could stay dead for up to the whole
- *   rollover period, so it is checked independently of the index's age.
+ *   Comparing backing indices alone would never notice this and the transform could stay dead
+ *   indefinitely, so it is checked independently.
  * - Retention: any tracking_session index (other than the current one) older than
  *   IndexSettings::getIsmDeleteAfter() is deleted, mirroring tracking_event's own ISM "delete"
- *   transition. No-op if delete_after isn't configured, same as tracking_event's data stream then
- *   keeping every backing index forever.
+ *   transition (also purely age-based on that side, so no equivalent drift risk here). No-op if
+ *   delete_after isn't configured, same as tracking_event's data stream then keeping every
+ *   backing index forever.
  */
 class SessionIndexRolloverManager
 {
@@ -55,6 +61,7 @@ class SessionIndexRolloverManager
         private IndexSettingsInterface $indexSettings,
         private IndexOperation $indexOperation,
         private MetadataRepository $metadataRepository,
+        private DataStreamRepositoryInterface $dataStreamRepository,
         private SessionTransformProvisioner $transformProvisioner,
         private LoggerInterface $logger,
     ) {
@@ -63,16 +70,9 @@ class SessionIndexRolloverManager
     public function ensureUpToDate(LocalizedCatalog $localizedCatalog): void
     {
         $eventMetadata = $this->metadataRepository->findByEntity('tracking_event');
-        $rolloverAfterDays = $this->indexSettings->getIsmRolloverAfter($localizedCatalog, $eventMetadata);
-
-        if (null === $rolloverAfterDays) {
-            // No rollover policy configured for tracking_event on this catalog: nothing to mirror.
-            return;
-        }
-
         $targetAlias = $this->indexSettings->getIndexAliasFromIdentifier('tracking_session', $localizedCatalog);
         $currentIndex = $this->indexOperation->findIndicesByAlias($targetAlias)[0] ?? null;
-        $indexIsFresh = null !== $currentIndex && !$this->isOlderThanDays($currentIndex, $rolloverAfterDays);
+        $indexIsFresh = null !== $currentIndex && !$this->hasEventRolledOverSince($currentIndex, $eventMetadata, $localizedCatalog);
         $currentIndexName = $currentIndex?->getName();
 
         if (!$indexIsFresh || !$this->transformProvisioner->isHealthy($localizedCatalog)) {
@@ -95,17 +95,26 @@ class SessionIndexRolloverManager
         }
     }
 
-    private function isOlderThanDays(Index $index, int $days): bool
+    /**
+     * Whether tracking_event's data stream has actually rolled over to a backing index created
+     * after $sessionIndex -- the direct signal that tracking_session is now behind, as opposed to
+     * a time estimate that could disagree with what tracking_event's data stream really did.
+     */
+    private function hasEventRolledOverSince(Index $sessionIndex, Metadata $eventMetadata, LocalizedCatalog $localizedCatalog): bool
     {
-        $creationDateMs = (int) ($index->getSettings()['index']['creation_date'] ?? 0);
+        $backingIndices = $this->dataStreamRepository->findByMetadata($eventMetadata, $localizedCatalog)?->getIndices() ?? [];
+        $currentBackingIndex = $backingIndices[array_key_last($backingIndices)] ?? null;
 
-        if (0 === $creationDateMs) {
-            // Unknown age: be safe and treat it as due for a refresh.
+        if (null === $currentBackingIndex) {
+            // Unknown: be safe and treat it as due for a refresh.
             return true;
         }
 
-        $ageInDays = (time() - intdiv($creationDateMs, 1000)) / 86400;
+        return $this->creationDate($currentBackingIndex) > $this->creationDate($sessionIndex);
+    }
 
-        return $ageInDays >= $days;
+    private function creationDate(Index $index): int
+    {
+        return (int) ($index->getSettings()['index']['creation_date'] ?? 0);
     }
 }

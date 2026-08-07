@@ -18,6 +18,7 @@ services:
             - '@Gally\Index\Api\IndexSettingsInterface'
             - '@Gally\Index\Service\IndexOperation'
             - '@Gally\Metadata\Repository\MetadataRepository'
+            - '@Gally\Index\Repository\DataStream\DataStreamRepositoryInterface'
             - '@Gally\Tracker\Service\SessionTransformProvisioner'
             - '@logger'
 
