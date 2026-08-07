@@ -9,14 +9,12 @@ services:
     Gally\Tracker\Service\SessionTransformProvisioner:
         arguments:
             - '@Gally\Index\Repository\Transform\TransformRepositoryInterface'
-            - '@Gally\Index\Repository\Index\IndexRepositoryInterface'
             - '@Gally\Index\Api\IndexSettingsInterface'
             - '@Gally\Index\Service\IndexOperation'
             - '@Gally\Metadata\Repository\MetadataRepository'
 
     Gally\Tracker\Service\SessionIndexRolloverManager:
         arguments:
-            - '@Gally\Index\Repository\Index\IndexRepositoryInterface'
             - '@Gally\Index\Api\IndexSettingsInterface'
             - '@Gally\Index\Service\IndexOperation'
             - '@Gally\Metadata\Repository\MetadataRepository'

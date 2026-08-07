@@ -17,33 +17,41 @@ namespace Gally\Tracker\Service;
 use Gally\Catalog\Entity\LocalizedCatalog;
 use Gally\Index\Api\IndexSettingsInterface;
 use Gally\Index\Entity\Index;
-use Gally\Index\Repository\Index\IndexRepositoryInterface;
 use Gally\Index\Service\IndexOperation;
 use Gally\Metadata\Repository\MetadataRepository;
 use Psr\Log\LoggerInterface;
 
 /**
- * Makes tracking_session follow the same rollover periodicity as tracking_event, automatically,
- * and recovers the Transform if it silently died in between.
+ * Makes tracking_session follow the same rollover AND retention periodicity as tracking_event,
+ * automatically, and recovers the Transform if it silently died in between.
  *
- * Two independent triggers for the same corrective action (recreate the index if needed, then
- * (re)provision the transform):
- * - Rollover: tracking_event's data stream rolls over based on
- *   IndexSettings::getIsmRolloverAfter(); this reads that SAME configured value (never
- *   duplicated) and, if tracking_session's currently installed index is older than it (or
- *   doesn't exist yet), (re)creates it and repoints the OpenSearch Transform at the new physical
- *   index. tracking_session cannot itself be a data stream (see SessionTransformProvisioner: a
- *   Transform destination must be upsertable, which data streams are not), so it can't get this
- *   rollover "for free" the way tracking_event does -- this check drives it manually instead.
+ * tracking_session cannot itself be a data stream (see SessionTransformProvisioner: a Transform
+ * destination must be upsertable, which data streams are not), so it mirrors a data stream's
+ * behavior by hand: several aged index generations are kept alive behind one alias for reads
+ * (IndexOperation::addIndexToAlias(), instead of the usual blue-green swap-and-delete), and only
+ * removed once they age past delete_after -- exactly like a data stream's own ISM "delete"
+ * transition. Keeping just the newest generation alive (a plain swap on rollover) would make
+ * tracking_session's data disappear at rollover_after days while tracking_event's raw events
+ * covering that same period stay queryable until delete_after: any query spanning that gap would
+ * see events but no sessions for them.
+ *
+ * Three independent things are checked on every call:
+ * - Rollover: if the current (newest) tracking_session index is older than
+ *   IndexSettings::getIsmRolloverAfter() (same configured value as tracking_event, never
+ *   duplicated), a new one is created and added to the alias, and the Transform is repointed at
+ *   it.
  * - Health: the transform can be auto-disabled by OpenSearch after a failure (e.g. a transient
- *   JVM circuit breaker) while tracking_session's index is still well within its rollover
- *   window. Index age alone would never notice this and the transform could stay dead for up to
- *   the whole rollover period, so it is checked independently of the index's age.
+ *   JVM circuit breaker) while tracking_session's index is still well within its rollover window.
+ *   Index age alone would never notice this and the transform could stay dead for up to the whole
+ *   rollover period, so it is checked independently of the index's age.
+ * - Retention: any tracking_session index (other than the current one) older than
+ *   IndexSettings::getIsmDeleteAfter() is deleted, mirroring tracking_event's own ISM "delete"
+ *   transition. No-op if delete_after isn't configured, same as tracking_event's data stream then
+ *   keeping every backing index forever.
  */
 class SessionIndexRolloverManager
 {
     public function __construct(
-        private IndexRepositoryInterface $indexRepository,
         private IndexSettingsInterface $indexSettings,
         private IndexOperation $indexOperation,
         private MetadataRepository $metadataRepository,
@@ -63,22 +71,27 @@ class SessionIndexRolloverManager
         }
 
         $targetAlias = $this->indexSettings->getIndexAliasFromIdentifier('tracking_session', $localizedCatalog);
-        $currentIndex = $this->indexRepository->findByName($targetAlias);
+        $currentIndex = $this->indexOperation->findIndicesByAlias($targetAlias)[0] ?? null;
         $indexIsFresh = null !== $currentIndex && !$this->isOlderThanDays($currentIndex, $rolloverAfterDays);
+        $currentIndexName = $currentIndex?->getName();
 
-        if ($indexIsFresh && $this->transformProvisioner->isHealthy($localizedCatalog)) {
-            return;
+        if (!$indexIsFresh || !$this->transformProvisioner->isHealthy($localizedCatalog)) {
+            try {
+                if (!$indexIsFresh) {
+                    $sessionMetadata = $this->metadataRepository->findByEntity('tracking_session');
+                    $newIndex = $this->indexOperation->createEntityIndex($sessionMetadata, $localizedCatalog);
+                    $this->indexOperation->addIndexToAlias($newIndex->getName());
+                    $currentIndexName = $newIndex->getName();
+                }
+                $this->transformProvisioner->createOrUpdate($localizedCatalog);
+            } catch (\Exception $exception) {
+                $this->logger->error($exception);
+            }
         }
 
-        try {
-            if (!$indexIsFresh) {
-                $sessionMetadata = $this->metadataRepository->findByEntity('tracking_session');
-                $newIndex = $this->indexOperation->createEntityIndex($sessionMetadata, $localizedCatalog);
-                $this->indexOperation->installIndexByName($newIndex->getName());
-            }
-            $this->transformProvisioner->createOrUpdate($localizedCatalog);
-        } catch (\Exception $exception) {
-            $this->logger->error($exception);
+        $deleteAfterDays = $this->indexSettings->getIsmDeleteAfter($localizedCatalog, $eventMetadata);
+        if (null !== $deleteAfterDays && null !== $currentIndexName) {
+            $this->indexOperation->deleteIndicesByAliasOlderThan($targetAlias, $deleteAfterDays, [$currentIndexName]);
         }
     }
 

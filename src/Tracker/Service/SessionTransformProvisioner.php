@@ -17,7 +17,6 @@ namespace Gally\Tracker\Service;
 use Gally\Catalog\Entity\LocalizedCatalog;
 use Gally\Index\Api\IndexSettingsInterface;
 use Gally\Index\Entity\Transform;
-use Gally\Index\Repository\Index\IndexRepositoryInterface;
 use Gally\Index\Repository\Transform\TransformRepositoryInterface;
 use Gally\Index\Service\IndexOperation;
 use Gally\Metadata\Repository\MetadataRepository;
@@ -40,7 +39,6 @@ class SessionTransformProvisioner
 
     public function __construct(
         private TransformRepositoryInterface $transformRepository,
-        private IndexRepositoryInterface $indexRepository,
         private IndexSettingsInterface $indexSettings,
         private IndexOperation $indexOperation,
         private MetadataRepository $metadataRepository,
@@ -51,12 +49,16 @@ class SessionTransformProvisioner
     {
         $sourceIndex = $this->indexSettings->getIndexAliasFromIdentifier('tracking_event', $localizedCatalog);
         $targetAlias = $this->indexSettings->getIndexAliasFromIdentifier('tracking_session', $localizedCatalog);
-        $targetIndex = $this->indexRepository->findByName($targetAlias)?->getName();
+        // The alias can be behind several index generations at once (see
+        // SessionIndexRolloverManager), so the current/write one must be resolved unambiguously
+        // via findIndicesByAlias() (newest first) rather than IndexRepositoryInterface::findByName(),
+        // which would arbitrarily pick one of them.
+        $targetIndex = $this->indexOperation->findIndicesByAlias($targetAlias)[0]?->getName() ?? null;
 
         if (null === $targetIndex) {
             $sessionMetadata = $this->metadataRepository->findByEntity('tracking_session');
             $newIndex = $this->indexOperation->createEntityIndex($sessionMetadata, $localizedCatalog);
-            $this->indexOperation->installIndexByName($newIndex->getName());
+            $this->indexOperation->addIndexToAlias($newIndex->getName());
             $targetIndex = $newIndex->getName();
         }
 
