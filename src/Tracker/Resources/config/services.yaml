@@ -1,4 +1,48 @@
+imports:
+    - { resource: elasticsearch/request_type.yaml }
+
 services:
+    Gally\Tracker\Elasticsearch\Request\Aggregation\Provider\SessionAggregatorAggregationProvider:
+        arguments:
+            - '@Gally\Search\Elasticsearch\Request\QueryFactory'
+
+    Gally\Tracker\Service\SessionTransformProvisioner:
+        arguments:
+            - '@Gally\Index\Repository\Transform\TransformRepositoryInterface'
+            - '@Gally\Index\Api\IndexSettingsInterface'
+            - '@Gally\Index\Service\IndexOperation'
+            - '@Gally\Metadata\Repository\MetadataRepository'
+
+    Gally\Tracker\Service\SessionIndexRolloverManager:
+        arguments:
+            - '@Gally\Index\Api\IndexSettingsInterface'
+            - '@Gally\Index\Service\IndexOperation'
+            - '@Gally\Metadata\Repository\MetadataRepository'
+            - '@Gally\Index\Repository\DataStream\DataStreamRepositoryInterface'
+            - '@Gally\Tracker\Service\SessionTransformProvisioner'
+            - '@logger'
+
+    Gally\Tracker\Command\ProvisionSessionTransformCommand:
+        arguments:
+            - '@Gally\Catalog\Repository\LocalizedCatalogRepository'
+            - '@Gally\Tracker\Service\SessionTransformProvisioner'
+            - null
+        tags:
+            - { name: console.command }
+
+    Gally\Tracker\Command\BuildTrackingSessionIndexCommand:
+        arguments:
+            - '@Gally\Metadata\Repository\MetadataRepository'
+            - '@Gally\Catalog\Repository\LocalizedCatalogRepository'
+            - '@Gally\Search\Elasticsearch\Request\Container\Configuration\ContainerConfigurationProvider'
+            - '@Gally\Search\Elasticsearch\Builder\Request\SimpleRequestBuilder'
+            - '@Gally\Search\Elasticsearch\Adapter'
+            - '@Gally\Index\Service\IndexOperation'
+            - '@Gally\Index\Repository\Index\IndexRepositoryInterface'
+            - null
+        tags:
+            - { name: console.command }
+
     Gally\Tracker\State\TrackingEventProcessor:
         arguments:
             - '@messenger.default_bus'
@@ -12,6 +56,7 @@ services:
             - '@Gally\Metadata\Repository\MetadataRepository'
             - '@Gally\Catalog\Repository\LocalizedCatalogRepository'
             - '@api_platform.validator'
+            - '@Gally\Tracker\Service\SessionIndexRolloverManager'
         tags:
             - { name: messenger.message_handler }
 

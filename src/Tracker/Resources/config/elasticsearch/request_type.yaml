@@ -1,0 +1,7 @@
+services:
+    gally.container_configuration.tracking_session_aggregator.factory:
+        parent: 'Gally\Search\Elasticsearch\Request\Container\Configuration\GenericContainerConfigurationFactory'
+        arguments:
+            $aggregationProvider: '@Gally\Tracker\Elasticsearch\Request\Aggregation\Provider\SessionAggregatorAggregationProvider'
+        tags:
+            - { name: gally.container_configuration.factory, requestType: tracking_session_aggregator, metadata: tracking_event }
