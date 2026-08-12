@@ -14,6 +14,8 @@ declare(strict_types=1);
 
 namespace Gally\Search\Elasticsearch\Request\Aggregation\Provider;
 
+use Gally\Metadata\Entity\SourceField;
+use Gally\Search\Elasticsearch\Adapter\Common\Response\AggregationInterface;
 use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface;
 use Gally\Search\Elasticsearch\Request\QueryInterface;
 
@@ -38,7 +40,11 @@ interface AggregationProviderInterface
     ): array;
 
     /**
-     * Is the aggregation provider uses the facet configuration to configure the aggregation query ?
+     * Returns the formatted facet options (value/label/count) for this aggregation.
      */
-    public function useFacetConfiguration(): bool;
+    public function formatAggregationOptions(
+        AggregationInterface $aggregation,
+        SourceField $sourceField,
+        ContainerConfigurationInterface $containerConfig,
+    ): array;
 }

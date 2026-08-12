@@ -165,4 +165,43 @@ class ViewMoreFacetTest extends AbstractTestCase
             ],
         ];
     }
+
+    /**
+     * Test that viewMore facet options are sorted according to facet configuration sortOrder.
+     * Specifically tests natural sort (_natural_asc and _natural_desc) which was the bug reported.
+     */
+    public function testViewMoreFacetOptionsNaturalSort(): void
+    {
+        $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
+
+        // Test natural ascending sort on tags__value (configured with _natural_asc)
+        $this->validateApiCall(
+            new RequestGraphQlToTest(
+                <<<GQL
+                    {
+                        viewMoreFacetOptions(entityType: "product_document", localizedCatalog: "b2c_en", aggregation: "tags__value", filter: []) {
+                            value
+                            label
+                            count
+                        }
+                    }
+                GQL,
+                $user
+            ),
+            new ExpectedResponse(
+                200,
+                function (ResponseInterface $response) {
+                    $responseData = $response->toArray();
+                    $options = $responseData['data']['viewMoreFacetOptions'];
+
+                    // Extract labels in order
+                    $labels = array_map(fn ($option) => $option['label'], $options);
+
+                    // With natural ascending sort, expected order is: 10, 20, 101, 111, 1011, 1012
+                    $expectedOrder = ['10', '20', '101', '111', '1011', '1012'];
+                    $this->assertEquals($expectedOrder, $labels, 'Options should be sorted naturally in ascending order');
+                }
+            )
+        );
+    }
 }

@@ -17,17 +17,14 @@ namespace Gally\Search\Decoration\GraphQl;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
 use Gally\Catalog\Repository\LocalizedCatalogRepository;
-use Gally\Category\Repository\CategoryConfigurationRepository;
 use Gally\Configuration\Service\ConfigurationManager;
 use Gally\Metadata\Entity\SourceField;
 use Gally\Metadata\Entity\SourceField\Type;
 use Gally\Metadata\Repository\MetadataRepository;
-use Gally\Metadata\Repository\SourceFieldOptionRepository;
 use Gally\Metadata\Repository\SourceFieldRepository;
 use Gally\Search\Elasticsearch\Adapter\Common\Response\AggregationInterface;
 use Gally\Search\Elasticsearch\Adapter\Common\Response\BucketValueInterface;
 use Gally\Search\Elasticsearch\Builder\Response\AggregationBuilder;
-use Gally\Search\Elasticsearch\Request\BucketInterface;
 use Gally\Search\Elasticsearch\Request\Container\Configuration\ContainerConfigurationProvider;
 use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface;
 use Gally\Search\Entity\Document;
@@ -36,7 +33,6 @@ use Gally\Search\Service\ReverseSourceFieldProvider;
 use Gally\Search\Service\SearchContext;
 use Gally\Search\State\Paginator;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Add aggregations data in graphql search document response.
@@ -58,10 +54,7 @@ class AddAggregationsData implements ProcessorInterface
         private FacetConfigurationRepository $facetConfigRepository,
         private SearchContext $searchContext,
         private ReverseSourceFieldProvider $reverseSourceFieldProvider,
-        private CategoryConfigurationRepository $categoryConfigurationRepository,
         private SourceFieldRepository $sourceFieldRepository,
-        private SourceFieldOptionRepository $sourceFieldOptionRepository,
-        private TranslatorInterface $translator,
         private ConfigurationManager $configurationManager,
         private iterable $availableFilterTypes,
     ) {
@@ -159,142 +152,35 @@ class AddAggregationsData implements ProcessorInterface
             $data['date_range_interval'] = $this->configurationManager->getScopedConfigValue('gally.search_settings.aggregations.default_date_range_interval');
         }
 
-        $this->formatOptions($aggregation, $sourceField, $containerConfig, $data);
+        if (null === $sourceField) {
+            $data['options'] = [];
+            $data['hasMore'] = false;
+
+            return $data;
+        }
+
+        $data['options'] = $containerConfig->getAggregationProvider()->formatAggregationOptions($aggregation, $sourceField, $containerConfig);
+        $data['hasMore'] = $this->hasMoreOptions($aggregation, $data['options']);
 
         return $data;
     }
 
-    private function formatOptions(AggregationInterface $aggregation, ?SourceField $sourceField, ContainerConfigurationInterface $containerConfig, array &$data)
+    /**
+     * True if the raw ES response was itself truncated (sum_other_doc_count bucket), or if the
+     * provider returned fewer options than there are non-empty raw buckets (e.g. app-side maxSize
+     * truncation for sort orders that must be applied on the full option set before slicing).
+     */
+    private function hasMoreOptions(AggregationInterface $aggregation, array $formattedOptions): bool
     {
-        if (!empty($aggregation->getValues())) {
-            $data['options'] = [];
-            $data['count'] = $aggregation->getCount();
-            $data['hasMore'] = false;
-        }
-        $facetConfig = $sourceField && $containerConfig->getAggregationProvider()->useFacetConfiguration() ? $this->facetConfigRepository->findOndBySourceField($sourceField) : null;
-        $labels = [];
-
-        if (Type::TYPE_CATEGORY === $sourceField->getType()) {
-            // Extract categories ids from aggregations options (with result) to hydrate labels from DB
-            $categoryIds = array_map(
-                fn ($item) => $item->getKey(),
-                array_filter($aggregation->getValues(), fn ($item) => $item->getCount())
-            );
-            $categories = $this->categoryConfigurationRepository->findBy(
-                ['category' => $categoryIds, 'localizedCatalog' => $containerConfig->getLocalizedCatalog()]
-            );
-            // Get the name of all categories in aggregation result
-            array_walk(
-                $categories,
-                function ($categoryConfig) use (&$labels) {
-                    $labels[$categoryConfig->getCategory()->getId()] = $categoryConfig->getName();
-                }
-            );
+        if (isset($aggregation->getValues()[AggregationBuilder::OTHER_DOCS_KEY])) {
+            return true;
         }
 
-        foreach ($aggregation->getValues() as $value) {
-            if ($value instanceof BucketValueInterface) {
-                $key = $value->getKey();
+        $rawOptionCount = \count(array_filter(
+            $aggregation->getValues(),
+            fn ($value) => $value instanceof BucketValueInterface && $value->getCount() > 0
+        ));
 
-                if (AggregationBuilder::OTHER_DOCS_KEY === $key) {
-                    $data['hasMore'] = true;
-                    continue;
-                }
-
-                if (0 === $value->getCount()) {
-                    continue;
-                }
-
-                if (Type::TYPE_LOCATION === $sourceField->getType()) {
-                    $code = $key; // TODO not sure if I should keep the 10-20 key format or only the "to" value (20)
-                    $label = $this->getDistanceRangeLabel($key, $containerConfig);
-                } elseif (\is_array($key)) {
-                    $code = $key[1];
-                    $label = 'None' !== $key[0] ? $key[0] : $key[1];
-                } else {
-                    $code = $key;
-                    $label = $labels[$key] ?? $key;
-                }
-
-                $data['options'][] = ['count' => $value->getCount(), 'value' => $code, 'label' => $label];
-            }
-        }
-
-        // Sort options according to option position.
-        if (
-            \in_array(
-                $facetConfig?->getSortOrder(),
-                [
-                    BucketInterface::SORT_ORDER_MANUAL,
-                    BucketInterface::SORT_ORDER_TERM_DESC,
-                    BucketInterface::SORT_ORDER_NATURAL_ASC,
-                    BucketInterface::SORT_ORDER_NATURAL_DESC,
-                ], true
-            )
-        ) {
-            $sourceFieldOptions = $this->sourceFieldOptionRepository->findBy(['sourceField' => $sourceField]);
-            $sourceFieldOptions = array_combine(
-                array_map(fn ($option) => $option->getCode(), $sourceFieldOptions),
-                $sourceFieldOptions
-            );
-            $options = $data['options'];
-            $callback = match ($facetConfig->getSortOrder()) {
-                BucketInterface::SORT_ORDER_MANUAL => function ($itemA, $itemB) use ($sourceFieldOptions) {
-                    $itemAPos = isset($sourceFieldOptions[$itemA['value']])
-                        ? $sourceFieldOptions[$itemA['value']]->getPosition()
-                        : 1;
-                    $itemBPos = isset($sourceFieldOptions[$itemB['value']])
-                        ? $sourceFieldOptions[$itemB['value']]->getPosition()
-                        : 1;
-
-                    return $itemAPos - $itemBPos;
-                },
-                BucketInterface::SORT_ORDER_TERM_DESC => function ($itemA, $itemB) {
-                    return strcmp($itemB['label'], $itemA['label']);
-                },
-                BucketInterface::SORT_ORDER_NATURAL_ASC => function ($itemA, $itemB) {
-                    return strnatcasecmp($itemA['label'], $itemB['label']);
-                },
-                BucketInterface::SORT_ORDER_NATURAL_DESC => function ($itemA, $itemB) {
-                    return strnatcasecmp($itemB['label'], $itemA['label']);
-                },
-            };
-            usort($options, $callback);
-
-            if (\count($options) > $facetConfig->getMaxSize()) {
-                $options = \array_slice($options, 0, $facetConfig->getMaxSize());
-                $data['hasMore'] = true;
-            }
-            $data['options'] = $options;
-        }
-    }
-
-    private function getDistanceRangeLabel(string $key, ContainerConfigurationInterface $containerConfig): string
-    {
-        $range = explode('-', $key);
-        $unit = $this->configurationManager->getScopedConfigValue('gally.search_settings.default_distance_unit');
-        if ('*' === $range[0]) {
-            return $this->translator->trans(
-                'search.distance_facet.option_to.label',
-                ['%distance' => $range[1], '%unit' => $unit],
-                'gally_search',
-                $containerConfig->getLocalizedCatalog()->getLocale()
-            );
-        }
-        if ('*' === $range[1]) {
-            return $this->translator->trans(
-                'search.distance_facet.option_from.label',
-                ['%distance' => $range[0], '%unit' => $unit],
-                'gally_search',
-                $containerConfig->getLocalizedCatalog()->getLocale()
-            );
-        }
-
-        return $this->translator->trans(
-            'search.distance_facet.option_fromto.label',
-            ['%distanceFrom' => $range[0], '%distanceTo' => $range[1], '%unit' => $unit],
-            'gally_search',
-            $containerConfig->getLocalizedCatalog()->getLocale()
-        );
+        return \count($formattedOptions) < $rawOptionCount;
     }
 }

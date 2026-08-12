@@ -14,15 +14,23 @@ declare(strict_types=1);
 
 namespace Gally\Search\Elasticsearch\Request\Aggregation\Provider;
 
+use Gally\Metadata\Entity\SourceField;
+use Gally\Search\Elasticsearch\Adapter\Common\Response\AggregationInterface;
 use Gally\Search\Elasticsearch\Request\BucketInterface;
 use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface;
 use Gally\Search\Elasticsearch\Request\QueryInterface;
+use Gally\Search\Service\AggregationOptionsFormatter;
 
 /**
  * Category count request aggregation resolver.
  */
 class CategoryCountAggregationProvider implements AggregationProviderInterface
 {
+    public function __construct(
+        private AggregationOptionsFormatter $aggregationOptionsFormatter,
+    ) {
+    }
+
     public function getAggregations(
         ContainerConfigurationInterface $containerConfig,
         QueryInterface|string|null $query = null,
@@ -38,8 +46,11 @@ class CategoryCountAggregationProvider implements AggregationProviderInterface
         ];
     }
 
-    public function useFacetConfiguration(): bool
-    {
-        return false;
+    public function formatAggregationOptions(
+        AggregationInterface $aggregation,
+        SourceField $sourceField,
+        ContainerConfigurationInterface $containerConfig,
+    ): array {
+        return $this->aggregationOptionsFormatter->format($aggregation, $sourceField, $containerConfig);
     }
 }
