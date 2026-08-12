@@ -17,9 +17,11 @@ namespace Gally\Search\Elasticsearch\Request\Aggregation\Provider;
 use Gally\Configuration\Service\ConfigurationManager;
 use Gally\Metadata\Entity\SourceField;
 use Gally\Metadata\Repository\SourceFieldRepository;
+use Gally\Search\Elasticsearch\Adapter\Common\Response\AggregationInterface;
 use Gally\Search\Elasticsearch\Request\Aggregation\ConfigResolver\FieldAggregationConfigResolverInterface;
 use Gally\Search\Elasticsearch\Request\BucketInterface;
 use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface;
+use Gally\Search\Service\AggregationOptionsFormatter;
 
 /**
  * Aggregations Provider based on source fields.
@@ -34,6 +36,7 @@ class AutocompleteSourceFields implements AggregationProviderInterface
         private SourceFieldRepository $sourceFieldRepository,
         private ConfigurationManager $configurationManager,
         private iterable $aggregationResolvers,
+        private AggregationOptionsFormatter $aggregationOptionsFormatter,
     ) {
     }
 
@@ -48,9 +51,12 @@ class AutocompleteSourceFields implements AggregationProviderInterface
         return $this->getAggregationsConfig($containerConfig, $sourceFields);
     }
 
-    public function useFacetConfiguration(): bool
-    {
-        return false;
+    public function formatAggregationOptions(
+        AggregationInterface $aggregation,
+        SourceField $sourceField,
+        ContainerConfigurationInterface $containerConfig,
+    ): array {
+        return $this->aggregationOptionsFormatter->format($aggregation, $sourceField, $containerConfig);
     }
 
     /**

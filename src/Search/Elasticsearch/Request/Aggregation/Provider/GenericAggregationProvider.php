@@ -14,13 +14,21 @@ declare(strict_types=1);
 
 namespace Gally\Search\Elasticsearch\Request\Aggregation\Provider;
 
+use Gally\Metadata\Entity\SourceField;
+use Gally\Search\Elasticsearch\Adapter\Common\Response\AggregationInterface;
 use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface;
+use Gally\Search\Service\AggregationOptionsFormatter;
 
 /**
  * Default Aggregations Provider for Search Requests.
  */
 class GenericAggregationProvider implements AggregationProviderInterface
 {
+    public function __construct(
+        private AggregationOptionsFormatter $aggregationOptionsFormatter,
+    ) {
+    }
+
     public function getAggregations(
         ContainerConfigurationInterface $containerConfig,
         $query = null,
@@ -30,8 +38,11 @@ class GenericAggregationProvider implements AggregationProviderInterface
         return [];
     }
 
-    public function useFacetConfiguration(): bool
-    {
-        return true;
+    public function formatAggregationOptions(
+        AggregationInterface $aggregation,
+        SourceField $sourceField,
+        ContainerConfigurationInterface $containerConfig,
+    ): array {
+        return $this->aggregationOptionsFormatter->format($aggregation, $sourceField, $containerConfig);
     }
 }

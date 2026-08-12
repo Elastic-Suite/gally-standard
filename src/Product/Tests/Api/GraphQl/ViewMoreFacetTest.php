@@ -17,6 +17,7 @@ namespace Gally\Product\Tests\Api\GraphQl;
 use Gally\Test\AbstractTestCase;
 use Gally\Test\ExpectedResponse;
 use Gally\Test\RequestGraphQlToTest;
+use Gally\User\Constant\Role;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
 class ViewMoreFacetTest extends AbstractTestCase
@@ -174,5 +175,44 @@ class ViewMoreFacetTest extends AbstractTestCase
                 'gre', // option search.
             ],
         ];
+    }
+
+    /**
+     * Test that viewMoreProductFacetOptions are sorted according to facet configuration sortOrder.
+     * This validates the fix for the bug where natural sort was not applied in viewMore mode.
+     */
+    public function testViewMoreProductFacetOptionsNaturalSort(): void
+    {
+        $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
+
+        // Test natural ascending sort on tags (configured with _natural_asc in fixtures)
+        $this->validateApiCall(
+            new RequestGraphQlToTest(
+                <<<GQL
+                    {
+                        viewMoreProductFacetOptions(localizedCatalog: "b2c_en", aggregation: "tags__value", filter: {}) {
+                            value
+                            label
+                            count
+                        }
+                    }
+                GQL,
+                $user
+            ),
+            new ExpectedResponse(
+                200,
+                function (ResponseInterface $response) {
+                    $responseData = $response->toArray();
+                    $options = $responseData['data']['viewMoreProductFacetOptions'];
+
+                    // Extract labels in order
+                    $labels = array_map(fn ($option) => $option['label'], $options);
+
+                    // With natural ascending sort, expected order is: 10, 20, 101, 111, 1011, 1012
+                    $expectedOrder = ['10', '20', '101', '111', '1011', '1012'];
+                    $this->assertEquals($expectedOrder, $labels, 'Product facet options should be sorted naturally in ascending order');
+                }
+            )
+        );
     }
 }

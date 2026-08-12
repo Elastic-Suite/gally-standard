@@ -14,6 +14,8 @@ declare(strict_types=1);
 
 namespace Gally\Product\Tests\AggregationProvider;
 
+use Gally\Metadata\Entity\SourceField;
+use Gally\Search\Elasticsearch\Adapter\Common\Response\AggregationInterface;
 use Gally\Search\Elasticsearch\Request\Aggregation\Provider\AggregationProviderInterface;
 use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface;
 
@@ -31,8 +33,11 @@ class DummyAggregationProvider implements AggregationProviderInterface
         return [];
     }
 
-    public function useFacetConfiguration(): bool
-    {
-        return true;
+    public function formatAggregationOptions(
+        AggregationInterface $aggregation,
+        SourceField $sourceField,
+        ContainerConfigurationInterface $containerConfig,
+    ): array {
+        return [];
     }
 }

@@ -19,9 +19,7 @@ use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\Pagination\PartialPaginatorInterface;
 use ApiPlatform\State\ProviderInterface;
 use Gally\Catalog\Repository\LocalizedCatalogRepository;
-use Gally\Category\Repository\CategoryConfigurationRepository;
 use Gally\Category\Service\CurrentCategoryProvider;
-use Gally\Metadata\Entity\SourceField\Type;
 use Gally\Metadata\Repository\MetadataRepository;
 use Gally\Metadata\Service\PriceGroupProvider;
 use Gally\Metadata\Service\ReferenceLocationProvider;
@@ -29,6 +27,7 @@ use Gally\Search\Elasticsearch\Adapter;
 use Gally\Search\Elasticsearch\Builder\Request\SimpleRequestBuilder;
 use Gally\Search\Elasticsearch\Request\Container\Configuration\ContainerConfigurationProvider;
 use Gally\Search\Entity\Facet\Option;
+use Gally\Search\Repository\Facet\ConfigurationRepository as FacetConfigurationRepository;
 use Gally\Search\Service\GraphQl\FilterManager;
 use Gally\Search\Service\ReverseSourceFieldProvider;
 use Gally\Search\Service\SearchContext;
@@ -45,13 +44,13 @@ class OptionProvider implements ProviderInterface
         protected FilterManager $filterManager,
         protected ViewMoreContext $viewMoreContext,
         protected ReverseSourceFieldProvider $reverseSourceFieldProvider,
-        protected CategoryConfigurationRepository $categoryConfigurationRepository,
         protected CurrentCategoryProvider $currentCategoryProvider,
         protected PriceGroupProvider $priceGroupProvider,
         protected ReferenceLocationProvider $referenceLocationProvider,
         protected SearchContext $searchContext,
         protected ProviderInterface $itemProvider,
         protected string $nestingSeparator,
+        protected FacetConfigurationRepository $facetConfigRepository,
     ) {
     }
 
@@ -103,48 +102,32 @@ class OptionProvider implements ProviderInterface
         );
         $response = $this->searchEngine->search($request);
 
+        $aggregation = $response->getAggregations()[$filterName] ?? null;
+
+        if (!$aggregation) {
+            return [];
+        }
+
+        // Set category/metadata context before using the provider (ConfigurationRepository is stateful).
+        $currentCategory = $this->currentCategoryProvider->getCurrentCategory();
+        $this->facetConfigRepository->setCategoryId($currentCategory?->getId());
+        $this->facetConfigRepository->setMetadata($containerConfig->getMetadata());
+
+        $formattedOptions = $containerConfig->getAggregationProvider()->formatAggregationOptions($aggregation, $sourceField, $containerConfig);
+
+        $optionSearch = $context['filters']['optionSearch'] ?? null;
+        $optionSearchLower = $optionSearch ? mb_strtolower($optionSearch) : null;
+
+        if ($optionSearchLower) {
+            $formattedOptions = array_filter(
+                $formattedOptions,
+                fn ($option) => str_contains(mb_strtolower($option['label']), $optionSearchLower)
+            );
+        }
+
         $options = [];
-
-        if (\array_key_exists($filterName, $response->getAggregations())) {
-            $labels = [];
-            if (Type::TYPE_CATEGORY === $sourceField->getType()) {
-                // Extract categories ids from aggregations options (with result) to hydrate labels from DB
-                $categoryIds = array_map(
-                    fn ($item) => $item->getKey(),
-                    array_filter($response->getAggregations()[$filterName]->getValues(), fn ($item) => $item->getCount())
-                );
-                $categories = $this->categoryConfigurationRepository->findBy(
-                    ['category' => $categoryIds, 'localizedCatalog' => $containerConfig->getLocalizedCatalog()]
-                );
-                // Get the name of all categories in aggregation result
-                array_walk(
-                    $categories,
-                    function ($categoryConfig) use (&$labels) {
-                        $labels[$categoryConfig->getCategory()->getId()] = $categoryConfig->getName();
-                    }
-                );
-            }
-
-            $optionSearch = $context['filters']['optionSearch'] ?? null;
-            $optionSearchLower = $optionSearch ? mb_strtolower($optionSearch) : null;
-
-            /** @var Adapter\Common\Response\BucketValueInterface $option */
-            foreach ($response->getAggregations()[$filterName]->getValues() as $option) {
-                if (0 === $option->getCount()) {
-                    continue;
-                }
-
-                $key = \is_array($option->getKey()) ? (string) $option->getKey()[1] : (string) $option->getKey();
-                $label = \is_array($option->getKey())
-                    ? (string) $option->getKey()[0]
-                    : ($labels[$option->getKey()] ?? (string) $option->getKey());
-
-                if ($optionSearchLower && !str_contains(mb_strtolower($label), $optionSearchLower)) {
-                    continue;
-                }
-
-                $options[] = new Option($key, $label, $option->getCount());
-            }
+        foreach ($formattedOptions as $optionData) {
+            $options[] = new Option((string) $optionData['value'], (string) $optionData['label'], $optionData['count']);
         }
 
         return $options;
