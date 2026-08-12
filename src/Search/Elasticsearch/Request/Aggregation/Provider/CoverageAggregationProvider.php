@@ -14,12 +14,15 @@ declare(strict_types=1);
 
 namespace Gally\Search\Elasticsearch\Request\Aggregation\Provider;
 
+use Gally\Metadata\Entity\SourceField;
 use Gally\Metadata\Entity\SourceField\Type;
 use Gally\Metadata\Service\MetadataSourceFieldProviderCache;
+use Gally\Search\Elasticsearch\Adapter\Common\Response\AggregationInterface;
 use Gally\Search\Elasticsearch\Request\BucketInterface;
 use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface;
 use Gally\Search\Elasticsearch\Request\QueryFactory;
 use Gally\Search\Elasticsearch\Request\QueryInterface;
+use Gally\Search\Service\AggregationOptionsFormatter;
 use Gally\Search\Service\SearchContext;
 use Gally\Search\Service\SearchSettingsProvider;
 
@@ -34,6 +37,7 @@ class CoverageAggregationProvider implements AggregationProviderInterface
         private SearchSettingsProvider $searchSettings,
         private SearchContext $searchContext,
         private MetadataSourceFieldProviderCache $metadataSourceFieldProviderCache,
+        private AggregationOptionsFormatter $aggregationOptionsFormatter,
     ) {
     }
 
@@ -85,8 +89,11 @@ class CoverageAggregationProvider implements AggregationProviderInterface
         ];
     }
 
-    public function useFacetConfiguration(): bool
-    {
-        return true;
+    public function formatAggregationOptions(
+        AggregationInterface $aggregation,
+        SourceField $sourceField,
+        ContainerConfigurationInterface $containerConfig,
+    ): array {
+        return $this->aggregationOptionsFormatter->format($aggregation, $sourceField, $containerConfig);
     }
 }

@@ -15,14 +15,19 @@ declare(strict_types=1);
 namespace Gally\Search\Elasticsearch\Request\Aggregation\Provider;
 
 use Gally\Cache\Service\CacheManagerInterface;
+use Gally\Metadata\Entity\SourceField;
+use Gally\Metadata\Repository\SourceFieldOptionRepository;
 use Gally\Metadata\Service\MetadataSourceFieldProviderCache;
+use Gally\Search\Elasticsearch\Adapter\Common\Response\AggregationInterface;
 use Gally\Search\Elasticsearch\Request\Aggregation\ConfigResolver\FieldAggregationConfigResolverInterface;
 use Gally\Search\Elasticsearch\Request\Aggregation\Modifier\ModifierInterface;
 use Gally\Search\Elasticsearch\Request\BucketInterface;
 use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface;
 use Gally\Search\Entity\Facet\Configuration;
 use Gally\Search\Repository\Facet\ConfigurationRepository;
+use Gally\Search\Service\AggregationOptionsFormatter;
 use Gally\Search\Service\SearchContext;
+use Gally\Search\Service\ViewMoreContext;
 
 /**
  * Aggregations Provider based on source fields.
@@ -42,7 +47,10 @@ class FilterableSourceFields implements AggregationProviderInterface
         private SearchContext $searchContext,
         private CacheManagerInterface $cacheManager,
         private iterable $aggregationResolvers,
-        private iterable $modifiersPool = [],
+        private iterable $modifiersPool,
+        private SourceFieldOptionRepository $sourceFieldOptionRepository,
+        private ViewMoreContext $viewMoreContext,
+        private AggregationOptionsFormatter $aggregationOptionsFormatter,
     ) {
     }
 
@@ -84,11 +92,6 @@ class FilterableSourceFields implements AggregationProviderInterface
         return $aggregations;
     }
 
-    public function useFacetConfiguration(): bool
-    {
-        return true;
-    }
-
     /**
      * Get aggregations config.
      *
@@ -124,16 +127,94 @@ class FilterableSourceFields implements AggregationProviderInterface
 
         $config['sortOrder'] = $facetConfig->getSortOrder();
         $config['booleanLogic'] = $facetConfig->getBooleanLogic();
-        $config['size'] = \in_array(
-            $facetConfig->getSortOrder(),
-            [
-                BucketInterface::SORT_ORDER_MANUAL,
-                BucketInterface::SORT_ORDER_TERM_DESC,
-                BucketInterface::SORT_ORDER_NATURAL_ASC,
-                BucketInterface::SORT_ORDER_NATURAL_DESC,
-            ], true
-        ) ? 0 : $facetConfig->getMaxSize();
+        // Manual/natural/term_desc sort orders are applied app-side on the full option set,
+        // so the ES query must not pre-truncate by count before that sort runs.
+        $config['size'] = \in_array($facetConfig->getSortOrder(), [
+            BucketInterface::SORT_ORDER_MANUAL,
+            BucketInterface::SORT_ORDER_TERM_DESC,
+            BucketInterface::SORT_ORDER_NATURAL_ASC,
+            BucketInterface::SORT_ORDER_NATURAL_DESC,
+        ], true) ? 0 : $facetConfig->getMaxSize();
 
         return $config;
+    }
+
+    /**
+     * Format aggregation response data for API output.
+     * Handles option building, category label fetching and sorting.
+     */
+    public function formatAggregationOptions(
+        AggregationInterface $aggregation,
+        SourceField $sourceField,
+        ContainerConfigurationInterface $containerConfig,
+    ): array {
+        $options = $this->aggregationOptionsFormatter->format($aggregation, $sourceField, $containerConfig);
+
+        if (empty($options)) {
+            return $options;
+        }
+
+        $this->facetConfigRepository->setMetadata($containerConfig->getMetadata());
+        $facetConfig = $this->facetConfigRepository->findOndBySourceField($sourceField);
+
+        return $this->applySortAndMaxSize($options, $facetConfig, $sourceField);
+    }
+
+    /**
+     * Apply sorting and maxSize limit to aggregation options.
+     */
+    private function applySortAndMaxSize(array $options, ?Configuration $facetConfig, SourceField $sourceField): array
+    {
+        if (null === $facetConfig || empty($options)) {
+            return $options;
+        }
+
+        $sortOrder = $facetConfig->getSortOrder();
+
+        // Only apply sorting for specific sort orders
+        if (\in_array($sortOrder, [
+            BucketInterface::SORT_ORDER_MANUAL,
+            BucketInterface::SORT_ORDER_TERM_DESC,
+            BucketInterface::SORT_ORDER_NATURAL_ASC,
+            BucketInterface::SORT_ORDER_NATURAL_DESC,
+        ], true)) {
+            $sourceFieldOptions = $this->sourceFieldOptionRepository->findBy(['sourceField' => $sourceField]);
+            $sourceFieldOptionsByCode = array_combine(
+                array_map(fn ($option) => $option->getCode(), $sourceFieldOptions),
+                $sourceFieldOptions
+            );
+
+            $callback = match ($sortOrder) {
+                BucketInterface::SORT_ORDER_MANUAL => function ($itemA, $itemB) use ($sourceFieldOptionsByCode) {
+                    $itemAPos = isset($sourceFieldOptionsByCode[$itemA['value']])
+                        ? $sourceFieldOptionsByCode[$itemA['value']]->getPosition()
+                        : 1;
+                    $itemBPos = isset($sourceFieldOptionsByCode[$itemB['value']])
+                        ? $sourceFieldOptionsByCode[$itemB['value']]->getPosition()
+                        : 1;
+
+                    return $itemAPos - $itemBPos;
+                },
+                BucketInterface::SORT_ORDER_TERM_DESC => function ($itemA, $itemB) {
+                    return strcmp($itemB['label'], $itemA['label']);
+                },
+                BucketInterface::SORT_ORDER_NATURAL_ASC => function ($itemA, $itemB) {
+                    return strnatcasecmp($itemA['label'], $itemB['label']);
+                },
+                BucketInterface::SORT_ORDER_NATURAL_DESC => function ($itemA, $itemB) {
+                    return strnatcasecmp($itemB['label'], $itemA['label']);
+                },
+            };
+
+            usort($options, $callback);
+        }
+
+        // Apply maxSize limit (skip in viewMore mode)
+        $maxSize = $facetConfig->getMaxSize();
+        if (!$this->viewMoreContext->getFilterName() && $maxSize > 0 && \count($options) > $maxSize) {
+            $options = \array_slice($options, 0, $maxSize);
+        }
+
+        return $options;
     }
 }
