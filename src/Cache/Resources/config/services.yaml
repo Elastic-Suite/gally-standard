@@ -3,11 +3,11 @@ services:
     Gally\Cache\Service\CacheManager:
         arguments:
             - '@gally.cache'
-            - '@?ApiPlatform\Core\HttpCache\PurgerInterface'
+            - '@?ApiPlatform\HttpCache\PurgerInterface'
         tags:
             - { name: kernel.cache_clearer }
 
-    ApiPlatform\Core\HttpCache\PurgerInterface: '@api_platform.http_cache.purger.varnish'
+    ApiPlatform\HttpCache\PurgerInterface: '@api_platform.http_cache.purger.varnish'
 
     gally.cache:
         parent: cache.app.taggable

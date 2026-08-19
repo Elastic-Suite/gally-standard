@@ -34,7 +34,7 @@ use Gally\Job\Entity\Job\File;
 use Gally\Job\Entity\Job\Log;
 use Gally\User\Constant\Role;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
-use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ApiResource(
     operations: [
