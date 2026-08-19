@@ -1,5 +1,6 @@
 Gally\Metadata\Entity\SourceField:
     product_name:
+        id: 900016
         metadata: '@product'
         code: 'name'
         type: 'text'
@@ -10,6 +11,7 @@ Gally\Metadata\Entity\SourceField:
         isSpellchecked: false
         isUsedForRules: false
     category_name:
+        id: 900014
         metadata: '@category'
         code: 'name'
         type: 'text'
@@ -20,9 +22,11 @@ Gally\Metadata\Entity\SourceField:
         isSpellchecked: false
         isUsedForRules: false
     category_description:
+        id: 900017
         metadata: '@category'
         code: 'description'
     product_id:
+        id: 900010
         metadata: '@product'
         code: 'id'
         type: 'reference'
@@ -30,45 +34,53 @@ Gally\Metadata\Entity\SourceField:
         isSystem: true
         isSortable: true
     product_sku:
+        id: 900011
         metadata: '@product'
         code: 'sku'
         type: 'reference'
         defaultSearchAnalyzer: 'reference'
         isSystem: true
     product_price:
+        id: 900015
         metadata: '@product'
         code: 'price'
         type: 'price'
         isSystem: true
     product_stock_status:
+        id: 900018
         metadata: '@product'
         code: 'stock.status'
         defaultLabel: 'Stock status'
         type: 'int'
         isSystem: true
     product_stock_qty:
+        id: 900019
         metadata: '@product'
         code: 'stock.qty'
         defaultLabel: 'Stock quantity'
         type: 'float'
         isSystem: true
     product_brand:
+        id: 900012
         metadata: '@product'
         code: 'brand'
         type: 'select'
     product_category:
+        id: 900020
         metadata: '@product'
         code: 'category'
         type: 'category'
         isFilterable: false
         isSortable: false
     product_flag:
+        id: 900021
         metadata: '@product'
         code: 'flag'
         type: 'text'
         isFilterable: false
         isSortable: false
     product_material:
+        id: 900013
         metadata: '@product'
         code: 'material'
         type: 'select'

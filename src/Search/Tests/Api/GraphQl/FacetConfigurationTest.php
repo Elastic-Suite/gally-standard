@@ -170,9 +170,9 @@ class FacetConfigurationTest extends RestFacetConfigurationTest
         $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
 
         return [
-            [null, '45-0', ['id' => $this->getUri('facet_configurations', '45-0')], 401, 'Access Denied.'],
-            [$user, '45-0', ['id' => $this->getUri('facet_configurations', '45-0')], 200],
-            [$this->getUser(Role::ROLE_ADMIN), '45-0', ['id' => $this->getUri('facet_configurations', '45-0')], 200],
+            [null, self::PRODUCT_BRAND_SOURCE_FIELD_ID . '-0', ['id' => $this->getUri('facet_configurations', self::PRODUCT_BRAND_SOURCE_FIELD_ID . '-0')], 401, 'Access Denied.'],
+            [$user, self::PRODUCT_BRAND_SOURCE_FIELD_ID . '-0', ['id' => $this->getUri('facet_configurations', self::PRODUCT_BRAND_SOURCE_FIELD_ID . '-0')], 200],
+            [$this->getUser(Role::ROLE_ADMIN), self::PRODUCT_BRAND_SOURCE_FIELD_ID . '-0', ['id' => $this->getUri('facet_configurations', self::PRODUCT_BRAND_SOURCE_FIELD_ID . '-0')], 200],
         ];
     }
 

@@ -20,6 +20,10 @@ use Gally\User\Constant\Role;
 
 class SourceFieldLabelTest extends AbstractEntityTestWithUpdate
 {
+    private const CATEGORY_NAME_SOURCE_FIELD_ID = 900014;
+    private const PRODUCT_PRICE_SOURCE_FIELD_ID = 900015;
+    private const PRODUCT_BRAND_SOURCE_FIELD_ID = 900012;
+
     protected static function getFixtureFiles(): array
     {
         return [
@@ -40,27 +44,27 @@ class SourceFieldLabelTest extends AbstractEntityTestWithUpdate
         $adminUser = $this->getUser(Role::ROLE_ADMIN);
 
         return [
-            [null, ['localizedCatalog' => $this->getUri('localized_catalogs', '1'), 'sourceField' => $this->getUri('source_fields', '48'), 'label' => 'Prix'], 401],
-            [$this->getUser(Role::ROLE_CONTRIBUTOR), ['localizedCatalog' => $this->getUri('localized_catalogs', '1'), 'sourceField' => $this->getUri('source_fields', '48'), 'label' => 'Prix'], 403],
-            [$adminUser, ['localizedCatalog' => $this->getUri('localized_catalogs', '1'), 'sourceField' => $this->getUri('source_fields', '48'), 'label' => 'Prix'], 201],
-            [$adminUser, ['localizedCatalog' => $this->getUri('localized_catalogs', '2'), 'sourceField' => $this->getUri('source_fields', '48'), 'label' => 'Price'], 201],
-            [$adminUser, ['localizedCatalog' => $this->getUri('localized_catalogs', '1'), 'sourceField' => $this->getUri('source_fields', '44'), 'label' => 'Nom'], 201],
-            [$adminUser, ['localizedCatalog' => $this->getUri('localized_catalogs', '2'), 'sourceField' => $this->getUri('source_fields', '44'), 'label' => 'Name'], 201],
+            [null, ['localizedCatalog' => $this->getUri('localized_catalogs', '1'), 'sourceField' => $this->getUri('source_fields', (string) self::PRODUCT_PRICE_SOURCE_FIELD_ID), 'label' => 'Prix'], 401],
+            [$this->getUser(Role::ROLE_CONTRIBUTOR), ['localizedCatalog' => $this->getUri('localized_catalogs', '1'), 'sourceField' => $this->getUri('source_fields', (string) self::PRODUCT_PRICE_SOURCE_FIELD_ID), 'label' => 'Prix'], 403],
+            [$adminUser, ['localizedCatalog' => $this->getUri('localized_catalogs', '1'), 'sourceField' => $this->getUri('source_fields', (string) self::PRODUCT_PRICE_SOURCE_FIELD_ID), 'label' => 'Prix'], 201],
+            [$adminUser, ['localizedCatalog' => $this->getUri('localized_catalogs', '2'), 'sourceField' => $this->getUri('source_fields', (string) self::PRODUCT_PRICE_SOURCE_FIELD_ID), 'label' => 'Price'], 201],
+            [$adminUser, ['localizedCatalog' => $this->getUri('localized_catalogs', '1'), 'sourceField' => $this->getUri('source_fields', (string) self::CATEGORY_NAME_SOURCE_FIELD_ID), 'label' => 'Nom'], 201],
+            [$adminUser, ['localizedCatalog' => $this->getUri('localized_catalogs', '2'), 'sourceField' => $this->getUri('source_fields', (string) self::CATEGORY_NAME_SOURCE_FIELD_ID), 'label' => 'Name'], 201],
             [
                 $adminUser,
-                ['localizedCatalog' => $this->getUri('localized_catalogs', '1'), 'sourceField' => $this->getUri('source_fields', '51')],
+                ['localizedCatalog' => $this->getUri('localized_catalogs', '1'), 'sourceField' => $this->getUri('source_fields', (string) self::PRODUCT_BRAND_SOURCE_FIELD_ID)],
                 422,
                 'label: This value should not be blank.',
             ],
             [
                 $adminUser,
-                ['localizedCatalog' => $this->getUri('localized_catalogs', '1'), 'sourceField' => $this->getUri('source_fields', '44'), 'label' => 'Titre'],
+                ['localizedCatalog' => $this->getUri('localized_catalogs', '1'), 'sourceField' => $this->getUri('source_fields', (string) self::CATEGORY_NAME_SOURCE_FIELD_ID), 'label' => 'Titre'],
                 422,
                 'sourceField: A label is already defined for this field and this localized catalog.',
             ],
             [
                 $adminUser,
-                ['sourceField' => $this->getUri('source_fields', '51'), 'label' => 'Marque'],
+                ['sourceField' => $this->getUri('source_fields', (string) self::PRODUCT_BRAND_SOURCE_FIELD_ID), 'label' => 'Marque'],
                 422,
                 'localizedCatalog: This value should not be blank.',
             ],
@@ -72,7 +76,7 @@ class SourceFieldLabelTest extends AbstractEntityTestWithUpdate
             ],
             [
                 $adminUser,
-                ['localizedCatalog' => $this->getUri('localized_catalogs', 'NotExist'), 'sourceField' => $this->getUri('source_fields', '51'), 'label' => 'Marque'],
+                ['localizedCatalog' => $this->getUri('localized_catalogs', 'NotExist'), 'sourceField' => $this->getUri('source_fields', (string) self::PRODUCT_BRAND_SOURCE_FIELD_ID), 'label' => 'Marque'],
                 400,
                 'Item not found for "' . $this->getUri('localized_catalogs', 'NotExist') . '".',
             ],
