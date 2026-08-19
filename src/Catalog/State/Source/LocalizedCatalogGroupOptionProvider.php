@@ -34,7 +34,7 @@ class LocalizedCatalogGroupOptionProvider implements ProviderInterface
     public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null
     {
         $keyToGet = $context['args']['keyToGetOnValue']
-            ?? (isset($context['request']) ? $context['request']->get('keyToGetOnValue') : null);
+            ?? (isset($context['request']) ? $context['request']->query->get('keyToGetOnValue') : null);
         $groupOptions = [];
         foreach ($this->catalogRepository->findAll() as $catalog) {
             $groupOption['value'] = $groupOption['id'] = $catalog->getCode();

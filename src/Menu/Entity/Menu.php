@@ -42,8 +42,8 @@ use Gally\User\Constant\Role;
             args: []
         ),
     ],
-    paginationEnabled: false)
-]
+    paginationEnabled: false
+)]
 class Menu
 {
     #[ApiProperty(identifier: true)]

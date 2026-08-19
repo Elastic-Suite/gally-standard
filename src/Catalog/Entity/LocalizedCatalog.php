@@ -30,7 +30,7 @@ use Gally\Catalog\State\LocalizedCatalogProcessor;
 use Gally\User\Constant\Role;
 use Symfony\Component\Intl\Exception\MissingResourceException;
 use Symfony\Component\Intl\Locales;
-use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ApiResource(
     operations: [

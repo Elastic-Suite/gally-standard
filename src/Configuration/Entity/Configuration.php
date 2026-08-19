@@ -31,7 +31,7 @@ use Gally\Doctrine\Filter\SearchFilter;
 use Gally\Doctrine\Filter\VirtualSearchFilter;
 use Gally\Metadata\Operation\Bulk;
 use Gally\User\Constant\Role;
-use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Serializer\Attribute\SerializedName;
 
 #[ApiResource(

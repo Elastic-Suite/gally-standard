@@ -23,7 +23,7 @@ use ApiPlatform\OpenApi\Model;
 use Doctrine\ORM\Mapping as ORM;
 use Gally\User\Constant\Role;
 use Symfony\Component\HttpFoundation\File\File as SfFile;
-use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Attribute\Groups;
 use Vich\UploaderBundle\Mapping\Attribute as Vich;
 
 #[Vich\Uploadable]
