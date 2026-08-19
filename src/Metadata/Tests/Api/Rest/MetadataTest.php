@@ -20,6 +20,11 @@ use Gally\User\Constant\Role;
 
 class MetadataTest extends AbstractEntityTestWithUpdate
 {
+    private const PRODUCT_METADATA_ID = 900030;
+    private const CATEGORY_METADATA_ID = 5;
+    private const TRACKING_EVENT_METADATA_ID = 6;
+    private const ARTICLE_METADATA_ID = 7;
+
     protected static function getFixtureFiles(): array
     {
         return [__DIR__ . '/../../fixtures/metadata.yaml'];
@@ -50,13 +55,13 @@ class MetadataTest extends AbstractEntityTestWithUpdate
         $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
 
         return [
-            [null, 4, ['id' => 4, 'entity' => 'product'], 401],
-            [$this->getUser(Role::ROLE_ADMIN), 4, ['id' => 4, 'entity' => 'product', 'isSystem' => true, 'isInternal' => false], 200],
-            [$user, 4, ['id' => 4, 'entity' => 'product', 'isSystem' => true, 'isInternal' => false], 200],
-            [$user, 5, ['id' => 5, 'entity' => 'category', 'isSystem' => true, 'isInternal' => false], 200],
-            [$user, 6, ['id' => 6, 'entity' => 'tracking_event', 'isSystem' => true, 'isInternal' => true], 200],
-            [$user, 7, ['id' => 7, 'entity' => 'article', 'isSystem' => false, 'isInternal' => false], 200],
-            [$user, 9, [], 404],
+            [null, self::PRODUCT_METADATA_ID, ['id' => self::PRODUCT_METADATA_ID, 'entity' => 'product'], 401],
+            [$this->getUser(Role::ROLE_ADMIN), self::PRODUCT_METADATA_ID, ['id' => self::PRODUCT_METADATA_ID, 'entity' => 'product', 'isSystem' => true, 'isInternal' => false], 200],
+            [$user, self::PRODUCT_METADATA_ID, ['id' => self::PRODUCT_METADATA_ID, 'entity' => 'product', 'isSystem' => true, 'isInternal' => false], 200],
+            [$user, self::CATEGORY_METADATA_ID, ['id' => self::CATEGORY_METADATA_ID, 'entity' => 'category', 'isSystem' => true, 'isInternal' => false], 200],
+            [$user, self::TRACKING_EVENT_METADATA_ID, ['id' => self::TRACKING_EVENT_METADATA_ID, 'entity' => 'tracking_event', 'isSystem' => true, 'isInternal' => true], 200],
+            [$user, self::ARTICLE_METADATA_ID, ['id' => self::ARTICLE_METADATA_ID, 'entity' => 'article', 'isSystem' => false, 'isInternal' => false], 200],
+            [$user, 999999, [], 404],
         ];
     }
 
@@ -65,11 +70,11 @@ class MetadataTest extends AbstractEntityTestWithUpdate
         $adminUser = $this->getUser(Role::ROLE_ADMIN);
 
         return [
-            [null, 4, 401],
-            [$this->getUser(Role::ROLE_CONTRIBUTOR), 4, 403],
-            [$adminUser, 4, 400], // Can't remove system metadata
-            [$adminUser, 7, 204],
-            [$adminUser, 9, 404],
+            [null, self::PRODUCT_METADATA_ID, 401],
+            [$this->getUser(Role::ROLE_CONTRIBUTOR), self::PRODUCT_METADATA_ID, 403],
+            [$adminUser, self::PRODUCT_METADATA_ID, 400], // Can't remove system metadata
+            [$adminUser, self::ARTICLE_METADATA_ID, 204],
+            [$adminUser, 999999, 404],
         ];
     }
 
@@ -85,18 +90,18 @@ class MetadataTest extends AbstractEntityTestWithUpdate
     public function patchUpdateDataProvider(): iterable
     {
         return [
-            [null, 5, ['entity' => 'article PATCH'], 401],
-            [$this->getUser(Role::ROLE_CONTRIBUTOR), 5, ['entity' => 'article PATCH'], 403],
-            [$this->getUser(Role::ROLE_ADMIN), 5, ['entity' => 'article PATCH'], 200],
+            [null, self::CATEGORY_METADATA_ID, ['entity' => 'article PATCH'], 401],
+            [$this->getUser(Role::ROLE_CONTRIBUTOR), self::CATEGORY_METADATA_ID, ['entity' => 'article PATCH'], 403],
+            [$this->getUser(Role::ROLE_ADMIN), self::CATEGORY_METADATA_ID, ['entity' => 'article PATCH'], 200],
         ];
     }
 
     public function putUpdateDataProvider(): iterable
     {
         return [
-            [null, 5, ['entity' => 'article PUT'], 401],
-            [$this->getUser(Role::ROLE_CONTRIBUTOR), 5, ['entity' => 'article PUT'], 403],
-            [$this->getUser(Role::ROLE_ADMIN), 5, ['entity' => 'article PUT'], 200],
+            [null, self::CATEGORY_METADATA_ID, ['entity' => 'article PUT'], 401],
+            [$this->getUser(Role::ROLE_CONTRIBUTOR), self::CATEGORY_METADATA_ID, ['entity' => 'article PUT'], 403],
+            [$this->getUser(Role::ROLE_ADMIN), self::CATEGORY_METADATA_ID, ['entity' => 'article PUT'], 200],
         ];
     }
 }

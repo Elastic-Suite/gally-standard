@@ -1,5 +1,6 @@
 Gally\Metadata\Entity\SourceField:
     product_name:
+        id: 900040
         metadata: '@product'
         code: 'name'
         type: 'text'
@@ -21,6 +22,7 @@ Gally\Metadata\Entity\SourceField:
         isSpellchecked: false
         isUsedForRules: false
     product_brand:
+        id: 900041
         metadata: '@product'
         code: 'brand'
         type: 'select'
@@ -29,6 +31,7 @@ Gally\Metadata\Entity\SourceField:
         isSpellchecked: true
         weight: 5
     product_color:
+        id: 900042
         metadata: '@product'
         code: 'color'
         type: 'select'
@@ -38,22 +41,26 @@ Gally\Metadata\Entity\SourceField:
         weight: 5
         isUsedInAutocomplete: true
     product_category:
+        id: 900043
         metadata: '@product'
         code: 'category'
         type: 'category'
         isFilterable: true
         isUsedInAutocomplete: true
     product_length:
+        id: 900044
         metadata: '@product'
         code: 'length'
         type: 'int'
         isFilterable: true
     product_size:
+        id: 900045
         metadata: '@product'
         code: 'size'
         type: 'int'
         isFilterable: true
     product_weight:
+        id: 900046
         metadata: '@product'
         code: 'weight'
         type: 'int'
@@ -92,12 +99,14 @@ Gally\Metadata\Entity\SourceField:
         code: 'price.is_discounted'
         type: 'boolean'
     product_is_eco_friendly:
+        id: 900047
         metadata: '@product'
         code: 'is_eco_friendly'
         type: 'boolean'
         isFilterable: true
         isUsedInAutocomplete: true
     product_created_at:
+        id: 900048
         metadata: '@product'
         code: 'created_at'
         type: 'date'
@@ -129,6 +138,7 @@ Gally\Metadata\Entity\SourceField:
         type: 'int'
         isSystem: true
     product_color_full:
+        id: 900049
         metadata: '@product'
         code: 'color_full'
         type: 'select'
@@ -137,6 +147,7 @@ Gally\Metadata\Entity\SourceField:
         isSpellchecked: false
         weight: 5
     product_manufacture_location:
+        id: 900050
         metadata: '@product'
         code: 'manufacture_location'
         type: 'location'
@@ -156,6 +167,7 @@ Gally\Metadata\Entity\SourceField:
         isSortable: false
         isUsedForRules: false
     product_tags:
+        id: 900051
         metadata: '@product'
         code: tags
         type: select

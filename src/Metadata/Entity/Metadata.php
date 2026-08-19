@@ -85,6 +85,13 @@ class Metadata
         return $this->id;
     }
 
+    public function setId(int $id): self
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
     public function getEntity(): ?string
     {
         return $this->entity;
