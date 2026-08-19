@@ -24,6 +24,20 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
 
 class FacetConfigurationTest extends AbstractTestCase
 {
+    protected const PRODUCT_BRAND_SOURCE_FIELD_ID = 900041;
+    private const PRODUCT_COLOR_SOURCE_FIELD_ID = 900042;
+    private const PRODUCT_CATEGORY_SOURCE_FIELD_ID = 900043;
+    private const PRODUCT_LENGTH_SOURCE_FIELD_ID = 900044;
+    private const PRODUCT_SIZE_SOURCE_FIELD_ID = 900045;
+    private const PRODUCT_WEIGHT_SOURCE_FIELD_ID = 900046;
+    private const PRODUCT_IS_ECO_FRIENDLY_SOURCE_FIELD_ID = 900047;
+    private const PRODUCT_CREATED_AT_SOURCE_FIELD_ID = 900048;
+    private const PRODUCT_COLOR_FULL_SOURCE_FIELD_ID = 900049;
+    private const PRODUCT_MANUFACTURE_LOCATION_SOURCE_FIELD_ID = 900050;
+    private const PRODUCT_TAGS_SOURCE_FIELD_ID = 900051;
+
+    private const CATEGORY_NAME_SOURCE_FIELD_ID = 65;
+
     public static function setUpBeforeClass(): void
     {
         static::loadFixture([
@@ -57,18 +71,18 @@ class FacetConfigurationTest extends AbstractTestCase
                 null,
                 null,
                 [
-                    ['sourceField' => 44, 'sourceFieldLabel' => 'Name', 'sourceFieldCode' => 'name'],
-                    ['sourceField' => 45, 'sourceFieldLabel' => 'Brand', 'sourceFieldCode' => 'brand'],
-                    ['sourceField' => 46, 'sourceFieldLabel' => 'Color', 'sourceFieldCode' => 'color'],
-                    ['sourceField' => 47, 'sourceFieldLabel' => 'Category', 'sourceFieldCode' => 'category'],
-                    ['sourceField' => 48, 'sourceFieldLabel' => 'Length', 'sourceFieldCode' => 'length'],
-                    ['sourceField' => 49, 'sourceFieldLabel' => 'Size', 'sourceFieldCode' => 'size'],
-                    ['sourceField' => 50, 'sourceFieldLabel' => 'Weight', 'sourceFieldCode' => 'weight'],
-                    ['sourceField' => 57, 'sourceFieldLabel' => 'Is_eco_friendly', 'sourceFieldCode' => 'is_eco_friendly'],
-                    ['sourceField' => 58, 'sourceFieldLabel' => 'Created_at', 'sourceFieldCode' => 'created_at'],
-                    ['sourceField' => 62, 'sourceFieldLabel' => 'Color_full', 'sourceFieldCode' => 'color_full'],
-                    ['sourceField' => 63, 'sourceFieldLabel' => 'Manufacture_location', 'sourceFieldCode' => 'manufacture_location'],
-                    ['sourceField' => 65, 'sourceFieldLabel' => 'Tags', 'sourceFieldCode' => 'tags'],
+                    ['sourceField' => self::CATEGORY_NAME_SOURCE_FIELD_ID, 'sourceFieldLabel' => 'Name', 'sourceFieldCode' => 'name'],
+                    ['sourceField' => self::PRODUCT_BRAND_SOURCE_FIELD_ID, 'sourceFieldLabel' => 'Brand', 'sourceFieldCode' => 'brand'],
+                    ['sourceField' => self::PRODUCT_COLOR_SOURCE_FIELD_ID, 'sourceFieldLabel' => 'Color', 'sourceFieldCode' => 'color'],
+                    ['sourceField' => self::PRODUCT_CATEGORY_SOURCE_FIELD_ID, 'sourceFieldLabel' => 'Category', 'sourceFieldCode' => 'category'],
+                    ['sourceField' => self::PRODUCT_LENGTH_SOURCE_FIELD_ID, 'sourceFieldLabel' => 'Length', 'sourceFieldCode' => 'length'],
+                    ['sourceField' => self::PRODUCT_SIZE_SOURCE_FIELD_ID, 'sourceFieldLabel' => 'Size', 'sourceFieldCode' => 'size'],
+                    ['sourceField' => self::PRODUCT_WEIGHT_SOURCE_FIELD_ID, 'sourceFieldLabel' => 'Weight', 'sourceFieldCode' => 'weight'],
+                    ['sourceField' => self::PRODUCT_IS_ECO_FRIENDLY_SOURCE_FIELD_ID, 'sourceFieldLabel' => 'Is_eco_friendly', 'sourceFieldCode' => 'is_eco_friendly'],
+                    ['sourceField' => self::PRODUCT_CREATED_AT_SOURCE_FIELD_ID, 'sourceFieldLabel' => 'Created_at', 'sourceFieldCode' => 'created_at'],
+                    ['sourceField' => self::PRODUCT_COLOR_FULL_SOURCE_FIELD_ID, 'sourceFieldLabel' => 'Color_full', 'sourceFieldCode' => 'color_full'],
+                    ['sourceField' => self::PRODUCT_MANUFACTURE_LOCATION_SOURCE_FIELD_ID, 'sourceFieldLabel' => 'Manufacture_location', 'sourceFieldCode' => 'manufacture_location'],
+                    ['sourceField' => self::PRODUCT_TAGS_SOURCE_FIELD_ID, 'sourceFieldLabel' => 'Tags', 'sourceFieldCode' => 'tags'],
                 ],
                 200,
             ],
@@ -77,18 +91,18 @@ class FacetConfigurationTest extends AbstractTestCase
                 null,
                 'cat_1',
                 [
-                    ['sourceField' => 44, 'category' => 'cat_1', 'sourceFieldLabel' => 'Name', 'sourceFieldCode' => 'name'],
-                    ['sourceField' => 45, 'category' => 'cat_1', 'sourceFieldLabel' => 'Brand', 'sourceFieldCode' => 'brand'],
-                    ['sourceField' => 46, 'category' => 'cat_1', 'sourceFieldLabel' => 'Color', 'sourceFieldCode' => 'color'],
-                    ['sourceField' => 47, 'category' => 'cat_1', 'sourceFieldLabel' => 'Category', 'sourceFieldCode' => 'category'],
-                    ['sourceField' => 48, 'category' => 'cat_1', 'sourceFieldLabel' => 'Length', 'sourceFieldCode' => 'length'],
-                    ['sourceField' => 49, 'category' => 'cat_1', 'sourceFieldLabel' => 'Size', 'sourceFieldCode' => 'size'],
-                    ['sourceField' => 50, 'category' => 'cat_1', 'sourceFieldLabel' => 'Weight', 'sourceFieldCode' => 'weight'],
-                    ['sourceField' => 57, 'category' => 'cat_1', 'sourceFieldLabel' => 'Is_eco_friendly', 'sourceFieldCode' => 'is_eco_friendly'],
-                    ['sourceField' => 58, 'category' => 'cat_1', 'sourceFieldLabel' => 'Created_at', 'sourceFieldCode' => 'created_at'],
-                    ['sourceField' => 62, 'category' => 'cat_1', 'sourceFieldLabel' => 'Color_full', 'sourceFieldCode' => 'color_full'],
-                    ['sourceField' => 63, 'category' => 'cat_1', 'sourceFieldLabel' => 'Manufacture_location', 'sourceFieldCode' => 'manufacture_location'],
-                    ['sourceField' => 65, 'category' => 'cat_1', 'sourceFieldLabel' => 'Tags', 'sourceFieldCode' => 'tags'],
+                    ['sourceField' => self::CATEGORY_NAME_SOURCE_FIELD_ID, 'category' => 'cat_1', 'sourceFieldLabel' => 'Name', 'sourceFieldCode' => 'name'],
+                    ['sourceField' => self::PRODUCT_BRAND_SOURCE_FIELD_ID, 'category' => 'cat_1', 'sourceFieldLabel' => 'Brand', 'sourceFieldCode' => 'brand'],
+                    ['sourceField' => self::PRODUCT_COLOR_SOURCE_FIELD_ID, 'category' => 'cat_1', 'sourceFieldLabel' => 'Color', 'sourceFieldCode' => 'color'],
+                    ['sourceField' => self::PRODUCT_CATEGORY_SOURCE_FIELD_ID, 'category' => 'cat_1', 'sourceFieldLabel' => 'Category', 'sourceFieldCode' => 'category'],
+                    ['sourceField' => self::PRODUCT_LENGTH_SOURCE_FIELD_ID, 'category' => 'cat_1', 'sourceFieldLabel' => 'Length', 'sourceFieldCode' => 'length'],
+                    ['sourceField' => self::PRODUCT_SIZE_SOURCE_FIELD_ID, 'category' => 'cat_1', 'sourceFieldLabel' => 'Size', 'sourceFieldCode' => 'size'],
+                    ['sourceField' => self::PRODUCT_WEIGHT_SOURCE_FIELD_ID, 'category' => 'cat_1', 'sourceFieldLabel' => 'Weight', 'sourceFieldCode' => 'weight'],
+                    ['sourceField' => self::PRODUCT_IS_ECO_FRIENDLY_SOURCE_FIELD_ID, 'category' => 'cat_1', 'sourceFieldLabel' => 'Is_eco_friendly', 'sourceFieldCode' => 'is_eco_friendly'],
+                    ['sourceField' => self::PRODUCT_CREATED_AT_SOURCE_FIELD_ID, 'category' => 'cat_1', 'sourceFieldLabel' => 'Created_at', 'sourceFieldCode' => 'created_at'],
+                    ['sourceField' => self::PRODUCT_COLOR_FULL_SOURCE_FIELD_ID, 'category' => 'cat_1', 'sourceFieldLabel' => 'Color_full', 'sourceFieldCode' => 'color_full'],
+                    ['sourceField' => self::PRODUCT_MANUFACTURE_LOCATION_SOURCE_FIELD_ID, 'category' => 'cat_1', 'sourceFieldLabel' => 'Manufacture_location', 'sourceFieldCode' => 'manufacture_location'],
+                    ['sourceField' => self::PRODUCT_TAGS_SOURCE_FIELD_ID, 'category' => 'cat_1', 'sourceFieldLabel' => 'Tags', 'sourceFieldCode' => 'tags'],
                 ],
                 200,
             ],
@@ -97,18 +111,18 @@ class FacetConfigurationTest extends AbstractTestCase
                 null,
                 'cat_2',
                 [
-                    ['sourceField' => 44, 'category' => 'cat_2', 'sourceFieldLabel' => 'Name', 'sourceFieldCode' => 'name'],
-                    ['sourceField' => 45, 'category' => 'cat_2', 'sourceFieldLabel' => 'Brand', 'sourceFieldCode' => 'brand'],
-                    ['sourceField' => 46, 'category' => 'cat_2', 'sourceFieldLabel' => 'Color', 'sourceFieldCode' => 'color'],
-                    ['sourceField' => 47, 'category' => 'cat_2', 'sourceFieldLabel' => 'Category', 'sourceFieldCode' => 'category'],
-                    ['sourceField' => 48, 'category' => 'cat_2', 'sourceFieldLabel' => 'Length', 'sourceFieldCode' => 'length'],
-                    ['sourceField' => 49, 'category' => 'cat_2', 'sourceFieldLabel' => 'Size', 'sourceFieldCode' => 'size'],
-                    ['sourceField' => 50, 'category' => 'cat_2', 'sourceFieldLabel' => 'Weight', 'sourceFieldCode' => 'weight'],
-                    ['sourceField' => 57, 'category' => 'cat_2', 'sourceFieldLabel' => 'Is_eco_friendly', 'sourceFieldCode' => 'is_eco_friendly'],
-                    ['sourceField' => 58, 'category' => 'cat_2', 'sourceFieldLabel' => 'Created_at', 'sourceFieldCode' => 'created_at'],
-                    ['sourceField' => 62, 'category' => 'cat_2', 'sourceFieldLabel' => 'Color_full', 'sourceFieldCode' => 'color_full'],
-                    ['sourceField' => 63, 'category' => 'cat_2', 'sourceFieldLabel' => 'Manufacture_location', 'sourceFieldCode' => 'manufacture_location'],
-                    ['sourceField' => 65, 'category' => 'cat_2', 'sourceFieldLabel' => 'Tags', 'sourceFieldCode' => 'tags'],
+                    ['sourceField' => self::CATEGORY_NAME_SOURCE_FIELD_ID, 'category' => 'cat_2', 'sourceFieldLabel' => 'Name', 'sourceFieldCode' => 'name'],
+                    ['sourceField' => self::PRODUCT_BRAND_SOURCE_FIELD_ID, 'category' => 'cat_2', 'sourceFieldLabel' => 'Brand', 'sourceFieldCode' => 'brand'],
+                    ['sourceField' => self::PRODUCT_COLOR_SOURCE_FIELD_ID, 'category' => 'cat_2', 'sourceFieldLabel' => 'Color', 'sourceFieldCode' => 'color'],
+                    ['sourceField' => self::PRODUCT_CATEGORY_SOURCE_FIELD_ID, 'category' => 'cat_2', 'sourceFieldLabel' => 'Category', 'sourceFieldCode' => 'category'],
+                    ['sourceField' => self::PRODUCT_LENGTH_SOURCE_FIELD_ID, 'category' => 'cat_2', 'sourceFieldLabel' => 'Length', 'sourceFieldCode' => 'length'],
+                    ['sourceField' => self::PRODUCT_SIZE_SOURCE_FIELD_ID, 'category' => 'cat_2', 'sourceFieldLabel' => 'Size', 'sourceFieldCode' => 'size'],
+                    ['sourceField' => self::PRODUCT_WEIGHT_SOURCE_FIELD_ID, 'category' => 'cat_2', 'sourceFieldLabel' => 'Weight', 'sourceFieldCode' => 'weight'],
+                    ['sourceField' => self::PRODUCT_IS_ECO_FRIENDLY_SOURCE_FIELD_ID, 'category' => 'cat_2', 'sourceFieldLabel' => 'Is_eco_friendly', 'sourceFieldCode' => 'is_eco_friendly'],
+                    ['sourceField' => self::PRODUCT_CREATED_AT_SOURCE_FIELD_ID, 'category' => 'cat_2', 'sourceFieldLabel' => 'Created_at', 'sourceFieldCode' => 'created_at'],
+                    ['sourceField' => self::PRODUCT_COLOR_FULL_SOURCE_FIELD_ID, 'category' => 'cat_2', 'sourceFieldLabel' => 'Color_full', 'sourceFieldCode' => 'color_full'],
+                    ['sourceField' => self::PRODUCT_MANUFACTURE_LOCATION_SOURCE_FIELD_ID, 'category' => 'cat_2', 'sourceFieldLabel' => 'Manufacture_location', 'sourceFieldCode' => 'manufacture_location'],
+                    ['sourceField' => self::PRODUCT_TAGS_SOURCE_FIELD_ID, 'category' => 'cat_2', 'sourceFieldLabel' => 'Tags', 'sourceFieldCode' => 'tags'],
                 ],
                 200,
             ],
@@ -117,18 +131,18 @@ class FacetConfigurationTest extends AbstractTestCase
                 null,
                 'cat-6',
                 [
-                    ['sourceField' => 44, 'category' => 'cat-6', 'sourceFieldLabel' => 'Name', 'sourceFieldCode' => 'name'],
-                    ['sourceField' => 45, 'category' => 'cat-6', 'sourceFieldLabel' => 'Brand', 'sourceFieldCode' => 'brand'],
-                    ['sourceField' => 46, 'category' => 'cat-6', 'sourceFieldLabel' => 'Color', 'sourceFieldCode' => 'color'],
-                    ['sourceField' => 47, 'category' => 'cat-6', 'sourceFieldLabel' => 'Category', 'sourceFieldCode' => 'category'],
-                    ['sourceField' => 48, 'category' => 'cat-6', 'sourceFieldLabel' => 'Length', 'sourceFieldCode' => 'length'],
-                    ['sourceField' => 49, 'category' => 'cat-6', 'sourceFieldLabel' => 'Size', 'sourceFieldCode' => 'size'],
-                    ['sourceField' => 50, 'category' => 'cat-6', 'sourceFieldLabel' => 'Weight', 'sourceFieldCode' => 'weight'],
-                    ['sourceField' => 57, 'category' => 'cat-6', 'sourceFieldLabel' => 'Is_eco_friendly', 'sourceFieldCode' => 'is_eco_friendly'],
-                    ['sourceField' => 58, 'category' => 'cat-6', 'sourceFieldLabel' => 'Created_at', 'sourceFieldCode' => 'created_at'],
-                    ['sourceField' => 62, 'category' => 'cat-6', 'sourceFieldLabel' => 'Color_full', 'sourceFieldCode' => 'color_full'],
-                    ['sourceField' => 63, 'category' => 'cat-6', 'sourceFieldLabel' => 'Manufacture_location', 'sourceFieldCode' => 'manufacture_location'],
-                    ['sourceField' => 65, 'category' => 'cat-6', 'sourceFieldLabel' => 'Tags', 'sourceFieldCode' => 'tags'],
+                    ['sourceField' => self::CATEGORY_NAME_SOURCE_FIELD_ID, 'category' => 'cat-6', 'sourceFieldLabel' => 'Name', 'sourceFieldCode' => 'name'],
+                    ['sourceField' => self::PRODUCT_BRAND_SOURCE_FIELD_ID, 'category' => 'cat-6', 'sourceFieldLabel' => 'Brand', 'sourceFieldCode' => 'brand'],
+                    ['sourceField' => self::PRODUCT_COLOR_SOURCE_FIELD_ID, 'category' => 'cat-6', 'sourceFieldLabel' => 'Color', 'sourceFieldCode' => 'color'],
+                    ['sourceField' => self::PRODUCT_CATEGORY_SOURCE_FIELD_ID, 'category' => 'cat-6', 'sourceFieldLabel' => 'Category', 'sourceFieldCode' => 'category'],
+                    ['sourceField' => self::PRODUCT_LENGTH_SOURCE_FIELD_ID, 'category' => 'cat-6', 'sourceFieldLabel' => 'Length', 'sourceFieldCode' => 'length'],
+                    ['sourceField' => self::PRODUCT_SIZE_SOURCE_FIELD_ID, 'category' => 'cat-6', 'sourceFieldLabel' => 'Size', 'sourceFieldCode' => 'size'],
+                    ['sourceField' => self::PRODUCT_WEIGHT_SOURCE_FIELD_ID, 'category' => 'cat-6', 'sourceFieldLabel' => 'Weight', 'sourceFieldCode' => 'weight'],
+                    ['sourceField' => self::PRODUCT_IS_ECO_FRIENDLY_SOURCE_FIELD_ID, 'category' => 'cat-6', 'sourceFieldLabel' => 'Is_eco_friendly', 'sourceFieldCode' => 'is_eco_friendly'],
+                    ['sourceField' => self::PRODUCT_CREATED_AT_SOURCE_FIELD_ID, 'category' => 'cat-6', 'sourceFieldLabel' => 'Created_at', 'sourceFieldCode' => 'created_at'],
+                    ['sourceField' => self::PRODUCT_COLOR_FULL_SOURCE_FIELD_ID, 'category' => 'cat-6', 'sourceFieldLabel' => 'Color_full', 'sourceFieldCode' => 'color_full'],
+                    ['sourceField' => self::PRODUCT_MANUFACTURE_LOCATION_SOURCE_FIELD_ID, 'category' => 'cat-6', 'sourceFieldLabel' => 'Manufacture_location', 'sourceFieldCode' => 'manufacture_location'],
+                    ['sourceField' => self::PRODUCT_TAGS_SOURCE_FIELD_ID, 'category' => 'cat-6', 'sourceFieldLabel' => 'Tags', 'sourceFieldCode' => 'tags'],
                 ],
                 200,
             ],
@@ -137,17 +151,17 @@ class FacetConfigurationTest extends AbstractTestCase
                 'product',
                 null,
                 [
-                    ['sourceField' => 45, 'sourceFieldLabel' => 'Brand', 'sourceFieldCode' => 'brand'],
-                    ['sourceField' => 46, 'sourceFieldLabel' => 'Color', 'sourceFieldCode' => 'color'],
-                    ['sourceField' => 47, 'sourceFieldLabel' => 'Category', 'sourceFieldCode' => 'category'],
-                    ['sourceField' => 48, 'sourceFieldLabel' => 'Length', 'sourceFieldCode' => 'length'],
-                    ['sourceField' => 49, 'sourceFieldLabel' => 'Size', 'sourceFieldCode' => 'size'],
-                    ['sourceField' => 50, 'sourceFieldLabel' => 'Weight', 'sourceFieldCode' => 'weight'],
-                    ['sourceField' => 57, 'sourceFieldLabel' => 'Is_eco_friendly', 'sourceFieldCode' => 'is_eco_friendly'],
-                    ['sourceField' => 58, 'sourceFieldLabel' => 'Created_at', 'sourceFieldCode' => 'created_at'],
-                    ['sourceField' => 62, 'sourceFieldLabel' => 'Color_full', 'sourceFieldCode' => 'color_full'],
-                    ['sourceField' => 63, 'sourceFieldLabel' => 'Manufacture_location', 'sourceFieldCode' => 'manufacture_location'],
-                    ['sourceField' => 65, 'sourceFieldLabel' => 'Tags', 'sourceFieldCode' => 'tags'],
+                    ['sourceField' => self::PRODUCT_BRAND_SOURCE_FIELD_ID, 'sourceFieldLabel' => 'Brand', 'sourceFieldCode' => 'brand'],
+                    ['sourceField' => self::PRODUCT_COLOR_SOURCE_FIELD_ID, 'sourceFieldLabel' => 'Color', 'sourceFieldCode' => 'color'],
+                    ['sourceField' => self::PRODUCT_CATEGORY_SOURCE_FIELD_ID, 'sourceFieldLabel' => 'Category', 'sourceFieldCode' => 'category'],
+                    ['sourceField' => self::PRODUCT_LENGTH_SOURCE_FIELD_ID, 'sourceFieldLabel' => 'Length', 'sourceFieldCode' => 'length'],
+                    ['sourceField' => self::PRODUCT_SIZE_SOURCE_FIELD_ID, 'sourceFieldLabel' => 'Size', 'sourceFieldCode' => 'size'],
+                    ['sourceField' => self::PRODUCT_WEIGHT_SOURCE_FIELD_ID, 'sourceFieldLabel' => 'Weight', 'sourceFieldCode' => 'weight'],
+                    ['sourceField' => self::PRODUCT_IS_ECO_FRIENDLY_SOURCE_FIELD_ID, 'sourceFieldLabel' => 'Is_eco_friendly', 'sourceFieldCode' => 'is_eco_friendly'],
+                    ['sourceField' => self::PRODUCT_CREATED_AT_SOURCE_FIELD_ID, 'sourceFieldLabel' => 'Created_at', 'sourceFieldCode' => 'created_at'],
+                    ['sourceField' => self::PRODUCT_COLOR_FULL_SOURCE_FIELD_ID, 'sourceFieldLabel' => 'Color_full', 'sourceFieldCode' => 'color_full'],
+                    ['sourceField' => self::PRODUCT_MANUFACTURE_LOCATION_SOURCE_FIELD_ID, 'sourceFieldLabel' => 'Manufacture_location', 'sourceFieldCode' => 'manufacture_location'],
+                    ['sourceField' => self::PRODUCT_TAGS_SOURCE_FIELD_ID, 'sourceFieldLabel' => 'Tags', 'sourceFieldCode' => 'tags'],
                 ],
                 200,
             ],
@@ -156,7 +170,7 @@ class FacetConfigurationTest extends AbstractTestCase
                 'category',
                 null,
                 [
-                    ['sourceField' => 44, 'sourceFieldLabel' => 'Name', 'sourceFieldCode' => 'name'],
+                    ['sourceField' => self::CATEGORY_NAME_SOURCE_FIELD_ID, 'sourceFieldLabel' => 'Name', 'sourceFieldCode' => 'name'],
                 ],
                 200,
             ],
@@ -190,14 +204,14 @@ class FacetConfigurationTest extends AbstractTestCase
         $admin = $this->getUser(Role::ROLE_ADMIN);
 
         return [
-            [null, '45-0', ['coverageRate' => 0], 401, 'Access Denied.'],
-            [$admin, '45-0', ['coverageRate' => 0, 'sortOrder' => 'invalidSortOrder'], 422, 'sortOrder: The value you selected is not a valid choice.'],
-            [$this->getUser(Role::ROLE_CONTRIBUTOR), '45-0', ['coverageRate' => 0, 'sortOrder' => BucketInterface::SORT_ORDER_COUNT], 200],
-            [$admin, '45-0', ['coverageRate' => 1, 'maxSize' => 100, 'sortOrder' => BucketInterface::SORT_ORDER_TERM, 'position' => 1], 200],
-            [$admin, '45-cat_1', ['coverageRate' => 10, 'sortOrder' => BucketInterface::SORT_ORDER_MANUAL], 200],
-            [$admin, '46-cat_1', ['coverageRate' => 10, 'sortOrder' => BucketInterface::SORT_ORDER_MANUAL, 'position' => 1], 200],
-            [$admin, '45-cat_2', ['coverageRate' => 90], 200], // Put the default value back on a sub level
-            [$admin, '45-cat-6', ['coverageRate' => 90], 200], // Test with category id with a hyphen
+            [null, self::PRODUCT_BRAND_SOURCE_FIELD_ID . '-0', ['coverageRate' => 0], 401, 'Access Denied.'],
+            [$admin, self::PRODUCT_BRAND_SOURCE_FIELD_ID . '-0', ['coverageRate' => 0, 'sortOrder' => 'invalidSortOrder'], 422, 'sortOrder: The value you selected is not a valid choice.'],
+            [$this->getUser(Role::ROLE_CONTRIBUTOR), self::PRODUCT_BRAND_SOURCE_FIELD_ID . '-0', ['coverageRate' => 0, 'sortOrder' => BucketInterface::SORT_ORDER_COUNT], 200],
+            [$admin, self::PRODUCT_BRAND_SOURCE_FIELD_ID . '-0', ['coverageRate' => 1, 'maxSize' => 100, 'sortOrder' => BucketInterface::SORT_ORDER_TERM, 'position' => 1], 200],
+            [$admin, self::PRODUCT_BRAND_SOURCE_FIELD_ID . '-cat_1', ['coverageRate' => 10, 'sortOrder' => BucketInterface::SORT_ORDER_MANUAL], 200],
+            [$admin, self::PRODUCT_COLOR_SOURCE_FIELD_ID . '-cat_1', ['coverageRate' => 10, 'sortOrder' => BucketInterface::SORT_ORDER_MANUAL, 'position' => 1], 200],
+            [$admin, self::PRODUCT_BRAND_SOURCE_FIELD_ID . '-cat_2', ['coverageRate' => 90], 200], // Put the default value back on a sub level
+            [$admin, self::PRODUCT_BRAND_SOURCE_FIELD_ID . '-cat-6', ['coverageRate' => 90], 200], // Test with category id with a hyphen
         ];
     }
 
@@ -221,18 +235,18 @@ class FacetConfigurationTest extends AbstractTestCase
                 null,
                 null,
                 [
-                    ['sourceField' => 44, 'sourceFieldLabel' => 'Name', 'sourceFieldCode' => 'name'],
-                    ['sourceField' => 45, 'coverageRate' => 1, 'sourceFieldLabel' => 'Brand', 'sourceFieldCode' => 'brand', 'maxSize' => 100, 'sortOrder' => BucketInterface::SORT_ORDER_TERM, 'position' => 1], // product_brand.
-                    ['sourceField' => 46, 'sourceFieldLabel' => 'Color', 'sourceFieldCode' => 'color'], // product_color.
-                    ['sourceField' => 47, 'sourceFieldLabel' => 'Category', 'sourceFieldCode' => 'category'], // product_category.
-                    ['sourceField' => 48, 'sourceFieldLabel' => 'Length', 'sourceFieldCode' => 'length'], // product_length.
-                    ['sourceField' => 49, 'sourceFieldLabel' => 'Size', 'sourceFieldCode' => 'size'], // size.
-                    ['sourceField' => 50, 'sourceFieldLabel' => 'Weight', 'sourceFieldCode' => 'weight'], // weight.
-                    ['sourceField' => 57, 'sourceFieldLabel' => 'Is_eco_friendly', 'sourceFieldCode' => 'is_eco_friendly'],
-                    ['sourceField' => 58, 'sourceFieldLabel' => 'Created_at', 'sourceFieldCode' => 'created_at'],
-                    ['sourceField' => 62, 'sourceFieldLabel' => 'Color_full', 'sourceFieldCode' => 'color_full'],
-                    ['sourceField' => 63, 'sourceFieldLabel' => 'Manufacture_location', 'sourceFieldCode' => 'manufacture_location'],
-                    ['sourceField' => 65, 'sourceFieldLabel' => 'Tags', 'sourceFieldCode' => 'tags'],
+                    ['sourceField' => self::CATEGORY_NAME_SOURCE_FIELD_ID, 'sourceFieldLabel' => 'Name', 'sourceFieldCode' => 'name'],
+                    ['sourceField' => self::PRODUCT_BRAND_SOURCE_FIELD_ID, 'coverageRate' => 1, 'sourceFieldLabel' => 'Brand', 'sourceFieldCode' => 'brand', 'maxSize' => 100, 'sortOrder' => BucketInterface::SORT_ORDER_TERM, 'position' => 1], // product_brand.
+                    ['sourceField' => self::PRODUCT_COLOR_SOURCE_FIELD_ID, 'sourceFieldLabel' => 'Color', 'sourceFieldCode' => 'color'], // product_color.
+                    ['sourceField' => self::PRODUCT_CATEGORY_SOURCE_FIELD_ID, 'sourceFieldLabel' => 'Category', 'sourceFieldCode' => 'category'], // product_category.
+                    ['sourceField' => self::PRODUCT_LENGTH_SOURCE_FIELD_ID, 'sourceFieldLabel' => 'Length', 'sourceFieldCode' => 'length'], // product_length.
+                    ['sourceField' => self::PRODUCT_SIZE_SOURCE_FIELD_ID, 'sourceFieldLabel' => 'Size', 'sourceFieldCode' => 'size'], // size.
+                    ['sourceField' => self::PRODUCT_WEIGHT_SOURCE_FIELD_ID, 'sourceFieldLabel' => 'Weight', 'sourceFieldCode' => 'weight'], // weight.
+                    ['sourceField' => self::PRODUCT_IS_ECO_FRIENDLY_SOURCE_FIELD_ID, 'sourceFieldLabel' => 'Is_eco_friendly', 'sourceFieldCode' => 'is_eco_friendly'],
+                    ['sourceField' => self::PRODUCT_CREATED_AT_SOURCE_FIELD_ID, 'sourceFieldLabel' => 'Created_at', 'sourceFieldCode' => 'created_at'],
+                    ['sourceField' => self::PRODUCT_COLOR_FULL_SOURCE_FIELD_ID, 'sourceFieldLabel' => 'Color_full', 'sourceFieldCode' => 'color_full'],
+                    ['sourceField' => self::PRODUCT_MANUFACTURE_LOCATION_SOURCE_FIELD_ID, 'sourceFieldLabel' => 'Manufacture_location', 'sourceFieldCode' => 'manufacture_location'],
+                    ['sourceField' => self::PRODUCT_TAGS_SOURCE_FIELD_ID, 'sourceFieldLabel' => 'Tags', 'sourceFieldCode' => 'tags'],
                 ],
                 200,
             ],
@@ -241,18 +255,18 @@ class FacetConfigurationTest extends AbstractTestCase
                 null,
                 'cat_1',
                 [
-                    ['sourceField' => 44, 'category' => 'cat_1', 'sourceFieldLabel' => 'Name', 'sourceFieldCode' => 'name'],
-                    ['sourceField' => 45, 'category' => 'cat_1', 'coverageRate' => 10, 'maxSize' => 100, 'defaultCoverageRate' => 1, 'defaultMaxSize' => 100, 'sourceFieldLabel' => 'Brand', 'sourceFieldCode' => 'brand', 'sortOrder' => BucketInterface::SORT_ORDER_MANUAL, 'defaultSortOrder' => BucketInterface::SORT_ORDER_TERM, 'position' => 1, 'defaultPosition' => 1],
-                    ['sourceField' => 46, 'category' => 'cat_1', 'coverageRate' => 10, 'sourceFieldLabel' => 'Color', 'sourceFieldCode' => 'color', 'sortOrder' => BucketInterface::SORT_ORDER_MANUAL, 'position' => 1],
-                    ['sourceField' => 47, 'category' => 'cat_1', 'sourceFieldLabel' => 'Category', 'sourceFieldCode' => 'category'], // product_category.
-                    ['sourceField' => 48, 'category' => 'cat_1', 'sourceFieldLabel' => 'Length', 'sourceFieldCode' => 'length'], // product_length.
-                    ['sourceField' => 49, 'category' => 'cat_1', 'sourceFieldLabel' => 'Size', 'sourceFieldCode' => 'size'], // size.
-                    ['sourceField' => 50, 'category' => 'cat_1', 'sourceFieldLabel' => 'Weight', 'sourceFieldCode' => 'weight'], // weight.
-                    ['sourceField' => 57, 'category' => 'cat_1', 'sourceFieldLabel' => 'Is_eco_friendly', 'sourceFieldCode' => 'is_eco_friendly'],
-                    ['sourceField' => 58, 'category' => 'cat_1', 'sourceFieldLabel' => 'Created_at', 'sourceFieldCode' => 'created_at'],
-                    ['sourceField' => 62, 'category' => 'cat_1', 'sourceFieldLabel' => 'Color_full', 'sourceFieldCode' => 'color_full'],
-                    ['sourceField' => 63, 'category' => 'cat_1', 'sourceFieldLabel' => 'Manufacture_location', 'sourceFieldCode' => 'manufacture_location'],
-                    ['sourceField' => 65, 'category' => 'cat_1', 'sourceFieldLabel' => 'Tags', 'sourceFieldCode' => 'tags'],
+                    ['sourceField' => self::CATEGORY_NAME_SOURCE_FIELD_ID, 'category' => 'cat_1', 'sourceFieldLabel' => 'Name', 'sourceFieldCode' => 'name'],
+                    ['sourceField' => self::PRODUCT_BRAND_SOURCE_FIELD_ID, 'category' => 'cat_1', 'coverageRate' => 10, 'maxSize' => 100, 'defaultCoverageRate' => 1, 'defaultMaxSize' => 100, 'sourceFieldLabel' => 'Brand', 'sourceFieldCode' => 'brand', 'sortOrder' => BucketInterface::SORT_ORDER_MANUAL, 'defaultSortOrder' => BucketInterface::SORT_ORDER_TERM, 'position' => 1, 'defaultPosition' => 1],
+                    ['sourceField' => self::PRODUCT_COLOR_SOURCE_FIELD_ID, 'category' => 'cat_1', 'coverageRate' => 10, 'sourceFieldLabel' => 'Color', 'sourceFieldCode' => 'color', 'sortOrder' => BucketInterface::SORT_ORDER_MANUAL, 'position' => 1],
+                    ['sourceField' => self::PRODUCT_CATEGORY_SOURCE_FIELD_ID, 'category' => 'cat_1', 'sourceFieldLabel' => 'Category', 'sourceFieldCode' => 'category'], // product_category.
+                    ['sourceField' => self::PRODUCT_LENGTH_SOURCE_FIELD_ID, 'category' => 'cat_1', 'sourceFieldLabel' => 'Length', 'sourceFieldCode' => 'length'], // product_length.
+                    ['sourceField' => self::PRODUCT_SIZE_SOURCE_FIELD_ID, 'category' => 'cat_1', 'sourceFieldLabel' => 'Size', 'sourceFieldCode' => 'size'], // size.
+                    ['sourceField' => self::PRODUCT_WEIGHT_SOURCE_FIELD_ID, 'category' => 'cat_1', 'sourceFieldLabel' => 'Weight', 'sourceFieldCode' => 'weight'], // weight.
+                    ['sourceField' => self::PRODUCT_IS_ECO_FRIENDLY_SOURCE_FIELD_ID, 'category' => 'cat_1', 'sourceFieldLabel' => 'Is_eco_friendly', 'sourceFieldCode' => 'is_eco_friendly'],
+                    ['sourceField' => self::PRODUCT_CREATED_AT_SOURCE_FIELD_ID, 'category' => 'cat_1', 'sourceFieldLabel' => 'Created_at', 'sourceFieldCode' => 'created_at'],
+                    ['sourceField' => self::PRODUCT_COLOR_FULL_SOURCE_FIELD_ID, 'category' => 'cat_1', 'sourceFieldLabel' => 'Color_full', 'sourceFieldCode' => 'color_full'],
+                    ['sourceField' => self::PRODUCT_MANUFACTURE_LOCATION_SOURCE_FIELD_ID, 'category' => 'cat_1', 'sourceFieldLabel' => 'Manufacture_location', 'sourceFieldCode' => 'manufacture_location'],
+                    ['sourceField' => self::PRODUCT_TAGS_SOURCE_FIELD_ID, 'category' => 'cat_1', 'sourceFieldLabel' => 'Tags', 'sourceFieldCode' => 'tags'],
                 ],
                 200,
             ],
@@ -261,18 +275,18 @@ class FacetConfigurationTest extends AbstractTestCase
                 null,
                 'cat_2',
                 [
-                    ['sourceField' => 44, 'category' => 'cat_2', 'sourceFieldLabel' => 'Name', 'sourceFieldCode' => 'name'],
-                    ['sourceField' => 45, 'category' => 'cat_2', 'coverageRate' => 90, 'maxSize' => 100, 'defaultCoverageRate' => 1,  'defaultMaxSize' => 100, 'sourceFieldLabel' => 'Brand', 'sourceFieldCode' => 'brand', 'sortOrder' => BucketInterface::SORT_ORDER_TERM, 'defaultSortOrder' => BucketInterface::SORT_ORDER_TERM, 'position' => 1, 'defaultPosition' => 1],
-                    ['sourceField' => 46, 'category' => 'cat_2', 'coverageRate' => 90, 'sourceFieldLabel' => 'Color', 'sourceFieldCode' => 'color'], // product_color.
-                    ['sourceField' => 47, 'category' => 'cat_2', 'coverageRate' => 90, 'sourceFieldLabel' => 'Category', 'sourceFieldCode' => 'category'], // product_category.
-                    ['sourceField' => 48, 'category' => 'cat_2', 'coverageRate' => 90, 'sourceFieldLabel' => 'Length', 'sourceFieldCode' => 'length'], // product_length.
-                    ['sourceField' => 49, 'category' => 'cat_2', 'coverageRate' => 90, 'sourceFieldLabel' => 'Size', 'sourceFieldCode' => 'size'], // size.
-                    ['sourceField' => 50, 'category' => 'cat_2', 'coverageRate' => 90, 'sourceFieldLabel' => 'Weight', 'sourceFieldCode' => 'weight'], // weight.
-                    ['sourceField' => 57, 'category' => 'cat_2', 'coverageRate' => 90, 'sourceFieldLabel' => 'Is_eco_friendly', 'sourceFieldCode' => 'is_eco_friendly'],
-                    ['sourceField' => 58, 'category' => 'cat_2', 'coverageRate' => 90, 'sourceFieldLabel' => 'Created_at', 'sourceFieldCode' => 'created_at'],
-                    ['sourceField' => 62, 'category' => 'cat_2', 'coverageRate' => 90, 'sourceFieldLabel' => 'Color_full', 'sourceFieldCode' => 'color_full'],
-                    ['sourceField' => 63, 'category' => 'cat_2', 'coverageRate' => 90, 'sourceFieldLabel' => 'Manufacture_location', 'sourceFieldCode' => 'manufacture_location'],
-                    ['sourceField' => 65, 'category' => 'cat_2', 'coverageRate' => 90, 'sourceFieldLabel' => 'Tags', 'sourceFieldCode' => 'tags'],
+                    ['sourceField' => self::CATEGORY_NAME_SOURCE_FIELD_ID, 'category' => 'cat_2', 'sourceFieldLabel' => 'Name', 'sourceFieldCode' => 'name'],
+                    ['sourceField' => self::PRODUCT_BRAND_SOURCE_FIELD_ID, 'category' => 'cat_2', 'coverageRate' => 90, 'maxSize' => 100, 'defaultCoverageRate' => 1,  'defaultMaxSize' => 100, 'sourceFieldLabel' => 'Brand', 'sourceFieldCode' => 'brand', 'sortOrder' => BucketInterface::SORT_ORDER_TERM, 'defaultSortOrder' => BucketInterface::SORT_ORDER_TERM, 'position' => 1, 'defaultPosition' => 1],
+                    ['sourceField' => self::PRODUCT_COLOR_SOURCE_FIELD_ID, 'category' => 'cat_2', 'coverageRate' => 90, 'sourceFieldLabel' => 'Color', 'sourceFieldCode' => 'color'], // product_color.
+                    ['sourceField' => self::PRODUCT_CATEGORY_SOURCE_FIELD_ID, 'category' => 'cat_2', 'coverageRate' => 90, 'sourceFieldLabel' => 'Category', 'sourceFieldCode' => 'category'], // product_category.
+                    ['sourceField' => self::PRODUCT_LENGTH_SOURCE_FIELD_ID, 'category' => 'cat_2', 'coverageRate' => 90, 'sourceFieldLabel' => 'Length', 'sourceFieldCode' => 'length'], // product_length.
+                    ['sourceField' => self::PRODUCT_SIZE_SOURCE_FIELD_ID, 'category' => 'cat_2', 'coverageRate' => 90, 'sourceFieldLabel' => 'Size', 'sourceFieldCode' => 'size'], // size.
+                    ['sourceField' => self::PRODUCT_WEIGHT_SOURCE_FIELD_ID, 'category' => 'cat_2', 'coverageRate' => 90, 'sourceFieldLabel' => 'Weight', 'sourceFieldCode' => 'weight'], // weight.
+                    ['sourceField' => self::PRODUCT_IS_ECO_FRIENDLY_SOURCE_FIELD_ID, 'category' => 'cat_2', 'coverageRate' => 90, 'sourceFieldLabel' => 'Is_eco_friendly', 'sourceFieldCode' => 'is_eco_friendly'],
+                    ['sourceField' => self::PRODUCT_CREATED_AT_SOURCE_FIELD_ID, 'category' => 'cat_2', 'coverageRate' => 90, 'sourceFieldLabel' => 'Created_at', 'sourceFieldCode' => 'created_at'],
+                    ['sourceField' => self::PRODUCT_COLOR_FULL_SOURCE_FIELD_ID, 'category' => 'cat_2', 'coverageRate' => 90, 'sourceFieldLabel' => 'Color_full', 'sourceFieldCode' => 'color_full'],
+                    ['sourceField' => self::PRODUCT_MANUFACTURE_LOCATION_SOURCE_FIELD_ID, 'category' => 'cat_2', 'coverageRate' => 90, 'sourceFieldLabel' => 'Manufacture_location', 'sourceFieldCode' => 'manufacture_location'],
+                    ['sourceField' => self::PRODUCT_TAGS_SOURCE_FIELD_ID, 'category' => 'cat_2', 'coverageRate' => 90, 'sourceFieldLabel' => 'Tags', 'sourceFieldCode' => 'tags'],
                 ],
                 200,
             ],
@@ -281,18 +295,18 @@ class FacetConfigurationTest extends AbstractTestCase
                 null,
                 'cat-6',
                 [
-                    ['sourceField' => 44, 'category' => 'cat-6', 'sourceFieldLabel' => 'Name', 'sourceFieldCode' => 'name'],
-                    ['sourceField' => 45, 'category' => 'cat-6', 'coverageRate' => 90, 'maxSize' => 100, 'defaultCoverageRate' => 1,  'defaultMaxSize' => 100, 'sourceFieldLabel' => 'Brand', 'sortOrder' => BucketInterface::SORT_ORDER_TERM, 'defaultSortOrder' => BucketInterface::SORT_ORDER_TERM, 'position' => 1, 'defaultPosition' => 1, 'sourceFieldCode' => 'brand'],
-                    ['sourceField' => 46, 'category' => 'cat-6', 'coverageRate' => 90, 'sourceFieldLabel' => 'Color', 'sourceFieldCode' => 'color'],
-                    ['sourceField' => 47, 'category' => 'cat-6', 'coverageRate' => 90, 'sourceFieldLabel' => 'Category', 'sourceFieldCode' => 'category'],
-                    ['sourceField' => 48, 'category' => 'cat-6', 'coverageRate' => 90, 'sourceFieldLabel' => 'Length', 'sourceFieldCode' => 'length'],
-                    ['sourceField' => 49, 'category' => 'cat-6', 'coverageRate' => 90, 'sourceFieldLabel' => 'Size', 'sourceFieldCode' => 'size'],
-                    ['sourceField' => 50, 'category' => 'cat-6', 'coverageRate' => 90, 'sourceFieldLabel' => 'Weight', 'sourceFieldCode' => 'weight'],
-                    ['sourceField' => 57, 'category' => 'cat-6', 'coverageRate' => 90, 'sourceFieldLabel' => 'Is_eco_friendly', 'sourceFieldCode' => 'is_eco_friendly'],
-                    ['sourceField' => 58, 'category' => 'cat-6', 'coverageRate' => 90, 'sourceFieldLabel' => 'Created_at', 'sourceFieldCode' => 'created_at'],
-                    ['sourceField' => 62, 'category' => 'cat-6', 'coverageRate' => 90, 'sourceFieldLabel' => 'Color_full', 'sourceFieldCode' => 'color_full'],
-                    ['sourceField' => 63, 'category' => 'cat-6', 'coverageRate' => 90, 'sourceFieldLabel' => 'Manufacture_location', 'sourceFieldCode' => 'manufacture_location'],
-                    ['sourceField' => 65, 'category' => 'cat-6', 'coverageRate' => 90, 'sourceFieldLabel' => 'Tags', 'sourceFieldCode' => 'tags'],
+                    ['sourceField' => self::CATEGORY_NAME_SOURCE_FIELD_ID, 'category' => 'cat-6', 'sourceFieldLabel' => 'Name', 'sourceFieldCode' => 'name'],
+                    ['sourceField' => self::PRODUCT_BRAND_SOURCE_FIELD_ID, 'category' => 'cat-6', 'coverageRate' => 90, 'maxSize' => 100, 'defaultCoverageRate' => 1,  'defaultMaxSize' => 100, 'sourceFieldLabel' => 'Brand', 'sortOrder' => BucketInterface::SORT_ORDER_TERM, 'defaultSortOrder' => BucketInterface::SORT_ORDER_TERM, 'position' => 1, 'defaultPosition' => 1, 'sourceFieldCode' => 'brand'],
+                    ['sourceField' => self::PRODUCT_COLOR_SOURCE_FIELD_ID, 'category' => 'cat-6', 'coverageRate' => 90, 'sourceFieldLabel' => 'Color', 'sourceFieldCode' => 'color'],
+                    ['sourceField' => self::PRODUCT_CATEGORY_SOURCE_FIELD_ID, 'category' => 'cat-6', 'coverageRate' => 90, 'sourceFieldLabel' => 'Category', 'sourceFieldCode' => 'category'],
+                    ['sourceField' => self::PRODUCT_LENGTH_SOURCE_FIELD_ID, 'category' => 'cat-6', 'coverageRate' => 90, 'sourceFieldLabel' => 'Length', 'sourceFieldCode' => 'length'],
+                    ['sourceField' => self::PRODUCT_SIZE_SOURCE_FIELD_ID, 'category' => 'cat-6', 'coverageRate' => 90, 'sourceFieldLabel' => 'Size', 'sourceFieldCode' => 'size'],
+                    ['sourceField' => self::PRODUCT_WEIGHT_SOURCE_FIELD_ID, 'category' => 'cat-6', 'coverageRate' => 90, 'sourceFieldLabel' => 'Weight', 'sourceFieldCode' => 'weight'],
+                    ['sourceField' => self::PRODUCT_IS_ECO_FRIENDLY_SOURCE_FIELD_ID, 'category' => 'cat-6', 'coverageRate' => 90, 'sourceFieldLabel' => 'Is_eco_friendly', 'sourceFieldCode' => 'is_eco_friendly'],
+                    ['sourceField' => self::PRODUCT_CREATED_AT_SOURCE_FIELD_ID, 'category' => 'cat-6', 'coverageRate' => 90, 'sourceFieldLabel' => 'Created_at', 'sourceFieldCode' => 'created_at'],
+                    ['sourceField' => self::PRODUCT_COLOR_FULL_SOURCE_FIELD_ID, 'category' => 'cat-6', 'coverageRate' => 90, 'sourceFieldLabel' => 'Color_full', 'sourceFieldCode' => 'color_full'],
+                    ['sourceField' => self::PRODUCT_MANUFACTURE_LOCATION_SOURCE_FIELD_ID, 'category' => 'cat-6', 'coverageRate' => 90, 'sourceFieldLabel' => 'Manufacture_location', 'sourceFieldCode' => 'manufacture_location'],
+                    ['sourceField' => self::PRODUCT_TAGS_SOURCE_FIELD_ID, 'category' => 'cat-6', 'coverageRate' => 90, 'sourceFieldLabel' => 'Tags', 'sourceFieldCode' => 'tags'],
                 ],
                 200,
             ],
@@ -301,17 +315,17 @@ class FacetConfigurationTest extends AbstractTestCase
                 'product',
                 null,
                 [
-                    ['sourceField' => 45, 'coverageRate' => 1, 'sourceFieldLabel' => 'Brand', 'sourceFieldCode' => 'brand', 'maxSize' => 100, 'sortOrder' => BucketInterface::SORT_ORDER_TERM, 'position' => 1], // product_brand.
-                    ['sourceField' => 46, 'sourceFieldLabel' => 'Color', 'sourceFieldCode' => 'color'], // product_color.
-                    ['sourceField' => 47, 'sourceFieldLabel' => 'Category', 'sourceFieldCode' => 'category'], // product_category.
-                    ['sourceField' => 48, 'sourceFieldLabel' => 'Length', 'sourceFieldCode' => 'length'], // product_length.
-                    ['sourceField' => 49, 'sourceFieldLabel' => 'Size', 'sourceFieldCode' => 'size'], // size.
-                    ['sourceField' => 50, 'sourceFieldLabel' => 'Weight', 'sourceFieldCode' => 'weight'], // weight.
-                    ['sourceField' => 57, 'sourceFieldLabel' => 'Is_eco_friendly', 'sourceFieldCode' => 'is_eco_friendly'],
-                    ['sourceField' => 58, 'sourceFieldLabel' => 'Created_at', 'sourceFieldCode' => 'created_at'],
-                    ['sourceField' => 62, 'sourceFieldLabel' => 'Color_full', 'sourceFieldCode' => 'color_full'],
-                    ['sourceField' => 63, 'sourceFieldLabel' => 'Manufacture_location', 'sourceFieldCode' => 'manufacture_location'],
-                    ['sourceField' => 65, 'sourceFieldLabel' => 'Tags', 'sourceFieldCode' => 'tags'],
+                    ['sourceField' => self::PRODUCT_BRAND_SOURCE_FIELD_ID, 'coverageRate' => 1, 'sourceFieldLabel' => 'Brand', 'sourceFieldCode' => 'brand', 'maxSize' => 100, 'sortOrder' => BucketInterface::SORT_ORDER_TERM, 'position' => 1], // product_brand.
+                    ['sourceField' => self::PRODUCT_COLOR_SOURCE_FIELD_ID, 'sourceFieldLabel' => 'Color', 'sourceFieldCode' => 'color'], // product_color.
+                    ['sourceField' => self::PRODUCT_CATEGORY_SOURCE_FIELD_ID, 'sourceFieldLabel' => 'Category', 'sourceFieldCode' => 'category'], // product_category.
+                    ['sourceField' => self::PRODUCT_LENGTH_SOURCE_FIELD_ID, 'sourceFieldLabel' => 'Length', 'sourceFieldCode' => 'length'], // product_length.
+                    ['sourceField' => self::PRODUCT_SIZE_SOURCE_FIELD_ID, 'sourceFieldLabel' => 'Size', 'sourceFieldCode' => 'size'], // size.
+                    ['sourceField' => self::PRODUCT_WEIGHT_SOURCE_FIELD_ID, 'sourceFieldLabel' => 'Weight', 'sourceFieldCode' => 'weight'], // weight.
+                    ['sourceField' => self::PRODUCT_IS_ECO_FRIENDLY_SOURCE_FIELD_ID, 'sourceFieldLabel' => 'Is_eco_friendly', 'sourceFieldCode' => 'is_eco_friendly'],
+                    ['sourceField' => self::PRODUCT_CREATED_AT_SOURCE_FIELD_ID, 'sourceFieldLabel' => 'Created_at', 'sourceFieldCode' => 'created_at'],
+                    ['sourceField' => self::PRODUCT_COLOR_FULL_SOURCE_FIELD_ID, 'sourceFieldLabel' => 'Color_full', 'sourceFieldCode' => 'color_full'],
+                    ['sourceField' => self::PRODUCT_MANUFACTURE_LOCATION_SOURCE_FIELD_ID, 'sourceFieldLabel' => 'Manufacture_location', 'sourceFieldCode' => 'manufacture_location'],
+                    ['sourceField' => self::PRODUCT_TAGS_SOURCE_FIELD_ID, 'sourceFieldLabel' => 'Tags', 'sourceFieldCode' => 'tags'],
                 ],
                 200,
             ],
@@ -320,7 +334,7 @@ class FacetConfigurationTest extends AbstractTestCase
                 'category',
                 null,
                 [
-                    ['sourceField' => 44, 'sourceFieldLabel' => 'Name', 'sourceFieldCode' => 'name'],
+                    ['sourceField' => self::CATEGORY_NAME_SOURCE_FIELD_ID, 'sourceFieldLabel' => 'Name', 'sourceFieldCode' => 'name'],
                 ],
                 401,
                 'Access Denied.',
@@ -330,7 +344,7 @@ class FacetConfigurationTest extends AbstractTestCase
                 'category',
                 null,
                 [
-                    ['sourceField' => 44, 'sourceFieldLabel' => 'Name', 'sourceFieldCode' => 'name'],
+                    ['sourceField' => self::CATEGORY_NAME_SOURCE_FIELD_ID, 'sourceFieldLabel' => 'Name', 'sourceFieldCode' => 'name'],
                 ],
                 200,
             ],
@@ -339,7 +353,7 @@ class FacetConfigurationTest extends AbstractTestCase
                 'category',
                 null,
                 [
-                    ['sourceField' => 44, 'sourceFieldLabel' => 'Name', 'sourceFieldCode' => 'name'],
+                    ['sourceField' => self::CATEGORY_NAME_SOURCE_FIELD_ID, 'sourceFieldLabel' => 'Name', 'sourceFieldCode' => 'name'],
                 ],
                 200,
             ],
@@ -392,10 +406,10 @@ class FacetConfigurationTest extends AbstractTestCase
         $user = $this->getUser(Role::ROLE_CONTRIBUTOR);
 
         return [
-            [null, '45-0', ['id' => '45-0'], 401],
-            [$user, '45-0', ['id' => '45-0'], 200],
-            [$user, '45-cat-6', ['id' => '45-cat-6'], 200],
-            [$this->getUser(Role::ROLE_ADMIN), '45-0', ['id' => '45-0'], 200],
+            [null, self::PRODUCT_BRAND_SOURCE_FIELD_ID . '-0', ['id' => self::PRODUCT_BRAND_SOURCE_FIELD_ID . '-0'], 401],
+            [$user, self::PRODUCT_BRAND_SOURCE_FIELD_ID . '-0', ['id' => self::PRODUCT_BRAND_SOURCE_FIELD_ID . '-0'], 200],
+            [$user, self::PRODUCT_BRAND_SOURCE_FIELD_ID . '-cat-6', ['id' => self::PRODUCT_BRAND_SOURCE_FIELD_ID . '-cat-6'], 200],
+            [$this->getUser(Role::ROLE_ADMIN), self::PRODUCT_BRAND_SOURCE_FIELD_ID . '-0', ['id' => self::PRODUCT_BRAND_SOURCE_FIELD_ID . '-0'], 200],
         ];
     }
 
@@ -425,9 +439,9 @@ class FacetConfigurationTest extends AbstractTestCase
     public function deleteDataProvider(): iterable
     {
         return [
-            [null, '45-0', 401, 'Access Denied.'],
-            [$this->getUser(Role::ROLE_CONTRIBUTOR), '45-0', 204],
-            [$this->getUser(Role::ROLE_ADMIN), '45-cat_1', 204],
+            [null, self::PRODUCT_BRAND_SOURCE_FIELD_ID . '-0', 401, 'Access Denied.'],
+            [$this->getUser(Role::ROLE_CONTRIBUTOR), self::PRODUCT_BRAND_SOURCE_FIELD_ID . '-0', 204],
+            [$this->getUser(Role::ROLE_ADMIN), self::PRODUCT_BRAND_SOURCE_FIELD_ID . '-cat_1', 204],
         ];
     }
 

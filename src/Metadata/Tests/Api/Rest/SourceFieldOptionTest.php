@@ -27,6 +27,11 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
 
 class SourceFieldOptionTest extends AbstractEntityTestWithUpdate
 {
+    private const PRODUCT_ID_SOURCE_FIELD_ID = 900010;
+    private const PRODUCT_SKU_SOURCE_FIELD_ID = 900011;
+    private const PRODUCT_BRAND_SOURCE_FIELD_ID = 900012;
+    private const PRODUCT_MATERIAL_SOURCE_FIELD_ID = 900013;
+
     protected static function getFixtureFiles(): array
     {
         return [
@@ -47,13 +52,13 @@ class SourceFieldOptionTest extends AbstractEntityTestWithUpdate
         $adminUser = $this->getUser(Role::ROLE_ADMIN);
 
         return [
-            [null, ['sourceField' => $this->getUri('source_fields', '46'), 'code' => 'A', 'position' => 10, 'defaultLabel' => 'label'], 401],
-            [$this->getUser(Role::ROLE_CONTRIBUTOR), ['sourceField' => $this->getUri('source_fields', '46'), 'code' => 'A', 'position' => 10, 'defaultLabel' => 'label'], 403],
-            [$adminUser, ['sourceField' => $this->getUri('source_fields', '46'), 'code' => 'A', 'position' => 10, 'defaultLabel' => 'label'], 201],
-            [$adminUser, ['sourceField' => $this->getUri('source_fields', '46'), 'code' => 'B', 'defaultLabel' => 'label'], 201],
+            [null, ['sourceField' => $this->getUri('source_fields', (string) self::PRODUCT_ID_SOURCE_FIELD_ID), 'code' => 'A', 'position' => 10, 'defaultLabel' => 'label'], 401],
+            [$this->getUser(Role::ROLE_CONTRIBUTOR), ['sourceField' => $this->getUri('source_fields', (string) self::PRODUCT_ID_SOURCE_FIELD_ID), 'code' => 'A', 'position' => 10, 'defaultLabel' => 'label'], 403],
+            [$adminUser, ['sourceField' => $this->getUri('source_fields', (string) self::PRODUCT_ID_SOURCE_FIELD_ID), 'code' => 'A', 'position' => 10, 'defaultLabel' => 'label'], 201],
+            [$adminUser, ['sourceField' => $this->getUri('source_fields', (string) self::PRODUCT_ID_SOURCE_FIELD_ID), 'code' => 'B', 'defaultLabel' => 'label'], 201],
             [$adminUser,
                 [
-                    'sourceField' => $this->getUri('source_fields', '46'),
+                    'sourceField' => $this->getUri('source_fields', (string) self::PRODUCT_ID_SOURCE_FIELD_ID),
                     'code' => 'C',
                     'defaultLabel' => 'label',
                     'labels' => [
@@ -64,9 +69,9 @@ class SourceFieldOptionTest extends AbstractEntityTestWithUpdate
                 201,
             ],
             [$adminUser, ['position' => 3, 'code' => 'A', 'defaultLabel' => 'label'], 422, 'sourceField: This value should not be blank.'],
-            [$adminUser, ['sourceField' => $this->getUri('source_fields', '46'), 'position' => 3, 'defaultLabel' => 'label'], 422, 'code: This value should not be blank.'],
-            [$adminUser, ['sourceField' => $this->getUri('source_fields', '46'), 'position' => 3, 'code' => 'D'], 422, 'defaultLabel: This value should not be blank.'],
-            [$adminUser, ['sourceField' => $this->getUri('source_fields', '46'), 'code' => 'A', 'position' => 3, 'defaultLabel' => 'label'], 422, 'sourceField: An option with this code is already defined for this sourceField.'],
+            [$adminUser, ['sourceField' => $this->getUri('source_fields', (string) self::PRODUCT_ID_SOURCE_FIELD_ID), 'position' => 3, 'defaultLabel' => 'label'], 422, 'code: This value should not be blank.'],
+            [$adminUser, ['sourceField' => $this->getUri('source_fields', (string) self::PRODUCT_ID_SOURCE_FIELD_ID), 'position' => 3, 'code' => 'D'], 422, 'defaultLabel: This value should not be blank.'],
+            [$adminUser, ['sourceField' => $this->getUri('source_fields', (string) self::PRODUCT_ID_SOURCE_FIELD_ID), 'code' => 'A', 'position' => 3, 'defaultLabel' => 'label'], 422, 'sourceField: An option with this code is already defined for this sourceField.'],
         ];
     }
 
@@ -251,11 +256,11 @@ class SourceFieldOptionTest extends AbstractEntityTestWithUpdate
             $adminUser,
             [
                 ['position' => 4],
-                ['sourceField' => $this->getUri('source_fields', '51'), 'position' => 4],
-                ['sourceField' => $this->getUri('source_fields', '51'), 'code' => 'new_option_code'],
-                ['sourceField' => $this->getUri('source_fields', '47'), 'code' => 'new_brand_code', 'defaultLabel' => 'New brand'],
+                ['sourceField' => $this->getUri('source_fields', (string) self::PRODUCT_BRAND_SOURCE_FIELD_ID), 'position' => 4],
+                ['sourceField' => $this->getUri('source_fields', (string) self::PRODUCT_BRAND_SOURCE_FIELD_ID), 'code' => 'new_option_code'],
+                ['sourceField' => $this->getUri('source_fields', (string) self::PRODUCT_SKU_SOURCE_FIELD_ID), 'code' => 'new_brand_code', 'defaultLabel' => 'New brand'],
                 [
-                    'sourceField' => $this->getUri('source_fields', '51'),
+                    'sourceField' => $this->getUri('source_fields', (string) self::PRODUCT_BRAND_SOURCE_FIELD_ID),
                     'code' => 'new_brand_code',
                     'defaultLabel' => 'New brand',
                     'labels' => [
@@ -277,9 +282,9 @@ class SourceFieldOptionTest extends AbstractEntityTestWithUpdate
         yield [
             $adminUser,
             [
-                ['sourceField' => $this->getUri('source_fields', '51'), 'code' => 'new_brand_code', 'defaultLabel' => 'New brand'],
+                ['sourceField' => $this->getUri('source_fields', (string) self::PRODUCT_BRAND_SOURCE_FIELD_ID), 'code' => 'new_brand_code', 'defaultLabel' => 'New brand'],
             ],
-            [51 => 5],
+            [self::PRODUCT_BRAND_SOURCE_FIELD_ID => 5],
             [
                 0 => ['defaultLabel' => 'New brand'],
             ],
@@ -289,14 +294,14 @@ class SourceFieldOptionTest extends AbstractEntityTestWithUpdate
         yield [
             $adminUser,
             [
-                ['sourceField' => $this->getUri('source_fields', '51'), 'code' => 'new_brand_code_2', 'defaultLabel' => 'New brand 2'],
-                ['sourceField' => $this->getUri('source_fields', '51'), 'code' => 'new_brand_code_3', 'defaultLabel' => 'New brand 3'],
-                ['sourceField' => $this->getUri('source_fields', '54'), 'defaultLabel' => 'New material 0'],
-                ['sourceField' => $this->getUri('source_fields', '54'), 'code' => 'new_material_code_1', 'defaultLabel' => 'New material 1'],
+                ['sourceField' => $this->getUri('source_fields', (string) self::PRODUCT_BRAND_SOURCE_FIELD_ID), 'code' => 'new_brand_code_2', 'defaultLabel' => 'New brand 2'],
+                ['sourceField' => $this->getUri('source_fields', (string) self::PRODUCT_BRAND_SOURCE_FIELD_ID), 'code' => 'new_brand_code_3', 'defaultLabel' => 'New brand 3'],
+                ['sourceField' => $this->getUri('source_fields', (string) self::PRODUCT_MATERIAL_SOURCE_FIELD_ID), 'defaultLabel' => 'New material 0'],
+                ['sourceField' => $this->getUri('source_fields', (string) self::PRODUCT_MATERIAL_SOURCE_FIELD_ID), 'code' => 'new_material_code_1', 'defaultLabel' => 'New material 1'],
             ],
             [
-                51 => 7,
-                54 => 1,
+                self::PRODUCT_BRAND_SOURCE_FIELD_ID => 7,
+                self::PRODUCT_MATERIAL_SOURCE_FIELD_ID => 1,
             ],
             [
                 2 => ['code' => 'new_material_code_1'],
@@ -308,10 +313,10 @@ class SourceFieldOptionTest extends AbstractEntityTestWithUpdate
         yield [
             $adminUser,
             [
-                ['sourceField' => $this->getUri('source_fields', '51'), 'code' => 'new_brand_code', 'defaultLabel' => 'New brand Updated'],
-                ['sourceField' => $this->getUri('source_fields', '51'), 'code' => 'new_brand_code_4', 'defaultLabel' => 'New brand 4'],
+                ['sourceField' => $this->getUri('source_fields', (string) self::PRODUCT_BRAND_SOURCE_FIELD_ID), 'code' => 'new_brand_code', 'defaultLabel' => 'New brand Updated'],
+                ['sourceField' => $this->getUri('source_fields', (string) self::PRODUCT_BRAND_SOURCE_FIELD_ID), 'code' => 'new_brand_code_4', 'defaultLabel' => 'New brand 4'],
             ],
-            [51 => 8],
+            [self::PRODUCT_BRAND_SOURCE_FIELD_ID => 8],
             [
                 0 => ['defaultLabel' => 'New brand Updated'],
             ],
@@ -322,7 +327,7 @@ class SourceFieldOptionTest extends AbstractEntityTestWithUpdate
             $adminUser,
             [
                 [
-                    'sourceField' => $this->getUri('source_fields', '51'),
+                    'sourceField' => $this->getUri('source_fields', (string) self::PRODUCT_BRAND_SOURCE_FIELD_ID),
                     'code' => 'new_brand_code_4',
                     'defaultLabel' => 'New brand 4',
                     'labels' => [
@@ -330,7 +335,7 @@ class SourceFieldOptionTest extends AbstractEntityTestWithUpdate
                     ],
                 ],
                 [
-                    'sourceField' => $this->getUri('source_fields', '51'),
+                    'sourceField' => $this->getUri('source_fields', (string) self::PRODUCT_BRAND_SOURCE_FIELD_ID),
                     'code' => 'new_brand_code_5',
                     'defaultLabel' => 'New brand 5',
                     'labels' => [
@@ -338,7 +343,7 @@ class SourceFieldOptionTest extends AbstractEntityTestWithUpdate
                     ],
                 ],
             ],
-            [51 => 9],
+            [self::PRODUCT_BRAND_SOURCE_FIELD_ID => 9],
             [
                 0 => [
                     'defaultLabel' => 'New brand 4',
@@ -354,7 +359,7 @@ class SourceFieldOptionTest extends AbstractEntityTestWithUpdate
             $adminUser,
             [
                 [
-                    'sourceField' => $this->getUri('source_fields', '51'),
+                    'sourceField' => $this->getUri('source_fields', (string) self::PRODUCT_BRAND_SOURCE_FIELD_ID),
                     'code' => 'new_brand_code_4',
                     'defaultLabel' => 'New brand 4',
                     'labels' => [
@@ -369,7 +374,7 @@ class SourceFieldOptionTest extends AbstractEntityTestWithUpdate
                     ],
                 ],
                 [
-                    'sourceField' => $this->getUri('source_fields', '51'),
+                    'sourceField' => $this->getUri('source_fields', (string) self::PRODUCT_BRAND_SOURCE_FIELD_ID),
                     'code' => 'new_brand_code_5',
                     'defaultLabel' => 'New brand 5',
                     'labels' => [
@@ -380,7 +385,7 @@ class SourceFieldOptionTest extends AbstractEntityTestWithUpdate
                     ],
                 ],
                 [
-                    'sourceField' => $this->getUri('source_fields', '54'),
+                    'sourceField' => $this->getUri('source_fields', (string) self::PRODUCT_MATERIAL_SOURCE_FIELD_ID),
                     'code' => 'new_material_code_1',
                     'defaultLabel' => 'New Material 1',
                     'labels' => [
@@ -392,8 +397,8 @@ class SourceFieldOptionTest extends AbstractEntityTestWithUpdate
                 ],
             ],
             [
-                51 => 9,
-                54 => 1,
+                self::PRODUCT_BRAND_SOURCE_FIELD_ID => 9,
+                self::PRODUCT_MATERIAL_SOURCE_FIELD_ID => 1,
             ],
             [
                 0 => [
