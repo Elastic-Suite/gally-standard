@@ -20,6 +20,7 @@ use Gally\Job\Exception\JobException;
 use Gally\Job\Service\JobManager;
 use Gally\Metadata\Entity\SourceField;
 use Gally\Metadata\Job\AbstractSourceFieldImport;
+use Gally\Metadata\Validator\SourceFieldDataValidator;
 use Gally\Search\Entity\Facet\Configuration;
 use Gally\Search\Repository\Facet\ConfigurationRepository;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
@@ -32,9 +33,7 @@ class ProductSourceFieldImport extends AbstractSourceFieldImport
 
     protected ConfigurationRepository $facetConfigurationRepository;
 
-    public const CSV_HEADERS = [
-        ...parent::BASE_CSV_HEADERS,
-        // Facet configuration
+    private const FACET_CONFIGURATION_CSV_FIELDS = [
         'display_mode',
         'coverage_rate',
         'max_size',
@@ -43,14 +42,20 @@ class ProductSourceFieldImport extends AbstractSourceFieldImport
         'boolean_logic',
     ];
 
+    public const CSV_HEADERS = [
+        ...parent::BASE_CSV_HEADERS,
+        ...self::FACET_CONFIGURATION_CSV_FIELDS,
+    ];
+
     public function __construct(
         protected JobManager $jobManager,
         protected EntityManagerFactory $entityManagerFactory,
         protected ValidatorInterface $validator,
         protected TranslatorInterface $translator,
+        protected SourceFieldDataValidator $sourceFieldDataValidator,
         private int $batchSize = 100000,
     ) {
-        parent::__construct($jobManager, $entityManagerFactory, $validator, $translator, $this->batchSize);
+        parent::__construct($jobManager, $entityManagerFactory, $validator, $translator, $sourceFieldDataValidator, $this->batchSize);
         $this->facetConfigurationRepository = $this->importEntityManager->getRepository(Configuration::class);
     }
 
@@ -119,6 +124,11 @@ class ProductSourceFieldImport extends AbstractSourceFieldImport
         return $errors;
     }
 
+    protected function getAdditionalSystemUpdatableCsvFields(): array
+    {
+        return self::FACET_CONFIGURATION_CSV_FIELDS;
+    }
+
     protected function processAdditionalData(SourceField $sourceField, array $data): void
     {
         $facetConfiguration = $this->upsertFacetConfigurationFromData($sourceField, $data);
@@ -163,6 +173,7 @@ class ProductSourceFieldImport extends AbstractSourceFieldImport
         if (null === $facetConfig && $allDefault) {
             $skipReasons[] = $this->translator->trans('sourcefield.import.skip_reason.all_default', [], 'gally_sourcefield');
         }
+
         if (!$sourceField->getIsFilterable()) {
             $skipReasons[] = $this->translator->trans('sourcefield.import.skip_reason.not_filterable', [], 'gally_sourcefield');
         }

@@ -164,6 +164,12 @@
                 <target>Starting attribute export for job id: %job_id%</target>
             </segment>
         </unit>
+        <unit id="sourcefield_import_warning_system_field_ignored">
+            <segment>
+                <source>sourcefield.import.warning.system_field_ignored</source>
+                <target>Warning: The source field "%code%" is a system attribute. Only the following fields can be changed: %allowed%. Others columns values will be ignored</target>
+            </segment>
+        </unit>
         <unit id="sourcefield_export_completed">
             <segment>
                 <source>sourcefield.export.completed</source>

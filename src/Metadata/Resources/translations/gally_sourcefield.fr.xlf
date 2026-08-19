@@ -158,6 +158,12 @@
                 <target>Démarrage de l'export d'attributs pour le job id: %job_id%</target>
             </segment>
         </unit>
+        <unit id="sourcefield_import_warning_system_field_ignored">
+            <segment>
+                <source>sourcefield.import.warning.system_field_ignored</source>
+                <target>Attention : Le champ source "%code%" est un attribut système. Seuls les champs suivants peuvent être changés : %allowed%. Les valeurs des autres colonnes seront ignorées</target>
+            </segment>
+        </unit>
         <unit id="sourcefield_export_completed">
             <segment>
                 <source>sourcefield.export.completed</source>
