@@ -6,3 +6,7 @@ Gally\Metadata\Entity\Metadata:
     tracking_event:
         entity: tracking_event
         is_time_series_data: true
+    tracking_session:
+        entity: tracking_session
+        is_time_series_data: false
+        old_indices_kept: true

@@ -1,0 +1,17 @@
+gally:
+    configuration:
+        groups:
+            tracking:
+                labelKey: 'gally_configuration.group.tracking.label'
+                position: 40
+                scopeType: !php/const Gally\Configuration\Entity\Configuration::SCOPE_LOCALIZED_CATALOG
+                fieldsets:
+                    session:
+                        labelKey: 'gally_configuration.group.tracking.fieldset.session.label'
+                        position: 10
+                        fields:
+                            gally.tracking_session_settings.transform_schedule_period:
+                                labelKey: 'gally_configuration.gally_tracking_session_settings_transform_schedule_period.label'
+                                infoTooltipKey: 'gally_configuration.gally_tracking_session_settings_transform_schedule_period.tooltip'
+                                position: 10
+                                input: 'number'
