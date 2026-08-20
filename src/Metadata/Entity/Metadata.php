@@ -57,6 +57,8 @@ class Metadata
     private string $entity;
     #[Groups(['metadata:read', 'metadata:write'])]
     private ?bool $isTimeSeriesData;
+    #[Groups(['metadata:read', 'metadata:write'])]
+    private ?bool $oldIndicesKept;
 
     /** @var ArrayCollection<int, SourceField> */
     private Collection $sourceFields;
@@ -69,6 +71,7 @@ class Metadata
     {
         $this->sourceFields = new ArrayCollection();
         $this->isTimeSeriesData = false;
+        $this->oldIndicesKept = false;
     }
 
     public function getId(): ?int
@@ -96,6 +99,18 @@ class Metadata
     public function setIsTimeSeriesData(bool $isTimeSeriesData): self
     {
         $this->isTimeSeriesData = $isTimeSeriesData;
+
+        return $this;
+    }
+
+    public function isOldIndicesKept(): bool
+    {
+        return $this->oldIndicesKept ?? false;
+    }
+
+    public function setOldIndicesKept(bool $oldIndicesKept): self
+    {
+        $this->oldIndicesKept = $oldIndicesKept;
 
         return $this;
     }

@@ -1,4 +1,21 @@
 services:
+    Gally\Tracker\Service\SessionTransformProvisioner:
+        arguments:
+            - '@Gally\Index\Repository\Transform\TransformRepositoryInterface'
+            - '@Gally\Index\Api\IndexSettingsInterface'
+            - '@Gally\Index\Service\IndexOperation'
+            - '@Gally\Metadata\Repository\MetadataRepository'
+            - '@Gally\Configuration\Service\ConfigurationManager'
+
+    Gally\Tracker\Service\SessionIndexRolloverManager:
+        arguments:
+            - '@Gally\Index\Api\IndexSettingsInterface'
+            - '@Gally\Index\Service\IndexOperation'
+            - '@Gally\Metadata\Repository\MetadataRepository'
+            - '@Gally\Index\Repository\DataStream\DataStreamRepositoryInterface'
+            - '@Gally\Tracker\Service\SessionTransformProvisioner'
+            - '@logger'
+
     Gally\Tracker\State\TrackingEventProcessor:
         arguments:
             - '@messenger.default_bus'
@@ -12,6 +29,7 @@ services:
             - '@Gally\Metadata\Repository\MetadataRepository'
             - '@Gally\Catalog\Repository\LocalizedCatalogRepository'
             - '@api_platform.validator'
+            - '@Gally\Tracker\Service\SessionIndexRolloverManager'
         tags:
             - { name: messenger.message_handler }
 

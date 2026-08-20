@@ -86,3 +86,13 @@ Gally\Metadata\Entity\SourceField:
         code: 'event_type'
         type: 'reference'
         isSystem: true
+    session_id:
+        metadata: '@tracking_session'
+        code: 'id'
+        type: 'reference'
+        isSystem: true
+    session_timestamp:
+        metadata: '@tracking_session'
+        code: '\@timestamp'
+        type: 'date'
+        isSystem: true

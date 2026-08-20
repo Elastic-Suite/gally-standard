@@ -26,7 +26,15 @@ services:
             - '@Gally\Catalog\Repository\LocalizedCatalogRepository'
             - '@Gally\Index\Repository\DataStream\DataStreamRepositoryInterface'
         public: true
-        
+
+    Gally\Fixture\Service\EntityTransformsFixturesInterface: '@Gally\Fixture\Service\EntityTransformsFixtures'
+    Gally\Fixture\Service\EntityTransformsFixtures:
+        arguments:
+            - '@Gally\Catalog\Repository\LocalizedCatalogRepository'
+            - '@Gally\Index\Api\IndexSettingsInterface'
+            - '@Gally\Index\Repository\Transform\TransformRepositoryInterface'
+        public: true
+
     Gally\Fixture\Service\ORMPsqlSequenceProvider:
         arguments:
             - '@doctrine.orm.entity_manager'
