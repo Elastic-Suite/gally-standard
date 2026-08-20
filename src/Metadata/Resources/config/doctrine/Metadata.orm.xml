@@ -20,6 +20,7 @@
                 <option name="default">0</option>
             </options>
         </field>
+        <field name="oldIndicesKept" type="boolean" nullable="true" default="false"/>
 
         <one-to-many field="sourceFields" target-entity="Gally\Metadata\Entity\SourceField" mapped-by="metadata">
             <order-by>

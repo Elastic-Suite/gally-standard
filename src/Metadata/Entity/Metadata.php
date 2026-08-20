@@ -63,6 +63,8 @@ class Metadata
     private bool $isSystem = false;
     #[Groups(['metadata:read', 'metadata:write'])]
     private bool $isInternal = false;
+    #[Groups(['metadata:read', 'metadata:write'])]
+    private ?bool $oldIndicesKept;
 
     /** @var ArrayCollection<int, SourceField> */
     private Collection $sourceFields;
@@ -75,6 +77,7 @@ class Metadata
     {
         $this->sourceFields = new ArrayCollection();
         $this->isTimeSeriesData = false;
+        $this->oldIndicesKept = false;
     }
 
     public function getId(): ?int
@@ -106,12 +109,12 @@ class Metadata
         return $this;
     }
 
-    public function getIsSystem(): bool
+    public function isOldIndicesKept(): bool
     {
-        return $this->isSystem;
+        return $this->oldIndicesKept ?? false;
     }
 
-    public function setIsSystem(bool $isSystem): self
+    public function setOldIndicesKept(bool $oldIndicesKept): self
     {
         $this->isSystem = $isSystem;
 
@@ -126,6 +129,18 @@ class Metadata
     public function setIsInternal(bool $isInternal): self
     {
         $this->isInternal = $isInternal;
+
+        return $this;
+    }
+
+    public function isOldIndicesKept(): bool
+    {
+        return $this->oldIndicesKept ?? false;
+    }
+
+    public function setOldIndicesKept(bool $oldIndicesKept): self
+    {
+        $this->oldIndicesKept = $oldIndicesKept;
 
         return $this;
     }

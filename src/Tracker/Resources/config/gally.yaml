@@ -1,0 +1,3 @@
+gally:
+    tracking_session_settings:
+        transform_schedule_period: 5

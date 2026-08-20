@@ -1,0 +1,130 @@
+Gally\Metadata\Entity\SourceField:
+    tracking_event_id:
+        metadata: '@tracking_event'
+        code: 'id'
+        type: 'keyword'
+        isSystem: true
+    tracking_event_timestamp:
+        metadata: '@tracking_event'
+        code: '\@timestamp'
+        type: 'date'
+        isSystem: true
+    tracking_event_event_type:
+        metadata: '@tracking_event'
+        code: 'event_type'
+        type: 'keyword'
+    tracking_event_metadata_code:
+        metadata: '@tracking_event'
+        code: 'metadata_code'
+        type: 'keyword'
+    tracking_event_localized_catalog_code:
+        metadata: '@tracking_event'
+        code: 'localized_catalog_code'
+        type: 'keyword'
+    tracking_event_entity_code:
+        metadata: '@tracking_event'
+        code: 'entity_code'
+        type: 'keyword'
+    tracking_event_session_uid:
+        metadata: '@tracking_event'
+        code: 'session_uid'
+        type: 'keyword'
+    tracking_event_session_vid:
+        metadata: '@tracking_event'
+        code: 'session_vid'
+        type: 'keyword'
+    tracking_event_group_id:
+        metadata: '@tracking_event'
+        code: 'group_id'
+        type: 'keyword'
+    tracking_event_search_query_text:
+        metadata: '@tracking_event'
+        code: 'search_query.query_text'
+        type: 'text'
+    tracking_event_product_list_item_count:
+        metadata: '@tracking_event'
+        code: 'product_list.item_count'
+        type: 'integer'
+
+    tracking_session_id:
+        metadata: '@tracking_session'
+        code: 'id'
+        type: 'keyword'
+        isSystem: true
+    tracking_session_timestamp:
+        metadata: '@tracking_session'
+        code: '\@timestamp'
+        type: 'date'
+        isSystem: true
+    tracking_session_localized_catalog_code:
+        metadata: '@tracking_session'
+        code: 'localized_catalog_code'
+        type: 'keyword'
+    tracking_session_start_time:
+        metadata: '@tracking_session'
+        code: 'start_time'
+        type: 'date'
+    tracking_session_end_time:
+        metadata: '@tracking_session'
+        code: 'end_time'
+        type: 'date'
+    tracking_session_group_id:
+        metadata: '@tracking_session'
+        code: 'group_id'
+        type: 'keyword'
+    tracking_session_session_uid:
+        metadata: '@tracking_session'
+        code: 'session_uid'
+        type: 'keyword'
+    tracking_session_session_vid:
+        metadata: '@tracking_session'
+        code: 'session_vid'
+        type: 'keyword'
+    tracking_session_searches_metadata_code:
+        metadata: '@tracking_session'
+        code: 'searches.metadata_code'
+        type: 'keyword'
+    tracking_session_searches_query:
+        metadata: '@tracking_session'
+        code: 'searches.query'
+        type: 'keyword'
+    tracking_session_searches_results_count:
+        metadata: '@tracking_session'
+        code: 'searches.results_count'
+        type: 'integer'
+    tracking_session_views_metadata_code:
+        metadata: '@tracking_session'
+        code: 'views.metadata_code'
+        type: 'keyword'
+    tracking_session_views_count:
+        metadata: '@tracking_session'
+        code: 'views.count'
+        type: 'integer'
+    tracking_session_views_items:
+        metadata: '@tracking_session'
+        code: 'views.items'
+        type: 'keyword'
+    tracking_session_cart_metadata_code:
+        metadata: '@tracking_session'
+        code: 'cart.metadata_code'
+        type: 'keyword'
+    tracking_session_cart_count:
+        metadata: '@tracking_session'
+        code: 'cart.count'
+        type: 'integer'
+    tracking_session_cart_items:
+        metadata: '@tracking_session'
+        code: 'cart.items'
+        type: 'keyword'
+    tracking_session_order_metadata_code:
+        metadata: '@tracking_session'
+        code: 'order.metadata_code'
+        type: 'keyword'
+    tracking_session_order_count:
+        metadata: '@tracking_session'
+        code: 'order.count'
+        type: 'integer'
+    tracking_session_order_items:
+        metadata: '@tracking_session'
+        code: 'order.items'
+        type: 'keyword'

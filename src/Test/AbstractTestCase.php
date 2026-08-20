@@ -28,6 +28,7 @@ use Gally\Cache\Service\CacheManagerInterface;
 use Gally\Fixture\Service\ElasticsearchFixtures;
 use Gally\Fixture\Service\EntityDataStreamsFixtures;
 use Gally\Fixture\Service\EntityIndicesFixturesInterface;
+use Gally\Fixture\Service\EntityTransformsFixturesInterface;
 use Gally\User\Tests\LoginTrait;
 use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
 use PHPUnit\Framework\ExpectationFailedException;
@@ -182,6 +183,12 @@ abstract class AbstractTestCase extends ApiTestCase
     {
         $entityIndicesFixtures = static::getContainer()->get(EntityIndicesFixturesInterface::class);
         $entityIndicesFixtures->deleteEntityElasticsearchIndices($entityType, $localizedCatalogIdentifier);
+    }
+
+    protected static function deleteEntityElasticsearchTransforms(string $entityType, string|int|null $localizedCatalogIdentifier = null)
+    {
+        $entityTransformsFixtures = static::getContainer()->get(EntityTransformsFixturesInterface::class);
+        $entityTransformsFixtures->deleteEntityElasticsearchTransforms($entityType, $localizedCatalogIdentifier);
     }
 
     protected static function loadElasticsearchIndexFixtures(array $paths)

@@ -15,10 +15,17 @@ declare(strict_types=1);
 namespace Gally\Metadata\Tests\Unit;
 
 use ApiPlatform\Validator\ValidatorInterface;
+use Gally\Catalog\Entity\LocalizedCatalog;
+use Gally\Catalog\Repository\LocalizedCatalogRepository;
+use Gally\Index\Api\IndexSettingsInterface;
 use Gally\Index\Repository\DataStream\DataStreamRepositoryInterface;
+use Gally\Index\Service\IndexOperation;
+use Gally\Metadata\Repository\MetadataRepository;
 use Gally\Test\AbstractTestCase;
 use Gally\Tracker\Entity\TrackingEvent;
 use Gally\Tracker\MessageHandler\TrackingEventHandler;
+use Gally\Tracker\Service\SessionIndexRolloverManager;
+use Gally\Tracker\Service\SessionTransformProvisioner;
 
 class TrackingEventHandlerTest extends AbstractTestCase
 {
@@ -31,6 +38,7 @@ class TrackingEventHandlerTest extends AbstractTestCase
         parent::setUpBeforeClass();
         self::loadFixture([
             __DIR__ . '/../fixtures/catalogs.yaml',
+            __DIR__ . '/../fixtures/source_field.yaml',
             __DIR__ . '/../fixtures/metadata.yaml',
         ]);
     }
@@ -48,12 +56,22 @@ class TrackingEventHandlerTest extends AbstractTestCase
             $dataStreamRepoMock = self::getMockBuilder(DataStreamRepositoryInterface::class)
                 ->disableOriginalConstructor()
                 ->getMock();
+            /** @var SessionIndexRolloverManager $sessionIndexRolloverManagerMock */
+            $sessionIndexRolloverManagerMock = self::getMockBuilder(SessionIndexRolloverManager::class)
+                ->disableOriginalConstructor()
+                ->getMock();
 
             $handler = static::getContainer()->get(TrackingEventHandler::class);
             $ref = new \ReflectionClass($handler);
-            $property = $ref->getProperty('dataStreamRepository');
-            $property->setAccessible(true);
-            $property->setValue($handler, $dataStreamRepoMock);
+
+            $dataStreamProperty = $ref->getProperty('dataStreamRepository');
+            $dataStreamProperty->setAccessible(true);
+            $dataStreamProperty->setValue($handler, $dataStreamRepoMock);
+
+            // Without this, ensureUpToDate() would run for real and leak a tracking_session index on every run.
+            $sessionIndexRolloverManagerProperty = $ref->getProperty('sessionIndexRolloverManager');
+            $sessionIndexRolloverManagerProperty->setAccessible(true);
+            $sessionIndexRolloverManagerProperty->setValue($handler, $sessionIndexRolloverManagerMock);
 
             $this->eventHandler = $handler;
         }
@@ -268,6 +286,69 @@ The field order is missing from payload data.',
                 ],
             ]),
         ];
+    }
+
+    /**
+     * Fires one event through a real, unmocked handler to verify it provisions an actual tracking_session index and healthy Transform.
+     */
+    public function testHandleTrackingEventProvisionsARealTrackingSession(): void
+    {
+        $localizedCatalog = static::getContainer()->get(LocalizedCatalogRepository::class)->findByCodeOrId('b2b_fr');
+        $indexSettings = static::getContainer()->get(IndexSettingsInterface::class);
+        $indexOperation = static::getContainer()->get(IndexOperation::class);
+        $sessionAlias = $indexSettings->getIndexAliasFromIdentifier('tracking_session', $localizedCatalog);
+
+        try {
+            $handler = new TrackingEventHandler(
+                static::getContainer()->get(DataStreamRepositoryInterface::class),
+                static::getContainer()->get(MetadataRepository::class),
+                static::getContainer()->get(LocalizedCatalogRepository::class),
+                static::getContainer()->get(ValidatorInterface::class),
+                static::getContainer()->get(SessionIndexRolloverManager::class),
+            );
+            $event = $this->buildEventObject([
+                'localizedCatalogCode' => 'b2b_fr',
+                'eventType' => 'search',
+                'sourceEventType' => 'view',
+                'contextType' => 'category',
+                'contextCode' => 'cat_14',
+                'payload' => [
+                    'search_query' => ['is_spellchecked' => false, 'query_text' => 'shoes'],
+                    'product_list' => [
+                        'item_count' => 10,
+                        'current_page' => 1,
+                        'page_count' => 1,
+                        'sort_order' => 'position',
+                        'sort_direction' => 'asc',
+                        'filters' => [],
+                    ],
+                ],
+            ]);
+            $this->validator->validate($event);
+            $handler->__invoke($event);
+
+            $sessionIndices = $indexOperation->findIndicesByAlias($sessionAlias);
+            $this->assertCount(1, $sessionIndices);
+            $this->assertSame('tracking_session', $sessionIndices[0]->getEntityType());
+            $this->assertTrue($this->waitUntilHealthy($localizedCatalog));
+        } finally {
+            self::deleteEntityElasticsearchTransforms('tracking_session', $localizedCatalog->getId());
+            $indexOperation->deleteIndicesByAlias($sessionAlias);
+            self::deleteEntityElasticsearchDataStreams('tracking_event', $localizedCatalog->getId());
+        }
+    }
+
+    private function waitUntilHealthy(LocalizedCatalog $localizedCatalog, int $maxAttempts = 180): bool
+    {
+        $provisioner = static::getContainer()->get(SessionTransformProvisioner::class);
+        for ($i = 0; $i < $maxAttempts; ++$i) {
+            if ($provisioner->isHealthy($localizedCatalog)) {
+                return true;
+            }
+            usleep(500_000);
+        }
+
+        return false;
     }
 
     private function buildEventObject(array $data): TrackingEvent

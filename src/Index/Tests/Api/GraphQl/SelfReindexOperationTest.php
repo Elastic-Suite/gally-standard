@@ -60,10 +60,11 @@ class SelfReindexOperationTest extends AbstractTestCase
      * - or it succeeds for all entity indices
      * Partial success is out of the scope of this test.
      *
-     * @param User    $user                 API user for which to perform the call
-     * @param ?string $entityType           Optional entity type for which to rebuild indices (if empty, all entities)
-     * @param int     $expectedIndicesCount Expected global indices count after the API call (wether it succeeds or not)
-     * @param array   $expectedEntityTypes  Expected impacted entity types
+     * @param User    $user                    API user for which to perform the call
+     * @param ?string $entityType              Optional entity type for which to rebuild indices (if empty, all entities)
+     * @param int     $expectedIndicesCount    Expected global indices count after the API call (wether it succeeds or not)
+     * @param array   $expectedEntityTypes     Expected impacted entity types
+     * @param array   $expectedKeptEntityTypes Entity types (among $expectedEntityTypes) whose previously installed index must survive instead of being deleted (Metadata::isOldIndicesKept())
      */
     public function testPerformSelfReindex(
         User $user,
@@ -71,14 +72,19 @@ class SelfReindexOperationTest extends AbstractTestCase
         int $expectedIndicesCount,
         ?string $expectedError,
         array $expectedEntityTypes,
+        array $expectedKeptEntityTypes = [],
     ): void {
         $indexRepository = self::$indexRepository;
         $indexSettings = self::$indexSettings;
-        // Installed entity indices *before* initiating the reindex.
-        $installedEntityIndicesNames = array_map(
-            function (Index $index) { return $index->getName(); },
-            $this->getInstalledEntityIndices($expectedEntityTypes, $indexRepository, $indexSettings)
-        );
+        // Installed entity indices *before* initiating the reindex, grouped by entity type since
+        // $expectedKeptEntityTypes need a different assertion than the rest.
+        $installedIndicesByEntityType = [];
+        foreach ($expectedEntityTypes as $expectedEntityType) {
+            $installedIndicesByEntityType[$expectedEntityType] = array_map(
+                function (Index $index) { return $index->getName(); },
+                $this->getInstalledEntityIndices([$expectedEntityType], $indexRepository, $indexSettings)
+            );
+        }
 
         $this->validateApiCall(
             new RequestGraphQlToTest(
@@ -103,12 +109,14 @@ class SelfReindexOperationTest extends AbstractTestCase
                     $expectedIndicesCount,
                     $expectedError,
                     $expectedEntityTypes,
-                    $installedEntityIndicesNames,
+                    $expectedKeptEntityTypes,
+                    $installedIndicesByEntityType,
                     $indexRepository,
                     $indexSettings
                 ) {
                     if (!empty($expectedError)) {
                         $this->assertGraphQlError($expectedError);
+                        $installedEntityIndicesNames = array_merge(...array_values($installedIndicesByEntityType));
                     } else {
                         $this->assertMatchesJsonSchema([
                             'type' => 'object',
@@ -157,9 +165,18 @@ class SelfReindexOperationTest extends AbstractTestCase
                             ],
                         ]);
 
-                        // Make sure all previously installed entity indices have been deleted.
-                        foreach ($installedEntityIndicesNames as $installedEntityIndexName) {
-                            $this->assertNull($indexRepository->findByName($installedEntityIndexName));
+                        // Previously installed indices are deleted, except for entity types that
+                        // keep their old generations (Metadata::isOldIndicesKept()).
+                        foreach ($installedIndicesByEntityType as $entityType => $indexNames) {
+                            if (\in_array($entityType, $expectedKeptEntityTypes, true)) {
+                                foreach ($indexNames as $indexName) {
+                                    $this->assertNotNull($indexRepository->findByName($indexName));
+                                }
+                            } else {
+                                foreach ($indexNames as $indexName) {
+                                    $this->assertNull($indexRepository->findByName($indexName));
+                                }
+                            }
                         }
 
                         // Initiate the test below that all new indices are installed.
@@ -234,18 +251,28 @@ class SelfReindexOperationTest extends AbstractTestCase
 
         yield [
             $admin,
-            '',
-            $expectedIndicesCount + (2 * $localizedCatalogsCount),
+            'tracking_session',
+            $expectedIndicesCount + (3 * $localizedCatalogsCount),
             null,
-            ['product', 'category'],
+            ['tracking_session'],
+        ];
+
+        yield [
+            $admin,
+            '',
+            $expectedIndicesCount + (4 * $localizedCatalogsCount),
+            null,
+            ['product', 'category', 'tracking_session'],
+            ['tracking_session'],
         ];
 
         yield [
             $admin,
             null,
-            $expectedIndicesCount + (2 * $localizedCatalogsCount),
+            $expectedIndicesCount + (5 * $localizedCatalogsCount),
             null,
-            ['product', 'category'],
+            ['product', 'category', 'tracking_session'],
+            ['tracking_session'],
         ];
     }
 

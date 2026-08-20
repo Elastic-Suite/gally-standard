@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" version="2.0"
+       srcLang="en-US" trgLang="en-US">
+    <file id="gally_configuration.en">
+        <unit id="gally_configuration.group.tracking.label">
+            <segment>
+                <source>gally_configuration.group.tracking.label</source>
+                <target>Tracking</target>
+            </segment>
+        </unit>
+        <unit id="gally_configuration.group.tracking.fieldset.session.label">
+            <segment>
+                <source>gally_configuration.group.tracking.fieldset.session.label</source>
+                <target>Session</target>
+            </segment>
+        </unit>
+        <unit id="gally_configuration.gally_tracking_session_settings_transform_schedule_period.label">
+            <segment>
+                <source>gally_configuration.gally_tracking_session_settings_transform_schedule_period.label</source>
+                <target>Session aggregation refresh period (minutes)</target>
+            </segment>
+        </unit>
+        <unit id="gally_configuration.gally_tracking_session_settings_transform_schedule_period.tooltip">
+            <segment>
+                <source>gally_configuration.gally_tracking_session_settings_transform_schedule_period.tooltip</source>
+                <target>How often (in minutes) tracked sessions are re-aggregated from raw tracking events. Lower
+                    values keep session-based KPIs fresher at the cost of more load on the search engine. OpenSearch
+                    does not support a finer granularity than 1 minute. Defaults to 5 minutes.
+                </target>
+            </segment>
+        </unit>
+    </file>
+</xliff>

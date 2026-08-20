@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" version="2.0"
+       srcLang="en-US" trgLang="fr-FR">
+    <file id="gally_configuration.fr">
+        <unit id="gally_configuration.group.tracking.label">
+            <segment>
+                <source>gally_configuration.group.tracking.label</source>
+                <target>Tracking</target>
+            </segment>
+        </unit>
+        <unit id="gally_configuration.group.tracking.fieldset.session.label">
+            <segment>
+                <source>gally_configuration.group.tracking.fieldset.session.label</source>
+                <target>Session</target>
+            </segment>
+        </unit>
+        <unit id="gally_configuration.gally_tracking_session_settings_transform_schedule_period.label">
+            <segment>
+                <source>gally_configuration.gally_tracking_session_settings_transform_schedule_period.label</source>
+                <target>Période de rafraîchissement de l'agrégation des sessions (minutes)</target>
+            </segment>
+        </unit>
+        <unit id="gally_configuration.gally_tracking_session_settings_transform_schedule_period.tooltip">
+            <segment>
+                <source>gally_configuration.gally_tracking_session_settings_transform_schedule_period.tooltip</source>
+                <target>Fréquence (en minutes) à laquelle les sessions trackées sont ré-agrégées à partir des
+                    événements de tracking bruts. Une valeur plus basse rafraîchit plus vite les KPI liés aux sessions,
+                    au prix d'une charge plus importante sur le moteur de recherche. OpenSearch ne supporte pas de
+                    granularité plus fine que 1 minute. Valeur par défaut : 5 minutes.
+                </target>
+            </segment>
+        </unit>
+    </file>
+</xliff>
