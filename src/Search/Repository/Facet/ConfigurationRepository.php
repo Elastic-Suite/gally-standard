@@ -97,7 +97,7 @@ class ConfigurationRepository extends ServiceEntityRepository
     }
 
     /**
-     * Get facet configuration by source field for default category
+     * Get facet configuration by source field for default category.
      */
     public function findOneBySourceFieldAndDefaultCategory(SourceField $sourceField): ?Facet\Configuration
     {
@@ -118,6 +118,9 @@ class ConfigurationRepository extends ServiceEntityRepository
 
     /**
      * Find facet configuration with source field data.
+     *
+     * @param mixed|null $limit
+     * @param mixed|null $offset
      *
      * @return Facet\Configuration[]
      */

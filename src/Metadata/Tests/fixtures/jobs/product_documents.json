@@ -1,0 +1,43 @@
+[
+    {
+        "index_name": "gally_localized_catalog_b2c_en_product",
+        "documents": [
+            {
+                "id": "1",
+                "sku": "sku_1",
+                "name": "Bag one",
+                "brand": [{ "value": "1", "label": "Brand 1" }]
+            },
+            {
+                "id": "2",
+                "sku": "sku_2",
+                "name": "Bag two",
+                "brand": [{ "value": "1", "label": "Brand 1" }]
+            },
+            {
+                "id": "3",
+                "sku": "sku_3",
+                "name": "Bag three",
+                "brand": [{ "value": "2", "label": "Brand 2" }]
+            },
+            {
+                "id": "4",
+                "sku": "sku_4",
+                "name": "Bag four",
+                "brand": [{ "value": "2", "label": "Brand 2" }]
+            },
+            {
+                "id": "5",
+                "sku": "sku_5",
+                "name": "Bag five",
+                "brand": [{ "value": "3", "label": "Brand 3" }]
+            },
+            {
+                "id": "6",
+                "sku": "sku_6",
+                "name": "Bag six",
+                "brand": [{ "value": "4", "label": "Brand 4" }]
+            }
+        ]
+    }
+]

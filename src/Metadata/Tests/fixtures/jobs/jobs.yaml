@@ -1,0 +1,91 @@
+## Jobs used by ProductSourceFieldImportExportTest.
+## A job carries a single file, so every scenario needs its own export job: exports cannot be replayed.
+Gally\Job\Entity\Job:
+    ## 1: baseline export, before anything is imported.
+    job_1:
+        type: !php/const Gally\Job\Entity\Job::TYPE_EXPORT
+        profile: !php/const Gally\Metadata\Job\Product\ProductSourceFieldExport::JOB_PROFILE
+
+    ## 2-3: CSV level validation errors, then an export proving nothing was written.
+    job_2:
+        file: '@job_file_errors'
+        type: !php/const Gally\Job\Entity\Job::TYPE_IMPORT
+        profile: !php/const Gally\Metadata\Job\Product\ProductSourceFieldImport::JOB_PROFILE
+    job_3:
+        type: !php/const Gally\Job\Entity\Job::TYPE_EXPORT
+        profile: !php/const Gally\Metadata\Job\Product\ProductSourceFieldExport::JOB_PROFILE
+
+    ## 4-5: entity level violation on the second line, then an export proving the first line rolled back.
+    job_4:
+        file: '@job_file_entity_violation'
+        type: !php/const Gally\Job\Entity\Job::TYPE_IMPORT
+        profile: !php/const Gally\Metadata\Job\Product\ProductSourceFieldImport::JOB_PROFILE
+    job_5:
+        type: !php/const Gally\Job\Entity\Job::TYPE_EXPORT
+        profile: !php/const Gally\Metadata\Job\Product\ProductSourceFieldExport::JOB_PROFILE
+
+    ## 6-7: nominal import written with the export header, then the export it should round trip to.
+    job_6:
+        file: '@job_file_update'
+        type: !php/const Gally\Job\Entity\Job::TYPE_IMPORT
+        profile: !php/const Gally\Metadata\Job\Product\ProductSourceFieldImport::JOB_PROFILE
+    job_7:
+        type: !php/const Gally\Job\Entity\Job::TYPE_EXPORT
+        profile: !php/const Gally\Metadata\Job\Product\ProductSourceFieldExport::JOB_PROFILE
+
+    ## 8-9: system source field restrictions, then an export showing what was and was not applied.
+    job_8:
+        file: '@job_file_system_field'
+        type: !php/const Gally\Job\Entity\Job::TYPE_IMPORT
+        profile: !php/const Gally\Metadata\Job\Product\ProductSourceFieldImport::JOB_PROFILE
+    job_9:
+        type: !php/const Gally\Job\Entity\Job::TYPE_EXPORT
+        profile: !php/const Gally\Metadata\Job\Product\ProductSourceFieldExport::JOB_PROFILE
+
+    ## 10-11: facet configuration create / update / skip rules.
+    job_10:
+        file: '@job_file_facet'
+        type: !php/const Gally\Job\Entity\Job::TYPE_IMPORT
+        profile: !php/const Gally\Metadata\Job\Product\ProductSourceFieldImport::JOB_PROFILE
+    job_11:
+        type: !php/const Gally\Job\Entity\Job::TYPE_EXPORT
+        profile: !php/const Gally\Metadata\Job\Product\ProductSourceFieldExport::JOB_PROFILE
+
+    ## 12-13: blank cells, then an export proving they left every value untouched.
+    job_12:
+        file: '@job_file_blank_cells'
+        type: !php/const Gally\Job\Entity\Job::TYPE_IMPORT
+        profile: !php/const Gally\Metadata\Job\Product\ProductSourceFieldImport::JOB_PROFILE
+    job_13:
+        type: !php/const Gally\Job\Entity\Job::TYPE_EXPORT
+        profile: !php/const Gally\Metadata\Job\Product\ProductSourceFieldExport::JOB_PROFILE
+
+    ## 14: makes a non-filterable field filterable and sets a non-default max size in the same sheet.
+    job_14:
+        file: '@job_file_make_filterable'
+        type: !php/const Gally\Job\Entity\Job::TYPE_IMPORT
+        profile: !php/const Gally\Metadata\Job\Product\ProductSourceFieldImport::JOB_PROFILE
+
+    ## 15: makes "brand" filterable with max_size 2, to observe both in a real search's aggregations.
+    job_15:
+        file: '@job_file_facet_aggregation'
+        type: !php/const Gally\Job\Entity\Job::TYPE_IMPORT
+        profile: !php/const Gally\Metadata\Job\Product\ProductSourceFieldImport::JOB_PROFILE
+
+Gally\Job\Entity\Job\File:
+    job_file_errors:
+        filePath: 'test_unit_sourcefield_import_errors.csv'
+    job_file_entity_violation:
+        filePath: 'test_unit_sourcefield_import_entity_violation.csv'
+    job_file_update:
+        filePath: 'test_unit_sourcefield_import_update.csv'
+    job_file_system_field:
+        filePath: 'test_unit_sourcefield_import_system_field.csv'
+    job_file_facet:
+        filePath: 'test_unit_sourcefield_import_facet.csv'
+    job_file_blank_cells:
+        filePath: 'test_unit_sourcefield_import_blank_cells.csv'
+    job_file_make_filterable:
+        filePath: 'test_unit_sourcefield_import_make_filterable.csv'
+    job_file_facet_aggregation:
+        filePath: 'test_unit_sourcefield_import_facet_aggregation.csv'

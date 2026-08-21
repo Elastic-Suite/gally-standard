@@ -1,0 +1,11 @@
+code,weight,is_searchable,is_filterable,is_sortable,is_spellchecked,is_used_for_rules,is_used_in_autocomplete,is_spannable,analyzer,display_mode,coverage_rate,max_size,sort_order,position,boolean_logic
+,1,true,false,false,false,false,false,false,standard,,,,,,
+does_not_exist,1,true,false,false,false,false,false,false,standard,,,,,,
+name,1,maybe,false,false,false,false,false,false,standard,,,,,,
+name,abc,true,false,false,false,false,false,false,standard,,,,,,
+name,1,true,false,false,false,false,false,false,fake_analyzer,,,,,,
+name,1,true,true,false,false,false,false,false,standard,fake_mode,,,,,
+name,1,true,true,false,false,false,false,false,standard,,150,,,,
+name,1,true,true,false,false,false,false,false,standard,,,-1,,,
+name,1,true,true,false,false,false,false,false,standard,,,,fake_order,,
+name,1,true,true,false,false,false,false,false,standard,,,,,,XOR

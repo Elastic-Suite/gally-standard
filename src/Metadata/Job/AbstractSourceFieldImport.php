@@ -1,5 +1,4 @@
 <?php
-
 /**
  * DISCLAIMER.
  *
@@ -7,8 +6,7 @@
  *
  * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
- * @license   Licensed to Smile-SA. All rights reserved. No warranty, explicit or implicit, provided.
- *            Unauthorized copying of this file, via any medium, is strictly prohibited.
+ * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
@@ -28,6 +26,10 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 abstract class AbstractSourceFieldImport extends AbstractCsvImport
 {
+    public const JOB_PROFILE = '';
+    
+    public const CSV_HEADERS = [];
+
     public const METADATA_ENTITY = '';
 
     public const BASE_CSV_HEADERS = [
@@ -55,6 +57,9 @@ abstract class AbstractSourceFieldImport extends AbstractCsvImport
 
     private array $systemUpdatableCsvFields;
 
+    /** Codes of system source fields whose restricted columns were ignored, grouped into one log line at the end of validation. */
+    private array $systemFieldWarnings = [];
+
     private const BOOLEAN_FIELDS = [
         'is_searchable',
         'is_filterable',
@@ -63,6 +68,16 @@ abstract class AbstractSourceFieldImport extends AbstractCsvImport
         'is_used_for_rules',
         'is_used_in_autocomplete',
         'is_spannable',
+    ];
+
+    /**
+     * Core columns that must carry a value. A blank cell is reported and the file rejected, rather
+     * than silently skipped: every one of these is always filled by the export.
+     */
+    private const REQUIRED_CSV_FIELDS = [
+        'weight',
+        ...self::BOOLEAN_FIELDS,
+        'analyzer',
     ];
 
     protected array $actualCsvHeader;
@@ -136,7 +151,7 @@ abstract class AbstractSourceFieldImport extends AbstractCsvImport
                     ++$updatedCount;
 
                     // Batch processing
-                    if (($updatedCount) % $this->batchSize === 0) {
+                    if (0 === $updatedCount % $this->batchSize) {
                         $this->importEntityManager->flush();
                         $this->importEntityManager->clear();
 
@@ -170,8 +185,18 @@ abstract class AbstractSourceFieldImport extends AbstractCsvImport
             $this->importEntityManager->getConnection()->rollBack();
             throw $e;
         } finally {
+            $this->afterProcessLines();
             fclose($handle);
         }
+    }
+
+    /**
+     * Called once after every line has been processed, whether processing succeeded, failed, or
+     * was rolled back. Override to flush warnings accumulated per line into a single grouped log
+     * message instead of logging one line per occurrence.
+     */
+    protected function afterProcessLines(): void
+    {
     }
 
     protected function validateCsvLine(array $data, int $lineNumber): bool
@@ -186,7 +211,6 @@ abstract class AbstractSourceFieldImport extends AbstractCsvImport
                     'gally_sourcefield'
                 );
             } else {
-                // TODO we cannot allow to load each source field to test its existence
                 $existingSourceField = $this->sourceFieldRepository->findByCodeAndMetadataEntity($data['code'], static::METADATA_ENTITY);
                 if (!$existingSourceField) {
                     $errors[] = $this->translator->trans(
@@ -198,12 +222,24 @@ abstract class AbstractSourceFieldImport extends AbstractCsvImport
                     $restrictedFields = array_diff(array_keys($data), $this->systemUpdatableCsvFields);
                     $ignoredFields = array_filter($restrictedFields, fn ($field) => !empty($data[$field]));
                     if (!empty($ignoredFields)) {
-                        $this->logInfo('sourcefield.import.warning.system_field_ignored', 'gally_sourcefield', [
-                            '%code%' => $data['code'],
-                            '%allowed%' => implode(', ', array_diff($this->systemUpdatableCsvFields, ['code'])),
-                        ]);
+                        $this->systemFieldWarnings[] = $data['code'];
                     }
                 }
+            }
+
+            $missingFields = [];
+            foreach (self::REQUIRED_CSV_FIELDS as $field) {
+                if ('' === trim((string) ($data[$field] ?? ''))) {
+                    $missingFields[] = $field;
+                }
+            }
+
+            if (!empty($missingFields)) {
+                $errors[] = $this->translator->trans(
+                    'sourcefield.import.error.values_required',
+                    ['%fields%' => implode(', ', $missingFields)],
+                    'gally_sourcefield'
+                );
             }
 
             foreach (self::BOOLEAN_FIELDS as $field) {
@@ -251,9 +287,19 @@ abstract class AbstractSourceFieldImport extends AbstractCsvImport
         return \count($errors) < 1;
     }
 
+    protected function afterValidateLines(): void
+    {
+        if (!empty($this->systemFieldWarnings)) {
+            $this->logInfo('sourcefield.import.warning.system_field_ignored', 'gally_sourcefield', [
+                '%codes%' => implode(', ', $this->systemFieldWarnings),
+                '%allowed%' => implode(', ', array_diff($this->systemUpdatableCsvFields, ['code'])),
+            ]);
+        }
+        $this->systemFieldWarnings = [];
+    }
+
     protected function updateSourceFieldFromData(SourceField $sourceField, array $data): SourceField
     {
-        // TODO: trigger error in unit test if the column format was changed and this code does not match reality anymore
         $isSystem = $sourceField->getIsSystem();
 
         $csvFieldSetters = [
@@ -263,11 +309,13 @@ abstract class AbstractSourceFieldImport extends AbstractCsvImport
             'is_used_for_rules' => fn ($v) => $sourceField->setIsUsedForRules($this->parseBooleanValue($v)),
             'is_used_in_autocomplete' => fn ($v) => $sourceField->setIsUsedInAutocomplete($this->parseBooleanValue($v)),
             'is_spellchecked' => fn ($v) => $sourceField->setIsSpellchecked($this->parseBooleanValue($v)),
-            'weight' => fn ($v) => $sourceField->setWeight(\intval($v)),
+            'weight' => fn ($v) => $sourceField->setWeight((int) $v),
             'is_spannable' => fn ($v) => $sourceField->setIsSpannable($this->parseBooleanValue($v)),
             'analyzer' => fn ($v) => $sourceField->setDefaultSearchAnalyzer($v),
         ];
 
+        // Every column handled here is in REQUIRED_CSV_FIELDS, so validateCsvLine() has already
+        // rejected the file if any of them was blank. Values can be written unconditionally.
         foreach ($csvFieldSetters as $csvField => $setter) {
             if (!$isSystem || \in_array($csvField, $this->systemUpdatableCsvFields, true)) {
                 $setter($data[$csvField]);

@@ -117,7 +117,7 @@ class SourceFieldDataValidator
     }
 
     /**
-     * @return string[] The list of properties that can be updated on a system source field.
+     * @return string[] the list of properties that can be updated on a system source field
      */
     public function getUpdatableProperties(): array
     {

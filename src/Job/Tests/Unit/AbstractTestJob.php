@@ -59,16 +59,31 @@ class AbstractTestJob extends AbstractTestCase
         return $jobObject;
     }
 
+    /**
+     * Run the job, then assert its logs. Convenient when checking the logs is the whole test;
+     * when it is only part of one, prefer runJob() followed by assertJobHasLogMessage() so the
+     * run is visible at the call site instead of hiding inside an assertion.
+     */
     protected function assertJobLogMessage(int|Job $job, string|array $messages, string $domain = 'gally_job', array $context = []): void
     {
-        $jobObject = $this->runJob($job);
+        $this->assertJobHasLogMessage($this->runJob($job), $messages, $domain, $context);
+    }
+
+    /**
+     * Assert the messages a job has already logged. Does not run anything, so it is safe to call
+     * after runJob() without processing the job twice.
+     */
+    protected function assertJobHasLogMessage(int|Job $job, string|array $messages, string $domain = 'gally_job', array $context = []): void
+    {
+        $jobObject = $this->getJobObject($job);
         $messages = \is_array($messages) ? $messages : [$messages];
         foreach ($messages as $message) {
             $this->assertTrue(
                 self::$logRepository->hasMessage(
                     $jobObject,
                     self::$translator->trans($message, $context, $domain),
-                )
+                ),
+                \sprintf('Job %s did not log: %s', $jobObject->getId(), $message),
             );
         }
     }

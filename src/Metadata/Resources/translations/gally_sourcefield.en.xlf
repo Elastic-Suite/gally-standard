@@ -53,7 +53,7 @@
         <unit id="sourcefield_import_skipping_default_facet_configuration">
             <segment>
                 <source>sourcefield.import.skipping.default_facet_configuration</source>
-                <target>Skipping facet configuration for attribute "%code%": %reason%</target>
+                <target>Skipping facet configuration for the following attributes (%reason%): %codes%</target>
             </segment>
         </unit>
         <unit id="sourcefield_import_skip_reason_all_default">
@@ -128,6 +128,12 @@
                 <target>Attribute code is required</target>
             </segment>
         </unit>
+        <unit id="sourcefield_import_error_values_required">
+            <segment>
+                <source>sourcefield.import.error.values_required</source>
+                <target>Values are required for the following fields: %fields%</target>
+            </segment>
+        </unit>
         <unit id="sourcefield_import_error_invalid_boolean">
             <segment>
                 <source>sourcefield.import.error.invalid_boolean</source>
@@ -144,6 +150,36 @@
             <segment>
                 <source>sourcefield.import.error.invalid_analyzer</source>
                 <target>Invalid analyzer "%value%". Allowed values: %allowed%</target>
+            </segment>
+        </unit>
+        <unit id="sourcefield_import_error_invalid_display_mode">
+            <segment>
+                <source>sourcefield.import.error.invalid_display_mode</source>
+                <target>Invalid display mode "%value%"</target>
+            </segment>
+        </unit>
+        <unit id="sourcefield_import_error_invalid_coverage_rate">
+            <segment>
+                <source>sourcefield.import.error.invalid_coverage_rate</source>
+                <target>Invalid coverage rate "%value%", it must be a number between 0 and 100</target>
+            </segment>
+        </unit>
+        <unit id="sourcefield_import_error_invalid_max_size">
+            <segment>
+                <source>sourcefield.import.error.invalid_max_size</source>
+                <target>Invalid max size "%value%", it must be a positive number</target>
+            </segment>
+        </unit>
+        <unit id="sourcefield_import_error_invalid_sort_order">
+            <segment>
+                <source>sourcefield.import.error.invalid_sort_order</source>
+                <target>Invalid sort order "%value%"</target>
+            </segment>
+        </unit>
+        <unit id="sourcefield_import_error_invalid_boolean_logic">
+            <segment>
+                <source>sourcefield.import.error.invalid_boolean_logic</source>
+                <target>Invalid boolean logic "%value%", allowed values are "OR" and "AND"</target>
             </segment>
         </unit>
         <unit id="sourcefield_export_label">
@@ -167,7 +203,7 @@
         <unit id="sourcefield_import_warning_system_field_ignored">
             <segment>
                 <source>sourcefield.import.warning.system_field_ignored</source>
-                <target>Warning: The source field "%code%" is a system attribute. Only the following fields can be changed: %allowed%. Others columns values will be ignored</target>
+                <target>Warning: The following source fields are system attributes: %codes%. Only the following fields can be changed: %allowed%. Other columns values will be ignored</target>
             </segment>
         </unit>
         <unit id="sourcefield_export_completed">

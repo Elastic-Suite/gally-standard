@@ -1,5 +1,4 @@
 <?php
-
 /**
  * DISCLAIMER.
  *
@@ -7,8 +6,7 @@
  *
  * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
- * @license   Licensed to Smile-SA. All rights reserved. No warranty, explicit or implicit, provided.
- *            Unauthorized copying of this file, via any medium, is strictly prohibited.
+ * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
@@ -29,6 +27,10 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 abstract class AbstractSourceFieldExport extends AbstractCsvExport
 {
+    public const JOB_PROFILE = '';
+
+    public const CSV_HEADERS = [];
+
     public const METADATA_ENTITY = '';
 
     public const BASE_CSV_HEADERS = [
@@ -161,11 +163,7 @@ abstract class AbstractSourceFieldExport extends AbstractCsvExport
 
     protected function formatNullableBoolean(?bool $value): string
     {
-        if (null === $value) {
-            return '';
-        }
-
-        return $this->formatBoolean($value);
+        return $this->formatBoolean($value ?? false);
     }
 
     /**

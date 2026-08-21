@@ -96,8 +96,18 @@ abstract class AbstractCsvImport extends AbstractCsv implements JobImportInterfa
 
             $this->logInfo('import.validation.completed', 'gally_job');
         } finally {
+            $this->afterValidateLines();
             fclose($handle);
         }
+    }
+
+    /**
+     * Called once after every line has been passed to validateCsvLine(), whether validation
+     * succeeded, failed, or a line threw. Override to flush warnings accumulated per line into a
+     * single grouped log message instead of logging one line per occurrence.
+     */
+    protected function afterValidateLines(): void
+    {
     }
 
     protected function parseScopeCodes(string $scopeCodes): array

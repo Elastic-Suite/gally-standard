@@ -1,5 +1,4 @@
 <?php
-
 /**
  * DISCLAIMER.
  *
@@ -7,8 +6,7 @@
  *
  * @author    Gally Team <elasticsuite@smile.fr>
  * @copyright 2022-present Smile
- * @license   Licensed to Smile-SA. All rights reserved. No warranty, explicit or implicit, provided.
- *            Unauthorized copying of this file, via any medium, is strictly prohibited.
+ * @license   Open Software License v. 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
@@ -32,6 +30,9 @@ class ProductSourceFieldImport extends AbstractSourceFieldImport
     public const METADATA_ENTITY = 'product';
 
     protected ConfigurationRepository $facetConfigurationRepository;
+
+    /** Codes of source fields whose facet configuration was skipped, grouped by reason and logged once at the end of processing. */
+    private array $facetConfigurationSkips = [];
 
     private const FACET_CONFIGURATION_CSV_FIELDS = [
         'display_mode',
@@ -105,7 +106,7 @@ class ProductSourceFieldImport extends AbstractSourceFieldImport
             );
         }
 
-        if (isset($data['position']) && $data['position'] !== '' && !is_numeric($data['position'])) {
+        if (isset($data['position']) && '' !== $data['position'] && !is_numeric($data['position'])) {
             $errors[] = $this->translator->trans(
                 'sourcefield.import.error.invalid_position',
                 ['%value%' => $data['position']],
@@ -149,17 +150,20 @@ class ProductSourceFieldImport extends AbstractSourceFieldImport
     {
         $facetConfig = $this->facetConfigurationRepository->findOneBySourceFieldAndDefaultCategory($sourceField);
 
-        $tempConfig = $facetConfig ?? new Configuration($this->importEntityManager->getReference(SourceField::class, $sourceField->getId()), null);
-        if (null === $facetConfig) {
-            $tempConfig->initDefaultValue($tempConfig);
-        }
+        $sourceFieldReference = $this->importEntityManager->getReference(SourceField::class, $sourceField->getId());
+        $tempConfig = $facetConfig ?? new Configuration($sourceFieldReference, null);
 
-        $displayMode = $data['display_mode'] === '' || $data['display_mode'] === $tempConfig->getDefaultDisplayMode() ? null : $data['display_mode'];
-        $coverageRate = $data['coverage_rate'] === '' || (int) $data['coverage_rate'] === $tempConfig->getDefaultCoverageRate() ? null : ((int) $data['coverage_rate']);
-        $maxSize = $data['max_size'] === '' || (int) $data['max_size'] === $tempConfig->getDefaultMaxSize() ? null : ((int) $data['max_size']);
-        $sortOrder = $data['sort_order'] === '' || $data['sort_order'] === $tempConfig->getDefaultSortOrder() ? null : ($data['sort_order']);
-        $position = $data['position'] === '' || (int) $data['position'] === $tempConfig->getDefaultPosition() ? null : (int) $data['position'];
-        $booleanLogic = $data['boolean_logic'] === '' || strtoupper($data['boolean_logic']) === $tempConfig->getDefaultBooleanLogic() ? null : strtoupper($data['boolean_logic']);
+        // A column whose imported value equals the resolved default is stored as null, so the
+        // default keeps applying.
+        $defaults = new Configuration($sourceFieldReference, null);
+        $defaults->initDefaultValue($defaults);
+
+        $displayMode = '' === $data['display_mode'] || $data['display_mode'] === $defaults->getDefaultDisplayMode() ? null : $data['display_mode'];
+        $coverageRate = '' === $data['coverage_rate'] || (int) $data['coverage_rate'] === $defaults->getDefaultCoverageRate() ? null : ((int) $data['coverage_rate']);
+        $maxSize = '' === $data['max_size'] || (int) $data['max_size'] === $defaults->getDefaultMaxSize() ? null : ((int) $data['max_size']);
+        $sortOrder = '' === $data['sort_order'] || $data['sort_order'] === $defaults->getDefaultSortOrder() ? null : ($data['sort_order']);
+        $position = '' === $data['position'] || (int) $data['position'] === $defaults->getDefaultPosition() ? null : (int) $data['position'];
+        $booleanLogic = '' === $data['boolean_logic'] || strtoupper($data['boolean_logic']) === $defaults->getDefaultBooleanLogic() ? null : strtoupper($data['boolean_logic']);
 
         $allDefault = null === $displayMode
             && null === $coverageRate
@@ -179,11 +183,7 @@ class ProductSourceFieldImport extends AbstractSourceFieldImport
         }
 
         if (!empty($skipReasons)) {
-            $this->logInfo(
-                'sourcefield.import.skipping.default_facet_configuration',
-                'gally_sourcefield',
-                ['%code%' => $sourceField->getCode(), '%reason%' => implode(', ', $skipReasons)],
-            );
+            $this->facetConfigurationSkips[implode(', ', $skipReasons)][] = $sourceField->getCode();
 
             return null;
         }
@@ -212,5 +212,17 @@ class ProductSourceFieldImport extends AbstractSourceFieldImport
         $facetConfig->setBooleanLogic($booleanLogic);
 
         return $facetConfig;
+    }
+
+    protected function afterProcessLines(): void
+    {
+        foreach ($this->facetConfigurationSkips as $reason => $codes) {
+            $this->logInfo(
+                'sourcefield.import.skipping.default_facet_configuration',
+                'gally_sourcefield',
+                ['%reason%' => $reason, '%codes%' => implode(', ', $codes)],
+            );
+        }
+        $this->facetConfigurationSkips = [];
     }
 }
