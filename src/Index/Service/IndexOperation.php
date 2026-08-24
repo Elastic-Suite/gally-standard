@@ -22,6 +22,7 @@ use Gally\Index\Entity\Index\Mapping\FieldInterface;
 use Gally\Index\Event\BeforeInstallIndexEvent;
 use Gally\Index\Repository\Index\IndexRepositoryInterface;
 use Gally\Metadata\Entity\Metadata;
+use Gally\Metadata\Repository\MetadataRepository;
 use OpenSearch\Common\Exceptions\Missing404Exception;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
@@ -32,6 +33,7 @@ class IndexOperation
         protected IndexSettingsInterface $indexSettings,
         protected MetadataManager $metadataManager,
         protected EventDispatcherInterface $eventDispatcher,
+        protected MetadataRepository $metadataRepository,
     ) {
     }
 
@@ -151,21 +153,31 @@ class IndexOperation
             // Dispatched before the alias switch
             $this->eventDispatcher->dispatch(new BeforeInstallIndexEvent($index), BeforeInstallIndexEvent::NAME);
 
-            $this->proceedInstallIndex($indexName, $mainInstallAlias, $secondaryAliases);
+            $this->proceedInstallIndex($indexName, $mainInstallAlias, $secondaryAliases, $this->keepsOldIndices($entityType));
         }
         // TODO else throw an error ?
+    }
+
+    private function keepsOldIndices(string $entityType): bool
+    {
+        try {
+            return $this->metadataRepository->findByEntity($entityType)->isOldIndicesKept();
+        } catch (\Exception) {
+            return false;
+        }
     }
 
     /**
      * Proceed to the indices install :
      *  1) First switch the alias to the new index
-     *  2) Remove old indices.
+     *  2) Remove old indices, unless $keepOldGenerations is set (see Metadata::isOldIndicesKept()).
      *
-     * @param string $indexName        Real index name
-     * @param string $indexAlias       Index alias (must include localized catalog identifier)
-     * @param array  $secondaryAliases Secondary index aliases (must include catalog and locale identifiers)
+     * @param string $indexName          Real index name
+     * @param string $indexAlias         Index alias (must include localized catalog identifier)
+     * @param array  $secondaryAliases   Secondary index aliases (must include catalog and locale identifiers)
+     * @param bool   $keepOldGenerations Keep other indices behind $indexAlias alive instead of deleting them
      */
-    public function proceedInstallIndex(string $indexName, string $indexAlias, array $secondaryAliases): void
+    public function proceedInstallIndex(string $indexName, string $indexAlias, array $secondaryAliases, bool $keepOldGenerations = false): void
     {
         $actions = [['add' => ['index' => $indexName, 'alias' => $indexAlias]]];
         foreach ($secondaryAliases as $secondaryAlias) {
@@ -174,7 +186,9 @@ class IndexOperation
 
         $this->indexRepository->updateAliases($actions);
 
-        $this->deleteIndicesByAlias($indexAlias, [$indexName]);
+        if (!$keepOldGenerations) {
+            $this->deleteIndicesByAlias($indexAlias, [$indexName]);
+        }
     }
 
     public function deleteIndicesByAlias(string $indexAlias, array $indicesToSkip = []): void
@@ -202,5 +216,58 @@ class IndexOperation
         foreach ($indicesToDeleteClean as $toDeleteIndex) {
             $this->indexRepository->delete($toDeleteIndex);
         }
+    }
+
+    /**
+     * Returns all indices currently behind $indexAlias, newest first (by creation_date).
+     *
+     * @return Index[]
+     */
+    public function findIndicesByAlias(string $indexAlias): array
+    {
+        try {
+            $indexNames = array_keys($this->indexRepository->getMapping($indexAlias));
+        } catch (Missing404Exception $e) {
+            return [];
+        }
+
+        $indices = array_filter(array_map(
+            fn (string $indexName) => $this->indexRepository->findByName($indexName),
+            $indexNames
+        ));
+
+        usort($indices, fn (Index $a, Index $b) => $this->getCreationDate($b) <=> $this->getCreationDate($a));
+
+        return array_values($indices);
+    }
+
+    /**
+     * Deletes any index behind $indexAlias older than $days (by creation_date).
+     */
+    public function deleteIndicesByAliasOlderThan(string $indexAlias, int $days, array $indicesToSkip = []): void
+    {
+        $now = time();
+
+        foreach ($this->findIndicesByAlias($indexAlias) as $index) {
+            if (\in_array($index->getName(), $indicesToSkip, true)) {
+                continue;
+            }
+
+            $creationDate = $this->getCreationDate($index);
+            if (0 === $creationDate) {
+                continue;
+            }
+
+            $ageInDays = ($now - intdiv($creationDate, 1000)) / 86400;
+            if ($ageInDays >= $days) {
+                $this->indexRepository->updateAliases([['remove' => ['index' => $index->getName(), 'alias' => $indexAlias]]]);
+                $this->indexRepository->delete($index->getName());
+            }
+        }
+    }
+
+    private function getCreationDate(Index $index): int
+    {
+        return (int) ($index->getSettings()['index']['creation_date'] ?? 0);
     }
 }

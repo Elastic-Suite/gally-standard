@@ -1,5 +1,6 @@
 Gally\Metadata\Entity\Metadata:
     product:
+        id: 900030
         entity: product
     category:
         entity: category

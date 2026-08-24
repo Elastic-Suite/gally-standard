@@ -168,6 +168,15 @@ class Configuration implements GallyConfigurationInterface
                     ->end()
                 ->end()
 
+                // Tracking session setting config
+                ->arrayNode('tracking_session_settings')
+                    ->children()
+                        ->integerNode('transform_schedule_period')
+                            ->min(1)
+                        ->end()
+                    ->end()
+                ->end()
+
                 // Rename graphQL query
                 ->arrayNode('graphql_query_renaming')
                     ->useAttributeAsKey('ressource_class')

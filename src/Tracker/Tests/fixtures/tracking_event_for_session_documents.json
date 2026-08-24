@@ -1,0 +1,40 @@
+[
+  {
+    "index_name": "gally_localized_catalog_b2c_en_tracking_event",
+    "documents": [
+      {
+        "@timestamp": "2025-01-01 10:00:00",
+        "id": "session_test_event_1",
+        "event_type": "search",
+        "metadata_code": "product",
+        "localized_catalog_code": "b2c_en",
+        "session_uid": "11111111-1111-1111-1111-111111111111",
+        "session_vid": "22222222-2222-2222-2222-222222222222",
+        "group_id": "0",
+        "search_query": {
+          "query_text": "shoes",
+          "is_spellchecked": false
+        },
+        "product_list": {
+          "item_count": 10,
+          "current_page": 1,
+          "page_count": 1,
+          "sort_order": "position",
+          "sort_direction": "asc",
+          "filters": []
+        }
+      },
+      {
+        "@timestamp": "2025-01-01 10:05:00",
+        "id": "session_test_event_2",
+        "event_type": "view",
+        "metadata_code": "product",
+        "localized_catalog_code": "b2c_en",
+        "entity_code": "SKU1",
+        "session_uid": "11111111-1111-1111-1111-111111111111",
+        "session_vid": "22222222-2222-2222-2222-222222222222",
+        "group_id": "0"
+      }
+    ]
+  }
+]

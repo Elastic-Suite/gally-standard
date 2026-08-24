@@ -16,65 +16,20 @@ namespace Gally\Migrations\Trait;
 
 trait TrackingEventSourceFieldPersistorTrait
 {
-    private $metadataId;
+    use EntitySourceFieldPersistorTrait;
 
     public function getTrackingEventMetadataId(): int
     {
-        if (!isset($this->metadataId)) {
-            $metadataIds = $this->connection->executeQuery('SELECT entity, id FROM metadata')->fetchAllAssociativeIndexed();
-            $this->metadataId = $metadataIds['tracking_event']['id'];
-        }
-
-        return $this->metadataId;
+        return $this->resolveSourceFieldMetadataId('tracking_event');
     }
 
     public function addInsertTrackingEventSourceFieldSql(string $code, string $type): void
     {
-        $metadataId = $this->getTrackingEventMetadataId();
-        $this->addSql("
-            INSERT INTO public.source_field
-            (id, metadata_id, code, default_label, type, weight, is_searchable, is_filterable, is_sortable, is_spellchecked, is_used_for_rules, is_system, search, is_used_in_autocomplete, is_spannable, default_search_analyzer)
-            VALUES (
-                nextval('source_field_id_seq'),
-                $metadataId,
-                '$code',
-                null,
-                '$type',
-                1,
-                null,
-                null,
-                null,
-                null,
-                null,
-                true,
-                '$code',
-                null,
-                null,
-                'standard'
-            );"
-        );
+        $this->insertSourceFieldSql('tracking_event', $code, $type);
     }
 
     public function addUpdateTrackingEventSourceFieldSql(string $code, array $valuesToUpdate): void
     {
-        $metadataId = $this->getTrackingEventMetadataId();
-
-        $setClause = implode(', ', array_map(
-            fn ($key, $value) => match (\gettype($value)) {
-                'boolean' => "$key = " . ($value ? 'true' : 'false'),
-                'integer' => "$key = $value",
-                'string' => "$key = '$value'",
-                default => "$key = null",
-            },
-            array_keys($valuesToUpdate),
-            array_values($valuesToUpdate)
-        ));
-
-        $this->addSql("
-            UPDATE public.source_field
-            SET $setClause
-            WHERE code like '$code' AND metadata_id = '$metadataId'
-            ;"
-        );
+        $this->updateSourceFieldSql('tracking_event', $code, $valuesToUpdate);
     }
 }

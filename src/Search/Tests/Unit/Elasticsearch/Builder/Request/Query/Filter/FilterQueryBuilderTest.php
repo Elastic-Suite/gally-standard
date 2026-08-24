@@ -225,7 +225,7 @@ class FilterQueryBuilderTest extends AbstractTestCase
     private function buildQuery(array $conditions, ?string $nestedPath = null): QueryInterface
     {
         $colorSourceField = new SourceField();
-        $colorSourceField->setId(46);
+        $colorSourceField->setId(900042);
         $colorSourceField->setCode('color');
         $colorSourceField->setType(SourceField\Type::TYPE_SELECT);
 
