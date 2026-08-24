@@ -25,6 +25,17 @@ services:
         tags:
             - { name: console.command }
 
+    Gally\Tracker\EventSubscriber\ReprovisionSessionTransformOnConfigChange:
+        arguments:
+            - '@Gally\Catalog\Repository\LocalizedCatalogRepository'
+            - '@Gally\Tracker\Service\SessionTransformProvisioner'
+            - '@logger'
+        tags:
+            - { name: doctrine.event_listener, event: postPersist }
+            - { name: doctrine.event_listener, event: postUpdate }
+            - { name: doctrine.event_listener, event: postRemove }
+            - { name: doctrine.event_listener, event: postFlush }
+
     Gally\Tracker\State\TrackingEventProcessor:
         arguments:
             - '@messenger.default_bus'
