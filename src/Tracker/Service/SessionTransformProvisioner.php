@@ -29,7 +29,7 @@ use Gally\Metadata\Repository\MetadataRepository;
  */
 class SessionTransformProvisioner
 {
-    private const TRANSFORM_ID_PREFIX = 'tracking_session_';
+    public const TRANSFORM_ID_PREFIX = 'tracking_session_';
     private const DEFAULT_SCHEDULE_PERIOD = 5;
 
     public function __construct(
