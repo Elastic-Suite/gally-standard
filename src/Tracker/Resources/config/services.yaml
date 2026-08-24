@@ -16,6 +16,15 @@ services:
             - '@Gally\Tracker\Service\SessionTransformProvisioner'
             - '@logger'
 
+    Gally\Tracker\Command\TransformStatusCommand:
+        arguments:
+            - '@Gally\Index\Repository\Transform\TransformRepositoryInterface'
+            - '@Gally\Catalog\Repository\LocalizedCatalogRepository'
+            - '@Gally\Tracker\Service\SessionTransformProvisioner'
+            - null
+        tags:
+            - { name: console.command }
+
     Gally\Tracker\State\TrackingEventProcessor:
         arguments:
             - '@messenger.default_bus'
