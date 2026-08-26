@@ -73,7 +73,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
                 'shared_max_age' => 0,
                 'no_store' => true,
                 'vary' => ['Authorization'],
-            ],  
+            ],
             security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')",
             order: ['createdAt' => 'DESC']
         ),

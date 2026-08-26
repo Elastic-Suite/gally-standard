@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -44,7 +45,7 @@ class ProductSourceFieldExport extends AbstractSourceFieldExport
         protected EntityManagerFactory $entityManagerFactory,
         protected Filesystem $filesystem,
         protected TranslatorInterface $translator,
-        private int $batchSize = 100,
+        protected int $batchSize = 100,
     ) {
         parent::__construct($jobManager, $entityManagerFactory, $filesystem, $translator, $this->batchSize);
     }

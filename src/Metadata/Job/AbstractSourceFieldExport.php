@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -56,7 +57,7 @@ abstract class AbstractSourceFieldExport extends AbstractCsvExport
         protected EntityManagerFactory $entityManagerFactory,
         protected Filesystem $filesystem,
         protected TranslatorInterface $translator,
-        private int $batchSize = 100,
+        protected int $batchSize = 100,
     ) {
         parent::__construct($translator, $jobManager, $entityManagerFactory, $filesystem, static::JOB_PROFILE);
     }

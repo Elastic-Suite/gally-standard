@@ -1,4 +1,5 @@
 <?php
+
 /**
  * DISCLAIMER.
  *
@@ -27,7 +28,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 abstract class AbstractSourceFieldImport extends AbstractCsvImport
 {
     public const JOB_PROFILE = '';
-    
+
     public const CSV_HEADERS = [];
 
     public const METADATA_ENTITY = '';

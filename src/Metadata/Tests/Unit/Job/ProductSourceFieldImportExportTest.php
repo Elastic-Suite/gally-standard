@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 namespace Gally\Metadata\Tests\Unit\Job;
 
-use Gally\Cache\Service\CacheManagerInterface;
+use Doctrine\ORM\EntityManagerInterface;
 use Gally\Job\Entity\Job;
 use Gally\Job\Tests\Unit\AbstractTestJob;
 use Gally\Metadata\Entity\Metadata;
@@ -300,9 +300,7 @@ class ProductSourceFieldImportExportTest extends AbstractTestJob
     }
 
     /**
-     * "brand" starts as non-filterable select field with four option values. one import makes
-     * it filterable and caps its facet at 2 options.
-     *
+     * "brand" starts as non-filterable select field.
      */
     public function testBrandIsNotAFacetBeforeImport(): void
     {
@@ -317,15 +315,12 @@ class ProductSourceFieldImportExportTest extends AbstractTestJob
     }
 
     /**
-     * Check that brand configuration update is reflected in a real GraphQL call
+     * Check that brand configuration update is reflected in a real GraphQL call.
      */
     public function testBrandBecomesAFacetAfterImport(): void
     {
         $job = $this->runJob(15);
         $this->assertSame(Job::STATUS_FINISHED, $job->getStatus());
-
-        // Clear cache after job to ensure fresh data on GraphQL call
-        static::getContainer()->get(CacheManagerInterface::class)->clearAll();
 
         // is_filterable feeds the index mapping, so the index is rebuilt — the same reindex a real
         // instance needs after changing an attribute.
@@ -351,7 +346,7 @@ class ProductSourceFieldImportExportTest extends AbstractTestJob
     }
 
     /**
-     * Fetch facet configurations the way the back office does
+     * Fetch facet configurations the way the back office does.
      *
      * @return Configuration[]
      */
@@ -373,7 +368,7 @@ class ProductSourceFieldImportExportTest extends AbstractTestJob
      *
      * @return array<string, string>
      */
-    private function readExportedRow(Job $job, string $code): array
+    private function readExportedRow(Job $job, string $code): ?array
     {
         $handle = fopen(self::$jobManager->getAbsoluteJobFilePath($job), 'r');
         $headers = fgetcsv($handle, escape: '\\');
@@ -389,16 +384,18 @@ class ProductSourceFieldImportExportTest extends AbstractTestJob
         }
 
         $this->fail("The export contains no row for the source field \"{$code}\".");
-        return [];
     }
 
     /**
      * Read the stored facet configuration columns for a source field's default category, or false
-     * when no row exists. Useful to tell apart a default config from the real overriden config
+     * when no row exists. Useful to tell apart a default config from the real overriden config.
      */
     private function fetchStoredFacetColumns(int $sourceFieldId): array|false
     {
-        return static::getContainer()->get('doctrine')->getManager()->getConnection()->fetchAssociative(
+        /** @var EntityManagerInterface $entityManager */
+        $entityManager = static::getContainer()->get('doctrine')->getManager();
+        $connection = $entityManager->getConnection();
+        return $connection->fetchAssociative(
             'SELECT display_mode, coverage_rate, max_size, sort_order, position, boolean_logic'
             . ' FROM facet_configuration WHERE source_field_id = ? AND category_id IS NULL',
             [$sourceFieldId],
