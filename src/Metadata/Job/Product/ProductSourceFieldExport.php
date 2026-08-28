@@ -59,7 +59,7 @@ class ProductSourceFieldExport extends AbstractSourceFieldExport
     protected function getSourceFieldsBatch(int $totalCount): iterable
     {
         for ($offset = 0; $offset < $totalCount; $offset += $this->batchSize) {
-            yield $this->facetConfigRepository->findByWithSourceFields([], ['id' => 'ASC'], $this->batchSize, $offset);
+            yield $this->facetConfigRepository->findByPositionWithSourceFields([], ['id' => 'ASC'], $this->batchSize, $offset);
         }
     }
 

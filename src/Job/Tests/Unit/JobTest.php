@@ -61,7 +61,9 @@ class JobTest extends AbstractTestJob
 
     public function testWrongHeaders(): void
     {
-        $this->assertJobLogMessage(3, 'import.error.invalid_headers', 'gally_job', ['%expected%' => implode(', ', DummyImport::CSV_HEADERS)]);
+        // The file provides "id,fake_column", so "name" is the only missing column: the error
+        // names what has to be added, not the whole expected header.
+        $this->assertJobLogMessage(3, 'import.error.invalid_headers', 'gally_job', ['%missing%' => 'name']);
     }
 
     public function testExtraHeadersAreIgnored(): void

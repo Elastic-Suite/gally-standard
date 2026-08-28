@@ -35,7 +35,7 @@
         <unit id="import_error_invalid_headers">
             <segment>
                 <source>import.error.invalid_headers</source>
-                <target>En-têtes CSV invalides. Colonnes obligatoires manquantes : %expected%</target>
+                <target>En-têtes CSV invalides. Colonnes obligatoires manquantes : %missing%</target>
             </segment>
         </unit>
         <unit id="import_warning_extra_columns_ignored">

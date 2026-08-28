@@ -117,14 +117,14 @@ class ConfigurationRepository extends ServiceEntityRepository
     }
 
     /**
-     * Find facet configuration with source field data.
+     * Find facet configuration with source field data, ordered by position first.
      *
      * @param mixed|null $limit
      * @param mixed|null $offset
      *
      * @return Facet\Configuration[]
      */
-    public function findByWithSourceFields(array $criteria = [], ?array $orderBy = null, $limit = null, $offset = null): array
+    public function findByPositionWithSourceFields(array $criteria = [], ?array $orderBy = null, $limit = null, $offset = null): array
     {
         $queryBuilder = $this->createQueryBuilder('o', null, true);
 

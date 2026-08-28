@@ -66,7 +66,7 @@ abstract class AbstractCsvImport extends AbstractCsv implements JobImportInterfa
             $headers = fgetcsv($handle, escape: '\\');
             $missingHeaders = $headers ? array_diff($this->csvHeader, $headers) : $this->csvHeader;
             if (!$headers || !empty($missingHeaders)) {
-                throw new JobException($this->translator->trans('import.error.invalid_headers', ['%expected%' => implode(', ', $this->csvHeader)], 'gally_job'));
+                throw new JobException($this->translator->trans('import.error.invalid_headers', ['%missing%' => implode(', ', $missingHeaders)], 'gally_job'));
             }
 
             $extraHeaders = array_diff($headers, $this->csvHeader);

@@ -148,9 +148,10 @@ class ProductSourceFieldImportExportTest extends AbstractTestJob
                 'Validation error(s) on line 7: Invalid display mode "fake_mode"',
                 'Validation error(s) on line 8: Invalid coverage rate "150", it must be a number between 0 and 100',
                 'Validation error(s) on line 9: Invalid max size "-1", it must be a positive number',
-                'Validation error(s) on line 10: Invalid sort order "fake_order"',
-                'Validation error(s) on line 11: Invalid boolean logic "XOR", allowed values are "OR" and "AND"',
-                'Validation error(s) on line 12: Invalid position "abc"',
+                'Validation error(s) on line 10: Invalid max size "0", it must be a positive number',
+                'Validation error(s) on line 11: Invalid sort order "fake_order"',
+                'Validation error(s) on line 12: Invalid boolean logic "XOR", allowed values are "OR" and "AND"',
+                'Validation error(s) on line 13: Invalid position "abc"',
             ],
         );
 
@@ -380,7 +381,7 @@ class ProductSourceFieldImportExportTest extends AbstractTestJob
         $repo->setMetadata($em->getRepository(Metadata::class)->findOneBy(['entity' => 'product']));
         $repo->setSearch($search); // same call ConfigurationCollectionProvider makes for ?search=
 
-        return array_values($repo->findByWithSourceFields([], ['id' => 'ASC']));
+        return array_values($repo->findByPositionWithSourceFields([], ['id' => 'ASC']));
     }
 
     /**

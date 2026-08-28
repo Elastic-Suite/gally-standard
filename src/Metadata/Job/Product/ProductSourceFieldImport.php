@@ -91,7 +91,7 @@ class ProductSourceFieldImport extends AbstractSourceFieldImport
             );
         }
 
-        if (!empty($data['max_size']) && (!is_numeric($data['max_size']) || (int) $data['max_size'] < 0)) {
+        if (isset($data['max_size']) && '' !== $data['max_size'] && (!is_numeric($data['max_size']) || (int) $data['max_size'] < 1)) {
             $errors[] = $this->translator->trans(
                 'sourcefield.import.error.invalid_max_size',
                 ['%value%' => $data['max_size']],
