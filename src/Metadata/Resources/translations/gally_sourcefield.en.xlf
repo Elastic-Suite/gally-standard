@@ -26,12 +26,6 @@
                 <target>Processed %processed% attribute entries (Updated: %updated%)</target>
             </segment>
         </unit>
-        <unit id="sourcefield_import_creating">
-            <segment>
-                <source>sourcefield.import.creating</source>
-                <target>Creating new attribute: %name%</target>
-            </segment>
-        </unit>
         <unit id="sourcefield_import_updating">
             <segment>
                 <source>sourcefield.import.updating</source>
@@ -174,6 +168,12 @@
             <segment>
                 <source>sourcefield.import.error.invalid_sort_order</source>
                 <target>Invalid sort order "%value%"</target>
+            </segment>
+        </unit>
+        <unit id="sourcefield_import_error_invalid_position">
+            <segment>
+                <source>sourcefield.import.error.invalid_position</source>
+                <target>Invalid position "%value%"</target>
             </segment>
         </unit>
         <unit id="sourcefield_import_error_invalid_boolean_logic">

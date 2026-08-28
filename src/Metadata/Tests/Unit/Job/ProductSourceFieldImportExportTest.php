@@ -150,6 +150,7 @@ class ProductSourceFieldImportExportTest extends AbstractTestJob
                 'Validation error(s) on line 9: Invalid max size "-1", it must be a positive number',
                 'Validation error(s) on line 10: Invalid sort order "fake_order"',
                 'Validation error(s) on line 11: Invalid boolean logic "XOR", allowed values are "OR" and "AND"',
+                'Validation error(s) on line 12: Invalid position "abc"',
             ],
         );
 
@@ -177,6 +178,25 @@ class ProductSourceFieldImportExportTest extends AbstractTestJob
             $this->runJob(9),
             self::EXPORT_DIR . 'test_unit_sourcefield_export_after_system_field.csv'
         );
+    }
+
+    /**
+     * The same restrictions, read from a sheet that spells the booleans 0/1 instead of true/false.
+     * parseBooleanValue() accepts both spellings, and every restricted column in this file holds 0,
+     * a value an empty() test reads as unset. The warning has to be issued all the same.
+     */
+    public function testSystemSourceFieldRestrictionsWithNumericBooleans(): void
+    {
+        $job = $this->runJob(16);
+
+        $this->assertJobHasLogMessage(
+            $job,
+            'Warning: The following source fields are system attributes: sku. Only the following fields can be changed: '
+            . 'weight, is_spellchecked, analyzer, is_spannable, display_mode, coverage_rate, max_size, sort_order, '
+            . 'position, boolean_logic. Other columns values will be ignored',
+        );
+
+        $this->assertSame(Job::STATUS_FINISHED, $job->getStatus());
     }
 
     /**
@@ -395,6 +415,7 @@ class ProductSourceFieldImportExportTest extends AbstractTestJob
         /** @var EntityManagerInterface $entityManager */
         $entityManager = static::getContainer()->get('doctrine')->getManager();
         $connection = $entityManager->getConnection();
+
         return $connection->fetchAssociative(
             'SELECT display_mode, coverage_rate, max_size, sort_order, position, boolean_logic'
             . ' FROM facet_configuration WHERE source_field_id = ? AND category_id IS NULL',

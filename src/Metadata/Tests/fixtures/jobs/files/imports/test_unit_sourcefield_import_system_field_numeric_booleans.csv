@@ -1,0 +1,2 @@
+code,weight,is_searchable,is_filterable,is_sortable,is_spellchecked,is_used_for_rules,is_used_in_autocomplete,is_spannable,analyzer,display_mode,coverage_rate,max_size,sort_order,position,boolean_logic
+sku,7,0,0,0,1,0,0,1,reference,,,,,,

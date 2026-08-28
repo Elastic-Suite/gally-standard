@@ -72,6 +72,12 @@ Gally\Job\Entity\Job:
         type: !php/const Gally\Job\Entity\Job::TYPE_IMPORT
         profile: !php/const Gally\Metadata\Job\Product\ProductSourceFieldImport::JOB_PROFILE
 
+    ## 16: same system source field restrictions, with the booleans spelled 0/1 instead of true/false.
+    job_16:
+        file: '@job_file_system_field_numeric_booleans'
+        type: !php/const Gally\Job\Entity\Job::TYPE_IMPORT
+        profile: !php/const Gally\Metadata\Job\Product\ProductSourceFieldImport::JOB_PROFILE
+
 Gally\Job\Entity\Job\File:
     job_file_errors:
         filePath: 'test_unit_sourcefield_import_errors.csv'
@@ -89,3 +95,5 @@ Gally\Job\Entity\Job\File:
         filePath: 'test_unit_sourcefield_import_make_filterable.csv'
     job_file_facet_aggregation:
         filePath: 'test_unit_sourcefield_import_facet_aggregation.csv'
+    job_file_system_field_numeric_booleans:
+        filePath: 'test_unit_sourcefield_import_system_field_numeric_booleans.csv'

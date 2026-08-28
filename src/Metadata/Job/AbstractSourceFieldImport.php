@@ -221,7 +221,7 @@ abstract class AbstractSourceFieldImport extends AbstractCsvImport
                     );
                 } elseif ($existingSourceField->getIsSystem()) {
                     $restrictedFields = array_diff(array_keys($data), $this->systemUpdatableCsvFields);
-                    $ignoredFields = array_filter($restrictedFields, fn ($field) => !empty($data[$field]));
+                    $ignoredFields = array_filter($restrictedFields, fn ($field) => '' !== trim((string) ($data[$field] ?? '')));
                     if (!empty($ignoredFields)) {
                         $this->systemFieldWarnings[] = $data['code'];
                     }

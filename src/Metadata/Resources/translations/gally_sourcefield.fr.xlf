@@ -170,6 +170,12 @@
                 <target>Ordre de tri "%value%" invalide</target>
             </segment>
         </unit>
+        <unit id="sourcefield_import_error_invalid_position">
+            <segment>
+                <source>sourcefield.import.error.invalid_position</source>
+                <target>Position "%value%" invalide</target>
+            </segment>
+        </unit>
         <unit id="sourcefield_import_error_invalid_boolean_logic">
             <segment>
                 <source>sourcefield.import.error.invalid_boolean_logic</source>
