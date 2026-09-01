@@ -89,7 +89,8 @@ use Symfony\Component\Serializer\Attribute\SerializedName;
     paginationType: 'page',
     provider: ConfigurationProvider::class,
     processor: ConfigurationProcessor::class,
-    normalizationContext: ['groups' => ['configuration:read']]
+    normalizationContext: ['groups' => ['configuration:read']],
+    denormalizationContext: ['groups' => ['configuration:graphql']]
 )]
 #[ApiFilter(filterClass: SearchFilter::class, properties: ['path' => 'exact'])]
 #[ApiFilter(
