@@ -145,7 +145,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             'hydra:supportedProperty' => [
                 'hydra:property' => [
                     'label' => 'Role(s)',
-                    'range' => 'xmls:array',
+                    'range' => 'xsd:array',
                 ],
                 'gally' => [
                     'infoTooltip' => 'If you select the value ROLE_ADMIN, all roles will be selected automatically, because ROLE_ADMIN includes all roles.',
