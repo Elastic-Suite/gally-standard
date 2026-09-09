@@ -1,5 +1,11 @@
 Gally\Metadata\Entity\Metadata:
     product:
         entity: product
+        isSystem: true
     category:
         entity: category
+        isSystem: true
+    tracking_event:
+        entity: tracking_event
+        isSystem: true
+        isInternal: true

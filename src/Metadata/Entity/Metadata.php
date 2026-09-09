@@ -27,6 +27,7 @@ use ApiPlatform\Metadata\Put;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
+use Gally\Metadata\State\MetadataProcessor;
 use Gally\User\Constant\Role;
 use Symfony\Component\Serializer\Attribute\Groups;
 
@@ -46,6 +47,7 @@ use Symfony\Component\Serializer\Attribute\Groups;
         new Mutation(name: 'update', security: "is_granted('" . Role::ROLE_ADMIN . "')"),
         new Mutation(name: 'delete', security: "is_granted('" . Role::ROLE_ADMIN . "')"),
     ],
+    processor: MetadataProcessor::class,
     denormalizationContext: ['groups' => ['metadata:write']],
     normalizationContext: ['groups' => ['metadata:read']]
 )]
@@ -57,6 +59,10 @@ class Metadata
     private string $entity;
     #[Groups(['metadata:read', 'metadata:write'])]
     private ?bool $isTimeSeriesData;
+    #[Groups(['metadata:read', 'metadata:write'])]
+    private bool $isSystem = false;
+    #[Groups(['metadata:read', 'metadata:write'])]
+    private bool $isInternal = false;
 
     /** @var ArrayCollection<int, SourceField> */
     private Collection $sourceFields;
@@ -96,6 +102,30 @@ class Metadata
     public function setIsTimeSeriesData(bool $isTimeSeriesData): self
     {
         $this->isTimeSeriesData = $isTimeSeriesData;
+
+        return $this;
+    }
+
+    public function getIsSystem(): bool
+    {
+        return $this->isSystem;
+    }
+
+    public function setIsSystem(bool $isSystem): self
+    {
+        $this->isSystem = $isSystem;
+
+        return $this;
+    }
+
+    public function getIsInternal(): bool
+    {
+        return $this->isInternal;
+    }
+
+    public function setIsInternal(bool $isInternal): self
+    {
+        $this->isInternal = $isInternal;
 
         return $this;
     }
