@@ -1,220 +1,220 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:2.0" version="2.0"
        srcLang="en-US" trgLang="en-US">
-    <file id="gally_sourcefield.en">
-        <unit id="sourcefield_import_label">
+    <file id="gally_source_field.en">
+        <unit id="source_field_import_label">
             <segment>
-                <source>sourcefield.import.label</source>
+                <source>source_field.import.label</source>
                 <target>Product attribute</target>
             </segment>
         </unit>
-        <unit id="sourcefield_import_started">
+        <unit id="source_field_import_started">
             <segment>
-                <source>sourcefield.import.started</source>
+                <source>source_field.import.started</source>
                 <target>Starting attribute import for job id: %job_id%</target>
             </segment>
         </unit>
-        <unit id="sourcefield_import_completed">
+        <unit id="source_field_import_completed">
             <segment>
-                <source>sourcefield.import.completed</source>
+                <source>source_field.import.completed</source>
                 <target>Attribute import completed. Updated: %updated%, Errors: %errors%</target>
             </segment>
         </unit>
-        <unit id="sourcefield_import_progress">
+        <unit id="source_field_import_progress">
             <segment>
-                <source>sourcefield.import.progress</source>
+                <source>source_field.import.progress</source>
                 <target>Processed %processed% attribute entries (Updated: %updated%)</target>
             </segment>
         </unit>
-        <unit id="sourcefield_import_updating">
+        <unit id="source_field_import_updating">
             <segment>
-                <source>sourcefield.import.updating</source>
+                <source>source_field.import.updating</source>
                 <target>Updating existing attribute code: %code%</target>
             </segment>
         </unit>
-        <unit id="sourcefield_import_creating_default_facet_configuration">
+        <unit id="source_field_import_creating_default_facet_configuration">
             <segment>
-                <source>sourcefield.import.creating.default_facet_configuration</source>
+                <source>source_field.import.creating.default_facet_configuration</source>
                 <target>Creating default facet configuration for attribute with code: "%code%"</target>
             </segment>
         </unit>
-        <unit id="sourcefield_import_updating_default_facet_configuration">
+        <unit id="source_field_import_updating_default_facet_configuration">
             <segment>
-                <source>sourcefield.import.updating.default_facet_configuration</source>
+                <source>source_field.import.updating.default_facet_configuration</source>
                 <target>Updating default facet configuration for attribute with code: "%code%"</target>
             </segment>
         </unit>
-        <unit id="sourcefield_import_skipping_default_facet_configuration">
+        <unit id="source_field_import_skipping_default_facet_configuration">
             <segment>
-                <source>sourcefield.import.skipping.default_facet_configuration</source>
+                <source>source_field.import.skipping.default_facet_configuration</source>
                 <target>Skipping facet configuration for the following attributes (%reason%): %codes%</target>
             </segment>
         </unit>
-        <unit id="sourcefield_import_skip_reason_all_default">
+        <unit id="source_field_import_skip_reason_all_default">
             <segment>
-                <source>sourcefield.import.skip_reason.all_default</source>
+                <source>source_field.import.skip_reason.all_default</source>
                 <target>all values are default</target>
             </segment>
         </unit>
-        <unit id="sourcefield_import_skip_reason_not_filterable">
+        <unit id="source_field_import_skip_reason_not_filterable">
             <segment>
-                <source>sourcefield.import.skip_reason.not_filterable</source>
+                <source>source_field.import.skip_reason.not_filterable</source>
                 <target>source field is not filterable</target>
             </segment>
         </unit>
-        <unit id="sourcefield_import_validation_completed">
+        <unit id="source_field_import_validation_completed">
             <segment>
-                <source>sourcefield.import.validation.completed</source>
+                <source>source_field.import.validation.completed</source>
                 <target>File validation completed successfully</target>
             </segment>
         </unit>
-        <unit id="sourcefield_import_error_invalid_columns">
+        <unit id="source_field_import_error_invalid_columns">
             <segment>
-                <source>sourcefield.import.error.invalid_columns</source>
+                <source>source_field.import.error.invalid_columns</source>
                 <target>Line %line%: Invalid number of columns</target>
             </segment>
         </unit>
-        <unit id="sourcefield_import_error_name_required">
+        <unit id="source_field_import_error_name_required">
             <segment>
-                <source>sourcefield.import.error.name_required</source>
+                <source>source_field.import.error.name_required</source>
                 <target>Line %line%: Name is required</target>
             </segment>
         </unit>
-        <unit id="sourcefield_import_error_validation_failed">
+        <unit id="source_field_import_error_validation_failed">
             <segment>
-                <source>sourcefield.import.error.validation_failed</source>
+                <source>source_field.import.error.validation_failed</source>
                 <target>Validation errors: %errors%</target>
             </segment>
         </unit>
-        <unit id="sourcefield_import_error_line_error">
+        <unit id="source_field_import_error_line_error">
             <segment>
-                <source>sourcefield.import.line_error</source>
+                <source>source_field.import.line_error</source>
                 <target>Error on line %line%: %error%</target>
             </segment>
         </unit>
-        <unit id="sourcefield_import_error_failed">
+        <unit id="source_field_import_error_failed">
             <segment>
-                <source>sourcefield.import.error.failed</source>
+                <source>source_field.import.error.failed</source>
                 <target>Attribute import failed, see errors above</target>
             </segment>
         </unit>
-        <unit id="sourcefield_import_validation_errors">
+        <unit id="source_field_import_validation_errors">
             <segment>
-                <source>sourcefield.import.validation_errors</source>
+                <source>source_field.import.validation_errors</source>
                 <target>Validation error(s) on line %line%: %errors%</target>
             </segment>
         </unit>
-        <unit id="sourcefield_import_line_validation_error">
+        <unit id="source_field_import_line_validation_error">
             <segment>
-                <source>sourcefield.import.line_validation_error</source>
+                <source>source_field.import.line_validation_error</source>
                 <target>Validation error on line %line%: %error%</target>
             </segment>
         </unit>
-        <unit id="sourcefield_import_error_code_not_found">
+        <unit id="source_field_import_error_code_not_found">
             <segment>
-                <source>sourcefield.import.error.code_not_found</source>
+                <source>source_field.import.error.code_not_found</source>
                 <target>Attribute with code "%code%" not found</target>
             </segment>
         </unit>
-        <unit id="sourcefield_import_error_attribute_code_empty">
+        <unit id="source_field_import_error_attribute_code_empty">
             <segment>
-                <source>sourcefield.import.error.attribute_code_empty</source>
+                <source>source_field.import.error.attribute_code_empty</source>
                 <target>Attribute code is required</target>
             </segment>
         </unit>
-        <unit id="sourcefield_import_error_values_required">
+        <unit id="source_field_import_error_values_required">
             <segment>
-                <source>sourcefield.import.error.values_required</source>
+                <source>source_field.import.error.values_required</source>
                 <target>Values are required for the following fields: %fields%</target>
             </segment>
         </unit>
-        <unit id="sourcefield_import_error_invalid_boolean">
+        <unit id="source_field_import_error_invalid_boolean">
             <segment>
-                <source>sourcefield.import.error.invalid_boolean</source>
+                <source>source_field.import.error.invalid_boolean</source>
                 <target>Invalid boolean value "%value%" for field "%field%"</target>
             </segment>
         </unit>
-        <unit id="sourcefield_import_error_invalid_weight">
+        <unit id="source_field_import_error_invalid_weight">
             <segment>
-                <source>sourcefield.import.error.invalid_weight</source>
+                <source>source_field.import.error.invalid_weight</source>
                 <target>Invalid numeric value "%value%" for search weight</target>
             </segment>
         </unit>
-        <unit id="sourcefield_import_error_invalid_analyzer">
+        <unit id="source_field_import_error_invalid_analyzer">
             <segment>
-                <source>sourcefield.import.error.invalid_analyzer</source>
+                <source>source_field.import.error.invalid_analyzer</source>
                 <target>Invalid analyzer "%value%". Allowed values: %allowed%</target>
             </segment>
         </unit>
-        <unit id="sourcefield_import_error_invalid_display_mode">
+        <unit id="source_field_import_error_invalid_display_mode">
             <segment>
-                <source>sourcefield.import.error.invalid_display_mode</source>
+                <source>source_field.import.error.invalid_display_mode</source>
                 <target>Invalid display mode "%value%"</target>
             </segment>
         </unit>
-        <unit id="sourcefield_import_error_invalid_coverage_rate">
+        <unit id="source_field_import_error_invalid_coverage_rate">
             <segment>
-                <source>sourcefield.import.error.invalid_coverage_rate</source>
+                <source>source_field.import.error.invalid_coverage_rate</source>
                 <target>Invalid coverage rate "%value%", it must be a number between 0 and 100</target>
             </segment>
         </unit>
-        <unit id="sourcefield_import_error_invalid_max_size">
+        <unit id="source_field_import_error_invalid_max_size">
             <segment>
-                <source>sourcefield.import.error.invalid_max_size</source>
+                <source>source_field.import.error.invalid_max_size</source>
                 <target>Invalid max size "%value%", it must be a positive number</target>
             </segment>
         </unit>
-        <unit id="sourcefield_import_error_invalid_sort_order">
+        <unit id="source_field_import_error_invalid_sort_order">
             <segment>
-                <source>sourcefield.import.error.invalid_sort_order</source>
+                <source>source_field.import.error.invalid_sort_order</source>
                 <target>Invalid sort order "%value%"</target>
             </segment>
         </unit>
-        <unit id="sourcefield_import_error_invalid_position">
+        <unit id="source_field_import_error_invalid_position">
             <segment>
-                <source>sourcefield.import.error.invalid_position</source>
+                <source>source_field.import.error.invalid_position</source>
                 <target>Invalid position "%value%"</target>
             </segment>
         </unit>
-        <unit id="sourcefield_import_error_invalid_boolean_logic">
+        <unit id="source_field_import_error_invalid_boolean_logic">
             <segment>
-                <source>sourcefield.import.error.invalid_boolean_logic</source>
+                <source>source_field.import.error.invalid_boolean_logic</source>
                 <target>Invalid boolean logic "%value%", allowed values are "OR" and "AND"</target>
             </segment>
         </unit>
-        <unit id="sourcefield_export_label">
+        <unit id="source_field_export_label">
             <segment>
-                <source>sourcefield.export.label</source>
+                <source>source_field.export.label</source>
                 <target>Product attribute</target>
             </segment>
         </unit>
-        <unit id="sourcefield_export_no_data">
+        <unit id="source_field_export_no_data">
             <segment>
-                <source>sourcefield.export.no_data</source>
+                <source>source_field.export.no_data</source>
                 <target>No attribute found to export.</target>
             </segment>
         </unit>
-        <unit id="sourcefield_export_started">
+        <unit id="source_field_export_started">
             <segment>
-                <source>sourcefield.export.started</source>
+                <source>source_field.export.started</source>
                 <target>Starting attribute export for job id: %job_id%</target>
             </segment>
         </unit>
-        <unit id="sourcefield_import_warning_system_field_ignored">
+        <unit id="source_field_import_warning_system_field_ignored">
             <segment>
-                <source>sourcefield.import.warning.system_field_ignored</source>
+                <source>source_field.import.warning.system_field_ignored</source>
                 <target>Warning: The following source fields are system attributes: %codes%. Only the following fields can be changed: %allowed%. Other columns values will be ignored</target>
             </segment>
         </unit>
-        <unit id="sourcefield_export_completed">
+        <unit id="source_field_export_completed">
             <segment>
-                <source>sourcefield.export.completed</source>
+                <source>source_field.export.completed</source>
                 <target>Attribute export completed. %count% entries exported to %fileName%</target>
             </segment>
         </unit>
-        <unit id="sourcefield_export_progress">
+        <unit id="source_field_export_progress">
             <segment>
-                <source>sourcefield.export.progress</source>
+                <source>source_field.export.progress</source>
                 <target>Processed %processed%/%total% attribute entries</target>
             </segment>
         </unit>

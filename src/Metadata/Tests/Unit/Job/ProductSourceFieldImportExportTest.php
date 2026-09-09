@@ -104,7 +104,7 @@ class ProductSourceFieldImportExportTest extends AbstractTestJob
         $job = $this->runJob(1);
 
         $this->assertSame(Job::STATUS_FINISHED, $job->getStatus());
-        $this->assertJobCsvEqual($job, self::EXPORT_DIR . 'test_unit_sourcefield_export_initial.csv');
+        $this->assertJobCsvEqual($job, self::EXPORT_DIR . 'test_unit_source_field_export_initial.csv');
 
         // Export matches what the back office shows: the two sides are compared to each other, not
         // to literals. "brand" has no stored configuration, so both must resolve the same defaults.
@@ -177,7 +177,7 @@ class ProductSourceFieldImportExportTest extends AbstractTestJob
         $this->assertSame(Job::STATUS_FINISHED, $job->getStatus());
         $this->assertJobCsvEqual(
             $this->runJob(9),
-            self::EXPORT_DIR . 'test_unit_sourcefield_export_after_system_field.csv'
+            self::EXPORT_DIR . 'test_unit_source_field_export_after_system_field.csv'
         );
     }
 
@@ -220,7 +220,7 @@ class ProductSourceFieldImportExportTest extends AbstractTestJob
         $this->assertSame(Job::STATUS_FINISHED, $job->getStatus());
         $this->assertJobCsvEqual(
             $this->runJob(11),
-            self::EXPORT_DIR . 'test_unit_sourcefield_export_after_facet.csv'
+            self::EXPORT_DIR . 'test_unit_source_field_export_after_facet.csv'
         );
 
         $em = static::getContainer()->get('doctrine')->getManager();
@@ -252,7 +252,7 @@ class ProductSourceFieldImportExportTest extends AbstractTestJob
         $this->assertSame(Job::STATUS_FINISHED, $job->getStatus());
         $this->assertJobCsvEqual(
             $this->runJob(7),
-            self::EXPORT_DIR . 'test_unit_sourcefield_export_after_facet.csv'
+            self::EXPORT_DIR . 'test_unit_source_field_export_after_facet.csv'
         );
     }
 

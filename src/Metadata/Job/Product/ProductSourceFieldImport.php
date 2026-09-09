@@ -27,7 +27,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ProductSourceFieldImport extends AbstractSourceFieldImport
 {
-    public const JOB_PROFILE = 'sourcefield_import';
+    public const JOB_PROFILE = 'source_field_import';
     public const METADATA_ENTITY = 'product';
 
     protected ConfigurationRepository $facetConfigurationRepository;
@@ -63,7 +63,7 @@ class ProductSourceFieldImport extends AbstractSourceFieldImport
 
     public function getLabel(): string
     {
-        return $this->translator->trans('sourcefield.import.label', [], 'gally_sourcefield');
+        return $this->translator->trans('source_field.import.label', [], 'gally_source_field');
     }
 
     protected function initRepositories(): void
@@ -77,49 +77,49 @@ class ProductSourceFieldImport extends AbstractSourceFieldImport
 
         if (!empty($data['display_mode']) && !\in_array($data['display_mode'], Configuration::getAvailableDisplayModes(), true)) {
             $errors[] = $this->translator->trans(
-                'sourcefield.import.error.invalid_display_mode',
+                'source_field.import.error.invalid_display_mode',
                 ['%value%' => $data['display_mode']],
-                'gally_sourcefield'
+                'gally_source_field'
             );
         }
 
         if (!empty($data['coverage_rate']) && (!is_numeric($data['coverage_rate']) || (int) $data['coverage_rate'] < 0 || (int) $data['coverage_rate'] > 100)) {
             $errors[] = $this->translator->trans(
-                'sourcefield.import.error.invalid_coverage_rate',
+                'source_field.import.error.invalid_coverage_rate',
                 ['%value%' => $data['coverage_rate']],
-                'gally_sourcefield'
+                'gally_source_field'
             );
         }
 
         if (isset($data['max_size']) && '' !== $data['max_size'] && (!is_numeric($data['max_size']) || (int) $data['max_size'] < 1)) {
             $errors[] = $this->translator->trans(
-                'sourcefield.import.error.invalid_max_size',
+                'source_field.import.error.invalid_max_size',
                 ['%value%' => $data['max_size']],
-                'gally_sourcefield'
+                'gally_source_field'
             );
         }
 
         if (!empty($data['sort_order']) && !\in_array($data['sort_order'], Configuration::getAvailableSortOrder(), true)) {
             $errors[] = $this->translator->trans(
-                'sourcefield.import.error.invalid_sort_order',
+                'source_field.import.error.invalid_sort_order',
                 ['%value%' => $data['sort_order']],
-                'gally_sourcefield'
+                'gally_source_field'
             );
         }
 
         if (isset($data['position']) && '' !== $data['position'] && !is_numeric($data['position'])) {
             $errors[] = $this->translator->trans(
-                'sourcefield.import.error.invalid_position',
+                'source_field.import.error.invalid_position',
                 ['%value%' => $data['position']],
-                'gally_sourcefield'
+                'gally_source_field'
             );
         }
 
         if (!empty($data['boolean_logic']) && !\in_array(strtoupper($data['boolean_logic']), ['OR', 'AND'], true)) {
             $errors[] = $this->translator->trans(
-                'sourcefield.import.error.invalid_boolean_logic',
+                'source_field.import.error.invalid_boolean_logic',
                 ['%value%' => $data['boolean_logic']],
-                'gally_sourcefield'
+                'gally_source_field'
             );
         }
 
@@ -142,7 +142,7 @@ class ProductSourceFieldImport extends AbstractSourceFieldImport
                 foreach ($facetConfigurationViolations as $violation) {
                     $errors[] = $violation->getMessage();
                 }
-                throw new JobException($this->translator->trans('sourcefield.import.error.validation_failed', ['%errors%' => implode(', ', $errors)], 'gally_sourcefield'));
+                throw new JobException($this->translator->trans('source_field.import.error.validation_failed', ['%errors%' => implode(', ', $errors)], 'gally_source_field'));
             }
         }
     }
@@ -176,11 +176,11 @@ class ProductSourceFieldImport extends AbstractSourceFieldImport
         // Skip creation if no config exists and all values are default/empty, or if not filterable.
         $skipReasons = [];
         if (null === $facetConfig && $allDefault) {
-            $skipReasons[] = $this->translator->trans('sourcefield.import.skip_reason.all_default', [], 'gally_sourcefield');
+            $skipReasons[] = $this->translator->trans('source_field.import.skip_reason.all_default', [], 'gally_source_field');
         }
 
         if (!$sourceField->getIsFilterable()) {
-            $skipReasons[] = $this->translator->trans('sourcefield.import.skip_reason.not_filterable', [], 'gally_sourcefield');
+            $skipReasons[] = $this->translator->trans('source_field.import.skip_reason.not_filterable', [], 'gally_source_field');
         }
 
         if (!empty($skipReasons)) {
@@ -193,14 +193,14 @@ class ProductSourceFieldImport extends AbstractSourceFieldImport
             $facetConfig = $tempConfig;
             $this->importEntityManager->persist($facetConfig);
             $this->logInfo(
-                'sourcefield.import.creating.default_facet_configuration',
-                'gally_sourcefield',
+                'source_field.import.creating.default_facet_configuration',
+                'gally_source_field',
                 ['%code%' => $sourceField->getCode()],
             );
         } else {
             $this->logInfo(
-                'sourcefield.import.updating.default_facet_configuration',
-                'gally_sourcefield',
+                'source_field.import.updating.default_facet_configuration',
+                'gally_source_field',
                 ['%code%' => $sourceField->getCode()],
             );
         }
@@ -219,8 +219,8 @@ class ProductSourceFieldImport extends AbstractSourceFieldImport
     {
         foreach ($this->facetConfigurationSkips as $reason => $codes) {
             $this->logInfo(
-                'sourcefield.import.skipping.default_facet_configuration',
-                'gally_sourcefield',
+                'source_field.import.skipping.default_facet_configuration',
+                'gally_source_field',
                 ['%reason%' => $reason, '%codes%' => implode(', ', $codes)],
             );
         }

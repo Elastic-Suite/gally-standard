@@ -24,7 +24,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ProductSourceFieldExport extends AbstractSourceFieldExport
 {
-    public const JOB_PROFILE = 'sourcefield_export';
+    public const JOB_PROFILE = 'source_field_export';
     public const METADATA_ENTITY = 'product';
 
     private ConfigurationRepository $facetConfigRepository;

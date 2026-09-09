@@ -64,7 +64,7 @@ abstract class AbstractSourceFieldExport extends AbstractCsvExport
 
     public function getLabel(): string
     {
-        return $this->translator->trans('sourcefield.export.label', [], 'gally_sourcefield');
+        return $this->translator->trans('source_field.export.label', [], 'gally_source_field');
     }
 
     public function process(): void
@@ -79,23 +79,23 @@ abstract class AbstractSourceFieldExport extends AbstractCsvExport
         $this->initRepositories();
 
         $this->isCurrentJobSet();
-        $this->logInfo('sourcefield.export.started', 'gally_sourcefield', ['%job_id%' => $this->currentJob->getId()]);
+        $this->logInfo('source_field.export.started', 'gally_source_field', ['%job_id%' => $this->currentJob->getId()]);
 
         $sourceFieldCount = $this->sourceFieldRepository->count(['metadata' => $this->metadata]);
 
         if (0 === $sourceFieldCount) {
-            $this->logInfo('sourcefield.export.no_data', 'gally_sourcefield');
+            $this->logInfo('source_field.export.no_data', 'gally_source_field');
 
             return;
         }
 
-        [$filepath, $fileName] = $this->prepareExportFile('sourcefield');
+        [$filepath, $fileName] = $this->prepareExportFile('source_field');
 
         $this->generateCsvExport($sourceFieldCount, $this->currentJob, $filepath);
 
         $this->jobManager->updateJobFile($this->currentJob, $fileName);
 
-        $this->logInfo('sourcefield.export.completed', 'gally_sourcefield', [
+        $this->logInfo('source_field.export.completed', 'gally_source_field', [
             '%count%' => $sourceFieldCount,
             '%fileName%' => $fileName,
         ]);
@@ -119,7 +119,7 @@ abstract class AbstractSourceFieldExport extends AbstractCsvExport
                 ++$processedCount;
             }
 
-            $this->logInfo('sourcefield.export.progress', 'gally_sourcefield', [
+            $this->logInfo('source_field.export.progress', 'gally_source_field', [
                 '%processed%' => $processedCount,
                 '%total%' => $sourceFieldCount,
             ]);

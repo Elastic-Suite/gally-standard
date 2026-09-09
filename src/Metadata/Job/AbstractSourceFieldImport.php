@@ -131,7 +131,7 @@ abstract class AbstractSourceFieldImport extends AbstractCsvImport
         $this->initRepositories();
 
         $this->isCurrentJobSet();
-        $this->logInfo('sourcefield.import.started', 'gally_sourcefield', ['%job_id%' => $this->currentJob->getId()]);
+        $this->logInfo('source_field.import.started', 'gally_source_field', ['%job_id%' => $this->currentJob->getId()]);
 
         $filePath = $this->jobManager->getAbsoluteJobFilePath($this->currentJob);
         $handle = fopen($filePath, 'r');
@@ -156,14 +156,14 @@ abstract class AbstractSourceFieldImport extends AbstractCsvImport
                         $this->importEntityManager->flush();
                         $this->importEntityManager->clear();
 
-                        $this->logInfo('sourcefield.import.progress', 'gally_sourcefield', [
+                        $this->logInfo('source_field.import.progress', 'gally_source_field', [
                             '%processed%' => $updatedCount,
                             '%updated%' => $updatedCount,
                         ]);
                     }
                 } catch (\Throwable $e) {
                     ++$errorCount;
-                    $this->logError('sourcefield.import.line_error', 'gally_sourcefield', [
+                    $this->logError('source_field.import.line_error', 'gally_source_field', [
                         '%line%' => $lineNumber,
                         '%error%' => $e->getMessage(),
                     ]);
@@ -171,14 +171,14 @@ abstract class AbstractSourceFieldImport extends AbstractCsvImport
             }
 
             if ($errorCount > 0) {
-                throw new JobException($this->translator->trans('sourcefield.import.error.failed', [], 'gally_sourcefield'));
+                throw new JobException($this->translator->trans('source_field.import.error.failed', [], 'gally_source_field'));
             }
 
             $this->importEntityManager->flush();
             $this->importEntityManager->clear();
             $this->importEntityManager->getConnection()->commit();
 
-            $this->logInfo('sourcefield.import.completed', 'gally_sourcefield', [
+            $this->logInfo('source_field.import.completed', 'gally_source_field', [
                 '%updated%' => $updatedCount,
                 '%errors%' => $errorCount,
             ]);
@@ -207,17 +207,17 @@ abstract class AbstractSourceFieldImport extends AbstractCsvImport
         try {
             if (empty($data['code'])) {
                 $errors[] = $this->translator->trans(
-                    'sourcefield.import.error.attribute_code_empty',
+                    'source_field.import.error.attribute_code_empty',
                     [],
-                    'gally_sourcefield'
+                    'gally_source_field'
                 );
             } else {
                 $existingSourceField = $this->sourceFieldRepository->findByCodeAndMetadataEntity($data['code'], static::METADATA_ENTITY);
                 if (!$existingSourceField) {
                     $errors[] = $this->translator->trans(
-                        'sourcefield.import.error.code_not_found',
+                        'source_field.import.error.code_not_found',
                         ['%code%' => $data['code']],
-                        'gally_sourcefield'
+                        'gally_source_field'
                     );
                 } elseif ($existingSourceField->getIsSystem()) {
                     $restrictedFields = array_diff(array_keys($data), $this->systemUpdatableCsvFields);
@@ -237,48 +237,48 @@ abstract class AbstractSourceFieldImport extends AbstractCsvImport
 
             if (!empty($missingFields)) {
                 $errors[] = $this->translator->trans(
-                    'sourcefield.import.error.values_required',
+                    'source_field.import.error.values_required',
                     ['%fields%' => implode(', ', $missingFields)],
-                    'gally_sourcefield'
+                    'gally_source_field'
                 );
             }
 
             foreach (self::BOOLEAN_FIELDS as $field) {
                 if ($this->isValidBooleanValue($data[$field])) {
                     $errors[] = $this->translator->trans(
-                        'sourcefield.import.error.invalid_boolean',
+                        'source_field.import.error.invalid_boolean',
                         ['%field%' => $field, '%value%' => $data[$field]],
-                        'gally_sourcefield'
+                        'gally_source_field'
                     );
                 }
             }
 
             if (!empty($data['weight']) && !is_numeric($data['weight'])) {
                 $errors[] = $this->translator->trans(
-                    'sourcefield.import.error.invalid_weight',
+                    'source_field.import.error.invalid_weight',
                     ['%value%' => $data['weight']],
-                    'gally_sourcefield'
+                    'gally_source_field'
                 );
             }
 
             if (!empty($data['analyzer']) && !\in_array($data['analyzer'], SearchAnalyzer::SEARCH_ANALYZERS, true)) {
                 $errors[] = $this->translator->trans(
-                    'sourcefield.import.error.invalid_analyzer',
+                    'source_field.import.error.invalid_analyzer',
                     ['%value%' => $data['analyzer'], '%allowed%' => implode(', ', SearchAnalyzer::SEARCH_ANALYZERS)],
-                    'gally_sourcefield'
+                    'gally_source_field'
                 );
             }
 
             $errors = array_merge($errors, $this->validateAdditionalFields($data, $lineNumber));
 
             if (\count($errors) > 0) {
-                $this->logError('sourcefield.import.validation_errors', 'gally_sourcefield', [
+                $this->logError('source_field.import.validation_errors', 'gally_source_field', [
                     '%line%' => $lineNumber,
                     '%errors%' => implode(', ', $errors),
                 ]);
             }
         } catch (\Exception $e) {
-            $this->logError('sourcefield.import.line_validation_error', 'gally_sourcefield', [
+            $this->logError('source_field.import.line_validation_error', 'gally_source_field', [
                 '%line%' => $lineNumber,
                 '%error%' => $e->getMessage(),
             ]);
@@ -291,7 +291,7 @@ abstract class AbstractSourceFieldImport extends AbstractCsvImport
     protected function afterValidateLines(): void
     {
         if (!empty($this->systemFieldWarnings)) {
-            $this->logInfo('sourcefield.import.warning.system_field_ignored', 'gally_sourcefield', [
+            $this->logInfo('source_field.import.warning.system_field_ignored', 'gally_source_field', [
                 '%codes%' => implode(', ', $this->systemFieldWarnings),
                 '%allowed%' => implode(', ', array_diff($this->systemUpdatableCsvFields, ['code'])),
             ]);
@@ -332,10 +332,10 @@ abstract class AbstractSourceFieldImport extends AbstractCsvImport
         $existingSourceField = $this->sourceFieldRepository->findByCodeAndMetadataEntity($associativeData['code'], static::METADATA_ENTITY);
 
         if (!$existingSourceField) {
-            throw new JobException($this->translator->trans('sourcefield.import.error.code_not_found', ['%code%' => $associativeData['code']], 'gally_sourcefield'));
+            throw new JobException($this->translator->trans('source_field.import.error.code_not_found', ['%code%' => $associativeData['code']], 'gally_source_field'));
         }
 
-        $this->logInfo('sourcefield.import.updating', 'gally_sourcefield', ['%code%' => $associativeData['code']]);
+        $this->logInfo('source_field.import.updating', 'gally_source_field', ['%code%' => $associativeData['code']]);
 
         $sourceField = $this->updateSourceFieldFromData($existingSourceField, $associativeData);
         $this->processAdditionalData($sourceField, $associativeData);
@@ -346,7 +346,7 @@ abstract class AbstractSourceFieldImport extends AbstractCsvImport
             foreach ($sourceFieldViolations as $violation) {
                 $errors[] = $violation->getMessage();
             }
-            throw new JobException($this->translator->trans('sourcefield.import.error.validation_failed', ['%errors%' => implode(', ', $errors)], 'gally_sourcefield'));
+            throw new JobException($this->translator->trans('source_field.import.error.validation_failed', ['%errors%' => implode(', ', $errors)], 'gally_source_field'));
         }
     }
 

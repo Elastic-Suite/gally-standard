@@ -80,20 +80,20 @@ Gally\Job\Entity\Job:
 
 Gally\Job\Entity\Job\File:
     job_file_errors:
-        filePath: 'test_unit_sourcefield_import_errors.csv'
+        filePath: 'test_unit_source_field_import_errors.csv'
     job_file_entity_violation:
-        filePath: 'test_unit_sourcefield_import_entity_violation.csv'
+        filePath: 'test_unit_source_field_import_entity_violation.csv'
     job_file_update:
-        filePath: 'test_unit_sourcefield_import_update.csv'
+        filePath: 'test_unit_source_field_import_update.csv'
     job_file_system_field:
-        filePath: 'test_unit_sourcefield_import_system_field.csv'
+        filePath: 'test_unit_source_field_import_system_field.csv'
     job_file_facet:
-        filePath: 'test_unit_sourcefield_import_facet.csv'
+        filePath: 'test_unit_source_field_import_facet.csv'
     job_file_blank_cells:
-        filePath: 'test_unit_sourcefield_import_blank_cells.csv'
+        filePath: 'test_unit_source_field_import_blank_cells.csv'
     job_file_make_filterable:
-        filePath: 'test_unit_sourcefield_import_make_filterable.csv'
+        filePath: 'test_unit_source_field_import_make_filterable.csv'
     job_file_facet_aggregation:
-        filePath: 'test_unit_sourcefield_import_facet_aggregation.csv'
+        filePath: 'test_unit_source_field_import_facet_aggregation.csv'
     job_file_system_field_numeric_booleans:
-        filePath: 'test_unit_sourcefield_import_system_field_numeric_booleans.csv'
+        filePath: 'test_unit_source_field_import_system_field_numeric_booleans.csv'
