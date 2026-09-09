@@ -130,6 +130,11 @@ abstract class AbstractCsvImport extends AbstractCsv implements JobImportInterfa
         return \in_array(strtolower($value), ['1', self::BOOLEAN_VALUE_TRUE], true);
     }
 
+    protected function isValidBooleanValue(string $value): bool
+    {
+        return !empty($value) && !\in_array(strtolower($value), ['0', '1', self::BOOLEAN_VALUE_TRUE, self::BOOLEAN_VALUE_FALSE], true);
+    }
+
     /**
      * @return LocalizedCatalog[]
      */

@@ -244,7 +244,7 @@ abstract class AbstractSourceFieldImport extends AbstractCsvImport
             }
 
             foreach (self::BOOLEAN_FIELDS as $field) {
-                if (!empty($data[$field]) && !\in_array(strtolower($data[$field]), ['0', '1', self::BOOLEAN_VALUE_TRUE, self::BOOLEAN_VALUE_FALSE], true)) {
+                if ($this->isValidBooleanValue($data[$field])) {
                     $errors[] = $this->translator->trans(
                         'sourcefield.import.error.invalid_boolean',
                         ['%field%' => $field, '%value%' => $data[$field]],
