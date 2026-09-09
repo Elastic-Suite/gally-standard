@@ -81,6 +81,20 @@ abstract class AbstractSourceFieldImport extends AbstractCsvImport
         'analyzer',
     ];
 
+    /**
+     * Base columns validated against the constraints of SourceField, in the order they appear in the CSV.
+     *
+     * Each entry is [entity property, cast to apply to the raw CSV value, translation key of the error message].
+     * The rules themselves live in Metadata/Resources/config/validator/validation.yaml, not here.
+     *
+     * The boolean columns and the code are absent on purpose: they carry no constraint, their setters are
+     * typed so a bad value cannot even reach the validator, and the code is checked against the database.
+     */
+    private const BASE_VALIDATION_MAP = [
+        'weight' => ['weight', 'int', 'invalid_weight'],
+        'analyzer' => ['defaultSearchAnalyzer', null, 'invalid_analyzer'],
+    ];
+
     protected array $actualCsvHeader;
 
     public function __construct(
@@ -253,22 +267,7 @@ abstract class AbstractSourceFieldImport extends AbstractCsvImport
                 }
             }
 
-            if (!empty($data['weight']) && !is_numeric($data['weight'])) {
-                $errors[] = $this->translator->trans(
-                    'source_field.import.error.invalid_weight',
-                    ['%value%' => $data['weight']],
-                    'gally_source_field'
-                );
-            }
-
-            if (!empty($data['analyzer']) && !\in_array($data['analyzer'], SearchAnalyzer::SEARCH_ANALYZERS, true)) {
-                $errors[] = $this->translator->trans(
-                    'source_field.import.error.invalid_analyzer',
-                    ['%value%' => $data['analyzer'], '%allowed%' => implode(', ', SearchAnalyzer::SEARCH_ANALYZERS)],
-                    'gally_source_field'
-                );
-            }
-
+            $errors = array_merge($errors, $this->validateEntityFields(new SourceField(), self::BASE_VALIDATION_MAP, $data));
             $errors = array_merge($errors, $this->validateAdditionalFields($data, $lineNumber));
 
             if (\count($errors) > 0) {
@@ -286,6 +285,76 @@ abstract class AbstractSourceFieldImport extends AbstractCsvImport
         }
 
         return \count($errors) < 1;
+    }
+
+    /**
+     * Validate the CSV columns listed in $map by setting them on $entity and running the Symfony validator on it,
+     * then translate each violation back to the message of the column it came from. This keeps every rule in the
+     * constraint files, and still reports errors per column while the file is being validated, before any write.
+     *
+     * Violations on properties absent from $map are ignored: they belong to the parts of the entity the CSV does
+     * not fill, and to the class level constraints, which cannot be judged on a throwaway entity.
+     *
+     * @param array<string, array{0: string, 1: ?string, 2: string}> $map CSV column => [property, cast, error key]
+     *
+     * @return string[]
+     */
+    protected function validateEntityFields(object $entity, array $map, array $data): array
+    {
+        $errors = [];
+
+        /** @var array<string, string> $validatedColumns entity property => CSV column, for the columns actually set */
+        $validatedColumns = [];
+
+        foreach ($map as $column => [$property, $cast, $errorKey]) {
+            $rawValue = $data[$column] ?? null;
+            if (null === $rawValue || '' === trim((string) $rawValue)) {
+                continue;
+            }
+
+            // The int setters are typed, so a non numeric value would reach the validator as 0 and pass.
+            if ('int' === $cast && !is_numeric($rawValue)) {
+                $errors[] = $this->getFieldValidationError($column, $errorKey, (string) $rawValue);
+                continue;
+            }
+
+            $entity->{'set' . ucfirst($property)}($this->castCsvValue($cast, (string) $rawValue));
+            $validatedColumns[$property] = $column;
+        }
+
+        foreach ($this->validator->validate($entity) as $violation) {
+            $property = $violation->getPropertyPath();
+
+            // Also skips the second violation of a property: one message per column is enough.
+            if (!isset($validatedColumns[$property])) {
+                continue;
+            }
+
+            $column = $validatedColumns[$property];
+            unset($validatedColumns[$property]);
+            $errors[] = $this->getFieldValidationError($column, $map[$column][2], (string) $data[$column]);
+        }
+
+        return $errors;
+    }
+
+    private function castCsvValue(?string $cast, string $value): int|string
+    {
+        return match ($cast) {
+            'int' => (int) $value,
+            'upper' => strtoupper($value),
+            default => $value,
+        };
+    }
+
+    private function getFieldValidationError(string $column, string $errorKey, string $value): string
+    {
+        $parameters = ['%value%' => $value];
+        if ('analyzer' === $column) {
+            $parameters['%allowed%'] = implode(', ', SearchAnalyzer::SEARCH_ANALYZERS);
+        }
+
+        return $this->translator->trans('source_field.import.error.' . $errorKey, $parameters, 'gally_source_field');
     }
 
     protected function afterValidateLines(): void

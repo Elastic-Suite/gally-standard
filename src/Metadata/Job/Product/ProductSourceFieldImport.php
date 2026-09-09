@@ -17,6 +17,7 @@ namespace Gally\Metadata\Job\Product;
 use Gally\Doctrine\Service\EntityManagerFactory;
 use Gally\Job\Exception\JobException;
 use Gally\Job\Service\JobManager;
+use Gally\Metadata\Entity\Metadata;
 use Gally\Metadata\Entity\SourceField;
 use Gally\Metadata\Job\AbstractSourceFieldImport;
 use Gally\Metadata\Validator\SourceFieldDataValidator;
@@ -35,6 +36,9 @@ class ProductSourceFieldImport extends AbstractSourceFieldImport
     /** Codes of source fields whose facet configuration was skipped, grouped by reason and logged once at the end of processing. */
     private array $facetConfigurationSkips = [];
 
+    /** Source field used to validate facet values on their own, without the state of the real one. */
+    private ?SourceField $validationSourceField = null;
+
     private const FACET_CONFIGURATION_CSV_FIELDS = [
         'display_mode',
         'coverage_rate',
@@ -42,6 +46,21 @@ class ProductSourceFieldImport extends AbstractSourceFieldImport
         'sort_order',
         'position',
         'boolean_logic',
+    ];
+
+    /**
+     * Facet columns validated against the constraints of Configuration, in the order they appear in the CSV.
+     *
+     * Each entry is [entity property, cast to apply to the raw CSV value, translation key of the error message].
+     * The rules themselves live in Search/Resources/config/validator/validation.yaml, not here.
+     */
+    private const FACET_VALIDATION_MAP = [
+        'display_mode' => ['displayMode', null, 'invalid_display_mode'],
+        'coverage_rate' => ['coverageRate', 'int', 'invalid_coverage_rate'],
+        'max_size' => ['maxSize', 'int', 'invalid_max_size'],
+        'sort_order' => ['sortOrder', null, 'invalid_sort_order'],
+        'position' => ['position', 'int', 'invalid_position'],
+        'boolean_logic' => ['booleanLogic', 'upper', 'invalid_boolean_logic'],
     ];
 
     public const CSV_HEADERS = [
@@ -73,57 +92,26 @@ class ProductSourceFieldImport extends AbstractSourceFieldImport
 
     protected function validateAdditionalFields(array $data, int $lineNumber): array
     {
-        $errors = [];
+        return $this->validateEntityFields(
+            new Configuration($this->getFakeValidationSourceField(), null),
+            self::FACET_VALIDATION_MAP,
+            $data
+        );
+    }
 
-        if (!empty($data['display_mode']) && !\in_array($data['display_mode'], Configuration::getAvailableDisplayModes(), true)) {
-            $errors[] = $this->translator->trans(
-                'source_field.import.error.invalid_display_mode',
-                ['%value%' => $data['display_mode']],
-                'gally_source_field'
-            );
+    /**
+     * Creates a filterable source field used only for validating the facet configuration
+     */
+    private function getFakeValidationSourceField(): SourceField
+    {
+        if (null === $this->validationSourceField) {
+            $this->validationSourceField = (new SourceField())
+                ->setCode('__facet_validation__')
+                ->setMetadata((new Metadata())->setEntity(static::METADATA_ENTITY))
+                ->setIsFilterable(true);
         }
 
-        if (!empty($data['coverage_rate']) && (!is_numeric($data['coverage_rate']) || (int) $data['coverage_rate'] < 0 || (int) $data['coverage_rate'] > 100)) {
-            $errors[] = $this->translator->trans(
-                'source_field.import.error.invalid_coverage_rate',
-                ['%value%' => $data['coverage_rate']],
-                'gally_source_field'
-            );
-        }
-
-        if (isset($data['max_size']) && '' !== $data['max_size'] && (!is_numeric($data['max_size']) || (int) $data['max_size'] < 1)) {
-            $errors[] = $this->translator->trans(
-                'source_field.import.error.invalid_max_size',
-                ['%value%' => $data['max_size']],
-                'gally_source_field'
-            );
-        }
-
-        if (!empty($data['sort_order']) && !\in_array($data['sort_order'], Configuration::getAvailableSortOrder(), true)) {
-            $errors[] = $this->translator->trans(
-                'source_field.import.error.invalid_sort_order',
-                ['%value%' => $data['sort_order']],
-                'gally_source_field'
-            );
-        }
-
-        if (isset($data['position']) && '' !== $data['position'] && !is_numeric($data['position'])) {
-            $errors[] = $this->translator->trans(
-                'source_field.import.error.invalid_position',
-                ['%value%' => $data['position']],
-                'gally_source_field'
-            );
-        }
-
-        if (!empty($data['boolean_logic']) && !\in_array(strtoupper($data['boolean_logic']), ['OR', 'AND'], true)) {
-            $errors[] = $this->translator->trans(
-                'source_field.import.error.invalid_boolean_logic',
-                ['%value%' => $data['boolean_logic']],
-                'gally_source_field'
-            );
-        }
-
-        return $errors;
+        return $this->validationSourceField;
     }
 
     protected function getAdditionalSystemUpdatableCsvFields(): array
@@ -133,38 +121,34 @@ class ProductSourceFieldImport extends AbstractSourceFieldImport
 
     protected function processAdditionalData(SourceField $sourceField, array $data): void
     {
-        $facetConfiguration = $this->upsertFacetConfigurationFromData($sourceField, $data);
-
-        if ($facetConfiguration) {
-            $facetConfigurationViolations = $this->validator->validate($facetConfiguration);
-            if (\count($facetConfigurationViolations) > 0) {
-                $errors = [];
-                foreach ($facetConfigurationViolations as $violation) {
-                    $errors[] = $violation->getMessage();
-                }
-                throw new JobException($this->translator->trans('source_field.import.error.validation_failed', ['%errors%' => implode(', ', $errors)], 'gally_source_field'));
-            }
-        }
+        $this->upsertFacetConfigurationFromData($sourceField, $data);
     }
 
-    private function upsertFacetConfigurationFromData(SourceField $sourceField, array $data): ?Configuration
+    /**
+     * Create a new facet configuration if the imported config does not match the default.
+     * If a configuration exists it updates it.
+     * In both case this function ensure the resulting line contains only non-default values.
+     *
+     * @throws JobException
+     *
+     * @return null
+     */
+    private function upsertFacetConfigurationFromData(SourceField $sourceField, array $data)
     {
         $facetConfig = $this->facetConfigurationRepository->findOneBySourceFieldAndDefaultCategory($sourceField);
 
         $sourceFieldReference = $this->importEntityManager->getReference(SourceField::class, $sourceField->getId());
         $tempConfig = $facetConfig ?? new Configuration($sourceFieldReference, null);
 
-        // A column whose imported value equals the resolved default is stored as null, so the
-        // default keeps applying.
         $defaults = new Configuration($sourceFieldReference, null);
         $defaults->initDefaultValue($defaults);
 
-        $displayMode = '' === $data['display_mode'] || $data['display_mode'] === $defaults->getDefaultDisplayMode() ? null : $data['display_mode'];
-        $coverageRate = '' === $data['coverage_rate'] || (int) $data['coverage_rate'] === $defaults->getDefaultCoverageRate() ? null : ((int) $data['coverage_rate']);
-        $maxSize = '' === $data['max_size'] || (int) $data['max_size'] === $defaults->getDefaultMaxSize() ? null : ((int) $data['max_size']);
-        $sortOrder = '' === $data['sort_order'] || $data['sort_order'] === $defaults->getDefaultSortOrder() ? null : ($data['sort_order']);
-        $position = '' === $data['position'] || (int) $data['position'] === $defaults->getDefaultPosition() ? null : (int) $data['position'];
-        $booleanLogic = '' === $data['boolean_logic'] || strtoupper($data['boolean_logic']) === $defaults->getDefaultBooleanLogic() ? null : strtoupper($data['boolean_logic']);
+        $displayMode = $this->getValueIfNotNullOrNotDefault($data, 'display_mode', $defaults->getDefaultDisplayMode());
+        $coverageRate = $this->getValueIfNotNullOrNotDefault($data, 'coverage_rate', $defaults->getDefaultCoverageRate(), intval(...));
+        $maxSize = $this->getValueIfNotNullOrNotDefault($data, 'max_size', $defaults->getDefaultMaxSize(), intval(...));
+        $sortOrder = $this->getValueIfNotNullOrNotDefault($data, 'sort_order', $defaults->getDefaultSortOrder());
+        $position = $this->getValueIfNotNullOrNotDefault($data, 'position', $defaults->getDefaultPosition(), intval(...));
+        $booleanLogic = $this->getValueIfNotNullOrNotDefault($data, 'boolean_logic', $defaults->getDefaultBooleanLogic(), strtoupper(...));
 
         $allDefault = null === $displayMode
             && null === $coverageRate
@@ -212,7 +196,38 @@ class ProductSourceFieldImport extends AbstractSourceFieldImport
         $facetConfig->setPosition($position);
         $facetConfig->setBooleanLogic($booleanLogic);
 
-        return $facetConfig;
+        $facetConfigurationViolations = $this->validator->validate($facetConfig);
+        if (\count($facetConfigurationViolations) > 0) {
+            $errors = [];
+            foreach ($facetConfigurationViolations as $violation) {
+                $errors[] = $violation->getMessage();
+            }
+            throw new JobException($this->translator->trans('source_field.import.error.validation_failed', ['%errors%' => implode(', ', $errors)], 'gally_source_field'));
+        }
+    }
+
+    /**
+     * Returns the imported value of a CSV column, or null when the column is missing, empty, or equals the resolved default.
+     *
+     * Storing null instead of the default value keeps the default applying.
+     *
+     * @template T of int|string
+     *
+     * @param T|null                     $default
+     * @param (callable(string): T)|null $cast    applied to the raw CSV value before comparing it to the default
+     *
+     * @return T|null
+     */
+    private function getValueIfNotNullOrNotDefault(array $data, string $key, int|string|null $default, ?callable $cast = null): int|string|null
+    {
+        $rawValue = $data[$key] ?? null;
+        if (null === $rawValue || '' === $rawValue) {
+            return null;
+        }
+
+        $value = null !== $cast ? $cast((string) $rawValue) : (string) $rawValue;
+
+        return $value === $default ? null : $value;
     }
 
     protected function afterProcessLines(): void

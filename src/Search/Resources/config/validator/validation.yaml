@@ -15,6 +15,11 @@ Gally\Search\Entity\Facet\Configuration:
             - Positive: ~
         sortOrder:
             - Choice: { callback: [ Gally\Search\Entity\Facet\Configuration, getAvailableSortOrder ] }
+        position:
+            - Type: integer
+            - Positive: ~
+        booleanLogic:
+            - Choice: { callback: [ Gally\Search\Entity\Facet\Configuration, getAvailableBooleanLogic ] }
 
     constraints:   
         - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:

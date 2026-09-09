@@ -152,6 +152,12 @@ class ProductSourceFieldImportExportTest extends AbstractTestJob
                 'Validation error(s) on line 11: Invalid sort order "fake_order"',
                 'Validation error(s) on line 12: Invalid boolean logic "XOR", allowed values are "OR" and "AND"',
                 'Validation error(s) on line 13: Invalid position "abc"',
+                // A position must be positive. Before, these two passed validation and only failed
+                // during the write, which rolled back every line already imported.
+                'Validation error(s) on line 14: Invalid position "0"',
+                'Validation error(s) on line 15: Invalid position "-1"',
+                // Same for a weight outside the values Weight::getValidWeight() allows.
+                'Validation error(s) on line 16: Invalid numeric value "99" for search weight',
             ],
         );
 
