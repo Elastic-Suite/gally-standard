@@ -63,6 +63,17 @@ services:
         tags:
             - { name: api_platform.state_provider }
 
+    Gally\Metadata\State\MetadataProcessor:
+        arguments:
+            - '@api_platform.doctrine.orm.state.persist_processor'
+            - '@api_platform.doctrine.orm.state.remove_processor'
+        tags:
+            - { name: api_platform.state_processor }
+
+    Gally\Metadata\State\ExcludeInternalMetadataExtension:
+        tags:
+            - { name: api_platform.doctrine.orm.query_extension.collection }
+
     Gally\Metadata\EventSubscriber\ValidateSourceFieldCode:
         arguments:
             - '@Gally\Metadata\Repository\SourceFieldRepository'

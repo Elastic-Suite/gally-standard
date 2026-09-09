@@ -51,10 +51,12 @@ class MetadataTest extends AbstractEntityTestWithUpdate
 
         return [
             [null, 4, ['id' => 4, 'entity' => 'product'], 401],
-            [$this->getUser(Role::ROLE_ADMIN), 4, ['id' => 4, 'entity' => 'product'], 200],
-            [$user, 4, ['id' => 4, 'entity' => 'product'], 200],
-            [$user, 6, ['id' => 6, 'entity' => 'article'], 200],
-            [$user, 8, [], 404],
+            [$this->getUser(Role::ROLE_ADMIN), 4, ['id' => 4, 'entity' => 'product', 'isSystem' => true, 'isInternal' => false], 200],
+            [$user, 4, ['id' => 4, 'entity' => 'product', 'isSystem' => true, 'isInternal' => false], 200],
+            [$user, 5, ['id' => 5, 'entity' => 'category', 'isSystem' => true, 'isInternal' => false], 200],
+            [$user, 6, ['id' => 6, 'entity' => 'tracking_event', 'isSystem' => true, 'isInternal' => true], 200],
+            [$user, 7, ['id' => 7, 'entity' => 'article', 'isSystem' => false, 'isInternal' => false], 200],
+            [$user, 9, [], 404],
         ];
     }
 
@@ -65,18 +67,18 @@ class MetadataTest extends AbstractEntityTestWithUpdate
         return [
             [null, 4, 401],
             [$this->getUser(Role::ROLE_CONTRIBUTOR), 4, 403],
-            [$adminUser, 4, 204],
-            [$adminUser, 6, 204],
-            [$adminUser, 8, 404],
+            [$adminUser, 4, 400], // Can't remove system metadata
+            [$adminUser, 7, 204],
+            [$adminUser, 9, 404],
         ];
     }
 
     public function getCollectionDataProvider(): iterable
     {
         return [
-            [null, 2, 401],
-            [$this->getUser(Role::ROLE_CONTRIBUTOR), 2, 200],
-            [$this->getUser(Role::ROLE_ADMIN), 2, 200],
+            [null, 3, 401],
+            [$this->getUser(Role::ROLE_CONTRIBUTOR), 3, 200],
+            [$this->getUser(Role::ROLE_ADMIN), 3, 200],
         ];
     }
 

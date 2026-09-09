@@ -10,6 +10,16 @@
         </id>
         <field name="entity" type="string" length="255" nullable="false" unique="true" />
         <field name="isTimeSeriesData" type="boolean" nullable="true" default="false"/>
+        <field name="isSystem" type="boolean" nullable="false">
+            <options>
+                <option name="default">0</option>
+            </options>
+        </field>
+        <field name="isInternal" type="boolean" nullable="false">
+            <options>
+                <option name="default">0</option>
+            </options>
+        </field>
 
         <one-to-many field="sourceFields" target-entity="Gally\Metadata\Entity\SourceField" mapped-by="metadata">
             <order-by>
