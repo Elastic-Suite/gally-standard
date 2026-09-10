@@ -37,6 +37,8 @@ use Gally\Metadata\Controller\BulkSourceFields;
 use Gally\Metadata\Entity\SourceField\SearchAnalyzer;
 use Gally\Metadata\Entity\SourceField\Type;
 use Gally\Metadata\Entity\SourceField\Weight;
+use Gally\Metadata\Job\Product\ProductSourceFieldExport;
+use Gally\Metadata\Job\Product\ProductSourceFieldImport;
 use Gally\Metadata\Operation\Bulk;
 use Gally\Metadata\State\SourceFieldProcessor;
 use Gally\User\Constant\Role;
@@ -106,7 +108,28 @@ use Symfony\Component\Serializer\Annotation\Groups;
     ],
     processor: SourceFieldProcessor::class,
     denormalizationContext: ['groups' => ['source_field:write']],
-    normalizationContext: ['groups' => ['source_field:read']])]
+    normalizationContext: ['groups' => ['source_field:read']],
+    extraProperties : [
+        'hydra:supportedClass' => [
+            'gally' => [
+                'jobs' => [
+                    'import_profile' => [
+                        [
+                            'label' => 'Import product source field',
+                            'profile' => ProductSourceFieldImport::JOB_PROFILE,
+                        ],
+                    ],
+                    'export_profile' => [
+                        [
+                            'label' => 'Export product source field',
+                            'profile' => ProductSourceFieldExport::JOB_PROFILE,
+                        ],
+                    ],
+                ],
+            ],
+        ],
+    ],
+)]
 
 #[ApiFilter(filterClass: SearchFilter::class, properties: ['code' => 'ipartial', 'type' => 'exact', 'metadata.entity' => 'exact', 'weight' => 'exact', 'search' => 'ipartial', 'defaultSearchAnalyzer' => 'exact'])]
 #[ApiFilter(filterClass: SearchColumnsFilter::class, properties: ['defaultLabel' => ['code', 'labels.label']])]

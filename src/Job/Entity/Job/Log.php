@@ -25,8 +25,23 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ApiResource(
     operations: [
-        new Get(security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
-        new GetCollection(security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
+        new Get(
+            cacheHeaders: [
+                'max_age' => 0,
+                'shared_max_age' => 0,
+                'no_store' => true,
+                'vary' => ['Authorization'],
+            ],
+            security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"
+        ),
+        new GetCollection(
+            cacheHeaders: [
+                'max_age' => 0,
+                'shared_max_age' => 0,
+                'no_store' => true,
+                'vary' => ['Authorization'],
+            ],
+            security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),
     ],
     graphQlOperations: [
         new Query(name: 'item_query', security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"),

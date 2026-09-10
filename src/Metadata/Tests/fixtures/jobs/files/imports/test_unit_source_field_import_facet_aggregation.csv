@@ -1,0 +1,2 @@
+code,weight,is_searchable,is_filterable,is_sortable,is_spellchecked,is_used_for_rules,is_used_in_autocomplete,is_spannable,analyzer,display_mode,coverage_rate,max_size,sort_order,position,boolean_logic
+brand,1,false,true,false,false,false,false,false,standard,,,2,,,

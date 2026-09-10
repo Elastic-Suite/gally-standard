@@ -116,6 +116,14 @@ class SourceFieldDataValidator
         }
     }
 
+    /**
+     * @return string[] the list of properties that can be updated on a system source field
+     */
+    public function getUpdatableProperties(): array
+    {
+        return $this->updatableProperties;
+    }
+
     private function getExistingMetadataIds(): array
     {
         if (!isset($this->existingMetadataIds)) {

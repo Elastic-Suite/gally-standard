@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace Gally\Job\Tests\Unit;
 
 use Gally\Exception\LogicException;
+use Gally\Job\Entity\Job;
 use Gally\Job\Message\ProcessJob;
 use Gally\Job\Tests\Job\DummyImport;
 use Symfony\Component\Messenger\Transport\InMemory\InMemoryTransport;
@@ -60,10 +61,21 @@ class JobTest extends AbstractTestJob
 
     public function testWrongHeaders(): void
     {
-        // Wrong header.
-        $this->assertJobLogMessage(3, 'import.error.invalid_headers', 'gally_job', ['%expected%' => implode(', ', DummyImport::CSV_HEADERS)]);
-        // Additional header.
-        $this->assertJobLogMessage(4, 'import.error.invalid_headers', 'gally_job', ['%expected%' => implode(', ', DummyImport::CSV_HEADERS)]);
+        // The file provides "id,fake_column", so "name" is the only missing column: the error
+        // names what has to be added, not the whole expected header.
+        $this->assertJobLogMessage(3, 'import.error.invalid_headers', 'gally_job', ['%missing%' => 'name']);
+    }
+
+    public function testExtraHeadersAreIgnored(): void
+    {
+        $job = $this->runJob(4);
+        $this->assertJobHasLogMessage(
+            $job,
+            'import.warning.extra_columns_ignored',
+            'gally_job',
+            ['%columns%' => 'additional_column'],
+        );
+        $this->assertSame(Job::STATUS_FINISHED, $job->getStatus());
     }
 
     public function testWrongLineContent(): void

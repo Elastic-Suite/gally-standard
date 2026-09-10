@@ -59,18 +59,54 @@ class AbstractTestJob extends AbstractTestCase
         return $jobObject;
     }
 
+    /**
+     * Run the job, then assert its logs. Convenient when checking the logs is the whole test;
+     * when it is only part of one, prefer runJob() followed by assertJobHasLogMessage() so the
+     * run is visible at the call site instead of hiding inside an assertion.
+     */
     protected function assertJobLogMessage(int|Job $job, string|array $messages, string $domain = 'gally_job', array $context = []): void
     {
-        $jobObject = $this->runJob($job);
+        $this->assertJobHasLogMessage($this->runJob($job), $messages, $domain, $context);
+    }
+
+    /**
+     * Assert the messages a job has already logged. Does not run anything, so it is safe to call
+     * after runJob() without processing the job twice.
+     */
+    protected function assertJobHasLogMessage(int|Job $job, string|array $messages, string $domain = 'gally_job', array $context = []): void
+    {
+        $jobObject = $this->getJobObject($job);
         $messages = \is_array($messages) ? $messages : [$messages];
         foreach ($messages as $message) {
             $this->assertTrue(
                 self::$logRepository->hasMessage(
                     $jobObject,
                     self::$translator->trans($message, $context, $domain),
-                )
+                ),
+                \sprintf("Job %s did not log: %s\n%s", $jobObject->getId(), $message, $this->getJobLogDump($jobObject)),
             );
         }
+    }
+
+    /**
+     * Every line a job logged, as "[severity] message". Pass it as the failure message of an
+     * assertion on a job, so a red test shows why the job did what it did instead of only that it
+     * did the wrong thing.
+     */
+    protected function getJobLogDump(int|Job $job): string
+    {
+        $jobObject = $this->getJobObject($job);
+
+        $lines = [];
+        foreach (self::$logRepository->findBy(['job' => $jobObject], ['id' => 'ASC']) as $log) {
+            $lines[] = \sprintf('  [%s] %s', $log->getSeverity(), $log->getMessage());
+        }
+
+        if (!$lines) {
+            return \sprintf('Job %s logged nothing.', $jobObject->getId());
+        }
+
+        return \sprintf("Job %s logged:\n%s", $jobObject->getId(), implode("\n", $lines));
     }
 
     protected function assertJobCsvEqual(Job $job, string $expectedPath): void
