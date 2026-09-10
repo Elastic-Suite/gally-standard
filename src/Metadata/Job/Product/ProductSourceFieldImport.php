@@ -23,6 +23,7 @@ use Gally\Metadata\Job\AbstractSourceFieldImport;
 use Gally\Metadata\Validator\SourceFieldDataValidator;
 use Gally\Search\Entity\Facet\Configuration;
 use Gally\Search\Repository\Facet\ConfigurationRepository;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -35,9 +36,6 @@ class ProductSourceFieldImport extends AbstractSourceFieldImport
 
     /** Codes of source fields whose facet configuration was skipped, grouped by reason and logged once at the end of processing. */
     private array $facetConfigurationSkips = [];
-
-    /** Source field used to validate facet values on their own, without the state of the real one. */
-    private ?SourceField $validationSourceField = null;
 
     private const FACET_CONFIGURATION_CSV_FIELDS = [
         'display_mode',
@@ -92,26 +90,18 @@ class ProductSourceFieldImport extends AbstractSourceFieldImport
 
     protected function validateAdditionalFields(array $data, int $lineNumber): array
     {
+        // Create a temp filterable source field to avoid triggering the "is filterable" validation rule
+        // Import can make a source field filterable and import facet config at the same time
+        $fakeFilterableSourceField = new SourceField()
+            ->setCode('__facet_validation__')
+            ->setMetadata((new Metadata())->setEntity(static::METADATA_ENTITY))
+            ->setIsFilterable(true);
+
         return $this->validateEntityFields(
-            new Configuration($this->getFakeValidationSourceField(), null),
+            new Configuration($fakeFilterableSourceField, null),
             self::FACET_VALIDATION_MAP,
             $data
         );
-    }
-
-    /**
-     * Creates a filterable source field used only for validating the facet configuration
-     */
-    private function getFakeValidationSourceField(): SourceField
-    {
-        if (null === $this->validationSourceField) {
-            $this->validationSourceField = (new SourceField())
-                ->setCode('__facet_validation__')
-                ->setMetadata((new Metadata())->setEntity(static::METADATA_ENTITY))
-                ->setIsFilterable(true);
-        }
-
-        return $this->validationSourceField;
     }
 
     protected function getAdditionalSystemUpdatableCsvFields(): array
@@ -130,32 +120,26 @@ class ProductSourceFieldImport extends AbstractSourceFieldImport
      * In both case this function ensure the resulting line contains only non-default values.
      *
      * @throws JobException
-     *
-     * @return null
      */
-    private function upsertFacetConfigurationFromData(SourceField $sourceField, array $data)
+    private function upsertFacetConfigurationFromData(SourceField $sourceField, array $data): void
     {
         $facetConfig = $this->facetConfigurationRepository->findOneBySourceFieldAndDefaultCategory($sourceField);
 
         $sourceFieldReference = $this->importEntityManager->getReference(SourceField::class, $sourceField->getId());
-        $tempConfig = $facetConfig ?? new Configuration($sourceFieldReference, null);
 
         $defaults = new Configuration($sourceFieldReference, null);
         $defaults->initDefaultValue($defaults);
 
-        $displayMode = $this->getValueIfNotNullOrNotDefault($data, 'display_mode', $defaults->getDefaultDisplayMode());
-        $coverageRate = $this->getValueIfNotNullOrNotDefault($data, 'coverage_rate', $defaults->getDefaultCoverageRate(), intval(...));
-        $maxSize = $this->getValueIfNotNullOrNotDefault($data, 'max_size', $defaults->getDefaultMaxSize(), intval(...));
-        $sortOrder = $this->getValueIfNotNullOrNotDefault($data, 'sort_order', $defaults->getDefaultSortOrder());
-        $position = $this->getValueIfNotNullOrNotDefault($data, 'position', $defaults->getDefaultPosition(), intval(...));
-        $booleanLogic = $this->getValueIfNotNullOrNotDefault($data, 'boolean_logic', $defaults->getDefaultBooleanLogic(), strtoupper(...));
+        $values = [
+            'displayMode' => $this->getValueIfNotNullOrNotDefault($data, 'display_mode', $defaults->getDefaultDisplayMode()),
+            'coverageRate' => $this->getValueIfNotNullOrNotDefault($data, 'coverage_rate', $defaults->getDefaultCoverageRate(), intval(...)),
+            'maxSize' => $this->getValueIfNotNullOrNotDefault($data, 'max_size', $defaults->getDefaultMaxSize(), intval(...)),
+            'sortOrder' => $this->getValueIfNotNullOrNotDefault($data, 'sort_order', $defaults->getDefaultSortOrder()),
+            'position' => $this->getValueIfNotNullOrNotDefault($data, 'position', $defaults->getDefaultPosition(), intval(...)),
+            'booleanLogic' => $this->getValueIfNotNullOrNotDefault($data, 'boolean_logic', $defaults->getDefaultBooleanLogic(), strtoupper(...)),
+        ];
 
-        $allDefault = null === $displayMode
-            && null === $coverageRate
-            && null === $maxSize
-            && null === $sortOrder
-            && null === $position
-            && null === $booleanLogic;
+        $allDefault = !array_filter($values, static fn ($value) => null !== $value);
 
         // Skip creation if no config exists and all values are default/empty, or if not filterable.
         $skipReasons = [];
@@ -170,40 +154,55 @@ class ProductSourceFieldImport extends AbstractSourceFieldImport
         if (!empty($skipReasons)) {
             $this->facetConfigurationSkips[implode(', ', $skipReasons)][] = $sourceField->getCode();
 
-            return null;
+            return;
         }
 
-        if (null === $facetConfig) {
-            $facetConfig = $tempConfig;
-            $this->importEntityManager->persist($facetConfig);
-            $this->logInfo(
-                'source_field.import.creating.default_facet_configuration',
-                'gally_source_field',
-                ['%code%' => $sourceField->getCode()],
-            );
-        } else {
-            $this->logInfo(
-                'source_field.import.updating.default_facet_configuration',
-                'gally_source_field',
-                ['%code%' => $sourceField->getCode()],
-            );
+        $isNewConfig = null === $facetConfig;
+        if ($isNewConfig) {
+            $facetConfig = new Configuration($sourceFieldReference, null);
+        }
+        $this->applyFacetValues($facetConfig, $values);
+        // Sets the new source field values to ensure it is not validated against the current db source field values  
+        $facetConfig->setSourceField($sourceField);
+
+        $errors = [];
+        foreach ($this->validator->validate($facetConfig) as $violation) {
+            $errors[] = $violation->getMessage();
         }
 
-        $facetConfig->setDisplayMode($displayMode);
-        $facetConfig->setCoverageRate($coverageRate);
-        $facetConfig->setMaxSize($maxSize);
-        $facetConfig->setSortOrder($sortOrder);
-        $facetConfig->setPosition($position);
-        $facetConfig->setBooleanLogic($booleanLogic);
-
-        $facetConfigurationViolations = $this->validator->validate($facetConfig);
-        if (\count($facetConfigurationViolations) > 0) {
-            $errors = [];
-            foreach ($facetConfigurationViolations as $violation) {
-                $errors[] = $violation->getMessage();
-            }
+        if ($errors) {
             throw new JobException($this->translator->trans('source_field.import.error.validation_failed', ['%errors%' => implode(', ', $errors)], 'gally_source_field'));
         }
+
+        // Everything is valid and we can now safely persist the config if it's a new one
+        if ($isNewConfig) {
+            // Setting back to the source field reference to prevent entity manager to persist an entity it does not knows
+            $facetConfig->setSourceField($sourceFieldReference);
+            $this->importEntityManager->persist($facetConfig);
+        }
+
+        $this->logInfo(
+            $isNewConfig
+                ? 'source_field.import.creating.default_facet_configuration'
+                : 'source_field.import.updating.default_facet_configuration',
+            'gally_source_field',
+            ['%code%' => $sourceField->getCode()],
+        );
+    }
+
+    /**
+     * @param array<string, int|string|null> $values keyed by entity property, as built in upsertFacetConfigurationFromData()
+     */
+    private function applyFacetValues(Configuration $facetConfig, array $values): Configuration
+    {
+        $facetConfig->setDisplayMode($values['displayMode']);
+        $facetConfig->setCoverageRate($values['coverageRate']);
+        $facetConfig->setMaxSize($values['maxSize']);
+        $facetConfig->setSortOrder($values['sortOrder']);
+        $facetConfig->setPosition($values['position']);
+        $facetConfig->setBooleanLogic($values['booleanLogic']);
+
+        return $facetConfig;
     }
 
     /**

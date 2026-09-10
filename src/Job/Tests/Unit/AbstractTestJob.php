@@ -83,9 +83,30 @@ class AbstractTestJob extends AbstractTestCase
                     $jobObject,
                     self::$translator->trans($message, $context, $domain),
                 ),
-                \sprintf('Job %s did not log: %s', $jobObject->getId(), $message),
+                \sprintf("Job %s did not log: %s\n%s", $jobObject->getId(), $message, $this->getJobLogDump($jobObject)),
             );
         }
+    }
+
+    /**
+     * Every line a job logged, as "[severity] message". Pass it as the failure message of an
+     * assertion on a job, so a red test shows why the job did what it did instead of only that it
+     * did the wrong thing.
+     */
+    protected function getJobLogDump(int|Job $job): string
+    {
+        $jobObject = $this->getJobObject($job);
+
+        $lines = [];
+        foreach (self::$logRepository->findBy(['job' => $jobObject], ['id' => 'ASC']) as $log) {
+            $lines[] = \sprintf('  [%s] %s', $log->getSeverity(), $log->getMessage());
+        }
+
+        if (!$lines) {
+            return \sprintf('Job %s logged nothing.', $jobObject->getId());
+        }
+
+        return \sprintf("Job %s logged:\n%s", $jobObject->getId(), implode("\n", $lines));
     }
 
     protected function assertJobCsvEqual(Job $job, string $expectedPath): void

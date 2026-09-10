@@ -296,7 +296,7 @@ class ProductSourceFieldImportExportTest extends AbstractTestJob
         $job = $this->runJob(14);
 
         $this->assertJobHasLogMessage($job, 'Creating default facet configuration for attribute with code: "flag"');
-        $this->assertSame(Job::STATUS_FINISHED, $job->getStatus());
+        $this->assertSame(Job::STATUS_FINISHED, $job->getStatus(), $this->getJobLogDump($job));
 
         $this->assertTrue(
             static::getContainer()->get('doctrine')->getManager()
@@ -347,7 +347,7 @@ class ProductSourceFieldImportExportTest extends AbstractTestJob
     public function testBrandBecomesAFacetAfterImport(): void
     {
         $job = $this->runJob(15);
-        $this->assertSame(Job::STATUS_FINISHED, $job->getStatus());
+        $this->assertSame(Job::STATUS_FINISHED, $job->getStatus(), $this->getJobLogDump($job));
 
         // is_filterable feeds the index mapping, so the index is rebuilt — the same reindex a real
         // instance needs after changing an attribute.

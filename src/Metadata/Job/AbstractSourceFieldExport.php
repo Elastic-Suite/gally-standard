@@ -162,11 +162,6 @@ abstract class AbstractSourceFieldExport extends AbstractCsvExport
         ];
     }
 
-    protected function formatNullableBoolean(?bool $value): string
-    {
-        return $this->formatBoolean($value ?? false);
-    }
-
     /**
      * Initialize additional repositories after EntityManager recreation.
      */
