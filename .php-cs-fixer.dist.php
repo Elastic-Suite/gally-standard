@@ -48,6 +48,8 @@ return (new PhpCsFixer\Config())
         ],
         'array_indentation' => true,
         'compact_nullable_typehint' => true,
+        'declare_strict_types' => true,
+        'static_lambda' => false,
         'concat_space' => [
             'spacing' => 'one',
         ],

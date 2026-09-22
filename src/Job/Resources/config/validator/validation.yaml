@@ -7,7 +7,7 @@ Gally\Job\Entity\Job:
         status:
             - Choice: { callback: [Gally\Job\Entity\Job, getStatuses] }
         file:
-            - Type: Gally\Job\Entity\Job\File
+            - Type: { type: Gally\Job\Entity\Job\File }
     constraints:
         - Gally\Job\Validator\JobProfileConstraint: ~
         - Gally\Job\Validator\JobFileConstraint: ~
@@ -20,7 +20,7 @@ Gally\Job\Entity\Job\File:
     properties:
         file:
             - NotBlank: ~
-            - Type: Symfony\Component\HttpFoundation\File\File
+            - Type: { type: Symfony\Component\HttpFoundation\File\File }
             - Symfony\Component\Validator\Constraints\File:
                 maxSize: '5M'
                 mimeTypes:
@@ -36,12 +36,12 @@ Gally\Job\Entity\Job\Log:
     properties:
         job:
             - NotBlank: ~
-            - Type: Gally\Job\Entity\Job
+            - Type: { type: Gally\Job\Entity\Job }
         severity:
             - NotBlank: ~
-            - Type: string
+            - Type: { type: string }
         message:
-            - Type: string
+            - Type: { type: string }
         loggedAt:
             - NotBlank: ~
-            - Type: \DateTime
+            - Type: { type: \DateTime }

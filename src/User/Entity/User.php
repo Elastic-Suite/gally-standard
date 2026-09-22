@@ -33,7 +33,7 @@ use Gally\User\Constant\Role;
 use Gally\User\State\UserProcessor;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ApiResource(
     operations: [
@@ -145,7 +145,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             'hydra:supportedProperty' => [
                 'hydra:property' => [
                     'label' => 'Role(s)',
-                    'range' => 'xmls:array',
+                    'range' => 'xsd:array',
                 ],
                 'gally' => [
                     'infoTooltip' => 'If you select the value ROLE_ADMIN, all roles will be selected automatically, because ROLE_ADMIN includes all roles.',

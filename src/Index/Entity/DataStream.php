@@ -32,7 +32,7 @@ use Gally\Index\State\CreateDataStreamProcessor;
 use Gally\Index\State\DataStreamProcessor;
 use Gally\Index\State\DataStreamProvider;
 use Gally\User\Constant\Role;
-use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ApiResource(
     operations: [

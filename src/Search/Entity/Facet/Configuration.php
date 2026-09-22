@@ -34,7 +34,7 @@ use Gally\Search\State\Facet\ConfigurationCollectionProvider;
 use Gally\Search\State\Facet\ConfigurationItemProvider;
 use Gally\Search\State\Facet\ConfigurationProcessor;
 use Gally\User\Constant\Role;
-use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ApiResource(
     operations: [

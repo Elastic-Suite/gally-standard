@@ -31,7 +31,7 @@ use Gally\Doctrine\Filter\SearchFilter;
 use Gally\Doctrine\Filter\VirtualSearchFilter;
 use Gally\Metadata\Operation\Bulk;
 use Gally\User\Constant\Role;
-use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Serializer\Attribute\SerializedName;
 
 #[ApiResource(
@@ -89,7 +89,8 @@ use Symfony\Component\Serializer\Attribute\SerializedName;
     paginationType: 'page',
     provider: ConfigurationProvider::class,
     processor: ConfigurationProcessor::class,
-    normalizationContext: ['groups' => ['configuration:read']]
+    normalizationContext: ['groups' => ['configuration:read']],
+    denormalizationContext: ['groups' => ['configuration:graphql']]
 )]
 #[ApiFilter(filterClass: SearchFilter::class, properties: ['path' => 'exact'])]
 #[ApiFilter(

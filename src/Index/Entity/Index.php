@@ -40,7 +40,7 @@ use Gally\Index\State\IndexProvider;
 use Gally\Index\State\InstallIndexProcessor;
 use Gally\Index\State\RefreshIndexProcessor;
 use Gally\User\Constant\Role;
-use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ApiResource(
     operations: [
