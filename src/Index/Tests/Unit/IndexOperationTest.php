@@ -126,11 +126,16 @@ class IndexOperationTest extends KernelTestCase
         /** @var IndexRepositoryInterface $indexRepository */
         /** @var IndexSettingsInterface $indexSettings */
         /** @var MetadataRepository $metadataRepository */
+        $metadataManager = $this->getMockMetadataManager();
+        $eventDispatcher = $this->getMockEventDispatcher();
+        /** @var MetadataManager $metadataManager */
+        /** @var EventDispatcherInterface $eventDispatcher */
+
         return new IndexOperation(
             $indexRepository,
             $indexSettings,
-            $this->getMockMetadataManager(),
-            $this->getMockEventDispatcher(),
+            $metadataManager,
+            $eventDispatcher,
             $metadataRepository
         );
     }

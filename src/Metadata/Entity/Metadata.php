@@ -116,12 +116,12 @@ class Metadata
         return $this;
     }
 
-    public function isOldIndicesKept(): bool
+    public function getIsSystem(): bool
     {
-        return $this->oldIndicesKept ?? false;
+        return $this->isSystem;
     }
 
-    public function setOldIndicesKept(bool $oldIndicesKept): self
+    public function setIsSystem(bool $isSystem): self
     {
         $this->isSystem = $isSystem;
 

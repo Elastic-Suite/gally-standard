@@ -152,7 +152,14 @@ class SessionIndexRolloverManagerTest extends AbstractTestCase
     }
 
     /**
-     * @return array{0: MockObject, 1: MockObject, 2: MockObject, 3: MockObject, 4: MockObject, 5: MockObject}
+     * @return array{
+     *     0: IndexSettingsInterface&MockObject,
+     *     1: IndexOperation&MockObject,
+     *     2: MetadataRepository&MockObject,
+     *     3: DataStreamRepositoryInterface&MockObject,
+     *     4: SessionTransformProvisioner&MockObject,
+     *     5: LoggerInterface&MockObject,
+     * }
      */
     private function getMocks(): array
     {
@@ -197,7 +204,7 @@ class SessionIndexRolloverManagerTest extends AbstractTestCase
         return $dataStream;
     }
 
-    private function getMockLocalizedCatalog(): MockObject
+    private function getMockLocalizedCatalog(): LocalizedCatalog&MockObject
     {
         return $this->getMockBuilder(LocalizedCatalog::class)->getMock();
     }

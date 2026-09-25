@@ -10,3 +10,5 @@ Gally\Metadata\Entity\Metadata:
         entity: tracking_session
         is_time_series_data: false
         old_indices_kept: true
+        isSystem: true
+        isInternal: true
