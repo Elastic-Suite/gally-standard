@@ -127,3 +127,10 @@ services:
             - '@api_platform.doctrine.orm.state.item_provider'
         tags:
             - { name: api_platform.state_provider }
+
+    Gally\Product\State\ProductSourceFieldLabelProvider:
+        arguments:
+            - '@Gally\Metadata\Service\SourceFieldLabelResolver'
+            - '@Gally\Catalog\Repository\LocalizedCatalogRepository'
+        tags:
+            - { name: api_platform.state_provider }
