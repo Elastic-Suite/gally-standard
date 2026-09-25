@@ -36,7 +36,7 @@ class FacetConfigurationTest extends AbstractTestCase
     private const PRODUCT_MANUFACTURE_LOCATION_SOURCE_FIELD_ID = 900050;
     private const PRODUCT_TAGS_SOURCE_FIELD_ID = 900051;
 
-    private const CATEGORY_NAME_SOURCE_FIELD_ID = 65;
+    private const CATEGORY_NAME_SOURCE_FIELD_ID = 63;
 
     public static function setUpBeforeClass(): void
     {

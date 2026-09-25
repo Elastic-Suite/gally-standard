@@ -17,7 +17,7 @@ namespace Gally\Migrations;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
-final class Version20260706120000_Add_Tracker_Session_Metadata extends AbstractMigration
+final class Version20260910120000_Add_Tracker_Session_Metadata extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -27,7 +27,7 @@ final class Version20260706120000_Add_Tracker_Session_Metadata extends AbstractM
     public function up(Schema $schema): void
     {
         $this->addSql('ALTER TABLE metadata ADD old_indices_kept BOOLEAN DEFAULT NULL');
-        $this->addSql("INSERT INTO metadata (id, entity, is_time_series_data, old_indices_kept) VALUES (nextval('metadata_id_seq'), 'tracking_session', false, true)");
+        $this->addSql("INSERT INTO metadata (id, entity, is_time_series_data, is_system, is_internal, old_indices_kept) VALUES (nextval('metadata_id_seq'), 'tracking_session', false, true, true, true)");
     }
 
     public function down(Schema $schema): void

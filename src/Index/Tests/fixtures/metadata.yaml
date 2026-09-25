@@ -10,4 +10,6 @@ Gally\Metadata\Entity\Metadata:
         entity: tracking_session
         isTimeSeriesData: false
         oldIndicesKept: true
+        isSystem: true
+        isInternal: true
 

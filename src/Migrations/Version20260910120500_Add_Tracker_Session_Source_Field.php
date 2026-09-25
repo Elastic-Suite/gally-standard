@@ -19,7 +19,7 @@ use Doctrine\Migrations\AbstractMigration;
 use Gally\Migrations\Trait\TrackingEventSourceFieldPersistorTrait;
 use Gally\Migrations\Trait\TrackingSessionSourceFieldPersistorTrait;
 
-final class Version20260706120500_Add_Tracker_Session_Source_Field extends AbstractMigration
+final class Version20260910120500_Add_Tracker_Session_Source_Field extends AbstractMigration
 {
     use TrackingEventSourceFieldPersistorTrait;
     use TrackingSessionSourceFieldPersistorTrait;
