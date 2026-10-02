@@ -43,6 +43,8 @@ services:
             - '@Gally\Metadata\Validator\SourceFieldDataValidator'
             - '@api_platform.doctrine.orm.state.persist_processor'
             - '@api_platform.doctrine.orm.state.remove_processor'
+            - '@Gally\Index\Service\MetadataManager'
+            - '@Gally\Metadata\Service\MetadataSourceFieldProviderCache'
             - '%route_prefix%'
         tags:
             - { name: api_platform.state_processor }

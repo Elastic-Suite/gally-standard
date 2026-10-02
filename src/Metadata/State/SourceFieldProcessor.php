@@ -22,9 +22,12 @@ use Doctrine\DBAL\Exception;
 use Doctrine\ORM\EntityManagerInterface;
 use Gally\Catalog\Service\DefaultCatalogProvider;
 use Gally\Index\Entity\Index\Mapping\FieldInterface;
+use Gally\Index\Service\MetadataManager;
+use Gally\Metadata\Entity\Metadata;
 use Gally\Metadata\Entity\SourceField;
 use Gally\Metadata\Repository\SourceFieldLabelRepository;
 use Gally\Metadata\Repository\SourceFieldRepository;
+use Gally\Metadata\Service\MetadataSourceFieldProviderCache;
 use Gally\Metadata\Validator\SourceFieldDataValidator;
 
 class SourceFieldProcessor implements ProcessorInterface
@@ -44,6 +47,8 @@ class SourceFieldProcessor implements ProcessorInterface
         private SourceFieldDataValidator $validator,
         private ProcessorInterface $persistProcessor,
         private ProcessorInterface $removeProcessor,
+        private MetadataManager $metadataManager,
+        private MetadataSourceFieldProviderCache $metadataSourceFieldProviderCache,
         string $routePrefix,
     ) {
         $this->routePrefix = $routePrefix ? '/' . $routePrefix : '';
@@ -80,6 +85,9 @@ class SourceFieldProcessor implements ProcessorInterface
         $this->insertSourceFields();
         $this->insertSourceFieldLabels();
 
+        // Data are written without the ORM, so the doctrine listeners in charge of the cache invalidation are not called.
+        $this->invalidateCache();
+
         if (!empty($this->errors)) {
             throw new InvalidArgumentException(implode(' ', $this->errors));
         }
@@ -90,6 +98,21 @@ class SourceFieldProcessor implements ProcessorInterface
                 'metadata' => $this->metadataIds,
             ]
         );
+    }
+
+    /**
+     * Invalidate the mapping and source field caches of the metadata updated by the bulk request.
+     */
+    private function invalidateCache(): void
+    {
+        $this->metadataManager->invalidateMappingCache();
+
+        foreach ($this->metadataIds as $metadataId) {
+            $metadata = $this->entityManager->find(Metadata::class, $metadataId);
+            if ($metadata instanceof Metadata) {
+                $this->metadataSourceFieldProviderCache->invalidate($metadata);
+            }
+        }
     }
 
     /**
