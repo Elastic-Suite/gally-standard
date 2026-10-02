@@ -140,6 +140,7 @@ services:
         arguments:
             - '@Gally\Search\Elasticsearch\Request\AggregationFactory'
             - '@Gally\Search\Elasticsearch\Builder\Request\Query\Filter\FilterQueryBuilder'
+            - '@logger'
 
     Gally\Search\Elasticsearch\Spellchecker:
         arguments:
