@@ -115,13 +115,13 @@ use Symfony\Component\Serializer\Attribute\Groups;
                 'jobs' => [
                     'import_profile' => [
                         [
-                            'label' => 'Import product source field',
+                            'label' => 'Import product attributes',
                             'profile' => ProductSourceFieldImport::JOB_PROFILE,
                         ],
                     ],
                     'export_profile' => [
                         [
-                            'label' => 'Export product source field',
+                            'label' => 'Export product attributes',
                             'profile' => ProductSourceFieldExport::JOB_PROFILE,
                         ],
                     ],
