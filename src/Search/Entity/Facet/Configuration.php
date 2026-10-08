@@ -29,6 +29,8 @@ use Gally\Doctrine\Filter\RangeFilterWithDefault;
 use Gally\Doctrine\Filter\SearchFilterWithDefault;
 use Gally\Doctrine\Filter\VirtualSearchFilter;
 use Gally\Metadata\Entity\SourceField;
+use Gally\Metadata\Job\Product\ProductSourceFieldExport;
+use Gally\Metadata\Job\Product\ProductSourceFieldImport;
 use Gally\Search\Elasticsearch\Request\BucketInterface;
 use Gally\Search\State\Facet\ConfigurationCollectionProvider;
 use Gally\Search\State\Facet\ConfigurationItemProvider;
@@ -79,6 +81,24 @@ use Symfony\Component\Serializer\Attribute\Groups;
     shortName: 'FacetConfiguration',
     extraProperties : ['gally' => [
         'cache_tag' => ['resource_classes' => [SourceField::class]]],
+        'hydra:supportedClass' => [
+            'gally' => [
+                'jobs' => [
+                    'import_profile' => [
+                        [
+                            'label' => 'Import product attributes',
+                            'profile' => ProductSourceFieldImport::JOB_PROFILE,
+                        ],
+                    ],
+                    'export_profile' => [
+                        [
+                            'label' => 'Export product attributes',
+                            'profile' => ProductSourceFieldExport::JOB_PROFILE,
+                        ],
+                    ],
+                ],
+            ],
+        ],
     ],
     denormalizationContext: ['groups' => ['facet_configuration:read']],
     normalizationContext: ['groups' => ['facet_configuration:read']]
