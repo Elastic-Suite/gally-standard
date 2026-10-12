@@ -1,6 +1,6 @@
 api_platform:
     title: Gally API
-    version: 2.3.0
+    version: 2.3.1
     show_webby: false
     formats:
         jsonld: [ 'application/ld+json' ]
