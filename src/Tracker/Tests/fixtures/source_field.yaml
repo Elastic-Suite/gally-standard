@@ -92,6 +92,10 @@ Gally\Metadata\Entity\SourceField:
         metadata: '@tracking_session'
         code: 'searches.results_count'
         type: 'integer'
+    tracking_session_searches_is_spellchecked:
+        metadata: '@tracking_session'
+        code: 'searches.is_spellchecked'
+        type: 'boolean'
     tracking_session_views_metadata_code:
         metadata: '@tracking_session'
         code: 'views.metadata_code'
