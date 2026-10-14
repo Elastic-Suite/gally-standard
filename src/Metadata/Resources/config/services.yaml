@@ -248,6 +248,12 @@ services:
             - '@Gally\Metadata\Repository\MetadataRepository'
             - '@Gally\Metadata\Repository\SourceFieldRepository'
 
+    Gally\Metadata\Service\SourceFieldLabelResolver:
+        arguments:
+            - '@Gally\Cache\Service\CacheManagerInterface'
+            - '@Gally\Metadata\Repository\MetadataRepository'
+            - '@Gally\Metadata\Repository\SourceFieldRepository'
+
     Gally\Metadata\EventSubscriber\InvalidateMetadataSourceFieldCache:
         arguments:
             - '@Gally\Metadata\Service\MetadataSourceFieldProviderCache'

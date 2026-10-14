@@ -26,6 +26,7 @@ jobs:
             ref: ${{ github.event_name == 'push' && github.ref_name || github.base_ref }}
             gally-directory: ${{ github.workspace }}/gally
             package-name: ${{ github.event.repository.name }} # PHP package name is equal to the repository name.
+            GALLY_SAMPLE_DATA_CATALOGS: default # We load only default sample catalog for e2e tests
 
         steps:
             - name: Get event

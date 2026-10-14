@@ -1,0 +1,4 @@
+services:
+    Gally\Metadata\Service\SourceFieldLabelResolverTest:
+        alias: Gally\Metadata\Service\SourceFieldLabelResolver
+        public: true
