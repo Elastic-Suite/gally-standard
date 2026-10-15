@@ -17,9 +17,11 @@ namespace Gally\Tracker\Tests\Unit\Service;
 use Gally\Catalog\Entity\LocalizedCatalog;
 use Gally\Catalog\Repository\LocalizedCatalogRepository;
 use Gally\Index\Api\IndexSettingsInterface;
+use Gally\Index\Repository\Transform\TransformRepositoryInterface;
 use Gally\Index\Service\IndexOperation;
 use Gally\Test\AbstractTestCase;
 use Gally\Tracker\Service\SessionTransformProvisioner;
+use OpenSearch\Client;
 
 class SessionTransformProvisionerTest extends AbstractTestCase
 {
@@ -47,7 +49,9 @@ class SessionTransformProvisionerTest extends AbstractTestCase
             ->getIndexAliasFromIdentifier('tracking_session', self::$localizedCatalog);
 
         self::createEntityElasticsearchDataStream('tracking_event', self::$localizedCatalog->getId());
-        self::loadElasticsearchDocumentFixtures([__DIR__ . '/../../fixtures/tracking_event_for_session_documents.json']);
+        self::loadElasticsearchDocumentFixtures([
+            __DIR__ . '/../../fixtures/tracking_event_for_session_documents.json',
+        ]);
     }
 
     public static function tearDownAfterClass(): void
@@ -75,6 +79,61 @@ class SessionTransformProvisionerTest extends AbstractTestCase
         $after = self::$indexOperation->findIndicesByAlias(self::$sessionAlias);
         $this->assertCount(1, $after);
         $this->assertSame($before[0]->getName(), $after[0]->getName());
+    }
+
+    public function testSearchesResultsCountIsTheAverageOfSearchesWithoutFilters(): void
+    {
+        self::$provisioner->createOrUpdate(self::$localizedCatalog);
+        $transform = static::getContainer()->get(TransformRepositoryInterface::class)
+            ->findAll()[0];
+
+        $response = static::getContainer()->get(Client::class)->search([
+            'index' => $transform->getSourceIndex(),
+            'body' => [
+                'size' => 0,
+                'query' => ['term' => ['session_uid' => '33333333-3333-3333-3333-333333333333']],
+                'aggs' => ['searches' => $transform->getAggregations()['searches']],
+            ],
+        ]);
+
+        $resultsCountByQuery = array_column($response['aggregations']['searches']['value'], 'results_count', 'query');
+        $this->assertEquals(
+            [
+                'boots' => 18, // Paginated searches share the same count, the filtered search is ignored.
+                'sandals' => 4, // Only filtered searches: average of all searches.
+                'hats' => 5, // Missing item_count counts as 0: average of 10 and 0.
+                'shoes' => 11, // Average of 10 and 11 is rounded.
+            ],
+            $resultsCountByQuery
+        );
+    }
+
+    public function testSearchesAreSpellcheckedOnlyWhenAllTheSearchesOfTheTermAreSpellchecked(): void
+    {
+        self::$provisioner->createOrUpdate(self::$localizedCatalog);
+        $transform = static::getContainer()->get(TransformRepositoryInterface::class)
+            ->findAll()[0];
+
+        $response = static::getContainer()->get(Client::class)->search([
+            'index' => $transform->getSourceIndex(),
+            'body' => [
+                'size' => 0,
+                'query' => ['term' => ['session_uid' => '55555555-5555-5555-5555-555555555555']],
+                'aggs' => ['searches' => $transform->getAggregations()['searches']],
+            ],
+        ]);
+
+        $isSpellcheckedByQuery = array_column($response['aggregations']['searches']['value'], 'is_spellchecked', 'query');
+        $this->assertEquals(
+            [
+                'all' => true,
+                'mixed' => false,
+                'none' => false,
+                'missing' => false, // A missing value counts as not spellchecked.
+                'missing and spellchecked' => false,
+            ],
+            $isSpellcheckedByQuery
+        );
     }
 
     /**

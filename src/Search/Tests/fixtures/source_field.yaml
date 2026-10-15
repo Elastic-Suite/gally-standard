@@ -12,6 +12,7 @@ Gally\Metadata\Entity\SourceField:
         isSpellchecked: true
         isUsedForRules: false
     category_name:
+        id: 900052
         metadata: '@category'
         code: 'name'
         type: 'text'
