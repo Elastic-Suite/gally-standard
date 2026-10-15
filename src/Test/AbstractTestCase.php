@@ -96,10 +96,27 @@ abstract class AbstractTestCase extends ApiTestCase
 
         // Load alice fixtures with append
         $databaseTool->loadAliceFixture(array_merge(static::getUserFixtures(), $paths), true);
+        self::shiftTestSequences($entityManager);
         $entityManager->clear();
 
         // Invalidate all Gally Redis caches that depend on DB data, since the DB was just recreated.
         static::getContainer()->get(CacheManagerInterface::class)->clearAll();
+    }
+
+    // Ids of entities created during tests stay stable when migrations or fixtures add rows.
+    private static function shiftTestSequences(EntityManagerInterface $entityManager): void
+    {
+        $sequences = [
+            'metadata_id_seq',
+            'source_field_id_seq',
+            'source_field_label_id_seq',
+            'source_field_option_id_seq',
+            'source_field_option_label_id_seq',
+        ];
+
+        foreach ($sequences as $sequence) {
+            $entityManager->getConnection()->executeStatement(\sprintf("SELECT setval('%s', 10000, false)", $sequence));
+        }
     }
 
     protected static function createDatabaseIfNotExists(): void

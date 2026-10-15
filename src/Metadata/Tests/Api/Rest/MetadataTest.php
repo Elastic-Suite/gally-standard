@@ -23,7 +23,7 @@ class MetadataTest extends AbstractEntityTestWithUpdate
     private const PRODUCT_METADATA_ID = 900030;
     private const CATEGORY_METADATA_ID = 5;
     private const TRACKING_EVENT_METADATA_ID = 6;
-    private const ARTICLE_METADATA_ID = 7;
+    private const ARTICLE_METADATA_ID = 10000;
 
     protected static function getFixtureFiles(): array
     {

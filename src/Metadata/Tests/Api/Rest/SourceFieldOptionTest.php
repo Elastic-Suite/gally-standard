@@ -155,7 +155,7 @@ class SourceFieldOptionTest extends AbstractEntityTestWithUpdate
             [$this->getUser(Role::ROLE_ADMIN), 1, ['defaultLabel' => 'label PATCH/PUT'], 200],
             [ // Add label
                 $this->getUser(Role::ROLE_ADMIN),
-                5,
+                10000,
                 [
                     'labels' => [
                         ['localizedCatalog' => $this->getUri('localized_catalogs', '1'), 'label' => 'L\'option A'],
@@ -165,7 +165,7 @@ class SourceFieldOptionTest extends AbstractEntityTestWithUpdate
             ],
             [
                 $this->getUser(Role::ROLE_ADMIN),
-                6,
+                10001,
                 [ // Add multiple labels
                     'labels' => [
                         ['localizedCatalog' => $this->getUri('localized_catalogs', '1'), 'label' => 'L\'option B'],
@@ -176,7 +176,7 @@ class SourceFieldOptionTest extends AbstractEntityTestWithUpdate
             ],
             [ // Add and update multiple labels
                 $this->getUser(Role::ROLE_ADMIN),
-                5,
+                10000,
                 [
                     'labels' => [
                         ['localizedCatalog' => $this->getUri('localized_catalogs', '1'), 'label' => 'L\'option A Updated'],

@@ -37,12 +37,12 @@ class SourceFieldTest extends AbstractEntityTestWithUpdate
     private const PRODUCT_MATERIAL_SOURCE_FIELD_ID = 900013;
 
     private const CATEGORY_METADATA_ID = 5;
-    private const LENGTH_SOURCE_FIELD_ID = 66;
-    private const IS_NEW_SOURCE_FIELD_ID = 71;
-    private const TAGS_SOURCE_FIELD_ID = 72;
-    private const REFERENCE_REFERENCE_SOURCE_FIELD_ID = 73;
-    private const REFERENCE_DEFAULT_SOURCE_FIELD_ID = 74;
-    private const REFERENCE_EDGE_NGRAM_SOURCE_FIELD_ID = 75;
+    private const LENGTH_SOURCE_FIELD_ID = 10003;
+    private const IS_NEW_SOURCE_FIELD_ID = 10008;
+    private const TAGS_SOURCE_FIELD_ID = 10009;
+    private const REFERENCE_REFERENCE_SOURCE_FIELD_ID = 10010;
+    private const REFERENCE_DEFAULT_SOURCE_FIELD_ID = 10011;
+    private const REFERENCE_EDGE_NGRAM_SOURCE_FIELD_ID = 10012;
 
     protected static function getFixtureFiles(): array
     {
