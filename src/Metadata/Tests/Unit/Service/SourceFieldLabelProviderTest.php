@@ -21,10 +21,11 @@ use Gally\Metadata\Entity\Metadata;
 use Gally\Metadata\Entity\SourceField;
 use Gally\Metadata\Repository\MetadataRepository;
 use Gally\Metadata\Repository\SourceFieldRepository;
-use Gally\Metadata\Service\SourceFieldLabelResolver;
+use Gally\Metadata\Service\MetadataSourceFieldProviderCache;
+use Gally\Metadata\Service\SourceFieldLabelProvider;
 use Gally\Test\AbstractTestCase;
 
-class SourceFieldLabelResolverTest extends AbstractTestCase
+class SourceFieldLabelProviderTest extends AbstractTestCase
 {
     public static function setUpBeforeClass(): void
     {
@@ -108,11 +109,11 @@ class SourceFieldLabelResolverTest extends AbstractTestCase
      */
     public function testGetLabels(string $localizedCatalogCode, array $codes, array $expectedLabels): void
     {
-        $resolver = static::getContainer()->get('Gally\Metadata\Service\SourceFieldLabelResolverTest'); // @phpstan-ignore-line
+        $provider = static::getContainer()->get('Gally\Metadata\Service\SourceFieldLabelProviderTest'); // @phpstan-ignore-line
         $localizedCatalog = static::getContainer()->get(LocalizedCatalogRepository::class)
             ->findByCodeOrId($localizedCatalogCode);
 
-        $this->assertSame($expectedLabels, $resolver->getLabels('product', $localizedCatalog, $codes));
+        $this->assertSame($expectedLabels, $provider->getLabels('product', $localizedCatalog, $codes));
     }
 
     /**
@@ -121,18 +122,18 @@ class SourceFieldLabelResolverTest extends AbstractTestCase
      */
     public function testLabelsAreScopedToTheEntity(): void
     {
-        $resolver = static::getContainer()->get('Gally\Metadata\Service\SourceFieldLabelResolverTest'); // @phpstan-ignore-line
+        $provider = static::getContainer()->get('Gally\Metadata\Service\SourceFieldLabelProviderTest'); // @phpstan-ignore-line
         $localizedCatalog = static::getContainer()->get(LocalizedCatalogRepository::class)
             ->findByCodeOrId('b2c_fr');
 
         // 'description' only exists on the category metadata, so for product it is an unknown code.
         $this->assertSame(
             [['code' => 'description', 'label' => 'Description']],
-            $resolver->getLabels('product', $localizedCatalog, ['description'])
+            $provider->getLabels('product', $localizedCatalog, ['description'])
         );
         $this->assertSame(
             [['code' => 'description', 'label' => 'Description']],
-            $resolver->getLabels('category', $localizedCatalog, ['description'])
+            $provider->getLabels('category', $localizedCatalog, ['description'])
         );
     }
 
@@ -147,8 +148,10 @@ class SourceFieldLabelResolverTest extends AbstractTestCase
         $metadataRepository = $this->createMock(MetadataRepository::class);
         $metadataRepository->expects($this->once())->method('findByEntity')->willReturn($metadata);
 
+        $metadataSourceFieldProviderCache = $this->createMock(MetadataSourceFieldProviderCache::class);
+        $metadataSourceFieldProviderCache->expects($this->once())->method('getSourceFieldByCodes')->willReturn([$sourceField]);
+
         $sourceFieldRepository = $this->createMock(SourceFieldRepository::class);
-        $sourceFieldRepository->expects($this->once())->method('findBy')->willReturn([$sourceField]);
         $sourceFieldRepository->expects($this->once())->method('getLabelsBySourceFields')
             ->willReturn([1 => ['sourceFieldId' => 1, 'label' => 'Marque']]);
 
@@ -166,10 +169,10 @@ class SourceFieldLabelResolverTest extends AbstractTestCase
         $localizedCatalog = $this->createMock(LocalizedCatalog::class);
         $localizedCatalog->method('getId')->willReturn(42);
 
-        $resolver = new SourceFieldLabelResolver($cacheManager, $metadataRepository, $sourceFieldRepository);
+        $provider = new SourceFieldLabelProvider($cacheManager, $metadataRepository, $sourceFieldRepository, $metadataSourceFieldProviderCache);
 
         $expected = [['code' => 'brand', 'label' => 'Marque']];
-        $this->assertSame($expected, $resolver->getLabels('product', $localizedCatalog, ['brand']));
-        $this->assertSame($expected, $resolver->getLabels('product', $localizedCatalog, ['brand']));
+        $this->assertSame($expected, $provider->getLabels('product', $localizedCatalog, ['brand']));
+        $this->assertSame($expected, $provider->getLabels('product', $localizedCatalog, ['brand']));
     }
 }

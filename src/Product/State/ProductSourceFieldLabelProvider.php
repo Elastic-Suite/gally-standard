@@ -19,14 +19,14 @@ use ApiPlatform\Metadata\Exception\InvalidArgumentException;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProviderInterface;
 use Gally\Catalog\Repository\LocalizedCatalogRepository;
-use Gally\Metadata\Service\SourceFieldLabelResolver;
+use Gally\Metadata\Service\SourceFieldLabelProvider;
 
 class ProductSourceFieldLabelProvider implements ProviderInterface
 {
     private const ENTITY_TYPE = 'product';
 
     public function __construct(
-        private SourceFieldLabelResolver $sourceFieldLabelResolver,
+        private SourceFieldLabelProvider $sourceFieldLabelProvider,
         private LocalizedCatalogRepository $localizedCatalogRepository,
     ) {
     }
@@ -53,7 +53,7 @@ class ProductSourceFieldLabelProvider implements ProviderInterface
         }
 
         // There is deliberately no collection without codes: the source field list must not be discoverable.
-        return $this->sourceFieldLabelResolver->getLabels(
+        return $this->sourceFieldLabelProvider->getLabels(
             self::ENTITY_TYPE,
             $this->localizedCatalogRepository->findByCodeOrId((string) $localizedCatalogCode),
             $codes
