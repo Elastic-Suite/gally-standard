@@ -18,10 +18,8 @@ use Gally\Cache\Service\CacheManagerInterface;
 use Gally\Catalog\Entity\LocalizedCatalog;
 use Gally\Catalog\Repository\LocalizedCatalogRepository;
 use Gally\Metadata\Entity\Metadata;
-use Gally\Metadata\Entity\SourceField;
 use Gally\Metadata\Repository\MetadataRepository;
 use Gally\Metadata\Repository\SourceFieldRepository;
-use Gally\Metadata\Service\MetadataSourceFieldProviderCache;
 use Gally\Metadata\Service\SourceFieldLabelProvider;
 use Gally\Test\AbstractTestCase;
 
@@ -148,18 +146,14 @@ class SourceFieldLabelProviderTest extends AbstractTestCase
      */
     public function testLabelMapIsBuiltOncePerRequest(): void
     {
-        $metadata = (new Metadata())->setEntity('product');
-        $sourceField = (new SourceField())->setId(1)->setCode('brand')->setMetadata($metadata);
+        $metadata = (new Metadata())->setId(1)->setEntity('product');
 
         $metadataRepository = $this->createMock(MetadataRepository::class);
         $metadataRepository->expects($this->once())->method('findByEntity')->willReturn($metadata);
 
-        $metadataSourceFieldProviderCache = $this->createMock(MetadataSourceFieldProviderCache::class);
-        $metadataSourceFieldProviderCache->expects($this->once())->method('getSourceFieldByCodes')->willReturn([$sourceField]);
-
         $sourceFieldRepository = $this->createMock(SourceFieldRepository::class);
-        $sourceFieldRepository->expects($this->once())->method('getLabelsBySourceFields')
-            ->willReturn([1 => ['sourceFieldId' => 1, 'label' => 'Marque']]);
+        $sourceFieldRepository->expects($this->once())->method('getRawSourceFieldLabelsByCodes')
+            ->willReturn([['code' => 'brand', 'label' => 'Marque']]);
 
         // Always cold: the callback runs on every call, so only the local array can spare the queries.
         $cacheManager = $this->createMock(CacheManagerInterface::class);
@@ -175,7 +169,7 @@ class SourceFieldLabelProviderTest extends AbstractTestCase
         $localizedCatalog = $this->createMock(LocalizedCatalog::class);
         $localizedCatalog->method('getId')->willReturn(42);
 
-        $provider = new SourceFieldLabelProvider($cacheManager, $metadataRepository, $sourceFieldRepository, $metadataSourceFieldProviderCache);
+        $provider = new SourceFieldLabelProvider($cacheManager, $metadataRepository, $sourceFieldRepository);
 
         $expected = [['code' => 'brand', 'label' => 'Marque']];
         $this->assertSame($expected, $provider->getLabels('product', $localizedCatalog, ['brand']));
