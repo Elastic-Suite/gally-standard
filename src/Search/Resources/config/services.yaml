@@ -280,6 +280,13 @@ services:
             - '@Gally\Search\GraphQl\Type\Definition\FieldFilterInputType'
             - '%api_platform.graphql.nesting_separator%'
 
+    Gally\Search\State\DocumentSourceFieldLabelProvider:
+        arguments:
+            - '@Gally\Metadata\Service\SourceFieldLabelProvider'
+            - '@Gally\Catalog\Repository\LocalizedCatalogRepository'
+        tags:
+            - { name: api_platform.state_provider }
+
     Gally\Search\State\DocumentProvider:
         arguments:
             - '@serializer'

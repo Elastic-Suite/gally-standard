@@ -81,6 +81,12 @@ class SourceFieldLabelProviderTest extends AbstractTestCase
             ],
         ];
 
+        yield 'the fallback only capitalises the first letter' => [
+            'b2c_fr',
+            ['not_a_field'],
+            [['code' => 'not_a_field', 'label' => 'Not_a_field']],
+        ];
+
         yield 'the requested order is kept' => [
             'b2c_fr',
             ['brand', 'name', 'stock.status'],

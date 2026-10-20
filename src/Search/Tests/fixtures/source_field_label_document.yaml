@@ -1,0 +1,5 @@
+Gally\Metadata\Entity\SourceFieldLabel:
+    category_name_b2b_fr:
+        source_field: '@category_name'
+        localized_catalog: '@catalog2_fr'
+        label: Nom de la catégorie

@@ -14,49 +14,14 @@ declare(strict_types=1);
 
 namespace Gally\Product\State;
 
-use ApiPlatform\Metadata\CollectionOperationInterface;
-use ApiPlatform\Metadata\Exception\InvalidArgumentException;
-use ApiPlatform\Metadata\Operation;
-use ApiPlatform\State\ProviderInterface;
-use Gally\Catalog\Repository\LocalizedCatalogRepository;
-use Gally\Metadata\Service\SourceFieldLabelProvider;
+use Gally\Search\State\DocumentSourceFieldLabelProvider;
 
-class ProductSourceFieldLabelProvider implements ProviderInterface
+class ProductSourceFieldLabelProvider extends DocumentSourceFieldLabelProvider
 {
-    private const ENTITY_TYPE = 'product';
+    protected const ENTITY_TYPE = 'product';
 
-    public function __construct(
-        private SourceFieldLabelProvider $sourceFieldLabelProvider,
-        private LocalizedCatalogRepository $localizedCatalogRepository,
-    ) {
-    }
-
-    /**
-     * @return array<int, array{code: string, label: string}>|null
-     */
-    public function provide(Operation $operation, array $uriVariables = [], array $context = []): object|array|null
+    protected function getEntityType(array $context): string
     {
-        if (!$operation instanceof CollectionOperationInterface) {
-            return null;
-        }
-
-        $codes = $context['filters']['codes'] ?? $context['args']['codes'] ?? null;
-        // A REST caller can send anything, including codes[][]=x, so keep only the scalar entries.
-        $codes = \is_array($codes) ? array_map('strval', array_filter($codes, 'is_scalar')) : [];
-        if (empty($codes)) {
-            throw new InvalidArgumentException('The codes argument is required and cannot be empty.');
-        }
-
-        $localizedCatalogCode = $context['filters']['localizedCatalog'] ?? $context['args']['localizedCatalog'] ?? null;
-        if (!\is_scalar($localizedCatalogCode) || '' === (string) $localizedCatalogCode) {
-            throw new InvalidArgumentException('The localizedCatalog argument is required.');
-        }
-
-        // There is deliberately no collection without codes: the source field list must not be discoverable.
-        return $this->sourceFieldLabelProvider->getLabels(
-            self::ENTITY_TYPE,
-            $this->localizedCatalogRepository->findByCodeOrId((string) $localizedCatalogCode),
-            $codes
-        );
+        return static::ENTITY_TYPE;
     }
 }
