@@ -28,13 +28,12 @@ class SourceFieldLabelProvider
         private CacheManagerInterface $cacheManager,
         private MetadataRepository $metadataRepository,
         private SourceFieldRepository $sourceFieldRepository,
-        private MetadataSourceFieldProviderCache $metadataSourceFieldProviderCache,
     ) {
     }
 
     /**
      * Resolves source field labels for given localized catalog and codes
-     * Non existing code are returned as-is, with first letter capitalized
+     * Unknown codes are returned as-is, with first letter capitalized.
      *
      * @param string[] $codes
      *
@@ -72,18 +71,18 @@ class SourceFieldLabelProvider
             $this->localCache[$cacheKey] = $this->cacheManager->get(
                 'gally_source_field_labels_' . $cacheKey,
                 function (&$tags, &$ttl) use ($entityType, $localizedCatalog, $codes): array {
+                    // Kept: an unknown entity type must still be rejected with a clear message.
                     $metadata = $this->metadataRepository->findByEntity($entityType);
-                    $sourceFields = $this->metadataSourceFieldProviderCache->getSourceFieldByCodes($metadata, $codes);
-                    if (empty($sourceFields)) {
-                        return [];
-                    }
 
-                    $labels = $this->sourceFieldRepository->getLabelsBySourceFields($sourceFields, $localizedCatalog);
+                    $rows = $this->sourceFieldRepository->getRawSourceFieldLabelsByCodes(
+                        $metadata->getId(),
+                        $codes,
+                        $localizedCatalog->getId()
+                    );
 
                     $labelByCode = [];
-                    foreach ($sourceFields as $sourceField) {
-                        $labelByCode[$sourceField->getCode()] = $labels[$sourceField->getId()]['label']
-                            ?? ucfirst($sourceField->getCode());
+                    foreach ($rows as $row) {
+                        $labelByCode[$row['code']] = $row['label'] ?? ucfirst($row['code']);
                     }
 
                     return $labelByCode;

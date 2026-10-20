@@ -253,7 +253,6 @@ services:
             - '@Gally\Cache\Service\CacheManagerInterface'
             - '@Gally\Metadata\Repository\MetadataRepository'
             - '@Gally\Metadata\Repository\SourceFieldRepository'
-            - '@Gally\Metadata\Service\MetadataSourceFieldProviderCache'
 
     Gally\Metadata\EventSubscriber\InvalidateMetadataSourceFieldCache:
         arguments:

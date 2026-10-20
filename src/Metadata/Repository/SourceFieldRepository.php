@@ -147,6 +147,29 @@ class SourceFieldRepository extends ServiceEntityRepository
             ->getResult(AbstractQuery::HYDRATE_ARRAY);
     }
 
+    /**
+     * Return the label of the given source field codes for one localized catalog.
+     * A field with no label row gets its defaultLabel, or null when it has none.
+     * Codes that are not source fields of this metadata are absent from the result.
+     *
+     * @param string[] $sourceFieldCodes
+     *
+     * @return array<int, array{code: string, label: ?string}>
+     */
+    public function getRawSourceFieldLabelsByCodes(int $metadataId, array $sourceFieldCodes, int $localizedCatalogId): array
+    {
+        return $this->createQueryBuilder('sf')
+            ->select('sf.code', 'COALESCE(l.label, sf.defaultLabel) as label')
+            ->leftJoin('sf.labels', 'l', 'WITH', 'l.localizedCatalog = :localizedCatalogId')
+            ->where('sf.metadata = :metadataId')
+            ->andWhere('sf.code IN (:sourceFieldCodes)')
+            ->setParameter('metadataId', $metadataId)
+            ->setParameter('sourceFieldCodes', $sourceFieldCodes, Connection::PARAM_STR_ARRAY)
+            ->setParameter('localizedCatalogId', $localizedCatalogId)
+            ->getQuery()
+            ->getResult(AbstractQuery::HYDRATE_ARRAY);
+    }
+
     public function massInsertOrUpdate(array $sourceFieldData): void
     {
         $sourceFieldData = array_map(
