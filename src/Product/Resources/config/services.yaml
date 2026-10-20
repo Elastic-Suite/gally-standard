@@ -130,7 +130,7 @@ services:
 
     Gally\Product\State\ProductSourceFieldLabelProvider:
         arguments:
-            - '@Gally\Metadata\Service\SourceFieldLabelResolver'
+            - '@Gally\Metadata\Service\SourceFieldLabelProvider'
             - '@Gally\Catalog\Repository\LocalizedCatalogRepository'
         tags:
             - { name: api_platform.state_provider }

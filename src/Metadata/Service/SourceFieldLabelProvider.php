@@ -16,36 +16,25 @@ namespace Gally\Metadata\Service;
 
 use Gally\Cache\Service\CacheManagerInterface;
 use Gally\Catalog\Entity\LocalizedCatalog;
-use Gally\Metadata\Entity\SourceField;
 use Gally\Metadata\Repository\MetadataRepository;
 use Gally\Metadata\Repository\SourceFieldRepository;
 
-/**
- * Resolves source field labels for a given localized catalog.
- *
- * An unknown code is answered with ucfirst($code), which is exactly what a real source field
- * without any label returns. The response therefore does not say which codes exist.
- *
- * Level 1 — local PHP array: avoids repeated Redis round-trips within the same request.
- * Level 2 — Redis (via CacheManager): persists the computed map across requests.
- *
- * The whole entity/catalog map is cached once and then filtered in memory. Caching per requested
- * code list would create one Redis entry per caller.
- */
-class SourceFieldLabelResolver
+class SourceFieldLabelProvider
 {
     /** @var array<string, array<string, string>> */
-    private array $localCache = [];
+    protected array $localCache = [];
 
     public function __construct(
         private CacheManagerInterface $cacheManager,
         private MetadataRepository $metadataRepository,
         private SourceFieldRepository $sourceFieldRepository,
+        private MetadataSourceFieldProviderCache $metadataSourceFieldProviderCache,
     ) {
     }
 
     /**
-     * Return the label of each requested code, in the order given and without duplicates.
+     * Resolves source field labels for given localized catalog and codes
+     * Non existing code are returned as-is, with first letter capitalized
      *
      * @param string[] $codes
      *
@@ -53,7 +42,7 @@ class SourceFieldLabelResolver
      */
     public function getLabels(string $entityType, LocalizedCatalog $localizedCatalog, array $codes): array
     {
-        $labelByCode = $this->getLabelMap($entityType, $localizedCatalog);
+        $labelByCode = $this->getLabelMap($entityType, $localizedCatalog, $codes);
 
         $labels = [];
         foreach (array_unique($codes) as $code) {
@@ -67,21 +56,24 @@ class SourceFieldLabelResolver
     }
 
     /**
-     * Return the code => label map of every source field of the entity, for this localized catalog.
+     * Return the code => label map of the requested source fields, for this localized catalog.
+     *
+     * @param string[] $codes
      *
      * @return array<string, string>
      */
-    private function getLabelMap(string $entityType, LocalizedCatalog $localizedCatalog): array
+    protected function getLabelMap(string $entityType, LocalizedCatalog $localizedCatalog, array $codes): array
     {
-        $cacheKey = $entityType . '_' . $localizedCatalog->getId();
+        $codes = array_values(array_unique($codes));
+        sort($codes);
+        $cacheKey = $entityType . '_' . $localizedCatalog->getId() . '_' . md5(json_encode($codes, \JSON_THROW_ON_ERROR));
 
         if (!isset($this->localCache[$cacheKey])) {
             $this->localCache[$cacheKey] = $this->cacheManager->get(
                 'gally_source_field_labels_' . $cacheKey,
-                function (&$tags, &$ttl) use ($entityType, $localizedCatalog): array {
+                function (&$tags, &$ttl) use ($entityType, $localizedCatalog, $codes): array {
                     $metadata = $this->metadataRepository->findByEntity($entityType);
-                    /** @var SourceField[] $sourceFields */
-                    $sourceFields = $this->sourceFieldRepository->findBy(['metadata' => $metadata]);
+                    $sourceFields = $this->metadataSourceFieldProviderCache->getSourceFieldByCodes($metadata, $codes);
                     if (empty($sourceFields)) {
                         return [];
                     }
