@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace Gally\Index\EventSubscriber;
 
+use Doctrine\ORM\Event\PostFlushEventArgs;
 use Doctrine\ORM\Event\PostPersistEventArgs;
 use Doctrine\ORM\Event\PostRemoveEventArgs;
 use Doctrine\ORM\Event\PostUpdateEventArgs;
@@ -23,6 +24,8 @@ use Gally\Metadata\Entity\SourceFieldLabel;
 
 class CleanMetadataCache
 {
+    private bool $invalidateOnFlush = false;
+
     public function __construct(
         private MetadataManager $metadataManager,
     ) {
@@ -43,6 +46,20 @@ class CleanMetadataCache
         $this->cleanMetadataCache($args->getObject());
     }
 
+    /**
+     * The post* lifecycle events are dispatched before the transaction is committed, so a concurrent request
+     * can rebuild the cache from the not yet updated data. Invalidate the cache once again after the commit.
+     */
+    public function postFlush(PostFlushEventArgs $args): void
+    {
+        if (!$this->invalidateOnFlush) {
+            return;
+        }
+
+        $this->invalidateOnFlush = false;
+        $this->metadataManager->invalidateMappingCache();
+    }
+
     private function cleanMetadataCache(object $entity): void
     {
         if (!$entity instanceof SourceField && !$entity instanceof SourceFieldLabel) {
@@ -50,5 +67,6 @@ class CleanMetadataCache
         }
 
         $this->metadataManager->invalidateMappingCache();
+        $this->invalidateOnFlush = true;
     }
 }

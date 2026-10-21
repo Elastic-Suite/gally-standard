@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace Gally\Metadata\EventSubscriber;
 
+use Doctrine\ORM\Event\PostFlushEventArgs;
 use Doctrine\ORM\Event\PostRemoveEventArgs;
 use Doctrine\ORM\Event\PostUpdateEventArgs;
 use Doctrine\ORM\Event\PrePersistEventArgs;
@@ -24,6 +25,9 @@ use Gally\Metadata\Service\MetadataSourceFieldProviderCache;
 
 class InvalidateMetadataSourceFieldCache
 {
+    /** @var Metadata[] Metadata to invalidate once the transaction is committed, indexed by entity name */
+    private array $metadataToInvalidateOnFlush = [];
+
     public function __construct(
         private MetadataSourceFieldProviderCache $metadataSourceFieldProviderCache,
     ) {
@@ -55,7 +59,21 @@ class InvalidateMetadataSourceFieldCache
         $this->invalidateFromEntity($entity);
 
         if ($entity instanceof Metadata) {
-            $this->metadataSourceFieldProviderCache->invalidate($entity);
+            $this->invalidate($entity);
+        }
+    }
+
+    /**
+     * The pre/post* lifecycle events are dispatched before the transaction is committed, so a concurrent request
+     * can rebuild the cache from the not yet updated data. Invalidate the cache once again after the commit.
+     */
+    public function postFlush(PostFlushEventArgs $args): void
+    {
+        $metadataList = $this->metadataToInvalidateOnFlush;
+        $this->metadataToInvalidateOnFlush = [];
+
+        foreach ($metadataList as $metadata) {
+            $this->metadataSourceFieldProviderCache->invalidate($metadata);
         }
     }
 
@@ -68,7 +86,13 @@ class InvalidateMetadataSourceFieldCache
         };
 
         if (null !== $metadata) {
-            $this->metadataSourceFieldProviderCache->invalidate($metadata);
+            $this->invalidate($metadata);
         }
+    }
+
+    private function invalidate(Metadata $metadata): void
+    {
+        $this->metadataSourceFieldProviderCache->invalidate($metadata);
+        $this->metadataToInvalidateOnFlush[$metadata->getEntity()] = $metadata;
     }
 }

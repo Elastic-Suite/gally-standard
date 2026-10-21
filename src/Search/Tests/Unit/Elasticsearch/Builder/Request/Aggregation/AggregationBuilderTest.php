@@ -29,6 +29,7 @@ use Gally\Search\Repository\Facet\ConfigurationRepository;
 use Gally\Search\Service\ReverseSourceFieldProvider;
 use Gally\Search\Service\SearchContext;
 use PHPUnit\Framework\MockObject\MockObject;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 /**
@@ -188,6 +189,33 @@ class AggregationBuilderTest extends KernelTestCase
         $this->assertEquals('nested', $aggregations[0]->getNestedPath());
         $this->assertInstanceOf(QueryInterface::class, $aggregations[0]->getFilter());
         $this->assertInstanceOf(QueryInterface::class, $aggregations[0]->getNestedFilter());
+    }
+
+    /**
+     * Test that an aggregation on a field without untouched mapping property is skipped instead of crashing the request.
+     */
+    public function testAggBuilderOnFieldWithoutUntouchedProperty(): void
+    {
+        $logger = $this->createMock(LoggerInterface::class);
+        $logger->expects($this->once())
+            ->method('warning')
+            ->with($this->stringContains('notFilterableField'));
+
+        $builder = new AggregationBuilder($this->getAggregationFactory(), $this->getFilterQueryBuilder(), $logger);
+        $containerConfig = $this->getContainerConfiguration();
+        $aggregationsData = [
+            ['name' => 'simpleField', 'type' => BucketInterface::TYPE_TERMS],
+            ['name' => 'notFilterableField', 'type' => BucketInterface::TYPE_TERMS],
+            ['name' => 'searchableField', 'type' => BucketInterface::TYPE_TERMS],
+        ];
+
+        /** @var BucketInterface[] $aggregations */
+        $aggregations = array_values($builder->buildAggregations($containerConfig, $aggregationsData, []));
+
+        $this->assertCount(2, $aggregations);
+        $this->assertEquals('simpleField', $aggregations[0]->getName());
+        $this->assertEquals('searchableField', $aggregations[1]->getName());
+        $this->assertEquals('searchableField.untouched', $aggregations[1]->getField());
     }
 
     /**

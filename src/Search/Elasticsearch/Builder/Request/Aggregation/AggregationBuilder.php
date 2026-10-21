@@ -20,6 +20,8 @@ use Gally\Search\Elasticsearch\Request\AggregationInterface;
 use Gally\Search\Elasticsearch\Request\ContainerConfigurationInterface;
 use Gally\Search\Elasticsearch\Request\QueryInterface;
 use Gally\Search\Entity\Facet\Configuration;
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 
 /**
  * Builder for aggregation part of the search request.
@@ -31,10 +33,12 @@ class AggregationBuilder
      *
      * @param AggregationFactory $aggregationFactory factory used to instantiate buckets
      * @param FilterQueryBuilder $queryBuilder       factory used to create queries inside filtered or nested aggs
+     * @param LoggerInterface    $logger             logger
      */
     public function __construct(
         private AggregationFactory $aggregationFactory,
         private FilterQueryBuilder $queryBuilder,
+        private LoggerInterface $logger = new NullLogger(),
     ) {
     }
 
@@ -65,7 +69,7 @@ class AggregationBuilder
      * @param array                           $filters           facet filters to be added to aggregations
      * @param array                           $aggregationParams facet definition
      */
-    private function buildAggregation(ContainerConfigurationInterface $containerConfig, array $filters, array $aggregationParams): AggregationInterface
+    private function buildAggregation(ContainerConfigurationInterface $containerConfig, array $filters, array $aggregationParams): ?AggregationInterface
     {
         $aggregationType = $aggregationParams['type'];
         $fieldName = $aggregationParams['field'] ?? $aggregationParams['name'];
@@ -74,6 +78,16 @@ class AggregationBuilder
         try {
             $field = $containerConfig->getMapping()->getField($fieldName);
             $aggregationParams['field'] = $field->getMappingProperty('untouched');
+
+            if (null === $aggregationParams['field']) {
+                // The field is not aggregatable in the mapping (e.g. mapping out of sync with the source field configuration).
+                $this->logger->warning(
+                    \sprintf('Aggregation "%s" skipped: the field "%s" has no untouched mapping property.', $aggregationParams['name'] ?? $fieldName, $fieldName),
+                    ['aggregationType' => $aggregationType]
+                );
+
+                return null;
+            }
 
             $additionalFields = [];
             foreach ($aggregationParams['additionalFields'] ?? [] as $additionalFieldName) {
