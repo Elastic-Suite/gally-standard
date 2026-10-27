@@ -641,6 +641,9 @@
       {
         "id": "p_04",
         "entity_id": "p_04",
+        "my_price": [
+          {"group_id": 0, "original_price": 0.99, "price": 0.99, "is_discounted": false}
+        ],
         "sku": "24-MB05",
         "name": "Sac messager Wayfarer",
         "size" : 7,
@@ -665,6 +668,9 @@
       {
         "id": "p_05",
         "entity_id": "p_05",
+        "my_price": [
+          {"group_id": 0, "original_price": 1.99, "price": 1.99, "is_discounted": false}
+        ],
         "sku": "24-MB06",
         "name": "Messager de terrain rival",
         "size" : 2,
@@ -689,6 +695,9 @@
       {
         "id": "p_06",
         "entity_id": "p_06",
+        "my_price": [
+          {"group_id": 0, "original_price": 2.99, "price": 2.99, "is_discounted": false}
+        ],
         "sku": "24-MB02",
         "name": "Sac à dos Fusion",
         "size" : 9,
@@ -721,6 +730,9 @@
       {
         "id": "p_07",
         "entity_id": "p_07",
+        "my_price": [
+          {"group_id": 0, "original_price": 3.99, "price": 3.99, "is_discounted": false}
+        ],
         "sku": "24-UB02",
         "name": "Sac de sport Impulse",
         "size" : 11,
@@ -745,6 +757,9 @@
       {
         "id": "p_08",
         "entity_id": "p_08",
+        "my_price": [
+          {"group_id": 0, "original_price": 4.99, "price": 4.99, "is_discounted": false}
+        ],
         "sku": "24-WB01",
         "name": "Sac de voyage Yoga",
         "stock_as_nested": {
@@ -772,6 +787,9 @@
       {
         "id": "p_09",
         "entity_id": "p_09",
+        "my_price": [
+          {"group_id": 0, "original_price": 5.99, "price": 5.99, "is_discounted": false}
+        ],
         "sku": "24-WB02",
         "name": "Fourre-tout Compete Track",
         "size" : 11,
@@ -797,6 +815,9 @@
       {
         "id": "p_10",
         "entity_id": "p_10",
+        "my_price": [
+          {"group_id": 0, "original_price": 6.99, "price": 6.99, "is_discounted": false}
+        ],
         "sku": "24-WB05",
         "name": "Fourre-tout à bandoulière avisé",
         "size" : 2,
@@ -819,6 +840,9 @@
       {
         "id": "p_11",
         "entity_id": "p_11",
+        "my_price": [
+          {"group_id": 0, "original_price": 7.99, "price": 7.99, "is_discounted": false}
+        ],
         "sku": "24-WB06",
         "name": "Sac à dos d'excursion d'une journée Endeavour",
         "size" : 5,
@@ -854,6 +878,9 @@
       {
         "id": "p_12",
         "entity_id": "p_12",
+        "my_price": [
+          {"group_id": 0, "original_price": 9.99, "price": 9.99, "is_discounted": false}
+        ],
         "sku": "24-WB03",
         "name": "Sac à dos piloté",
         "size" : 12,

@@ -207,12 +207,14 @@ class FilterableSourceFields implements AggregationProviderInterface
             };
 
             usort($options, $callback);
-        }
 
-        // Apply maxSize limit (skip in viewMore mode)
-        $maxSize = $facetConfig->getMaxSize();
-        if (!$this->viewMoreContext->getFilterName() && $maxSize > 0 && \count($options) > $maxSize) {
-            $options = \array_slice($options, 0, $maxSize);
+            // Apply maxSize limit (skip in viewMore mode).
+            // Only for app-side sort orders: otherwise ES already limits terms aggregations,
+            // and bucket types ignoring size (histogram, ...) must not be truncated.
+            $maxSize = $facetConfig->getMaxSize();
+            if (!$this->viewMoreContext->getFilterName() && $maxSize > 0 && \count($options) > $maxSize) {
+                $options = \array_slice($options, 0, $maxSize);
+            }
         }
 
         return $options;
