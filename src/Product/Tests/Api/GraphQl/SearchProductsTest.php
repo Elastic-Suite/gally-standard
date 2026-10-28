@@ -526,7 +526,7 @@ class SearchProductsTest extends AbstractTestCase
                 ['my_price__price' => SortOrderInterface::SORT_ASC], // sort order specifications.
                 'id', // document data identifier.
                 // price_as_nested.price ASC, then score DESC first, then id DESC (missing _first)
-                ['p_02', '1', 'p_03', 'p_12', 'p_11'],   // expected ordered document IDs
+                ['p_04', 'p_05', 'p_06', 'p_07', 'p_08'],   // expected ordered document IDs
                 '0', // Price group id
             ],
             [
@@ -1955,6 +1955,73 @@ class SearchProductsTest extends AbstractTestCase
                         'field' => 'size',
                         'label' => 'Taille',
                         'type' => 'slider',
+                    ],
+                    [
+                        'field' => 'my_price__price',
+                        'label' => 'My_price',
+                        'type' => 'slider',
+                        'options' => [
+                            [
+                                'label' => '0',
+                                'value' => '0',
+                                'count' => 1,
+                            ],
+                            [
+                                'label' => '1',
+                                'value' => '1',
+                                'count' => 1,
+                            ],
+                            [
+                                'label' => '2',
+                                'value' => '2',
+                                'count' => 1,
+                            ],
+                            [
+                                'label' => '3',
+                                'value' => '3',
+                                'count' => 1,
+                            ],
+                            [
+                                'label' => '4',
+                                'value' => '4',
+                                'count' => 1,
+                            ],
+                            [
+                                'label' => '5',
+                                'value' => '5',
+                                'count' => 1,
+                            ],
+                            [
+                                'label' => '6',
+                                'value' => '6',
+                                'count' => 1,
+                            ],
+                            [
+                                'label' => '7',
+                                'value' => '7',
+                                'count' => 1,
+                            ],
+                            [
+                                'label' => '8',
+                                'value' => '8',
+                                'count' => 1,
+                            ],
+                            [
+                                'label' => '9',
+                                'value' => '9',
+                                'count' => 1,
+                            ],
+                            [
+                                'label' => '10',
+                                'value' => '10',
+                                'count' => 1,
+                            ],
+                            [
+                                'label' => '25',
+                                'value' => '25',
+                                'count' => 1,
+                            ],
+                        ],
                     ],
                     [
                         'field' => 'category__id',
