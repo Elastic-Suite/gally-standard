@@ -18,11 +18,12 @@ services:
     Gally\RuleEngine\Service\RuleEngineManager:
         lazy: true
         arguments:
-            - '@Gally\Product\Service\GraphQl\FilterManager'
-            - '@Gally\Cache\Service\CacheManagerInterface'
-            - '@logger'
-            - '@Gally\Search\Elasticsearch\Request\QueryFactory' 
-            - !tagged_iterator { tag: 'gally.rule_engine.rule_type' }
+            $filterManager: '@Gally\Product\Service\GraphQl\FilterManager'
+            $cacheManager: '@Gally\Cache\Service\CacheManagerInterface'
+            $logger: '@logger'
+            $queryFactory: '@Gally\Search\Elasticsearch\Request\QueryFactory'
+            $ruleTypeClasses: !tagged_iterator { tag: 'gally.rule_engine.rule_type' }
+            $contextOperatorsProviders: !tagged_iterator { tag: 'gally.rule_engine.context_operators_provider' }
 
     Gally\RuleEngine\Resolver\RuleEngineOperatorsResolver:
         arguments:

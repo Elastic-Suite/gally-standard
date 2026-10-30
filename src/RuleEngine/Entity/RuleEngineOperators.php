@@ -38,7 +38,7 @@ use Gally\User\Constant\Role;
             resolver: RuleEngineOperatorsResolver::class,
             read: false,
             deserialize: false,
-            args: [],
+            args: ['context' => ['type' => 'String', 'description' => 'Context of the rules (e.g. recommender), which can add its own operators.']],
             security: "is_granted('" . Role::ROLE_CONTRIBUTOR . "')"
         ),
     ],
