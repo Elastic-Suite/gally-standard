@@ -136,6 +136,56 @@ class SessionTransformProvisionerTest extends AbstractTestCase
         );
     }
 
+    public function testProductEventFieldsContainDistinctProductSkusOnly(): void
+    {
+        self::$provisioner->createOrUpdate(self::$localizedCatalog);
+        $transform = static::getContainer()->get(TransformRepositoryInterface::class)
+            ->findAll()[0];
+        $aggregations = $transform->getAggregations();
+
+        $response = static::getContainer()->get(Client::class)->search([
+            'index' => $transform->getSourceIndex(),
+            'body' => [
+                'size' => 0,
+                'query' => ['term' => ['session_uid' => '77777777-7777-7777-7777-777777777777']],
+                'aggs' => [
+                    'product_view' => $aggregations['product_view'],
+                    'product_cart' => $aggregations['product_cart'],
+                    'product_order' => $aggregations['product_order'],
+                ],
+            ],
+        ]);
+
+        // Repeated views are deduplicated and the category view is ignored.
+        $this->assertEqualsCanonicalizing(['SKU1', 'SKU2'], $response['aggregations']['product_view']['value']);
+        $this->assertEqualsCanonicalizing(['SKU2'], $response['aggregations']['product_cart']['value']);
+        $this->assertEqualsCanonicalizing(['SKU2', 'SKU3'], $response['aggregations']['product_order']['value']);
+    }
+
+    /**
+     * Relies on the transform writing aggregation values after its own _doc_count: the preview API
+     * builds documents the same way, so this fails if an OpenSearch upgrade changes that behavior.
+     */
+    public function testSessionDocumentsWeighOneInBucketAggregations(): void
+    {
+        self::$provisioner->createOrUpdate(self::$localizedCatalog);
+        $transform = static::getContainer()->get(TransformRepositoryInterface::class)
+            ->findAll()[0];
+
+        $client = static::getContainer()->get(Client::class);
+        $response = $client->transport->resultOrFuture(
+            $client->transport->performRequest('POST', '/_plugins/_transform/_preview', [], ['transform' => $transform->toArray()]),
+            []
+        );
+
+        $documentsBySession = array_column($response['documents'], null, 'session_uid');
+        $this->assertNotEmpty($documentsBySession);
+        foreach ($documentsBySession as $document) {
+            $this->assertSame(1, $document['_doc_count']);
+        }
+        $this->assertSame(7, $documentsBySession['77777777-7777-7777-7777-777777777777']['transform._doc_count']);
+    }
+
     /**
      * @depends testCreateOrUpdateReusesTheExistingIndexInsteadOfCreatingANewOne
      */

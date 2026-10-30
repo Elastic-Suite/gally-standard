@@ -26,6 +26,6 @@ class RuleEngineOperatorsResolver
 
     public function __invoke($item, array $context): RuleEngineOperators
     {
-        return $this->ruleEngineManager->getRuleEngineOperators();
+        return $this->ruleEngineManager->getRuleEngineOperators($context['args']['context'] ?? null);
     }
 }

@@ -17,6 +17,7 @@ namespace Gally\RuleEngine\Controller;
 use Gally\RuleEngine\Entity\RuleEngineOperators;
 use Gally\RuleEngine\Service\RuleEngineManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 
 class RuleEngineOperatorsController extends AbstractController
 {
@@ -25,8 +26,8 @@ class RuleEngineOperatorsController extends AbstractController
     ) {
     }
 
-    public function __invoke(): RuleEngineOperators
+    public function __invoke(Request $request): RuleEngineOperators
     {
-        return $this->ruleEngineManager->getRuleEngineOperators();
+        return $this->ruleEngineManager->getRuleEngineOperators($request->query->get('context'));
     }
 }

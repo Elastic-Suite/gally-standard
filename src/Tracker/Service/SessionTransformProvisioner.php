@@ -129,11 +129,31 @@ class SessionTransformProvisioner
             ],
         ];
 
+        $productItems = fn (string $eventType) => [
+            'scripted_metric' => [
+                'init_script' => 'state.items = new HashSet();',
+                'map_script' => "if (params._source.event_type == '{$eventType}' && params._source.metadata_code == 'product' && params._source.entity_code != null) { state.items.add(params._source.entity_code); }",
+                'combine_script' => 'return state.items;',
+                'reduce_script' => 'Set merged = new HashSet(); for (s in states) { if (s != null) { merged.addAll(s); } } return new ArrayList(merged);',
+            ],
+        ];
+
         $groups = [
             ['terms' => ['source_field' => 'session_uid', 'target_field' => 'session_uid']],
         ];
 
         $aggregations = [
+            // The transform writes each session's event count into the _doc_count metadata field, which makes
+            // bucket aggregations on the session index count events instead of sessions (and breaks significant_terms).
+            // Aggregation values are written after it, so this one overrides it; transform._doc_count keeps the event count.
+            '_doc_count' => [
+                'scripted_metric' => [
+                    'init_script' => 'state.value = 1;',
+                    'map_script' => 'state.value = 1;',
+                    'combine_script' => 'return 1;',
+                    'reduce_script' => 'return 1;',
+                ],
+            ],
             'session_vid' => $firstNonNullValue('session_vid'),
             'group_id' => $firstNonNullValue('group_id'),
             'localized_catalog_code' => $firstNonNullValue('localized_catalog_code'),
@@ -164,6 +184,9 @@ class SessionTransformProvisioner
             'views' => $groupedByMetadataCode('view'),
             'cart' => $groupedByMetadataCode('add_to_cart'),
             'order' => $groupedByMetadataCode('order'),
+            'product_view' => $productItems('view'),
+            'product_cart' => $productItems('add_to_cart'),
+            'product_order' => $productItems('order'),
             'searches' => [
                 'scripted_metric' => [
                     'init_script' => 'state.data = new HashMap();',
