@@ -33,7 +33,8 @@ interface ContextOperatorsProviderInterface
     public function getOperatorsBySourceFieldType(): array;
 
     /**
-     * @return array<string, array<string, ?string>> value type by operator, by source field type (null: no value)
+     * @return array<string, array<string, ?string>> value type by operator, by source field type
+     *                                               (null: no value, "?" prefix: optional value, e.g. "?Float")
      */
     public function getOperatorsValueType(): array;
 }
