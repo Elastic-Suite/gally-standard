@@ -6,6 +6,7 @@ services:
             - '@Gally\Index\Service\IndexOperation'
             - '@Gally\Metadata\Repository\MetadataRepository'
             - '@Gally\Configuration\Service\ConfigurationManager'
+            - '@Gally\Index\Repository\DataStream\DataStreamRepositoryInterface'
 
     Gally\Tracker\Service\SessionIndexRolloverManager:
         arguments:

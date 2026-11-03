@@ -72,8 +72,7 @@ class SessionIndexRolloverManager
      */
     private function hasEventRolledOverSince(Index $sessionIndex, Metadata $eventMetadata, LocalizedCatalog $localizedCatalog): bool
     {
-        $backingIndices = $this->dataStreamRepository->findByMetadata($eventMetadata, $localizedCatalog)?->getIndices() ?? [];
-        $currentBackingIndex = $backingIndices[array_key_last($backingIndices)] ?? null;
+        $currentBackingIndex = $this->dataStreamRepository->findByMetadata($eventMetadata, $localizedCatalog)?->getWriteIndex();
 
         if (null === $currentBackingIndex) {
             // Unknown: be safe and treat it as due for a refresh.
