@@ -17,13 +17,16 @@ namespace Gally\Tracker\Tests\Unit\Service;
 use Gally\Catalog\Entity\LocalizedCatalog;
 use Gally\Catalog\Repository\LocalizedCatalogRepository;
 use Gally\Index\Api\IndexSettingsInterface;
+use Gally\Index\Dto\Bulk;
 use Gally\Index\Repository\DataStream\DataStreamRepositoryInterface;
+use Gally\Index\Repository\Transform\TransformRepositoryInterface;
 use Gally\Index\Service\IndexOperation;
 use Gally\Metadata\Entity\Metadata;
 use Gally\Metadata\Repository\MetadataRepository;
 use Gally\Test\AbstractTestCase;
 use Gally\Tracker\Service\SessionIndexRolloverManager;
 use Gally\Tracker\Service\SessionTransformProvisioner;
+use OpenSearch\Client;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 
@@ -84,6 +87,73 @@ class SessionIndexRolloverManagerTest extends AbstractTestCase
         $after = $indexOperation->findIndicesByAlias(self::$sessionAlias);
         $this->assertCount(1, $after);
         $this->assertSame($before[0]->getName(), $after[0]->getName());
+    }
+
+    /**
+     * tracking_event rolled over: the recreated transform must only aggregate sessions of the new backing index,
+     * not re-aggregate the sessions whose events live in the old one (they already belong to the old session index).
+     *
+     * @depends testEnsureUpToDateCreatesSessionIndexWhenNoneExistsYet
+     */
+    public function testEnsureUpToDateAfterEventRolloverDoesNotReaggregateOldSessions(): void
+    {
+        $client = static::getContainer()->get(Client::class);
+        $indexOperation = static::getContainer()->get(IndexOperation::class);
+        $dataStreamRepository = static::getContainer()->get(DataStreamRepositoryInterface::class);
+        $eventMetadata = static::getContainer()->get(MetadataRepository::class)->findByEntity('tracking_event');
+        $dataStreamName = $dataStreamRepository->findByMetadata($eventMetadata, self::$localizedCatalog)->getName();
+
+        $client->transport->resultOrFuture(
+            $client->transport->performRequest('POST', "/$dataStreamName/_rollover"),
+            []
+        );
+
+        $newSessionUid = 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa';
+        $bulkRequest = new Bulk\Request();
+        $bulkRequest->addDocument($dataStreamRepository->findByName('tracking_event', self::$localizedCatalog), 'session_after_rollover_event', [
+            '@timestamp' => (new \DateTime('now', new \DateTimeZone('UTC')))->format('Y-m-d H:i:s'),
+            'id' => 'session_after_rollover_event',
+            'event_type' => 'search',
+            'metadata_code' => 'product',
+            'localized_catalog_code' => 'b2c_en',
+            'session_uid' => $newSessionUid,
+            'session_vid' => 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb',
+            'group_id' => '0',
+            'search_query' => ['query_text' => 'shoes', 'is_spellchecked' => false],
+        ]);
+        $dataStreamRepository->bulk($bulkRequest);
+        $client->indices()->refresh(['index' => $dataStreamName]);
+
+        // Session index names are timestamped to the second: avoid a name collision with the previous one.
+        sleep(1);
+        static::getContainer()->get(SessionIndexRolloverManager::class)->ensureUpToDate(self::$localizedCatalog);
+
+        $sessionIndices = $indexOperation->findIndicesByAlias(self::$sessionAlias);
+        $this->assertCount(2, $sessionIndices);
+        $newestSessionIndexName = array_reduce(
+            $sessionIndices,
+            fn (?string $newest, $index) => null === $newest || $index->getName() > $newest ? $index->getName() : $newest
+        );
+        $transformId = SessionTransformProvisioner::TRANSFORM_ID_PREFIX . self::$localizedCatalog->getCode();
+        $transforms = array_filter(
+            static::getContainer()->get(TransformRepositoryInterface::class)->findAll(),
+            fn ($candidate) => $candidate->getId() === $transformId
+        );
+        $this->assertCount(1, $transforms, "Transform $transformId not found.");
+        $transform = reset($transforms);
+        $this->assertSame($newestSessionIndexName, $transform->getTargetIndex());
+
+        $response = $client->transport->resultOrFuture(
+            $client->transport->performRequest('POST', '/_plugins/_transform/_preview', [], ['transform' => $transform->toArray()]),
+            []
+        );
+        $previewedSessionUids = array_column($response['documents'], 'session_uid');
+        $oldSessionUids = array_unique(array_column(
+            json_decode((string) file_get_contents(__DIR__ . '/../../fixtures/tracking_event_for_session_documents.json'), true)[0]['documents'],
+            'session_uid'
+        ));
+        $this->assertContains($newSessionUid, $previewedSessionUids);
+        $this->assertSame([], array_intersect($oldSessionUids, $previewedSessionUids));
     }
 
     /**

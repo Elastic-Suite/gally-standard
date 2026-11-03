@@ -19,6 +19,7 @@ use Gally\Configuration\Entity\Configuration;
 use Gally\Configuration\Service\ConfigurationManager;
 use Gally\Index\Api\IndexSettingsInterface;
 use Gally\Index\Entity\Transform;
+use Gally\Index\Repository\DataStream\DataStreamRepositoryInterface;
 use Gally\Index\Repository\Transform\TransformRepositoryInterface;
 use Gally\Index\Service\IndexOperation;
 use Gally\Metadata\Repository\MetadataRepository;
@@ -38,12 +39,13 @@ class SessionTransformProvisioner
         private IndexOperation $indexOperation,
         private MetadataRepository $metadataRepository,
         private ConfigurationManager $configurationManager,
+        private DataStreamRepositoryInterface $dataStreamRepository,
     ) {
     }
 
     public function createOrUpdate(LocalizedCatalog $localizedCatalog): string
     {
-        $sourceIndex = $this->indexSettings->getIndexAliasFromIdentifier('tracking_event', $localizedCatalog);
+        $sourceIndex = $this->getSourceIndex($localizedCatalog);
         $targetAlias = $this->indexSettings->getIndexAliasFromIdentifier('tracking_session', $localizedCatalog);
         $targetIndices = $this->indexOperation->findIndicesByAlias($targetAlias);
         $targetIndex = !empty($targetIndices) ? $targetIndices[0]->getName() : null;
@@ -62,6 +64,24 @@ class SessionTransformProvisioner
         $this->transformRepository->start($transformId);
 
         return $transformId;
+    }
+
+    /**
+     * Only the current write backing index: sessions whose events live in an older backing index are already aggregated
+     * in the previous session index, and a transform reading the whole alias would duplicate them in the new one.
+     * Accepted trade-off: a session spanning a rollover is split into two independent session documents.
+     */
+    private function getSourceIndex(LocalizedCatalog $localizedCatalog): string
+    {
+        $eventMetadata = $this->metadataRepository->findByEntity('tracking_event');
+        $writeIndex = $this->dataStreamRepository->findByMetadata($eventMetadata, $localizedCatalog)?->getWriteIndex();
+
+        if (null === $writeIndex) {
+            // No data stream yet: fall back to the alias, which will resolve to the first backing index once created.
+            return $this->indexSettings->getIndexAliasFromIdentifier('tracking_event', $localizedCatalog);
+        }
+
+        return urldecode($writeIndex->getName());
     }
 
     private function getSchedulePeriod(LocalizedCatalog $localizedCatalog): int
