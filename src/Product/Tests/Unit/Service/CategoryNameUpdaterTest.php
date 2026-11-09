@@ -17,12 +17,9 @@ namespace Gally\Product\Tests\Unit\Service;
 use Gally\Catalog\Entity\Catalog;
 use Gally\Catalog\Entity\LocalizedCatalog;
 use Gally\Category\Repository\CategoryConfigurationRepository;
-use Gally\Index\Dto\Bulk;
 use Gally\Index\Entity\Index;
-use Gally\Index\Repository\Index\IndexRepositoryInterface;
 use Gally\Product\Service\CategoryNameUpdater;
 use PHPUnit\Framework\MockObject\MockObject;
-use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 /**
@@ -30,7 +27,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
  */
 class CategoryNameUpdaterTest extends KernelTestCase
 {
-    public function testUpdateSuccess(): void
+    public function testUpdateCategoryNames(): void
     {
         $localizedCatalog = $this->getMockLocalizedCatalog();
         $localizedCatalog->method('getCatalog')->willReturn(new Catalog());
@@ -47,106 +44,43 @@ class CategoryNameUpdaterTest extends KernelTestCase
                 ['id' => 2, 'category_id' => 'two', 'name' => 'Two (DB name)', 'useNameInProductSearch' => 1],
                 ['id' => 5, 'category_id' => 'three', 'name' => 'Three', 'useNameInProductSearch' => 1],
             ]);
-        $indexRepository = $this->getMockIndexRepository();
-        $logger = $this->getMockLogger();
 
         $productDataBulk = [
-            ['id' => 37, 'name' => 'Product 37', 'category' => [['id' => 'one']]], // No expected update.
-            ['id' => 121, 'name' => 'Product 121', 'category' => [['id' => 'one'], ['id' => 'two', 'name' => 'Two (Bulk name)']]],
-            ['id' => 2, 'name' => 'Product 2', 'category' => [['id' => 'two', 'name' => 'Two (Bulk name)'], ['id' => 'three']]],
-            ['id' => 42, 'name' => 'Product 42', 'category' => null],
+            'a' => ['id' => 37, 'name' => 'Product 37', 'category' => [['id' => 'one']]], // Category not used in search.
+            'b' => ['id' => 121, 'name' => 'Product 121', 'category' => [['id' => 'one'], ['id' => 'two', 'name' => 'Two (Bulk name)']]],
+            'c' => ['id' => 2, 'name' => 'Product 2', 'category' => [['id' => 'two'], ['id' => 'three'], ['id' => 'unknown']]],
+            'd' => ['id' => 42, 'name' => 'Product 42', 'category' => null],
+            'e' => ['id' => 43, 'name' => 'Product 43'],
         ];
 
-        $expectedUpdateBulkRequest = new Bulk\Request();
-        $expectedUpdateBulkRequest->updateDocuments(
-            $index,
+        /** @var CategoryConfigurationRepository $categoryConfigRepository */
+        $categoryNameUpdater = new CategoryNameUpdater($categoryConfigRepository);
+
+        $this->assertSame(
             [
-                [
+                'a' => $productDataBulk['a'],
+                'b' => [
                     'id' => 121,
+                    'name' => 'Product 121',
                     'category' => [
                         ['id' => 'one'],
                         ['id' => 'two', 'name' => 'Two (Bulk name)', '_name' => 'Two (Bulk name)'],
                     ],
                 ],
-                [
+                'c' => [
                     'id' => 2,
+                    'name' => 'Product 2',
                     'category' => [
-                        ['id' => 'two', 'name' => 'Two (Bulk name)', '_name' => 'Two (Bulk name)'],
+                        ['id' => 'two', 'name' => 'Two (DB name)', '_name' => 'Two (DB name)'],
                         ['id' => 'three', 'name' => 'Three', '_name' => 'Three'],
+                        ['id' => 'unknown'],
                     ],
                 ],
-            ]
+                'd' => $productDataBulk['d'],
+                'e' => $productDataBulk['e'],
+            ],
+            $categoryNameUpdater->updateCategoryNames($index, $productDataBulk)
         );
-
-        $indexRepository->expects($this->once())->method('bulk')->with($expectedUpdateBulkRequest);
-
-        /** @var CategoryConfigurationRepository $categoryConfigRepository */
-        /** @var IndexRepositoryInterface $indexRepository */
-        /** @var LoggerInterface $logger */
-        $categoryNameUpdater = new CategoryNameUpdater($categoryConfigRepository, $indexRepository, $logger);
-        $categoryNameUpdater->updateCategoryNames($index, $productDataBulk);
-    }
-
-    public function testUpdateFailure(): void
-    {
-        $localizedCatalog = $this->getMockLocalizedCatalog();
-        $localizedCatalog->method('getCatalog')->willReturn(new Catalog());
-        $localizedCatalog->method('getId')->willReturn(1);
-
-        $index = new Index('my_product_index');
-        /** @var LocalizedCatalog $localizedCatalog */
-        $index->setLocalizedCatalog($localizedCatalog);
-
-        $categoryConfigRepository = $this->getMockCategoryConfigurationRepository();
-        $categoryConfigRepository->method('findMergedByContext')
-            ->willReturn([
-                ['id' => 1, 'category_id' => 'one', 'name' => 'One', 'useNameInProductSearch' => 0],
-                ['id' => 2, 'category_id' => 'two', 'name' => 'Two (DB name)', 'useNameInProductSearch' => 1],
-                ['id' => 5, 'category_id' => 'three', 'name' => 'Three', 'useNameInProductSearch' => 1],
-            ]);
-
-        $indexRepository = $this->getMockIndexRepository();
-        $indexRepository->method('bulk')
-            ->willReturn(new Bulk\Response([
-                'took' => 30,
-                'errors' => true,
-                'items' => [
-                    [
-                        'update' => [
-                            '_index' => $index->getName(),
-                            '_type' => '_doc',
-                            '_id' => '5',
-                            'status' => 404,
-                            'error' => [
-                                'type' => 'document_missing_exception',
-                                'reason' => '[5]: document missing',
-                                'index_uuid' => 'aAsFqTI0Tc2W0LCWgPNrOA',
-                                'shard' => '0',
-                            ],
-                        ],
-                    ],
-                ],
-            ]));
-
-        $logger = $this->getMockLogger();
-
-        $productDataBulk = [
-            ['id' => 37, 'name' => 'Product 37', 'category' => [['id' => 'one']]], // No expected update.
-            ['id' => 121, 'name' => 'Product 121', 'category' => [['id' => 'one'], ['id' => 'two']]],
-            ['id' => 2, 'name' => 'Product 2'], // No expected update.
-        ];
-
-        $logger->expects($this->exactly(3))->method('error')->withConsecutive(
-            ['Bulk update operation failed 1 times in index my_product_index.', []],
-            ['Error (document_missing_exception) : [5]: document missing.', []],
-            ['Failed doc ids sample : 5.', []],
-        );
-
-        /** @var CategoryConfigurationRepository $categoryConfigRepository */
-        /** @var IndexRepositoryInterface $indexRepository */
-        /** @var LoggerInterface $logger */
-        $categoryNameUpdater = new CategoryNameUpdater($categoryConfigRepository, $indexRepository, $logger);
-        $categoryNameUpdater->updateCategoryNames($index, $productDataBulk);
     }
 
     private function getMockLocalizedCatalog(): MockObject
@@ -157,20 +91,6 @@ class CategoryNameUpdaterTest extends KernelTestCase
     private function getMockCategoryConfigurationRepository(): MockObject
     {
         return $this->getMockBuilder(CategoryConfigurationRepository::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-    }
-
-    private function getMockIndexRepository(): MockObject
-    {
-        return $this->getMockBuilder(IndexRepositoryInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-    }
-
-    private function getMockLogger(): MockObject
-    {
-        return $this->getMockBuilder(LoggerInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
     }
