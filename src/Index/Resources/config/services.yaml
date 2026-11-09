@@ -212,6 +212,15 @@ services:
         tags:
             - { name: console.command }
 
+    Gally\Index\Command\TransformStatusCommand:
+        arguments:
+            - '@Gally\Index\Repository\Transform\TransformRepositoryInterface'
+            - '@Gally\Catalog\Repository\LocalizedCatalogRepository'
+            - !tagged_iterator { tag: 'gally.transform_provisioner' }
+            - null
+        tags:
+            - { name: console.command }
+
     Gally\Index\Command\MappingGenerateCommand:
         arguments:
             - '@Gally\Metadata\Repository\MetadataRepository'
