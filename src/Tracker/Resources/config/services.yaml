@@ -7,6 +7,8 @@ services:
             - '@Gally\Metadata\Repository\MetadataRepository'
             - '@Gally\Configuration\Service\ConfigurationManager'
             - '@Gally\Index\Repository\DataStream\DataStreamRepositoryInterface'
+        tags:
+            - { name: gally.transform_provisioner }
 
     Gally\Tracker\Service\SessionIndexRolloverManager:
         arguments:
@@ -16,15 +18,6 @@ services:
             - '@Gally\Index\Repository\DataStream\DataStreamRepositoryInterface'
             - '@Gally\Tracker\Service\SessionTransformProvisioner'
             - '@logger'
-
-    Gally\Tracker\Command\TransformStatusCommand:
-        arguments:
-            - '@Gally\Index\Repository\Transform\TransformRepositoryInterface'
-            - '@Gally\Catalog\Repository\LocalizedCatalogRepository'
-            - '@Gally\Tracker\Service\SessionTransformProvisioner'
-            - null
-        tags:
-            - { name: console.command }
 
     Gally\Tracker\EventSubscriber\ReprovisionSessionTransformOnConfigChange:
         arguments:
