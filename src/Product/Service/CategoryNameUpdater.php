@@ -17,10 +17,7 @@ namespace Gally\Product\Service;
 use Gally\Catalog\Entity\LocalizedCatalog;
 use Gally\Category\Entity\Category\Configuration as CategoryConfiguration;
 use Gally\Category\Repository\CategoryConfigurationRepository;
-use Gally\Index\Dto\Bulk;
 use Gally\Index\Entity\Index;
-use Gally\Index\Repository\Index\IndexRepositoryInterface;
-use Psr\Log\LoggerInterface;
 
 /**
  * Product categories name updater.
@@ -31,36 +28,33 @@ class CategoryNameUpdater
 
     public function __construct(
         private CategoryConfigurationRepository $categoryConfigurationRepository,
-        private IndexRepositoryInterface $indexRepository,
-        private LoggerInterface $logger,
     ) {
     }
 
     /**
-     * Update category names based on their "useNameInProductSearch" settings
+     * Add category names based on their "useNameInProductSearch" settings
      * on a given set of product bulk data for a given index.
      *
      * @param Index $index           Product index
      * @param array $productBulkData Product index bulkIndex data
+     *
+     * @return array The product bulk data with the same keys, with category names added
      */
-    public function updateCategoryNames(Index $index, array $productBulkData = []): void
+    public function updateCategoryNames(Index $index, array $productBulkData = []): array
     {
-        $productDataUpdates = [];
-
         $localizedCatalogConfig = $this->getUseNameInProductSearchCategories($index->getLocalizedCatalog());
-        if (!empty($localizedCatalogConfig)) {
-            foreach ($productBulkData as &$productData) {
-                $updatedData = $this->prepareProductData($productData, $localizedCatalogConfig);
-                if (!empty($updatedData)) {
-                    $updatedData['id'] = $productData['id'];
-                    $productDataUpdates[$productData['id']] = $updatedData;
-                }
+        if (empty($localizedCatalogConfig)) {
+            return $productBulkData;
+        }
+
+        foreach ($productBulkData as $key => $productData) {
+            $updatedData = $this->prepareProductData($productData, $localizedCatalogConfig);
+            if (!empty($updatedData)) {
+                $productBulkData[$key]['category'] = $updatedData['category'];
             }
         }
 
-        if (!empty($productDataUpdates)) {
-            $this->applyUpdates($index, $productDataUpdates);
-        }
+        return $productBulkData;
     }
 
     /**
@@ -119,31 +113,5 @@ class CategoryNameUpdater
         }
 
         return $hasUpdatedData ? ['category' => $updatedCategoriesData] : [];
-    }
-
-    /**
-     * Apply product updates on a given product index.
-     *
-     * @param Index $index              Product index
-     * @param array $productDataUpdates Product data updates as an array whose keys are product ids
-     */
-    private function applyUpdates(Index $index, array &$productDataUpdates): void
-    {
-        $request = new Bulk\Request();
-        $request->updateDocuments($index, $productDataUpdates);
-        $response = $this->indexRepository->bulk($request);
-        if ($response->hasErrors()) {
-            foreach ($response->aggregateErrorsByReason() as $error) {
-                $sampleDocumentIds = implode(', ', \array_slice($error['document_ids'], 0, 10));
-                $this->logger->error(\sprintf(
-                    'Bulk %s operation failed %d times in index %s.',
-                    $error['operation'],
-                    $error['count'],
-                    $error['index']
-                ));
-                $this->logger->error(\sprintf('Error (%s) : %s.', $error['error']['type'], $error['error']['reason']));
-                $this->logger->error(\sprintf('Failed doc ids sample : %s.', $sampleDocumentIds));
-            }
-        }
     }
 }
