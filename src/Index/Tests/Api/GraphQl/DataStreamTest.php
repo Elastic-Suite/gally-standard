@@ -104,9 +104,9 @@ class DataStreamTest extends AbstractTestCase
 
         yield 'event datastream' => [
             Role::ROLE_ADMIN,
-            'tracking_event',
+            'test_event',
             'b2c_en',
-            ['name' => 'gally_test__gally_localized_catalog_b2c_en_tracking_event'],
+            ['name' => 'gally_test__gally_localized_catalog_b2c_en_test_event'],
         ];
     }
 
@@ -151,7 +151,7 @@ class DataStreamTest extends AbstractTestCase
     {
         yield 'anonymous' => [
             null,
-            'gally_test__gally_localized_catalog_b2c_en_tracking_event',
+            'gally_test__gally_localized_catalog_b2c_en_test_event',
             ['error' => 'Access Denied.', 'statusCode' => 401],
         ];
         yield 'missing' => [
@@ -161,19 +161,19 @@ class DataStreamTest extends AbstractTestCase
         ];
         yield 'contributor' => [
             Role::ROLE_CONTRIBUTOR,
-            'gally_test__gally_localized_catalog_b2c_en_tracking_event',
+            'gally_test__gally_localized_catalog_b2c_en_test_event',
             [
-                'id' => '/api/data_streams/gally_test__gally_localized_catalog_b2c_en_tracking_event',
-                'name' => 'gally_test__gally_localized_catalog_b2c_en_tracking_event',
+                'id' => '/api/data_streams/gally_test__gally_localized_catalog_b2c_en_test_event',
+                'name' => 'gally_test__gally_localized_catalog_b2c_en_test_event',
                 'status' => 'GREEN',
             ],
         ];
         yield 'admin' => [
             Role::ROLE_ADMIN,
-            'gally_test__gally_localized_catalog_b2c_en_tracking_event',
+            'gally_test__gally_localized_catalog_b2c_en_test_event',
             [
-                'id' => '/api/data_streams/gally_test__gally_localized_catalog_b2c_en_tracking_event',
-                'name' => 'gally_test__gally_localized_catalog_b2c_en_tracking_event',
+                'id' => '/api/data_streams/gally_test__gally_localized_catalog_b2c_en_test_event',
+                'name' => 'gally_test__gally_localized_catalog_b2c_en_test_event',
                 'status' => 'GREEN',
             ],
         ];
@@ -217,7 +217,7 @@ class DataStreamTest extends AbstractTestCase
     public function getCollectionDataProvider(): iterable
     {
         yield 'anonymous' => [null, ['error' => 'Access Denied.', 'statusCode' => 401]];
-        yield 'contributor' => [Role::ROLE_CONTRIBUTOR, ['gally_test__gally_localized_catalog_b2c_en_tracking_event']];
+        yield 'contributor' => [Role::ROLE_CONTRIBUTOR, ['gally_test__gally_localized_catalog_b2c_en_test_event']];
     }
 
     /**
@@ -264,21 +264,30 @@ class DataStreamTest extends AbstractTestCase
         yield 'contributor' => [Role::ROLE_CONTRIBUTOR, '', [], ['error' => 'Access Denied.']];
         yield 'bulk missing datastream ' => [
             Role::ROLE_ADMIN,
-            'gally_test__gally_localized_catalog_b2c_en_tracking_event',
+            'gally_test__gally_localized_catalog_b2c_en_test_event',
             [
-                ['event_type' => 'view', '@timestamp' => date('Y-m-d H:i:s')],
-                ['event_type' => 'order', '@timestamp' => date('Y-m-d H:i:s')],
+                ['id' => uniqid('test_event_'), 'event_type' => 'view', '@timestamp' => date('Y-m-d H:i:s')],
+                ['id' => uniqid('test_event_'), 'event_type' => 'order', '@timestamp' => date('Y-m-d H:i:s')],
             ],
-            ['dataStream' => ['name' => 'gally_test__gally_localized_catalog_b2c_en_tracking_event']],
+            ['dataStream' => ['name' => 'gally_test__gally_localized_catalog_b2c_en_test_event']],
         ];
         yield 'bulk event data' => [
             Role::ROLE_ADMIN,
-            'gally_test__gally_localized_catalog_b2c_en_tracking_event',
+            'gally_test__gally_localized_catalog_b2c_en_test_event',
             [
-                ['event_type' => 'view', '@timestamp' => date('Y-m-d H:i:s')],
+                ['id' => uniqid('test_event_'), 'event_type' => 'view', '@timestamp' => date('Y-m-d H:i:s')],
+                ['id' => uniqid('test_event_'), 'event_type' => 'order', '@timestamp' => date('Y-m-d H:i:s')],
+            ],
+            ['dataStream' => ['name' => 'gally_test__gally_localized_catalog_b2c_en_test_event']],
+        ];
+        yield 'bulk event data without id' => [
+            Role::ROLE_ADMIN,
+            'gally_test__gally_localized_catalog_b2c_en_test_event',
+            [
+                ['id' => uniqid('test_event_'), 'event_type' => 'view', '@timestamp' => date('Y-m-d H:i:s')],
                 ['event_type' => 'order', '@timestamp' => date('Y-m-d H:i:s')],
             ],
-            ['dataStream' => ['name' => 'gally_test__gally_localized_catalog_b2c_en_tracking_event']],
+            ['error' => 'Document at position 1 has no id or entity_id.'],
         ];
     }
 
@@ -319,15 +328,15 @@ class DataStreamTest extends AbstractTestCase
 
     public function deleteDataStreamDataProvider(): iterable
     {
-        yield 'anonymous' => [null, 'gally_test__gally_localized_catalog_b2c_en_tracking_event', ['error' => 'Access Denied.', 'statusCode' => 401]];
-        yield 'contributor' => [Role::ROLE_CONTRIBUTOR, 'gally_test__gally_localized_catalog_b2c_en_tracking_event', ['error' => 'Access Denied.', 'statusCode' => 403]];
+        yield 'anonymous' => [null, 'gally_test__gally_localized_catalog_b2c_en_test_event', ['error' => 'Access Denied.', 'statusCode' => 401]];
+        yield 'contributor' => [Role::ROLE_CONTRIBUTOR, 'gally_test__gally_localized_catalog_b2c_en_test_event', ['error' => 'Access Denied.', 'statusCode' => 403]];
         yield 'missing' => [Role::ROLE_ADMIN, 'missing_data_stream', ['error' => 'Item "/api/data_streams/missing_data_stream" not found.', 'statusCode' => 404]];
         yield 'admin' => [
             Role::ROLE_ADMIN,
-            'gally_test__gally_localized_catalog_b2c_en_tracking_event',
+            'gally_test__gally_localized_catalog_b2c_en_test_event',
             [
-                'id' => '/api/data_streams/gally_test__gally_localized_catalog_b2c_en_tracking_event',
-                'name' => 'gally_test__gally_localized_catalog_b2c_en_tracking_event',
+                'id' => '/api/data_streams/gally_test__gally_localized_catalog_b2c_en_test_event',
+                'name' => 'gally_test__gally_localized_catalog_b2c_en_test_event',
                 'status' => 'GREEN',
             ],
         ];

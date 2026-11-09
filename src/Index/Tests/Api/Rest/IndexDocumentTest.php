@@ -73,6 +73,15 @@ class IndexDocumentTest extends AbstractTestCase
             [null, $data, 401, 'Access Denied.'],
             [$this->getUser(Role::ROLE_CONTRIBUTOR), $data, 403, 'Access Denied.'],
             [$this->getUser(Role::ROLE_ADMIN), $data, 201],
+            [
+                $this->getUser(Role::ROLE_ADMIN),
+                [
+                    'indexName' => $data['indexName'],
+                    'documents' => [json_encode(['entity_id' => 2, 'name' => 'Product 2']), json_encode(['name' => 'Product without id'])],
+                ],
+                400,
+                'Document at position 1 has no id or entity_id.',
+            ],
         ];
     }
 

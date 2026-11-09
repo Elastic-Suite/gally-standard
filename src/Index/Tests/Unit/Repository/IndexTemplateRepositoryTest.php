@@ -30,7 +30,7 @@ class IndexTemplateRepositoryTest extends AbstractTestCase
         'gally_test__gally_localized_catalog_b2c_fr_dummy-1',
         'gally_test__gally_localized_catalog_b2c_en_dummy-2',
         'gally_test__gally_localized_catalog_b2c_en_product',
-        'gally_test__gally_localized_catalog_b2c_fr_tracking_event',
+        'gally_test__gally_localized_catalog_b2c_fr_test_event',
     ];
 
     public static function setUpBeforeClass(): void
@@ -77,16 +77,16 @@ class IndexTemplateRepositoryTest extends AbstractTestCase
     public function createForEntityDataProvider(): iterable
     {
         yield 'event template' => [
-            'tracking_event',
+            'test_event',
             'B2C_FR',
             [
-                'id' => 'gally_test__gally_localized_catalog_b2c_fr_tracking_event',
-                'name' => 'tracking_event',
-                'indexPatterns' => ['gally_test__gally_localized_catalog_b2c_fr_tracking_event'],
-                'entityType' => 'tracking_event',
+                'id' => 'gally_test__gally_localized_catalog_b2c_fr_test_event',
+                'name' => 'test_event',
+                'indexPatterns' => ['gally_test__gally_localized_catalog_b2c_fr_test_event'],
+                'entityType' => 'test_event',
                 'localizedCatalogCode' => 'B2C_FR',
                 'aliases' => [
-                    '.entity_tracking_event',
+                    '.entity_test_event',
                     '.catalog_b2c',
                     '.localized_catalog_B2C_FR',
                     '.locale_fr_FR',
@@ -243,14 +243,14 @@ class IndexTemplateRepositoryTest extends AbstractTestCase
 
     public function findByMetadataDataProvider(): iterable
     {
-        yield 'tracking_event template found' => [
-            'tracking_event',
+        yield 'test_event template found' => [
+            'test_event',
             'B2C_FR',
             [
-                'id' => 'gally_test__gally_localized_catalog_b2c_fr_tracking_event',
-                'name' => 'tracking_event',
-                'indexPatterns' => ['gally_test__gally_localized_catalog_b2c_fr_tracking_event'],
-                'entityType' => 'tracking_event',
+                'id' => 'gally_test__gally_localized_catalog_b2c_fr_test_event',
+                'name' => 'test_event',
+                'indexPatterns' => ['gally_test__gally_localized_catalog_b2c_fr_test_event'],
+                'entityType' => 'test_event',
                 'localizedCatalogCode' => 'B2C_FR',
                 'isDataStream' => true,
             ],
@@ -262,8 +262,8 @@ class IndexTemplateRepositoryTest extends AbstractTestCase
             null,
         ];
 
-        yield 'tracking_event template wrong catalog' => [
-            'tracking_event',
+        yield 'test_event template wrong catalog' => [
+            'test_event',
             'b2c_en',
             null,
         ];
@@ -294,14 +294,14 @@ class IndexTemplateRepositoryTest extends AbstractTestCase
 
     public function findByNameDataProvider(): iterable
     {
-        yield 'tracking_event template' => [
-            'tracking_event',
+        yield 'test_event template' => [
+            'test_event',
             'B2C_FR',
             [
-                'id' => 'gally_test__gally_localized_catalog_b2c_fr_tracking_event',
-                'name' => 'tracking_event',
-                'indexPatterns' => ['gally_test__gally_localized_catalog_b2c_fr_tracking_event'],
-                'entityType' => 'tracking_event',
+                'id' => 'gally_test__gally_localized_catalog_b2c_fr_test_event',
+                'name' => 'test_event',
+                'indexPatterns' => ['gally_test__gally_localized_catalog_b2c_fr_test_event'],
+                'entityType' => 'test_event',
                 'localizedCatalogCode' => 'B2C_FR',
                 'isDataStream' => true,
             ],
@@ -360,13 +360,13 @@ class IndexTemplateRepositoryTest extends AbstractTestCase
 
     public function findByIdDataProvider(): iterable
     {
-        yield 'tracking_event template by id' => [
-            'gally_test__gally_localized_catalog_b2c_fr_tracking_event',
+        yield 'test_event template by id' => [
+            'gally_test__gally_localized_catalog_b2c_fr_test_event',
             [
-                'id' => 'gally_test__gally_localized_catalog_b2c_fr_tracking_event',
-                'name' => 'tracking_event',
-                'indexPatterns' => ['gally_test__gally_localized_catalog_b2c_fr_tracking_event'],
-                'entityType' => 'tracking_event',
+                'id' => 'gally_test__gally_localized_catalog_b2c_fr_test_event',
+                'name' => 'test_event',
+                'indexPatterns' => ['gally_test__gally_localized_catalog_b2c_fr_test_event'],
+                'entityType' => 'test_event',
                 'localizedCatalogCode' => 'B2C_FR',
                 'isDataStream' => true,
             ],
@@ -451,11 +451,11 @@ class IndexTemplateRepositoryTest extends AbstractTestCase
         $repository = static::getContainer()->get(IndexTemplateRepositoryInterface::class);
         $templates = $repository->findAll();
 
-        // We expect at least tracking_event (fr) and dummy-2 (en) to remain
+        // We expect at least test_event (fr) and dummy-2 (en) to remain
         $this->assertGreaterThanOrEqual(2, \count($templates));
 
         $ids = array_map(fn ($t) => $t->getId(), $templates);
-        $this->assertContains('gally_test__gally_localized_catalog_b2c_fr_tracking_event', $ids);
+        $this->assertContains('gally_test__gally_localized_catalog_b2c_fr_test_event', $ids);
         $this->assertContains('gally_test__gally_localized_catalog_b2c_en_dummy-2', $ids);
     }
 

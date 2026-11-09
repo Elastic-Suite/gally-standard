@@ -28,7 +28,7 @@ class IndexStateManagementRepositoryTest extends AbstractTestCase
 
     private static array $testPolicies = [
         'gally_test__gally_localized_catalog_b2c_fr_product',
-        'gally_test__gally_localized_catalog_b2c_en_tracking_event',
+        'gally_test__gally_localized_catalog_b2c_en_test_event',
         'gally_test__gally_localized_catalog_b2c_fr_dummy-1',
         'gally_test__gally_localized_catalog_b2c_en_dummy-2',
         'gally_test__gally_localized_catalog_b2c_en_dummy-3',
@@ -96,9 +96,9 @@ class IndexStateManagementRepositoryTest extends AbstractTestCase
         ];
 
         yield 'event policy' => [
-            'tracking_event',
+            'test_event',
             'b2c_en',
-            ['id' => 'gally_test__gally_localized_catalog_b2c_en_tracking_event', 'name' => 'tracking_event', 'description' => '', 'indexPatterns' => ['gally_test__gally_localized_catalog_b2c_en_tracking_event'], 'rolloverAfter' => 1, 'deleteAfter' => 1],
+            ['id' => 'gally_test__gally_localized_catalog_b2c_en_test_event', 'name' => 'test_event', 'description' => '', 'indexPatterns' => ['gally_test__gally_localized_catalog_b2c_en_test_event'], 'rolloverAfter' => 1, 'deleteAfter' => 1],
         ];
     }
 
@@ -174,13 +174,13 @@ class IndexStateManagementRepositoryTest extends AbstractTestCase
         ];
 
         yield 'event policy' => [
-            'tracking_event',
+            'test_event',
             'b2c_en',
-            ['id' => 'gally_test__gally_localized_catalog_b2c_en_tracking_event', 'name' => 'tracking_event', 'description' => '', 'indexPatterns' => ['gally_test__gally_localized_catalog_b2c_en_tracking_event'], 'rolloverAfter' => 1, 'deleteAfter' => 1],
+            ['id' => 'gally_test__gally_localized_catalog_b2c_en_test_event', 'name' => 'test_event', 'description' => '', 'indexPatterns' => ['gally_test__gally_localized_catalog_b2c_en_test_event'], 'rolloverAfter' => 1, 'deleteAfter' => 1],
         ];
 
         yield 'missing event policy fr' => [
-            'tracking_event',
+            'test_event',
             'B2C_FR',
             null,
         ];
@@ -295,7 +295,7 @@ class IndexStateManagementRepositoryTest extends AbstractTestCase
         $namesEn = array_map(fn ($p) => $p->getName(), $policiesEn);
 
         $this->assertContains('product', $namesFr);
-        $this->assertContains('tracking_event', $namesEn);
+        $this->assertContains('test_event', $namesEn);
         $this->assertContains('dummy-2', $namesEn);
         $this->assertContains('dummy-3', $namesEn);
     }

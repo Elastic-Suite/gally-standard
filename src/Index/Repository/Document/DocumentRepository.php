@@ -32,9 +32,12 @@ class DocumentRepository implements DocumentRepositoryInterface
         $request = new Bulk\Request();
         $index = $this->dataStreamRepository->findById($indexName)
             ?: $this->indexRepository->findByName($indexName);
-        foreach ($documents as $document) {
+        foreach ($documents as $position => $document) {
             $documentData = json_decode($document, true);
             $identifier = $documentData['entity_id'] ?? $documentData['id'] ?? null;
+            if (null === $identifier || '' === (string) $identifier) {
+                throw new InvalidArgumentException(\sprintf('Document at position %s has no id or entity_id.', $position));
+            }
             $request->addDocument($index, $identifier, $documentData);
         }
 
