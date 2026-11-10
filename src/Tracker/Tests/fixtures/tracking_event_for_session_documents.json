@@ -441,6 +441,83 @@
           "current_page": 1,
           "filters": []
         }
+      },
+      {
+        "@timestamp": "2025-01-04 10:00:00",
+        "id": "product_event_1",
+        "event_type": "view",
+        "metadata_code": "product",
+        "localized_catalog_code": "b2c_en",
+        "entity_code": "SKU1",
+        "session_uid": "77777777-7777-7777-7777-777777777777",
+        "session_vid": "88888888-8888-8888-8888-888888888888",
+        "group_id": "0"
+      },
+      {
+        "@timestamp": "2025-01-04 10:01:00",
+        "id": "product_event_2",
+        "event_type": "view",
+        "metadata_code": "product",
+        "localized_catalog_code": "b2c_en",
+        "entity_code": "SKU1",
+        "session_uid": "77777777-7777-7777-7777-777777777777",
+        "session_vid": "88888888-8888-8888-8888-888888888888",
+        "group_id": "0"
+      },
+      {
+        "@timestamp": "2025-01-04 10:02:00",
+        "id": "product_event_3",
+        "event_type": "view",
+        "metadata_code": "product",
+        "localized_catalog_code": "b2c_en",
+        "entity_code": "SKU2",
+        "session_uid": "77777777-7777-7777-7777-777777777777",
+        "session_vid": "88888888-8888-8888-8888-888888888888",
+        "group_id": "0"
+      },
+      {
+        "@timestamp": "2025-01-04 10:03:00",
+        "id": "product_event_4",
+        "event_type": "view",
+        "metadata_code": "category",
+        "localized_catalog_code": "b2c_en",
+        "entity_code": "cat_1",
+        "session_uid": "77777777-7777-7777-7777-777777777777",
+        "session_vid": "88888888-8888-8888-8888-888888888888",
+        "group_id": "0"
+      },
+      {
+        "@timestamp": "2025-01-04 10:04:00",
+        "id": "product_event_5",
+        "event_type": "add_to_cart",
+        "metadata_code": "product",
+        "localized_catalog_code": "b2c_en",
+        "entity_code": "SKU2",
+        "session_uid": "77777777-7777-7777-7777-777777777777",
+        "session_vid": "88888888-8888-8888-8888-888888888888",
+        "group_id": "0"
+      },
+      {
+        "@timestamp": "2025-01-04 10:05:00",
+        "id": "product_event_6",
+        "event_type": "order",
+        "metadata_code": "product",
+        "localized_catalog_code": "b2c_en",
+        "entity_code": "SKU2",
+        "session_uid": "77777777-7777-7777-7777-777777777777",
+        "session_vid": "88888888-8888-8888-8888-888888888888",
+        "group_id": "0"
+      },
+      {
+        "@timestamp": "2025-01-04 10:05:00",
+        "id": "product_event_7",
+        "event_type": "order",
+        "metadata_code": "product",
+        "localized_catalog_code": "b2c_en",
+        "entity_code": "SKU3",
+        "session_uid": "77777777-7777-7777-7777-777777777777",
+        "session_vid": "88888888-8888-8888-8888-888888888888",
+        "group_id": "0"
       }
     ]
   }

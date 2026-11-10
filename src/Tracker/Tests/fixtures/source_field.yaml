@@ -132,3 +132,15 @@ Gally\Metadata\Entity\SourceField:
         metadata: '@tracking_session'
         code: 'order.items'
         type: 'keyword'
+    tracking_session_product_view:
+        metadata: '@tracking_session'
+        code: 'product_view'
+        type: 'keyword'
+    tracking_session_product_cart:
+        metadata: '@tracking_session'
+        code: 'product_cart'
+        type: 'keyword'
+    tracking_session_product_order:
+        metadata: '@tracking_session'
+        code: 'product_order'
+        type: 'keyword'

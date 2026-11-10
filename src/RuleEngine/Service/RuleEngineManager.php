@@ -46,6 +46,7 @@ class RuleEngineManager
         private QueryFactory $queryFactory,
         private iterable $ruleTypeClasses,
         private $cacheTtl = self::CACHE_DEFAULT_TTL,
+        private iterable $contextOperatorsProviders = [],
     ) {
         $this->initRuleTypes();
     }
@@ -71,14 +72,37 @@ class RuleEngineManager
         return $this->ruleTypes;
     }
 
-    public function getRuleEngineOperators(): RuleEngineOperators
+    /**
+     * @param string|null $context context of the rules (e.g. recommender), which can add its own operators
+     */
+    public function getRuleEngineOperators(?string $context = null): RuleEngineOperators
     {
         /** @var AttributeRule $attributeRuleType */
         $attributeRuleType = $this->getRuleTypes()[AttributeRule::RULE_TYPE];
+        $operators = $attributeRuleType->getOperators();
+        $operatorsBySourceFieldType = $attributeRuleType->getOperatorsBySourceFiledType();
+        $operatorsValueType = $attributeRuleType->getValueTypeByOperators();
+
+        if (null !== $context) {
+            /** @var ContextOperatorsProviderInterface $contextOperatorsProvider */
+            foreach ($this->contextOperatorsProviders as $contextOperatorsProvider) {
+                if (!$contextOperatorsProvider->supports($context)) {
+                    continue;
+                }
+                $operators = array_merge($operators, $contextOperatorsProvider->getOperators());
+                foreach ($contextOperatorsProvider->getOperatorsBySourceFieldType() as $type => $typeOperators) {
+                    $operatorsBySourceFieldType[$type] = array_merge($operatorsBySourceFieldType[$type] ?? [], $typeOperators);
+                }
+                foreach ($contextOperatorsProvider->getOperatorsValueType() as $type => $valueTypes) {
+                    $operatorsValueType[$type] = array_merge($operatorsValueType[$type] ?? [], $valueTypes);
+                }
+            }
+        }
+
         $ruleEngineOperators = new RuleEngineOperators();
-        $ruleEngineOperators->setOperators($attributeRuleType->getOperators());
-        $ruleEngineOperators->setOperatorsBySourceFieldType($attributeRuleType->getOperatorsBySourceFiledType());
-        $ruleEngineOperators->setOperatorsValueType($attributeRuleType->getValueTypeByOperators());
+        $ruleEngineOperators->setOperators($operators);
+        $ruleEngineOperators->setOperatorsBySourceFieldType($operatorsBySourceFieldType);
+        $ruleEngineOperators->setOperatorsValueType($operatorsValueType);
 
         return $ruleEngineOperators;
     }
