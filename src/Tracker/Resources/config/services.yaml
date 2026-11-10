@@ -43,9 +43,14 @@ services:
             - '@Gally\Metadata\Repository\MetadataRepository'
             - '@Gally\Catalog\Repository\LocalizedCatalogRepository'
             - '@api_platform.validator'
-            - '@Gally\Tracker\Service\SessionIndexRolloverManager'
         tags:
             - { name: messenger.message_handler }
+
+    Gally\Tracker\EventSubscriber\EnsureSessionIndexUpToDateBeforeBulk:
+        arguments:
+            - '@Gally\Tracker\Service\SessionIndexRolloverManager'
+        tags:
+            - { name: kernel.event_subscriber }
 
     Gally\Tracker\Validator\MetadataValidator:
         arguments:
