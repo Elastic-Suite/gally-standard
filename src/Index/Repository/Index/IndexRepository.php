@@ -463,7 +463,7 @@ class IndexRepository implements IndexRepositoryInterface
                     ],
                     'created_at' => [
                         'type' => 'date',
-                        'format' => 'yyyy-MM-dd HH:mm:ss||yyyy-MM-dd',
+                        'format' => 'yyyy-MM-dd HH:mm:ss||yyyy-MM-dd||epoch_millis',
                     ],
                     'created_in' => [
                         'type' => 'text',
@@ -1059,7 +1059,7 @@ class IndexRepository implements IndexRepositoryInterface
                     ],
                     'updated_at' => [
                         'type' => 'date',
-                        'format' => 'yyyy-MM-dd HH:mm:ss||yyyy-MM-dd',
+                        'format' => 'yyyy-MM-dd HH:mm:ss||yyyy-MM-dd||epoch_millis',
                     ],
                     'updated_in' => [
                         'type' => 'text',

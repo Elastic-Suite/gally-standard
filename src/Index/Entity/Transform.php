@@ -17,16 +17,17 @@ namespace Gally\Index\Entity;
 class Transform
 {
     /**
-     * @param string      $id           Transform id
-     * @param string      $sourceIndex  Source index (or alias/data stream) to aggregate from
-     * @param string      $targetIndex  Destination index -- must be a concrete index, not an alias
-     * @param array       $groups       Pivot group_by definition
-     * @param array       $aggregations Pivot aggregations definition
-     * @param bool        $continuous   Whether the transform keeps running incrementally
-     * @param bool        $enabled      Whether the transform is enabled
-     * @param string|null $description  Human-readable description
-     * @param array       $schedule     Execution schedule (interval)
-     * @param int         $pageSize     Composite aggregation page size
+     * @param string      $id                 Transform id
+     * @param string      $sourceIndex        Source index (or alias/data stream) to aggregate from
+     * @param string      $targetIndex        Destination index -- must be a concrete index, not an alias
+     * @param array       $groups             Pivot group_by definition
+     * @param array       $aggregations       Pivot aggregations definition
+     * @param bool        $continuous         Whether the transform keeps running incrementally
+     * @param bool        $enabled            Whether the transform is enabled
+     * @param string|null $description        Human-readable description
+     * @param array       $schedule           Execution schedule (interval)
+     * @param int         $pageSize           Composite aggregation page size
+     * @param array|null  $dataSelectionQuery Query restricting the source documents the transform aggregates
      */
     public function __construct(
         private string $id,
@@ -39,6 +40,7 @@ class Transform
         private ?string $description = null,
         private array $schedule = [],
         private int $pageSize = 1000,
+        private ?array $dataSelectionQuery = null,
     ) {
     }
 
@@ -92,12 +94,17 @@ class Transform
         return $this->pageSize;
     }
 
+    public function getDataSelectionQuery(): ?array
+    {
+        return $this->dataSelectionQuery;
+    }
+
     /**
      * Build the "transform" body expected by the OpenSearch Transform API.
      */
     public function toArray(): array
     {
-        return [
+        $data = [
             'enabled' => $this->enabled,
             'continuous' => $this->continuous,
             'schedule' => $this->schedule,
@@ -108,6 +115,12 @@ class Transform
             'groups' => $this->groups,
             'aggregations' => $this->aggregations,
         ];
+
+        if (null !== $this->dataSelectionQuery) {
+            $data['data_selection_query'] = $this->dataSelectionQuery;
+        }
+
+        return $data;
     }
 
     public static function fromResponse(string $id, array $data): self
@@ -123,6 +136,7 @@ class Transform
             $data['description'] ?? null,
             $data['schedule'] ?? [],
             $data['page_size'] ?? 1000,
+            $data['data_selection_query'] ?? null,
         );
     }
 }
