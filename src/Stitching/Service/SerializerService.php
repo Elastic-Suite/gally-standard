@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace Gally\Stitching\Service;
 
 use Gally\Metadata\Constant\SourceFieldAttributeMapping;
+use Gally\Metadata\Entity\SourceField;
 use Gally\Metadata\Repository\MetadataRepository;
 use Gally\Metadata\Service\MetadataSourceFieldProviderCache;
 
@@ -107,7 +108,9 @@ class SerializerService
 
             foreach ($sourceFields as $sourceField) {
                 $sourceFieldCode = $sourceField->getCode();
-                if (!\in_array($sourceField->getType(), array_keys(SourceFieldAttributeMapping::TYPES), true)) {
+                if (!\in_array($sourceField->getType(), array_keys(SourceFieldAttributeMapping::TYPES), true)
+                    || SourceField\Type::TYPE_OBJECT === $sourceField->getType()
+                ) {
                     continue;
                 }
                 if ($sourceField->isNested()) {

@@ -72,6 +72,11 @@ class StitchingFieldsBuilder implements FieldsBuilderEnumInterface
 
         /** @var SourceField $sourceField */
         foreach ($sourceFields as $sourceField) {
+            // Object source fields are not exposed in GraphQL.
+            if (SourceField\Type::TYPE_OBJECT === $sourceField->getType()) {
+                continue;
+            }
+
             if (!isset($fields[$sourceField->getCode()])) {
                 /** @var GraphQlAttributeInterface|string|null $attributeClassType */
                 $attributeClassType = SourceFieldAttributeMapping::TYPES[$sourceField->getType()] ?? null;
