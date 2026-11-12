@@ -93,7 +93,7 @@ class IndexTemplateRepositoryTest extends AbstractTestCase
                 ],
                 'mappings' => [
                     'id' => ['type' => 'text', 'norms' => false, 'analyzer' => 'keyword'],
-                    '@timestamp' => ['type' => 'date', 'format' => 'yyyy-MM-dd HH:mm:ss||yyyy-MM-dd'],
+                    '@timestamp' => ['type' => 'date', 'format' => 'yyyy-MM-dd HH:mm:ss||yyyy-MM-dd||epoch_millis'],
                     'event_type' => ['type' => 'text', 'norms' => false, 'analyzer' => 'keyword'],
                 ],
                 'settings' => [
