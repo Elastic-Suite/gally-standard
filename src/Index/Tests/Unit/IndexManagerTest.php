@@ -303,7 +303,7 @@ class IndexManagerTest extends AbstractTestCase
                         ],
                         '@timestamp' => [
                             'type' => 'date',
-                            'format' => 'yyyy-MM-dd HH:mm:ss||yyyy-MM-dd',
+                            'format' => 'yyyy-MM-dd HH:mm:ss||yyyy-MM-dd||epoch_millis',
                         ],
                         'event_type' => [
                             'type' => 'text',
