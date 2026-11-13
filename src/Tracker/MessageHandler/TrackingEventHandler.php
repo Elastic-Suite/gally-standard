@@ -20,7 +20,6 @@ use Gally\Index\Dto\Bulk;
 use Gally\Index\Repository\DataStream\DataStreamRepositoryInterface;
 use Gally\Metadata\Repository\MetadataRepository;
 use Gally\Tracker\Entity\TrackingEvent;
-use Gally\Tracker\Service\SessionIndexRolloverManager;
 use Symfony\Component\Messenger\Handler\Acknowledger;
 use Symfony\Component\Messenger\Handler\BatchHandlerInterface;
 use Symfony\Component\Messenger\Handler\BatchHandlerTrait;
@@ -37,7 +36,6 @@ class TrackingEventHandler implements BatchHandlerInterface
         private MetadataRepository $metadataRepository,
         private LocalizedCatalogRepository $localizedCatalogRepository,
         private ValidatorInterface $validator,
-        private SessionIndexRolloverManager $sessionIndexRolloverManager,
     ) {
     }
 
@@ -79,7 +77,6 @@ class TrackingEventHandler implements BatchHandlerInterface
                 if (!$dataStream) {
                     $dataStream = $this->dataStreamRepository->createForEntity($metadata, $localizedCatalog);
                 }
-                $this->sessionIndexRolloverManager->ensureUpToDate($localizedCatalog);
                 $dataStreamMapping[$message->getLocalizedCatalogCode()] = $dataStream;
             }
             $dataStream = $dataStreamMapping[$message->getLocalizedCatalogCode()];

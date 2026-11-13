@@ -25,7 +25,7 @@ class ObjectSourceFieldConverter implements SourceFieldConverterInterface
 
     public function getFields(SourceField $sourceField): array
     {
-        // TODO: Implement getFields() method.
+        // Object source fields are mapped by dedicated converters (e.g. premium ones), so this generic converter returns no field.
         return [];
     }
 }

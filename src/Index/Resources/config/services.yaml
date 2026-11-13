@@ -8,6 +8,7 @@ services:
         arguments:
             - '@OpenSearch\Client'
             - '@Gally\Index\Api\IndexSettingsInterface'
+            - '@event_dispatcher'
 
     Gally\Index\Repository\Document\DocumentRepositoryInterface: '@Gally\Index\Repository\Document\DocumentRepository'
     Gally\Index\Repository\Document\DocumentRepository:
@@ -44,6 +45,7 @@ services:
             - '@Gally\Index\Repository\IndexStateManagement\IndexStateManagementRepositoryInterface'
             - '@Gally\Index\Repository\Index\IndexRepositoryInterface'
             - '@logger'
+            - '@event_dispatcher'
 
     Gally\Index\State\DocumentProcessor:
         arguments:
@@ -206,6 +208,15 @@ services:
             - '@Gally\Index\Repository\Index\IndexRepositoryInterface'
             - '@Gally\Index\Repository\DataStream\DataStreamRepositoryInterface'
             - '@Gally\Index\Repository\Transform\TransformRepositoryInterface'
+            - null
+        tags:
+            - { name: console.command }
+
+    Gally\Index\Command\TransformStatusCommand:
+        arguments:
+            - '@Gally\Index\Repository\Transform\TransformRepositoryInterface'
+            - '@Gally\Catalog\Repository\LocalizedCatalogRepository'
+            - !tagged_iterator { tag: 'gally.transform_provisioner' }
             - null
         tags:
             - { name: console.command }

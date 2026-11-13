@@ -42,7 +42,7 @@ class Field implements FieldInterface
     ];
 
     /** Date formats used by the indices. */
-    private array $dateFormats = ['yyyy-MM-dd HH:mm:ss', 'yyyy-MM-dd'];
+    private array $dateFormats = ['yyyy-MM-dd HH:mm:ss', 'yyyy-MM-dd', 'epoch_millis'];
 
     /**
      * Constructor.

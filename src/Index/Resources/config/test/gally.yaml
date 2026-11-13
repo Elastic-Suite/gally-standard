@@ -8,6 +8,6 @@ gally:
         time_before_ghost: 31557600 # one year
     ism_settings:
         entities:
-            tracking_event:
+            test_event:
                 rollover_after: 1
                 delete_after: 1

@@ -19,7 +19,9 @@ use Gally\Exception\LogicException;
 use Gally\Index\Api\IndexSettingsInterface;
 use Gally\Index\Dto\Bulk;
 use Gally\Index\Entity\Index;
+use Gally\Index\Event\BeforeBulkRequestEvent;
 use OpenSearch\Client;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class IndexRepository implements IndexRepositoryInterface
 {
@@ -28,6 +30,7 @@ class IndexRepository implements IndexRepositoryInterface
     public function __construct(
         private Client $client,
         private IndexSettingsInterface $indexSettings,
+        private EventDispatcherInterface $eventDispatcher,
     ) {
     }
 
@@ -460,7 +463,7 @@ class IndexRepository implements IndexRepositoryInterface
                     ],
                     'created_at' => [
                         'type' => 'date',
-                        'format' => 'yyyy-MM-dd HH:mm:ss||yyyy-MM-dd',
+                        'format' => 'yyyy-MM-dd HH:mm:ss||yyyy-MM-dd||epoch_millis',
                     ],
                     'created_in' => [
                         'type' => 'text',
@@ -1056,7 +1059,7 @@ class IndexRepository implements IndexRepositoryInterface
                     ],
                     'updated_at' => [
                         'type' => 'date',
-                        'format' => 'yyyy-MM-dd HH:mm:ss||yyyy-MM-dd',
+                        'format' => 'yyyy-MM-dd HH:mm:ss||yyyy-MM-dd||epoch_millis',
                     ],
                     'updated_in' => [
                         'type' => 'text',
@@ -1125,6 +1128,8 @@ class IndexRepository implements IndexRepositoryInterface
 
     public function bulk(Bulk\Request $request, bool $instantRefresh = false): Bulk\Response
     {
+        $this->eventDispatcher->dispatch(new BeforeBulkRequestEvent($request), BeforeBulkRequestEvent::NAME);
+
         $data = ['body' => $request->getOperations()];
         if ($instantRefresh) {
             $data['refresh'] = 'wait_for';
@@ -1135,6 +1140,8 @@ class IndexRepository implements IndexRepositoryInterface
 
     public function bulkAsync(Bulk\Request $bulkRequest): void
     {
+        $this->eventDispatcher->dispatch(new BeforeBulkRequestEvent($bulkRequest), BeforeBulkRequestEvent::NAME);
+
         $params = [
             'body' => $bulkRequest->getOperations(),
             'client' => ['future' => 'lazy'],

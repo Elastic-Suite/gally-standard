@@ -19,31 +19,45 @@ use Gally\Configuration\Entity\Configuration;
 use Gally\Configuration\Service\ConfigurationManager;
 use Gally\Index\Api\IndexSettingsInterface;
 use Gally\Index\Entity\Transform;
+use Gally\Index\Repository\DataStream\DataStreamRepositoryInterface;
 use Gally\Index\Repository\Transform\TransformRepositoryInterface;
 use Gally\Index\Service\IndexOperation;
+use Gally\Index\Service\Transform\AbstractTransformProvisioner;
 use Gally\Metadata\Repository\MetadataRepository;
 
 /**
  * Builds and provisions the tracking_session OpenSearch Transform for a localized catalog.
  * Self-sufficient: creates the tracking_session index too if it doesn't exist yet.
  */
-class SessionTransformProvisioner
+class SessionTransformProvisioner extends AbstractTransformProvisioner
 {
     public const TRANSFORM_ID_PREFIX = 'tracking_session_';
     private const DEFAULT_SCHEDULE_PERIOD = 5;
 
     public function __construct(
-        private TransformRepositoryInterface $transformRepository,
+        TransformRepositoryInterface $transformRepository,
         private IndexSettingsInterface $indexSettings,
         private IndexOperation $indexOperation,
         private MetadataRepository $metadataRepository,
         private ConfigurationManager $configurationManager,
+        private DataStreamRepositoryInterface $dataStreamRepository,
     ) {
+        parent::__construct($transformRepository);
+    }
+
+    public function getType(): string
+    {
+        return 'tracking_session';
+    }
+
+    public function getTransformId(LocalizedCatalog $localizedCatalog): string
+    {
+        return self::TRANSFORM_ID_PREFIX . $localizedCatalog->getCode();
     }
 
     public function createOrUpdate(LocalizedCatalog $localizedCatalog): string
     {
-        $sourceIndex = $this->indexSettings->getIndexAliasFromIdentifier('tracking_event', $localizedCatalog);
+        $sourceIndex = $this->getSourceIndex($localizedCatalog);
         $targetAlias = $this->indexSettings->getIndexAliasFromIdentifier('tracking_session', $localizedCatalog);
         $targetIndices = $this->indexOperation->findIndicesByAlias($targetAlias);
         $targetIndex = !empty($targetIndices) ? $targetIndices[0]->getName() : null;
@@ -55,13 +69,31 @@ class SessionTransformProvisioner
             $targetIndex = $newIndex->getName();
         }
 
-        $transformId = self::TRANSFORM_ID_PREFIX . $localizedCatalog->getCode();
+        $transformId = $this->getTransformId($localizedCatalog);
         $schedulePeriod = $this->getSchedulePeriod($localizedCatalog);
 
         $this->transformRepository->createOrUpdate($this->buildTransform($transformId, $sourceIndex, $targetIndex, $schedulePeriod));
         $this->transformRepository->start($transformId);
 
         return $transformId;
+    }
+
+    /**
+     * Only the current write backing index: sessions whose events live in an older backing index are already aggregated
+     * in the previous session index, and a transform reading the whole alias would duplicate them in the new one.
+     * Accepted trade-off: a session spanning a rollover is split into two independent session documents.
+     */
+    private function getSourceIndex(LocalizedCatalog $localizedCatalog): string
+    {
+        $eventMetadata = $this->metadataRepository->findByEntity('tracking_event');
+        $writeIndex = $this->dataStreamRepository->findByMetadata($eventMetadata, $localizedCatalog)?->getWriteIndex();
+
+        if (null === $writeIndex) {
+            // No data stream yet: fall back to the alias, which will resolve to the first backing index once created.
+            return $this->indexSettings->getIndexAliasFromIdentifier('tracking_event', $localizedCatalog);
+        }
+
+        return urldecode($writeIndex->getName());
     }
 
     private function getSchedulePeriod(LocalizedCatalog $localizedCatalog): int
@@ -73,40 +105,6 @@ class SessionTransformProvisioner
         );
 
         return null !== $period ? (int) $period : self::DEFAULT_SCHEDULE_PERIOD;
-    }
-
-    /**
-     * Whether the transform is actually running, as opposed to missing, stopped, or auto-disabled by OpenSearch after a failure.
-     */
-    public function isHealthy(LocalizedCatalog $localizedCatalog): bool
-    {
-        $transformId = self::TRANSFORM_ID_PREFIX . $localizedCatalog->getCode();
-
-        try {
-            $explain = $this->transformRepository->explain($transformId);
-            $status = $explain[$transformId]['transform_metadata']['status'] ?? null;
-        } catch (\Exception) {
-            return false;
-        }
-
-        return \in_array($status, ['started', 'init'], true);
-    }
-
-    public function remove(LocalizedCatalog $localizedCatalog): void
-    {
-        $transformId = self::TRANSFORM_ID_PREFIX . $localizedCatalog->getCode();
-
-        try {
-            $this->transformRepository->stop($transformId);
-        } catch (\Exception) {
-            // Already stopped or never started.
-        }
-
-        try {
-            $this->transformRepository->delete($transformId);
-        } catch (\Exception) {
-            // Nothing to delete.
-        }
     }
 
     private function buildTransform(string $transformId, string $sourceIndex, string $targetIndex, int $schedulePeriod): Transform

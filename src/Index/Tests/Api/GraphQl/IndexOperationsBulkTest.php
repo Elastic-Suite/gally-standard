@@ -84,6 +84,12 @@ class IndexOperationsBulkTest extends AbstractTestCase
         yield [$indexName, $documents, $this->getUser(Role::ROLE_CONTRIBUTOR), ['error' => 'Access Denied.']];
         yield [$indexName, $documents, $admin, ['data' => ['bulkIndex' => ['index' => ['name' => $indexName]]]]];
         yield ['wrongName', $documents, $admin, ['error' => 'Index with name [wrongName] does not exist']];
+        yield [
+            $indexName,
+            [['id' => 'id1', 'name' => 'Test doc 1'], ['name' => 'Document without id']],
+            $admin,
+            ['error' => 'Document at position 1 has no id or entity_id.'],
+        ];
 
         $documents['id2'] = ['id' => 'id2', 'name' => 'Test doc 2', 'size' => 'wrongSize'];
         $message = 'Bulk index operation failed 1 times in index gally_test__index_product. ' .
