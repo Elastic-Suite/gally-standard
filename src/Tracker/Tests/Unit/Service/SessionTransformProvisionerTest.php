@@ -60,6 +60,8 @@ class SessionTransformProvisionerTest extends AbstractTestCase
         self::deleteEntityElasticsearchTransforms('tracking_session', self::$localizedCatalog->getId());
         self::deleteEntityElasticsearchDataStreams('tracking_event', self::$localizedCatalog->getId());
         self::deleteEntityElasticsearchIndices('tracking_session', self::$localizedCatalog->getId());
+        self::deleteEntityElasticsearchTransforms('behavioral_data', self::$localizedCatalog->getId());
+        self::deleteEntityElasticsearchIndices('behavioral_data', self::$localizedCatalog->getId());
     }
 
     /**

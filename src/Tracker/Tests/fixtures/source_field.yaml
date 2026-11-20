@@ -132,3 +132,44 @@ Gally\Metadata\Entity\SourceField:
         metadata: '@tracking_session'
         code: 'order.items'
         type: 'keyword'
+    tracking_event_order_row_total:
+        metadata: '@tracking_event'
+        code: 'order.row_total'
+        type: 'float'
+        isSystem: true
+
+    behavioral_data_entity_code:
+        metadata: '@behavioral_data'
+        code: 'entity_code'
+        type: 'keyword'
+        isSystem: true
+
+    behavioral_data_date:
+        metadata: '@behavioral_data'
+        code: 'date'
+        type: 'date'
+        isSystem: true
+
+    behavioral_data_views:
+        metadata: '@behavioral_data'
+        code: 'views'
+        type: 'int'
+        isSystem: true
+
+    behavioral_data_sales:
+        metadata: '@behavioral_data'
+        code: 'sales'
+        type: 'int'
+        isSystem: true
+
+    behavioral_data_revenue:
+        metadata: '@behavioral_data'
+        code: 'revenue'
+        type: 'float'
+        isSystem: true
+
+    behavioral_data_id:
+        metadata: '@behavioral_data'
+        code: 'id'
+        type: 'keyword'
+        isSystem: true

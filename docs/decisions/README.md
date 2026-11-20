@@ -58,3 +58,8 @@ Files are named `YYYY-MM-DD-short-title.md`.
 ### ADR process
 
 - [2026-11-09 - Record architecture decisions as MADR files](2026-11-09-adopt-architecture-decision-records.md) - accepted
+
+### Tracker
+
+- [2026-11-25 - Pre-aggregate behavioral data per product and day in gally-standard](tracker/2026-11-25-pre-aggregate-behavioral-data-in-standard.md) - accepted
+- [2026-11-25 - Keep `order` nested in the `tracking_event` mapping](tracker/2026-11-25-keep-tracking-event-order-nested.md) - accepted
