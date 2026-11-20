@@ -287,6 +287,7 @@ The field order is missing from payload data.',
         $indexSettings = static::getContainer()->get(IndexSettingsInterface::class);
         $indexOperation = static::getContainer()->get(IndexOperation::class);
         $sessionAlias = $indexSettings->getIndexAliasFromIdentifier('tracking_session', $localizedCatalog);
+        $behavioralDataAlias = $indexSettings->getIndexAliasFromIdentifier('behavioral_data', $localizedCatalog);
 
         try {
             $handler = new TrackingEventHandler(
@@ -323,6 +324,8 @@ The field order is missing from payload data.',
         } finally {
             self::deleteEntityElasticsearchTransforms('tracking_session', $localizedCatalog->getId());
             $indexOperation->deleteIndicesByAlias($sessionAlias);
+            self::deleteEntityElasticsearchTransforms('behavioral_data', $localizedCatalog->getId());
+            $indexOperation->deleteIndicesByAlias($behavioralDataAlias);
             self::deleteEntityElasticsearchDataStreams('tracking_event', $localizedCatalog->getId());
         }
     }

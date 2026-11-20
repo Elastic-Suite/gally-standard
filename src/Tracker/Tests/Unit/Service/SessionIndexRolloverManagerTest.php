@@ -56,8 +56,12 @@ class SessionIndexRolloverManagerTest extends AbstractTestCase
     {
         parent::tearDownAfterClass();
         self::deleteEntityElasticsearchTransforms('tracking_session', self::$localizedCatalog->getId());
+        self::deleteEntityElasticsearchTransforms('behavioral_data', self::$localizedCatalog->getId());
         self::deleteEntityElasticsearchDataStreams('tracking_event', self::$localizedCatalog->getId());
         static::getContainer()->get(IndexOperation::class)->deleteIndicesByAlias(self::$sessionAlias);
+        static::getContainer()->get(IndexOperation::class)->deleteIndicesByAlias(
+            static::getContainer()->get(IndexSettingsInterface::class)->getIndexAliasFromIdentifier('behavioral_data', self::$localizedCatalog)
+        );
     }
 
     /**

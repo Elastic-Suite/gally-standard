@@ -15,3 +15,23 @@ gally:
                                 infoTooltipKey: 'gally_configuration.gally_tracking_session_settings_transform_schedule_period.tooltip'
                                 position: 10
                                 input: 'number'
+                    behavioral_data:
+                        labelKey: 'gally_configuration.group.tracking.fieldset.behavioral_data.label'
+                        position: 20
+                        fields:
+                            gally.tracking_behavioral_data_settings.retention:
+                                labelKey: 'gally_configuration.gally_tracking_behavioral_data_settings_retention.label'
+                                infoTooltipKey: 'gally_configuration.gally_tracking_behavioral_data_settings_retention.tooltip'
+                                position: 10
+                                input: 'number'
+                                numberType: 'integer'
+                                validation:
+                                    min: 1
+                            gally.tracking_behavioral_data_settings.transform_schedule_period:
+                                labelKey: 'gally_configuration.gally_tracking_behavioral_data_settings_transform_schedule_period.label'
+                                infoTooltipKey: 'gally_configuration.gally_tracking_behavioral_data_settings_transform_schedule_period.tooltip'
+                                position: 20
+                                input: 'number'
+                                numberType: 'integer'
+                                validation:
+                                    min: 1

@@ -30,6 +30,38 @@ services:
             - { name: doctrine.event_listener, event: postRemove }
             - { name: doctrine.event_listener, event: postFlush }
 
+    Gally\Tracker\Service\BehavioralDataTransformProvisioner:
+        arguments:
+            - '@Gally\Index\Repository\Transform\TransformRepositoryInterface'
+            - '@Gally\Index\Api\IndexSettingsInterface'
+            - '@Gally\Index\Service\IndexOperation'
+            - '@Gally\Metadata\Repository\MetadataRepository'
+            - '@Gally\Index\Repository\DataStream\DataStreamRepositoryInterface'
+            - '@Gally\Configuration\Service\ConfigurationManager'
+        tags:
+            - { name: gally.transform_provisioner }
+
+    Gally\Tracker\Service\BehavioralDataIndexRolloverManager:
+        arguments:
+            - '@Gally\Index\Api\IndexSettingsInterface'
+            - '@Gally\Index\Service\IndexOperation'
+            - '@Gally\Metadata\Repository\MetadataRepository'
+            - '@Gally\Index\Repository\DataStream\DataStreamRepositoryInterface'
+            - '@Gally\Tracker\Service\BehavioralDataTransformProvisioner'
+            - '@Gally\Configuration\Service\ConfigurationManager'
+            - '@logger'
+
+    Gally\Tracker\EventSubscriber\ReprovisionBehavioralDataTransformOnConfigChange:
+        arguments:
+            - '@Gally\Catalog\Repository\LocalizedCatalogRepository'
+            - '@Gally\Tracker\Service\BehavioralDataTransformProvisioner'
+            - '@logger'
+        tags:
+            - { name: doctrine.event_listener, event: postPersist }
+            - { name: doctrine.event_listener, event: postUpdate }
+            - { name: doctrine.event_listener, event: postRemove }
+            - { name: doctrine.event_listener, event: postFlush }
+
     Gally\Tracker\State\TrackingEventProcessor:
         arguments:
             - '@messenger.default_bus'
@@ -49,6 +81,12 @@ services:
     Gally\Tracker\EventSubscriber\EnsureSessionIndexUpToDateBeforeBulk:
         arguments:
             - '@Gally\Tracker\Service\SessionIndexRolloverManager'
+        tags:
+            - { name: kernel.event_subscriber }
+
+    Gally\Tracker\EventSubscriber\EnsureBehavioralDataIndexUpToDateBeforeBulk:
+        arguments:
+            - '@Gally\Tracker\Service\BehavioralDataIndexRolloverManager'
         tags:
             - { name: kernel.event_subscriber }
 
