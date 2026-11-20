@@ -1,3 +1,5 @@
 gally:
     tracking_session_settings:
         transform_schedule_period: 1
+    tracking_behavioral_data_settings:
+        transform_schedule_period: 1

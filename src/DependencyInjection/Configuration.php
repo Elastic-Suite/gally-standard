@@ -177,6 +177,18 @@ class Configuration implements GallyConfigurationInterface
                     ->end()
                 ->end()
 
+                // Tracking behavioral data setting config
+                ->arrayNode('tracking_behavioral_data_settings')
+                    ->children()
+                        ->integerNode('retention')
+                            ->min(1)
+                        ->end()
+                        ->integerNode('transform_schedule_period')
+                            ->min(1)
+                        ->end()
+                    ->end()
+                ->end()
+
                 // Rename graphQL query
                 ->arrayNode('graphql_query_renaming')
                     ->useAttributeAsKey('ressource_class')

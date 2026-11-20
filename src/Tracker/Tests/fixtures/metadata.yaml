@@ -12,3 +12,8 @@ Gally\Metadata\Entity\Metadata:
         old_indices_kept: true
         isSystem: true
         isInternal: true
+    behavioral_data:
+        entity: behavioral_data
+        old_indices_kept: true
+        isSystem: true
+        isInternal: true

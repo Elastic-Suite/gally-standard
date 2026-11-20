@@ -41,7 +41,9 @@ class DataStreamProcessor implements ProcessorInterface
         }
         if ('bulk' == $operation->getName()) {
             $request = new Bulk\Request();
-            $request->addDocuments($data, json_decode($context['args']['input']['data'], true) ?? []);
+            // The input object only carries the name: load the data stream so that bulk listeners can read its entity type and localized catalog.
+            $dataStream = $this->dataStreamRepository->findById($data->getName()) ?? $data;
+            $request->addDocuments($dataStream, json_decode($context['args']['input']['data'], true) ?? []);
             $this->runBulkQuery($data, $request);
         }
 

@@ -29,5 +29,35 @@
                 </target>
             </segment>
         </unit>
+        <unit id="gally_configuration.group.tracking.fieldset.behavioral_data.label">
+            <segment>
+                <source>gally_configuration.group.tracking.fieldset.behavioral_data.label</source>
+                <target>Behavioral data</target>
+            </segment>
+        </unit>
+        <unit id="gally_configuration.gally_tracking_behavioral_data_settings_retention.label">
+            <segment>
+                <source>gally_configuration.gally_tracking_behavioral_data_settings_retention.label</source>
+                <target>Behavioral data retention (days)</target>
+            </segment>
+        </unit>
+        <unit id="gally_configuration.gally_tracking_behavioral_data_settings_retention.tooltip">
+            <segment>
+                <source>gally_configuration.gally_tracking_behavioral_data_settings_retention.tooltip</source>
+                <target>Number of days the aggregated behavioral data indices are kept. Defaults to 365. Minimum 1.</target>
+            </segment>
+        </unit>
+        <unit id="gally_configuration.gally_tracking_behavioral_data_settings_transform_schedule_period.label">
+            <segment>
+                <source>gally_configuration.gally_tracking_behavioral_data_settings_transform_schedule_period.label</source>
+                <target>Behavioral data aggregation refresh period (minutes)</target>
+            </segment>
+        </unit>
+        <unit id="gally_configuration.gally_tracking_behavioral_data_settings_transform_schedule_period.tooltip">
+            <segment>
+                <source>gally_configuration.gally_tracking_behavioral_data_settings_transform_schedule_period.tooltip</source>
+                <target>How often (in minutes) behavioral data is re-aggregated from raw tracking events. Lower values keep statistics fresher at the cost of more load on the search engine. OpenSearch does not support a finer granularity than 1 minute. Defaults to 5 minutes.</target>
+            </segment>
+        </unit>
     </file>
 </xliff>

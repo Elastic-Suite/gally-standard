@@ -38,7 +38,7 @@ services:
         tags:
             - { name: serializer.normalizer }
 
-    Gally\Product\EventSubscriber\SyncCategoryNameAfterBulk:
+    Gally\Product\EventSubscriber\AddCategoryNameBeforeBulk:
         arguments:
             - '@Gally\Product\Service\CategoryNameUpdater'
         tags:
@@ -47,8 +47,6 @@ services:
     Gally\Product\Service\CategoryNameUpdater:
         arguments:
             - '@Gally\Category\Repository\CategoryConfigurationRepository'
-            - '@Gally\Index\Repository\Index\IndexRepositoryInterface'
-            - '@logger'
 
     Gally\Product\GraphQl\Type\Definition\SortInputType:
         arguments:
