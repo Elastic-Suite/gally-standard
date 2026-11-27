@@ -30,6 +30,7 @@ use Gally\Tracker\Service\BehavioralDataTransformProvisioner;
 use OpenSearch\Client;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Cache\Adapter\ArrayAdapter;
 
 class BehavioralDataIndexRolloverManagerTest extends AbstractTestCase
 {
@@ -179,7 +180,7 @@ class BehavioralDataIndexRolloverManagerTest extends AbstractTestCase
         $indexOperation->expects($this->once())->method('deleteIndicesByAliasOlderThan')
             ->with('behavioral_data_alias', 400, ['behavioral_data_current']);
 
-        $manager = new BehavioralDataIndexRolloverManager($indexSettings, $indexOperation, $metadataRepository, $dataStreamRepository, $transformProvisioner, $configurationManager, $logger);
+        $manager = new BehavioralDataIndexRolloverManager($indexSettings, $indexOperation, $metadataRepository, $dataStreamRepository, $transformProvisioner, $configurationManager, $logger, new ArrayAdapter());
         $manager->ensureUpToDate($localizedCatalog);
     }
 
@@ -207,7 +208,7 @@ class BehavioralDataIndexRolloverManagerTest extends AbstractTestCase
         $indexOperation->expects($this->once())->method('deleteIndicesByAliasOlderThan')
             ->with('behavioral_data_alias', 430, ['behavioral_data_current']);
 
-        $manager = new BehavioralDataIndexRolloverManager($indexSettings, $indexOperation, $metadataRepository, $dataStreamRepository, $transformProvisioner, $configurationManager, $logger);
+        $manager = new BehavioralDataIndexRolloverManager($indexSettings, $indexOperation, $metadataRepository, $dataStreamRepository, $transformProvisioner, $configurationManager, $logger, new ArrayAdapter());
         $manager->ensureUpToDate($localizedCatalog);
     }
 
@@ -229,7 +230,7 @@ class BehavioralDataIndexRolloverManagerTest extends AbstractTestCase
         $transformProvisioner->expects($this->never())->method('createOrUpdate');
         $logger->expects($this->once())->method('error')->with($exception);
 
-        $manager = new BehavioralDataIndexRolloverManager($indexSettings, $indexOperation, $metadataRepository, $dataStreamRepository, $transformProvisioner, $configurationManager, $logger);
+        $manager = new BehavioralDataIndexRolloverManager($indexSettings, $indexOperation, $metadataRepository, $dataStreamRepository, $transformProvisioner, $configurationManager, $logger, new ArrayAdapter());
         $manager->ensureUpToDate($localizedCatalog);
     }
 

@@ -10,6 +10,9 @@ services:
         tags:
             - { name: gally.transform_provisioner }
 
+    gally.tracker.rollover_check_cache:
+        alias: cache.app
+
     Gally\Tracker\Service\SessionIndexRolloverManager:
         arguments:
             - '@Gally\Index\Api\IndexSettingsInterface'
@@ -18,6 +21,7 @@ services:
             - '@Gally\Index\Repository\DataStream\DataStreamRepositoryInterface'
             - '@Gally\Tracker\Service\SessionTransformProvisioner'
             - '@logger'
+            - '@gally.tracker.rollover_check_cache'
 
     Gally\Tracker\EventSubscriber\ReprovisionSessionTransformOnConfigChange:
         arguments:
@@ -50,6 +54,7 @@ services:
             - '@Gally\Tracker\Service\BehavioralDataTransformProvisioner'
             - '@Gally\Configuration\Service\ConfigurationManager'
             - '@logger'
+            - '@gally.tracker.rollover_check_cache'
 
     Gally\Tracker\EventSubscriber\ReprovisionBehavioralDataTransformOnConfigChange:
         arguments:

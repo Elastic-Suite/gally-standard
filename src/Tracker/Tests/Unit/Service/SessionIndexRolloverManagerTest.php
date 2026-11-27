@@ -29,6 +29,7 @@ use Gally\Tracker\Service\SessionTransformProvisioner;
 use OpenSearch\Client;
 use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Cache\Adapter\ArrayAdapter;
 
 class SessionIndexRolloverManagerTest extends AbstractTestCase
 {
@@ -183,7 +184,7 @@ class SessionIndexRolloverManagerTest extends AbstractTestCase
         $indexOperation->expects($this->once())->method('deleteIndicesByAliasOlderThan')
             ->with('tracking_session_alias', 365, ['tracking_session_current']);
 
-        $manager = new SessionIndexRolloverManager($indexSettings, $indexOperation, $metadataRepository, $dataStreamRepository, $transformProvisioner, $logger);
+        $manager = new SessionIndexRolloverManager($indexSettings, $indexOperation, $metadataRepository, $dataStreamRepository, $transformProvisioner, $logger, new ArrayAdapter());
         $manager->ensureUpToDate($localizedCatalog);
     }
 
@@ -207,7 +208,7 @@ class SessionIndexRolloverManagerTest extends AbstractTestCase
 
         $indexSettings->method('getIsmDeleteAfter')->willReturn(null);
 
-        $manager = new SessionIndexRolloverManager($indexSettings, $indexOperation, $metadataRepository, $dataStreamRepository, $transformProvisioner, $logger);
+        $manager = new SessionIndexRolloverManager($indexSettings, $indexOperation, $metadataRepository, $dataStreamRepository, $transformProvisioner, $logger, new ArrayAdapter());
         $manager->ensureUpToDate($localizedCatalog);
     }
 
