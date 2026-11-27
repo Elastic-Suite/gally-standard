@@ -19,12 +19,14 @@ use Gally\Exception\LogicException;
 use Gally\Index\Api\IndexSettingsInterface;
 use Gally\Index\Dto\Bulk;
 use Gally\Index\Entity\DataStream;
+use Gally\Index\Event\BeforeBulkRequestEvent;
 use Gally\Index\Repository\Index\IndexRepositoryInterface;
 use Gally\Index\Repository\IndexStateManagement\IndexStateManagementRepositoryInterface;
 use Gally\Index\Repository\IndexTemplate\IndexTemplateRepositoryInterface;
 use Gally\Metadata\Entity\Metadata;
 use OpenSearch\Client;
 use Psr\Log\LoggerInterface;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class DataStreamRepository implements DataStreamRepositoryInterface
 {
@@ -35,6 +37,7 @@ class DataStreamRepository implements DataStreamRepositoryInterface
         private IndexStateManagementRepositoryInterface $ismRepository,
         private IndexRepositoryInterface $indexRepository,
         private LoggerInterface $logger,
+        private EventDispatcherInterface $eventDispatcher,
     ) {
     }
 
@@ -121,6 +124,8 @@ class DataStreamRepository implements DataStreamRepositoryInterface
 
     public function bulk(Bulk\Request $request, bool $instantRefresh = false): Bulk\Response
     {
+        $this->eventDispatcher->dispatch(new BeforeBulkRequestEvent($request), BeforeBulkRequestEvent::NAME);
+
         $data = ['body' => $request->getOperations()];
 
         return new Bulk\Response($this->client->bulk($data));

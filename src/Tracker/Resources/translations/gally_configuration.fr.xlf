@@ -30,5 +30,35 @@
                 </target>
             </segment>
         </unit>
+        <unit id="gally_configuration.group.tracking.fieldset.behavioral_data.label">
+            <segment>
+                <source>gally_configuration.group.tracking.fieldset.behavioral_data.label</source>
+                <target>Données comportementales</target>
+            </segment>
+        </unit>
+        <unit id="gally_configuration.gally_tracking_behavioral_data_settings_retention.label">
+            <segment>
+                <source>gally_configuration.gally_tracking_behavioral_data_settings_retention.label</source>
+                <target>Rétention des données comportementales (jours)</target>
+            </segment>
+        </unit>
+        <unit id="gally_configuration.gally_tracking_behavioral_data_settings_retention.tooltip">
+            <segment>
+                <source>gally_configuration.gally_tracking_behavioral_data_settings_retention.tooltip</source>
+                <target>Nombre de jours de conservation des index de données comportementales agrégées. 365 par défaut. Minimum 1.</target>
+            </segment>
+        </unit>
+        <unit id="gally_configuration.gally_tracking_behavioral_data_settings_transform_schedule_period.label">
+            <segment>
+                <source>gally_configuration.gally_tracking_behavioral_data_settings_transform_schedule_period.label</source>
+                <target>Période de rafraîchissement de l'agrégation des données comportementales (minutes)</target>
+            </segment>
+        </unit>
+        <unit id="gally_configuration.gally_tracking_behavioral_data_settings_transform_schedule_period.tooltip">
+            <segment>
+                <source>gally_configuration.gally_tracking_behavioral_data_settings_transform_schedule_period.tooltip</source>
+                <target>Fréquence (en minutes) de ré-agrégation des données comportementales à partir des événements de tracking bruts. Une valeur basse garde les statistiques plus fraîches au prix d'une charge plus élevée sur le moteur de recherche. OpenSearch ne supporte pas de granularité inférieure à 1 minute. 5 minutes par défaut.</target>
+            </segment>
+        </unit>
     </file>
 </xliff>

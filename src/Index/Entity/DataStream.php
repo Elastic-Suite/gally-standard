@@ -162,6 +162,14 @@ class DataStream
         return $this->indices->toArray();
     }
 
+    /**
+     * OpenSearch lists backing indices by generation: the last one is the current write index.
+     */
+    public function getWriteIndex(): ?Index
+    {
+        return $this->indices->last() ?: null;
+    }
+
     public function addIndex(Index $index): self
     {
         if (!$this->indices->contains($index)) {

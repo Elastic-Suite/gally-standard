@@ -22,6 +22,8 @@ use Gally\Index\Service\IndexOperation;
 use Gally\Metadata\Entity\Metadata;
 use Gally\Metadata\Repository\MetadataRepository;
 use Psr\Log\LoggerInterface;
+use Symfony\Contracts\Cache\CacheInterface;
+use Symfony\Contracts\Cache\ItemInterface;
 
 /**
  * Makes tracking_session follow the same rollover AND retention periodicity as tracking_event,
@@ -29,6 +31,8 @@ use Psr\Log\LoggerInterface;
  */
 class SessionIndexRolloverManager
 {
+    private const CHECK_INTERVAL_IN_SECONDS = 60;
+
     public function __construct(
         private IndexSettingsInterface $indexSettings,
         private IndexOperation $indexOperation,
@@ -36,35 +40,45 @@ class SessionIndexRolloverManager
         private DataStreamRepositoryInterface $dataStreamRepository,
         private SessionTransformProvisioner $transformProvisioner,
         private LoggerInterface $logger,
+        private CacheInterface $cache,
     ) {
     }
 
     public function ensureUpToDate(LocalizedCatalog $localizedCatalog): void
     {
-        $eventMetadata = $this->metadataRepository->findByEntity('tracking_event');
-        $targetAlias = $this->indexSettings->getIndexAliasFromIdentifier('tracking_session', $localizedCatalog);
-        $currentIndex = $this->indexOperation->findIndicesByAlias($targetAlias)[0] ?? null;
-        $indexIsFresh = null !== $currentIndex && !$this->hasEventRolledOverSince($currentIndex, $eventMetadata, $localizedCatalog);
-        $currentIndexName = $currentIndex?->getName();
+        $this->cache->get(
+            \sprintf('tracking_session_rollover_check_%d', $localizedCatalog->getId()),
+            function (ItemInterface $item) use ($localizedCatalog): bool {
+                $item->expiresAfter(self::CHECK_INTERVAL_IN_SECONDS);
 
-        if (!$indexIsFresh || !$this->transformProvisioner->isHealthy($localizedCatalog)) {
-            try {
-                if (!$indexIsFresh) {
-                    $sessionMetadata = $this->metadataRepository->findByEntity('tracking_session');
-                    $newIndex = $this->indexOperation->createEntityIndex($sessionMetadata, $localizedCatalog);
-                    $this->indexOperation->installIndexByName($newIndex->getName());
-                    $currentIndexName = $newIndex->getName();
+                $eventMetadata = $this->metadataRepository->findByEntity('tracking_event');
+                $targetAlias = $this->indexSettings->getIndexAliasFromIdentifier('tracking_session', $localizedCatalog);
+                $currentIndex = $this->indexOperation->findIndicesByAlias($targetAlias)[0] ?? null;
+                $indexIsFresh = null !== $currentIndex && !$this->hasEventRolledOverSince($currentIndex, $eventMetadata, $localizedCatalog);
+                $currentIndexName = $currentIndex?->getName();
+
+                if (!$indexIsFresh || !$this->transformProvisioner->isHealthy($localizedCatalog)) {
+                    try {
+                        if (!$indexIsFresh) {
+                            $sessionMetadata = $this->metadataRepository->findByEntity('tracking_session');
+                            $newIndex = $this->indexOperation->createEntityIndex($sessionMetadata, $localizedCatalog);
+                            $this->indexOperation->installIndexByName($newIndex->getName());
+                            $currentIndexName = $newIndex->getName();
+                        }
+                        $this->transformProvisioner->createOrUpdate($localizedCatalog);
+                    } catch (\Exception $exception) {
+                        $this->logger->error($exception);
+                    }
                 }
-                $this->transformProvisioner->createOrUpdate($localizedCatalog);
-            } catch (\Exception $exception) {
-                $this->logger->error($exception);
-            }
-        }
 
-        $deleteAfterDays = $this->indexSettings->getIsmDeleteAfter($localizedCatalog, $eventMetadata);
-        if (null !== $deleteAfterDays && null !== $currentIndexName) {
-            $this->indexOperation->deleteIndicesByAliasOlderThan($targetAlias, $deleteAfterDays, [$currentIndexName]);
-        }
+                $deleteAfterDays = $this->indexSettings->getIsmDeleteAfter($localizedCatalog, $eventMetadata);
+                if (null !== $deleteAfterDays && null !== $currentIndexName) {
+                    $this->indexOperation->deleteIndicesByAliasOlderThan($targetAlias, $deleteAfterDays, [$currentIndexName]);
+                }
+
+                return true;
+            }
+        );
     }
 
     /**
@@ -72,8 +86,7 @@ class SessionIndexRolloverManager
      */
     private function hasEventRolledOverSince(Index $sessionIndex, Metadata $eventMetadata, LocalizedCatalog $localizedCatalog): bool
     {
-        $backingIndices = $this->dataStreamRepository->findByMetadata($eventMetadata, $localizedCatalog)?->getIndices() ?? [];
-        $currentBackingIndex = $backingIndices[array_key_last($backingIndices)] ?? null;
+        $currentBackingIndex = $this->dataStreamRepository->findByMetadata($eventMetadata, $localizedCatalog)?->getWriteIndex();
 
         if (null === $currentBackingIndex) {
             // Unknown: be safe and treat it as due for a refresh.

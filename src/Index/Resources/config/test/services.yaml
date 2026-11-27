@@ -6,3 +6,11 @@ services:
     opensearch.client.test:
         alias: 'OpenSearch\Client'
         public: true
+
+    Gally\Index\Tests\EventSubscriber\TestDocumentModifier:
+        tags:
+            - { name: kernel.event_subscriber }
+
+    Gally\Index\Tests\EventSubscriber\TestBeforeBulkRequestRecorder:
+        tags:
+            - { name: kernel.event_subscriber }

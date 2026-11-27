@@ -1,0 +1,3 @@
+services:
+    gally.tracker.rollover_check_cache:
+        class: Symfony\Component\Cache\Adapter\NullAdapter

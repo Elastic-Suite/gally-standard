@@ -24,7 +24,6 @@ use Gally\Metadata\Repository\MetadataRepository;
 use Gally\Test\AbstractTestCase;
 use Gally\Tracker\Entity\TrackingEvent;
 use Gally\Tracker\MessageHandler\TrackingEventHandler;
-use Gally\Tracker\Service\SessionIndexRolloverManager;
 use Gally\Tracker\Service\SessionTransformProvisioner;
 
 class TrackingEventHandlerTest extends AbstractTestCase
@@ -56,10 +55,6 @@ class TrackingEventHandlerTest extends AbstractTestCase
             $dataStreamRepoMock = self::getMockBuilder(DataStreamRepositoryInterface::class)
                 ->disableOriginalConstructor()
                 ->getMock();
-            /** @var SessionIndexRolloverManager $sessionIndexRolloverManagerMock */
-            $sessionIndexRolloverManagerMock = self::getMockBuilder(SessionIndexRolloverManager::class)
-                ->disableOriginalConstructor()
-                ->getMock();
 
             $handler = static::getContainer()->get(TrackingEventHandler::class);
             $ref = new \ReflectionClass($handler);
@@ -67,11 +62,6 @@ class TrackingEventHandlerTest extends AbstractTestCase
             $dataStreamProperty = $ref->getProperty('dataStreamRepository');
             $dataStreamProperty->setAccessible(true);
             $dataStreamProperty->setValue($handler, $dataStreamRepoMock);
-
-            // Without this, ensureUpToDate() would run for real and leak a tracking_session index on every run.
-            $sessionIndexRolloverManagerProperty = $ref->getProperty('sessionIndexRolloverManager');
-            $sessionIndexRolloverManagerProperty->setAccessible(true);
-            $sessionIndexRolloverManagerProperty->setValue($handler, $sessionIndexRolloverManagerMock);
 
             $this->eventHandler = $handler;
         }
@@ -297,6 +287,7 @@ The field order is missing from payload data.',
         $indexSettings = static::getContainer()->get(IndexSettingsInterface::class);
         $indexOperation = static::getContainer()->get(IndexOperation::class);
         $sessionAlias = $indexSettings->getIndexAliasFromIdentifier('tracking_session', $localizedCatalog);
+        $behavioralDataAlias = $indexSettings->getIndexAliasFromIdentifier('behavioral_data', $localizedCatalog);
 
         try {
             $handler = new TrackingEventHandler(
@@ -304,7 +295,6 @@ The field order is missing from payload data.',
                 static::getContainer()->get(MetadataRepository::class),
                 static::getContainer()->get(LocalizedCatalogRepository::class),
                 static::getContainer()->get(ValidatorInterface::class),
-                static::getContainer()->get(SessionIndexRolloverManager::class),
             );
             $event = $this->buildEventObject([
                 'localizedCatalogCode' => 'b2b_fr',
@@ -334,6 +324,8 @@ The field order is missing from payload data.',
         } finally {
             self::deleteEntityElasticsearchTransforms('tracking_session', $localizedCatalog->getId());
             $indexOperation->deleteIndicesByAlias($sessionAlias);
+            self::deleteEntityElasticsearchTransforms('behavioral_data', $localizedCatalog->getId());
+            $indexOperation->deleteIndicesByAlias($behavioralDataAlias);
             self::deleteEntityElasticsearchDataStreams('tracking_event', $localizedCatalog->getId());
         }
     }
